@@ -122,8 +122,8 @@ void corerunningtest(void *pvParameters)
 
 void setup()
 {
-  pinMode(PIN_TEST, OUTPUT);
-  digitalWrite(PIN_TEST, LOW);
+  //pinMode(PIN_TEST, OUTPUT);
+  //digitalWrite(PIN_TEST, LOW);
   //digitalWrite(PIN_TEST, HIGH);
   //digitalWrite(PIN_TEST, LOW);
   pinMode(LED_BUILTIN, OUTPUT);
@@ -651,7 +651,7 @@ void taskAveragingFunction(void *pvParameters)
       record = settingsMsg.record;
       on = settingsMsg.on;
     }
-    digitalWrite(PIN_TEST, LOW);
+    //digitalWrite(PIN_TEST, LOW);
   }
 }
 

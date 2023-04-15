@@ -76,7 +76,8 @@
 //#define PIN_TEMP2_ADC     27         // GPIO 27 - ADC1 => I2C for keys & hw
 #define PIN_KEYS_SCL      27
 
-#define PIN_TEST          28          
+//#define PIN_TEST          28  
+#define PIN_KEYS_INT        28         // GPIO 28 - MCP23008 INT signal from keys.    
 // GPIO 28 - change to interrupt pin for MCP2308 on I2C = UI hardware keys
 
 #define SPI_ADC      SPI                // Wiring setup by ADC class

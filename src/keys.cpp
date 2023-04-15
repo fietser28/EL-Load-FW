@@ -39,7 +39,7 @@ void keys_task_init(void)
 uint8_t writeI2C(uint8_t addr, uint8_t opcode, uint8_t data)
 {
     // Exclusive use, so no Mutex.
-    I2C_KEYS.beginTransmission(addr + 1);
+    I2C_KEYS.beginTransmission(addr);
     I2C_KEYS.write(opcode);
     I2C_KEYS.write(data);
     return Wire.endTransmission();
@@ -54,6 +54,20 @@ uint8_t readI2C(uint8_t addr, uint8_t opcode)
     return I2C_KEYS.read();
 }
 
+static void ISR_KEYS()
+    {
+        BaseType_t taskWoken = pdFALSE;
+        vTaskNotifyGiveFromISR(encTaskHandle, &taskWoken);
+        //vTaskNotifyGiveFromISR(taskMeasureAndOutput, NULL);
+        //portYIELD_FROM_ISR(taskWoken);
+        //digitalWrite(PIN_TEST, LOW);
+        //xSemaphoreGiveFromISR(adcReady, &taskWoken);
+        //if (taskWoken != pdFALSE) {
+        portYIELD_FROM_ISR(taskWoken);
+        //}
+    };
+
+
 static void encTask(void *pvParameter)
 {
 
@@ -64,6 +78,7 @@ static void encTask(void *pvParameter)
 
     // MCP23008 defaults are fine..
     // TODO: Eanable interrupts.
+    writeI2C(KEYS_CHIP_ADDRESS, MCP23X08_ADDR_GPINTEN, 255);
 
     encoder.begin(true);
 
@@ -84,8 +99,13 @@ static void encTask(void *pvParameter)
     bool button3prev = false;
     dcl::setStateStruct localsetcopy;
 
+    pinMode(PIN_KEYS_INT, INPUT);
+    ::attachInterrupt(digitalPinToInterrupt(PIN_KEYS_INT), ISR_KEYS, FALLING);
+
     while (1)
     {
+        ulTaskNotifyTake(pdTRUE, portMAX_DELAY); 
+
         //digitalWrite(PIN_TEST, HIGH);
         gpioval = readI2C(KEYS_CHIP_ADDRESS, MCP23X08_ADDR_GPIO);
         encpin1 = gpioval & KEYS_PIN_ENC0 ? 1 : 0;
