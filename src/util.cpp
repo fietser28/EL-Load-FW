@@ -97,11 +97,11 @@ void value2str(char* str, float value, int accuracy_exp, int total_digits, int a
     exponentIndex = std::max(exponentIndex, (int)ceil(accuracy_exp / 3) + SIScalePrefixExponentsBase);
     const char* prefix = SIScalePrefixes[exponentIndex];
 
-    float mantissa = abs(value) / pow(10, SIScalePrefixExponents[exponentIndex]);                                 // raw mantissa
+    float mantissa = abs(value) / pow(10, SIScalePrefixExponents[exponentIndex]); // raw mantissa
     //mantissa = round(mantissa * pow(10, accuracy_exp)) / pow(10, accuracy_exp); // mantissa rounded to accuracy
 
     // Determine the number of digits after .
-    int fraction_digits = std::min(after_point, total_digits - (exponentRaw - exponent +1 ));
+    int fraction_digits = std::min(after_point, total_digits - (exponentRaw + 1 - SIScalePrefixExponents[exponentIndex] ));
     fraction_digits = std::min(fraction_digits, SIScalePrefixExponents[exponentIndex] - accuracy_exp);
     
     // Format the string.
