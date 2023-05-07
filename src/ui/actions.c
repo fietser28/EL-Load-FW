@@ -32,7 +32,7 @@ void action_text_area_disable_blink(lv_event_t * e) {
     }
 };
 
-/*
+
 void action_grab_encoder(lv_event_t * e) {
     lv_group_remove_all_objs(encoder_group);
     lv_obj_t *obj = lv_event_get_target(e);
@@ -41,4 +41,6 @@ void action_grab_encoder(lv_event_t * e) {
         lv_group_focus_obj(obj);
     }
 }
-*/
+
+extern void action_action_test(lv_event_t * e) {};
+

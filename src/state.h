@@ -42,10 +42,9 @@ namespace dcl
         bool protection;
         bool record;
         bool startupDone;
-        uint16_t PLFreq;
+        uint32_t PLFreq;
         float sampleRate;
-        uint16_t ImonNLPC;
-        uint16_t UmonNLPC;
+        uint32_t NLPC;
 //        uint16_t windowSize; // Sampling window size in SW (HW ADC also has OSR!)
         enum ELmode mode;
         float Iset; // float = 32 bits
@@ -99,10 +98,8 @@ public:
                             double Ws, double time);
 
     bool clearPower();
-    bool setImonNPLC(uint16_t cycles);
-    uint16_t getImonNPLC();
-    bool setUmonNPLC(uint16_t cycles);
-    uint16_t getUmonNPLC();
+    bool setNPLC(uint32_t cycles);
+    uint32_t getNPLC();
     bool record(bool setrecord);
     bool toggleRecord();
     bool updateAverageTask();

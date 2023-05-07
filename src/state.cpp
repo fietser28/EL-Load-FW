@@ -33,8 +33,7 @@ namespace dcl
                 _setState.sampleRate = ((float)F_CPU)/((float)CLOCK_DIVIDER_ADC * 2.0f * (float)ADC_OSR);
                 _setState.PLFreq = DEFAULT_PL_FREQ;
                 _setState.on = false;
-                _setState.ImonNLPC = DEFAULT_AVG_SAMPLES_NPLC;
-                _setState.UmonNLPC = DEFAULT_AVG_SAMPLES_NPLC;
+                _setState.NLPC = DEFAULT_AVG_SAMPLES_NPLC;
                 xSemaphoreGive(_setStateMutex);
                 //updateAverageTask();
                 return true;
@@ -147,8 +146,7 @@ namespace dcl
                 msg.on     = _setState.on;
                 xSemaphoreGive(_setStateMutex);
 
-                msg.avgSamplesCurrent = 0; // Don't set new window sizes
-                msg.avgSamplesVoltage = 0;
+                msg.avgSamples = 0; // Don't set new window sizes
                 msg.clear = true;  // Don't clear power measurements
                 xQueueSend(changeAverageSettings, &msg, 10);
                 return true;
@@ -157,13 +155,13 @@ namespace dcl
         return false;
     };
 
-    bool stateManager::setImonNPLC(uint16_t cycles)
+    bool stateManager::setNPLC(uint32_t cycles)
     {
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
             {
-                _setState.ImonNLPC = cycles;
+                _setState.NLPC = cycles;
                 xSemaphoreGive(_setStateMutex);
                 return true;
             };
@@ -171,43 +169,14 @@ namespace dcl
         return updateAverageTask();
     };
 
-    uint16_t stateManager::getImonNPLC()
+    uint32_t stateManager::getNPLC()
     {
         uint16_t cycles;
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
             {
-                cycles = _setState.ImonNLPC;
-                xSemaphoreGive(_setStateMutex);
-                return cycles;
-            };
-        };
-        return 1;
-    };
-
-    bool stateManager::setUmonNPLC(uint16_t cycles)
-    {
-        if (_setStateMutex != NULL)
-        {
-            if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
-            {
-                _setState.ImonNLPC = cycles;
-                xSemaphoreGive(_setStateMutex);
-                return true;
-            };
-        };
-        return updateAverageTask();
-    };
-
-    uint16_t stateManager::getUmonNPLC()
-    {
-        uint16_t cycles;
-        if (_setStateMutex != NULL)
-        {
-            if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
-            {
-                cycles = _setState.ImonNLPC;
+                cycles = _setState.NLPC;
                 xSemaphoreGive(_setStateMutex);
                 return cycles;
             };
@@ -221,8 +190,7 @@ namespace dcl
     {
 
         changeAverageSettingsMsg msg;
-        msg.avgSamplesCurrent = 0; // Don't set new window sizes
-        msg.avgSamplesVoltage = 0;
+        msg.avgSamples = 0; // Don't set new window sizes
         msg.clear = false; // Don't clear
         msg.record = setrecord;
         if (_setStateMutex != NULL)
@@ -267,8 +235,7 @@ namespace dcl
                 
                 msg.record = _setState.record;
                 msg.on     = _setState.on;
-                msg.avgSamplesCurrent = _setState.ImonNLPC * _setState.sampleRate;
-                msg.avgSamplesVoltage = _setState.UmonNLPC * _setState.sampleRate;
+                msg.avgSamples = _setState.NLPC * _setState.sampleRate / _setState.PLFreq;
 
                 xSemaphoreGive(_setStateMutex);
                 xQueueSend(changeAverageSettings, &msg, 10);

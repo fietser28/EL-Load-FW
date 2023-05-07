@@ -28,6 +28,10 @@ using namespace dcl;
 TimerHandle_t timerFakeADCInterrupt;
 #endif
 
+// I2C bus semaphores
+SemaphoreHandle_t WireSem;       // Manage sharing between tasks 
+SemaphoreHandle_t Wire1Sem;      // Manage sharing between tasks
+
 // Tasks and buffer allocations
 // HW protection task
 TaskHandle_t taskProtHW;
@@ -122,10 +126,6 @@ void corerunningtest(void *pvParameters)
 
 void setup()
 {
-  //pinMode(PIN_TEST, OUTPUT);
-  //digitalWrite(PIN_TEST, LOW);
-  //digitalWrite(PIN_TEST, HIGH);
-  //digitalWrite(PIN_TEST, LOW);
   pinMode(LED_BUILTIN, OUTPUT);
   SERIALDEBUG.setPollingMode(true);
   SERIALDEBUG.begin(115200);
@@ -137,6 +137,10 @@ void setup()
     SERIALDEBUG.read();
   }
 
+  I2C_KEYS.setSCL(PIN_KEYS_SCL);
+  I2C_KEYS.setSDA(PIN_KEYS_SDA);
+  I2C_KEYS.setClock(400000);
+  I2C_KEYS.begin();
 
   // TODO Workaround: Testing proper multi-core boot, otherwise reboot.
   //////////////
@@ -249,6 +253,9 @@ void setup()
 
   //// FreeRTOS setup.
   //////////////////////////
+
+  WireSem = xSemaphoreCreateMutex();
+  Wire1Sem = xSemaphoreCreateMutex();
   
   // ADC ready semasphore between ISR and measure task
   adcReady = xSemaphoreCreateBinary();
@@ -563,13 +570,11 @@ void taskAveragingFunction(void *pvParameters)
   size_t msgBytes;
 
   // Setup and clear memories
-  uint32_t avgCurrentSampleWindow = state.getImonNPLC();
+  uint32_t avgSampleWindow = state.getNPLC();
+  uint32_t avgRawCount = 0;
   uint32_t avgCurrentRawSum = 0;
-  uint32_t avgCurrentRawCount = 0;
   uint32_t avgCurrentRaw = 0;
-  uint32_t avgVoltSampleWindow = state.getUmonNPLC();
   uint32_t avgVoltRawSum = 0;
-  uint32_t avgVoltRawCount = 0;
   uint32_t avgVoltRaw = 0;
   
   float imon;
@@ -589,23 +594,16 @@ void taskAveragingFunction(void *pvParameters)
     xMessageBufferReceive(newMeasurements, &newMsg, sizeof(newMsg), portMAX_DELAY);
     //digitalWrite(PIN_TEST, HIGH);
     avgCurrentRawSum = avgCurrentRawSum + newMsg.ImonRaw;
-    avgCurrentRawCount++;
+    avgRawCount++;
     avgVoltRawSum = avgVoltRawSum + newMsg.UmonRaw;
-    avgVoltRawCount++;
 
-    if (avgCurrentRawCount >= avgCurrentSampleWindow)
+    if (avgRawCount >= avgSampleWindow)
     {
-      avgCurrentRaw = avgCurrentRawSum / avgCurrentRawCount;
+      avgCurrentRaw = avgCurrentRawSum / avgRawCount;
       avgCurrentRawSum = 0;
-      avgCurrentRawCount = 0;
-      update = true;
-    }
-
-    if (avgVoltRawCount >= avgVoltSampleWindow)
-    {
-      avgVoltRaw = avgVoltRawSum / avgVoltRawCount;
+      avgVoltRaw = avgVoltRawSum / avgRawCount;
       avgVoltRawSum = 0;
-      avgVoltRawCount = 0;
+      avgRawCount = 0;
       update = true;
     }
 
@@ -617,7 +615,7 @@ void taskAveragingFunction(void *pvParameters)
       umon = remap((float)avgVoltRaw, (float)voltADC.ADC_MIN, voltMinVal, (float)voltADC.ADC_MAX, voltMaxVal);
       if (record && on)
       {
-        interval = (double)(avgCurrentSampleWindow * (float)CLOCK_DIVIDER_ADC * 2.0f * (float)ADC_OSR / ((float)F_CPU)); // TODO: Use variables/constants. 15 = clock divider, 2 = ADC fmod, 4096 = ADC OSR.
+        interval = (double)(avgSampleWindow * (float)CLOCK_DIVIDER_ADC * 2.0f * (float)ADC_OSR / ((float)F_CPU)); // TODO: Use variables/constants. 15 = clock divider, 2 = ADC fmod, 4096 = ADC OSR.
         // TODO: ? Power is calcuated based on average Volt and Current, this is ok for DC but for AC this results in AV and not W... Change this (more realtime processing...)?
         time += interval;
         As += (double)imon * interval;
@@ -625,20 +623,14 @@ void taskAveragingFunction(void *pvParameters)
       }
       state.setAvgMeasurements(imon, umon, As, Ws, time);
       update = false;
-      //digitalWrite(PIN_TEST, LOW);
     }
     // Settings changed if there is a message for it.
     msgBytes = xQueueReceive(changeAverageSettings, &settingsMsg, 0);
     if (msgBytes > 0)
     {
-      if (settingsMsg.avgSamplesCurrent != 0)
+      if (settingsMsg.avgSamples != 0)
       {
-        avgCurrentSampleWindow = settingsMsg.avgSamplesCurrent;
-        // Next calculation will adjust. It doesn't matter if window size increases or decreased. All samples are still counted.
-      }
-      if (settingsMsg.avgSamplesVoltage != 0)
-      {
-        avgVoltSampleWindow = settingsMsg.avgSamplesVoltage;
+        avgSampleWindow = settingsMsg.avgSamples;
         // Next calculation will adjust. It doesn't matter if window size increases or decreased. All samples are still counted.
       }
         

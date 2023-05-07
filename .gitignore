@@ -5,3 +5,6 @@
 .vscode/ipch
 .DS_Store
 tools
+*.eez-project-ui-state
+.vscode/.cortex-debug.peripherals.state.json
+.vscode/.cortex-debug.registers.state.json

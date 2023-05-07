@@ -64,10 +64,14 @@ char* floatToEngineeringString(float value, int precision) {
 
 */
 
-static char SIScalePrefixes[] =        { 'p', 'n','u', 'm', ' ', 'k', 'M', 'G', 'T' };  
-static const int   SIScalePrefixExponents[] = {-12,  -9, -6,  -3,   0,  3 ,  6,   9,  12  };
+} // namespace
+
+extern "C" {
+
+static const char* SIScalePrefixes[] =        { "p", "n","\u03bc", "m", " ", "k", "M", "G", "T" };  
+static const int   SIScalePrefixExponents[] = {-12,  -9,    -6,    -3,   0,   3 ,  6,   9,  12  };
 static const int   SIScalePrefixExponentsBase = 4; // Index of 0 exponent
-static const int   SIScaleprefixExpLast = sizeof(SIScalePrefixExponents)/sizeof(SIScalePrefixExponents[0]);
+static const int   SIScaleprefixExpLast = sizeof(SIScalePrefixExponents)/sizeof(SIScalePrefixExponents[0]) - 1;
 
 void value2str(char* str, float value, int accuracy_exp, int total_digits, int after_point, 
                 bool show_prefix, const char* unit) 
@@ -89,38 +93,20 @@ void value2str(char* str, float value, int accuracy_exp, int total_digits, int a
     exponent = std::max(exponent, accuracy_exp); // Don't go below accuracy
 
     // Find prefix, exponent and mantissa to nearest enginering scale.
-    int exponentIndex = exponent / 3 + SIScalePrefixExponentsBase;
-    char prefix = SIScalePrefixes[exponentIndex];
+    int exponentIndex = floor((float)exponent * 3.0f)/9 + SIScalePrefixExponentsBase;
+    exponentIndex = std::max(exponentIndex, (int)ceil(accuracy_exp / 3) + SIScalePrefixExponentsBase);
+    const char* prefix = SIScalePrefixes[exponentIndex];
+
     float mantissa = abs(value) / pow(10, SIScalePrefixExponents[exponentIndex]);                                 // raw mantissa
     //mantissa = round(mantissa * pow(10, accuracy_exp)) / pow(10, accuracy_exp); // mantissa rounded to accuracy
 
     // Determine the number of digits after .
-    int fraction_digits = std::min(after_point, total_digits - (exponentRaw - exponent));
-    fraction_digits = std::min(fraction_digits, exponentRaw - accuracy_exp);
-
+    int fraction_digits = std::min(after_point, total_digits - (exponentRaw - exponent +1 ));
+    fraction_digits = std::min(fraction_digits, SIScalePrefixExponents[exponentIndex] - accuracy_exp);
+    
     // Format the string.
-    sprintf(str, "%c%.*f %c%s", sign, fraction_digits, mantissa, SIScalePrefixes[exponentIndex], unit);
+    sprintf(str, "%c%.*f%s%s", sign, fraction_digits, mantissa, SIScalePrefixes[exponentIndex], unit);
 
-    /*
-        int acc_base = floor(log10(accuracy));
-        float absvalue = abs(value);
-        int prefixdigits = 0; // 0 = no prefix
-        if (show_prefix)
-        {
-            // prefixdigits =
-            // max between ceiling of accuracy and actual value
-            // max between mimimum prefix (-6 corresponds to nano) and log10 of value
-            prefixdigits = std::max(floor(std::min(9.0f, std::max(-6.0f, log10(absvalue) / 3))), (float)ceil(acc_base / 3));
-            }
-            int int_base = pow(10, prefixdigits*3);
-            float int_part = floor(absvalue / int_base);
-            char int_base_str[10];
-            sprintf(int_base_str, "%8.0", int_part);
-            int int_digits = strlen(int_base_str);
-            int frac_digits = std::min(std::min(after_point, total_digits - int_digits), prefixdigits*3-acc_base);
-            float roundoff = pow(10, prefixdigits - frac_digits );
-        }
-        */
     } // value2str
+}
 
-} // namespace

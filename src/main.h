@@ -38,22 +38,22 @@
 
 #define PIN_LCD_SCK     10          // GPIO 10 - display task
 #define PIN_TP_SCK      10          // GPIO 10 - display task
-#define PIN_KEYS_SCK    10          // GPIO 10 - display task
+//#define PIN_KEYS_SCK    10          // GPIO 10 - display task
 
 #define PIN_LCD_MOSI    11          // GPIO 11 - display task
 #define PIN_TP_MOSI     11          // GPIO 11 - display task
-#define PIN_KEYS_MOSI   11          // GPIO 11 - display task
+//#define PIN_KEYS_MOSI   11          // GPIO 11 - display task
 
 #define PIN_LCD_MISO    12          // GPIO 12 - display task
 #define PIN_TP_MISO     12          // GPIO 12 - display task
-#define PIN_KEYS_MISO   12          // GPIO 12 - display task
+//#define PIN_KEYS_MISO   12          // GPIO 12 - display task
 
 #define PIN_LCD_BL      13          // GPIO 13 - display task
 
 // GPIO14 - check if waveshare has no resistor on R11. 
 //    => CS pin for MCP23S08 connected to SPI0 = Analog hardware
 // => Interrupt pin MCP23008 hardware signals.
-
+#define PIN_HWGPIO_INT    14          // GPIO 14 - interrupt pin for hadware MCP23008
 
 #define PIN_LCD_RESET   15          // GPIO 15 - display task
 #define PIN_TP_CS       16          // GPIO 16 - display task
@@ -72,22 +72,28 @@
 
 //#define PIN_TEMP1_ADC     26         // GPIO 26 - ADC0 => I2C for keys & hw
 #define PIN_KEYS_SDA      26
+#define PIN_HWGPIO_SDA    26
 
 //#define PIN_TEMP2_ADC     27         // GPIO 27 - ADC1 => I2C for keys & hw
 #define PIN_KEYS_SCL      27
+#define PIN_HWGPIO_SCL    26
 
 //#define PIN_TEST          28  
-#define PIN_KEYS_INT        28         // GPIO 28 - MCP23008 INT signal from keys.    
+#define PIN_KEYS_INT        28        // GPIO 28 - MCP23008 INT signal from keys.    
 // GPIO 28 - change to interrupt pin for MCP2308 on I2C = UI hardware keys
 
-#define SPI_ADC      SPI                // Wiring setup by ADC class
-#define SPI_DAC1     SPI
-#define SPI_DAC2     SPI
-#define SPI_LCD      SPI1               // Wiring setup by display task
-#define SPI_TP       SPI1
-#define SPI_KEYS     SPI1
-#define I2C_KEYS     Wire1
-#define SERIALDEBUG  Serial1
+#define SPI_ADC        SPI                // Wiring setup by ADC class
+#define SPI_DAC1       SPI
+#define SPI_DAC2       SPI
+#define SPI_LCD        SPI1               // Wiring setup by display task
+#define SPI_TP         SPI1
+#define SPI_KEYS       SPI1
+#define I2C_KEYS       Wire1              // Setup done in main (shared bus)
+#define I2C_KEYS_SEM   Wire1Sem
+#define I2C_HWGPIO     Wire1
+#define I2C_HWGPIO_SEM Wire1Sem
+#define SERIALDEBUG    Serial1
+
 
 // GPIO extender (MCP23x08) for keys
 #define KEYS_CHIP_ADDRESS   0x20
@@ -98,6 +104,14 @@
 #define KEYS_PIN_BUT1       1 << 6   // GP6
 #define KEYS_PIN_BUT2       1 << 1   // GP1
 #define KEYS_PIN_BUT3       1 << 0   // GP0
+
+#define HWIO_CHIP_ADDRES    0x27
+#define HWIO_PIN_VONLATCH   1 << 0   // GP0
+#define HWIO_PIN_resetProt  1 << 1   // GP1
+#define HWIO_PIN_OVPTRIG    1 << 5   // GP5
+#define HWIO_PIN_OCPTRIG    1 << 6   // GP6
+#define HWIO_PIN_VON        1 << 7   // GP7
+
 
 // TODO: Find new pins and rewire
 #define PIN_OVPTRIGGERED 20         // GPIO 20  - pin 26
@@ -112,7 +126,7 @@
 //#define AVG_SAMPLES_MAX     1000    // Eq. 1 sec at 1kHz sample rate
 //#define AVG_SAMPLES_MIN     1   
 //#define AVG_SAMPLES_DEFAULT 50       // 100 = 2 cycles in 50Hz
-#define DEFAULT_AVG_SAMPLES_NPLC      2
+#define DEFAULT_AVG_SAMPLES_NPLC      20
 #define DEFAULT_PL_FREQ               50
 
 #define FAKE_HARDWARE_TIMER_TICKS 1   // Real = 1 = 1kHz
@@ -132,6 +146,9 @@ using namespace dcl;
 
 extern dcl::stateManager state;
 
+extern SemaphoreHandle_t WireSem;       // Manage sharing between tasks 
+extern SemaphoreHandle_t Wire1Sem;      // Manage sharing between tasks
+
 extern SemaphoreHandle_t setStateMutex;
 extern setStateStruct setState;
 
@@ -144,8 +161,7 @@ struct newMeasurementMsg {
 // Message stream from state change to Averaging task. This is to change window size and clear power measurements
 struct changeAverageSettingsMsg {
     //uint16_t avgSamples;
-    uint16_t avgSamplesCurrent;
-    uint16_t avgSamplesVoltage;
+    uint32_t avgSamples;
     bool clear;
     bool record;
     bool on;

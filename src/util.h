@@ -42,6 +42,17 @@ namespace dcl
         CalibrationValuePointConfiguration points[MAX_CALIBRATION_POINTS];
     };
 
+                    
 #ifdef __cplusplus
 } // end of namespace
+#endif
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+    extern void value2str(char* str, float value, int accuracy_exp, int total_digits, int after_point, 
+                        bool show_prefix, const char* unit); 
+
+#ifdef __cplusplus
+}
 #endif

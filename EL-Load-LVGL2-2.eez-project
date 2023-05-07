@@ -306,16 +306,16 @@
       {
         "objID": "ec39f009-c574-4cef-f1f4-94ef141fec89",
         "name": "imon",
-        "type": "float",
-        "defaultValue": "0.125",
+        "type": "string",
+        "defaultValue": "\"1.125 A\"",
         "persistent": false,
         "native": true
       },
       {
         "objID": "7b1489c4-0a5b-403f-e891-6c7cdb3c1ab0",
         "name": "umon",
-        "type": "float",
-        "defaultValue": "25.01",
+        "type": "string",
+        "defaultValue": "\"25.011V\"",
         "persistent": false,
         "native": true
       },
@@ -499,15 +499,7 @@
       },
       {
         "objID": "c8321f9b-7b37-4105-e9a9-04ab4e3d3b88",
-        "name": "ImonNPLC",
-        "type": "integer",
-        "defaultValue": "5",
-        "persistent": false,
-        "native": true
-      },
-      {
-        "objID": "7181eafd-1001-4489-9551-8b3b3e0562f7",
-        "name": "UmonNPLC",
+        "name": "NPLC",
         "type": "integer",
         "defaultValue": "5",
         "persistent": false,
@@ -788,7 +780,7 @@
           "left": 2293,
           "top": -501,
           "width": 213,
-          "height": 69,
+          "height": 68,
           "customInputs": [
             {
               "objID": "a3fbf70e-1eeb-4224-b109-ff181327e80c",
@@ -811,7 +803,7 @@
           "left": 2781,
           "top": -269,
           "width": 466,
-          "height": 87,
+          "height": 85,
           "customInputs": [
             {
               "objID": "8c8faa12-8e17-44b6-ea91-60a4a4c3132b",
@@ -839,7 +831,7 @@
           "left": 5461,
           "top": -201,
           "width": 522,
-          "height": 122,
+          "height": 119,
           "customInputs": [
             {
               "objID": "8aae71c4-3fa2-4baa-d18c-ae12a42cba0e",
@@ -955,7 +947,7 @@
           "left": 1932,
           "top": -800,
           "width": 646,
-          "height": 121,
+          "height": 119,
           "customInputs": [
             {
               "objID": "be77979c-016f-4f43-85ae-13adb73a7060",
@@ -1071,7 +1063,7 @@
           "left": 3513,
           "top": -352,
           "width": 466,
-          "height": 69,
+          "height": 68,
           "customInputs": [
             {
               "objID": "c22fd4b1-b404-4760-9352-1e07da57a836",
@@ -1094,7 +1086,7 @@
           "left": 4126,
           "top": -318,
           "width": 88,
-          "height": 52,
+          "height": 51,
           "customInputs": [],
           "customOutputs": [],
           "value": "true"
@@ -1105,7 +1097,7 @@
           "left": 4126,
           "top": -248,
           "width": 88,
-          "height": 52,
+          "height": 51,
           "customInputs": [],
           "customOutputs": [],
           "value": "false"
@@ -1680,6 +1672,46 @@
       ],
       "name": "value2str",
       "implementationType": "flow"
+    },
+    {
+      "objID": "5301b7a9-0f9d-4df8-b436-71c5180b8f7b",
+      "components": [
+        {
+          "objID": "7cc9036f-92e6-4981-b4fc-26fafa56a310",
+          "type": "InputActionComponent",
+          "left": -462,
+          "top": -312,
+          "width": 87,
+          "height": 24,
+          "customInputs": [],
+          "customOutputs": [],
+          "name": "param1",
+          "inputType": "float"
+        },
+        {
+          "objID": "eddb5f34-0fb9-46a5-f004-8df37e3016ca",
+          "type": "NoopActionComponent",
+          "left": -267,
+          "top": -312,
+          "width": 87,
+          "height": 24,
+          "customInputs": [],
+          "customOutputs": [],
+          "name": "nop"
+        }
+      ],
+      "connectionLines": [
+        {
+          "objID": "64bce3fc-77a7-48ed-d1d0-a50d3ce098cb",
+          "source": "7cc9036f-92e6-4981-b4fc-26fafa56a310",
+          "output": "@seqout",
+          "target": "eddb5f34-0fb9-46a5-f004-8df37e3016ca",
+          "input": "@seqin"
+        }
+      ],
+      "localVariables": [],
+      "name": "ActionTest",
+      "implementationType": "native"
     }
   ],
   "pages": [
@@ -1820,12 +1852,24 @@
         {
           "objID": "56a05d8a-9e51-4560-e404-fe1cc0fd02d1",
           "type": "StartActionComponent",
-          "left": -250,
+          "left": -306,
           "top": 120,
           "width": 87,
           "height": 24,
           "customInputs": [],
           "customOutputs": []
+        },
+        {
+          "objID": "c107f0ae-9de7-4e5e-abdd-56c2f5f82622",
+          "type": "DelayActionComponent",
+          "left": -156,
+          "top": 120,
+          "width": 87,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "description": "Fallback",
+          "milliseconds": "10000"
         }
       ],
       "connectionLines": [
@@ -1851,10 +1895,17 @@
           "input": "@seqin"
         },
         {
-          "objID": "55a2ccb5-1555-4947-fdb0-62ca9e73c36d",
+          "objID": "33cb3f8e-f88c-479f-f81d-2d405b537296",
           "source": "56a05d8a-9e51-4560-e404-fe1cc0fd02d1",
           "output": "@seqout",
-          "target": "2770a9d0-642a-4e14-a214-832b876de1ff",
+          "target": "c107f0ae-9de7-4e5e-abdd-56c2f5f82622",
+          "input": "@seqin"
+        },
+        {
+          "objID": "d652a670-16c0-465d-9ef7-02a8eb0e259d",
+          "source": "c107f0ae-9de7-4e5e-abdd-56c2f5f82622",
+          "output": "@seqout",
+          "target": "c539a03e-659a-459b-822e-3cce48af1e68",
           "input": "@seqin"
         }
       ],
@@ -2467,7 +2518,7 @@
             {
               "objID": "37313653-20d7-4496-8a78-d9abdf19d88f",
               "type": "LVGLLabelWidget",
-              "left": 174,
+              "left": 172,
               "top": 0,
               "width": 92,
               "height": 21,
@@ -4101,83 +4152,6 @@
           ]
         },
         {
-          "objID": "fd044e34-89d6-43a7-d449-92ce66afa841",
-          "type": "CallActionActionComponent",
-          "left": -815,
-          "top": 24,
-          "width": 139,
-          "height": 136,
-          "customInputs": [],
-          "customOutputs": [],
-          "action": "value2str"
-        },
-        {
-          "objID": "ce69a1ed-3ccf-48c4-8aa5-4ca42d890cfd",
-          "type": "ConstantActionComponent",
-          "left": -983,
-          "top": -137,
-          "width": 88,
-          "height": 51,
-          "customInputs": [],
-          "customOutputs": [],
-          "value": "0.0001"
-        },
-        {
-          "objID": "228402bd-2224-43e5-b07c-ea2d4d11f32b",
-          "type": "ConstantActionComponent",
-          "left": -983,
-          "top": -74,
-          "width": 88,
-          "height": 51,
-          "customInputs": [],
-          "customOutputs": [],
-          "value": "5"
-        },
-        {
-          "objID": "f9b6747c-936e-44e8-fe23-88f295257edc",
-          "type": "ConstantActionComponent",
-          "left": -983,
-          "top": -14,
-          "width": 88,
-          "height": 51,
-          "customInputs": [],
-          "customOutputs": [],
-          "value": "3"
-        },
-        {
-          "objID": "fb5a5c2b-e27a-4eb4-dcd7-bd5b7f12a252",
-          "type": "ConstantActionComponent",
-          "left": -983,
-          "top": 116,
-          "width": 88,
-          "height": 51,
-          "customInputs": [],
-          "customOutputs": [],
-          "value": "true"
-        },
-        {
-          "objID": "cace8a48-c7f3-4a4a-e7a0-ef6aadee9935",
-          "type": "ConstantActionComponent",
-          "left": -983,
-          "top": 183,
-          "width": 88,
-          "height": 51,
-          "customInputs": [],
-          "customOutputs": [],
-          "value": "\"A\""
-        },
-        {
-          "objID": "1f22d9f7-493a-4dc9-8697-553a414117ec",
-          "type": "WatchVariableActionComponent",
-          "left": -1148,
-          "top": 12,
-          "width": 104,
-          "height": 54,
-          "customInputs": [],
-          "customOutputs": [],
-          "variable": "imon"
-        },
-        {
           "objID": "e2999e69-457b-4f23-9398-7918dba922ea",
           "type": "WatchVariableActionComponent",
           "left": 37,
@@ -4187,213 +4161,6 @@
           "customInputs": [],
           "customOutputs": [],
           "variable": "on"
-        },
-        {
-          "objID": "f59e4b17-7492-4e49-d34f-e1e92cd680af",
-          "type": "DelayActionComponent",
-          "left": -789,
-          "top": -150,
-          "width": 87,
-          "height": 54,
-          "customInputs": [],
-          "customOutputs": [],
-          "milliseconds": "30000"
-        },
-        {
-          "objID": "b497a9bb-0b72-4e5f-af8a-80aa6fc4ee45",
-          "type": "CallActionActionComponent",
-          "left": -841,
-          "top": 403,
-          "width": 139,
-          "height": 136,
-          "customInputs": [],
-          "customOutputs": [],
-          "action": "value2str"
-        },
-        {
-          "objID": "de21b1c3-fc5b-4e64-9cc7-c94ce3bb81c9",
-          "type": "ConstantActionComponent",
-          "left": -1035,
-          "top": 363,
-          "width": 88,
-          "height": 51,
-          "customInputs": [],
-          "customOutputs": [],
-          "value": "0.1"
-        },
-        {
-          "objID": "16486846-364a-4760-b3ce-28633cefd871",
-          "type": "ConstantActionComponent",
-          "left": -1035,
-          "top": 426,
-          "width": 88,
-          "height": 51,
-          "customInputs": [],
-          "customOutputs": [],
-          "value": "4"
-        },
-        {
-          "objID": "f00d0541-0bd9-4ea7-d928-68d37a091868",
-          "type": "ConstantActionComponent",
-          "left": -1035,
-          "top": 499,
-          "width": 88,
-          "height": 51,
-          "customInputs": [],
-          "customOutputs": [],
-          "value": "3"
-        },
-        {
-          "objID": "81a3ca13-9c38-456b-fb66-96b8cd87647e",
-          "type": "DelayActionComponent",
-          "left": -816,
-          "top": 285,
-          "width": 87,
-          "height": 54,
-          "customInputs": [],
-          "customOutputs": [],
-          "milliseconds": "60000"
-        },
-        {
-          "objID": "8ee69f7b-2e57-4abc-efb1-acca8951abbb",
-          "type": "StartActionComponent",
-          "left": -990,
-          "top": 288,
-          "width": 87,
-          "height": 24,
-          "customInputs": [],
-          "customOutputs": []
-        },
-        {
-          "objID": "d8e92a93-12e9-472e-dd2f-79df3112a659",
-          "type": "ConstantActionComponent",
-          "left": -1035,
-          "top": 641,
-          "width": 88,
-          "height": 51,
-          "customInputs": [],
-          "customOutputs": [],
-          "value": "true"
-        },
-        {
-          "objID": "d8004fe2-ac7b-4a80-f586-c0c7c788cd89",
-          "type": "ConstantActionComponent",
-          "left": -1035,
-          "top": 708,
-          "width": 88,
-          "height": 51,
-          "customInputs": [],
-          "customOutputs": [],
-          "value": "\"\\u03a9\""
-        },
-        {
-          "objID": "9d6e3999-fc2d-4ea0-f368-ccb42e421355",
-          "type": "WatchVariableActionComponent",
-          "left": -1051,
-          "top": 564,
-          "width": 104,
-          "height": 54,
-          "customInputs": [],
-          "customOutputs": [],
-          "variable": "rmon"
-        },
-        {
-          "objID": "6f2ea6fd-d120-4ef7-95a2-e42a80809940",
-          "type": "CallActionActionComponent",
-          "left": -407,
-          "top": 590,
-          "width": 139,
-          "height": 136,
-          "customInputs": [],
-          "customOutputs": [],
-          "action": "value2str"
-        },
-        {
-          "objID": "08e2196f-c029-49ac-80d4-29b30fe8bdea",
-          "type": "ConstantActionComponent",
-          "left": -601,
-          "top": 550,
-          "width": 88,
-          "height": 51,
-          "customInputs": [],
-          "customOutputs": [],
-          "value": "0.001"
-        },
-        {
-          "objID": "9ab89983-cda3-4ea5-d755-51ddcab81e25",
-          "type": "ConstantActionComponent",
-          "left": -601,
-          "top": 613,
-          "width": 88,
-          "height": 51,
-          "customInputs": [],
-          "customOutputs": [],
-          "value": "5"
-        },
-        {
-          "objID": "f3d6bf5e-beac-4f27-bd39-d7887e232751",
-          "type": "ConstantActionComponent",
-          "left": -601,
-          "top": 686,
-          "width": 88,
-          "height": 51,
-          "customInputs": [],
-          "customOutputs": [],
-          "value": "3"
-        },
-        {
-          "objID": "25f6fdf8-5c46-4431-c443-da1b542bff26",
-          "type": "DelayActionComponent",
-          "left": -382,
-          "top": 472,
-          "width": 87,
-          "height": 54,
-          "customInputs": [],
-          "customOutputs": [],
-          "milliseconds": "40000"
-        },
-        {
-          "objID": "4a26f6bd-a91b-47ae-def3-73377b2097f5",
-          "type": "StartActionComponent",
-          "left": -556,
-          "top": 475,
-          "width": 87,
-          "height": 24,
-          "customInputs": [],
-          "customOutputs": []
-        },
-        {
-          "objID": "778cf8e0-6cc5-4376-c906-746398f10a23",
-          "type": "ConstantActionComponent",
-          "left": -601,
-          "top": 828,
-          "width": 88,
-          "height": 51,
-          "customInputs": [],
-          "customOutputs": [],
-          "value": "true"
-        },
-        {
-          "objID": "6dab1bf4-7704-496e-a316-588d0b829882",
-          "type": "ConstantActionComponent",
-          "left": -601,
-          "top": 895,
-          "width": 88,
-          "height": 51,
-          "customInputs": [],
-          "customOutputs": [],
-          "value": "\"V\""
-        },
-        {
-          "objID": "6b09cd69-5f29-40e5-8ca7-153df8281997",
-          "type": "WatchVariableActionComponent",
-          "left": -617,
-          "top": 751,
-          "width": 104,
-          "height": 54,
-          "customInputs": [],
-          "customOutputs": [],
-          "variable": "umon"
         },
         {
           "objID": "f1067e33-0889-44c5-d2bf-54e69e3ed2eb",
@@ -4448,17 +4215,7 @@
           "height": 54,
           "customInputs": [],
           "customOutputs": [],
-          "milliseconds": "50000"
-        },
-        {
-          "objID": "68809f4b-76b1-4e80-dc97-e994b95d1dde",
-          "type": "StartActionComponent",
-          "left": -234,
-          "top": 762,
-          "width": 87,
-          "height": 24,
-          "customInputs": [],
-          "customOutputs": []
+          "milliseconds": "250"
         },
         {
           "objID": "35f20a22-49fd-4f7e-a984-82639aa6da08",
@@ -4492,6 +4249,49 @@
           "customInputs": [],
           "customOutputs": [],
           "variable": "pmon"
+        },
+        {
+          "objID": "19a38dcc-a42d-47a5-a990-fa6e64b9324e",
+          "type": "WatchVariableActionComponent",
+          "left": -212,
+          "top": 23,
+          "width": 104,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "variable": "imon"
+        },
+        {
+          "objID": "355e2eb4-1d17-4d4b-9f60-0b71f5c1535f",
+          "type": "WatchVariableActionComponent",
+          "left": -212,
+          "top": -56,
+          "width": 104,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "variable": "umon"
+        },
+        {
+          "objID": "dd3d956e-4bb5-40e4-8ca9-4c1499624a34",
+          "type": "StartActionComponent",
+          "left": -299,
+          "top": 722,
+          "width": 87,
+          "height": 24,
+          "customInputs": [],
+          "customOutputs": []
+        },
+        {
+          "objID": "19d8e996-4f4c-426b-9adc-3732f74aab45",
+          "type": "WatchVariableActionComponent",
+          "left": -351,
+          "top": 90,
+          "width": 104,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "variable": "rmon"
         }
       ],
       "connectionLines": [
@@ -4699,193 +4499,11 @@
           "input": "onString"
         },
         {
-          "objID": "018cd8f7-ce0e-4c6b-aa0c-4fe77e07b21f",
-          "source": "ce69a1ed-3ccf-48c4-8aa5-4ca42d890cfd",
-          "output": "value",
-          "target": "fd044e34-89d6-43a7-d449-92ce66afa841",
-          "input": "953509a4-e2f3-448d-d579-c4f33d215375"
-        },
-        {
-          "objID": "39c48e93-1bab-48dc-8743-9ac2111a96be",
-          "source": "228402bd-2224-43e5-b07c-ea2d4d11f32b",
-          "output": "value",
-          "target": "fd044e34-89d6-43a7-d449-92ce66afa841",
-          "input": "5df41f56-9e23-470a-abb0-7751ad2dd211"
-        },
-        {
-          "objID": "f8d83f82-fde0-4fbd-afda-5570d252f25c",
-          "source": "f9b6747c-936e-44e8-fe23-88f295257edc",
-          "output": "value",
-          "target": "fd044e34-89d6-43a7-d449-92ce66afa841",
-          "input": "7a55cecd-4193-4f45-f029-00835561f716"
-        },
-        {
-          "objID": "21c81c1a-2741-48c8-b028-a760d3795aeb",
-          "source": "fb5a5c2b-e27a-4eb4-dcd7-bd5b7f12a252",
-          "output": "value",
-          "target": "fd044e34-89d6-43a7-d449-92ce66afa841",
-          "input": "ff3e50e3-f8d2-401c-b096-cc467b166565"
-        },
-        {
-          "objID": "07f4ec10-795f-466a-d7da-3b3bcea4f29f",
-          "source": "cace8a48-c7f3-4a4a-e7a0-ef6aadee9935",
-          "output": "value",
-          "target": "fd044e34-89d6-43a7-d449-92ce66afa841",
-          "input": "9b83b27a-48ae-47fd-e006-9d9caf5ca2b7"
-        },
-        {
-          "objID": "28905721-f978-433b-fdde-4d7848e371a4",
-          "source": "fd044e34-89d6-43a7-d449-92ce66afa841",
-          "output": "45145889-cda3-4b7f-d731-693143275e47",
-          "target": "98faa964-ae7e-417f-ac8d-16416aa989a3",
-          "input": "in"
-        },
-        {
-          "objID": "38bba983-9ea1-45d8-85e9-f8f35095cdd3",
-          "source": "1f22d9f7-493a-4dc9-8697-553a414117ec",
-          "output": "variable",
-          "target": "fd044e34-89d6-43a7-d449-92ce66afa841",
-          "input": "57bc2771-757b-421c-8b9a-2e708c449853"
-        },
-        {
           "objID": "36594d50-d97d-4edb-e2d3-725a4b965310",
           "source": "e2999e69-457b-4f23-9398-7918dba922ea",
           "output": "variable",
           "target": "b4a420a1-0fda-4225-8415-74c4e8282a55",
           "input": "@seqin"
-        },
-        {
-          "objID": "ed4018ea-4177-4e43-c8fa-2f58d961d89d",
-          "source": "5668f5ec-0878-454d-9660-fd6f77716b43",
-          "output": "@seqout",
-          "target": "f59e4b17-7492-4e49-d34f-e1e92cd680af",
-          "input": "@seqin"
-        },
-        {
-          "objID": "3bf70cac-e91b-4f66-838f-48c8509bf15c",
-          "source": "b497a9bb-0b72-4e5f-af8a-80aa6fc4ee45",
-          "output": "45145889-cda3-4b7f-d731-693143275e47",
-          "target": "e6e76329-bed2-4f8d-c5e6-2a45a95b89cc",
-          "input": "ohm"
-        },
-        {
-          "objID": "c23a29c9-eda7-424d-9a6f-c6af752509eb",
-          "source": "de21b1c3-fc5b-4e64-9cc7-c94ce3bb81c9",
-          "output": "value",
-          "target": "b497a9bb-0b72-4e5f-af8a-80aa6fc4ee45",
-          "input": "953509a4-e2f3-448d-d579-c4f33d215375"
-        },
-        {
-          "objID": "41ab6828-c199-494f-c534-42990522a830",
-          "source": "16486846-364a-4760-b3ce-28633cefd871",
-          "output": "value",
-          "target": "b497a9bb-0b72-4e5f-af8a-80aa6fc4ee45",
-          "input": "5df41f56-9e23-470a-abb0-7751ad2dd211"
-        },
-        {
-          "objID": "21ee7cd5-26ec-4e7e-c576-35ccaf07c82b",
-          "source": "f00d0541-0bd9-4ea7-d928-68d37a091868",
-          "output": "value",
-          "target": "b497a9bb-0b72-4e5f-af8a-80aa6fc4ee45",
-          "input": "7a55cecd-4193-4f45-f029-00835561f716"
-        },
-        {
-          "objID": "490d791e-d9d7-4cd2-8392-4148196f6370",
-          "source": "81a3ca13-9c38-456b-fb66-96b8cd87647e",
-          "output": "@seqout",
-          "target": "b497a9bb-0b72-4e5f-af8a-80aa6fc4ee45",
-          "input": "@seqin"
-        },
-        {
-          "objID": "87a60cd8-2de0-4f68-e4fb-ff9d0186fc82",
-          "source": "8ee69f7b-2e57-4abc-efb1-acca8951abbb",
-          "output": "@seqout",
-          "target": "81a3ca13-9c38-456b-fb66-96b8cd87647e",
-          "input": "@seqin"
-        },
-        {
-          "objID": "bea476e9-9bb9-4deb-df2d-d36c8fa8efde",
-          "source": "d8e92a93-12e9-472e-dd2f-79df3112a659",
-          "output": "value",
-          "target": "b497a9bb-0b72-4e5f-af8a-80aa6fc4ee45",
-          "input": "ff3e50e3-f8d2-401c-b096-cc467b166565"
-        },
-        {
-          "objID": "80d92e74-4b92-41d0-dd2c-704b87afc022",
-          "source": "d8004fe2-ac7b-4a80-f586-c0c7c788cd89",
-          "output": "value",
-          "target": "b497a9bb-0b72-4e5f-af8a-80aa6fc4ee45",
-          "input": "9b83b27a-48ae-47fd-e006-9d9caf5ca2b7"
-        },
-        {
-          "objID": "b10f905d-0c68-47be-9f6f-32ac7eb4f0f9",
-          "source": "9d6e3999-fc2d-4ea0-f368-ccb42e421355",
-          "output": "variable",
-          "target": "b497a9bb-0b72-4e5f-af8a-80aa6fc4ee45",
-          "input": "57bc2771-757b-421c-8b9a-2e708c449853"
-        },
-        {
-          "objID": "3a4483d1-9089-480c-c340-28a7588ef772",
-          "source": "08e2196f-c029-49ac-80d4-29b30fe8bdea",
-          "output": "value",
-          "target": "6f2ea6fd-d120-4ef7-95a2-e42a80809940",
-          "input": "953509a4-e2f3-448d-d579-c4f33d215375"
-        },
-        {
-          "objID": "28bd6193-635d-4a71-b635-b840e6bf8901",
-          "source": "9ab89983-cda3-4ea5-d755-51ddcab81e25",
-          "output": "value",
-          "target": "6f2ea6fd-d120-4ef7-95a2-e42a80809940",
-          "input": "5df41f56-9e23-470a-abb0-7751ad2dd211"
-        },
-        {
-          "objID": "2a9088a1-3d4c-4c3d-df58-079bdf602dd0",
-          "source": "f3d6bf5e-beac-4f27-bd39-d7887e232751",
-          "output": "value",
-          "target": "6f2ea6fd-d120-4ef7-95a2-e42a80809940",
-          "input": "7a55cecd-4193-4f45-f029-00835561f716"
-        },
-        {
-          "objID": "b0455196-9074-45b3-a94b-fb0044c72704",
-          "source": "25f6fdf8-5c46-4431-c443-da1b542bff26",
-          "output": "@seqout",
-          "target": "6f2ea6fd-d120-4ef7-95a2-e42a80809940",
-          "input": "@seqin"
-        },
-        {
-          "objID": "4be257b7-4f82-4a25-ed1d-9e39563e8c06",
-          "source": "4a26f6bd-a91b-47ae-def3-73377b2097f5",
-          "output": "@seqout",
-          "target": "25f6fdf8-5c46-4431-c443-da1b542bff26",
-          "input": "@seqin"
-        },
-        {
-          "objID": "1be7c7f2-0a02-4bed-cf47-62841524d084",
-          "source": "778cf8e0-6cc5-4376-c906-746398f10a23",
-          "output": "value",
-          "target": "6f2ea6fd-d120-4ef7-95a2-e42a80809940",
-          "input": "ff3e50e3-f8d2-401c-b096-cc467b166565"
-        },
-        {
-          "objID": "df11efa2-f2ce-4b40-fc91-c2498f12f239",
-          "source": "6dab1bf4-7704-496e-a316-588d0b829882",
-          "output": "value",
-          "target": "6f2ea6fd-d120-4ef7-95a2-e42a80809940",
-          "input": "9b83b27a-48ae-47fd-e006-9d9caf5ca2b7"
-        },
-        {
-          "objID": "d3599ab0-5166-463d-95cb-15ebaa71be2f",
-          "source": "6b09cd69-5f29-40e5-8ca7-153df8281997",
-          "output": "variable",
-          "target": "6f2ea6fd-d120-4ef7-95a2-e42a80809940",
-          "input": "57bc2771-757b-421c-8b9a-2e708c449853"
-        },
-        {
-          "objID": "ccc34eb1-ea86-4bf9-d91d-0a2160c7bfe6",
-          "source": "6f2ea6fd-d120-4ef7-95a2-e42a80809940",
-          "output": "45145889-cda3-4b7f-d731-693143275e47",
-          "target": "4929d9a7-bc8f-4794-90d0-62c995da3884",
-          "input": "volt"
         },
         {
           "objID": "1db1fcdc-c9ec-4301-8e0a-42f6afb22a7e",
@@ -4913,13 +4531,6 @@
           "source": "fcb8cce3-7a48-48d1-cc91-80e7947ca731",
           "output": "@seqout",
           "target": "f1067e33-0889-44c5-d2bf-54e69e3ed2eb",
-          "input": "@seqin"
-        },
-        {
-          "objID": "4740224a-9105-4147-9564-862212c60715",
-          "source": "68809f4b-76b1-4e80-dc97-e994b95d1dde",
-          "output": "@seqout",
-          "target": "fcb8cce3-7a48-48d1-cc91-80e7947ca731",
           "input": "@seqin"
         },
         {
@@ -4951,11 +4562,32 @@
           "input": "watt"
         },
         {
-          "objID": "044daee5-5d22-4d1e-f757-05a266eccb31",
-          "source": "f59e4b17-7492-4e49-d34f-e1e92cd680af",
+          "objID": "39250dbe-ee12-4a9e-f063-660dfc5eb8e4",
+          "source": "19a38dcc-a42d-47a5-a990-fa6e64b9324e",
+          "output": "variable",
+          "target": "98faa964-ae7e-417f-ac8d-16416aa989a3",
+          "input": "in"
+        },
+        {
+          "objID": "48e35f3f-02dd-402f-989a-ce5e1030ac69",
+          "source": "355e2eb4-1d17-4d4b-9f60-0b71f5c1535f",
+          "output": "variable",
+          "target": "4929d9a7-bc8f-4794-90d0-62c995da3884",
+          "input": "volt"
+        },
+        {
+          "objID": "0aef0410-d91f-48f9-b20d-0b69c4da3403",
+          "source": "dd3d956e-4bb5-40e4-8ca9-4c1499624a34",
           "output": "@seqout",
-          "target": "fd044e34-89d6-43a7-d449-92ce66afa841",
+          "target": "fcb8cce3-7a48-48d1-cc91-80e7947ca731",
           "input": "@seqin"
+        },
+        {
+          "objID": "d865c5d3-ee64-4874-e0b6-657567b76f88",
+          "source": "19d8e996-4f4c-426b-9adc-3732f74aab45",
+          "output": "variable",
+          "target": "e6e76329-bed2-4f8d-c5e6-2a45a95b89cc",
+          "input": "ohm"
         }
       ],
       "localVariables": [
@@ -6306,8 +5938,8 @@
             },
             {
               "objID": "32e046a0-40e6-48e6-d258-1592c92d4b15",
-              "variable": "newImonNPLC",
-              "value": "ImonNPLC"
+              "variable": "newNPLC",
+              "value": "NPLC"
             }
           ]
         },
@@ -6460,7 +6092,7 @@
             }
           },
           "eventHandlers": [],
-          "text": "\"NPLC cycles: \" + newImonNPLC + \" = \" + Math.round((1000*newImonNPLC)/(newFreq*10+50)) + \" ms\"",
+          "text": "\"NPLC cycles: \" + newNPLC + \" = \" + Math.round((1000*newNPLC)/(newFreq*10+50)) + \" ms\"",
           "textType": "expression",
           "longMode": "CLIP",
           "recolor": false
@@ -6888,7 +6520,7 @@
             "objID": "ae58bb3c-4e75-4328-d5dc-093eabd136b6"
           },
           "eventHandlers": [],
-          "text": "newImonNPLC",
+          "text": "newNPLC",
           "textType": "expression",
           "placeholder": "2",
           "oneLineMode": true,
@@ -6951,7 +6583,7 @@
         },
         {
           "objID": "8675c290-5879-46f2-b599-bbec83d854fe",
-          "name": "newImonNPLC",
+          "name": "newNPLC",
           "type": "integer",
           "defaultValue": "1",
           "persistent": false

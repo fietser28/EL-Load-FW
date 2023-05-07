@@ -1,6 +1,6 @@
 // Glue to EEZ flow vars
 
-#include "Arduino.h"
+#include <Arduino.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -12,6 +12,7 @@
 #include "state.h"
 //#include "display.h"
 #include "vars.h"
+#include "util.h"
 
 void set_var_startup_done(bool value) {};
 bool get_var_startup_done() { return localsetcopy.startupDone; };
@@ -19,76 +20,70 @@ bool get_var_startup_done() { return localsetcopy.startupDone; };
 void set_var_alive(bool value) {};
 
 char imonstring[16];
-float lastimon;
+float lastimon = 0;
 
-//void set_var_imon(const char *value) {  };
-void set_var_imon(float value) {   };
-float get_var_imon() { return localstatecopy.Imon; };
-/*
- const char *get_var_imon() { 
-    if (localstatecopy.Imon != lastimon) {
-    if (localstatecopy.Imon < 1.0f) {
-      snprintf((char *)imonstring, 10,"%3.0f m", localstatecopy.Imon*1000.0f);
-    } else {
-      snprintf((char *)imonstring, 10,"%.3f ", localstatecopy.Imon);
-    }
+void set_var_imon(const char *value) {  };
+const char *get_var_imon() {
+  // Only format if changed.
+  if (localstatecopy.Imon != lastimon) {
     lastimon = localstatecopy.Imon;
-    }
-    return (char *)imonstring;
-//  return localstatecopy.Imon;
-};
-*/ 
+    value2str(imonstring, lastimon, -3, 5, 3, true, "A");
+  }
+  return imonstring;
+}
+
 char umonstring[16];
 float lastumon;
 
-//void set_var_umon(const char *value) {  };
-void set_var_umon(float value) { };
-float get_var_umon() { return localstatecopy.Umon; };
-
-/*
+void set_var_umon(const char *value) {  };
 const char *get_var_umon() {
-    if (localstatecopy.Umon != lastumon) {
-    snprintf((char *)umonstring, 10,"%.3f", localstatecopy.Umon);
+  // Only format if changed.
+  if (localstatecopy.Umon != lastumon) {
     lastumon = localstatecopy.Umon;
-    }
-    return (char *)umonstring;
-};
-*/
+    //TODO: fix hardcoding of settings
+    value2str(umonstring, lastumon, -3, 5, 3, true, "V");
+  }
+  return umonstring;
+}
 
 char pmonstring[16];
 float lastpmoni, lastpmonu;
 
-//void set_var_pmon(const char *value) {  };
-void set_var_pmon(float value) {};
-float get_var_pmon() { return localstatecopy.Umon*localstatecopy.Imon; };
-/*
-const char *get_var_pmon() {
-    if (localstatecopy.Imon != lastpmoni || localstatecopy.Umon != lastpmonu) {
-    snprintf((char *)pmonstring, 10,"%.3f", (localstatecopy.Umon*localstatecopy.Imon));
+void set_var_pmon(const char *value){};
+const char *get_var_pmon()
+{
+  if (localstatecopy.Imon != lastpmoni || localstatecopy.Umon != lastpmonu)
+  {
+    value2str(pmonstring, localstatecopy.Umon * localstatecopy.Imon, -3, 5, 3, true, "W");
     lastpmoni = localstatecopy.Imon;
     lastpmonu = localstatecopy.Umon;
-    }
-    return (char *)pmonstring;
+  }
+  return (char *)pmonstring;
 };
-*/
 
 char rmonstring[16];
 float lastrmoni, lastrmonu;
-
-//void set_var_rmon(const char *value) {  };
-void set_var_rmon(float value) {  };
-float get_var_rmon() { return localstatecopy.Imon != 0.0f ? localstatecopy.Umon/localstatecopy.Imon : INFINITY; };
-//float get_var_rmon() { return (localstatecopy.Umon/localstatecopy.Imon); };
-/*
+void set_var_rmon(const char *value) {  };
+//float get_var_rmon() { return localstatecopy.Imon != 0.0f ? localstatecopy.Umon/localstatecopy.Imon : INFINITY; };
 const char *get_var_rmon() {
-    if (localstatecopy.Imon != lastrmoni || localstatecopy.Umon != lastrmonu) {
-    snprintf((char *)rmonstring, 10,"%.3f", (localstatecopy.Umon/localstatecopy.Imon));
-    lastrmoni = localstatecopy.Imon;
-    lastrmonu = localstatecopy.Umon;
+    if (localstatecopy.Imon != lastrmoni || localstatecopy.Umon != lastrmonu) 
+    {
+      lastrmoni = localstatecopy.Imon;
+      lastrmonu = localstatecopy.Umon;
+      float r = localstatecopy.Imon != 0.0f ? localstatecopy.Umon/localstatecopy.Imon : INFINITY;
+      if ( r != INFINITY) 
+      {
+        //TODO: fix hardcoding of settings
+        value2str(rmonstring, r, -2, 5, 3, true, "\u03a9");
+      } 
+      else 
+      {
+        snprintf((char *)rmonstring, 10, "INF \u03a9");
+      }
     }
     return (char *)rmonstring;
 };
-*/
+
 
 char ahstring[16];
 float lastas = -1;
@@ -152,23 +147,15 @@ const char *get_var_logtxt() {
   return (char *)logtxt;
 }
 
-void set_var_imon_nplc(int32_t value) 
+void set_var_nplc(int32_t value) 
 {
-  set_imon_nplc(value);
+  set_nplc(value);
 }
-int32_t get_var_imon_nplc() 
+int32_t get_var_nplc() 
 {
-  return localsetcopy.ImonNLPC;
+  return localsetcopy.NLPC;
 }
 
-void set_var_umon_nplc(int32_t value) 
-{
-  set_umon_nplc(value);
-}
-int32_t get_var_umon_nplc() 
-{
-  return localsetcopy.UmonNLPC;
-}
 
 void set_var_plfreq(int32_t value) {};
 int32_t get_var_plfreq() 

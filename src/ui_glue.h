@@ -21,7 +21,6 @@ extern void setOnOff(bool value);
 extern void printlogval(int val1, int val2, int val3, int val4);
 extern char logtxt[256];
 
-extern void set_imon_nplc(int32_t value);
-extern void set_umon_nplc(int32_t value);
+extern void set_nplc(int32_t value);
 
 #endif

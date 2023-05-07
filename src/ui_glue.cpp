@@ -31,12 +31,8 @@ void setOnOff(bool value)
 
 char logtxt[256];
 
-void set_imon_nplc(int32_t value) {
-    state.setImonNPLC((uint16_t)value);
-}
-
-void set_umon_nplc(int32_t value) {
-    state.setUmonNPLC((uint16_t)value);
+void set_nplc(int32_t value) {
+    state.setNPLC((uint32_t)value);
 }
 
 } // extern "C"

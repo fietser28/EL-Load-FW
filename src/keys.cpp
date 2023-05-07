@@ -9,6 +9,7 @@
 #include "main.h"
 #include "keys.h"
 #include "ui_glue.h"
+#include "gpio_mcp23008.h"
 
 #define MCP23x08_ADDR_IODIR 0x00
 #define MCP23X08_ADDR_IPOL 0x01
@@ -26,6 +27,7 @@
 keystate_t keystate;
 
 Rotary encoder = Rotary();
+gpio_mcp23008 gpiokeys = gpio_mcp23008();
 
 static void encTask(void *pvParameter);
 TaskHandle_t encTaskHandle;
@@ -36,7 +38,7 @@ void keys_task_init(void)
     xTaskCreate(encTask, "enc", 1024, NULL, TASK_PRIORITY_KEYS, &encTaskHandle);
 };
 
-uint8_t writeI2C(uint8_t addr, uint8_t opcode, uint8_t data)
+/* uint8_t writeI2C(uint8_t addr, uint8_t opcode, uint8_t data)
 {
     // Exclusive use, so no Mutex.
     I2C_KEYS.beginTransmission(addr);
@@ -53,32 +55,26 @@ uint8_t readI2C(uint8_t addr, uint8_t opcode)
     I2C_KEYS.requestFrom(addr, 1);
     return I2C_KEYS.read();
 }
+ */
 
 static void ISR_KEYS()
     {
         BaseType_t taskWoken = pdFALSE;
         vTaskNotifyGiveFromISR(encTaskHandle, &taskWoken);
-        //vTaskNotifyGiveFromISR(taskMeasureAndOutput, NULL);
-        //portYIELD_FROM_ISR(taskWoken);
-        //digitalWrite(PIN_TEST, LOW);
-        //xSemaphoreGiveFromISR(adcReady, &taskWoken);
-        //if (taskWoken != pdFALSE) {
-        portYIELD_FROM_ISR(taskWoken);
-        //}
+        if (taskWoken != pdFALSE) {
+            portYIELD_FROM_ISR(taskWoken);
+        }
     };
-
 
 static void encTask(void *pvParameter)
 {
 
-    I2C_KEYS.setSCL(PIN_KEYS_SCL);
-    I2C_KEYS.setSDA(PIN_KEYS_SDA);
-    I2C_KEYS.setClock(400000);
-    I2C_KEYS.begin();
-
     // MCP23008 defaults are fine..
-    // TODO: Eanable interrupts.
-    writeI2C(KEYS_CHIP_ADDRESS, MCP23X08_ADDR_GPINTEN, 255);
+    // Enable interrupts.
+    // writeI2C(KEYS_CHIP_ADDRESS, MCP23X08_ADDR_GPINTEN, 255);
+    gpiokeys.begin(&I2C_KEYS, I2C_KEYS_SEM, KEYS_CHIP_ADDRESS);
+    vTaskDelay(10);
+    gpiokeys.pinInterrupts(0xff, 0x00, 0x00); // All pins on any change.
 
     encoder.begin(true);
 
@@ -107,7 +103,8 @@ static void encTask(void *pvParameter)
         ulTaskNotifyTake(pdTRUE, portMAX_DELAY); 
 
         //digitalWrite(PIN_TEST, HIGH);
-        gpioval = readI2C(KEYS_CHIP_ADDRESS, MCP23X08_ADDR_GPIO);
+        //gpioval = readI2C(KEYS_CHIP_ADDRESS, MCP23X08_ADDR_GPIO);
+        gpioval = gpiokeys.digitalRead();
         encpin1 = gpioval & KEYS_PIN_ENC0 ? 1 : 0;
         encpin2 = gpioval & KEYS_PIN_ENC1 ? 1 : 0;
         encdir = encoder.process(encpin1, encpin2);
@@ -161,6 +158,6 @@ static void encTask(void *pvParameter)
             slowtick = 0;
             printlogval(pin1count, pin2count, enccount / 2, keystate.encoderbutton);
         }
-        vTaskDelay(4); // Debounce margin.
+        //vTaskDelay(4); // Debounce margin. - not needed with interrupts
     }
 }

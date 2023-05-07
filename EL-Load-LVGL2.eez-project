@@ -1809,8 +1809,8 @@
           "type": "IsTrueActionComponent",
           "left": -71,
           "top": 261,
-          "width": 123,
-          "height": 69,
+          "width": 124,
+          "height": 68,
           "customInputs": [],
           "customOutputs": [],
           "value": "startupDone"
@@ -1825,6 +1825,17 @@
           "customInputs": [],
           "customOutputs": [],
           "milliseconds": "1000"
+        },
+        {
+          "objID": "ce17acba-a163-4b3d-b991-4ebfb64a1677",
+          "type": "WatchVariableActionComponent",
+          "left": -313,
+          "top": 234,
+          "width": 151,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "variable": "startupDone"
         }
       ],
       "connectionLines": [
@@ -1840,6 +1851,13 @@
           "source": "c539a03e-659a-459b-822e-3cce48af1e68",
           "output": "True",
           "target": "2770a9d0-642a-4e14-a214-832b876de1ff",
+          "input": "@seqin"
+        },
+        {
+          "objID": "74cd23a4-1445-463a-8588-8543dde7b236",
+          "source": "ce17acba-a163-4b3d-b991-4ebfb64a1677",
+          "output": "variable",
+          "target": "c539a03e-659a-459b-822e-3cce48af1e68",
           "input": "@seqin"
         }
       ],
@@ -6548,8 +6566,8 @@
         {
           "objID": "f93e2d6d-43f7-48b9-feb0-c3b713caf00e",
           "type": "LVGLActionComponent",
-          "left": 447,
-          "top": 198,
+          "left": 395,
+          "top": 288,
           "width": 279,
           "height": 54,
           "customInputs": [],
@@ -6840,6 +6858,27 @@
           "source": "6d2effd6-934a-4fe9-e05a-c034ca28aa1c",
           "output": "RELEASED",
           "target": "f3af9dbc-9d71-4da0-8d68-cd1de5cbbb6f",
+          "input": "@seqin"
+        },
+        {
+          "objID": "f2afd743-9618-41a4-8298-691beb5807df",
+          "source": "0c149b30-f040-4e28-9b4f-b9f67ad5cc00",
+          "output": "VALUE_CHANGED",
+          "target": "f93e2d6d-43f7-48b9-feb0-c3b713caf00e",
+          "input": "@seqin"
+        },
+        {
+          "objID": "a39a73f9-047c-4a9b-c12c-c33a938480bf",
+          "source": "3ac6af36-27a3-43a8-c150-3a50fca0f2d9",
+          "output": "RELEASED",
+          "target": "f93e2d6d-43f7-48b9-feb0-c3b713caf00e",
+          "input": "@seqin"
+        },
+        {
+          "objID": "fe660c93-b1ae-4280-f673-8d9709987a12",
+          "source": "3b16e966-ff47-46e2-a251-3ce6d06f2892",
+          "output": "RELEASED",
+          "target": "f93e2d6d-43f7-48b9-feb0-c3b713caf00e",
           "input": "@seqin"
         }
       ],
@@ -8143,6 +8182,50 @@
               "valueType": "literal"
             }
           ]
+        },
+        {
+          "objID": "da91e0e9-8cf5-46f1-81a4-13de00b59d32",
+          "type": "LVGLLabelWidget",
+          "left": 20,
+          "top": 10,
+          "width": 279,
+          "height": 24,
+          "customInputs": [],
+          "customOutputs": [],
+          "style": {
+            "objID": "a524a2ef-f99c-4021-9f72-8d75b56eafe8",
+            "inheritFrom": "default"
+          },
+          "timeline": [],
+          "leftUnit": "px",
+          "topUnit": "px",
+          "widthUnit": "px",
+          "heightUnit": "px",
+          "children": [],
+          "flags": "PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLLABLE|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_CHAIN",
+          "hiddenFlagType": "literal",
+          "clickableFlagType": "literal",
+          "scrollbarMode": "auto",
+          "scrollDirection": "all",
+          "checkedStateType": "literal",
+          "disabledStateType": "literal",
+          "states": "",
+          "useStyle": "small label",
+          "localStyles": {
+            "objID": "b29c9260-be36-46fd-fef9-ea96888e6cd6",
+            "definition": {
+              "MAIN": {
+                "DEFAULT": {
+                  "text_align": "CENTER"
+                }
+              }
+            }
+          },
+          "eventHandlers": [],
+          "text": "\"Imon NLPC: \" + ImonN + \" = \" + ImonAperture + \" ms\"",
+          "textType": "expression",
+          "longMode": "CLIP",
+          "recolor": false
         }
       ],
       "connectionLines": [
