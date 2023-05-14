@@ -60,10 +60,10 @@ typedef struct _objects_t {
     lv_obj_t *obj40;
     lv_obj_t *obj41;
     lv_obj_t *obj42;
-    lv_obj_t *obj43;
-    lv_obj_t *obj43__obj44;
-    lv_obj_t *obj43__obj45;
-    lv_obj_t *obj43__obj46;
+    lv_obj_t *obj42__obj43;
+    lv_obj_t *obj42__obj44;
+    lv_obj_t *obj42__obj45;
+    lv_obj_t *obj46;
     lv_obj_t *obj47;
     lv_obj_t *obj48;
     lv_obj_t *obj49;
@@ -72,10 +72,13 @@ typedef struct _objects_t {
     lv_obj_t *obj51;
     lv_obj_t *obj52;
     lv_obj_t *obj53;
-    lv_obj_t *obj54;
-    lv_obj_t *obj55;
+    lv_obj_t *obj53__kbtext2;
+    lv_obj_t *obj53__obj54;
+    lv_obj_t *obj53__obj55;
     lv_obj_t *obj56;
     lv_obj_t *obj57;
+    lv_obj_t *obj58;
+    lv_obj_t *obj59;
     lv_obj_t *obj6;
     lv_obj_t *obj7;
     lv_obj_t *obj8;
@@ -111,6 +114,12 @@ void tick_screen_events();
 
 void create_user_widget_question_yn(lv_obj_t *parent_obj, void *flowState, int startWidgetIndex);
 void tick_user_widget_question_yn(void *flowState, int startWidgetIndex);
+
+void create_user_widget_keyboard_old(lv_obj_t *parent_obj, void *flowState, int startWidgetIndex);
+void tick_user_widget_keyboard_old(void *flowState, int startWidgetIndex);
+
+void create_user_widget_keyboard(lv_obj_t *parent_obj, void *flowState, int startWidgetIndex);
+void tick_user_widget_keyboard(void *flowState, int startWidgetIndex);
 
 void create_screens();
 void tick_screen(int screen_index);
