@@ -6,14 +6,16 @@
 #include <lvgl.h>
 #include <TFT_eSPI.h>
 
+#include "math.h" 
+
 #include "ui/ui.h"
 #include "main.h"
 #include "state.h"
 #include "ui_glue.h"
 #include "keys.h"
 
-#define MY_LV_TICK_TIME 50
-#define MY_LV_UPDATE_TIME 25
+#define MY_LV_TICK_TIME 20
+#define MY_LV_UPDATE_TIME 20
 
 TFT_eSPI tft = TFT_eSPI(); /* TFT instance */
 
@@ -32,6 +34,11 @@ static lv_disp_drv_t disp_drv;
 static lv_indev_drv_t indev_drv;     // Touchscreen
 static lv_indev_drv_t indev_enc_drv; // Encoder
 
+void my_log_cb(const char* logline) 
+{
+  SERIALDEBUG.println(logline);
+}
+
 // TODO: Replace with: vApplicationTickHook
 static void guiTimerFunction(TimerHandle_t tm)
 {
@@ -43,7 +50,7 @@ void gui_task_init(void)
 {
 
   guiTimerHandle = xTimerCreate("", pdMS_TO_TICKS(MY_LV_TICK_TIME), pdTRUE, (void *) 0, guiTimerFunction);
-  xTimerStart(guiTimerHandle, 10);
+  //xTimerStart(guiTimerHandle, 10);
 
   xTaskCreate(guiTask, "", 4096 * 4, NULL, TASK_PRIORITY_UI, &guiTaskHandle);
  //vTaskCoreAffinitySet(guiTaskHandle, TASK_AFFINITY_UI);
@@ -101,17 +108,21 @@ static void my_encoder_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data)
   // Get the current focussed object
   lv_obj_t *obj = lv_group_get_focused(encoder_group);
 
+  // Move cursus out of 
+
   // Encoder stuff
   if (obj == 0)
   {
     return;
   } // No focus = no action.
   // if (lv_obj_get_state(obj) != LV_STATE_EDITED) { return; } // no edit = no action
-  if (obj->class_p != &lv_textarea_class)
+  if (obj->class_p != &lv_textarea_class && obj->class_p != &lv_slider_class)
   {
     return;
   } // just to be sure....
 
+  // Current active object is textarea
+  if (obj->class_p == &lv_textarea_class) {
   const char *text = lv_textarea_get_text(obj);
   uint32_t pos = lv_textarea_get_cursor_pos(obj);
   uint32_t textsize = strlen(text);
@@ -170,10 +181,51 @@ static void my_encoder_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data)
     {
       lv_textarea_set_text(obj, newtext);
       lv_textarea_set_cursor_pos(obj, pos);
+      // lv_event_send(obj, LV_EVENT_VALUE_CHANGED, NULL); // TODO: Needed?
+    }
+    encoderLastState = enccount;
+  }
+  }
+
+  // Current active object is slider
+  if (obj->class_p == &lv_slider_class) {
+    int32_t sliderpos = lv_slider_get_value(obj);
+    int32_t slidermin = lv_slider_get_min_value(obj);
+    int32_t slidermax = lv_slider_get_max_value(obj);
+    int32_t newsliderpos = sliderpos;
+    
+    // Encoder movement
+    int enccount = keystate.encodercount / 2; // 2 changes per dent (on current combination HW/SW)
+    if (encoderLastState != enccount)
+    {
+    bool sliderchanged = false;
+    if (encoderLastState < enccount)
+    {
+      // Increase
+      if (sliderpos < slidermax)
+      {
+        newsliderpos = sliderpos + 1;
+        sliderchanged = true;
+      }
+    }
+    else
+    {
+      // Decrease
+      if (sliderpos > slidermin)
+      {
+        newsliderpos = sliderpos - 1;
+        sliderchanged = true;
+      }
+    }
+    if (sliderchanged)
+    {
+      lv_slider_set_value(obj,newsliderpos, LV_ANIM_OFF);
+      lv_event_send(obj, LV_EVENT_VALUE_CHANGED, NULL);
     }
     encoderLastState = enccount;
   }
 
+  }
   // Already handled....
   data->enc_diff = 0;
   data->state = LV_INDEV_STATE_REL;
@@ -182,8 +234,6 @@ static void my_encoder_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data)
 static void guiTask(void *pvParameter)
 {
   vTaskDelay(100); // Wait for core affinity.
-
-  snprintf(logtxt, 200, "- Empty log -");
 
   lv_init();
 
@@ -211,6 +261,8 @@ static void guiTask(void *pvParameter)
   indev_drv.type = LV_INDEV_TYPE_POINTER;
   indev_drv.read_cb = my_touchpad_read;
   lv_indev_drv_register(&indev_drv);
+
+  lv_log_register_print_cb(&my_log_cb);
 
   //  Set to 1 if you do not see any GUI
 #if 0
@@ -241,14 +293,28 @@ static void guiTask(void *pvParameter)
 
 #endif
 
+  // Manually turn on backlight (avoid garbage at startup)
+  digitalWrite(TFT_BL, HIGH);
+  xTimerStart(guiTimerHandle, 10);
 
   while (1)
   {
+    unsigned long loopstart = millis();
     state.getMeasuredStateCopy(&localstatecopy, 0);
     state.getSetStateCopy(&localsetcopy, 0);
     lv_task_handler();
     ui_tick();
-    vTaskDelay(pdMS_TO_TICKS(MY_LV_UPDATE_TIME));
+    unsigned long loopend = millis();
+    TickType_t loopdelay = pdMS_TO_TICKS(MY_LV_UPDATE_TIME);
+    if (loopend > loopstart) // No millis overflow.
+    {
+      if ((loopend-loopstart) < MY_LV_UPDATE_TIME) {
+      loopdelay = pdMS_TO_TICKS(loopend-loopstart);
+      } else { 
+        loopdelay = 0;
+      }
+    }
+    vTaskDelay(loopdelay);
   }
 
   /* A task should NEVER return */

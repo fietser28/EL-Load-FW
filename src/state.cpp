@@ -163,7 +163,6 @@ namespace dcl
             {
                 _setState.NLPC = cycles;
                 xSemaphoreGive(_setStateMutex);
-                return true;
             };
         };
         return updateAverageTask();
@@ -235,8 +234,7 @@ namespace dcl
                 
                 msg.record = _setState.record;
                 msg.on     = _setState.on;
-                msg.avgSamples = _setState.NLPC * _setState.sampleRate / _setState.PLFreq;
-
+                msg.avgSamples = (_setState.NLPC * _setState.sampleRate) / _setState.PLFreq;
                 xSemaphoreGive(_setStateMutex);
                 xQueueSend(changeAverageSettings, &msg, 10);
                 return true;

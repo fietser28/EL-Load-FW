@@ -17,7 +17,7 @@
 #include "dac.h"
 #include "display.h"
 #include "keys.h"
-
+#include "ui_glue.h"
 
 // Fixes lvgl include. TODO: remove?
 #include "LittleFS.h"
@@ -198,6 +198,8 @@ void setup()
 */
 
   state.begin(); // Setup memory, mutexes and queues.
+  snprintf(logtxt, 200, "- Empty log -");
+  gui_task_init(); // Takes lot of memory?
 
 
   // TODO: Hardcoded calibration values for now
@@ -286,14 +288,15 @@ void setup()
   state.setOff();
   state.clearPower();
 
-  vTaskDelay(3000);
+  vTaskDelay(4000);
 
   keys_task_init();
-  vTaskDelay(3000);
 
-  gui_task_init();
+  vTaskDelay(4000);
 
-  vTaskDelay(3000);
+  //gui_task_init();
+
+  vTaskDelay(4000);
 
   // Next create the protection tasks.
   BaseType_t xTaskRet;
@@ -348,6 +351,9 @@ const TickType_t ondelay = 1000;
 measuredStateStruct loopmystate;
 setStateStruct loopmysetstate;
 
+int heaptotal, heapused, heapfree; 
+int cyclecount = 0;
+
 void loop()
 {
   // TODO: Replace with SCPI reading class/task?
@@ -359,8 +365,14 @@ void loop()
   bool getok = state.getMeasuredStateCopy(&loopmystate, 20);
   getok = getok && state.getSetStateCopy(&loopmysetstate, 20);
 
-  SERIALDEBUG.printf("%.4f (%.5f/%.5f) %d %d\n", loopmystate.Imon, loopmystate.As/3600.0f, loopmystate.Ptime, getok, loopmysetstate.startupDone);
-
+  //SERIALDEBUG.printf("%.4f (%.5f/%.5f) %d %d\n", loopmystate.Imon, loopmystate.As/3600.0f, loopmystate.Ptime, getok, loopmysetstate.startupDone);
+  heaptotal = rp2040.getTotalHeap();
+  heapused = rp2040.getUsedHeap();
+  heapfree = rp2040.getFreeHeap();
+//  cyclecount = rp2040.getCycleCount64()/rp2040.f_cpu();
+  cyclecount++;
+  SERIALDEBUG.printf("Heap total: %d, used: %d, free:  %d, uptime: %d\n", heaptotal, heapused, heapfree, cyclecount);
+  snprintf(logtxt, 120, "Heap total: %d\nHeap used: %d\nHeap free:  %d\n", heaptotal, heapused, heapfree);
   vTaskDelay(ondelay);
 }
 
@@ -439,16 +451,16 @@ void taskMeasureAndOutputFunction(void *pvParameters)
 
 #ifndef FAKE_HARDWARE
   // Setup all hardware. First set SPI CS correct before starting interrupt 
-  SERIALDEBUG.println("INFO: Initializing ADC & DAC.");
+  //SERIALDEBUG.println("INFO: Initializing ADC & DAC.");
   currentADC.begin(true); // Also start ADC clock abd interrupt... (ads131m02)
   voltADC.begin(false);
-  SERIALDEBUG.println("INFO: ADC done.");
+  //SERIALDEBUG.println("INFO: ADC done.");
   iSetDAC.begin(false);
   uSetDAC.begin(false);
   vonSetDAC.begin(false);
 #endif
 
-  SERIALDEBUG.println("INFO: Going into measure loop.");
+  //SERIALDEBUG.println("INFO: Going into measure loop.");
 
 #ifndef FAKE_HARDWARE
   currentADC.attachInterrupt();
@@ -570,11 +582,11 @@ void taskAveragingFunction(void *pvParameters)
   size_t msgBytes;
 
   // Setup and clear memories
-  uint32_t avgSampleWindow = state.getNPLC();
+  uint32_t avgSampleWindow = 100;
   uint32_t avgRawCount = 0;
-  uint32_t avgCurrentRawSum = 0;
+  uint64_t avgCurrentRawSum = 0;
   uint32_t avgCurrentRaw = 0;
-  uint32_t avgVoltRawSum = 0;
+  uint64_t avgVoltRawSum = 0;
   uint32_t avgVoltRaw = 0;
   
   float imon;
@@ -588,6 +600,7 @@ void taskAveragingFunction(void *pvParameters)
   bool update = false;
 
   SERIALDEBUG.println("INFO: Going into average loop.");
+  state.updateAverageTask(); // Prepare message for myself to load defaults.
 
   for (;;)
   {

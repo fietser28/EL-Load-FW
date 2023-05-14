@@ -19,8 +19,10 @@ extern bool toggleRecord();
 extern void setOnOff(bool value);
 
 extern void printlogval(int val1, int val2, int val3, int val4);
+extern void printstr(const char* txt);
 extern char logtxt[256];
 
 extern void set_nplc(int32_t value);
+extern int32_t get_adc_osr();
 
 #endif

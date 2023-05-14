@@ -29,10 +29,10 @@ void adc_MCP3202::begin(bool setupSPI)
         spi.setRX(SPI_ADC_RX);
         spi.setTX(SPI_ADC_TX);
         spi.setSCK(SPI_ADC_SCK);
-        SERIALDEBUG.println("INFO: ADC SPI.begin... done");
+        //SERIALDEBUG.println("INFO: ADC SPI.begin... done");
 
         spi.begin();
-        SERIALDEBUG.println("INFO: ADC SPI done");
+        //SERIALDEBUG.println("INFO: ADC SPI done");
         }
 
 };

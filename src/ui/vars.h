@@ -34,6 +34,8 @@ extern int32_t get_var_plfreq();
 extern void set_var_plfreq(int32_t value);
 extern float get_var_sample_rate();
 extern void set_var_sample_rate(float value);
+extern int32_t get_var_adc_osr();
+extern void set_var_adc_osr(int32_t value);
 
 
 #endif /*EEZ_LVGL_UI_VARS_H*/

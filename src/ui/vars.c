@@ -54,7 +54,7 @@ const char *get_var_pmon()
 {
   if (localstatecopy.Imon != lastpmoni || localstatecopy.Umon != lastpmonu)
   {
-    value2str(pmonstring, localstatecopy.Umon * localstatecopy.Imon, -3, 5, 3, true, "W");
+    value2str(pmonstring, localstatecopy.Umon * localstatecopy.Imon, -3, 4, 3, true, "W");
     lastpmoni = localstatecopy.Imon;
     lastpmonu = localstatecopy.Umon;
   }
@@ -74,7 +74,7 @@ const char *get_var_rmon() {
       if ( r != INFINITY) 
       {
         //TODO: fix hardcoding of settings
-        value2str(rmonstring, r, -2, 5, 3, true, "\u03a9");
+        value2str(rmonstring, r, -2, 4, 3, true, "\u03a9");
       } 
       else 
       {
@@ -168,5 +168,11 @@ float get_var_sample_rate()
 {
   return localsetcopy.sampleRate;
 };
+
+void set_var_adc_osr(int32_t value) {};
+int32_t get_var_adc_osr()
+{
+  return get_adc_osr();
+}
 
 

@@ -35,10 +35,18 @@ void set_nplc(int32_t value) {
     state.setNPLC((uint32_t)value);
 }
 
+int32_t get_adc_osr() {
+    return ADC_OSR;
+}
+
 } // extern "C"
 
 void printlogval(int val1, int val2, int val3, int val4) {
     snprintf(logtxt, 60, "pin1: %d\npin2: %d\nenccount:  %d\ngpio:  %d", val1, val2, val3, val4);
+}
+
+void printlogstr(const char* txt) {
+    snprintf(logtxt, 60, "%s\n", txt);
 }
 
 ///// Encoder / key functions.
@@ -48,7 +56,7 @@ lv_group_t *onoff_group;
 
 static lv_obj_tree_walk_res_t walk_cb(lv_obj_t *obj, void *) {
     // TODO: Make more generic, currently all textarea's are encoder selectable...
-    if (obj->class_p == &lv_textarea_class) {
+    if (obj->class_p == &lv_textarea_class || obj->class_p == &lv_slider_class) {
         lv_group_add_obj(encoder_group, obj);
         if (lv_group_get_focused(encoder_group) == 0) {
             lv_group_focus_obj(obj);
@@ -76,13 +84,17 @@ static void update_groups(lv_obj_t *obj) {
     lv_obj_tree_walk(obj, walk_cb_on_off, 0);
 }
 
-static void on_screen_loaded(lv_event_t *e) {
-    update_groups(e->target);
+static void on_screen_loaded_cb(lv_obj_t *screen_obj) {
+    update_groups(screen_obj);
     lv_group_set_editing(encoder_group, true);
     lv_group_set_editing(onoff_group, true);
 }
 
-static void on_screen_unload(lv_event_t *e) 
+static void on_screen_loaded_cb(lv_event_t *e) {
+    on_screen_loaded_cb(e->target);
+}
+
+static void on_screen_unload_cb(lv_event_t *e) 
 {
     lv_group_remove_all_objs(encoder_group);
     lv_group_remove_all_objs(onoff_group);
@@ -97,26 +109,40 @@ void ui_init_encoder_group() {
     onoff_group = lv_group_create();
     lv_group_set_default(encoder_group);
 
-    lv_obj_add_event_cb(objects.startup, on_screen_loaded, LV_EVENT_SCREEN_LOADED, 0);
+/*
+    //lv_obj_add_event_cb(objects.startup, on_screen_loaded, LV_EVENT_SCREEN_LOADED, 0);
     lv_obj_add_event_cb(objects.startup, on_screen_unload, LV_EVENT_SCREEN_UNLOAD_START, 0);
 
     lv_obj_add_event_cb(objects.main, on_screen_loaded, LV_EVENT_SCREEN_LOADED, 0);
     lv_obj_add_event_cb(objects.main, on_screen_unload, LV_EVENT_SCREEN_UNLOAD_START, 0);
 
-    lv_obj_add_event_cb(objects.set_value, on_screen_loaded, LV_EVENT_SCREEN_LOADED, 0);
-    lv_obj_add_event_cb(objects.set_value, on_screen_unload, LV_EVENT_SCREEN_UNLOAD_START, 0);
+    //lv_obj_add_event_cb(objects.set_value, on_screen_loaded, LV_EVENT_SCREEN_LOADED, 0);
+    //lv_obj_add_event_cb(objects.set_value, on_screen_unload, LV_EVENT_SCREEN_UNLOAD_START, 0);
 
     lv_obj_add_event_cb(objects.settings, on_screen_loaded, LV_EVENT_SCREEN_LOADED, 0);
     lv_obj_add_event_cb(objects.settings, on_screen_unload, LV_EVENT_SCREEN_UNLOAD_START, 0);
 
-    lv_obj_add_event_cb(objects.settings, on_screen_loaded, LV_EVENT_SCREEN_LOADED, 0);
-    lv_obj_add_event_cb(objects.settings, on_screen_unload, LV_EVENT_SCREEN_UNLOAD_START, 0);
+    lv_obj_add_event_cb(objects.protections, on_screen_loaded, LV_EVENT_SCREEN_LOADED, 0);
+    lv_obj_add_event_cb(objects.protections, on_screen_unload, LV_EVENT_SCREEN_UNLOAD_START, 0);
+
+    lv_obj_add_event_cb(objects.events, on_screen_loaded, LV_EVENT_SCREEN_LOADED, 0);
+    lv_obj_add_event_cb(objects.events, on_screen_unload, LV_EVENT_SCREEN_UNLOAD_START, 0);
 
     lv_obj_add_event_cb(objects.nlpc, on_screen_loaded, LV_EVENT_SCREEN_LOADED, 0);
     lv_obj_add_event_cb(objects.nlpc, on_screen_unload, LV_EVENT_SCREEN_UNLOAD_START, 0);
 
 //    lv_obj_add_event_cb(objects.keyboard_1, on_encoder_apply, LV_EVENT_READY, 0);
+*/
 
-    update_groups(objects.main);
+    for (size_t screen_index = 0; screen_index < get_num_screens(); screen_index++) 
+    {
+        lv_obj_add_event_cb(get_screen_obj(screen_index), on_screen_loaded_cb, LV_EVENT_SCREEN_LOADED, 0);
+        lv_obj_add_event_cb(get_screen_obj(screen_index), on_screen_unload_cb, LV_EVENT_SCREEN_UNLOAD_START, 0);
+    }
 
+    //update_groups(objects.main);
+    //update_groups(get_screen_obj(0)); // First screen is already loaded.
+
+    on_screen_loaded_cb(get_screen_obj(0));
 }
+

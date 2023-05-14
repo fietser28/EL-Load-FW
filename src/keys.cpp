@@ -72,8 +72,9 @@ static void encTask(void *pvParameter)
     // MCP23008 defaults are fine..
     // Enable interrupts.
     // writeI2C(KEYS_CHIP_ADDRESS, MCP23X08_ADDR_GPINTEN, 255);
+    pinMode(PIN_KEYS_INT, INPUT);
     gpiokeys.begin(&I2C_KEYS, I2C_KEYS_SEM, KEYS_CHIP_ADDRESS);
-    vTaskDelay(10);
+    vTaskDelay(3); //TODO: remove
     gpiokeys.pinInterrupts(0xff, 0x00, 0x00); // All pins on any change.
 
     encoder.begin(true);
@@ -95,9 +96,9 @@ static void encTask(void *pvParameter)
     bool button3prev = false;
     dcl::setStateStruct localsetcopy;
 
-    pinMode(PIN_KEYS_INT, INPUT);
     ::attachInterrupt(digitalPinToInterrupt(PIN_KEYS_INT), ISR_KEYS, FALLING);
-
+    gpiokeys.digitalRead(); //Clear interrupt pin status.
+ 
     while (1)
     {
         ulTaskNotifyTake(pdTRUE, portMAX_DELAY); 

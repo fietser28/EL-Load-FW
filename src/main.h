@@ -126,7 +126,7 @@
 //#define AVG_SAMPLES_MAX     1000    // Eq. 1 sec at 1kHz sample rate
 //#define AVG_SAMPLES_MIN     1   
 //#define AVG_SAMPLES_DEFAULT 50       // 100 = 2 cycles in 50Hz
-#define DEFAULT_AVG_SAMPLES_NPLC      20
+#define DEFAULT_AVG_SAMPLES_NPLC      25
 #define DEFAULT_PL_FREQ               50
 
 #define FAKE_HARDWARE_TIMER_TICKS 1   // Real = 1 = 1kHz
@@ -185,7 +185,7 @@ struct newAvgMeasurementMsg
 #define TASK_PRIORITY_MEASURE   6
 #define TASK_PRIORITY_AVERAGE   5
 #define TASK_PRIORITY_UI        3
-#define TASK_PRIORITY_KEYS      3 
+#define TASK_PRIORITY_KEYS      4 
 //#define TASK_PRIORITY_UI_TICK   5
 
 

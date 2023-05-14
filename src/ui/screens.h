@@ -10,17 +10,13 @@ extern "C" {
 typedef struct _objects_t {
     lv_obj_t *startup;
     lv_obj_t *main;
-    lv_obj_t *set_value;
-    lv_obj_t *graph;
     lv_obj_t *settings;
     lv_obj_t *nlpc;
+    lv_obj_t *protections;
+    lv_obj_t *events;
     lv_obj_t *ah;
     lv_obj_t *iset;
-    lv_obj_t *isetkey;
-    lv_obj_t *isetkey_value;
-    lv_obj_t *isetkeyb;
     lv_obj_t *isetlabel;
-    lv_obj_t *isetlkeyabel;
     lv_obj_t *mode_selector;
     lv_obj_t *montime;
     lv_obj_t *nlpc_home;
@@ -54,8 +50,32 @@ typedef struct _objects_t {
     lv_obj_t *obj31;
     lv_obj_t *obj32;
     lv_obj_t *obj33;
+    lv_obj_t *obj34;
+    lv_obj_t *obj35;
+    lv_obj_t *obj36;
+    lv_obj_t *obj37;
+    lv_obj_t *obj38;
+    lv_obj_t *obj39;
     lv_obj_t *obj4;
+    lv_obj_t *obj40;
+    lv_obj_t *obj41;
+    lv_obj_t *obj42;
+    lv_obj_t *obj43;
+    lv_obj_t *obj43__obj44;
+    lv_obj_t *obj43__obj45;
+    lv_obj_t *obj43__obj46;
+    lv_obj_t *obj47;
+    lv_obj_t *obj48;
+    lv_obj_t *obj49;
     lv_obj_t *obj5;
+    lv_obj_t *obj50;
+    lv_obj_t *obj51;
+    lv_obj_t *obj52;
+    lv_obj_t *obj53;
+    lv_obj_t *obj54;
+    lv_obj_t *obj55;
+    lv_obj_t *obj56;
+    lv_obj_t *obj57;
     lv_obj_t *obj6;
     lv_obj_t *obj7;
     lv_obj_t *obj8;
@@ -77,21 +97,27 @@ void tick_screen_startup();
 void create_screen_main();
 void tick_screen_main();
 
-void create_screen_set_value();
-void tick_screen_set_value();
-
-void create_screen_graph();
-void tick_screen_graph();
-
 void create_screen_settings();
 void tick_screen_settings();
 
 void create_screen_nlpc();
 void tick_screen_nlpc();
 
+void create_screen_protections();
+void tick_screen_protections();
+
+void create_screen_events();
+void tick_screen_events();
+
+void create_user_widget_question_yn(lv_obj_t *parent_obj, void *flowState, int startWidgetIndex);
+void tick_user_widget_question_yn(void *flowState, int startWidgetIndex);
+
 void create_screens();
 void tick_screen(int screen_index);
 
+
+extern size_t get_num_screens();
+extern lv_obj_t *get_screen_obj(size_t screen_index);
 
 #ifdef __cplusplus
 }

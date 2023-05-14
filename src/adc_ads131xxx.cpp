@@ -20,7 +20,7 @@ namespace dcl
 
     bool ads131xxx::begin(bool setupSPI)
     {
-        SERIALDEBUG.println("INFO: Setup ADC131M02....");
+        //SERIALDEBUG.println("INFO: Setup ADC131M02....");
 
 
         // Setup SPI
@@ -33,10 +33,10 @@ namespace dcl
         _spi.setRX(SPI_ADC_RX);
         _spi.setTX(SPI_ADC_TX);
         _spi.setSCK(SPI_ADC_SCK);
-        SERIALDEBUG.println("INFO: ADC SPI.begin... done");
+        //SERIALDEBUG.println("INFO: ADC SPI.begin... done");
 
         _spi.begin();
-        SERIALDEBUG.println("INFO: ADC SPI done");
+        //SERIALDEBUG.println("INFO: ADC SPI done");
         }
 
         // Setup ouput clock to ADC, ready pin.
@@ -48,7 +48,7 @@ namespace dcl
         //clock_gpio_init(_pinCLK, 0, 246); // Output system_clk/15 on ADC_CLK pin = 8,2MHz @ 123MHz clock speed.
         //clock_gpio_init(_pinCLK, 0, 123); // Output system_clk/15 on ADC_CLK pin = 8,2MHz @ 123MHz clock speed.
     
-        SERIALDEBUG.println("Waiting for ADC ready....");
+        //SERIALDEBUG.println("Waiting for ADC ready....");
         while(digitalRead(_pinRDY) == LOW) {}; // Wait for ADC to become ready
         
         // Reset
@@ -67,7 +67,7 @@ namespace dcl
             if (crcok && responseArr[0] == 0xff220000)
             {
                 resetOK = true;
-                SERIALDEBUG.printf("INFO: ADC reset in %d attempts.\n",resetAttempts);
+                //SERIALDEBUG.printf("INFO: ADC reset in %d attempts.\n",resetAttempts);
             };
         }
 

@@ -7,7 +7,9 @@
  * COPY THIS FILE AS `lv_conf.h` NEXT TO the `lvgl` FOLDER
  */
 
-#if 1 /*Set it to "1" to enable content*/
+
+// File not used by this project. Only used for reference of options in platformio.ini
+#if 0 /*Set it to "1" to enable content*/
 
 #ifndef LV_CONF_H
 #define LV_CONF_H
@@ -43,7 +45,7 @@
 #define LV_MEM_CUSTOM      0
 #if LV_MEM_CUSTOM == 0
 /*Size of the memory available for `lv_mem_alloc()` in bytes (>= 2kB)*/
-#  define LV_MEM_SIZE    (32U * 1024U)          /*[bytes]*/
+#  define LV_MEM_SIZE    (64U * 1024U)          /*[bytes]*/ // was 32U * 1024U
 
 /*Set an address for the memory pool instead of allocating it as a normal array. Can be in external SRAM too.*/
 #  define LV_MEM_ADR          0     /*0: unused*/
@@ -152,7 +154,7 @@ e.g. "stm32f769xx.h" or "stm32f429xx.h"*/
 
 /*1: Print the log with 'printf';
  *0: User need to register a callback with `lv_log_register_print_cb()`*/
-#  define LV_LOG_PRINTF   1
+#  define LV_LOG_PRINTF   0
 
 /*Enable/disable LV_LOG_TRACE in modules that produces a huge number of logs*/
 #  define LV_LOG_TRACE_MEM            1
@@ -268,13 +270,13 @@ e.g. "stm32f769xx.h" or "stm32f429xx.h"*/
 #define LV_FONT_MONTSERRAT_12    0
 #define LV_FONT_MONTSERRAT_14    1
 #define LV_FONT_MONTSERRAT_16    0
-#define LV_FONT_MONTSERRAT_18    0
+#define LV_FONT_MONTSERRAT_18    1
 #define LV_FONT_MONTSERRAT_20    1
 #define LV_FONT_MONTSERRAT_22    1
-#define LV_FONT_MONTSERRAT_24    0
+#define LV_FONT_MONTSERRAT_24    1
 #define LV_FONT_MONTSERRAT_26    0
 #define LV_FONT_MONTSERRAT_28    0
-#define LV_FONT_MONTSERRAT_30    0
+#define LV_FONT_MONTSERRAT_30    1
 #define LV_FONT_MONTSERRAT_32    0
 #define LV_FONT_MONTSERRAT_34    0
 #define LV_FONT_MONTSERRAT_36    0
