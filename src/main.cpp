@@ -598,8 +598,9 @@ void taskAveragingFunction(void *pvParameters)
   bool on = true;
   double interval = 0;
   bool update = false;
+  bool sendCalData = false;
 
-  SERIALDEBUG.println("INFO: Going into average loop.");
+  //SERIALDEBUG.println("INFO: Going into average loop.");
   state.updateAverageTask(); // Prepare message for myself to load defaults.
 
   for (;;)
@@ -634,7 +635,7 @@ void taskAveragingFunction(void *pvParameters)
         As += (double)imon * interval;
         Ws += (double)umon * (double)imon * interval;
       }
-      state.setAvgMeasurements(imon, umon, As, Ws, time);
+      state.setAvgMeasurements(imon, umon, As, Ws, time, avgCurrentRaw, avgVoltRaw);
       update = false;
     }
     // Settings changed if there is a message for it.
@@ -655,6 +656,7 @@ void taskAveragingFunction(void *pvParameters)
       }
       record = settingsMsg.record;
       on = settingsMsg.on;
+      sendCalData = settingsMsg.sendCalData;
     }
     //digitalWrite(PIN_TEST, LOW);
   }

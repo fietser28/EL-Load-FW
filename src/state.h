@@ -18,6 +18,8 @@ namespace dcl
         double Ws;
         double As;
         double Ptime;
+        uint32_t avgCurrentRaw;
+        uint32_t avgVoltRaw;
         bool Precording;
         bool VonState;
         bool OCPstate;
@@ -36,6 +38,11 @@ namespace dcl
         CP
     };
 
+    struct calibrationRawData
+    {
+        uint32_t    avgCurrentRaw;
+        uint32_t    avgVoltRaw;
+    };
     struct setStateStruct
     {
         bool on;
@@ -95,7 +102,7 @@ public:
     bool getSetStateCopy(setStateStruct *mystate, TickType_t waitTicks);
 
     bool setAvgMeasurements(float imon, float umon, double As,
-                            double Ws, double time);
+                            double Ws, double time, uint32_t avgCurrentRaw, uint32_t avgVoltRaw);
 
     bool clearPower();
     bool setNPLC(uint32_t cycles);

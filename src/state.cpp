@@ -114,7 +114,7 @@ namespace dcl
 
     // Called from Avg Task, keep latency low.
     bool stateManager::setAvgMeasurements(float imon, float umon, double As,
-                                          double Ws, double time)
+                                          double Ws, double time, uint32_t avgCurrentRaw, uint32_t avgVoltRaw)
     {
         if (_measuredStateMutex != NULL)
         {
@@ -126,6 +126,8 @@ namespace dcl
                 _measuredState.As = As;
                 _measuredState.Ws = Ws;
                 _measuredState.Ptime = time;
+                _measuredState.avgCurrentRaw = avgCurrentRaw;
+                _measuredState.avgVoltRaw = avgVoltRaw;
                 xSemaphoreGive(_measuredStateMutex);
                 return true;
             }
