@@ -176,3 +176,23 @@ int32_t get_var_adc_osr()
 }
 
 
+/* TODO: implement when native array fix is available
+uint32_t rawADC[2];
+
+void set_var_raw_adc(void *value);
+void *get_var_raw_adc() {
+  rawADC[0] = localstatecopy.avgCurrentRaw;
+  rawADC[1] = localstatecopy.avgVoltRaw;
+};
+*/
+void set_var_raw_adc_current(int32_t value) {};
+int32_t get_var_raw_adc_current() 
+{
+  return localstatecopy.avgCurrentRaw;
+}
+
+void set_var_raw_adc_volt(int32_t value) {};
+int32_t get_var_raw_adc_volt() 
+{
+  return localstatecopy.avgVoltRaw;
+}

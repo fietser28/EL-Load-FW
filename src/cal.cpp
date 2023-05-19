@@ -24,7 +24,7 @@ namespace dcl
         return _conf;
     };
 
-    bool calLinear2P::setADCConfig(uint32_t min, uint32_t max)
+    bool calLinear2P::setADCConfig(int32_t min, int32_t max)
     {
         _minADC = min;
         _maxADC = max;
@@ -58,7 +58,8 @@ namespace dcl
         {
             return 0;
         }
-        return ::remap((float)input, (float)_minADC, _minVal, (float)_maxADC, _maxVal);
+//        return ::remap((float)input, (float)_minADC, _minVal, (float)_maxADC, _maxVal);
+        return ::remap((float)input, (float)_conf.points[0].adc, _conf.points[0].value, (float)_conf.points[1].adc, _conf.points[1].value);
     }
 
 }

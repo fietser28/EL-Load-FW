@@ -153,7 +153,7 @@ namespace dcl
     };
 
     /// Measure interrupt and measure and output task
-    void ads131xxx::ISR_ADC()
+    void __not_in_flash_func(ads131xxx::ISR_ADC())
     {
         //digitalWrite(PIN_TEST, HIGH); //TODO: Just for debugging
         // Just start a high priority task and force immediate context switch if task is available.
@@ -291,7 +291,7 @@ namespace dcl
         return true; //CRC ok
     };
 
-    uint32_t ads131xxx::readChannelsNow() {
+    int32_t ads131xxx::readChannelsNow() {
         // 2 channels = 4 words of 24 bytes....
         uint32_t readwords[4];
 
@@ -300,14 +300,14 @@ namespace dcl
         if (crcok) {
             reg_status statusread;
             statusread.raw = readwords[0];
-            _lastPriData = readwords[1] >>8 ; // TODO: shift to 24 bits, 2's complement,etc...
-            _lastSecData = readwords[2] >>8 ; // TODO: shift to 24 bits, 2's complement,etc...
+            _lastPriData = ((int32_t)readwords[1]) >>8 ; // TODO: shift to 24 bits, 2's complement,etc...
+            _lastSecData = ((int32_t)readwords[2]) >>8 ; // TODO: shift to 24 bits, 2's complement,etc...
         }
 
         return _lastPriData; // TODO: shift and 2's complement stuff.
     }
 
-    uint32_t ads131xxx::lastSecondaryData() {
+    int32_t ads131xxx::lastSecondaryData() {
         return _lastSecData;
     }
 

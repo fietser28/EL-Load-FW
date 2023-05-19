@@ -14,7 +14,7 @@ namespace dcl {
 class adc {
     public:
         void begin(bool setupSPI) {};
-        uint32_t readRaw() { return 0; };
+        int32_t readRaw() { return 0; };
         const uint32_t ADC_MIN = 0;
         const uint32_t ADC_MAX = 1; //Override in real class
 };
@@ -24,7 +24,7 @@ class adc_MCP3202:  public  adc {
         adc_MCP3202(SPIClassRP2040 &selSPI, int CS, int myCh);
         void begin(bool setupSPI);
         //bool read();
-        uint32_t readRaw();
+        int32_t readRaw();
         const uint32_t ADC_MIN = 0;
         const uint32_t ADC_MAX = (1L << 12) - 1;
 
@@ -45,7 +45,7 @@ class adc_MCP3462: public  adc {
         adc_MCP3462(SPIClassRP2040 &selSPI, int CS, int myCh);
         adc_MCP3462(adc_MCP3462 *primary, int myCh); // secondary channels
         void begin(bool setupSPI);
-        uint32_t readRaw();
+        int32_t readRaw();
         const uint32_t ADC_MIN = 0;
         const uint32_t ADC_MAX = (1L << 16) - 1;
 
@@ -67,7 +67,7 @@ class adc_ADS131M02: public adc {
         adc_ADS131M02(adc_ADS131M02 *primary, int myCh); // secondary channel
         void begin(bool setupSPI);
         void attachInterrupt();
-        uint32_t readRaw();
+        int32_t readRaw();
         const uint32_t ADC_MIN = 0;
         const uint32_t ADC_MAX = (1L << 23) - 1;
 

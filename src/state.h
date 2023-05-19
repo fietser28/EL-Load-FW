@@ -18,8 +18,8 @@ namespace dcl
         double Ws;
         double As;
         double Ptime;
-        uint32_t avgCurrentRaw;
-        uint32_t avgVoltRaw;
+        int32_t avgCurrentRaw; // TODO: 2's complement because of ADS131M02
+        int32_t avgVoltRaw;    // TODO: 2's complement because of ADS131M02
         bool Precording;
         bool VonState;
         bool OCPstate;
@@ -40,8 +40,8 @@ namespace dcl
 
     struct calibrationRawData
     {
-        uint32_t    avgCurrentRaw;
-        uint32_t    avgVoltRaw;
+        int32_t    avgCurrentRaw; // TODO: 2's complement because of ADS131M02
+        int32_t    avgVoltRaw;    // TODO: same here.
     };
     struct setStateStruct
     {

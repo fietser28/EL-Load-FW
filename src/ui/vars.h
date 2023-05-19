@@ -36,6 +36,10 @@ extern float get_var_sample_rate();
 extern void set_var_sample_rate(float value);
 extern int32_t get_var_adc_osr();
 extern void set_var_adc_osr(int32_t value);
+extern int32_t get_var_raw_adc_current();
+extern void set_var_raw_adc_current(int32_t value);
+extern int32_t get_var_raw_adc_volt();
+extern void set_var_raw_adc_volt(int32_t value);
 
 
 #endif /*EEZ_LVGL_UI_VARS_H*/

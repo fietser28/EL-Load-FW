@@ -640,8 +640,32 @@
         "objID": "d5223ec8-45c9-4dd4-e70b-8502db332aa7",
         "name": "calData",
         "type": "array:struct:calConfig",
-        "defaultValue": "[ { name: \"Current measure\", unit: \"A\", instruction:\"Apply set current to input\", setType: 9, numPoints: 2, points: [ { set: 0.1, measure: 1000}, { set: 5, measure: 1000023 } ] },\n{ name: \"Voltage measure\", unit: \"V\", instruction:\"Apply set voltage to input\", setType: 10, numPoints: 2, points: [ { set: 0.15, measure: 1023}, { set: 40, measure: 1000000 } ] }  ]",
+        "defaultValue": "[ { name: \"Current measure\", unit: \"A\", instruction:\"Apply set current to input\", setType: 9, rawADC: 0, numPoints: 2, points: [ { set: 0.1, measure: 1000}, { set: 5, measure: 1000023 } ] },\n{ name: \"Voltage measure\", unit: \"V\", instruction:\"Apply set voltage to input\", setType: 10, rawADC: 1, numPoints: 2, points: [ { set: 0.15, measure: 1023}, { set: 40, measure: 1000000 } ] }  ]",
         "persistent": false
+      },
+      {
+        "objID": "198e2d1a-b3ce-4a80-c48e-2266bfece638",
+        "name": "rawADC",
+        "type": "array:integer",
+        "defaultValue": "[ 128, 256 ]",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "81042138-35bc-4a21-ef16-772b2280aece",
+        "name": "rawADC_current",
+        "type": "integer",
+        "defaultValue": "0",
+        "persistent": false,
+        "native": true
+      },
+      {
+        "objID": "cdc8ae44-77a1-47ee-ee8c-b856b89e8d1a",
+        "name": "rawADC_volt",
+        "type": "integer",
+        "defaultValue": "0",
+        "persistent": false,
+        "native": true
       }
     ],
     "structures": [
@@ -709,6 +733,11 @@
           {
             "objID": "bd0e1f00-22be-4552-f518-aa42a9b8d649",
             "name": "setType",
+            "type": "integer"
+          },
+          {
+            "objID": "3f541651-4ad6-41de-9152-702afea16114",
+            "name": "rawADC",
             "type": "integer"
           },
           {
@@ -1846,46 +1875,6 @@
       ],
       "name": "value2str",
       "implementationType": "flow"
-    },
-    {
-      "objID": "5301b7a9-0f9d-4df8-b436-71c5180b8f7b",
-      "components": [
-        {
-          "objID": "7cc9036f-92e6-4981-b4fc-26fafa56a310",
-          "type": "InputActionComponent",
-          "left": -462,
-          "top": -312,
-          "width": 87,
-          "height": 24,
-          "customInputs": [],
-          "customOutputs": [],
-          "name": "param1",
-          "inputType": "float"
-        },
-        {
-          "objID": "eddb5f34-0fb9-46a5-f004-8df37e3016ca",
-          "type": "NoopActionComponent",
-          "left": -267,
-          "top": -312,
-          "width": 87,
-          "height": 24,
-          "customInputs": [],
-          "customOutputs": [],
-          "name": "nop"
-        }
-      ],
-      "connectionLines": [
-        {
-          "objID": "64bce3fc-77a7-48ed-d1d0-a50d3ce098cb",
-          "source": "7cc9036f-92e6-4981-b4fc-26fafa56a310",
-          "output": "@seqout",
-          "target": "eddb5f34-0fb9-46a5-f004-8df37e3016ca",
-          "input": "@seqin"
-        }
-      ],
-      "localVariables": [],
-      "name": "ActionTest",
-      "implementationType": "native"
     }
   ],
   "pages": [
@@ -6609,8 +6598,8 @@
         {
           "objID": "88ed4204-00d8-4e90-e2b2-4e16ad6741c0",
           "type": "LVGLActionComponent",
-          "left": 434,
-          "top": 240,
+          "left": 461,
+          "top": 338,
           "width": 292,
           "height": 54,
           "customInputs": [],
@@ -7503,10 +7492,10 @@
         {
           "objID": "de33726e-05cd-43e1-a986-300897b4acb7",
           "type": "SetVariableActionComponent",
-          "left": -457,
-          "top": -139,
+          "left": -441,
+          "top": -175,
           "width": 190,
-          "height": 115,
+          "height": 135,
           "customInputs": [],
           "customOutputs": [],
           "description": "= default values (redundant)",
@@ -7530,6 +7519,11 @@
               "objID": "e721d73e-b2c5-479e-890a-8e2468cd0ef5",
               "variable": "kbHidden",
               "value": "true"
+            },
+            {
+              "objID": "3e57a1ea-2e0f-48c9-ad1d-17a0c17643b2",
+              "variable": "setChanged",
+              "value": "false"
             }
           ]
         },
@@ -7569,8 +7563,8 @@
         {
           "objID": "9e8520d9-ba2c-4c46-8c7a-fed45337a3d2",
           "type": "SetVariableActionComponent",
-          "left": 434,
-          "top": 109,
+          "left": 441,
+          "top": 256,
           "width": 284,
           "height": 55,
           "customInputs": [],
@@ -7589,7 +7583,7 @@
           "left": 436,
           "top": 173,
           "width": 480,
-          "height": 55,
+          "height": 75,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -7597,6 +7591,11 @@
               "objID": "4703fe77-748f-41ad-beea-19128db4de2a",
               "variable": "curpoint",
               "value": "Math.min(curpoint + 1, calData[calType].numPoints -1)"
+            },
+            {
+              "objID": "6639337b-bf45-49a8-9d58-37692449099f",
+              "variable": "measuredChanged",
+              "value": "true"
             }
           ]
         },
@@ -7653,8 +7652,8 @@
         {
           "objID": "af157a9c-2930-492b-8fe4-d28356b3d318",
           "type": "SetVariableActionComponent",
-          "left": 221,
-          "top": 365,
+          "left": 198,
+          "top": 392,
           "width": 190,
           "height": 55,
           "customInputs": [],
@@ -7747,7 +7746,7 @@
           "type": "SetVariableActionComponent",
           "left": 434,
           "top": -60,
-          "width": 207,
+          "width": 186,
           "height": 75,
           "customInputs": [
             {
@@ -7765,7 +7764,7 @@
             },
             {
               "objID": "4f7e4228-e88a-4476-80a5-3b4d9f62a8a5",
-              "variable": "valuesChanged",
+              "variable": "setChanged",
               "value": "true"
             }
           ]
@@ -7784,6 +7783,83 @@
               "objID": "da035220-2a11-4e11-fc83-f2930bae3a9b",
               "variable": "kbHidden",
               "value": "true"
+            }
+          ]
+        },
+        {
+          "objID": "bf47d8bc-4890-46a5-a4f4-48d2d5b9bef6",
+          "type": "LVGLLabelWidget",
+          "left": 278,
+          "top": 140,
+          "width": 24,
+          "height": 24,
+          "customInputs": [],
+          "customOutputs": [],
+          "style": {
+            "objID": "9f9dd69d-075f-4e60-cab5-8b5f923564ea",
+            "inheritFrom": "default"
+          },
+          "timeline": [],
+          "leftUnit": "px",
+          "topUnit": "px",
+          "widthUnit": "px",
+          "heightUnit": "px",
+          "children": [],
+          "flags": "PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLLABLE|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_CHAIN",
+          "hiddenFlagType": "literal",
+          "clickableFlag": true,
+          "clickableFlagType": "literal",
+          "scrollbarMode": "auto",
+          "scrollDirection": "all",
+          "checkedStateType": "literal",
+          "disabledState": false,
+          "disabledStateType": "literal",
+          "states": "",
+          "useStyle": "small label",
+          "localStyles": {
+            "objID": "fe00fd3b-b601-4e00-d5c1-b7e39196e9a7",
+            "definition": {
+              "MAIN": {
+                "DEFAULT": {
+                  "text_color": "#ffff00",
+                  "bg_color": "#818181",
+                  "bg_opa": 255,
+                  "text_font": "MONTSERRAT_20",
+                  "text_align": "CENTER"
+                },
+                "DISABLED": {
+                  "text_color": "#cccccc"
+                }
+              }
+            }
+          },
+          "eventHandlers": [
+            {
+              "objID": "dcb12b84-b9b0-4934-fcc9-feeec395d617",
+              "trigger": "PRESSED",
+              "handlerType": "flow",
+              "action": "getdropdownindex"
+            }
+          ],
+          "text": "LVGL.LV_SYMBOL_REFRESH",
+          "textType": "expression",
+          "longMode": "CLIP",
+          "recolor": false
+        },
+        {
+          "objID": "09ab552b-0991-4bb9-ccc2-6bf794d3e2eb",
+          "type": "SetVariableActionComponent",
+          "left": 436,
+          "top": 104,
+          "width": 486,
+          "height": 55,
+          "customInputs": [],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "332bcebb-72eb-4062-ee49-e997ebaef4c2",
+              "variable": "measured",
+              "value": "calData[calType].rawADC ? rawADC_volt : rawADC_current"
             }
           ]
         }
@@ -7907,6 +7983,13 @@
           "output": "@seqout",
           "target": "b8555559-b896-495c-98b3-011f259728fc",
           "input": "@seqin"
+        },
+        {
+          "objID": "1d3879c7-9f16-4d88-c477-34a3d336925b",
+          "source": "bf47d8bc-4890-46a5-a4f4-48d2d5b9bef6",
+          "output": "PRESSED",
+          "target": "09ab552b-0991-4bb9-ccc2-6bf794d3e2eb",
+          "input": "@seqin"
         }
       ],
       "localVariables": [
@@ -7962,6 +8045,20 @@
         {
           "objID": "38e3582f-29bc-4493-8148-81feed1dc34a",
           "name": "valuesChanged",
+          "type": "boolean",
+          "defaultValue": "false",
+          "persistent": false
+        },
+        {
+          "objID": "4d116761-a61d-487e-c18f-653e212712ef",
+          "name": "setChanged",
+          "type": "boolean",
+          "defaultValue": "false",
+          "persistent": false
+        },
+        {
+          "objID": "8ee5359b-70a8-4a30-a8ba-0722d0b10f6a",
+          "name": "measuredChanged",
           "type": "boolean",
           "defaultValue": "false",
           "persistent": false

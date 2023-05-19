@@ -10,22 +10,24 @@ namespace dcl
 #ifndef __cplusplus
 //    typedef struct cal cal;
 #else
+    // Abstract calibration class
     class cal {
         public:
             virtual bool setCalConfig(CalibrationValueConfiguration newconfig) = 0;
             virtual CalibrationValueConfiguration getCalConfig();
 
-            virtual bool setADCConfig(uint32_t min, uint32_t max);
+            virtual bool setADCConfig(int32_t min, int32_t max);
             virtual bool configured();
 
             virtual float remap(float input);
     };
 
+    // Simple 2 point linear calibration 
     class calLinear2P : public cal {
         public:
             bool setCalConfig(CalibrationValueConfiguration newconfig);
             CalibrationValueConfiguration getCalConfig();
-            bool setADCConfig(u32_t min, uint32_t max);
+            bool setADCConfig(int32_t min, int32_t max);
             bool configured();
 
             float remap(float input);

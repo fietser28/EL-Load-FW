@@ -37,7 +37,7 @@ void adc_MCP3202::begin(bool setupSPI)
 
 };
 
-uint32_t adc_MCP3202::readRaw()
+int32_t adc_MCP3202::readRaw()
 {
   spi.beginTransaction(MCP3202_SPI_SETTINGS);
   digitalWrite(chipSel, LOW);
@@ -90,7 +90,7 @@ if (!mcp.begin(0x03)) { // TOdo: fix mask stuff
   }
 };
 
-uint32_t adc_MCP3462::readRaw()
+int32_t adc_MCP3462::readRaw()
 {
 //    if (secondary) {
 //        return (uint32_t)primary_channel->mcp.analogRead(channel);
@@ -133,7 +133,7 @@ void adc_ADS131M02::attachInterrupt()
     ads131->attachInterrupt();
 };
 
-uint32_t adc_ADS131M02::readRaw() {
+int32_t adc_ADS131M02::readRaw() {
     if (secondary == false) {
         return ads131->readChannelsNow();
     } else {

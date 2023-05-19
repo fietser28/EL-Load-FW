@@ -206,10 +206,14 @@ void setup()
   state.cal.Imon = new calLinear2P();
   CalibrationValueConfiguration currentCal;
   currentCal.numPoints = 2;
-  currentCal.points[0].value = 0.050; // 50mV
-  currentCal.points[0].adc = 349700;
-  currentCal.points[1].value = 1.100 * 4.4 * 2.1 ; // 1.100V => >10A
-  currentCal.points[1].adc = 7643800;
+  //currentCal.points[0].value = 0.050; // 50mV
+  //currentCal.points[0].adc = 349700;
+  //currentCal.points[1].value = 1.100 * 4.4 * 2.1 ; // 1.100V => >10A
+  //currentCal.points[1].adc = 7643800;
+  currentCal.points[0].value = 1.0; // 0.1V  => 1.0A
+  currentCal.points[0].adc = 550958;
+  currentCal.points[1].value = 10.0 ; // 1.000V => 10A
+  currentCal.points[1].adc = 6827065;
 
   state.cal.Imon->setCalConfig(currentCal);
   state.cal.Imon->setADCConfig(currentADC.ADC_MIN, currentADC.ADC_MAX);
@@ -371,14 +375,14 @@ void loop()
   heapfree = rp2040.getFreeHeap();
 //  cyclecount = rp2040.getCycleCount64()/rp2040.f_cpu();
   cyclecount++;
-  SERIALDEBUG.printf("Heap total: %d, used: %d, free:  %d, uptime: %d\n", heaptotal, heapused, heapfree, cyclecount);
-  snprintf(logtxt, 120, "Heap total: %d\nHeap used: %d\nHeap free:  %d\n", heaptotal, heapused, heapfree);
+  SERIALDEBUG.printf("Heap total: %d, used: %d, free:  %d, uptime: %d, ADC0: %i, ADC1: %i, %d\n", heaptotal, heapused, heapfree, cyclecount, loopmystate.avgCurrentRaw, loopmystate.avgVoltRaw, loopmystate.avgCurrentRaw < 0 ? 1 : 0);
+  snprintf(logtxt, 120, "Heap total: %d\nHeap used: %d\nHeap free:  %d\nADC0: %d\n", heaptotal, heapused, heapfree, loopmystate.avgCurrentRaw);
   vTaskDelay(ondelay);
 }
 
 // HW Protection interrupt & task
 /////////////////////////////////
-static void ISR_ProtHW()
+static void __not_in_flash_func(ISR_ProtHW())
 {
   // Just start a high priority task and force immediate context switch if task is available.
   // digitalWrite(LED_BUILTIN, HIGH);
@@ -582,12 +586,12 @@ void taskAveragingFunction(void *pvParameters)
   size_t msgBytes;
 
   // Setup and clear memories
-  uint32_t avgSampleWindow = 100;
-  uint32_t avgRawCount = 0;
-  uint64_t avgCurrentRawSum = 0;
-  uint32_t avgCurrentRaw = 0;
-  uint64_t avgVoltRawSum = 0;
-  uint32_t avgVoltRaw = 0;
+  int32_t avgSampleWindow = 100;
+  int32_t avgRawCount = 0;
+  int64_t avgCurrentRawSum = 0; // TODO: hardcoded to 2's complemnet because of ADS131M02
+  int32_t avgCurrentRaw = 0;
+  int64_t avgVoltRawSum = 0;   // TODO: see current above.
+  int32_t avgVoltRaw = 0;
   
   float imon;
   float umon;

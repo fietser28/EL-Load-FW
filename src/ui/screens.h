@@ -100,9 +100,10 @@ typedef struct _objects_t {
     lv_obj_t *obj72;
     lv_obj_t *obj73;
     lv_obj_t *obj74;
-    lv_obj_t *obj74__obj75;
-    lv_obj_t *obj74__obj76;
-    lv_obj_t *obj74__obj77;
+    lv_obj_t *obj75;
+    lv_obj_t *obj75__obj76;
+    lv_obj_t *obj75__obj77;
+    lv_obj_t *obj75__obj78;
     lv_obj_t *obj8;
     lv_obj_t *obj9;
     lv_obj_t *on_off_button;

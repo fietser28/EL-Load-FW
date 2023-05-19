@@ -154,8 +154,8 @@ extern setStateStruct setState;
 
 // Message stream from Measure to Averaging task.
 struct newMeasurementMsg {
-    uint32_t ImonRaw;
-    uint32_t UmonRaw;
+    int32_t ImonRaw; // TODO: hardcoded to 2's complement because of ADS131M02 ADC
+    int32_t UmonRaw; // TODO: same.
 };
 
 // Message stream from state change to Averaging task. This is to change window size and clear power measurements

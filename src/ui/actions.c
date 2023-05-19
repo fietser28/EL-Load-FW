@@ -42,5 +42,4 @@ void action_grab_encoder(lv_event_t * e) {
     }
 }
 
-extern void action_action_test(lv_event_t * e) {};
 

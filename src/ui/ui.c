@@ -10,7 +10,6 @@ ActionExecFunc actions[] = {
     action_toggle_record,
     action_text_area_disable_blink,
     action_grab_encoder,
-    action_action_test,
 };
 
 

@@ -335,8 +335,8 @@ class ads131xxx {
         bool begin(bool setupSPI);
         void attachInterrupt();
         static void ISR_ADC();
-        uint32_t readChannelsNow();
-        uint32_t lastSecondaryData();
+        int32_t readChannelsNow();
+        int32_t lastSecondaryData();
         
 
     private:
@@ -353,8 +353,8 @@ class ads131xxx {
         int _pinCS;
         int _pinCLK;
         int _pinRDY;
-        uint32_t _lastPriData;
-        uint32_t _lastSecData;
+        int32_t _lastPriData;
+        int32_t _lastSecData;
 };
 
 }
