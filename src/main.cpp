@@ -204,16 +204,16 @@ void setup()
 
   // TODO: Hardcoded calibration values for now
   state.cal.Imon = new calLinear2P();
-  CalibrationValueConfiguration currentCal;
+//  CalibrationValueConfiguration currentCal;
   currentCal.numPoints = 2;
   //currentCal.points[0].value = 0.050; // 50mV
   //currentCal.points[0].adc = 349700;
   //currentCal.points[1].value = 1.100 * 4.4 * 2.1 ; // 1.100V => >10A
   //currentCal.points[1].adc = 7643800;
-  currentCal.points[0].value = 1.0; // 0.1V  => 1.0A
-  currentCal.points[0].adc = 550958;
+  currentCal.points[0].value = 0.0; // 0.1V  => 1.0A
+  currentCal.points[0].adc = -134512;
   currentCal.points[1].value = 10.0 ; // 1.000V => 10A
-  currentCal.points[1].adc = 6827065;
+  currentCal.points[1].adc = 6837636;
 
   state.cal.Imon->setCalConfig(currentCal);
   state.cal.Imon->setADCConfig(currentADC.ADC_MIN, currentADC.ADC_MAX);
@@ -227,12 +227,16 @@ void setup()
 
   SERIALDEBUG.printf("INFO: Current calibration min,max,coeff: %.4f  %.4f %.4e\n", currentMinVal, currentMaxVal, currentC);
 
-
+  state.cal.Umon = new calLinear2P();
+//  CalibrationValueConfiguration voltCal;
   voltCal.numPoints = 2;
-  voltCal.points[0].value = 0.050; // 50mV
-  voltCal.points[0].adc = 349700;
-  voltCal.points[1].value = 1.100 * 34 * 2.1; // 1.100V => >80V
-  voltCal.points[1].adc = 7643800;
+  voltCal.points[0].value = 0.0; // 50mV
+  voltCal.points[0].adc = -137326;
+  voltCal.points[1].value = 100.0; // 1.000V => 100V //1.100 * 34 * 2.1; // 1.100V => >80V
+  voltCal.points[1].adc = 6853260;
+
+  state.cal.Umon->setCalConfig(voltCal);
+  state.cal.Umon->setADCConfig(voltADC.ADC_MIN, voltADC.ADC_MAX);
 
   float voltC = (voltCal.points[1].value - voltCal.points[0].value) / (voltCal.points[1].adc - voltCal.points[0].adc);
   float voltO = voltCal.points[0].value - voltCal.points[0].adc * voltC;
@@ -375,7 +379,8 @@ void loop()
   heapfree = rp2040.getFreeHeap();
 //  cyclecount = rp2040.getCycleCount64()/rp2040.f_cpu();
   cyclecount++;
-  SERIALDEBUG.printf("Heap total: %d, used: %d, free:  %d, uptime: %d, ADC0: %i, ADC1: %i, %d\n", heaptotal, heapused, heapfree, cyclecount, loopmystate.avgCurrentRaw, loopmystate.avgVoltRaw, loopmystate.avgCurrentRaw < 0 ? 1 : 0);
+  //SERIALDEBUG.printf("Heap total: %d, used: %d, free:  %d, uptime: %d, ADC0: %i, ADC1: %i, %d\n", heaptotal, heapused, heapfree, cyclecount, loopmystate.avgCurrentRaw, loopmystate.avgVoltRaw, loopmystate.avgCurrentRaw < 0 ? 1 : 0);
+  SERIALDEBUG.printf("Imon: %f, Umon: %f, uptime: %d, ADC0: %i, ADC1: %i\n", loopmystate.Imon, loopmystate.Umon, cyclecount, loopmystate.avgCurrentRaw, loopmystate.avgVoltRaw);
   snprintf(logtxt, 120, "Heap total: %d\nHeap used: %d\nHeap free:  %d\nADC0: %d\n", heaptotal, heapused, heapfree, loopmystate.avgCurrentRaw);
   vTaskDelay(ondelay);
 }
@@ -628,9 +633,10 @@ void taskAveragingFunction(void *pvParameters)
     if (update)
     {
       //digitalWrite(PIN_TEST, HIGH);
-      //imon = state.cal.Imon->remap(avgCurrentRaw);
-      imon = remap((float)avgCurrentRaw, (float)currentADC.ADC_MIN, currentMinVal, (float)currentADC.ADC_MAX, currentMaxVal);
-      umon = remap((float)avgVoltRaw, (float)voltADC.ADC_MIN, voltMinVal, (float)voltADC.ADC_MAX, voltMaxVal);
+      imon = state.cal.Imon->remap(avgCurrentRaw);
+      umon = state.cal.Umon->remap(avgVoltRaw);
+      //imon = remap((float)avgCurrentRaw, (float)currentADC.ADC_MIN, currentMinVal, (float)currentADC.ADC_MAX, currentMaxVal);
+      //umon = remap((float)avgVoltRaw, (float)voltADC.ADC_MIN, voltMinVal, (float)voltADC.ADC_MAX, voltMaxVal);
       if (record && on)
       {
         interval = (double)(avgSampleWindow * (float)CLOCK_DIVIDER_ADC * 2.0f * (float)ADC_OSR / ((float)F_CPU)); // TODO: Use variables/constants. 15 = clock divider, 2 = ADC fmod, 4096 = ADC OSR.
