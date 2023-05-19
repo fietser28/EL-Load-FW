@@ -21,6 +21,7 @@ extern void apply_style_title(lv_obj_t *obj);
 extern void apply_style_selector_small(lv_obj_t *obj);
 extern void apply_style_slider(lv_obj_t *obj);
 extern void apply_style_small_header(lv_obj_t *obj);
+extern void apply_style_small_label_symbol(lv_obj_t *obj);
 
 
 #ifdef __cplusplus

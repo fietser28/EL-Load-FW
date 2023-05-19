@@ -15,6 +15,7 @@ namespace dcl
         public:
             virtual bool setCalConfig(CalibrationValueConfiguration newconfig) = 0;
             virtual CalibrationValueConfiguration getCalConfig();
+            virtual CalibrationValueConfiguration *getCalConfigRef();
 
             virtual bool setADCConfig(int32_t min, int32_t max);
             virtual bool configured();
@@ -27,6 +28,7 @@ namespace dcl
         public:
             bool setCalConfig(CalibrationValueConfiguration newconfig);
             CalibrationValueConfiguration getCalConfig();
+            CalibrationValueConfiguration *getCalConfigRef();
             bool setADCConfig(int32_t min, int32_t max);
             bool configured();
 

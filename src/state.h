@@ -73,11 +73,12 @@ namespace dcl
         cal *Umon;
         cal *Iset;
         cal *Uset;
+        cal *Von;
         cal *OCPset;
         cal *OVPset;
-        cal *OTPset;
-        cal *Temp1;
-        cal *Temp2;
+//        cal *OTPset;
+//        cal *Temp1;
+//        cal *Temp2;
     };
 #endif 
 

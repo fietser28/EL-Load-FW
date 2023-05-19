@@ -3,6 +3,13 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include "util.h"
+
+// For refresh action
+extern int32_t cal_calType;
+extern int32_t cal_curpoint;
+extern int32_t cal_measured;
+extern CalibrationValueConfiguration cal_values;
 
 extern bool get_var_startup_done();
 extern void set_var_startup_done(bool value);
@@ -36,10 +43,16 @@ extern float get_var_sample_rate();
 extern void set_var_sample_rate(float value);
 extern int32_t get_var_adc_osr();
 extern void set_var_adc_osr(int32_t value);
-extern int32_t get_var_raw_adc_current();
-extern void set_var_raw_adc_current(int32_t value);
-extern int32_t get_var_raw_adc_volt();
-extern void set_var_raw_adc_volt(int32_t value);
+extern int32_t get_var_cal_cal_type();
+extern void set_var_cal_cal_type(int32_t value);
+extern int32_t get_var_cal_curpoint();
+extern void set_var_cal_curpoint(int32_t value);
+extern float get_var_cal_set();
+extern void set_var_cal_set(float value);
+extern int32_t get_var_cal_measured();
+extern void set_var_cal_measured(int32_t value);
+extern int32_t get_var_cal_numpoints();
+extern void set_var_cal_numpoints(int32_t value);
 
 
 #endif /*EEZ_LVGL_UI_VARS_H*/

@@ -175,24 +175,46 @@ int32_t get_var_adc_osr()
   return get_adc_osr();
 }
 
+//// Calibration variables & some logic.
 
-/* TODO: implement when native array fix is available
-uint32_t rawADC[2];
+int32_t cal_calType = -1; // Force init and copy!
+int32_t cal_curpoint = 0; 
+float cal_set = 0.0f;                       // This is the changed/temp value.
+int32_t cal_measured = 0;                   // This is the changed/temp value.
+CalibrationValueConfiguration cal_values;   // This is the changed/temp configuration.
 
-void set_var_raw_adc(void *value);
-void *get_var_raw_adc() {
-  rawADC[0] = localstatecopy.avgCurrentRaw;
-  rawADC[1] = localstatecopy.avgVoltRaw;
+int32_t get_var_cal_cal_type() { return cal_calType; };
+void set_var_cal_cal_type(int32_t value) { 
+  // calType changes to different value, update everything.
+  if (value != cal_calType){
+    cal_calType = value; 
+    copy_cal_values_from_state(&cal_values, cal_calType);
+    set_var_cal_curpoint(0);
+  }
 };
-*/
-void set_var_raw_adc_current(int32_t value) {};
-int32_t get_var_raw_adc_current() 
-{
-  return localstatecopy.avgCurrentRaw;
-}
 
-void set_var_raw_adc_volt(int32_t value) {};
-int32_t get_var_raw_adc_volt() 
-{
-  return localstatecopy.avgVoltRaw;
-}
+int32_t get_var_cal_curpoint() { return cal_curpoint; };
+void set_var_cal_curpoint(int32_t value) { 
+  if (value >= 0 && value < cal_values.numPoints)
+  {
+    cal_curpoint = value; 
+    cal_set = cal_values.points[value].value;
+    cal_measured = cal_values.points[value].adc;
+  }
+};
+
+float get_var_cal_set() { return cal_set; };
+void set_var_cal_set(float value) { 
+  cal_set = value; 
+  cal_values.points[cal_curpoint].value = value;
+};
+
+int32_t get_var_cal_measured() { return cal_measured; };
+void set_var_cal_measured(int32_t value) { 
+  cal_measured = value;
+  cal_values.points[cal_curpoint].adc = value; 
+};
+
+int32_t get_var_cal_numpoints() { return cal_values.numPoints; };
+void set_var_cal_numpoints(int32_t value) {} ; // TODO: Needed?
+

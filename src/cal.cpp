@@ -24,6 +24,11 @@ namespace dcl
         return _conf;
     };
 
+    CalibrationValueConfiguration *calLinear2P::getCalConfigRef()
+    {
+        return &_conf;
+    }
+
     bool calLinear2P::setADCConfig(int32_t min, int32_t max)
     {
         _minADC = min;

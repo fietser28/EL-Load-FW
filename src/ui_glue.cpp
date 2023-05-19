@@ -146,3 +146,49 @@ void ui_init_encoder_group() {
     on_screen_loaded_cb(get_screen_obj(0));
 }
 
+// Calibration glue
+extern "C" {
+
+void copy_cal_values_from_state(CalibrationValueConfiguration *cal_values, int32_t caltype)
+{
+    CalibrationValueConfiguration calconfig = state.cal.Imon->getCalConfig();
+    switch (caltype)
+    {
+    case 0:
+        calconfig = state.cal.Imon->getCalConfig();
+        break;
+    case 1:
+        calconfig = state.cal.Umon->getCalConfig();
+        break;
+    case 2:
+        calconfig = state.cal.Iset->getCalConfig();
+        break;        
+    //default:
+        //return;
+    //    break;
+    }
+    memcpy(cal_values, &calconfig, sizeof(CalibrationValueConfiguration));
+};
+
+void copy_cal_values_to_state(CalibrationValueConfiguration *cal_values, int32_t caltype)
+{
+    CalibrationValueConfiguration *calconfig = state.cal.Imon->getCalConfigRef();
+    switch (caltype)
+    {
+    case 0:
+        calconfig = state.cal.Imon->getCalConfigRef();
+        break;
+    case 1:
+        calconfig = state.cal.Umon->getCalConfigRef();
+        break;
+    case 2:
+        calconfig = state.cal.Iset->getCalConfigRef();
+        break;        
+    //default:
+        //return;
+    //    break;
+    }
+    memcpy(calconfig, cal_values, sizeof(CalibrationValueConfiguration));
+}
+
+}

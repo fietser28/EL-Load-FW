@@ -42,4 +42,32 @@ void action_grab_encoder(lv_event_t * e) {
     }
 }
 
+// Calibration page
 
+void action_cal_refresh_measured(lv_event_t *e) 
+{
+    if (cal_calType == 0) {
+        cal_measured = localstatecopy.avgCurrentRaw;
+    }
+    if (cal_calType == 1) {
+        cal_measured = localstatecopy.avgVoltRaw;
+    }
+    //TODO: Add others. 
+
+    cal_values.points[cal_curpoint].adc = cal_measured;
+}
+
+void action_cal_reset_values(lv_event_t *e)
+{
+    copy_cal_values_from_state(&cal_values, cal_calType);
+    if (cal_curpoint > cal_values.numPoints -1) {
+        set_var_cal_curpoint(0);
+    } else {
+        set_var_cal_curpoint(cal_curpoint);
+    }
+}
+
+void action_cal_store_values(lv_event_t *e)
+{
+    copy_cal_values_to_state(&cal_values, cal_calType);
+}

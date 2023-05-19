@@ -203,48 +203,42 @@ void setup()
 
 
   // TODO: Hardcoded calibration values for now
-  state.cal.Imon = new calLinear2P();
-//  CalibrationValueConfiguration currentCal;
   currentCal.numPoints = 2;
-  //currentCal.points[0].value = 0.050; // 50mV
-  //currentCal.points[0].adc = 349700;
-  //currentCal.points[1].value = 1.100 * 4.4 * 2.1 ; // 1.100V => >10A
-  //currentCal.points[1].adc = 7643800;
-  currentCal.points[0].value = 0.0; // 0.1V  => 1.0A
-  currentCal.points[0].adc = -134512;
+  currentCal.points[0].value = 0.1; //0.0; // 0.1V  => 1.0A
+  currentCal.points[0].adc = 700572; //4575;
   currentCal.points[1].value = 10.0 ; // 1.000V => 10A
-  currentCal.points[1].adc = 6837636;
+  currentCal.points[1].adc = 6963036;
 
+  state.cal.Imon = new calLinear2P();
   state.cal.Imon->setCalConfig(currentCal);
   state.cal.Imon->setADCConfig(currentADC.ADC_MIN, currentADC.ADC_MAX);
 
 
-  float currentC = (currentCal.points[1].value - currentCal.points[0].value) / (currentCal.points[1].adc - currentCal.points[0].adc);
-  float currentO = currentCal.points[0].value - currentCal.points[0].adc * currentC;
+  //float currentC = (currentCal.points[1].value - currentCal.points[0].value) / (currentCal.points[1].adc - currentCal.points[0].adc);
+  //float currentO = currentCal.points[0].value - currentCal.points[0].adc * currentC;
 
-  currentMinVal = currentO;
-  currentMaxVal = (float)currentADC.ADC_MAX * currentC;
+  //currentMinVal = currentO;
+  //currentMaxVal = (float)currentADC.ADC_MAX * currentC;
+  //SERIALDEBUG.printf("INFO: Current calibration min,max,coeff: %.4f  %.4f %.4e\n", currentMinVal, currentMaxVal, currentC);
 
-  SERIALDEBUG.printf("INFO: Current calibration min,max,coeff: %.4f  %.4f %.4e\n", currentMinVal, currentMaxVal, currentC);
-
-  state.cal.Umon = new calLinear2P();
 //  CalibrationValueConfiguration voltCal;
   voltCal.numPoints = 2;
   voltCal.points[0].value = 0.0; // 50mV
-  voltCal.points[0].adc = -137326;
+  voltCal.points[0].adc = 2059;
   voltCal.points[1].value = 100.0; // 1.000V => 100V //1.100 * 34 * 2.1; // 1.100V => >80V
-  voltCal.points[1].adc = 6853260;
+  voltCal.points[1].adc = 6970322;
 
+  state.cal.Umon = new calLinear2P();
   state.cal.Umon->setCalConfig(voltCal);
   state.cal.Umon->setADCConfig(voltADC.ADC_MIN, voltADC.ADC_MAX);
 
-  float voltC = (voltCal.points[1].value - voltCal.points[0].value) / (voltCal.points[1].adc - voltCal.points[0].adc);
-  float voltO = voltCal.points[0].value - voltCal.points[0].adc * voltC;
+  //float voltC = (voltCal.points[1].value - voltCal.points[0].value) / (voltCal.points[1].adc - voltCal.points[0].adc);
+  //float voltO = voltCal.points[0].value - voltCal.points[0].adc * voltC;
 
-  voltMinVal = voltO;
-  voltMaxVal = (float)voltADC.ADC_MAX * voltC;
+  //voltMinVal = voltO;
+  //voltMaxVal = (float)voltADC.ADC_MAX * voltC;
 
-  SERIALDEBUG.printf("INFO: Volt calibration min,max,coeff: %.4f  %.4f %.4e\n", voltMinVal, voltMaxVal, voltC);
+  //SERIALDEBUG.printf("INFO: Volt calibration min,max,coeff: %.4f  %.4f %.4e\n", voltMinVal, voltMaxVal, voltC);
 
   iSetCal.numPoints = 2;
   iSetCal.points[0].value = 0.00299; // @3.3Vinput (AMS1117)
@@ -252,13 +246,16 @@ void setup()
   iSetCal.points[1].value = 3.2374; // @3.3Vinput (AMS1117)
   iSetCal.points[1].dac = 64000;
 
-  float iSetC = (iSetCal.points[1].value - iSetCal.points[0].value) / (iSetCal.points[1].dac - iSetCal.points[0].dac);
-  float iSetO = iSetCal.points[0].value - iSetCal.points[0].dac * iSetC;
+  state.cal.Iset = new calLinear2P();
+  state.cal.Iset->setCalConfig(iSetCal);
 
-  iSetMinVal = iSetO;
-  iSetMaxVal = (float)iSetDAC.DAC_MAX * iSetC;
+  //float iSetC = (iSetCal.points[1].value - iSetCal.points[0].value) / (iSetCal.points[1].dac - iSetCal.points[0].dac);
+  //float iSetO = iSetCal.points[0].value - iSetCal.points[0].dac * iSetC;
 
-  SERIALDEBUG.printf("INFO: Iset calibration min,max,coeff: %.4f  %.4f %.4e\n", iSetMinVal, iSetMaxVal, iSetC);
+  //iSetMinVal = iSetO;
+  //iSetMaxVal = (float)iSetDAC.DAC_MAX * iSetC;
+
+  //SERIALDEBUG.printf("INFO: Iset calibration min,max,coeff: %.4f  %.4f %.4e\n", iSetMinVal, iSetMaxVal, iSetC);
 
 
   //// FreeRTOS setup.

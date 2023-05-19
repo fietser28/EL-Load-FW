@@ -274,6 +274,22 @@
             }
           }
         }
+      },
+      {
+        "objID": "7ee8d961-08c7-4228-f860-55eedbb1af88",
+        "name": "small label_symbol",
+        "forWidgetType": "LVGLLabelWidget",
+        "definition": {
+          "objID": "4a66bb9f-7fda-4f19-e96c-59ce00067cd3",
+          "definition": {
+            "MAIN": {
+              "DEFAULT": {
+                "text_color": "#cccccc",
+                "text_font": "MONTSERRAT_20"
+              }
+            }
+          }
+        }
       }
     ],
     "defaultStyles": {
@@ -319,7 +335,7 @@
         {
           "objID": "ddb840d3-2cd4-4c24-897d-1e367e2df75f",
           "fileName": "vars.h",
-          "template": "#ifndef EEZ_LVGL_UI_VARS_H\r\n#define EEZ_LVGL_UI_VARS_H\r\n\r\n#include <stdint.h>\r\n#include <stdbool.h>\r\n\r\n//${eez-studio LVGL_VARS_DECL}\r\n\r\n#endif /*EEZ_LVGL_UI_VARS_H*/"
+          "template": "#ifndef EEZ_LVGL_UI_VARS_H\r\n#define EEZ_LVGL_UI_VARS_H\r\n\r\n#include <stdint.h>\r\n#include <stdbool.h>\r\n#include \"util.h\"\r\n\r\n// For refresh action\r\nextern int32_t cal_calType;\r\nextern int32_t cal_curpoint;\r\nextern int32_t cal_measured;\r\nextern CalibrationValueConfiguration cal_values;\r\n\r\n//${eez-studio LVGL_VARS_DECL}\r\n\r\n#endif /*EEZ_LVGL_UI_VARS_H*/"
         },
         {
           "objID": "9c770003-b028-4a8b-9447-fea072e67b3a",
@@ -494,7 +510,7 @@
         "objID": "cc20a9d5-91e3-4346-b80f-abd1e202f555",
         "name": "setTypes",
         "type": "array:struct:setProperties",
-        "defaultValue": "[ {setName: \"Current\", setUnit:\"A\", setValueMin:0, setValueMax:10},\n{setName: \"Voltage\", setUnit:\"V\", setValueMin:0, setValueMax:80},\n{setName: \"Power\", setUnit:\"W\", setValueMin:0, setValueMax:75},\n{setName: \"Resistance\", setUnit:\"Ohm\", setValueMin:0.1, setValueMax:100000},\n{setName: \"Von\", setUnit:\"V\", setValueMin:0, setValueMax:10},\n{setName: \"OCP\", setUnit:\"A\", setValueMin:0, setValueMax:10},\n{setName: \"OVP\", setUnit:\"V\", setValueMin:0, setValueMax:80},\n{setName: \"OPP\", setUnit:\"W\", setValueMin:1, setValueMax:80},\n{setName: \"OTP\", setUnit:\"C\", setValueMin:10, setValueMax:90},\n{setName: \"Current Cal Set\", setUnit:\"A\", setValueMin:0.001, setValueMax: 11},\n{setName: \"Voltage Cal Set\", setUnit:\"V\", setValueMin:0.001, setValueMax: 90},\n]",
+        "defaultValue": "[ {setName: \"Current\", setUnit:\"A\", setValueMin:0, setValueMax:10},\n{setName: \"Voltage\", setUnit:\"V\", setValueMin:0, setValueMax:80},\n{setName: \"Power\", setUnit:\"W\", setValueMin:0, setValueMax:75},\n{setName: \"Resistance\", setUnit:\"Ohm\", setValueMin:0.1, setValueMax:100000},\n{setName: \"Von\", setUnit:\"V\", setValueMin:0, setValueMax:10},\n{setName: \"OCP\", setUnit:\"A\", setValueMin:0, setValueMax:10},\n{setName: \"OVP\", setUnit:\"V\", setValueMin:0, setValueMax:80},\n{setName: \"OPP\", setUnit:\"W\", setValueMin:1, setValueMax:80},\n{setName: \"OTP\", setUnit:\"C\", setValueMin:10, setValueMax:90},\n{setName: \"Current Cal Set\", setUnit:\"A\", setValueMin:-1, setValueMax: 11},\n{setName: \"Voltage Cal Set\", setUnit:\"V\", setValueMin:-1, setValueMax: 90},\n]",
         "persistent": false
       },
       {
@@ -640,28 +656,44 @@
         "objID": "d5223ec8-45c9-4dd4-e70b-8502db332aa7",
         "name": "calData",
         "type": "array:struct:calConfig",
-        "defaultValue": "[ { name: \"Current measure\", unit: \"A\", instruction:\"Apply set current to input\", setType: 9, rawADC: 0, numPoints: 2, points: [ { set: 0.1, measure: 1000}, { set: 5, measure: 1000023 } ] },\n{ name: \"Voltage measure\", unit: \"V\", instruction:\"Apply set voltage to input\", setType: 10, rawADC: 1, numPoints: 2, points: [ { set: 0.15, measure: 1023}, { set: 40, measure: 1000000 } ] }  ]",
+        "defaultValue": "[ { name: \"Current measure\", unit: \"A\", instruction:\"Apply set current to input\", setType: 9 },\n{ name: \"Voltage measure\", unit: \"V\", instruction:\"Apply set voltage to input\", setType: 10 }  ]",
         "persistent": false
       },
       {
-        "objID": "198e2d1a-b3ce-4a80-c48e-2266bfece638",
-        "name": "rawADC",
-        "type": "array:integer",
-        "defaultValue": "[ 128, 256 ]",
+        "objID": "20c417b0-cbd7-4088-fd99-095ae947d01a",
+        "name": "cal_calType",
+        "type": "integer",
+        "defaultValue": "-1",
         "persistent": false,
-        "native": false
+        "native": true
       },
       {
-        "objID": "81042138-35bc-4a21-ef16-772b2280aece",
-        "name": "rawADC_current",
+        "objID": "1e8b1dd2-3dea-4021-91ea-3de5f61bec6f",
+        "name": "cal_curpoint",
         "type": "integer",
         "defaultValue": "0",
         "persistent": false,
         "native": true
       },
       {
-        "objID": "cdc8ae44-77a1-47ee-ee8c-b856b89e8d1a",
-        "name": "rawADC_volt",
+        "objID": "f3f8b931-baa0-4e3c-f966-8fbb874d77bb",
+        "name": "cal_set",
+        "type": "float",
+        "defaultValue": "0",
+        "persistent": false,
+        "native": true
+      },
+      {
+        "objID": "154388ae-c97f-42a5-83fc-860290bd9c22",
+        "name": "cal_measured",
+        "type": "integer",
+        "defaultValue": "0",
+        "persistent": false,
+        "native": true
+      },
+      {
+        "objID": "4e3c4f1e-5727-49f9-e865-02502a450fda",
+        "name": "cal_numpoints",
         "type": "integer",
         "defaultValue": "0",
         "persistent": false,
@@ -734,21 +766,6 @@
             "objID": "bd0e1f00-22be-4552-f518-aa42a9b8d649",
             "name": "setType",
             "type": "integer"
-          },
-          {
-            "objID": "3f541651-4ad6-41de-9152-702afea16114",
-            "name": "rawADC",
-            "type": "integer"
-          },
-          {
-            "objID": "d0994478-af05-47d2-8aac-215910a0169e",
-            "name": "numPoints",
-            "type": "integer"
-          },
-          {
-            "objID": "a2d6fb29-b32f-4eea-9883-ac8de4c73f09",
-            "name": "points",
-            "type": "array:struct:calPoint"
           }
         ]
       },
@@ -1875,6 +1892,30 @@
       ],
       "name": "value2str",
       "implementationType": "flow"
+    },
+    {
+      "objID": "ed9e4c66-c5d8-4a5d-e572-12c509a580c7",
+      "components": [],
+      "connectionLines": [],
+      "localVariables": [],
+      "name": "cal_refresh_measured",
+      "implementationType": "native"
+    },
+    {
+      "objID": "452a624c-c3de-4fb0-9b6c-04c7445dce13",
+      "components": [],
+      "connectionLines": [],
+      "localVariables": [],
+      "name": "cal_reset_values",
+      "implementationType": "native"
+    },
+    {
+      "objID": "a2192299-ddd9-40df-f2a7-f3d180fb5a0f",
+      "components": [],
+      "connectionLines": [],
+      "localVariables": [],
+      "name": "cal_store_values",
+      "implementationType": "native"
     }
   ],
   "pages": [
@@ -6592,14 +6633,14 @@
           },
           "eventHandlers": [],
           "options": "Current Monitor\nVoltage Monitor\nCurrent Set\nVon\nOCP set\nOVP set",
-          "selected": "calType",
+          "selected": "cal_calType",
           "selectedType": "expression"
         },
         {
           "objID": "88ed4204-00d8-4e90-e2b2-4e16ad6741c0",
           "type": "LVGLActionComponent",
-          "left": 461,
-          "top": 338,
+          "left": 438,
+          "top": 289,
           "width": 292,
           "height": 54,
           "customInputs": [],
@@ -6714,16 +6755,13 @@
                 "definition": {
                   "MAIN": {
                     "DEFAULT": {
-                      "align": "CENTER",
-                      "text_font": "MONTSERRAT_20",
-                      "text_align": "CENTER",
-                      "pad_top": 2
+                      "align": "CENTER"
                     }
                   }
                 }
               },
               "eventHandlers": [],
-              "text": "setValue + calData[calType].unit",
+              "text": "cal_set + calData[cal_calType].unit",
               "textType": "expression",
               "longMode": "CLIP",
               "recolor": false
@@ -6744,7 +6782,8 @@
             "definition": {
               "MAIN": {
                 "DEFAULT": {
-                  "align": "TOP_LEFT"
+                  "align": "DEFAULT",
+                  "text_align": "CENTER"
                 },
                 "DISABLED": {
                   "bg_color": "#ff0000",
@@ -6849,7 +6888,7 @@
             }
           },
           "eventHandlers": [],
-          "text": "calData[calType].instruction",
+          "text": "calData[cal_calType].instruction",
           "textType": "expression",
           "longMode": "SCROLL",
           "recolor": false
@@ -6893,7 +6932,7 @@
             }
           },
           "eventHandlers": [],
-          "text": "(curpoint + 1 ) + \" of \" + calData[setType].numPoints",
+          "text": "(cal_curpoint + 1 ) + \" of \" + cal_numpoints",
           "textType": "expression",
           "longMode": "CLIP",
           "recolor": false
@@ -7222,7 +7261,8 @@
               "scrollbarMode": "auto",
               "scrollDirection": "all",
               "checkedStateType": "literal",
-              "disabledStateType": "literal",
+              "disabledState": "valuesChanged",
+              "disabledStateType": "expression",
               "states": "",
               "localStyles": {
                 "objID": "b78a4321-e6d5-4f6f-9eab-d59b398fd567",
@@ -7310,9 +7350,9 @@
             }
           },
           "eventHandlers": [],
-          "text": "measured",
+          "text": "cal_measured",
           "textType": "expression",
-          "longMode": "WRAP",
+          "longMode": "CLIP",
           "recolor": false
         },
         {
@@ -7385,10 +7425,10 @@
           "scrollbarMode": "auto",
           "scrollDirection": "all",
           "checkedStateType": "literal",
-          "disabledState": "(curpoint <= 0) || !valuesChanged",
+          "disabledState": "(cal_curpoint <= 0) ",
           "disabledStateType": "expression",
           "states": "",
-          "useStyle": "small label",
+          "useStyle": "small label_symbol",
           "localStyles": {
             "objID": "6c2e86a7-ca88-4fc8-f91a-b04705ebd030",
             "definition": {
@@ -7422,7 +7462,7 @@
         {
           "objID": "86331c3e-0e9b-4bee-c668-c0ceeb8ba32e",
           "type": "LVGLLabelWidget",
-          "left": 269,
+          "left": 268,
           "top": 172,
           "width": 24,
           "height": 24,
@@ -7445,10 +7485,10 @@
           "scrollbarMode": "auto",
           "scrollDirection": "all",
           "checkedStateType": "literal",
-          "disabledState": "(curpoint >= (calData[setType].numPoints - 1) ) || !valuesChanged",
+          "disabledState": "(cal_curpoint >= (cal_numpoints - 1) )",
           "disabledStateType": "expression",
           "states": "",
-          "useStyle": "small label",
+          "useStyle": "small label_symbol",
           "localStyles": {
             "objID": "17f7303f-5da4-4180-f2a8-dbc4298d2910",
             "definition": {
@@ -7482,8 +7522,8 @@
         {
           "objID": "85a064e6-af3a-4db0-e1a4-9965291f2e0b",
           "type": "StartActionComponent",
-          "left": -647,
-          "top": -92,
+          "left": 10,
+          "top": -241,
           "width": 87,
           "height": 24,
           "customInputs": [],
@@ -7492,22 +7532,22 @@
         {
           "objID": "de33726e-05cd-43e1-a986-300897b4acb7",
           "type": "SetVariableActionComponent",
-          "left": -441,
-          "top": -175,
+          "left": 148,
+          "top": -241,
           "width": 190,
-          "height": 135,
+          "height": 115,
           "customInputs": [],
           "customOutputs": [],
           "description": "= default values (redundant)",
           "entries": [
             {
               "objID": "0c9b7120-f871-48bc-d3c7-3ad1808ea1ff",
-              "variable": "calType",
+              "variable": "cal_calType",
               "value": "0"
             },
             {
               "objID": "45b3e131-c3ca-4d10-98ea-e92324a7324e",
-              "variable": "curpoint",
+              "variable": "cal_curpoint",
               "value": "0"
             },
             {
@@ -7519,124 +7559,76 @@
               "objID": "e721d73e-b2c5-479e-890a-8e2468cd0ef5",
               "variable": "kbHidden",
               "value": "true"
-            },
-            {
-              "objID": "3e57a1ea-2e0f-48c9-ad1d-17a0c17643b2",
-              "variable": "setChanged",
-              "value": "false"
             }
           ]
         },
         {
           "objID": "7999199f-0463-4d98-d46c-7498440f50b1",
           "type": "WatchVariableActionComponent",
-          "left": -884,
-          "top": 0,
-          "width": 124,
+          "left": -502,
+          "top": 272,
+          "width": 151,
           "height": 54,
           "customInputs": [],
           "customOutputs": [],
-          "variable": "calType"
+          "variable": "cal_calType"
         },
         {
           "objID": "f336978d-e1ec-4a9b-d8a2-8516a32894b9",
           "type": "SetVariableActionComponent",
-          "left": -695,
-          "top": 27,
-          "width": 271,
-          "height": 75,
+          "left": -319,
+          "top": 298,
+          "width": 298,
+          "height": 55,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
             {
-              "objID": "b8bab175-8ec7-4ffd-bcc8-4437507d56cc",
-              "variable": "curpoint",
-              "value": "0"
-            },
-            {
               "objID": "de159f47-d40a-4a91-bac1-dd6349509118",
               "variable": "kbType",
-              "value": "calData[calType].setType"
+              "value": "calData[cal_calType].setType"
             }
           ]
         },
         {
           "objID": "9e8520d9-ba2c-4c46-8c7a-fed45337a3d2",
           "type": "SetVariableActionComponent",
-          "left": 441,
-          "top": 256,
-          "width": 284,
+          "left": 438,
+          "top": 217,
+          "width": 338,
           "height": 55,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
             {
               "objID": "5db79fe8-a927-4411-8d0e-85d3fd65d933",
-              "variable": "curpoint",
-              "value": "Math.max(0,curpoint - 1)"
+              "variable": "cal_curpoint",
+              "value": "Math.max(0,cal_curpoint - 1)"
             }
           ]
         },
         {
           "objID": "24921193-8b9d-4904-e1c4-769241ee939d",
           "type": "SetVariableActionComponent",
-          "left": 436,
-          "top": 173,
-          "width": 480,
-          "height": 75,
+          "left": 434,
+          "top": 160,
+          "width": 257,
+          "height": 55,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
             {
               "objID": "4703fe77-748f-41ad-beea-19128db4de2a",
-              "variable": "curpoint",
-              "value": "Math.min(curpoint + 1, calData[calType].numPoints -1)"
-            },
-            {
-              "objID": "6639337b-bf45-49a8-9d58-37692449099f",
-              "variable": "measuredChanged",
-              "value": "true"
+              "variable": "cal_curpoint",
+              "value": "cal_curpoint + 1"
             }
           ]
-        },
-        {
-          "objID": "b8555559-b896-495c-98b3-011f259728fc",
-          "type": "SetVariableActionComponent",
-          "left": -441,
-          "top": 158,
-          "width": 399,
-          "height": 75,
-          "customInputs": [],
-          "customOutputs": [],
-          "entries": [
-            {
-              "objID": "e1ca18f1-9d60-45aa-f802-8fee6bbd428e",
-              "variable": "setValue",
-              "value": "calData[calType].points[curpoint].set"
-            },
-            {
-              "objID": "64f23343-b8af-4ead-9233-25f96586ea43",
-              "variable": "measured",
-              "value": "calData[calType].points[curpoint].measure"
-            }
-          ]
-        },
-        {
-          "objID": "ea31fcca-46d2-434d-cc10-333240e1165f",
-          "type": "WatchVariableActionComponent",
-          "left": -709,
-          "top": 131,
-          "width": 131,
-          "height": 54,
-          "customInputs": [],
-          "customOutputs": [],
-          "variable": "curpoint"
         },
         {
           "objID": "996cd183-4213-46d0-e14d-2a7c2bbead29",
           "type": "SetVariableActionComponent",
           "left": 152,
-          "top": 465,
+          "top": 527,
           "width": 183,
           "height": 55,
           "customInputs": [],
@@ -7652,8 +7644,8 @@
         {
           "objID": "af157a9c-2930-492b-8fe4-d28356b3d318",
           "type": "SetVariableActionComponent",
-          "left": 198,
-          "top": 392,
+          "left": 495,
+          "top": 456,
           "width": 190,
           "height": 55,
           "customInputs": [],
@@ -7665,6 +7657,66 @@
               "value": "false"
             }
           ]
+        },
+        {
+          "objID": "bf47d8bc-4890-46a5-a4f4-48d2d5b9bef6",
+          "type": "LVGLLabelWidget",
+          "left": 278,
+          "top": 140,
+          "width": 24,
+          "height": 24,
+          "customInputs": [],
+          "customOutputs": [],
+          "style": {
+            "objID": "9f9dd69d-075f-4e60-cab5-8b5f923564ea",
+            "inheritFrom": "default"
+          },
+          "timeline": [],
+          "leftUnit": "px",
+          "topUnit": "px",
+          "widthUnit": "px",
+          "heightUnit": "px",
+          "children": [],
+          "flags": "PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLLABLE|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_CHAIN",
+          "hiddenFlagType": "literal",
+          "clickableFlag": true,
+          "clickableFlagType": "literal",
+          "scrollbarMode": "auto",
+          "scrollDirection": "all",
+          "checkedStateType": "literal",
+          "disabledState": false,
+          "disabledStateType": "literal",
+          "states": "",
+          "useStyle": "small label_symbol",
+          "localStyles": {
+            "objID": "fe00fd3b-b601-4e00-d5c1-b7e39196e9a7",
+            "definition": {
+              "MAIN": {
+                "DEFAULT": {
+                  "text_color": "#ffff00",
+                  "bg_color": "#818181",
+                  "bg_opa": 255,
+                  "text_font": "MONTSERRAT_20",
+                  "text_align": "CENTER"
+                },
+                "DISABLED": {
+                  "text_color": "#cccccc"
+                }
+              }
+            }
+          },
+          "eventHandlers": [
+            {
+              "objID": "dcb12b84-b9b0-4934-fcc9-feeec395d617",
+              "trigger": "PRESSED",
+              "handlerType": "flow",
+              "action": "getdropdownindex"
+            }
+          ],
+          "text": "LVGL.LV_SYMBOL_REFRESH",
+          "textType": "expression",
+          "longMode": "CLIP",
+          "recolor": false
         },
         {
           "objID": "907a757a-0cd3-4a3a-9525-3b2fef3e5d8b",
@@ -7718,11 +7770,11 @@
           "type": "WatchVariableActionComponent",
           "left": -170,
           "top": 85,
-          "width": 131,
+          "width": 124,
           "height": 54,
           "customInputs": [],
           "customOutputs": [],
-          "variable": "setValue"
+          "variable": "cal_set"
         },
         {
           "objID": "28d933c1-61af-4f8c-9d90-e6e70f95f6fd",
@@ -7744,9 +7796,9 @@
         {
           "objID": "fdf47385-40f3-48d2-a723-1572ebf132ad",
           "type": "SetVariableActionComponent",
-          "left": 434,
+          "left": 409,
           "top": -60,
-          "width": 186,
+          "width": 207,
           "height": 75,
           "customInputs": [
             {
@@ -7759,12 +7811,12 @@
           "entries": [
             {
               "objID": "c053b91d-6596-44df-f61d-99893c07e8f3",
-              "variable": "setValue",
+              "variable": "cal_set",
               "value": "in"
             },
             {
               "objID": "4f7e4228-e88a-4476-80a5-3b4d9f62a8a5",
-              "variable": "setChanged",
+              "variable": "valuesChanged",
               "value": "true"
             }
           ]
@@ -7772,8 +7824,8 @@
         {
           "objID": "f601fcb9-fcfd-4e71-c2b3-4585c265a745",
           "type": "SetVariableActionComponent",
-          "left": 434,
-          "top": 37,
+          "left": 660,
+          "top": 30,
           "width": 149,
           "height": 55,
           "customInputs": [],
@@ -7787,81 +7839,54 @@
           ]
         },
         {
-          "objID": "bf47d8bc-4890-46a5-a4f4-48d2d5b9bef6",
-          "type": "LVGLLabelWidget",
-          "left": 278,
-          "top": 140,
-          "width": 24,
+          "objID": "77d5a505-999e-48f7-a1dc-8aa75ae05cc4",
+          "type": "CallActionActionComponent",
+          "left": 434,
+          "top": 115,
+          "width": 168,
           "height": 24,
           "customInputs": [],
           "customOutputs": [],
-          "style": {
-            "objID": "9f9dd69d-075f-4e60-cab5-8b5f923564ea",
-            "inheritFrom": "default"
-          },
-          "timeline": [],
-          "leftUnit": "px",
-          "topUnit": "px",
-          "widthUnit": "px",
-          "heightUnit": "px",
-          "children": [],
-          "flags": "PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLLABLE|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_CHAIN",
-          "hiddenFlagType": "literal",
-          "clickableFlag": true,
-          "clickableFlagType": "literal",
-          "scrollbarMode": "auto",
-          "scrollDirection": "all",
-          "checkedStateType": "literal",
-          "disabledState": false,
-          "disabledStateType": "literal",
-          "states": "",
-          "useStyle": "small label",
-          "localStyles": {
-            "objID": "fe00fd3b-b601-4e00-d5c1-b7e39196e9a7",
-            "definition": {
-              "MAIN": {
-                "DEFAULT": {
-                  "text_color": "#ffff00",
-                  "bg_color": "#818181",
-                  "bg_opa": 255,
-                  "text_font": "MONTSERRAT_20",
-                  "text_align": "CENTER"
-                },
-                "DISABLED": {
-                  "text_color": "#cccccc"
-                }
-              }
-            }
-          },
-          "eventHandlers": [
-            {
-              "objID": "dcb12b84-b9b0-4934-fcc9-feeec395d617",
-              "trigger": "PRESSED",
-              "handlerType": "flow",
-              "action": "getdropdownindex"
-            }
-          ],
-          "text": "LVGL.LV_SYMBOL_REFRESH",
-          "textType": "expression",
-          "longMode": "CLIP",
-          "recolor": false
+          "action": "cal_refresh_measured"
         },
         {
-          "objID": "09ab552b-0991-4bb9-ccc2-6bf794d3e2eb",
+          "objID": "243e09c5-01b1-476a-ffdb-ca3a325760e3",
+          "type": "CallActionActionComponent",
+          "left": 215,
+          "top": 466,
+          "width": 135,
+          "height": 24,
+          "customInputs": [],
+          "customOutputs": [],
+          "action": "cal_reset_values"
+        },
+        {
+          "objID": "b2bb08b2-88d6-4c11-8ec7-390a217aafa3",
           "type": "SetVariableActionComponent",
-          "left": 436,
-          "top": 104,
-          "width": 486,
+          "left": 734,
+          "top": 115,
+          "width": 183,
           "height": 55,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
             {
-              "objID": "332bcebb-72eb-4062-ee49-e997ebaef4c2",
-              "variable": "measured",
-              "value": "calData[calType].rawADC ? rawADC_volt : rawADC_current"
+              "objID": "c985dada-d3e6-4a58-d6df-e6ea61950923",
+              "variable": "valuesChanged",
+              "value": "true"
             }
           ]
+        },
+        {
+          "objID": "3f8515dc-73b1-4cd8-8a94-bad3ace2a7ae",
+          "type": "CallActionActionComponent",
+          "left": 290,
+          "top": 425,
+          "width": 134,
+          "height": 24,
+          "customInputs": [],
+          "customOutputs": [],
+          "action": "cal_store_values"
         }
       ],
       "connectionLines": [
@@ -7894,38 +7919,10 @@
           "input": "@seqin"
         },
         {
-          "objID": "ec99d3eb-e079-4b9b-ab03-51da84be9fde",
-          "source": "86331c3e-0e9b-4bee-c668-c0ceeb8ba32e",
-          "output": "PRESSED",
-          "target": "24921193-8b9d-4904-e1c4-769241ee939d",
-          "input": "@seqin"
-        },
-        {
-          "objID": "88b40c85-15f7-42e7-ef2a-be8168b12e62",
-          "source": "f336978d-e1ec-4a9b-d8a2-8516a32894b9",
-          "output": "@seqout",
-          "target": "b8555559-b896-495c-98b3-011f259728fc",
-          "input": "@seqin"
-        },
-        {
-          "objID": "de324431-a7de-428d-fba8-ec19db4403b7",
-          "source": "ea31fcca-46d2-434d-cc10-333240e1165f",
-          "output": "variable",
-          "target": "b8555559-b896-495c-98b3-011f259728fc",
-          "input": "@seqin"
-        },
-        {
           "objID": "9048fa48-101b-4e63-a7da-7e3a76d949bd",
           "source": "ef115d15-261a-4be8-ea1d-78b5cb967c61",
           "output": "PRESSED",
           "target": "996cd183-4213-46d0-e14d-2a7c2bbead29",
-          "input": "@seqin"
-        },
-        {
-          "objID": "306f0194-2222-4b65-c9da-47b1a0594fe1",
-          "source": "9f76b32b-21b9-4b2b-bb58-b8e721ac25e8",
-          "output": "PRESSED",
-          "target": "af157a9c-2930-492b-8fe4-d28356b3d318",
           "input": "@seqin"
         },
         {
@@ -7950,13 +7947,6 @@
           "input": "@seqin"
         },
         {
-          "objID": "4877ee50-b32e-423e-e22e-4743aa54283a",
-          "source": "f11613a9-c885-4b9c-858a-e1496b27449f",
-          "output": "PRESSED",
-          "target": "af157a9c-2930-492b-8fe4-d28356b3d318",
-          "input": "@seqin"
-        },
-        {
           "objID": "685bdd45-e551-4ce3-a4be-b1b4f4a084ee",
           "source": "907a757a-0cd3-4a3a-9525-3b2fef3e5d8b",
           "output": "e611df1d-faa2-45d6-c4cb-591acec7e01c",
@@ -7971,42 +7961,63 @@
           "input": "@seqin"
         },
         {
-          "objID": "ac7b35ca-34e2-4ce3-c3c7-6190e0114a50",
-          "source": "907a757a-0cd3-4a3a-9525-3b2fef3e5d8b",
-          "output": "e611df1d-faa2-45d6-c4cb-591acec7e01c",
-          "target": "f601fcb9-fcfd-4e71-c2b3-4585c265a745",
-          "input": "@seqin"
-        },
-        {
-          "objID": "b043a34f-84b3-438d-9276-b4d37638edc5",
-          "source": "af157a9c-2930-492b-8fe4-d28356b3d318",
-          "output": "@seqout",
-          "target": "b8555559-b896-495c-98b3-011f259728fc",
-          "input": "@seqin"
-        },
-        {
-          "objID": "1d3879c7-9f16-4d88-c477-34a3d336925b",
+          "objID": "16001261-8694-43f9-e9f8-15ad0f3eae2c",
           "source": "bf47d8bc-4890-46a5-a4f4-48d2d5b9bef6",
           "output": "PRESSED",
-          "target": "09ab552b-0991-4bb9-ccc2-6bf794d3e2eb",
+          "target": "77d5a505-999e-48f7-a1dc-8aa75ae05cc4",
+          "input": "@seqin"
+        },
+        {
+          "objID": "3b640106-de4b-4a2a-d000-72831d4dfddc",
+          "source": "9f76b32b-21b9-4b2b-bb58-b8e721ac25e8",
+          "output": "PRESSED",
+          "target": "243e09c5-01b1-476a-ffdb-ca3a325760e3",
+          "input": "@seqin"
+        },
+        {
+          "objID": "dd797b96-e523-4452-82d4-66398a5053ee",
+          "source": "86331c3e-0e9b-4bee-c668-c0ceeb8ba32e",
+          "output": "PRESSED",
+          "target": "24921193-8b9d-4904-e1c4-769241ee939d",
+          "input": "@seqin"
+        },
+        {
+          "objID": "15b3b966-8a2e-4e78-be25-f94eeab0e35d",
+          "source": "77d5a505-999e-48f7-a1dc-8aa75ae05cc4",
+          "output": "@seqout",
+          "target": "b2bb08b2-88d6-4c11-8ec7-390a217aafa3",
+          "input": "@seqin"
+        },
+        {
+          "objID": "4ca983af-6bb8-4df0-9adc-ea4c7c4b6566",
+          "source": "f11613a9-c885-4b9c-858a-e1496b27449f",
+          "output": "PRESSED",
+          "target": "3f8515dc-73b1-4cd8-8a94-bad3ace2a7ae",
+          "input": "@seqin"
+        },
+        {
+          "objID": "a65c19b8-5846-43d3-aeb3-0cec41d602cc",
+          "source": "243e09c5-01b1-476a-ffdb-ca3a325760e3",
+          "output": "@seqout",
+          "target": "af157a9c-2930-492b-8fe4-d28356b3d318",
+          "input": "@seqin"
+        },
+        {
+          "objID": "9038bf85-9cd1-4f0a-f2b5-cf71636728c6",
+          "source": "3f8515dc-73b1-4cd8-8a94-bad3ace2a7ae",
+          "output": "@seqout",
+          "target": "af157a9c-2930-492b-8fe4-d28356b3d318",
+          "input": "@seqin"
+        },
+        {
+          "objID": "eb6e7074-33a9-4a11-ccbc-719d29c9835c",
+          "source": "fdf47385-40f3-48d2-a723-1572ebf132ad",
+          "output": "@seqout",
+          "target": "f601fcb9-fcfd-4e71-c2b3-4585c265a745",
           "input": "@seqin"
         }
       ],
       "localVariables": [
-        {
-          "objID": "371bbad3-539b-4656-baf1-272989c0cd9c",
-          "name": "calType",
-          "type": "integer",
-          "defaultValue": "0",
-          "persistent": false
-        },
-        {
-          "objID": "5db3ba9b-3ccc-4b8f-e55b-71f604d8cc8c",
-          "name": "curpoint",
-          "type": "integer",
-          "defaultValue": "0",
-          "persistent": false
-        },
         {
           "objID": "d97ff178-1636-4ccb-f60c-73acddf5862f",
           "name": "measured",
@@ -8036,13 +8047,6 @@
           "persistent": false
         },
         {
-          "objID": "99ebb946-9308-43dd-8e41-2a1062ca1503",
-          "name": "setValue",
-          "type": "float",
-          "defaultValue": "0",
-          "persistent": false
-        },
-        {
           "objID": "38e3582f-29bc-4493-8148-81feed1dc34a",
           "name": "valuesChanged",
           "type": "boolean",
@@ -8052,13 +8056,6 @@
         {
           "objID": "4d116761-a61d-487e-c18f-653e212712ef",
           "name": "setChanged",
-          "type": "boolean",
-          "defaultValue": "false",
-          "persistent": false
-        },
-        {
-          "objID": "8ee5359b-70a8-4a30-a8ba-0722d0b10f6a",
-          "name": "measuredChanged",
           "type": "boolean",
           "defaultValue": "false",
           "persistent": false
@@ -10055,14 +10052,7 @@
               }
             }
           },
-          "eventHandlers": [
-            {
-              "objID": "80609e30-380d-4f61-fb90-4965d1f1440b",
-              "trigger": "VALUE_CHANGED",
-              "handlerType": "flow",
-              "action": "getdropdownindex"
-            }
-          ],
+          "eventHandlers": [],
           "text": "newValueString",
           "textType": "expression",
           "placeholder": "",
@@ -10252,8 +10242,8 @@
         {
           "objID": "e611df1d-faa2-45d6-c4cb-591acec7e01c",
           "type": "OutputActionComponent",
-          "left": 740,
-          "top": 173,
+          "left": 2224,
+          "top": 68,
           "width": 99,
           "height": 24,
           "customInputs": [],
@@ -10321,8 +10311,8 @@
         {
           "objID": "e835830f-3dff-4fff-88a7-ace0ea11d6ac",
           "type": "SwitchActionComponent",
-          "left": 487,
-          "top": 148,
+          "left": 1971,
+          "top": 43,
           "width": 190,
           "height": 54,
           "customInputs": [],
@@ -10380,13 +10370,6 @@
           "input": "@seqin"
         },
         {
-          "objID": "c0e3ebcd-42b4-4fdd-b0e4-3da7e1103c31",
-          "source": "b3715882-fd86-4b58-b158-6729bc4ca397",
-          "output": "VALUE_CHANGED",
-          "target": "a4dbfbb6-c4c3-4b2d-8db5-c80e40172ef8",
-          "input": "@seqin"
-        },
-        {
           "objID": "0f4f15eb-6511-43b9-edb6-e1ae5df8cc78",
           "source": "5de035e6-71fc-4244-f0d9-45cd30653727",
           "output": "valid",
@@ -10408,13 +10391,6 @@
           "input": "sv"
         },
         {
-          "objID": "3c8b3af9-1f54-4d09-8b2c-d5133345cb64",
-          "source": "c8c89a1b-5a8b-491a-af43-b708bee17215",
-          "output": "READY",
-          "target": "e835830f-3dff-4fff-88a7-ace0ea11d6ac",
-          "input": "@seqin"
-        },
-        {
           "objID": "d7662ea1-df8c-4465-9bfe-766350f820c2",
           "source": "e835830f-3dff-4fff-88a7-ace0ea11d6ac",
           "output": "newValue",
@@ -10433,6 +10409,20 @@
           "source": "8ec16d72-bae9-411c-ffa6-3626eec42dd6",
           "output": "@seqout",
           "target": "4bf2a32b-1d80-492c-e43d-d4518a965224",
+          "input": "@seqin"
+        },
+        {
+          "objID": "f69be946-ee58-4a17-d79f-95e7f0cf21c5",
+          "source": "c8c89a1b-5a8b-491a-af43-b708bee17215",
+          "output": "READY",
+          "target": "a4dbfbb6-c4c3-4b2d-8db5-c80e40172ef8",
+          "input": "@seqin"
+        },
+        {
+          "objID": "a3ff77bc-4109-48f9-b733-9c95ce11f2e5",
+          "source": "5de1a473-9736-46ef-fa5f-6d852afe36bd",
+          "output": "@seqout",
+          "target": "e835830f-3dff-4fff-88a7-ace0ea11d6ac",
           "input": "@seqin"
         }
       ],
