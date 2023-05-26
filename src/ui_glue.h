@@ -15,8 +15,11 @@ extern lv_group_t *onoff_group;
 extern void ui_init_encoder_group();
 
 extern bool clearPower();
+extern bool clearProtection();
 extern bool toggleRecord();
 extern void setOnOff(bool value);
+extern void setOPPset(float value);
+extern void setOPPdelay(float value);
 
 extern void printlogval(int val1, int val2, int val3, int val4);
 extern void printstr(const char* txt);

@@ -34,6 +34,8 @@ namespace dcl
                 _setState.PLFreq = DEFAULT_PL_FREQ;
                 _setState.on = false;
                 _setState.NLPC = DEFAULT_AVG_SAMPLES_NPLC;
+                _setState.OPPset = 80;
+                _setState.OPPdelay = 5;
                 xSemaphoreGive(_setStateMutex);
                 //updateAverageTask();
                 return true;
@@ -54,15 +56,18 @@ namespace dcl
         }
     }
 
-    bool stateManager::setOn() {
-        //SERIALDEBUG.print("o");
+    bool stateManager::setOn() {        
+        // Don't enable if there is a protection
+        if (_setState.protection == true) {
+            return false;
+        }
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 _setState.on = true;
                 xSemaphoreGive(_setStateMutex);
-                // TODO: updateMeasureTask;
+                // TODO: updateMeasureTask.
                 updateAverageTask();
                 return true;
             }
@@ -71,7 +76,6 @@ namespace dcl
     }
 
     bool stateManager::setOff() {
-        //SERIALDEBUG.print("f");
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
@@ -157,6 +161,67 @@ namespace dcl
         return false;
     };
 
+    bool stateManager::clearProtection()
+    {
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
+            {
+                _setState.protection = false;
+                xSemaphoreGive(_setStateMutex);
+                // TODO: test & update clear hardware;
+                //return true;
+            }
+        }
+        return updateAverageTask();
+    };
+
+    bool stateManager::setProtection()
+    {
+        setOff();
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
+            {
+                _setState.protection = true;
+                xSemaphoreGive(_setStateMutex);
+                // TODO: test & update clear hardware;
+                //return true;
+            }
+        }
+        return updateAverageTask();
+    };
+
+   bool stateManager::setOPPset(float OPPset)
+    {
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
+            {
+                _setState.OPPset = OPPset;
+                xSemaphoreGive(_setStateMutex);
+                // TODO: test & update clear hardware;
+                //return true;
+            }
+        }
+        return updateAverageTask();
+    };
+
+   bool stateManager::setOPPdelay(float OPPdelay)
+    {
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
+            {
+                _setState.OPPdelay = OPPdelay;
+                xSemaphoreGive(_setStateMutex);
+                // TODO: test & update clear hardware;
+                //return true;
+            }
+        }
+        return updateAverageTask();
+    };
+
     bool stateManager::setNPLC(uint32_t cycles)
     {
         if (_setStateMutex != NULL)
@@ -237,6 +302,8 @@ namespace dcl
                 msg.record = _setState.record;
                 msg.on     = _setState.on;
                 msg.avgSamples = (_setState.NLPC * _setState.sampleRate) / _setState.PLFreq;
+                msg.OPPset = _setState.OPPset;
+                msg.OPPdelay = _setState.OPPdelay;
                 xSemaphoreGive(_setStateMutex);
                 xQueueSend(changeAverageSettings, &msg, 10);
                 return true;

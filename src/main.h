@@ -171,6 +171,8 @@ struct changeAverageSettingsMsg {
     bool record;
     bool on;
     bool sendCalData;
+    float OPPset;
+    float OPPdelay;
 };
 
 // Message from averaging task to state manager

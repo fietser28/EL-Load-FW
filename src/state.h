@@ -63,7 +63,9 @@ namespace dcl
         float OCPset;
         float OVPset;
         float OTPset;
+        float OTPdelay;
         float OPPset;
+        float OPPdelay;
     };
 
 #ifdef __cplusplus
@@ -106,6 +108,10 @@ public:
                             double Ws, double time, uint32_t avgCurrentRaw, uint32_t avgVoltRaw);
 
     bool clearPower();
+    bool clearProtection();
+    bool setProtection();
+    bool setOPPset(float OPPset);
+    bool setOPPdelay(float OPPdelay);
     bool setNPLC(uint32_t cycles);
     uint32_t getNPLC();
     bool record(bool setrecord);

@@ -386,7 +386,7 @@ void setup()
   SERIALDEBUG.println("INFO: Setup done.");
 
   state.setOn();
-
+  
 }
 
 const TickType_t ondelay = 1000;
@@ -525,7 +525,8 @@ void taskMeasureAndOutputFunction(void *pvParameters)
     // No mutexes around calibration data.
     imon = state.cal.Imon->remap(measured.ImonRaw);
     //imon = remap((float)measured.ImonRaw, (float)currentADC.ADC_MIN, currentMinVal, (float)currentADC.ADC_MAX, currentMaxVal);
-    umon = remap((float)measured.UmonRaw, (float)voltADC.ADC_MIN, voltMinVal, (float)voltADC.ADC_MAX, voltMaxVal);
+    umon = state.cal.Umon->remap(measured.UmonRaw);
+    //umon = remap((float)measured.UmonRaw, (float)voltADC.ADC_MIN, voltMinVal, (float)voltADC.ADC_MAX, voltMaxVal);
 
     if (stateReceived && localSetState.on == true && localSetState.protection == false)
     {
@@ -605,9 +606,11 @@ void taskMeasureAndOutputFunction(void *pvParameters)
       }
     }
 
-
+    // Send measurements to avg task.
     xMessageBufferSend(newMeasurements, &measured, sizeof(measured), 0);
-    // Receive copy of state if send. Using copy to avoid a mutex lock.
+
+    // Receive changed settings.
+    // Receive copy of state if send. Using a copy to avoid a mutex lock.
     msgBytes = xQueueReceive(changeMeasureTaskSettings, &changeMsg, 0);
     if (msgBytes > 0)
     {
@@ -642,6 +645,12 @@ void taskAveragingFunction(void *pvParameters)
   double interval = 0;
   bool update = false;
   bool sendCalData = false;
+
+  // OPP calculation
+  float localOPPset = 0;
+  float localOPPdelay = 0;
+  unsigned long OPPTriggerStart = 0;
+  bool OPPStarted = false;
 
   //SERIALDEBUG.println("INFO: Going into average loop.");
   state.updateAverageTask(); // Prepare message for myself to load defaults.
@@ -679,9 +688,32 @@ void taskAveragingFunction(void *pvParameters)
         As += (double)imon * interval;
         Ws += (double)umon * (double)imon * interval;
       }
+
+      if (on && umon * imon > localOPPset)
+      {
+        if (!OPPStarted)
+        {
+          OPPTriggerStart = millis();
+          OPPStarted = true;
+        }
+        else
+        {
+          if (OPPTriggerStart + localOPPdelay * 1000 <= millis())
+          {
+            state.setProtection();
+          }
+        }
+      }
+      else
+      {
+        OPPStarted = false;
+      }
       state.setAvgMeasurements(imon, umon, As, Ws, time, avgCurrentRaw, avgVoltRaw);
       update = false;
     }
+
+
+
     // Settings changed if there is a message for it.
     msgBytes = xQueueReceive(changeAverageSettings, &settingsMsg, 0);
     if (msgBytes > 0)
@@ -700,7 +732,9 @@ void taskAveragingFunction(void *pvParameters)
       }
       record = settingsMsg.record;
       on = settingsMsg.on;
-      sendCalData = settingsMsg.sendCalData;
+      sendCalData = settingsMsg.sendCalData; // obsolete?
+      localOPPset = settingsMsg.OPPset;
+      localOPPdelay = settingsMsg.OPPdelay;
     }
     //digitalWrite(PIN_TEST, LOW);
   }

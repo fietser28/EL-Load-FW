@@ -29,6 +29,20 @@ void setOnOff(bool value)
     }
 }
 
+bool clearProtection() {
+    return state.clearProtection();
+}
+
+void setOPPset(float value)
+{
+    state.setOPPset(value);
+};
+
+void setOPPdelay(float value)
+{
+    state.setOPPdelay(value);
+};
+
 char logtxt[256];
 
 void set_nplc(int32_t value) {

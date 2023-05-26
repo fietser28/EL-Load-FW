@@ -19,6 +19,17 @@ bool get_var_startup_done() { return localsetcopy.startupDone; };
 
 void set_var_alive(bool value) {};
 
+float get_var_oppset() { return localsetcopy.OPPset; };
+void set_var_oppset(float value) 
+{
+  setOPPset(value);
+};
+float get_var_oppdelay() { return localsetcopy.OPPdelay; };
+void set_var_oppdelay(float value)
+{
+  setOPPdelay(value);
+};
+
 char imonstring[16];
 float lastimon = 0;
 
@@ -142,6 +153,13 @@ void set_var_on(bool value)
 bool get_var_on()
 {
   return localsetcopy.on;
+};
+
+
+bool get_var_protection_triggered() { return localsetcopy.protection; };
+void set_var_protection_triggered(bool value) 
+{ 
+  clearProtection();
 };
 
 void set_var_logtxt(const char *value) {};
