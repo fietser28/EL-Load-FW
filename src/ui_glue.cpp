@@ -187,8 +187,34 @@ void copy_cal_values_to_state(CalibrationValueConfiguration *cal_values, int32_t
     //default:
         //return;
     //    break;
+    // TODO: Add others
     }
     memcpy(calconfig, cal_values, sizeof(CalibrationValueConfiguration));
+}
+
+void write_cal_to_eeprom(int32_t caltype)
+{
+    CalibrationValueConfiguration *calconfig = state.cal.Imon->getCalConfigRef();
+    uint32_t startaddress;
+    switch (caltype)
+    {
+    case 0:
+        calconfig = state.cal.Imon->getCalConfigRef();
+        startaddress = EEPROM_ADDR_CAL_IMON;
+        break;
+    case 1:
+        calconfig = state.cal.Umon->getCalConfigRef();
+        startaddress = EEPROM_ADDR_CAL_ISET;
+        break;
+    //case 2:
+    //    calconfig = state.cal.Iset->getCalConfigRef();
+    //    break;        
+    default:
+        return;
+        break;
+    // TODO: Add others
+    }
+    myeeprom.calibrationValuesWrite(calconfig, startaddress);
 }
 
 }

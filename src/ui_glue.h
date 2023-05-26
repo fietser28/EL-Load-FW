@@ -28,5 +28,6 @@ extern int32_t get_adc_osr();
 // Calibration page glue
 extern void copy_cal_values_from_state(CalibrationValueConfiguration *cal_values, int32_t caltype);
 extern void copy_cal_values_to_state(CalibrationValueConfiguration *cal_values, int32_t caltype);
+extern void write_cal_to_eeprom(int32_t caltype);
 
 #endif

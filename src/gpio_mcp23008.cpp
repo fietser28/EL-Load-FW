@@ -6,6 +6,8 @@
 
 #include "gpio_mcp23008.h"
 
+#define MCP23008_SPEED 400000
+
 void gpio_mcp23008::begin(TwoWire *Wire, SemaphoreHandle_t WireSemaphore, uint8_t Address)
 {
     _wire = Wire;
@@ -72,6 +74,7 @@ uint8_t gpio_mcp23008::writeI2C(uint8_t opcode, uint8_t data)
     {
         if (xSemaphoreTake(_sem, (TickType_t)100) == pdTRUE)
         {
+            _wire->setClock(MCP23008_SPEED);
             _wire->beginTransmission(_addr);
             _wire->write(opcode);
             _wire->write(data);
@@ -93,6 +96,7 @@ uint8_t gpio_mcp23008::readI2C(uint8_t opcode)
     {
         if (xSemaphoreTake(_sem, (TickType_t)100) == pdTRUE)
         {
+            _wire->setClock(MCP23008_SPEED);
             _wire->beginTransmission(_addr);
             _wire->write(opcode);
             _wire->endTransmission();

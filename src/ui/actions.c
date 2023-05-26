@@ -70,4 +70,5 @@ void action_cal_reset_values(lv_event_t *e)
 void action_cal_store_values(lv_event_t *e)
 {
     copy_cal_values_to_state(&cal_values, cal_calType);
+    write_cal_to_eeprom(cal_calType);
 }

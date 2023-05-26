@@ -91,7 +91,8 @@ float lastas = -1;
 void set_var_ahmon(const char *value) {  };
 const char *get_var_ahmon() {
     if (localstatecopy.As != lastas) {
-    snprintf((char *)ahstring, 10,"%.3f", (localstatecopy.As/3600.0f));
+    //snprintf((char *)ahstring, 10,"%.3f", (localstatecopy.As/3600.0f));
+    value2str(ahstring, localstatecopy.As / 3600.0f, -3, 6, 3, true, "Ah");
     lastas = localstatecopy.As;
     }
     return (char *)ahstring;
@@ -103,7 +104,8 @@ float lastws = -1;
 void set_var_whmon(const char *value) {  };
 const char *get_var_whmon() {
     if (localstatecopy.Ws != lastws) {
-    snprintf((char *)whstring, 10,"%.3f", (localstatecopy.Ws/3600.0f));
+    //snprintf((char *)whstring, 10,"%.3f", (localstatecopy.Ws/3600.0f));
+    value2str(whstring, localstatecopy.Ws / 3600.0f, -3, 6, 3, true, "Wh");
     lastws = localstatecopy.Ws;
     }
     return (char *)whstring;

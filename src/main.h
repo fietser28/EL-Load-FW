@@ -8,6 +8,7 @@
 
 #include "state.h"
 #include "cal.h"
+#include "eeprom.h"
 
 // Global Debug settings
 //#define FAKE_HARDWARE   0
@@ -92,8 +93,11 @@
 #define I2C_KEYS_SEM   Wire1Sem
 #define I2C_HWGPIO     Wire1
 #define I2C_HWGPIO_SEM Wire1Sem
+#define I2C_EEPROM     Wire1
+#define I2C_EEPROM_SEM Wire1Sem
 #define SERIALDEBUG    Serial1
 
+#define EEPROM_ADDR     0x50
 
 // GPIO extender (MCP23x08) for keys
 #define KEYS_CHIP_ADDRESS   0x20
@@ -145,6 +149,7 @@ using namespace dcl;
 // Global state manager
 
 extern dcl::stateManager state;
+extern dcl::eeprom::eeprom myeeprom;
 
 extern SemaphoreHandle_t WireSem;       // Manage sharing between tasks 
 extern SemaphoreHandle_t Wire1Sem;      // Manage sharing between tasks

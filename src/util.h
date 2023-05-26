@@ -26,7 +26,7 @@ namespace dcl
     typedef struct CalibrationValuePointConfiguration CalibrationValuePointConfiguration;
 #endif
 
-#define MAX_CALIBRATION_POINTS 10
+#define MAX_CALIBRATION_POINTS 2
 
     /// Calibration parameters for the voltage and current.
     /// There are three points defined: `min`, `mid` and `max`.

@@ -18,11 +18,13 @@
 #include "display.h"
 #include "keys.h"
 #include "ui_glue.h"
+#include "eeprom.h"
 
 // Fixes lvgl include. TODO: remove?
 #include "LittleFS.h"
 
 using namespace dcl;
+using namespace dcl::eeprom;
 
 #ifdef FAKE_HARDWARE
 TimerHandle_t timerFakeADCInterrupt;
@@ -66,7 +68,7 @@ dac_dac8555 vonSetDAC = dac_dac8555(SPI_DAC1, PIN_DAC1_CS, 2);
 dac_dac8555 OCPSetDAC = dac_dac8555(SPI_DAC1, PIN_DAC1_CS, 3);
 // dac_dac8555 OVPSetDAC = dac_dac8555(SPI_DAC1, PIN_DAC1_CS, 0);
 
-
+dcl::eeprom::eeprom myeeprom = eeprom::eeprom();
 
 // Global state manager
 stateManager state;
@@ -139,8 +141,9 @@ void setup()
 
   I2C_KEYS.setSCL(PIN_KEYS_SCL);
   I2C_KEYS.setSDA(PIN_KEYS_SDA);
-  I2C_KEYS.setClock(400000);
+  //I2C_KEYS.setClock(400000);
   I2C_KEYS.begin();
+
 
   // TODO Workaround: Testing proper multi-core boot, otherwise reboot.
   //////////////
@@ -199,7 +202,6 @@ void setup()
 
   state.begin(); // Setup memory, mutexes and queues.
   snprintf(logtxt, 200, "- Empty log -");
-  gui_task_init(); // Takes lot of memory?
 
 
   // TODO: Hardcoded calibration values for now
@@ -287,6 +289,41 @@ void setup()
   if (changeMeasureTaskSettings == NULL)
   { // TODO: reset, something is really wrong....
   }
+
+  myeeprom.begin(&I2C_EEPROM, I2C_EEPROM_SEM, EEPROM_ADDR, 64, 32);
+
+  // Wait for serial....
+  vTaskDelay(2000);
+
+  // Detect and read/write eeprom config data
+  bool eepromMagicFound = myeeprom.magicDetect();
+
+  SERIALDEBUG.printf("EEPROM detect magic: %d\n", eepromMagicFound);
+
+  // Write magic if not found. E.g. initialize eeprom.
+//  if (!eepromMagicFound) {
+//    myeeprom.magicWrite();
+//  }
+
+  if (eepromMagicFound) {
+    myeeprom.calibrationValuesRead(state.cal.Imon->getCalConfigRef(), EEPROM_ADDR_CAL_IMON);
+  }
+  
+  vTaskDelay(50);
+    myeeprom.write(EEPROM_ADDR_VERSION, eeprom_version);  
+    myeeprom.write(EEPROM_ADDR_VERSION, eeprom_version);  
+  vTaskDelay(50);
+
+
+  uint8_t eepromVersionRead = myeeprom.read(EEPROM_ADDR_VERSION);
+
+  myeeprom.read(EEPROM_ADDR_VERSION);
+
+  SERIALDEBUG.printf("EEPROM Version read: %x\n", eepromVersionRead);
+
+  SERIALDEBUG.printf("Single calibration size: %d\n", sizeof(CalibrationValueConfiguration));
+
+  gui_task_init(); // Takes lot of memory?
 
   state.setDefaults();
   state.record(true);

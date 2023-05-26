@@ -335,7 +335,7 @@
         {
           "objID": "ddb840d3-2cd4-4c24-897d-1e367e2df75f",
           "fileName": "vars.h",
-          "template": "#ifndef EEZ_LVGL_UI_VARS_H\r\n#define EEZ_LVGL_UI_VARS_H\r\n\r\n#include <stdint.h>\r\n#include <stdbool.h>\r\n#include \"util.h\"\r\n\r\n// For refresh action\r\nextern int32_t cal_calType;\r\nextern int32_t cal_curpoint;\r\nextern int32_t cal_measured;\r\nextern CalibrationValueConfiguration cal_values;\r\n\r\n//${eez-studio LVGL_VARS_DECL}\r\n\r\n#endif /*EEZ_LVGL_UI_VARS_H*/"
+          "template": "#ifndef EEZ_LVGL_UI_VARS_H\r\n#define EEZ_LVGL_UI_VARS_H\r\n\r\n#include <stdint.h>\r\n#include <stdbool.h>\r\n#include \"util.h\"\r\n\r\n// For calibration actions\r\nextern int32_t cal_calType;\r\nextern int32_t cal_curpoint;\r\nextern int32_t cal_measured;\r\nextern CalibrationValueConfiguration cal_values;\r\n\r\n//${eez-studio LVGL_VARS_DECL}\r\n\r\n#endif /*EEZ_LVGL_UI_VARS_H*/"
         },
         {
           "objID": "9c770003-b028-4a8b-9447-fea072e67b3a",
@@ -2770,7 +2770,7 @@
                 }
               },
               "eventHandlers": [],
-              "text": "ahmon + \" Ah\"",
+              "text": "ahmon",
               "textType": "expression",
               "longMode": "CLIP",
               "recolor": false
@@ -2815,7 +2815,7 @@
                 }
               },
               "eventHandlers": [],
-              "text": "whmon + \" Wh\"\n",
+              "text": "whmon\n",
               "textType": "expression",
               "longMode": "CLIP",
               "recolor": false

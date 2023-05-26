@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #include "util.h"
 
-// For refresh action
+// For calibration actions
 extern int32_t cal_calType;
 extern int32_t cal_curpoint;
 extern int32_t cal_measured;
