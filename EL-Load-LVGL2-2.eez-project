@@ -308,7 +308,8 @@
       "imports": [],
       "flowSupport": true,
       "displayWidth": 320,
-      "displayHeight": 240
+      "displayHeight": 240,
+      "resourceFiles": []
     },
     "build": {
       "objID": "72794a43-a0fc-13c2-7eb5-67dd952141a4",
@@ -337,7 +338,7 @@
         {
           "objID": "ddb840d3-2cd4-4c24-897d-1e367e2df75f",
           "fileName": "vars.h",
-          "template": "#ifndef EEZ_LVGL_UI_VARS_H\r\n#define EEZ_LVGL_UI_VARS_H\r\n\r\n#include <stdint.h>\r\n#include <stdbool.h>\r\n#include \"util.h\"\r\n\r\n// For calibration actions\r\nextern int32_t cal_calType;\r\nextern int32_t cal_curpoint;\r\nextern int32_t cal_measured;\r\nextern CalibrationValueConfiguration cal_values;\r\n\r\n//${eez-studio LVGL_VARS_DECL}\r\n\r\n#endif /*EEZ_LVGL_UI_VARS_H*/"
+          "template": "#ifndef EEZ_LVGL_UI_VARS_H\r\n#define EEZ_LVGL_UI_VARS_H\r\n\r\n#include <stdint.h>\r\n#include <stdbool.h>\r\n#include \"util.h\"\r\n\r\n#ifdef __cplusplus\r\nusing namespace dcl;\r\n#endif\r\n\r\n// For calibration actions\r\nextern int32_t cal_calType;\r\nextern int32_t cal_curpoint;\r\nextern int32_t cal_measured;\r\nextern CalibrationValueConfiguration cal_values;\r\n\r\n\r\n//${eez-studio FLOW_ENUMS}\r\n\r\n// Flow global variables\r\n\r\n//${eez-studio FLOW_GLOBAL_VARIABLES_ENUM}\r\n\r\n// Native global variables\r\n\r\n#ifdef __cplusplus\r\nextern \"C\" {\r\n#endif\r\n\r\n//${eez-studio LVGL_VARS_DECL}\r\n\r\n#ifdef __cplusplus\r\n}\r\n#endif\r\n\r\n\r\n#endif /*EEZ_LVGL_UI_VARS_H*/"
         },
         {
           "objID": "9c770003-b028-4a8b-9447-fea072e67b3a",
@@ -383,6 +384,11 @@
           "objID": "292907a7-7032-4814-e210-405def21551e",
           "fileName": "ui.c",
           "template": "#include \"ui.h\"\n#include \"screens.h\"\n#include \"images.h\"\n#include \"flow_def.h\"\n#include \"actions.h\"\n\n//${eez-studio LVGL_ACTIONS_ARRAY_DEF}\n\nvoid ui_init() {\n    eez_flow_init(assets, sizeof(assets), (lv_obj_t **)&objects, sizeof(objects), images, sizeof(images), actions);\n}\n\nvoid ui_tick() {\n    eez_flow_tick();\n    tick_screen(g_currentScreen);\n}\n"
+        },
+        {
+          "objID": "171745ea-5b69-42e0-ae23-e62a245b4732",
+          "fileName": "structs.h",
+          "template": "#ifndef EEZ_LVGL_UI_STRUCTS_H\n#define EEZ_LVGL_UI_STRUCTS_H\n\n#include <eez/flow/flow.h>\n#include <stdint.h>\n#include <stdbool.h>\n\n#include \"vars.h\"\n\nusing namespace eez;\n\n//${eez-studio FLOW_STRUCTS}\n\n//${eez-studio FLOW_STRUCT_VALUES}\n\n#endif /*EEZ_LVGL_UI_STRUCTS_H*/\n"
         }
       ],
       "destinationFolder": "src\\ui",
@@ -477,7 +483,8 @@
         "name": "mode",
         "type": "enum:mode_e",
         "defaultValue": "mode_e.CC",
-        "persistent": false
+        "persistent": false,
+        "native": true
       },
       {
         "objID": "369af124-2d0f-4564-993f-7cfcd810a5c2",
@@ -512,7 +519,7 @@
         "objID": "cc20a9d5-91e3-4346-b80f-abd1e202f555",
         "name": "setTypes",
         "type": "array:struct:setProperties",
-        "defaultValue": "[ {setName: \"Current\", setUnit:\"A\", setValueMin:0, setValueMax:10},\n{setName: \"Voltage\", setUnit:\"V\", setValueMin:0, setValueMax:80},\n{setName: \"Power\", setUnit:\"W\", setValueMin:0, setValueMax:75},\n{setName: \"Resistance\", setUnit:\"Ohm\", setValueMin:0.1, setValueMax:100000},\n{setName: \"Von\", setUnit:\"V\", setValueMin:0, setValueMax:10},\n{setName: \"OCP\", setUnit:\"A\", setValueMin:0, setValueMax:10},\n{setName: \"OVP\", setUnit:\"V\", setValueMin:0, setValueMax:80},\n{setName: \"OPP\", setUnit:\"W\", setValueMin:1, setValueMax:80},\n{setName: \"OTP\", setUnit:\"C\", setValueMin:10, setValueMax:90},\n{setName: \"Current Cal Set\", setUnit:\"A\", setValueMin:-1, setValueMax: 11},\n{setName: \"Voltage Cal Set\", setUnit:\"V\", setValueMin:-1, setValueMax: 90},\n{setName: \"OPP delay\", setUnit:\"s\", setValueMin:1, setValueMax:99},\n]",
+        "defaultValue": "[ {setName: \"Current\", setUnit:\"A\", setValueMin:0, setValueMax:10},\n{setName: \"Voltage\", setUnit:\"V\", setValueMin:0, setValueMax:80},\n{setName: \"Power\", setUnit:\"W\", setValueMin:0, setValueMax:75},\n{setName: \"Resistance\", setUnit:\"\\u03a9\", setValueMin:0.1, setValueMax:100000},\n{setName: \"Von\", setUnit:\"V\", setValueMin:0, setValueMax:10},\n{setName: \"OCP\", setUnit:\"A\", setValueMin:0, setValueMax:10},\n{setName: \"OVP\", setUnit:\"V\", setValueMin:0, setValueMax:80},\n{setName: \"OPP\", setUnit:\"W\", setValueMin:1, setValueMax:80},\n{setName: \"OTP\", setUnit:\"C\", setValueMin:10, setValueMax:90},\n{setName: \"Current Cal Set\", setUnit:\"A\", setValueMin:-1, setValueMax: 11},\n{setName: \"Voltage Cal Set\", setUnit:\"V\", setValueMin:-1, setValueMax: 90},\n{setName: \"OPP delay\", setUnit:\"s\", setValueMin:1, setValueMax:99},\n]",
         "persistent": false
       },
       {
@@ -527,7 +534,8 @@
         "name": "iset",
         "type": "float",
         "defaultValue": "5.123",
-        "persistent": false
+        "persistent": false,
+        "native": true
       },
       {
         "objID": "f1dcb363-a90e-459c-db47-3dc8809759ca",
@@ -548,7 +556,8 @@
         "name": "rset",
         "type": "float",
         "defaultValue": "100",
-        "persistent": false
+        "persistent": false,
+        "native": true
       },
       {
         "objID": "ab65c0d4-2eab-43be-f1ca-b6c92a6011b8",
@@ -1930,7 +1939,7 @@
       "implementationType": "native"
     }
   ],
-  "pages": [
+  "userPages": [
     {
       "objID": "bfd2b8c1-3713-425d-e238-c6d3133921df",
       "components": [
@@ -1948,6 +1957,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -1965,8 +1975,7 @@
           "useStyle": "blackpanel",
           "localStyles": {
             "objID": "d55ea118-6cf2-40e3-e17e-e7d4bede2a80"
-          },
-          "eventHandlers": []
+          }
         },
         {
           "objID": "c9a417ce-5902-4ee4-f0cf-3a3b198a1c9f",
@@ -1982,6 +1991,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -2006,7 +2016,6 @@
               }
             }
           },
-          "eventHandlers": [],
           "text": "DCL8010",
           "textType": "literal",
           "longMode": "CLIP",
@@ -2079,6 +2088,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -2106,7 +2116,6 @@
               }
             }
           },
-          "eventHandlers": [],
           "text": "logtxt",
           "textType": "expression",
           "longMode": "WRAP",
@@ -2163,6 +2172,14 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "3785d2ea-762d-42b3-d3b0-085cda51f93f",
+              "eventName": "VALUE_CHANGED",
+              "handlerType": "flow",
+              "action": "getrollerindex"
+            }
+          ],
           "identifier": "modeSelector",
           "leftUnit": "px",
           "topUnit": "px",
@@ -2196,14 +2213,6 @@
               }
             }
           },
-          "eventHandlers": [
-            {
-              "objID": "3785d2ea-762d-42b3-d3b0-085cda51f93f",
-              "trigger": "VALUE_CHANGED",
-              "handlerType": "flow",
-              "action": "getrollerindex"
-            }
-          ],
           "options": "Mode CC\nMode CV\nMode CP\nMode CR",
           "selected": "modeselection",
           "selectedType": "expression"
@@ -2222,6 +2231,14 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "673c7aeb-a866-46db-ee30-ab5ec1b6b8b9",
+              "eventName": "PRESSED",
+              "handlerType": "flow",
+              "action": "modeButton"
+            }
+          ],
           "identifier": "ON-OFF button",
           "leftUnit": "px",
           "topUnit": "px",
@@ -2248,6 +2265,7 @@
                 "inheritFrom": "default"
               },
               "timeline": [],
+              "eventHandlers": [],
               "leftUnit": "px",
               "topUnit": "px",
               "widthUnit": "%",
@@ -2273,7 +2291,6 @@
                   }
                 }
               },
-              "eventHandlers": [],
               "text": "onString",
               "textType": "expression",
               "longMode": "WRAP",
@@ -2309,15 +2326,7 @@
                 }
               }
             }
-          },
-          "eventHandlers": [
-            {
-              "objID": "673c7aeb-a866-46db-ee30-ab5ec1b6b8b9",
-              "trigger": "PRESSED",
-              "handlerType": "flow",
-              "action": "modeButton"
-            }
-          ]
+          }
         },
         {
           "objID": "9d0a1281-32a9-472a-8d33-b322e4243fca",
@@ -2333,6 +2342,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -2358,6 +2368,14 @@
                 "inheritFrom": "default"
               },
               "timeline": [],
+              "eventHandlers": [
+                {
+                  "objID": "e2b68820-1bbd-4554-ba89-4dbb7a6e3c34",
+                  "eventName": "PRESSED",
+                  "handlerType": "flow",
+                  "action": "getdropdownindex"
+                }
+              ],
               "leftUnit": "px",
               "topUnit": "px",
               "widthUnit": "px",
@@ -2376,14 +2394,6 @@
               "localStyles": {
                 "objID": "4d3c1be1-f91c-4b05-a735-6e01438a7202"
               },
-              "eventHandlers": [
-                {
-                  "objID": "e2b68820-1bbd-4554-ba89-4dbb7a6e3c34",
-                  "trigger": "PRESSED",
-                  "handlerType": "flow",
-                  "action": "getdropdownindex"
-                }
-              ],
               "text": "in",
               "textType": "expression",
               "longMode": "CLIP",
@@ -2409,6 +2419,7 @@
                 "inheritFrom": "default"
               },
               "timeline": [],
+              "eventHandlers": [],
               "leftUnit": "px",
               "topUnit": "px",
               "widthUnit": "px",
@@ -2427,7 +2438,6 @@
               "localStyles": {
                 "objID": "4d3c1be1-f91c-4b05-a735-6e01438a7202"
               },
-              "eventHandlers": [],
               "text": "volt + \" \"",
               "textType": "expression",
               "longMode": "CLIP",
@@ -2453,6 +2463,7 @@
                 "inheritFrom": "default"
               },
               "timeline": [],
+              "eventHandlers": [],
               "leftUnit": "px",
               "topUnit": "px",
               "widthUnit": "px",
@@ -2471,7 +2482,6 @@
               "localStyles": {
                 "objID": "4d3c1be1-f91c-4b05-a735-6e01438a7202"
               },
-              "eventHandlers": [],
               "text": "ohm",
               "textType": "expression",
               "longMode": "CLIP",
@@ -2497,6 +2507,7 @@
                 "inheritFrom": "default"
               },
               "timeline": [],
+              "eventHandlers": [],
               "leftUnit": "px",
               "topUnit": "px",
               "widthUnit": "px",
@@ -2515,7 +2526,6 @@
               "localStyles": {
                 "objID": "4d3c1be1-f91c-4b05-a735-6e01438a7202"
               },
-              "eventHandlers": [],
               "text": "watt + \" \"",
               "textType": "expression",
               "longMode": "CLIP",
@@ -2535,8 +2545,7 @@
           "useStyle": "blackpanel",
           "localStyles": {
             "objID": "33cd35e3-153f-4bf8-cbde-e8cd5b668928"
-          },
-          "eventHandlers": []
+          }
         },
         {
           "objID": "b4a420a1-0fda-4225-8415-74c4e8282a55",
@@ -2605,6 +2614,14 @@
           },
           "hiddenInEditor": false,
           "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "03938c10-6292-41cf-fd63-24d1403820e0",
+              "eventName": "PRESSED",
+              "handlerType": "flow",
+              "action": "getdropdownindex"
+            }
+          ],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -2623,15 +2640,7 @@
           "useStyle": "blackpanel",
           "localStyles": {
             "objID": "84b9ec96-7d70-44ba-f9e7-108e80337a76"
-          },
-          "eventHandlers": [
-            {
-              "objID": "03938c10-6292-41cf-fd63-24d1403820e0",
-              "trigger": "PRESSED",
-              "handlerType": "flow",
-              "action": "getdropdownindex"
-            }
-          ]
+          }
         },
         {
           "objID": "ba0c0728-31ae-41f1-ab63-10a278af3ad8",
@@ -2647,6 +2656,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "identifier": "Power Panel",
           "leftUnit": "px",
           "topUnit": "px",
@@ -2667,6 +2677,14 @@
                 "inheritFrom": "default"
               },
               "timeline": [],
+              "eventHandlers": [
+                {
+                  "objID": "165d55ea-06a2-4330-fd13-85c1408d0278",
+                  "eventName": "PRESSED",
+                  "handlerType": "action",
+                  "action": "toggleRecord"
+                }
+              ],
               "leftUnit": "px",
               "topUnit": "px",
               "widthUnit": "px",
@@ -2686,6 +2704,7 @@
                     "inheritFrom": "default"
                   },
                   "timeline": [],
+                  "eventHandlers": [],
                   "leftUnit": "px",
                   "topUnit": "px",
                   "widthUnit": "px",
@@ -2709,7 +2728,6 @@
                       }
                     }
                   },
-                  "eventHandlers": [],
                   "text": "Precording ? LVGL.LV_SYMBOL_PLAY : LVGL.LV_SYMBOL_PAUSE",
                   "textType": "expression",
                   "longMode": "CLIP",
@@ -2735,15 +2753,7 @@
                     }
                   }
                 }
-              },
-              "eventHandlers": [
-                {
-                  "objID": "165d55ea-06a2-4330-fd13-85c1408d0278",
-                  "trigger": "PRESSED",
-                  "handlerType": "action",
-                  "action": "toggleRecord"
-                }
-              ]
+              }
             },
             {
               "objID": "981043c7-7292-4e64-dfa8-e39bdd00afff",
@@ -2759,6 +2769,7 @@
                 "inheritFrom": "default"
               },
               "timeline": [],
+              "eventHandlers": [],
               "identifier": "Ah",
               "leftUnit": "px",
               "topUnit": "px",
@@ -2784,7 +2795,6 @@
                   }
                 }
               },
-              "eventHandlers": [],
               "text": "ahmon",
               "textType": "expression",
               "longMode": "CLIP",
@@ -2804,6 +2814,7 @@
                 "inheritFrom": "default"
               },
               "timeline": [],
+              "eventHandlers": [],
               "identifier": "Wh",
               "leftUnit": "px",
               "topUnit": "px",
@@ -2829,7 +2840,6 @@
                   }
                 }
               },
-              "eventHandlers": [],
               "text": "whmon\n",
               "textType": "expression",
               "longMode": "CLIP",
@@ -2849,6 +2859,7 @@
                 "inheritFrom": "default"
               },
               "timeline": [],
+              "eventHandlers": [],
               "identifier": "montime",
               "leftUnit": "px",
               "topUnit": "px",
@@ -2875,7 +2886,6 @@
                   }
                 }
               },
-              "eventHandlers": [],
               "text": "montime",
               "textType": "expression",
               "longMode": "CLIP",
@@ -2895,6 +2905,14 @@
                 "inheritFrom": "default"
               },
               "timeline": [],
+              "eventHandlers": [
+                {
+                  "objID": "165d55ea-06a2-4330-fd13-85c1408d0278",
+                  "eventName": "PRESSED",
+                  "handlerType": "action",
+                  "action": "clearPower"
+                }
+              ],
               "leftUnit": "px",
               "topUnit": "px",
               "widthUnit": "px",
@@ -2914,6 +2932,7 @@
                     "inheritFrom": "default"
                   },
                   "timeline": [],
+                  "eventHandlers": [],
                   "leftUnit": "px",
                   "topUnit": "px",
                   "widthUnit": "px",
@@ -2937,7 +2956,6 @@
                       }
                     }
                   },
-                  "eventHandlers": [],
                   "text": "LVGL.LV_SYMBOL_TRASH",
                   "textType": "expression",
                   "longMode": "CLIP",
@@ -2963,15 +2981,7 @@
                     }
                   }
                 }
-              },
-              "eventHandlers": [
-                {
-                  "objID": "165d55ea-06a2-4330-fd13-85c1408d0278",
-                  "trigger": "PRESSED",
-                  "handlerType": "action",
-                  "action": "clearPower"
-                }
-              ]
+              }
             }
           ],
           "flags": "PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_CHAIN",
@@ -2994,8 +3004,7 @@
                 }
               }
             }
-          },
-          "eventHandlers": []
+          }
         },
         {
           "objID": "5275b65c-fa74-4e26-c453-d9620c24b98d",
@@ -3011,6 +3020,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -3030,6 +3040,7 @@
                 "inheritFrom": "default"
               },
               "timeline": [],
+              "eventHandlers": [],
               "identifier": "iset",
               "leftUnit": "px",
               "topUnit": "px",
@@ -3050,6 +3061,7 @@
                     "inheritFrom": "default"
                   },
                   "timeline": [],
+                  "eventHandlers": [],
                   "identifier": "isetlabel",
                   "leftUnit": "px",
                   "topUnit": "px",
@@ -3077,7 +3089,6 @@
                       }
                     }
                   },
-                  "eventHandlers": [],
                   "text": "\"Set \" + setTypes[setType].setName + \":\"",
                   "textType": "expression",
                   "longMode": "WRAP",
@@ -3097,6 +3108,20 @@
                     "inheritFrom": "default"
                   },
                   "timeline": [],
+                  "eventHandlers": [
+                    {
+                      "objID": "181d07e8-819c-44e5-88a0-b52a3efdbf85",
+                      "eventName": "FOCUSED",
+                      "handlerType": "action",
+                      "action": "textAreaDisableBlink"
+                    },
+                    {
+                      "objID": "fc316940-e032-4877-c584-1ed880bc6582",
+                      "eventName": "VALUE_CHANGED",
+                      "handlerType": "flow",
+                      "action": "getdropdownindex"
+                    }
+                  ],
                   "identifier": "setValueArea",
                   "leftUnit": "px",
                   "topUnit": "px",
@@ -3136,14 +3161,6 @@
                       }
                     }
                   },
-                  "eventHandlers": [
-                    {
-                      "objID": "181d07e8-819c-44e5-88a0-b52a3efdbf85",
-                      "trigger": "FOCUSED",
-                      "handlerType": "action",
-                      "action": "textAreaDisableBlink"
-                    }
-                  ],
                   "text": "setValue",
                   "textType": "expression",
                   "placeholder": "",
@@ -3166,6 +3183,14 @@
                     "inheritFrom": "default"
                   },
                   "timeline": [],
+                  "eventHandlers": [
+                    {
+                      "objID": "bcc1458d-f945-4e17-f1c6-f290e63927dd",
+                      "eventName": "PRESSED",
+                      "handlerType": "flow",
+                      "action": "getrollerindex"
+                    }
+                  ],
                   "leftUnit": "px",
                   "topUnit": "px",
                   "widthUnit": "px",
@@ -3193,14 +3218,6 @@
                       }
                     }
                   },
-                  "eventHandlers": [
-                    {
-                      "objID": "bcc1458d-f945-4e17-f1c6-f290e63927dd",
-                      "trigger": "PRESSED",
-                      "handlerType": "flow",
-                      "action": "getrollerindex"
-                    }
-                  ],
                   "text": " setTypes[setType].setUnit",
                   "textType": "expression",
                   "longMode": "CLIP",
@@ -3220,8 +3237,7 @@
               "useStyle": "blackpanel",
               "localStyles": {
                 "objID": "a32368ce-49ef-4c38-d4ee-fdd814fd6a22"
-              },
-              "eventHandlers": []
+              }
             },
             {
               "objID": "b64004e1-adbe-486a-fe36-7ebc294deadf",
@@ -3237,6 +3253,7 @@
                 "inheritFrom": "default"
               },
               "timeline": [],
+              "eventHandlers": [],
               "identifier": "Von panel",
               "leftUnit": "px",
               "topUnit": "px",
@@ -3257,6 +3274,7 @@
                     "inheritFrom": "default"
                   },
                   "timeline": [],
+                  "eventHandlers": [],
                   "leftUnit": "px",
                   "topUnit": "px",
                   "widthUnit": "px",
@@ -3276,6 +3294,7 @@
                         "inheritFrom": "default"
                       },
                       "timeline": [],
+                      "eventHandlers": [],
                       "identifier": "vonlabel",
                       "leftUnit": "px",
                       "topUnit": "px",
@@ -3303,7 +3322,6 @@
                           }
                         }
                       },
-                      "eventHandlers": [],
                       "text": "Von:",
                       "textType": "literal",
                       "longMode": "WRAP",
@@ -3323,6 +3341,14 @@
                         "inheritFrom": "default"
                       },
                       "timeline": [],
+                      "eventHandlers": [
+                        {
+                          "objID": "4e4365ae-f5ea-479e-967e-511a6662c94f",
+                          "eventName": "PRESSED",
+                          "handlerType": "flow",
+                          "action": "getrollerindex"
+                        }
+                      ],
                       "leftUnit": "px",
                       "topUnit": "px",
                       "widthUnit": "px",
@@ -3343,6 +3369,7 @@
                           },
                           "locked": true,
                           "timeline": [],
+                          "eventHandlers": [],
                           "leftUnit": "px",
                           "topUnit": "px",
                           "widthUnit": "px",
@@ -3372,7 +3399,6 @@
                               }
                             }
                           },
-                          "eventHandlers": [],
                           "text": "VonSet + \" V\"",
                           "textType": "expression",
                           "longMode": "CLIP",
@@ -3408,15 +3434,7 @@
                             }
                           }
                         }
-                      },
-                      "eventHandlers": [
-                        {
-                          "objID": "4e4365ae-f5ea-479e-967e-511a6662c94f",
-                          "trigger": "PRESSED",
-                          "handlerType": "flow",
-                          "action": "getrollerindex"
-                        }
-                      ]
+                      }
                     },
                     {
                       "objID": "ccc7c3b4-96ff-4b8d-8df8-9bb113c92f5c",
@@ -3432,6 +3450,14 @@
                         "inheritFrom": "default"
                       },
                       "timeline": [],
+                      "eventHandlers": [
+                        {
+                          "objID": "6bf9a362-b792-42d0-a937-31b3d32cd3a2",
+                          "eventName": "PRESSED",
+                          "handlerType": "flow",
+                          "action": "getrollerindex"
+                        }
+                      ],
                       "leftUnit": "px",
                       "topUnit": "px",
                       "widthUnit": "px",
@@ -3452,6 +3478,7 @@
                           },
                           "locked": true,
                           "timeline": [],
+                          "eventHandlers": [],
                           "leftUnit": "px",
                           "topUnit": "px",
                           "widthUnit": "px",
@@ -3481,7 +3508,6 @@
                               }
                             }
                           },
-                          "eventHandlers": [],
                           "text": "VonLatched ? \"Latched\" : \"Unlatched\"",
                           "textType": "expression",
                           "longMode": "CLIP",
@@ -3517,15 +3543,7 @@
                             }
                           }
                         }
-                      },
-                      "eventHandlers": [
-                        {
-                          "objID": "6bf9a362-b792-42d0-a937-31b3d32cd3a2",
-                          "trigger": "PRESSED",
-                          "handlerType": "flow",
-                          "action": "getrollerindex"
-                        }
-                      ]
+                      }
                     }
                   ],
                   "flags": "PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_CHAIN",
@@ -3540,8 +3558,7 @@
                   "useStyle": "blackpanel",
                   "localStyles": {
                     "objID": "8dd4bbc3-cf28-4ace-f4f4-713eb8cd7cf4"
-                  },
-                  "eventHandlers": []
+                  }
                 },
                 {
                   "objID": "2f27ab08-3916-4669-df1c-c517e0f3622c",
@@ -3557,6 +3574,7 @@
                     "inheritFrom": "default"
                   },
                   "timeline": [],
+                  "eventHandlers": [],
                   "leftUnit": "px",
                   "topUnit": "px",
                   "widthUnit": "px",
@@ -3576,6 +3594,14 @@
                         "inheritFrom": "default"
                       },
                       "timeline": [],
+                      "eventHandlers": [
+                        {
+                          "objID": "308f8d2a-56b3-4c10-94f3-52e6280220cb",
+                          "eventName": "PRESSED",
+                          "handlerType": "flow",
+                          "action": "getrollerindex"
+                        }
+                      ],
                       "leftUnit": "px",
                       "topUnit": "px",
                       "widthUnit": "px",
@@ -3595,6 +3621,7 @@
                             "inheritFrom": "default"
                           },
                           "timeline": [],
+                          "eventHandlers": [],
                           "leftUnit": "px",
                           "topUnit": "px",
                           "widthUnit": "px",
@@ -3622,7 +3649,6 @@
                               }
                             }
                           },
-                          "eventHandlers": [],
                           "text": "LVGL.LV_SYMBOL_WARNING",
                           "textType": "expression",
                           "longMode": "CLIP",
@@ -3653,15 +3679,7 @@
                             }
                           }
                         }
-                      },
-                      "eventHandlers": [
-                        {
-                          "objID": "308f8d2a-56b3-4c10-94f3-52e6280220cb",
-                          "trigger": "PRESSED",
-                          "handlerType": "flow",
-                          "action": "getrollerindex"
-                        }
-                      ]
+                      }
                     },
                     {
                       "objID": "99fa2cb0-31a4-4e2a-cebc-dd011b860010",
@@ -3677,6 +3695,7 @@
                         "inheritFrom": "default"
                       },
                       "timeline": [],
+                      "eventHandlers": [],
                       "leftUnit": "px",
                       "topUnit": "px",
                       "widthUnit": "px",
@@ -3707,7 +3726,6 @@
                           }
                         }
                       },
-                      "eventHandlers": [],
                       "text": "OTPset + \"\\u00B0C\"",
                       "textType": "expression",
                       "longMode": "CLIP",
@@ -3734,8 +3752,7 @@
                         }
                       }
                     }
-                  },
-                  "eventHandlers": []
+                  }
                 }
               ],
               "flags": "PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_CHAIN",
@@ -3759,8 +3776,7 @@
                     }
                   }
                 }
-              },
-              "eventHandlers": []
+              }
             }
           ],
           "flags": "PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_CHAIN",
@@ -3783,8 +3799,7 @@
                 }
               }
             }
-          },
-          "eventHandlers": []
+          }
         },
         {
           "objID": "5668f5ec-0878-454d-9660-fd6f77716b43",
@@ -3810,6 +3825,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "identifier": "wheel",
           "leftUnit": "px",
           "topUnit": "px",
@@ -3835,7 +3851,6 @@
               }
             }
           },
-          "eventHandlers": [],
           "text": "x",
           "textType": "literal",
           "longMode": "WRAP",
@@ -4111,6 +4126,14 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "3b88cb0c-5bde-41be-bec2-905ba107dee3",
+              "eventName": "PRESSED",
+              "handlerType": "flow",
+              "action": "getrollerindex"
+            }
+          ],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -4130,6 +4153,7 @@
                 "inheritFrom": "default"
               },
               "timeline": [],
+              "eventHandlers": [],
               "leftUnit": "px",
               "topUnit": "px",
               "widthUnit": "px",
@@ -4153,7 +4177,6 @@
                   }
                 }
               },
-              "eventHandlers": [],
               "text": "LVGL.LV_SYMBOL_SETTINGS",
               "textType": "expression",
               "longMode": "CLIP",
@@ -4172,15 +4195,7 @@
           "useStyle": "selectbutton",
           "localStyles": {
             "objID": "06eccc17-182e-46d6-c552-d5d773c53747"
-          },
-          "eventHandlers": [
-            {
-              "objID": "3b88cb0c-5bde-41be-bec2-905ba107dee3",
-              "trigger": "PRESSED",
-              "handlerType": "flow",
-              "action": "getrollerindex"
-            }
-          ]
+          }
         },
         {
           "objID": "3caaa895-9267-4b11-c47f-29bd76dbed92",
@@ -4307,8 +4322,8 @@
         {
           "objID": "992b8e54-048e-4ffd-f516-eca9de7d267e",
           "type": "SetVariableActionComponent",
-          "left": 56,
-          "top": 325,
+          "left": 369,
+          "top": 284,
           "width": 163,
           "height": 55,
           "customInputs": [],
@@ -4338,6 +4353,110 @@
               "fadeMode": "NONE",
               "speed": 0,
               "delay": 0
+            }
+          ]
+        },
+        {
+          "objID": "508eb93d-75ed-432f-e315-18ff0b8fd9e7",
+          "type": "SwitchActionComponent",
+          "left": 184,
+          "top": 693,
+          "width": 181,
+          "height": 111,
+          "customInputs": [],
+          "customOutputs": [],
+          "tests": [
+            {
+              "objID": "9e4d9332-c9b1-400a-d7d4-cd15225462f1",
+              "condition": "mode == mode_e.CC",
+              "outputName": "CC",
+              "outputValue": "1"
+            },
+            {
+              "objID": "395f6848-19b3-4bd6-d145-b1e1c5d12569",
+              "condition": "mode == mode_e.CV",
+              "outputName": "CV",
+              "outputValue": "1"
+            },
+            {
+              "objID": "11eceec4-0e62-4e30-fcff-cab762cd052a",
+              "condition": "mode == mode_e.CP",
+              "outputName": "CP",
+              "outputValue": "1"
+            },
+            {
+              "objID": "7d4003bf-df5e-45fa-c585-5943d9bca5f3",
+              "condition": "mode == mode_e.CR",
+              "outputName": "CR",
+              "outputValue": "1"
+            }
+          ]
+        },
+        {
+          "objID": "40a00b6d-21e9-49a8-b7d3-79ac27a850de",
+          "type": "SetVariableActionComponent",
+          "left": 511,
+          "top": 684,
+          "width": 149,
+          "height": 55,
+          "customInputs": [],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "50ac9769-3405-4644-aecc-e230ae8491f6",
+              "variable": "iset",
+              "value": "setValue"
+            }
+          ]
+        },
+        {
+          "objID": "b1471b0f-6ad0-4fdb-b872-1d1d4dcfacfe",
+          "type": "SetVariableActionComponent",
+          "left": 511,
+          "top": 749,
+          "width": 149,
+          "height": 55,
+          "customInputs": [],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "c9f4bef4-1ef1-4b30-c5a6-9d68a87937c6",
+              "variable": "uset",
+              "value": "setValue"
+            }
+          ]
+        },
+        {
+          "objID": "5e6b67bd-a9b7-4440-ffa8-7fe49c17e8c8",
+          "type": "SetVariableActionComponent",
+          "left": 511,
+          "top": 821,
+          "width": 149,
+          "height": 55,
+          "customInputs": [],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "b8ec3c30-bab5-4599-9690-d89949637659",
+              "variable": "pset",
+              "value": "setValue"
+            }
+          ]
+        },
+        {
+          "objID": "fd3b8a36-f8f8-418b-c0a0-22c1caccfa50",
+          "type": "SetVariableActionComponent",
+          "left": 511,
+          "top": 893,
+          "width": 149,
+          "height": 55,
+          "customInputs": [],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "d4b3e916-0bfe-40c6-b84d-9cfb48097400",
+              "variable": "rset",
+              "value": "setValue"
             }
           ]
         }
@@ -4559,6 +4678,41 @@
           "output": "PRESSED",
           "target": "89cb5e23-85ac-45d2-9608-137a292f828c",
           "input": "@seqin"
+        },
+        {
+          "objID": "d1ab3f44-9204-48da-9236-516662432180",
+          "source": "62a9bd84-425f-4c83-86d9-31d931357298",
+          "output": "VALUE_CHANGED",
+          "target": "508eb93d-75ed-432f-e315-18ff0b8fd9e7",
+          "input": "@seqin"
+        },
+        {
+          "objID": "37cfde1a-a3e7-4786-b573-26b18750eb28",
+          "source": "508eb93d-75ed-432f-e315-18ff0b8fd9e7",
+          "output": "CC",
+          "target": "40a00b6d-21e9-49a8-b7d3-79ac27a850de",
+          "input": "@seqin"
+        },
+        {
+          "objID": "7023f6f7-7472-4a34-c338-39bb47f8877f",
+          "source": "508eb93d-75ed-432f-e315-18ff0b8fd9e7",
+          "output": "CV",
+          "target": "b1471b0f-6ad0-4fdb-b872-1d1d4dcfacfe",
+          "input": "@seqin"
+        },
+        {
+          "objID": "c5a2b305-d966-43bf-f2b7-52249b456e48",
+          "source": "508eb93d-75ed-432f-e315-18ff0b8fd9e7",
+          "output": "CP",
+          "target": "5e6b67bd-a9b7-4440-ffa8-7fe49c17e8c8",
+          "input": "@seqin"
+        },
+        {
+          "objID": "30a34645-22e5-4e72-b15f-10131cd53f1e",
+          "source": "508eb93d-75ed-432f-e315-18ff0b8fd9e7",
+          "output": "CR",
+          "target": "fd3b8a36-f8f8-418b-c0a0-22c1caccfa50",
+          "input": "@seqin"
         }
       ],
       "localVariables": [
@@ -4618,6 +4772,14 @@
           },
           "hiddenInEditor": false,
           "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "22fa5eb3-f67b-4891-b620-06228dd05ac4",
+              "eventName": "RELEASED",
+              "handlerType": "flow",
+              "action": "getrollerindex"
+            }
+          ],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -4638,6 +4800,7 @@
               },
               "hiddenInEditor": false,
               "timeline": [],
+              "eventHandlers": [],
               "leftUnit": "px",
               "topUnit": "px",
               "widthUnit": "content",
@@ -4661,7 +4824,6 @@
                   }
                 }
               },
-              "eventHandlers": [],
               "text": "LVGL.LV_SYMBOL_HOME",
               "textType": "expression",
               "longMode": "WRAP",
@@ -4680,15 +4842,7 @@
           "useStyle": "selectbutton",
           "localStyles": {
             "objID": "9eaca475-a22f-4bed-d0a0-6676cf0dcb27"
-          },
-          "eventHandlers": [
-            {
-              "objID": "22fa5eb3-f67b-4891-b620-06228dd05ac4",
-              "trigger": "RELEASED",
-              "handlerType": "flow",
-              "action": "getrollerindex"
-            }
-          ]
+          }
         },
         {
           "objID": "f620ff85-c92e-465b-c172-b27a9d10a654",
@@ -4725,6 +4879,14 @@
           },
           "hiddenInEditor": false,
           "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "d24c2d3c-f387-4bc0-811b-3bea734061a1",
+              "eventName": "PRESSED",
+              "handlerType": "flow",
+              "action": "getdropdownindex"
+            }
+          ],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -4745,6 +4907,7 @@
               },
               "hiddenInEditor": false,
               "timeline": [],
+              "eventHandlers": [],
               "leftUnit": "px",
               "topUnit": "px",
               "widthUnit": "px",
@@ -4768,7 +4931,6 @@
                   }
                 }
               },
-              "eventHandlers": [],
               "text": "\" \" + LVGL.LV_SYMBOL_SHUFFLE + \" Calibration\"",
               "textType": "expression",
               "longMode": "CLIP",
@@ -4787,15 +4949,7 @@
           "useStyle": "selectbutton",
           "localStyles": {
             "objID": "9eaca475-a22f-4bed-d0a0-6676cf0dcb27"
-          },
-          "eventHandlers": [
-            {
-              "objID": "d24c2d3c-f387-4bc0-811b-3bea734061a1",
-              "trigger": "PRESSED",
-              "handlerType": "flow",
-              "action": "getdropdownindex"
-            }
-          ]
+          }
         },
         {
           "objID": "4ea5932d-e2aa-4779-8b30-22825b833b0b",
@@ -4832,6 +4986,14 @@
           },
           "hiddenInEditor": false,
           "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "f0f596b5-d869-4d2f-94c8-32d4c1a14187",
+              "eventName": "PRESSED",
+              "handlerType": "flow",
+              "action": "getdropdownindex"
+            }
+          ],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -4852,6 +5014,7 @@
               },
               "hiddenInEditor": false,
               "timeline": [],
+              "eventHandlers": [],
               "leftUnit": "px",
               "topUnit": "px",
               "widthUnit": "px",
@@ -4875,7 +5038,6 @@
                   }
                 }
               },
-              "eventHandlers": [],
               "text": "\" \" + LVGL.LV_SYMBOL_LOOP + \" Averaging\"",
               "textType": "expression",
               "longMode": "CLIP",
@@ -4894,15 +5056,7 @@
           "useStyle": "selectbutton",
           "localStyles": {
             "objID": "f505e18c-ebd2-466f-8181-253311dffb61"
-          },
-          "eventHandlers": [
-            {
-              "objID": "f0f596b5-d869-4d2f-94c8-32d4c1a14187",
-              "trigger": "PRESSED",
-              "handlerType": "flow",
-              "action": "getdropdownindex"
-            }
-          ]
+          }
         },
         {
           "objID": "dca52334-710e-4b1c-f189-1cba41e18287",
@@ -4938,6 +5092,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -4965,7 +5120,6 @@
               }
             }
           },
-          "eventHandlers": [],
           "text": "LVGL.LV_SYMBOL_SETTINGS  +\" Settings\"",
           "textType": "expression",
           "longMode": "CLIP",
@@ -4986,6 +5140,14 @@
           },
           "hiddenInEditor": false,
           "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "02557b3b-2173-44aa-fd74-aecf3df58318",
+              "eventName": "PRESSED",
+              "handlerType": "flow",
+              "action": "getdropdownindex"
+            }
+          ],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -5006,6 +5168,7 @@
               },
               "hiddenInEditor": false,
               "timeline": [],
+              "eventHandlers": [],
               "leftUnit": "px",
               "topUnit": "px",
               "widthUnit": "px",
@@ -5029,7 +5192,6 @@
                   }
                 }
               },
-              "eventHandlers": [],
               "text": "\" \" + LVGL.LV_SYMBOL_WARNING + \" Protections\"",
               "textType": "expression",
               "longMode": "CLIP",
@@ -5048,15 +5210,7 @@
           "useStyle": "selectbutton",
           "localStyles": {
             "objID": "9433b050-15df-4f79-d449-fb8fb30ed321"
-          },
-          "eventHandlers": [
-            {
-              "objID": "02557b3b-2173-44aa-fd74-aecf3df58318",
-              "trigger": "PRESSED",
-              "handlerType": "flow",
-              "action": "getdropdownindex"
-            }
-          ]
+          }
         },
         {
           "objID": "606dc3bc-1305-48e3-e191-a6b8fafc19ed",
@@ -5073,6 +5227,14 @@
           },
           "hiddenInEditor": false,
           "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "8ea8bed6-e5c5-4957-ac58-a269bc2e53d4",
+              "eventName": "PRESSED",
+              "handlerType": "flow",
+              "action": "getdropdownindex"
+            }
+          ],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -5093,6 +5255,7 @@
               },
               "hiddenInEditor": false,
               "timeline": [],
+              "eventHandlers": [],
               "leftUnit": "px",
               "topUnit": "px",
               "widthUnit": "px",
@@ -5116,7 +5279,6 @@
                   }
                 }
               },
-              "eventHandlers": [],
               "text": "\" \" + LVGL.LV_SYMBOL_LIST + \" Event log\"",
               "textType": "expression",
               "longMode": "CLIP",
@@ -5135,15 +5297,7 @@
           "useStyle": "selectbutton",
           "localStyles": {
             "objID": "d1ffbab6-4b55-424a-9b23-1707a0a9427d"
-          },
-          "eventHandlers": [
-            {
-              "objID": "8ea8bed6-e5c5-4957-ac58-a269bc2e53d4",
-              "trigger": "PRESSED",
-              "handlerType": "flow",
-              "action": "getdropdownindex"
-            }
-          ]
+          }
         },
         {
           "objID": "3dfe27c5-acda-4de8-bd81-129e91afcd9f",
@@ -5257,6 +5411,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -5274,7 +5429,6 @@
           "localStyles": {
             "objID": "acaec466-75b8-4e10-db90-23ea53f25687"
           },
-          "eventHandlers": [],
           "text": "LVGL.LV_SYMBOL_LIST + \" Events\"",
           "textType": "expression",
           "longMode": "WRAP",
@@ -5294,6 +5448,14 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "9dfa0396-cd6c-437c-f5fe-11fe80aeca83",
+              "eventName": "PRESSED",
+              "handlerType": "flow",
+              "action": "getdropdownindex"
+            }
+          ],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -5313,6 +5475,7 @@
                 "inheritFrom": "default"
               },
               "timeline": [],
+              "eventHandlers": [],
               "leftUnit": "px",
               "topUnit": "px",
               "widthUnit": "%",
@@ -5336,7 +5499,6 @@
                   }
                 }
               },
-              "eventHandlers": [],
               "text": "LVGL.LV_SYMBOL_NEW_LINE",
               "textType": "expression",
               "longMode": "CLIP",
@@ -5362,15 +5524,7 @@
                 }
               }
             }
-          },
-          "eventHandlers": [
-            {
-              "objID": "9dfa0396-cd6c-437c-f5fe-11fe80aeca83",
-              "trigger": "PRESSED",
-              "handlerType": "flow",
-              "action": "getdropdownindex"
-            }
-          ]
+          }
         },
         {
           "objID": "bf2136f8-6ae4-4870-8596-7e33fe6b3826",
@@ -5406,6 +5560,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -5431,7 +5586,6 @@
               }
             }
           },
-          "eventHandlers": [],
           "text": "logtxt",
           "textType": "expression",
           "placeholder": "",
@@ -5484,6 +5638,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -5501,7 +5656,6 @@
           "localStyles": {
             "objID": "106bab59-6b6c-4de5-ed08-2092116228d4"
           },
-          "eventHandlers": [],
           "text": "LVGL.LV_SYMBOL_WARNING + \" Protections\"",
           "textType": "expression",
           "longMode": "CLIP",
@@ -5521,6 +5675,14 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "42cc98a9-406a-4d92-bb81-ef287174fc03",
+              "eventName": "PRESSED",
+              "handlerType": "flow",
+              "action": "getdropdownindex"
+            }
+          ],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -5540,6 +5702,7 @@
                 "inheritFrom": "default"
               },
               "timeline": [],
+              "eventHandlers": [],
               "leftUnit": "px",
               "topUnit": "px",
               "widthUnit": "px",
@@ -5563,7 +5726,6 @@
                   }
                 }
               },
-              "eventHandlers": [],
               "text": "LVGL.LV_SYMBOL_NEW_LINE",
               "textType": "expression",
               "longMode": "CLIP",
@@ -5589,15 +5751,7 @@
                 }
               }
             }
-          },
-          "eventHandlers": [
-            {
-              "objID": "42cc98a9-406a-4d92-bb81-ef287174fc03",
-              "trigger": "PRESSED",
-              "handlerType": "flow",
-              "action": "getdropdownindex"
-            }
-          ]
+          }
         },
         {
           "objID": "574637cd-9a5f-4777-bf07-92ae576cff7d",
@@ -5633,6 +5787,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "content",
@@ -5657,7 +5812,6 @@
               }
             }
           },
-          "eventHandlers": [],
           "text": "Current (OCP):",
           "textType": "literal",
           "longMode": "WRAP",
@@ -5677,6 +5831,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "content",
@@ -5701,7 +5856,6 @@
               }
             }
           },
-          "eventHandlers": [],
           "text": "Voltage (OVP):",
           "textType": "literal",
           "longMode": "WRAP",
@@ -5721,6 +5875,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "content",
@@ -5746,7 +5901,6 @@
               }
             }
           },
-          "eventHandlers": [],
           "text": "Power (OPP):",
           "textType": "literal",
           "longMode": "WRAP",
@@ -5766,6 +5920,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "content",
@@ -5791,7 +5946,6 @@
               }
             }
           },
-          "eventHandlers": [],
           "text": "Temperature: \n(OTP)  ",
           "textType": "literal",
           "longMode": "WRAP",
@@ -5811,6 +5965,14 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "4d065e2f-7fd4-49e3-f3bc-5c14f410aeff",
+              "eventName": "PRESSED",
+              "handlerType": "flow",
+              "action": "getdropdownindex"
+            }
+          ],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -5830,6 +5992,7 @@
                 "inheritFrom": "default"
               },
               "timeline": [],
+              "eventHandlers": [],
               "leftUnit": "px",
               "topUnit": "px",
               "widthUnit": "px",
@@ -5853,7 +6016,6 @@
                   }
                 }
               },
-              "eventHandlers": [],
               "text": "OCPset + \"A\"",
               "textType": "expression",
               "longMode": "CLIP",
@@ -5879,15 +6041,7 @@
                 }
               }
             }
-          },
-          "eventHandlers": [
-            {
-              "objID": "4d065e2f-7fd4-49e3-f3bc-5c14f410aeff",
-              "trigger": "PRESSED",
-              "handlerType": "flow",
-              "action": "getdropdownindex"
-            }
-          ]
+          }
         },
         {
           "objID": "5555cbdc-5fe1-433e-c13b-2d5689d37d30",
@@ -5903,6 +6057,14 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "15cf1231-49ea-44b2-8e42-e9a3c9cd7ef2",
+              "eventName": "PRESSED",
+              "handlerType": "flow",
+              "action": "getdropdownindex"
+            }
+          ],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -5922,6 +6084,7 @@
                 "inheritFrom": "default"
               },
               "timeline": [],
+              "eventHandlers": [],
               "leftUnit": "px",
               "topUnit": "px",
               "widthUnit": "px",
@@ -5945,7 +6108,6 @@
                   }
                 }
               },
-              "eventHandlers": [],
               "text": "OVPset + \"V\"",
               "textType": "expression",
               "longMode": "CLIP",
@@ -5971,15 +6133,7 @@
                 }
               }
             }
-          },
-          "eventHandlers": [
-            {
-              "objID": "15cf1231-49ea-44b2-8e42-e9a3c9cd7ef2",
-              "trigger": "PRESSED",
-              "handlerType": "flow",
-              "action": "getdropdownindex"
-            }
-          ]
+          }
         },
         {
           "objID": "52324657-b9fd-489e-a8e5-a1f7efb0af1c",
@@ -6126,6 +6280,14 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "3b86f7fb-bacc-416d-b153-af294d81b0bb",
+              "eventName": "PRESSED",
+              "handlerType": "flow",
+              "action": "getdropdownindex"
+            }
+          ],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -6145,6 +6307,7 @@
                 "inheritFrom": "default"
               },
               "timeline": [],
+              "eventHandlers": [],
               "leftUnit": "px",
               "topUnit": "px",
               "widthUnit": "px",
@@ -6168,7 +6331,6 @@
                   }
                 }
               },
-              "eventHandlers": [],
               "text": "OPPset + \"W\"",
               "textType": "expression",
               "longMode": "CLIP",
@@ -6195,15 +6357,7 @@
                 }
               }
             }
-          },
-          "eventHandlers": [
-            {
-              "objID": "3b86f7fb-bacc-416d-b153-af294d81b0bb",
-              "trigger": "PRESSED",
-              "handlerType": "flow",
-              "action": "getdropdownindex"
-            }
-          ]
+          }
         },
         {
           "objID": "599503b5-43fd-49dc-ce97-4fea549ee3c6",
@@ -6219,6 +6373,14 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "a3d04835-48db-4eae-878a-82e489e852bd",
+              "eventName": "PRESSED",
+              "handlerType": "flow",
+              "action": "getdropdownindex"
+            }
+          ],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -6238,6 +6400,7 @@
                 "inheritFrom": "default"
               },
               "timeline": [],
+              "eventHandlers": [],
               "leftUnit": "px",
               "topUnit": "px",
               "widthUnit": "px",
@@ -6261,7 +6424,6 @@
                   }
                 }
               },
-              "eventHandlers": [],
               "text": "OPPdelay + \"s\"",
               "textType": "expression",
               "longMode": "CLIP",
@@ -6288,15 +6450,7 @@
                 }
               }
             }
-          },
-          "eventHandlers": [
-            {
-              "objID": "a3d04835-48db-4eae-878a-82e489e852bd",
-              "trigger": "PRESSED",
-              "handlerType": "flow",
-              "action": "getdropdownindex"
-            }
-          ]
+          }
         },
         {
           "objID": "1af06a85-8ffe-44cd-a369-aad39b02f775",
@@ -6312,6 +6466,14 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "ad5d5464-825e-432c-df53-6772d36e63b3",
+              "eventName": "PRESSED",
+              "handlerType": "flow",
+              "action": "getdropdownindex"
+            }
+          ],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -6331,6 +6493,7 @@
                 "inheritFrom": "default"
               },
               "timeline": [],
+              "eventHandlers": [],
               "leftUnit": "px",
               "topUnit": "px",
               "widthUnit": "px",
@@ -6356,7 +6519,6 @@
                   }
                 }
               },
-              "eventHandlers": [],
               "text": "Clear protection",
               "textType": "literal",
               "longMode": "CLIP",
@@ -6384,15 +6546,7 @@
                 }
               }
             }
-          },
-          "eventHandlers": [
-            {
-              "objID": "ad5d5464-825e-432c-df53-6772d36e63b3",
-              "trigger": "PRESSED",
-              "handlerType": "flow",
-              "action": "getdropdownindex"
-            }
-          ]
+          }
         },
         {
           "objID": "e77f5e07-d9bb-4649-9b1d-189495459cbc",
@@ -6409,6 +6563,7 @@
           },
           "hiddenInEditor": true,
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -6427,7 +6582,6 @@
           "localStyles": {
             "objID": "ecaab229-6184-4f54-bac8-4471be29d7e6"
           },
-          "eventHandlers": [],
           "userWidgetPageName": "keyboard"
         },
         {
@@ -6775,6 +6929,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -6792,7 +6947,6 @@
           "localStyles": {
             "objID": "c593511e-0cac-4a11-fc14-a7fabb0ece61"
           },
-          "eventHandlers": [],
           "text": "LVGL.LV_SYMBOL_SHUFFLE + \" Calibration\"",
           "textType": "expression",
           "longMode": "CLIP",
@@ -6812,6 +6966,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -6838,7 +6993,6 @@
               }
             }
           },
-          "eventHandlers": [],
           "options": "Current Monitor\nVoltage Monitor\nCurrent Set\nVon\nOCP set\nOVP set",
           "selected": "cal_calType",
           "selectedType": "expression"
@@ -6877,6 +7031,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -6901,7 +7056,6 @@
               }
             }
           },
-          "eventHandlers": [],
           "text": "Set:",
           "textType": "literal",
           "longMode": "WRAP",
@@ -6921,6 +7075,14 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "445854bc-4cba-4dba-b5ae-1917a95ad33e",
+              "eventName": "PRESSED",
+              "handlerType": "flow",
+              "action": "getrollerindex"
+            }
+          ],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -6941,6 +7103,7 @@
               },
               "locked": true,
               "timeline": [],
+              "eventHandlers": [],
               "leftUnit": "px",
               "topUnit": "px",
               "widthUnit": "px",
@@ -6967,7 +7130,6 @@
                   }
                 }
               },
-              "eventHandlers": [],
               "text": "cal_set + calData[cal_calType].unit",
               "textType": "expression",
               "longMode": "CLIP",
@@ -7002,15 +7164,7 @@
                 }
               }
             }
-          },
-          "eventHandlers": [
-            {
-              "objID": "445854bc-4cba-4dba-b5ae-1917a95ad33e",
-              "trigger": "PRESSED",
-              "handlerType": "flow",
-              "action": "getrollerindex"
-            }
-          ]
+          }
         },
         {
           "objID": "a8f2cf46-7435-4d32-fe59-401d751e1c12",
@@ -7026,6 +7180,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -7050,7 +7205,6 @@
               }
             }
           },
-          "eventHandlers": [],
           "text": "Measured:",
           "textType": "literal",
           "longMode": "WRAP",
@@ -7070,6 +7224,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -7094,7 +7249,6 @@
               }
             }
           },
-          "eventHandlers": [],
           "text": "calData[cal_calType].instruction",
           "textType": "expression",
           "longMode": "SCROLL",
@@ -7114,6 +7268,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -7138,7 +7293,6 @@
               }
             }
           },
-          "eventHandlers": [],
           "text": "(cal_curpoint + 1 ) + \" of \" + cal_numpoints",
           "textType": "expression",
           "longMode": "CLIP",
@@ -7158,6 +7312,14 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "2789f912-c6ef-48a0-cebd-6f1409a8a976",
+              "eventName": "PRESSED",
+              "handlerType": "flow",
+              "action": "getdropdownindex"
+            }
+          ],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -7177,6 +7339,7 @@
                 "inheritFrom": "default"
               },
               "timeline": [],
+              "eventHandlers": [],
               "leftUnit": "px",
               "topUnit": "px",
               "widthUnit": "px",
@@ -7200,7 +7363,6 @@
                   }
                 }
               },
-              "eventHandlers": [],
               "text": "Recal",
               "textType": "literal",
               "longMode": "CLIP",
@@ -7226,15 +7388,7 @@
                 }
               }
             }
-          },
-          "eventHandlers": [
-            {
-              "objID": "2789f912-c6ef-48a0-cebd-6f1409a8a976",
-              "trigger": "PRESSED",
-              "handlerType": "flow",
-              "action": "getdropdownindex"
-            }
-          ]
+          }
         },
         {
           "objID": "f11613a9-c885-4b9c-858a-e1496b27449f",
@@ -7250,6 +7404,14 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "32ca83fa-5622-472b-88ec-963a0e389686",
+              "eventName": "PRESSED",
+              "handlerType": "flow",
+              "action": "getdropdownindex"
+            }
+          ],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -7269,6 +7431,7 @@
                 "inheritFrom": "default"
               },
               "timeline": [],
+              "eventHandlers": [],
               "leftUnit": "px",
               "topUnit": "px",
               "widthUnit": "px",
@@ -7293,7 +7456,6 @@
                   }
                 }
               },
-              "eventHandlers": [],
               "text": "LVGL.LV_SYMBOL_SAVE",
               "textType": "expression",
               "longMode": "CLIP",
@@ -7320,15 +7482,7 @@
                 }
               }
             }
-          },
-          "eventHandlers": [
-            {
-              "objID": "32ca83fa-5622-472b-88ec-963a0e389686",
-              "trigger": "PRESSED",
-              "handlerType": "flow",
-              "action": "getdropdownindex"
-            }
-          ]
+          }
         },
         {
           "objID": "9f76b32b-21b9-4b2b-bb58-b8e721ac25e8",
@@ -7344,6 +7498,14 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "d38148ac-3188-4143-ce97-395ec081f271",
+              "eventName": "PRESSED",
+              "handlerType": "flow",
+              "action": "getdropdownindex"
+            }
+          ],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -7363,6 +7525,7 @@
                 "inheritFrom": "default"
               },
               "timeline": [],
+              "eventHandlers": [],
               "leftUnit": "px",
               "topUnit": "px",
               "widthUnit": "px",
@@ -7387,7 +7550,6 @@
                   }
                 }
               },
-              "eventHandlers": [],
               "text": "LVGL.LV_SYMBOL_CLOSE",
               "textType": "expression",
               "longMode": "CLIP",
@@ -7414,15 +7576,7 @@
                 }
               }
             }
-          },
-          "eventHandlers": [
-            {
-              "objID": "d38148ac-3188-4143-ce97-395ec081f271",
-              "trigger": "PRESSED",
-              "handlerType": "flow",
-              "action": "getdropdownindex"
-            }
-          ]
+          }
         },
         {
           "objID": "3d9b1c6c-395c-4acf-d63a-667cc70614ba",
@@ -7438,6 +7592,14 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "ffd6fb00-6843-4630-e9e5-7392bf48b2ca",
+              "eventName": "PRESSED",
+              "handlerType": "flow",
+              "action": "getdropdownindex"
+            }
+          ],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -7457,6 +7619,7 @@
                 "inheritFrom": "default"
               },
               "timeline": [],
+              "eventHandlers": [],
               "leftUnit": "px",
               "topUnit": "px",
               "widthUnit": "px",
@@ -7481,7 +7644,6 @@
                   }
                 }
               },
-              "eventHandlers": [],
               "text": "LVGL.LV_SYMBOL_NEW_LINE",
               "textType": "expression",
               "longMode": "CLIP",
@@ -7508,15 +7670,7 @@
                 }
               }
             }
-          },
-          "eventHandlers": [
-            {
-              "objID": "ffd6fb00-6843-4630-e9e5-7392bf48b2ca",
-              "trigger": "PRESSED",
-              "handlerType": "flow",
-              "action": "getdropdownindex"
-            }
-          ]
+          }
         },
         {
           "objID": "6a26e3c5-dc58-4887-d1d2-726c349ccce2",
@@ -7532,6 +7686,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -7556,7 +7711,6 @@
               }
             }
           },
-          "eventHandlers": [],
           "text": "cal_measured",
           "textType": "expression",
           "longMode": "CLIP",
@@ -7576,6 +7730,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -7600,7 +7755,6 @@
               }
             }
           },
-          "eventHandlers": [],
           "text": "Point:",
           "textType": "literal",
           "longMode": "WRAP",
@@ -7620,6 +7774,14 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "0e555d08-70f1-4f06-9838-de2d8bb2a8bf",
+              "eventName": "PRESSED",
+              "handlerType": "flow",
+              "action": "getdropdownindex"
+            }
+          ],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -7653,14 +7815,6 @@
               }
             }
           },
-          "eventHandlers": [
-            {
-              "objID": "0e555d08-70f1-4f06-9838-de2d8bb2a8bf",
-              "trigger": "PRESSED",
-              "handlerType": "flow",
-              "action": "getdropdownindex"
-            }
-          ],
           "text": "LVGL.LV_SYMBOL_LEFT",
           "textType": "expression",
           "longMode": "CLIP",
@@ -7680,6 +7834,14 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "ea5c131e-924b-49fe-8817-36a51c867427",
+              "eventName": "PRESSED",
+              "handlerType": "flow",
+              "action": "getdropdownindex"
+            }
+          ],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -7713,14 +7875,6 @@
               }
             }
           },
-          "eventHandlers": [
-            {
-              "objID": "ea5c131e-924b-49fe-8817-36a51c867427",
-              "trigger": "PRESSED",
-              "handlerType": "flow",
-              "action": "getdropdownindex"
-            }
-          ],
           "text": "LVGL.LV_SYMBOL_RIGHT",
           "textType": "expression",
           "longMode": "CLIP",
@@ -7879,6 +8033,14 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "dcb12b84-b9b0-4934-fcc9-feeec395d617",
+              "eventName": "PRESSED",
+              "handlerType": "flow",
+              "action": "getdropdownindex"
+            }
+          ],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -7912,14 +8074,6 @@
               }
             }
           },
-          "eventHandlers": [
-            {
-              "objID": "dcb12b84-b9b0-4934-fcc9-feeec395d617",
-              "trigger": "PRESSED",
-              "handlerType": "flow",
-              "action": "getdropdownindex"
-            }
-          ],
           "text": "LVGL.LV_SYMBOL_REFRESH",
           "textType": "expression",
           "longMode": "CLIP",
@@ -7940,6 +8094,7 @@
           },
           "hiddenInEditor": true,
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -7958,7 +8113,6 @@
           "localStyles": {
             "objID": "967c76d5-b529-4741-e3bb-24c82bbee918"
           },
-          "eventHandlers": [],
           "userWidgetPageName": "keyboard"
         },
         {
@@ -8302,6 +8456,7 @@
           },
           "locked": true,
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -8320,8 +8475,7 @@
           "useStyle": "blackpanel",
           "localStyles": {
             "objID": "75ceb3cd-f86a-40c7-fe54-0a7ad1eed3e7"
-          },
-          "eventHandlers": []
+          }
         },
         {
           "objID": "ed5ac760-3b0d-41ea-a7fa-fc4506dcc92e",
@@ -8357,6 +8511,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -8381,7 +8536,6 @@
               }
             }
           },
-          "eventHandlers": [],
           "text": "PL Freq:",
           "textType": "literal",
           "longMode": "CLIP",
@@ -8439,6 +8593,14 @@
           },
           "hiddenInEditor": false,
           "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "77202cf4-d5af-4bd9-f82d-924d8e061e5c",
+              "eventName": "RELEASED",
+              "handlerType": "flow",
+              "action": "getrollerindex"
+            }
+          ],
           "identifier": "NLPC_HOME",
           "leftUnit": "px",
           "topUnit": "px",
@@ -8460,6 +8622,7 @@
               },
               "hiddenInEditor": false,
               "timeline": [],
+              "eventHandlers": [],
               "leftUnit": "px",
               "topUnit": "px",
               "widthUnit": "content",
@@ -8483,7 +8646,6 @@
                   }
                 }
               },
-              "eventHandlers": [],
               "text": "LVGL.LV_SYMBOL_HOME",
               "textType": "expression",
               "longMode": "WRAP",
@@ -8502,15 +8664,7 @@
           "useStyle": "selectbutton",
           "localStyles": {
             "objID": "f8f6d87c-4143-4b1a-9f56-9f41b09cee86"
-          },
-          "eventHandlers": [
-            {
-              "objID": "77202cf4-d5af-4bd9-f82d-924d8e061e5c",
-              "trigger": "RELEASED",
-              "handlerType": "flow",
-              "action": "getrollerindex"
-            }
-          ]
+          }
         },
         {
           "objID": "eada60b0-d316-42a6-e8c4-addf45b3006c",
@@ -8553,6 +8707,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -8578,7 +8733,6 @@
               }
             }
           },
-          "eventHandlers": [],
           "text": "Math.round((SampleRate*newNPLC)/(newFreq*10+50)) + \" / \" + 1000*newNPLC/(newFreq*10+50) + \"ms\"",
           "textType": "expression",
           "longMode": "CLIP",
@@ -8598,6 +8752,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -8623,7 +8778,6 @@
               }
             }
           },
-          "eventHandlers": [],
           "text": "Measurement Averaging",
           "textType": "literal",
           "longMode": "CLIP",
@@ -8643,6 +8797,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -8668,7 +8823,6 @@
               }
             }
           },
-          "eventHandlers": [],
           "text": "SampleRate + \"sps\"",
           "textType": "expression",
           "longMode": "CLIP",
@@ -8689,6 +8843,14 @@
           },
           "hiddenInEditor": false,
           "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "7ed52f61-2333-48cc-b4e1-40a75349e10a",
+              "eventName": "RELEASED",
+              "handlerType": "flow",
+              "action": "getrollerindex"
+            }
+          ],
           "identifier": "NLPC_HOME_CANCEL",
           "leftUnit": "px",
           "topUnit": "px",
@@ -8710,6 +8872,7 @@
               },
               "hiddenInEditor": false,
               "timeline": [],
+              "eventHandlers": [],
               "leftUnit": "px",
               "topUnit": "px",
               "widthUnit": "content",
@@ -8733,7 +8896,6 @@
                   }
                 }
               },
-              "eventHandlers": [],
               "text": "LVGL.LV_SYMBOL_CLOSE",
               "textType": "expression",
               "longMode": "WRAP",
@@ -8753,15 +8915,7 @@
           "useStyle": "selectbutton",
           "localStyles": {
             "objID": "8c71e611-9516-4b44-e329-8f3291de2b39"
-          },
-          "eventHandlers": [
-            {
-              "objID": "7ed52f61-2333-48cc-b4e1-40a75349e10a",
-              "trigger": "RELEASED",
-              "handlerType": "flow",
-              "action": "getrollerindex"
-            }
-          ]
+          }
         },
         {
           "objID": "e3c02f87-39c7-4769-e921-cb9f62bdb014",
@@ -8778,6 +8932,14 @@
           },
           "hiddenInEditor": false,
           "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "2f6dd8f8-34c5-46dd-b585-6d9b13c39689",
+              "eventName": "RELEASED",
+              "handlerType": "flow",
+              "action": "getrollerindex"
+            }
+          ],
           "identifier": "NLPC_HOME_CANCEL_1",
           "leftUnit": "px",
           "topUnit": "px",
@@ -8799,6 +8961,7 @@
               },
               "hiddenInEditor": false,
               "timeline": [],
+              "eventHandlers": [],
               "leftUnit": "px",
               "topUnit": "px",
               "widthUnit": "content",
@@ -8822,7 +8985,6 @@
                   }
                 }
               },
-              "eventHandlers": [],
               "text": "LVGL.LV_SYMBOL_OK",
               "textType": "expression",
               "longMode": "WRAP",
@@ -8842,15 +9004,7 @@
           "useStyle": "selectbutton",
           "localStyles": {
             "objID": "83cc1b32-711e-4c67-aef1-538d5e6c0a29"
-          },
-          "eventHandlers": [
-            {
-              "objID": "2f6dd8f8-34c5-46dd-b585-6d9b13c39689",
-              "trigger": "RELEASED",
-              "handlerType": "flow",
-              "action": "getrollerindex"
-            }
-          ]
+          }
         },
         {
           "objID": "6cc02fa9-43c8-421a-818d-7169b99d8c3a",
@@ -8866,6 +9020,14 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "f6909e38-0ebe-4fc6-e8a2-b6315c727138",
+              "eventName": "VALUE_CHANGED",
+              "handlerType": "flow",
+              "action": "getdropdownindex"
+            }
+          ],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -8883,14 +9045,6 @@
           "localStyles": {
             "objID": "e05654ec-fbf7-47d3-cc07-869416e38340"
           },
-          "eventHandlers": [
-            {
-              "objID": "f6909e38-0ebe-4fc6-e8a2-b6315c727138",
-              "trigger": "VALUE_CHANGED",
-              "handlerType": "flow",
-              "action": "getdropdownindex"
-            }
-          ],
           "min": 1,
           "max": 100,
           "mode": "NORMAL",
@@ -8913,6 +9067,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -8937,7 +9092,6 @@
               }
             }
           },
-          "eventHandlers": [],
           "text": "ADC:",
           "textType": "literal",
           "longMode": "CLIP",
@@ -8957,6 +9111,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -8981,7 +9136,6 @@
               }
             }
           },
-          "eventHandlers": [],
           "text": "NPLC:",
           "textType": "literal",
           "longMode": "CLIP",
@@ -9001,6 +9155,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -9025,7 +9180,6 @@
               }
             }
           },
-          "eventHandlers": [],
           "text": "Samples:",
           "textType": "literal",
           "longMode": "CLIP",
@@ -9045,6 +9199,14 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "666a653c-2c04-4851-9f69-71b7965fdc73",
+              "eventName": "VALUE_CHANGED",
+              "handlerType": "flow",
+              "action": "getdropdownindex"
+            }
+          ],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -9063,14 +9225,6 @@
           "localStyles": {
             "objID": "8e67d729-6fd2-4113-9aa5-64098cb333ca"
           },
-          "eventHandlers": [
-            {
-              "objID": "666a653c-2c04-4851-9f69-71b7965fdc73",
-              "trigger": "VALUE_CHANGED",
-              "handlerType": "flow",
-              "action": "getdropdownindex"
-            }
-          ],
           "options": "50 Hz\n60 Hz",
           "selected": "newFreq",
           "selectedType": "expression"
@@ -9089,6 +9243,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -9114,7 +9269,6 @@
               }
             }
           },
-          "eventHandlers": [],
           "text": "newNPLC",
           "textType": "expression",
           "longMode": "CLIP",
@@ -9199,6 +9353,7 @@
           },
           "hiddenInEditor": true,
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -9217,7 +9372,6 @@
           "localStyles": {
             "objID": "19536a91-44cf-45b0-8196-bd97a3e0ea5f"
           },
-          "eventHandlers": [],
           "userWidgetPageName": "questionYN"
         },
         {
@@ -9430,7 +9584,9 @@
       "lvglLocalStyles": {
         "objID": "c642168e-99b2-4515-c61a-1775054f1d84"
       }
-    },
+    }
+  ],
+  "userWidgets": [
     {
       "objID": "0fd248a6-4120-4b3c-a6d7-a03d7892bea0",
       "components": [
@@ -9448,6 +9604,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -9467,6 +9624,14 @@
                 "inheritFrom": "default"
               },
               "timeline": [],
+              "eventHandlers": [
+                {
+                  "objID": "b302d0c2-32c0-40a5-f1ea-a5c43fe9db0b",
+                  "eventName": "PRESSED",
+                  "handlerType": "flow",
+                  "action": "getdropdownindex"
+                }
+              ],
               "leftUnit": "px",
               "topUnit": "px",
               "widthUnit": "px",
@@ -9486,6 +9651,7 @@
                     "inheritFrom": "default"
                   },
                   "timeline": [],
+                  "eventHandlers": [],
                   "leftUnit": "px",
                   "topUnit": "px",
                   "widthUnit": "px",
@@ -9509,7 +9675,6 @@
                       }
                     }
                   },
-                  "eventHandlers": [],
                   "text": "Yes",
                   "textType": "literal",
                   "longMode": "WRAP",
@@ -9527,15 +9692,7 @@
               "states": "",
               "localStyles": {
                 "objID": "1beba559-9d85-4fc7-80d1-6d741a050d90"
-              },
-              "eventHandlers": [
-                {
-                  "objID": "b302d0c2-32c0-40a5-f1ea-a5c43fe9db0b",
-                  "trigger": "PRESSED",
-                  "handlerType": "flow",
-                  "action": "getdropdownindex"
-                }
-              ]
+              }
             },
             {
               "objID": "e448a58b-53c0-4ce5-911c-2d1797504c61",
@@ -9551,6 +9708,14 @@
                 "inheritFrom": "default"
               },
               "timeline": [],
+              "eventHandlers": [
+                {
+                  "objID": "caf9b8de-97f5-42b0-9a8b-7f56c08f2ee4",
+                  "eventName": "PRESSED",
+                  "handlerType": "flow",
+                  "action": "getdropdownindex"
+                }
+              ],
               "leftUnit": "px",
               "topUnit": "px",
               "widthUnit": "px",
@@ -9570,6 +9735,7 @@
                     "inheritFrom": "default"
                   },
                   "timeline": [],
+                  "eventHandlers": [],
                   "leftUnit": "px",
                   "topUnit": "px",
                   "widthUnit": "px",
@@ -9593,7 +9759,6 @@
                       }
                     }
                   },
-                  "eventHandlers": [],
                   "text": "No",
                   "textType": "literal",
                   "longMode": "WRAP",
@@ -9611,15 +9776,7 @@
               "states": "",
               "localStyles": {
                 "objID": "605feb82-0bbc-42bd-bad8-c0abe1ce165c"
-              },
-              "eventHandlers": [
-                {
-                  "objID": "caf9b8de-97f5-42b0-9a8b-7f56c08f2ee4",
-                  "trigger": "PRESSED",
-                  "handlerType": "flow",
-                  "action": "getdropdownindex"
-                }
-              ]
+              }
             }
           ],
           "flags": "PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_CHAIN",
@@ -9634,8 +9791,7 @@
           "useStyle": "warning",
           "localStyles": {
             "objID": "ef93828b-42ae-4ce9-a28d-78b6e2842ea2"
-          },
-          "eventHandlers": []
+          }
         },
         {
           "objID": "2cf73290-e75e-4f1a-efc9-a07f2c90afea",
@@ -9687,6 +9843,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "content",
@@ -9711,7 +9868,6 @@
               }
             }
           },
-          "eventHandlers": [],
           "text": "Are you sure?",
           "textType": "literal",
           "longMode": "WRAP",
@@ -9737,6 +9893,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -9762,7 +9919,6 @@
               }
             }
           },
-          "eventHandlers": [],
           "text": "textin",
           "textType": "expression",
           "longMode": "WRAP",
@@ -9828,6 +9984,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -9845,7 +10002,6 @@
           "localStyles": {
             "objID": "27810733-5ccb-4e8f-c69a-b07e36ca79b1"
           },
-          "eventHandlers": [],
           "text": " name + \"(\" + valueMin +\"-\"+valueMax + \n unit + \")\"",
           "textType": "expression",
           "longMode": "SCROLL",
@@ -9865,6 +10021,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "identifier": "KBtext",
           "leftUnit": "px",
           "topUnit": "px",
@@ -9883,7 +10040,6 @@
           "localStyles": {
             "objID": "2ea590f3-4111-420c-fa76-aaa4a30b127e"
           },
-          "eventHandlers": [],
           "text": "valueSet",
           "textType": "expression",
           "placeholder": "",
@@ -10019,6 +10175,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -10045,7 +10202,6 @@
               }
             }
           },
-          "eventHandlers": [],
           "mode": "TEXT_LOWER"
         }
       ],
@@ -10143,6 +10299,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -10168,8 +10325,7 @@
                 }
               }
             }
-          },
-          "eventHandlers": []
+          }
         },
         {
           "objID": "a7a8f5aa-9260-4723-87e9-2167695eac3a",
@@ -10185,6 +10341,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -10202,7 +10359,6 @@
           "localStyles": {
             "objID": "8a30eb52-0332-4469-e871-dd923e9f9b6e"
           },
-          "eventHandlers": [],
           "text": "setTypes[setType].setName + \" ( \" + setTypes[setType].setValueMin + \" - \" + setTypes[setType].setValueMax + setTypes[setType].setUnit +\" )\"",
           "textType": "expression",
           "longMode": "SCROLL",
@@ -10222,6 +10378,7 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [],
           "identifier": "kbtext2",
           "leftUnit": "px",
           "topUnit": "px",
@@ -10259,7 +10416,6 @@
               }
             }
           },
-          "eventHandlers": [],
           "text": "newValueString",
           "textType": "expression",
           "placeholder": "",
@@ -10282,6 +10438,20 @@
             "inheritFrom": "default"
           },
           "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "80ed69c3-4d4e-4a5c-899f-5208fb3bbd07",
+              "eventName": "READY",
+              "handlerType": "flow",
+              "action": "getdropdownindex"
+            },
+            {
+              "objID": "48d0c08c-92cd-47bf-9902-8b41228d42d2",
+              "eventName": "CANCEL",
+              "handlerType": "flow",
+              "action": "getdropdownindex"
+            }
+          ],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -10307,20 +10477,6 @@
               }
             }
           },
-          "eventHandlers": [
-            {
-              "objID": "80ed69c3-4d4e-4a5c-899f-5208fb3bbd07",
-              "trigger": "READY",
-              "handlerType": "flow",
-              "action": "getdropdownindex"
-            },
-            {
-              "objID": "48d0c08c-92cd-47bf-9902-8b41228d42d2",
-              "trigger": "CANCEL",
-              "handlerType": "flow",
-              "action": "getdropdownindex"
-            }
-          ],
           "textarea": "kbtext2",
           "mode": "NUMBER"
         },

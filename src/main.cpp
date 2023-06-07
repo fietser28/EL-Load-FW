@@ -250,6 +250,7 @@ void setup()
 
   state.cal.Iset = new calLinear2P();
   state.cal.Iset->setCalConfig(iSetCal);
+  state.cal.Iset->setADCConfig(iSetDAC.DAC_MIN, iSetDAC.DAC_MAX);
 
   //float iSetC = (iSetCal.points[1].value - iSetCal.points[0].value) / (iSetCal.points[1].dac - iSetCal.points[0].dac);
   //float iSetO = iSetCal.points[0].value - iSetCal.points[0].dac * iSetC;
@@ -277,15 +278,15 @@ void setup()
   }
 
   // Message stream from state functions to averaging task.
-  const size_t changeAverageSettingsBuffer = 42; // 1 msg = 4bytes + 3bytes = 7 bytes => 6 messages.
+  const size_t changeAverageSettingsBuffer = 6 * (4 + sizeof(changeAverageSettings)); // => Buffer fits 6 messages.
   changeAverageSettings = xQueueCreate(6, sizeof(changeAverageSettingsMsg));
   if (changeAverageSettings == NULL)
   { // TODO: reset, something is really wrong....
   };
 
   // Message stream from state functions to measure task.
-  const size_t changeMeasureTaskSettingsBuffer = 42; // TODO: 1 msg = 4bytes + 3bytes = 7 bytes => 6 messages.
-  changeMeasureTaskSettings = xQueueCreate(6, sizeof(changeAverageSettingsMsg));
+  const size_t changeMeasureTaskSettingsBuffer = 6 * (4 + sizeof(setStateStruct)); // => Buffer fits 6 messages.
+  changeMeasureTaskSettings = xQueueCreate(6, sizeof(setStateStruct));
   if (changeMeasureTaskSettings == NULL)
   { // TODO: reset, something is really wrong....
   }
@@ -293,7 +294,7 @@ void setup()
   myeeprom.begin(&I2C_EEPROM, I2C_EEPROM_SEM, EEPROM_ADDR, 64, 32);
 
   // Wait for serial....
-  vTaskDelay(2000);
+  //vTaskDelay(2000);
 
   // Detect and read/write eeprom config data
   bool eepromMagicFound = myeeprom.magicDetect();
@@ -330,15 +331,15 @@ void setup()
   state.setOff();
   state.clearPower();
 
-  vTaskDelay(4000);
+  vTaskDelay(400);
 
   keys_task_init();
 
-  vTaskDelay(4000);
+  vTaskDelay(400);
 
   //gui_task_init();
 
-  vTaskDelay(4000);
+  vTaskDelay(400);
 
   // Next create the protection tasks.
   BaseType_t xTaskRet;
@@ -361,7 +362,7 @@ void setup()
   { // TODO: reset, something is really wrong;
     SERIALDEBUG.println("ERROR: Error starting MeasureAndOutput task.");
   }
-  //vTaskCoreAffinitySet(taskMeasureAndOutput, TASK_AFFINITY_MEASURE); 
+  vTaskCoreAffinitySet(taskMeasureAndOutput, TASK_AFFINITY_MEASURE); 
 
 #ifdef FAKE_HARDWARE
   vTaskDelay(500); // Wait for tasks to start 
@@ -414,7 +415,7 @@ void loop()
 //  cyclecount = rp2040.getCycleCount64()/rp2040.f_cpu();
   cyclecount++;
   //SERIALDEBUG.printf("Heap total: %d, used: %d, free:  %d, uptime: %d, ADC0: %i, ADC1: %i, %d\n", heaptotal, heapused, heapfree, cyclecount, loopmystate.avgCurrentRaw, loopmystate.avgVoltRaw, loopmystate.avgCurrentRaw < 0 ? 1 : 0);
-  SERIALDEBUG.printf("Imon: %f, Umon: %f, uptime: %d, ADC0: %i, ADC1: %i\n", loopmystate.Imon, loopmystate.Umon, cyclecount, loopmystate.avgCurrentRaw, loopmystate.avgVoltRaw);
+  SERIALDEBUG.printf("Imon: %f, Umon: %f, uptime: %d, Mode: %d, Rset: %f\n", loopmystate.Imon, loopmystate.Umon, cyclecount, loopmysetstate.mode, loopmysetstate.Rset);
   snprintf(logtxt, 120, "Heap total: %d\nHeap used: %d\nHeap free:  %d\nADC0: %d\n", heaptotal, heapused, heapfree, loopmystate.avgCurrentRaw);
   vTaskDelay(ondelay);
 }
@@ -472,7 +473,7 @@ void taskProtHWFunction(void *pvParameters)
 };
 
 // This task exclusivlly handles ADC and DAC SPI channels.
-void taskMeasureAndOutputFunction(void *pvParameters)
+void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
 {
   uint32_t ulNotifiedValue;
   newMeasurementMsg measured;
@@ -523,14 +524,17 @@ void taskMeasureAndOutputFunction(void *pvParameters)
 #endif
 
     // No mutexes around calibration data.
-    imon = state.cal.Imon->remap(measured.ImonRaw);
+    imon = state.cal.Imon->remapADC(measured.ImonRaw);
     //imon = remap((float)measured.ImonRaw, (float)currentADC.ADC_MIN, currentMinVal, (float)currentADC.ADC_MAX, currentMaxVal);
-    umon = state.cal.Umon->remap(measured.UmonRaw);
+    umon = state.cal.Umon->remapADC(measured.UmonRaw);
     //umon = remap((float)measured.UmonRaw, (float)voltADC.ADC_MIN, voltMinVal, (float)voltADC.ADC_MAX, voltMaxVal);
 
     if (stateReceived && localSetState.on == true && localSetState.protection == false)
+    //if (stateReceived)
     {
       vonset = localSetState.VonSet;
+      iset = localSetState.Iset; //TODO: remove
+
       switch (localSetState.mode)
       {
       case ELmode::START:
@@ -552,22 +556,29 @@ void taskMeasureAndOutputFunction(void *pvParameters)
         iset = localSetState.Iset;
         uset = localSetState.Uset;
         break;
+
       }
     }
     else
     {
-      iset = 0.0f;
+      iset = 1.0f;
       uset = 1000.0f; // Will clamp DAC
       vonset = 1.0f;
-    }
+    } 
+
+  // TODO: remove
+    //iset = localSetState.Iset;
 
     // Only recalc and set if changed
     if (iset != isetPrev)
     {
-      iset = remap(iset, iSetMinVal, (float)iSetDAC.DAC_MIN, iSetMaxVal, (float)iSetDAC.DAC_MAX);
-      isetRaw = (uint32_t)clamp(iset, iSetDAC.DAC_MIN, iSetDAC.DAC_MAX);
-      if (isetRaw != isetRawPrev)
+      //iset = remap(iset, iSetMinVal, (float)iSetDAC.DAC_MIN, iSetMaxVal, (float)iSetDAC.DAC_MAX);
+      iset = state.cal.Iset->remapDAC(iset);
+      isetRaw = iset;
+      //isetRaw = (uint32_t)clamp(iset, iSetDAC.DAC_MIN, iSetDAC.DAC_MAX);
+      if (true || isetRaw != isetRawPrev)
       {
+        isetRaw = (uint32_t)clamp(isetRaw, iSetDAC.DAC_MIN, iSetDAC.DAC_MAX);
 #ifndef FAKE_HARDWARE
         iSetDAC.write(isetRaw);
 #endif
@@ -577,7 +588,6 @@ void taskMeasureAndOutputFunction(void *pvParameters)
     }
     // Time critical part ends here. CP and CR loop have changing iset, not uset.
 
-    // Only recalc and set if changed
     if (uset != usetPrev)
     {
       uset = remap(uset, iSetMinVal, (float)uSetDAC.DAC_MIN, uSetMaxVal, (float)uSetDAC.DAC_MAX);
@@ -676,8 +686,8 @@ void taskAveragingFunction(void *pvParameters)
     if (update)
     {
       //digitalWrite(PIN_TEST, HIGH);
-      imon = state.cal.Imon->remap(avgCurrentRaw);
-      umon = state.cal.Umon->remap(avgVoltRaw);
+      imon = state.cal.Imon->remapADC(avgCurrentRaw);
+      umon = state.cal.Umon->remapADC(avgVoltRaw);
       //imon = remap((float)avgCurrentRaw, (float)currentADC.ADC_MIN, currentMinVal, (float)currentADC.ADC_MAX, currentMaxVal);
       //umon = remap((float)avgVoltRaw, (float)voltADC.ADC_MIN, voltMinVal, (float)voltADC.ADC_MAX, voltMaxVal);
       if (record && on)
@@ -746,7 +756,7 @@ void safeMode()
 }
 
 // For debugging / testing without hardware.
-// Genrate a fake interrupt of ADC.
+// Simulate a fake interrupt of ADC.
 void timerFakeADCInterruptFunction(TimerHandle_t timerFakeADCInterrupt)
 {
     xTaskNotifyGive(taskMeasureAndOutput);

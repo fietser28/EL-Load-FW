@@ -155,6 +155,24 @@ bool get_var_on()
   return localsetcopy.on;
 };
 
+mode_e get_var_mode() { return get_mode(); };
+void set_var_mode(mode_e value) {
+  return set_mode(value);
+};
+
+
+float get_var_iset() { return localsetcopy.Iset; }; 
+void set_var_iset(float value) 
+{
+  setIset(value);
+};
+
+float get_var_rset() { return localsetcopy.Rset; }; 
+void set_var_rset(float value) 
+{
+  setRset(value);
+};
+
 
 bool get_var_protection_triggered() { return localsetcopy.protection; };
 void set_var_protection_triggered(bool value) 

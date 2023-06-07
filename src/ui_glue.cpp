@@ -29,6 +29,45 @@ void setOnOff(bool value)
     }
 }
 
+mode_e get_mode() {
+    mode_e mode;
+    switch (localsetcopy.mode)
+    {
+        case ELmode::CC:
+            mode = mode_e_CC;
+            break;
+        case ELmode::CV:
+            mode = mode_e_CV;
+            break;
+        case ELmode::CR:
+            mode = mode_e_CR;
+            break;
+        case ELmode::CP:
+            mode = mode_e_CP;
+            break;
+        case ELmode::SHORT:
+            mode = mode_e_SHORT;
+        default:
+            mode = mode_e_CC;
+            break;
+    }
+    return mode;
+};
+
+void set_mode(mode_e newMode) 
+{
+    state.setMode(newMode);
+}
+
+void setIset(float value)
+{
+    state.setIset(value);
+}
+void setRset(float value)
+{
+    state.setRset(value);
+}
+
 bool clearProtection() {
     return state.clearProtection();
 }

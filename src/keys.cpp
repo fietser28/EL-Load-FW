@@ -57,7 +57,7 @@ uint8_t readI2C(uint8_t addr, uint8_t opcode)
 }
  */
 
-static void ISR_KEYS()
+static void __not_in_flash_func(ISR_KEYS())
     {
         BaseType_t taskWoken = pdFALSE;
         vTaskNotifyGiveFromISR(encTaskHandle, &taskWoken);

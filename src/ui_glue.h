@@ -18,6 +18,10 @@ extern bool clearPower();
 extern bool clearProtection();
 extern bool toggleRecord();
 extern void setOnOff(bool value);
+extern mode_e get_mode();
+extern void set_mode(mode_e newMode);
+extern void setIset(float value);
+extern void setRset(float value);
 extern void setOPPset(float value);
 extern void setOPPdelay(float value);
 

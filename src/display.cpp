@@ -46,14 +46,14 @@ static void guiTimerFunction(TimerHandle_t tm)
 }
 
 
-void gui_task_init(void)
+void __not_in_flash_func(gui_task_init(void))
 {
 
   guiTimerHandle = xTimerCreate("", pdMS_TO_TICKS(MY_LV_TICK_TIME), pdTRUE, (void *) 0, guiTimerFunction);
   //xTimerStart(guiTimerHandle, 10);
 
   xTaskCreate(guiTask, "", 4096 * 4, NULL, TASK_PRIORITY_UI, &guiTaskHandle);
- //vTaskCoreAffinitySet(guiTaskHandle, TASK_AFFINITY_UI);
+  vTaskCoreAffinitySet(guiTaskHandle, TASK_AFFINITY_UI);
 };
 
 /**********************
@@ -231,7 +231,7 @@ static void my_encoder_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data)
   data->state = LV_INDEV_STATE_REL;
 }
 
-static void guiTask(void *pvParameter)
+static void __not_in_flash_func(guiTask(void *pvParameter))
 {
   vTaskDelay(100); // Wait for core affinity.
 

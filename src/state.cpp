@@ -36,6 +36,9 @@ namespace dcl
                 _setState.NLPC = DEFAULT_AVG_SAMPLES_NPLC;
                 _setState.OPPset = 80;
                 _setState.OPPdelay = 5;
+                _setState.Iset = 1.111f;
+                _setState.Rset = 1000.0f;
+                _setState.protection = false;
                 xSemaphoreGive(_setStateMutex);
                 //updateAverageTask();
                 return true;
@@ -51,7 +54,9 @@ namespace dcl
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 _setState.startupDone = true;
+                _setState.mode = ELmode::CC;
                 xSemaphoreGive(_setStateMutex);
+                updateMeasureTask();
             }
         }
     }
@@ -67,7 +72,7 @@ namespace dcl
             {
                 _setState.on = true;
                 xSemaphoreGive(_setStateMutex);
-                // TODO: updateMeasureTask.
+                updateMeasureTask();
                 updateAverageTask();
                 return true;
             }
@@ -82,7 +87,7 @@ namespace dcl
             {
                 _setState.on = false;
                 xSemaphoreGive(_setStateMutex);
-                // TODO: updateMeasureTask;
+                updateMeasureTask();
                 updateAverageTask();
                 return true;
             }
@@ -190,6 +195,78 @@ namespace dcl
             }
         }
         return updateAverageTask();
+    };
+
+    bool stateManager::setMode(mode_e newMode)
+    {
+    if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
+            {
+                // Don't enable if load is on.
+                if (_setState.on == true) {
+                    xSemaphoreGive(_setStateMutex);
+                    return false;
+                }
+
+                switch (newMode)
+                {
+                case mode_e_CC:
+                    _setState.mode = ELmode::CC;
+                    break;
+                case mode_e_CV:
+                    _setState.mode = ELmode::CV;
+                    break;
+                case mode_e_CP:
+                    _setState.mode = ELmode::CP;
+                    break;
+                case mode_e_CR:
+                    _setState.mode = ELmode::CR;
+                    break;
+                case mode_e_SHORT:
+                    _setState.mode = ELmode::SHORT;
+                    break;
+                default:
+                    _setState.mode = ELmode::CC;
+                    _setState.Iset = 0.0f; // Something is wrong.                
+                }
+                xSemaphoreGive(_setStateMutex);
+                updateMeasureTask();
+                updateAverageTask();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool stateManager::setIset(float newIset)
+    {
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
+            {
+                // TODO: Check for limits.
+                _setState.Iset = newIset;
+                xSemaphoreGive(_setStateMutex);
+                return updateMeasureTask();
+            }
+        }
+        return false;
+    };
+
+    bool stateManager::setRset(float newRset)
+    {
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
+            {
+                // TODO: Check for limits.
+                _setState.Rset = newRset;
+                xSemaphoreGive(_setStateMutex);
+                return updateMeasureTask();
+            }
+        }
+        return false;
     };
 
    bool stateManager::setOPPset(float OPPset)
@@ -312,4 +389,16 @@ namespace dcl
         return false;
 
     }
+
+    bool stateManager::updateMeasureTask()
+    {
+        setStateStruct msg;
+        if (getSetStateCopy(&msg, (TickType_t)10))
+        {
+            xQueueSend(changeMeasureTaskSettings, &msg, 10);
+            return true;
+        }
+        return false;
+    }
+
 }

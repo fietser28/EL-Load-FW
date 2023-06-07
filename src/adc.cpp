@@ -1,7 +1,10 @@
 #include "Arduino.h"
 #include "SPI.h"
 #include "main.h"
+#include "util.h"
 #include "adc.h"
+
+using namespace dcl;
 
 namespace dcl {
 

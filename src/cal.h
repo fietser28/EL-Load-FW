@@ -20,7 +20,8 @@ namespace dcl
             virtual bool setADCConfig(int32_t min, int32_t max);
             virtual bool configured();
 
-            virtual float remap(float input);
+            virtual float remapADC(float input);
+            virtual float remapDAC(float input);
     };
 
     // Simple 2 point linear calibration 
@@ -32,7 +33,8 @@ namespace dcl
             bool setADCConfig(int32_t min, int32_t max);
             bool configured();
 
-            float remap(float input);
+            float remapADC(float input);
+            float remapDAC(float input);
 
         private:
             bool  _configure();

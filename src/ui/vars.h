@@ -5,11 +5,50 @@
 #include <stdbool.h>
 #include "util.h"
 
+#ifdef __cplusplus
+using namespace dcl;
+#endif
+
 // For calibration actions
 extern int32_t cal_calType;
 extern int32_t cal_curpoint;
 extern int32_t cal_measured;
 extern CalibrationValueConfiguration cal_values;
+
+
+typedef enum {
+    mode_e_CC = 0,
+    mode_e_CV = 1,
+    mode_e_CP = 2,
+    mode_e_CR = 3,
+    mode_e_SHORT = 4
+} mode_e;
+
+// Flow global variables
+
+enum FlowGlobalVariables {
+    FLOW_GLOBAL_VARIABLE_VON_SET = 0,
+    FLOW_GLOBAL_VARIABLE_DROPDOWNMODEINDEX = 1,
+    FLOW_GLOBAL_VARIABLE_SET_VALUE = 2,
+    FLOW_GLOBAL_VARIABLE_SET_VALUE_STRING = 3,
+    FLOW_GLOBAL_VARIABLE_SET_TYPES = 4,
+    FLOW_GLOBAL_VARIABLE_SET_TYPE = 5,
+    FLOW_GLOBAL_VARIABLE_USET = 6,
+    FLOW_GLOBAL_VARIABLE_VON_LATCHED = 7,
+    FLOW_GLOBAL_VARIABLE_PSET = 8,
+    FLOW_GLOBAL_VARIABLE_OCPSET = 9,
+    FLOW_GLOBAL_VARIABLE_OVPSET = 10,
+    FLOW_GLOBAL_VARIABLE_OTPSET = 11,
+    FLOW_GLOBAL_VARIABLE_OTPDELAY = 12,
+    FLOW_GLOBAL_VARIABLE_PREFIXES = 13,
+    FLOW_GLOBAL_VARIABLE_CAL_DATA = 14
+};
+
+// Native global variables
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 extern bool get_var_startup_done();
 extern void set_var_startup_done(bool value);
@@ -31,6 +70,12 @@ extern bool get_var_on();
 extern void set_var_on(bool value);
 extern bool get_var_alive();
 extern void set_var_alive(bool value);
+extern mode_e get_var_mode();
+extern void set_var_mode(mode_e value);
+extern float get_var_iset();
+extern void set_var_iset(float value);
+extern float get_var_rset();
+extern void set_var_rset(float value);
 extern float get_var_oppset();
 extern void set_var_oppset(float value);
 extern float get_var_oppdelay();
@@ -59,6 +104,11 @@ extern int32_t get_var_cal_numpoints();
 extern void set_var_cal_numpoints(int32_t value);
 extern bool get_var_protection_triggered();
 extern void set_var_protection_triggered(bool value);
+
+
+#ifdef __cplusplus
+}
+#endif
 
 
 #endif /*EEZ_LVGL_UI_VARS_H*/

@@ -12,7 +12,7 @@ static void event_handler_cb_main_mode_selector(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_VALUE_CHANGED) {
-        flowPropagateValue(flowState, 1, 1);
+        flowPropagateValue(flowState, 1, 0);
     }
     if (event == LV_EVENT_VALUE_CHANGED) {
         lv_obj_t *ta = lv_event_get_target(e);
@@ -27,7 +27,7 @@ static void event_handler_cb_main_on_off_button(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 0, 1);
+        flowPropagateValue(flowState, 0, 0);
     }
     if (event == LV_EVENT_VALUE_CHANGED) {
         lv_obj_t *ta = lv_event_get_target(e);
@@ -42,7 +42,7 @@ static void event_handler_cb_main_obj2(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 4, 1);
+        flowPropagateValue(flowState, 4, 0);
     }
 }
 
@@ -50,7 +50,7 @@ static void event_handler_cb_main_obj6(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 10, 1);
+        flowPropagateValue(flowState, 10, 0);
     }
 }
 
@@ -77,6 +77,9 @@ static void event_handler_cb_main_set_value_area(lv_event_t *e) {
         action_text_area_disable_blink(e);
     }
     if (event == LV_EVENT_VALUE_CHANGED) {
+        flowPropagateValue(flowState, 22, 1);
+    }
+    if (event == LV_EVENT_VALUE_CHANGED) {
         lv_obj_t *ta = lv_event_get_target(e);
         const char *value = lv_textarea_get_text(ta);
         if (tick_value_change_obj != ta) {
@@ -89,7 +92,7 @@ static void event_handler_cb_main_obj11(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 23, 1);
+        flowPropagateValue(flowState, 23, 0);
     }
 }
 
@@ -97,7 +100,7 @@ static void event_handler_cb_main_obj12(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 27, 1);
+        flowPropagateValue(flowState, 27, 0);
     }
 }
 
@@ -105,7 +108,7 @@ static void event_handler_cb_main_obj14(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 29, 1);
+        flowPropagateValue(flowState, 29, 0);
     }
 }
 
@@ -113,13 +116,13 @@ static void event_handler_cb_main_obj16(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 32, 1);
+        flowPropagateValue(flowState, 33, 0);
     }
     if (event == LV_EVENT_VALUE_CHANGED) {
         lv_obj_t *ta = lv_event_get_target(e);
         bool value = lv_obj_has_state(ta, LV_STATE_CHECKED);
         if (tick_value_change_obj != ta) {
-            assignBooleanProperty(flowState, 32, 2, value, "Failed to assign Checked state");
+            assignBooleanProperty(flowState, 33, 2, value, "Failed to assign Checked state");
         }
     }
 }
@@ -128,7 +131,7 @@ static void event_handler_cb_main_obj19(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 47, 1);
+        flowPropagateValue(flowState, 47, 0);
     }
 }
 
@@ -136,7 +139,7 @@ static void event_handler_cb_settings_obj21(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_RELEASED) {
-        flowPropagateValue(flowState, 1, 1);
+        flowPropagateValue(flowState, 1, 0);
     }
 }
 
@@ -144,7 +147,7 @@ static void event_handler_cb_settings_obj23(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 3, 1);
+        flowPropagateValue(flowState, 3, 0);
     }
 }
 
@@ -152,7 +155,7 @@ static void event_handler_cb_settings_obj25(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 6, 1);
+        flowPropagateValue(flowState, 6, 0);
     }
 }
 
@@ -160,7 +163,7 @@ static void event_handler_cb_settings_obj28(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 10, 1);
+        flowPropagateValue(flowState, 10, 0);
     }
 }
 
@@ -168,7 +171,7 @@ static void event_handler_cb_settings_obj30(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 12, 1);
+        flowPropagateValue(flowState, 12, 0);
     }
 }
 
@@ -176,7 +179,7 @@ static void event_handler_cb_events_obj33(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 0, 1);
+        flowPropagateValue(flowState, 0, 0);
     }
 }
 
@@ -196,7 +199,7 @@ static void event_handler_cb_protections_obj37(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 0, 1);
+        flowPropagateValue(flowState, 0, 0);
     }
 }
 
@@ -204,7 +207,7 @@ static void event_handler_cb_protections_obj39(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 8, 1);
+        flowPropagateValue(flowState, 8, 0);
     }
 }
 
@@ -212,7 +215,7 @@ static void event_handler_cb_protections_obj41(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 10, 1);
+        flowPropagateValue(flowState, 10, 0);
     }
 }
 
@@ -220,7 +223,7 @@ static void event_handler_cb_protections_obj43(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 18, 1);
+        flowPropagateValue(flowState, 18, 0);
     }
 }
 
@@ -228,7 +231,7 @@ static void event_handler_cb_protections_obj45(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 20, 1);
+        flowPropagateValue(flowState, 20, 0);
     }
 }
 
@@ -236,7 +239,7 @@ static void event_handler_cb_protections_obj47(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 22, 1);
+        flowPropagateValue(flowState, 22, 0);
     }
 }
 
@@ -256,7 +259,7 @@ static void event_handler_cb_calibration_obj53(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 4, 1);
+        flowPropagateValue(flowState, 4, 0);
     }
 }
 
@@ -264,7 +267,7 @@ static void event_handler_cb_calibration_obj57(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 9, 1);
+        flowPropagateValue(flowState, 9, 0);
     }
 }
 
@@ -272,7 +275,7 @@ static void event_handler_cb_calibration_obj58(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 11, 1);
+        flowPropagateValue(flowState, 11, 0);
     }
 }
 
@@ -285,7 +288,7 @@ static void event_handler_cb_calibration_obj60(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 13, 1);
+        flowPropagateValue(flowState, 13, 0);
     }
 }
 
@@ -293,7 +296,7 @@ static void event_handler_cb_calibration_obj62(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 15, 1);
+        flowPropagateValue(flowState, 15, 0);
     }
 }
 
@@ -306,7 +309,7 @@ static void event_handler_cb_calibration_obj65(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 19, 1);
+        flowPropagateValue(flowState, 19, 0);
     }
 }
 
@@ -314,7 +317,7 @@ static void event_handler_cb_calibration_obj66(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 20, 1);
+        flowPropagateValue(flowState, 20, 0);
     }
 }
 
@@ -322,7 +325,7 @@ static void event_handler_cb_calibration_obj67(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 29, 1);
+        flowPropagateValue(flowState, 29, 0);
     }
 }
 
@@ -330,7 +333,7 @@ static void event_handler_cb_nlpc_nlpc_home(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_RELEASED) {
-        flowPropagateValue(flowState, 5, 1);
+        flowPropagateValue(flowState, 5, 0);
     }
 }
 
@@ -338,7 +341,7 @@ static void event_handler_cb_nlpc_nlpc_home_cancel(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_RELEASED) {
-        flowPropagateValue(flowState, 11, 1);
+        flowPropagateValue(flowState, 11, 0);
     }
 }
 
@@ -346,7 +349,7 @@ static void event_handler_cb_nlpc_nlpc_home_cancel_1(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_RELEASED) {
-        flowPropagateValue(flowState, 13, 1);
+        flowPropagateValue(flowState, 13, 0);
     }
 }
 
@@ -354,7 +357,7 @@ static void event_handler_cb_nlpc_obj74(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_VALUE_CHANGED) {
-        flowPropagateValue(flowState, 15, 1);
+        flowPropagateValue(flowState, 15, 0);
     }
     if (event == LV_EVENT_VALUE_CHANGED) {
         lv_obj_t *ta = lv_event_get_target(e);
@@ -369,7 +372,7 @@ static void event_handler_cb_nlpc_obj75(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_VALUE_CHANGED) {
-        flowPropagateValue(flowState, 19, 1);
+        flowPropagateValue(flowState, 19, 0);
     }
     if (event == LV_EVENT_VALUE_CHANGED) {
         lv_obj_t *ta = lv_event_get_target(e);
@@ -384,7 +387,7 @@ static void event_handler_cb_question_yn_obj78(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 0, 1);
+        flowPropagateValue(flowState, 0, 0);
     }
 }
 
@@ -392,7 +395,7 @@ static void event_handler_cb_question_yn_obj79(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 3, 1);
+        flowPropagateValue(flowState, 3, 0);
     }
 }
 
@@ -424,10 +427,10 @@ static void event_handler_cb_keyboard_obj50(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_READY) {
-        flowPropagateValue(flowState, 3, 1);
+        flowPropagateValue(flowState, 3, 0);
     }
     if (event == LV_EVENT_CANCEL) {
-        flowPropagateValue(flowState, 3, 2);
+        flowPropagateValue(flowState, 3, 1);
     }
 }
 
@@ -1138,7 +1141,7 @@ void tick_screen_main() {
         }
     }
     {
-        bool new_val = evalBooleanProperty(flowState, 32, 2, "Failed to evaluate Checked state");
+        bool new_val = evalBooleanProperty(flowState, 33, 2, "Failed to evaluate Checked state");
         bool cur_val = lv_obj_has_state(objects.obj16, LV_STATE_CHECKED);
         if (new_val != cur_val) {
             tick_value_change_obj = objects.obj16;
@@ -1148,7 +1151,7 @@ void tick_screen_main() {
         }
     }
     {
-        const char *new_val = evalTextProperty(flowState, 33, 2, "Failed to evaluate Text in Label widget");
+        const char *new_val = evalTextProperty(flowState, 32, 2, "Failed to evaluate Text in Label widget");
         const char *cur_val = lv_label_get_text(objects.obj17);
         if (strcmp(new_val, cur_val) != 0) {
             tick_value_change_obj = objects.obj17;

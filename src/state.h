@@ -4,6 +4,7 @@
 #include "Arduino.h"
 #include "FreeRTOS.h"
 #include "cal.h"
+#include "ui/vars.h"
 
 #ifdef __cplusplus
 namespace dcl
@@ -110,12 +111,16 @@ public:
     bool clearPower();
     bool clearProtection();
     bool setProtection();
+    bool setMode(mode_e newMode);
+    bool setIset(float newIset);
+    bool setRset(float newRset);
     bool setOPPset(float OPPset);
     bool setOPPdelay(float OPPdelay);
     bool setNPLC(uint32_t cycles);
     uint32_t getNPLC();
     bool record(bool setrecord);
     bool toggleRecord();
+    bool updateMeasureTask();
     bool updateAverageTask();
     bool pushState();
     calibration cal;
