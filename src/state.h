@@ -121,7 +121,7 @@ public:
     bool record(bool setrecord);
     bool toggleRecord();
     bool updateMeasureTask();
-    bool updateAverageTask();
+    bool updateAverageTask(bool clearPower = false);
     bool pushState();
     calibration cal;
 

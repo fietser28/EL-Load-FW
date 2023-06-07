@@ -148,27 +148,12 @@ namespace dcl
     // Note: this is asynchronous!
     bool stateManager::clearPower()
     {
-        changeAverageSettingsMsg msg;
-        if (_setStateMutex != NULL)
-        {
-            if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
-            {
-                msg.record = _setState.record;
-                msg.on     = _setState.on;
-                xSemaphoreGive(_setStateMutex);
-
-                msg.avgSamples = 0; // Don't set new window sizes
-                msg.clear = true;  // Don't clear power measurements
-                xQueueSend(changeAverageSettings, &msg, 10);
-                return true;
-            }
-        }
-        return false;
+        return updateAverageTask(true);
     };
 
     bool stateManager::clearProtection()
     {
-        if (_setStateMutex != NULL)
+       if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
@@ -365,12 +350,12 @@ namespace dcl
         return false;
     }
 
-    bool stateManager::updateAverageTask()
+    bool stateManager::updateAverageTask(bool clearPower)
     {
         changeAverageSettingsMsg msg;
         //msg.avgSamplesCurrent = 0; // Don't set new window sizes
         //msg.avgSamplesVoltage = 0;
-        msg.clear = false;  // Don't clear
+        msg.clear = clearPower;  // Don't clear (default if parameter is not given)
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
