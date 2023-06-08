@@ -55,6 +55,7 @@ namespace dcl
         uint32_t NLPC;
 //        uint16_t windowSize; // Sampling window size in SW (HW ADC also has OSR!)
         enum ELmode mode;
+        bool CalibrationIset; // True means Iset float = DAC value not real value.
         float Iset; // float = 32 bits
         float Uset;
         float Rset;
@@ -112,8 +113,9 @@ public:
     bool clearProtection();
     bool setProtection();
     bool setMode(mode_e newMode);
-    bool setIset(float newIset);
+    bool setIset(float newIset, bool rawDACvalue = false);
     bool setRset(float newRset);
+    bool setPset(float newPset);
     bool setOPPset(float OPPset);
     bool setOPPdelay(float OPPdelay);
     bool setNPLC(uint32_t cycles);

@@ -59,13 +59,19 @@ void set_mode(mode_e newMode)
     state.setMode(newMode);
 }
 
-void setIset(float value)
+void setIset(float value, bool rawDACvalue)
 {
-    state.setIset(value);
+    state.setIset(value, rawDACvalue);
 }
+
 void setRset(float value)
 {
     state.setRset(value);
+}
+
+void setPset(float value)
+{
+    state.setPset(value);
 }
 
 bool clearProtection() {

@@ -12,7 +12,8 @@ using namespace dcl;
 // For calibration actions
 extern int32_t cal_calType;
 extern int32_t cal_curpoint;
-extern int32_t cal_measured;
+extern float   cal_measured;
+extern float   cal_set;
 extern CalibrationValueConfiguration cal_values;
 
 
@@ -35,13 +36,12 @@ enum FlowGlobalVariables {
     FLOW_GLOBAL_VARIABLE_SET_TYPE = 5,
     FLOW_GLOBAL_VARIABLE_USET = 6,
     FLOW_GLOBAL_VARIABLE_VON_LATCHED = 7,
-    FLOW_GLOBAL_VARIABLE_PSET = 8,
-    FLOW_GLOBAL_VARIABLE_OCPSET = 9,
-    FLOW_GLOBAL_VARIABLE_OVPSET = 10,
-    FLOW_GLOBAL_VARIABLE_OTPSET = 11,
-    FLOW_GLOBAL_VARIABLE_OTPDELAY = 12,
-    FLOW_GLOBAL_VARIABLE_PREFIXES = 13,
-    FLOW_GLOBAL_VARIABLE_CAL_DATA = 14
+    FLOW_GLOBAL_VARIABLE_OCPSET = 8,
+    FLOW_GLOBAL_VARIABLE_OVPSET = 9,
+    FLOW_GLOBAL_VARIABLE_OTPSET = 10,
+    FLOW_GLOBAL_VARIABLE_OTPDELAY = 11,
+    FLOW_GLOBAL_VARIABLE_PREFIXES = 12,
+    FLOW_GLOBAL_VARIABLE_CAL_DATA = 13
 };
 
 // Native global variables
@@ -76,6 +76,8 @@ extern float get_var_iset();
 extern void set_var_iset(float value);
 extern float get_var_rset();
 extern void set_var_rset(float value);
+extern float get_var_pset();
+extern void set_var_pset(float value);
 extern float get_var_oppset();
 extern void set_var_oppset(float value);
 extern float get_var_oppdelay();
@@ -98,8 +100,8 @@ extern int32_t get_var_cal_curpoint();
 extern void set_var_cal_curpoint(int32_t value);
 extern float get_var_cal_set();
 extern void set_var_cal_set(float value);
-extern int32_t get_var_cal_measured();
-extern void set_var_cal_measured(int32_t value);
+extern float get_var_cal_measured();
+extern void set_var_cal_measured(float value);
 extern int32_t get_var_cal_numpoints();
 extern void set_var_cal_numpoints(int32_t value);
 extern bool get_var_protection_triggered();

@@ -164,13 +164,19 @@ void set_var_mode(mode_e value) {
 float get_var_iset() { return localsetcopy.Iset; }; 
 void set_var_iset(float value) 
 {
-  setIset(value);
+  setIset(value, false);
 };
 
 float get_var_rset() { return localsetcopy.Rset; }; 
 void set_var_rset(float value) 
 {
   setRset(value);
+};
+
+float get_var_pset() { return localsetcopy.Pset; }; 
+void set_var_pset(float value) 
+{
+  setPset(value);
 };
 
 
@@ -218,7 +224,7 @@ int32_t get_var_adc_osr()
 int32_t cal_calType = -1; // Force init and copy!
 int32_t cal_curpoint = 0; 
 float cal_set = 0.0f;                       // This is the changed/temp value.
-int32_t cal_measured = 0;                   // This is the changed/temp value.
+float cal_measured = 0.0f;                   // This is the changed/temp value.
 CalibrationValueConfiguration cal_values;   // This is the changed/temp configuration.
 
 int32_t get_var_cal_cal_type() { return cal_calType; };
@@ -236,13 +242,14 @@ void set_var_cal_curpoint(int32_t value) {
   if (value >= 0 && value < cal_values.numPoints)
   {
     cal_curpoint = value; 
-    cal_set = cal_values.points[value].value;
     if (cal_calType <= 1) {
       // ADC
+      cal_set = cal_values.points[value].value;
       cal_measured = cal_values.points[value].adc;
     } else {
       // DAC
-      cal_measured = cal_values.points[value].dac;
+      cal_set = cal_values.points[value].dac;
+      cal_measured = cal_values.points[value].value;
     } 
   }
 };
@@ -250,19 +257,23 @@ void set_var_cal_curpoint(int32_t value) {
 float get_var_cal_set() { return cal_set; };
 void set_var_cal_set(float value) { 
   cal_set = value; 
-  cal_values.points[cal_curpoint].value = value;
+  if (cal_calType <= 1) {
+    cal_values.points[cal_curpoint].value = value;
+  } else {
+    cal_values.points[cal_curpoint].dac = (int32_t)value;
+  }
 };
 
-int32_t get_var_cal_measured() { return cal_measured; };
-void set_var_cal_measured(int32_t value) { 
+float get_var_cal_measured() { return cal_measured; };
+void set_var_cal_measured(float value) { 
   cal_measured = value;
   if (cal_calType <= 1) 
   {
     // ADC
-    cal_values.points[cal_curpoint].adc = value; 
+    cal_values.points[cal_curpoint].adc = (int32_t)value; 
   } else {
     // DAC
-    cal_values.points[cal_curpoint].dac = value; 
+    cal_values.points[cal_curpoint].value = value; 
  }
 };
 

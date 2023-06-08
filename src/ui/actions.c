@@ -48,13 +48,18 @@ void action_cal_refresh_measured(lv_event_t *e)
 {
     if (cal_calType == 0) {
         cal_measured = localstatecopy.avgCurrentRaw;
+        cal_values.points[cal_curpoint].adc = (int32_t)cal_measured;
     }
     if (cal_calType == 1) {
         cal_measured = localstatecopy.avgVoltRaw;
+        cal_values.points[cal_curpoint].adc = (int32_t)cal_measured;
+    }
+    if (cal_calType == 2) {
+        cal_measured = localstatecopy.Imon;
+        cal_values.points[cal_curpoint].value = cal_measured;
     }
     //TODO: Add others. 
 
-    cal_values.points[cal_curpoint].adc = cal_measured;
 }
 
 void action_cal_reset_values(lv_event_t *e)
@@ -71,4 +76,9 @@ void action_cal_store_values(lv_event_t *e)
 {
     copy_cal_values_to_state(&cal_values, cal_calType);
     write_cal_to_eeprom(cal_calType);
+}
+
+void action_cal_set_dac(lv_event_t *e) 
+{
+    setIset(cal_set, true);
 }

@@ -417,7 +417,7 @@ void loop()
 //  cyclecount = rp2040.getCycleCount64()/rp2040.f_cpu();
   cyclecount++;
   //SERIALDEBUG.printf("Heap total: %d, used: %d, free:  %d, uptime: %d, ADC0: %i, ADC1: %i, %d\n", heaptotal, heapused, heapfree, cyclecount, loopmystate.avgCurrentRaw, loopmystate.avgVoltRaw, loopmystate.avgCurrentRaw < 0 ? 1 : 0);
-  SERIALDEBUG.printf("Imon: %f, Umon: %f, uptime: %d, Mode: %d, Rset: %f\n", loopmystate.Imon, loopmystate.Umon, cyclecount, loopmysetstate.mode, loopmysetstate.Rset);
+  SERIALDEBUG.printf("Imon: %f, Umon: %f, uptime: %d, Mode: %d, Pset: %f\n", loopmystate.Imon, loopmystate.Umon, cyclecount, loopmysetstate.mode, loopmysetstate.Rset);
   snprintf(logtxt, 120, "Heap total: %d\nHeap used: %d\nHeap free:  %d\nADC0: %d\n", heaptotal, heapused, heapfree, loopmystate.avgCurrentRaw);
   vTaskDelay(ondelay);
 }
@@ -564,22 +564,21 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
     }
     else
     {
-      iset = 0.0f;
+      iset = -1.0f;
       uset = 1000.0f; // Will clamp DAC
       vonset = 1.0f;
     } 
 
-  // TODO: remove
-    //iset = localSetState.Iset;
-
     // Only recalc and set if changed
     if (iset != isetPrev)
     {
-      //iset = remap(iset, iSetMinVal, (float)iSetDAC.DAC_MIN, iSetMaxVal, (float)iSetDAC.DAC_MAX);
-      iset = state.cal.Iset->remapDAC(iset);
-      isetRaw = iset;
-      //isetRaw = (uint32_t)clamp(iset, iSetDAC.DAC_MIN, iSetDAC.DAC_MAX);
-      if (true || isetRaw != isetRawPrev)
+      if (localSetState.CalibrationIset == true) {
+        isetRaw = (uint32_t)localSetState.Iset;
+      } else {
+        iset = state.cal.Iset->remapDAC(iset);
+        isetRaw = iset;
+      }
+      if (isetRaw != isetRawPrev)
       {
         isetRaw = (uint32_t)clamp(isetRaw, iSetDAC.DAC_MIN, iSetDAC.DAC_MAX);
 #ifndef FAKE_HARDWARE

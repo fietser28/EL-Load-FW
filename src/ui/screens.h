@@ -90,10 +90,10 @@ typedef struct _objects_t {
     lv_obj_t *obj66;
     lv_obj_t *obj67;
     lv_obj_t *obj68;
-    lv_obj_t *obj68__kbtext2;
-    lv_obj_t *obj68__obj49;
-    lv_obj_t *obj68__obj50;
     lv_obj_t *obj69;
+    lv_obj_t *obj69__kbtext2;
+    lv_obj_t *obj69__obj49;
+    lv_obj_t *obj69__obj50;
     lv_obj_t *obj7;
     lv_obj_t *obj70;
     lv_obj_t *obj71;
@@ -103,9 +103,10 @@ typedef struct _objects_t {
     lv_obj_t *obj75;
     lv_obj_t *obj76;
     lv_obj_t *obj77;
-    lv_obj_t *obj77__obj78;
-    lv_obj_t *obj77__obj79;
-    lv_obj_t *obj77__obj80;
+    lv_obj_t *obj78;
+    lv_obj_t *obj78__obj79;
+    lv_obj_t *obj78__obj80;
+    lv_obj_t *obj78__obj81;
     lv_obj_t *obj8;
     lv_obj_t *obj9;
     lv_obj_t *on_off_button;

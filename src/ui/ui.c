@@ -13,6 +13,7 @@ ActionExecFunc actions[] = {
     action_cal_refresh_measured,
     action_cal_reset_values,
     action_cal_store_values,
+    action_cal_set_dac,
 };
 
 

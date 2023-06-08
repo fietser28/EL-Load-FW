@@ -11,6 +11,7 @@ extern void action_grab_encoder(lv_event_t * e);
 extern void action_cal_refresh_measured(lv_event_t * e);
 extern void action_cal_reset_values(lv_event_t * e);
 extern void action_cal_store_values(lv_event_t * e);
+extern void action_cal_set_dac(lv_event_t * e);
 
 
 #endif /*EEZ_LVGL_UI_EVENTS_H*/

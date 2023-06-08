@@ -338,7 +338,7 @@
         {
           "objID": "ddb840d3-2cd4-4c24-897d-1e367e2df75f",
           "fileName": "vars.h",
-          "template": "#ifndef EEZ_LVGL_UI_VARS_H\r\n#define EEZ_LVGL_UI_VARS_H\r\n\r\n#include <stdint.h>\r\n#include <stdbool.h>\r\n#include \"util.h\"\r\n\r\n#ifdef __cplusplus\r\nusing namespace dcl;\r\n#endif\r\n\r\n// For calibration actions\r\nextern int32_t cal_calType;\r\nextern int32_t cal_curpoint;\r\nextern int32_t cal_measured;\r\nextern CalibrationValueConfiguration cal_values;\r\n\r\n\r\n//${eez-studio FLOW_ENUMS}\r\n\r\n// Flow global variables\r\n\r\n//${eez-studio FLOW_GLOBAL_VARIABLES_ENUM}\r\n\r\n// Native global variables\r\n\r\n#ifdef __cplusplus\r\nextern \"C\" {\r\n#endif\r\n\r\n//${eez-studio LVGL_VARS_DECL}\r\n\r\n#ifdef __cplusplus\r\n}\r\n#endif\r\n\r\n\r\n#endif /*EEZ_LVGL_UI_VARS_H*/"
+          "template": "#ifndef EEZ_LVGL_UI_VARS_H\r\n#define EEZ_LVGL_UI_VARS_H\r\n\r\n#include <stdint.h>\r\n#include <stdbool.h>\r\n#include \"util.h\"\r\n\r\n#ifdef __cplusplus\r\nusing namespace dcl;\r\n#endif\r\n\r\n// For calibration actions\r\nextern int32_t cal_calType;\r\nextern int32_t cal_curpoint;\r\nextern float   cal_measured;\r\nextern float   cal_set;\r\nextern CalibrationValueConfiguration cal_values;\r\n\r\n\r\n//${eez-studio FLOW_ENUMS}\r\n\r\n// Flow global variables\r\n\r\n//${eez-studio FLOW_GLOBAL_VARIABLES_ENUM}\r\n\r\n// Native global variables\r\n\r\n#ifdef __cplusplus\r\nextern \"C\" {\r\n#endif\r\n\r\n//${eez-studio LVGL_VARS_DECL}\r\n\r\n#ifdef __cplusplus\r\n}\r\n#endif\r\n\r\n\r\n#endif /*EEZ_LVGL_UI_VARS_H*/"
         },
         {
           "objID": "9c770003-b028-4a8b-9447-fea072e67b3a",
@@ -519,7 +519,7 @@
         "objID": "cc20a9d5-91e3-4346-b80f-abd1e202f555",
         "name": "setTypes",
         "type": "array:struct:setProperties",
-        "defaultValue": "[ {setName: \"Current\", setUnit:\"A\", setValueMin:0, setValueMax:10},\n{setName: \"Voltage\", setUnit:\"V\", setValueMin:0, setValueMax:80},\n{setName: \"Power\", setUnit:\"W\", setValueMin:0, setValueMax:75},\n{setName: \"Resistance\", setUnit:\"\\u03a9\", setValueMin:0.1, setValueMax:100000},\n{setName: \"Von\", setUnit:\"V\", setValueMin:0, setValueMax:10},\n{setName: \"OCP\", setUnit:\"A\", setValueMin:0, setValueMax:10},\n{setName: \"OVP\", setUnit:\"V\", setValueMin:0, setValueMax:80},\n{setName: \"OPP\", setUnit:\"W\", setValueMin:1, setValueMax:80},\n{setName: \"OTP\", setUnit:\"C\", setValueMin:10, setValueMax:90},\n{setName: \"Current Cal Set\", setUnit:\"A\", setValueMin:-1, setValueMax: 11},\n{setName: \"Voltage Cal Set\", setUnit:\"V\", setValueMin:-1, setValueMax: 90},\n{setName: \"OPP delay\", setUnit:\"s\", setValueMin:1, setValueMax:99},\n]",
+        "defaultValue": "[ {setName: \"Current\", setUnit:\"A\", setValueMin:0, setValueMax:10},\n{setName: \"Voltage\", setUnit:\"V\", setValueMin:0, setValueMax:80},\n{setName: \"Power\", setUnit:\"W\", setValueMin:0, setValueMax:75},\n{setName: \"Resistance\", setUnit:\"\\u03a9\", setValueMin:0.1, setValueMax:100000},\n{setName: \"Von\", setUnit:\"V\", setValueMin:0, setValueMax:10},\n{setName: \"OCP\", setUnit:\"A\", setValueMin:0, setValueMax:10},\n{setName: \"OVP\", setUnit:\"V\", setValueMin:0, setValueMax:80},\n{setName: \"OPP\", setUnit:\"W\", setValueMin:1, setValueMax:80},\n{setName: \"OTP\", setUnit:\"C\", setValueMin:10, setValueMax:90},\n{setName: \"Current Cal Set\", setUnit:\"A\", setValueMin:-1, setValueMax: 11},\n{setName: \"Voltage Cal Set\", setUnit:\"V\", setValueMin:-1, setValueMax: 90},\n{setName: \"OPP delay\", setUnit:\"s\", setValueMin:1, setValueMax:99},\n{setName: \"16-bit DAC\", setUnit:\"\", setValueMin:0, setValueMax:65535},\n]",
         "persistent": false
       },
       {
@@ -564,7 +564,8 @@
         "name": "pset",
         "type": "float",
         "defaultValue": "20",
-        "persistent": false
+        "persistent": false,
+        "native": true
       },
       {
         "objID": "29bc8f8d-1de9-4932-bcef-46f3e454eed4",
@@ -669,7 +670,7 @@
         "objID": "d5223ec8-45c9-4dd4-e70b-8502db332aa7",
         "name": "calData",
         "type": "array:struct:calConfig",
-        "defaultValue": "[ { name: \"Current measure\", unit: \"A\", instruction:\"Apply set current to input\", setType: 9 },\n{ name: \"Voltage measure\", unit: \"V\", instruction:\"Apply set voltage to input\", setType: 10 },\n{ name: \"Current set\", unit: \"A\", instruction:\"Apply > set current to input\", setType: 9 }  \n]",
+        "defaultValue": "[ { name: \"Current measure\", unit: \"A\", instruction:\"Apply set current to input\", setType: 9 },\n{ name: \"Voltage measure\", unit: \"V\", instruction:\"Apply set voltage to input\", setType: 10 },\n{ name: \"Current set\", unit: \"\", instruction:\"Apply > set current to input\", setType: 12 }  \n]",
         "persistent": false
       },
       {
@@ -699,7 +700,7 @@
       {
         "objID": "154388ae-c97f-42a5-83fc-860290bd9c22",
         "name": "cal_measured",
-        "type": "integer",
+        "type": "float",
         "defaultValue": "0",
         "persistent": false,
         "native": true
@@ -1936,6 +1937,14 @@
       "connectionLines": [],
       "localVariables": [],
       "name": "cal_store_values",
+      "implementationType": "native"
+    },
+    {
+      "objID": "9b9dfc7d-96b0-46e7-908e-7fe64edef2a8",
+      "components": [],
+      "connectionLines": [],
+      "localVariables": [],
+      "name": "cal_set_dac",
       "implementationType": "native"
     }
   ],
@@ -8080,6 +8089,67 @@
           "recolor": false
         },
         {
+          "objID": "f45750e2-37cc-4312-b6af-98fa47468ae5",
+          "type": "LVGLLabelWidget",
+          "left": 114,
+          "top": 140,
+          "width": 24,
+          "height": 24,
+          "customInputs": [],
+          "customOutputs": [],
+          "style": {
+            "objID": "0c64718d-a035-4c20-c397-c5d1bba06e15",
+            "inheritFrom": "default"
+          },
+          "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "997b18df-6616-4a49-ce34-2923f3fe6e41",
+              "eventName": "PRESSED",
+              "handlerType": "flow",
+              "action": "getdropdownindex"
+            }
+          ],
+          "leftUnit": "px",
+          "topUnit": "px",
+          "widthUnit": "px",
+          "heightUnit": "px",
+          "children": [],
+          "flags": "PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLLABLE|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_CHAIN",
+          "hiddenFlag": "cal_calType <= 1",
+          "hiddenFlagType": "expression",
+          "clickableFlag": true,
+          "clickableFlagType": "literal",
+          "scrollbarMode": "auto",
+          "scrollDirection": "all",
+          "checkedStateType": "literal",
+          "disabledState": false,
+          "disabledStateType": "literal",
+          "states": "",
+          "useStyle": "small label_symbol",
+          "localStyles": {
+            "objID": "70a6dad3-c0de-4489-c8b1-c79abd8f792a",
+            "definition": {
+              "MAIN": {
+                "DEFAULT": {
+                  "text_color": "#ffff00",
+                  "bg_color": "#818181",
+                  "bg_opa": 255,
+                  "text_font": "MONTSERRAT_20",
+                  "text_align": "CENTER"
+                },
+                "DISABLED": {
+                  "text_color": "#cccccc"
+                }
+              }
+            }
+          },
+          "text": "LVGL.LV_SYMBOL_DOWNLOAD",
+          "textType": "expression",
+          "longMode": "CLIP",
+          "recolor": false
+        },
+        {
           "objID": "907a757a-0cd3-4a3a-9525-3b2fef3e5d8b",
           "type": "LVGLUserWidgetWidget",
           "left": 0,
@@ -8248,6 +8318,17 @@
           "customInputs": [],
           "customOutputs": [],
           "action": "cal_store_values"
+        },
+        {
+          "objID": "8e57d12e-152f-4331-dbd5-7fc034745d11",
+          "type": "CallActionActionComponent",
+          "left": 186,
+          "top": 499,
+          "width": 106,
+          "height": 24,
+          "customInputs": [],
+          "customOutputs": [],
+          "action": "cal_set_dac"
         }
       ],
       "connectionLines": [
@@ -8375,6 +8456,13 @@
           "source": "fdf47385-40f3-48d2-a723-1572ebf132ad",
           "output": "@seqout",
           "target": "f601fcb9-fcfd-4e71-c2b3-4585c265a745",
+          "input": "@seqin"
+        },
+        {
+          "objID": "75c7369d-7944-4c33-900a-4f5e54c10540",
+          "source": "f45750e2-37cc-4312-b6af-98fa47468ae5",
+          "output": "PRESSED",
+          "target": "8e57d12e-152f-4331-dbd5-7fc034745d11",
           "input": "@seqin"
         }
       ],
