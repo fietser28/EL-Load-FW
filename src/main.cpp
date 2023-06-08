@@ -250,7 +250,7 @@ void setup()
 
   state.cal.Iset = new calLinear2P();
   state.cal.Iset->setCalConfig(iSetCal);
-  state.cal.Iset->setADCConfig(iSetDAC.DAC_MIN, iSetDAC.DAC_MAX);
+  state.cal.Iset->setDACConfig(iSetDAC.DAC_MIN, iSetDAC.DAC_MAX);
 
   //float iSetC = (iSetCal.points[1].value - iSetCal.points[0].value) / (iSetCal.points[1].dac - iSetCal.points[0].dac);
   //float iSetO = iSetCal.points[0].value - iSetCal.points[0].dac * iSetC;
@@ -308,6 +308,8 @@ void setup()
 
   if (eepromMagicFound) {
     myeeprom.calibrationValuesRead(state.cal.Imon->getCalConfigRef(), EEPROM_ADDR_CAL_IMON);
+    myeeprom.calibrationValuesRead(state.cal.Umon->getCalConfigRef(), EEPROM_ADDR_CAL_UMON);
+    myeeprom.calibrationValuesRead(state.cal.Iset->getCalConfigRef(), EEPROM_ADDR_CAL_ISET);
   }
   
   vTaskDelay(50);
@@ -523,10 +525,9 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
     measured.UmonRaw = voltADC.readRaw(); // TODO: ADS131: always call secondary after primary.....
 #endif
 
-    // No mutexes around calibration data.
-    imon = state.cal.Imon->remapADC(measured.ImonRaw);
+    // No mutexes around calibration data! (it doesn't change while running)
+    //imon = state.cal.Imon->remapADC(measured.ImonRaw);
     //imon = remap((float)measured.ImonRaw, (float)currentADC.ADC_MIN, currentMinVal, (float)currentADC.ADC_MAX, currentMaxVal);
-    umon = state.cal.Umon->remapADC(measured.UmonRaw);
     //umon = remap((float)measured.UmonRaw, (float)voltADC.ADC_MIN, voltMinVal, (float)voltADC.ADC_MAX, voltMaxVal);
 
     if (stateReceived && localSetState.on == true && localSetState.protection == false)
@@ -543,11 +544,13 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
         break;
 
       case ELmode::CP:
+        umon = state.cal.Umon->remapADC(measured.UmonRaw);
         iset = localSetState.Pset / umon;
         uset = localSetState.Uset; // Max
         break;
 
       case ELmode::CR:
+        umon = state.cal.Umon->remapADC(measured.UmonRaw);
         iset = umon / localSetState.Rset;
         uset = localSetState.Uset; // Max
         break;
@@ -561,7 +564,7 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
     }
     else
     {
-      iset = 1.0f;
+      iset = 0.0f;
       uset = 1000.0f; // Will clamp DAC
       vonset = 1.0f;
     } 

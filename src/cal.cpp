@@ -40,6 +40,11 @@ namespace dcl
         return _configure();
     };
 
+    bool calLinear2P::setDACConfig(int32_t min, int32_t max)
+    {
+        return setADCConfig(min,max);
+    };
+
     bool calLinear2P::_configure()
     {
         if (_gotConf && _gotADC)

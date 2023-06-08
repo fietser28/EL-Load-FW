@@ -503,7 +503,7 @@ void create_screen_main() {
             objects.mode_selector = obj;
             lv_obj_set_pos(obj, 4, 4);
             lv_obj_set_size(obj, 130, 38);
-            lv_dropdown_set_options(obj, "Mode CC\nMode CV\nMode CP\nMode CR");
+            lv_dropdown_set_options(obj, "Mode CC\nMode CV\nMode CP\nMode CR\nSHORT");
             lv_obj_add_event_cb(obj, event_handler_cb_main_mode_selector, LV_EVENT_ALL, flowState);
             lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_color(obj, lv_color_hex(0xffffff00), LV_PART_MAIN | LV_STATE_DEFAULT);

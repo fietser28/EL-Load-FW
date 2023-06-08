@@ -237,7 +237,13 @@ void set_var_cal_curpoint(int32_t value) {
   {
     cal_curpoint = value; 
     cal_set = cal_values.points[value].value;
-    cal_measured = cal_values.points[value].adc;
+    if (cal_calType <= 1) {
+      // ADC
+      cal_measured = cal_values.points[value].adc;
+    } else {
+      // DAC
+      cal_measured = cal_values.points[value].dac;
+    } 
   }
 };
 
@@ -250,7 +256,14 @@ void set_var_cal_set(float value) {
 int32_t get_var_cal_measured() { return cal_measured; };
 void set_var_cal_measured(int32_t value) { 
   cal_measured = value;
-  cal_values.points[cal_curpoint].adc = value; 
+  if (cal_calType <= 1) 
+  {
+    // ADC
+    cal_values.points[cal_curpoint].adc = value; 
+  } else {
+    // DAC
+    cal_values.points[cal_curpoint].dac = value; 
+ }
 };
 
 int32_t get_var_cal_numpoints() { return cal_values.numPoints; };

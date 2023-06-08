@@ -669,7 +669,7 @@
         "objID": "d5223ec8-45c9-4dd4-e70b-8502db332aa7",
         "name": "calData",
         "type": "array:struct:calConfig",
-        "defaultValue": "[ { name: \"Current measure\", unit: \"A\", instruction:\"Apply set current to input\", setType: 9 },\n{ name: \"Voltage measure\", unit: \"V\", instruction:\"Apply set voltage to input\", setType: 10 }  ]",
+        "defaultValue": "[ { name: \"Current measure\", unit: \"A\", instruction:\"Apply set current to input\", setType: 9 },\n{ name: \"Voltage measure\", unit: \"V\", instruction:\"Apply set voltage to input\", setType: 10 },\n{ name: \"Current set\", unit: \"A\", instruction:\"Apply > set current to input\", setType: 9 }  \n]",
         "persistent": false
       },
       {
@@ -2213,7 +2213,7 @@
               }
             }
           },
-          "options": "Mode CC\nMode CV\nMode CP\nMode CR",
+          "options": "Mode CC\nMode CV\nMode CP\nMode CR\nSHORT",
           "selected": "modeselection",
           "selectedType": "expression"
         },

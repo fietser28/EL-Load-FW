@@ -18,6 +18,8 @@ namespace dcl
             virtual CalibrationValueConfiguration *getCalConfigRef();
 
             virtual bool setADCConfig(int32_t min, int32_t max);
+            virtual bool setDACConfig(int32_t min, int32_t max);
+
             virtual bool configured();
 
             virtual float remapADC(float input);
@@ -31,6 +33,8 @@ namespace dcl
             CalibrationValueConfiguration getCalConfig();
             CalibrationValueConfiguration *getCalConfigRef();
             bool setADCConfig(int32_t min, int32_t max);
+            bool setDACConfig(int32_t min, int32_t max);
+
             bool configured();
 
             float remapADC(float input);

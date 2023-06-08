@@ -257,11 +257,12 @@ void write_cal_to_eeprom(int32_t caltype)
         break;
     case 1:
         calconfig = state.cal.Umon->getCalConfigRef();
-        startaddress = EEPROM_ADDR_CAL_ISET;
+        startaddress = EEPROM_ADDR_CAL_UMON;
         break;
-    //case 2:
-    //    calconfig = state.cal.Iset->getCalConfigRef();
-    //    break;        
+    case 2:
+        calconfig = state.cal.Iset->getCalConfigRef();
+        startaddress = EEPROM_ADDR_CAL_ISET;
+        break;        
     default:
         return;
         break;
