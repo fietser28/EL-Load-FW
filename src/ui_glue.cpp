@@ -59,9 +59,19 @@ void set_mode(mode_e newMode)
     state.setMode(newMode);
 }
 
+void setVonset(float value)
+{
+    state.setVonset(value);
+}
+
 void setIset(float value, bool rawDACvalue)
 {
     state.setIset(value, rawDACvalue);
+}
+
+void setUset(float value, bool rawDACvalue)
+{
+    state.setUset(value, rawDACvalue);
 }
 
 void setRset(float value)
@@ -222,6 +232,10 @@ void copy_cal_values_from_state(CalibrationValueConfiguration *cal_values, int32
     case 2:
         calconfig = state.cal.Iset->getCalConfig();
         break;        
+    case 3:
+        calconfig = state.cal.Von->getCalConfig();
+    case 4:
+        calconfig = state.cal.Uset->getCalConfig();
     //default:
         //return;
     //    break;
@@ -242,7 +256,12 @@ void copy_cal_values_to_state(CalibrationValueConfiguration *cal_values, int32_t
         break;
     case 2:
         calconfig = state.cal.Iset->getCalConfigRef();
-        break;        
+        break;
+    case 3:
+        calconfig = state.cal.Von->getCalConfigRef(); 
+        break;
+    case 4:
+        calconfig = state.cal.Uset->getCalConfigRef();
     //default:
         //return;
     //    break;
@@ -253,7 +272,7 @@ void copy_cal_values_to_state(CalibrationValueConfiguration *cal_values, int32_t
 
 void write_cal_to_eeprom(int32_t caltype)
 {
-    CalibrationValueConfiguration *calconfig = state.cal.Imon->getCalConfigRef();
+    CalibrationValueConfiguration *calconfig;  // = state.cal.Imon->getCalConfigRef();
     uint32_t startaddress;
     switch (caltype)
     {
@@ -268,8 +287,14 @@ void write_cal_to_eeprom(int32_t caltype)
     case 2:
         calconfig = state.cal.Iset->getCalConfigRef();
         startaddress = EEPROM_ADDR_CAL_ISET;
-        break;        
+        break;
+    // TODO: Von.
+    case 4:
+        calconfig = state.cal.Uset->getCalConfigRef();
+        startaddress = EEPROM_ADDR_CAL_USET;
+        break;
     default:
+        startaddress = 0xF00; //Dummy
         return;
         break;
     // TODO: Add others

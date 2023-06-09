@@ -37,8 +37,11 @@ namespace dcl
                 _setState.OPPset = 80;
                 _setState.OPPdelay = 5;
                 _setState.Iset = 1.111f;
+                _setState.Uset = 1000.0f;
                 _setState.CalibrationIset = false;
                 _setState.Rset = 1000.0f;
+                _setState.Pset = 12.5f;
+                _setState.VonSet = 1.0f;
                 _setState.protection = false;
                 xSemaphoreGive(_setStateMutex);
                 //updateAverageTask();
@@ -225,6 +228,21 @@ namespace dcl
         return false;
     }
 
+    bool stateManager::setVonset(float newVonset)
+    {
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
+            {
+                // TODO: Check for limits.
+                _setState.VonSet = newVonset;
+                xSemaphoreGive(_setStateMutex);
+                return updateMeasureTask();
+            }
+        }
+        return false;
+    };
+
     bool stateManager::setIset(float newIset, bool rawDACvalue)
     {
         if (_setStateMutex != NULL)
@@ -234,6 +252,22 @@ namespace dcl
                 // TODO: Check for limits.
                 _setState.CalibrationIset = rawDACvalue; 
                 _setState.Iset = newIset;
+                xSemaphoreGive(_setStateMutex);
+                return updateMeasureTask();
+            }
+        }
+        return false;
+    };
+
+    bool stateManager::setUset(float newUset, bool rawDACvalue)
+    {
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
+            {
+                // TODO: Check for limits.
+                _setState.CalibrationUset = rawDACvalue; 
+                _setState.Uset = newUset;
                 xSemaphoreGive(_setStateMutex);
                 return updateMeasureTask();
             }

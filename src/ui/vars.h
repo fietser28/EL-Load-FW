@@ -28,20 +28,18 @@ typedef enum {
 // Flow global variables
 
 enum FlowGlobalVariables {
-    FLOW_GLOBAL_VARIABLE_VON_SET = 0,
-    FLOW_GLOBAL_VARIABLE_DROPDOWNMODEINDEX = 1,
-    FLOW_GLOBAL_VARIABLE_SET_VALUE = 2,
-    FLOW_GLOBAL_VARIABLE_SET_VALUE_STRING = 3,
-    FLOW_GLOBAL_VARIABLE_SET_TYPES = 4,
-    FLOW_GLOBAL_VARIABLE_SET_TYPE = 5,
-    FLOW_GLOBAL_VARIABLE_USET = 6,
-    FLOW_GLOBAL_VARIABLE_VON_LATCHED = 7,
-    FLOW_GLOBAL_VARIABLE_OCPSET = 8,
-    FLOW_GLOBAL_VARIABLE_OVPSET = 9,
-    FLOW_GLOBAL_VARIABLE_OTPSET = 10,
-    FLOW_GLOBAL_VARIABLE_OTPDELAY = 11,
-    FLOW_GLOBAL_VARIABLE_PREFIXES = 12,
-    FLOW_GLOBAL_VARIABLE_CAL_DATA = 13
+    FLOW_GLOBAL_VARIABLE_DROPDOWNMODEINDEX = 0,
+    FLOW_GLOBAL_VARIABLE_SET_VALUE = 1,
+    FLOW_GLOBAL_VARIABLE_SET_VALUE_STRING = 2,
+    FLOW_GLOBAL_VARIABLE_SET_TYPES = 3,
+    FLOW_GLOBAL_VARIABLE_SET_TYPE = 4,
+    FLOW_GLOBAL_VARIABLE_VON_LATCHED = 5,
+    FLOW_GLOBAL_VARIABLE_OCPSET = 6,
+    FLOW_GLOBAL_VARIABLE_OVPSET = 7,
+    FLOW_GLOBAL_VARIABLE_OTPSET = 8,
+    FLOW_GLOBAL_VARIABLE_OTPDELAY = 9,
+    FLOW_GLOBAL_VARIABLE_PREFIXES = 10,
+    FLOW_GLOBAL_VARIABLE_CAL_DATA = 11
 };
 
 // Native global variables
@@ -72,8 +70,12 @@ extern bool get_var_alive();
 extern void set_var_alive(bool value);
 extern mode_e get_var_mode();
 extern void set_var_mode(mode_e value);
+extern float get_var_von_set();
+extern void set_var_von_set(float value);
 extern float get_var_iset();
 extern void set_var_iset(float value);
+extern float get_var_uset();
+extern void set_var_uset(float value);
 extern float get_var_rset();
 extern void set_var_rset(float value);
 extern float get_var_pset();

@@ -260,6 +260,25 @@ void setup()
 
   //SERIALDEBUG.printf("INFO: Iset calibration min,max,coeff: %.4f  %.4f %.4e\n", iSetMinVal, iSetMaxVal, iSetC);
 
+  uSetCal.numPoints = 2;
+  uSetCal.points[0].value = 1.00;
+  uSetCal.points[0].dac = 100;
+  uSetCal.points[1].value = 3.2; 
+  uSetCal.points[1].dac = 64000;
+
+  state.cal.Uset = new calLinear2P();
+  state.cal.Uset->setCalConfig(uSetCal);
+  state.cal.Uset->setDACConfig(uSetDAC.DAC_MIN, uSetDAC.DAC_MAX);
+
+  vonSetCal.numPoints = 2;
+  vonSetCal.points[0].value = 1.00;
+  vonSetCal.points[0].dac = 100;
+  vonSetCal.points[1].value = 3.2; 
+  vonSetCal.points[1].dac = 64000;
+
+  state.cal.Von = new calLinear2P();
+  state.cal.Von->setCalConfig(vonSetCal);
+  state.cal.Von->setDACConfig(vonSetDAC.DAC_MIN, vonSetDAC.DAC_MAX);
 
   //// FreeRTOS setup.
   //////////////////////////
@@ -310,12 +329,13 @@ void setup()
     myeeprom.calibrationValuesRead(state.cal.Imon->getCalConfigRef(), EEPROM_ADDR_CAL_IMON);
     myeeprom.calibrationValuesRead(state.cal.Umon->getCalConfigRef(), EEPROM_ADDR_CAL_UMON);
     myeeprom.calibrationValuesRead(state.cal.Iset->getCalConfigRef(), EEPROM_ADDR_CAL_ISET);
+    myeeprom.calibrationValuesRead(state.cal.Uset->getCalConfigRef(), EEPROM_ADDR_CAL_USET);
   }
   
-  vTaskDelay(50);
-    myeeprom.write(EEPROM_ADDR_VERSION, eeprom_version);  
-    myeeprom.write(EEPROM_ADDR_VERSION, eeprom_version);  
-  vTaskDelay(50);
+  //vTaskDelay(50);
+  //  myeeprom.write(EEPROM_ADDR_VERSION, eeprom_version);  
+  //  myeeprom.write(EEPROM_ADDR_VERSION, eeprom_version);  
+  //vTaskDelay(50);
 
 
   uint8_t eepromVersionRead = myeeprom.read(EEPROM_ADDR_VERSION);
@@ -417,7 +437,7 @@ void loop()
 //  cyclecount = rp2040.getCycleCount64()/rp2040.f_cpu();
   cyclecount++;
   //SERIALDEBUG.printf("Heap total: %d, used: %d, free:  %d, uptime: %d, ADC0: %i, ADC1: %i, %d\n", heaptotal, heapused, heapfree, cyclecount, loopmystate.avgCurrentRaw, loopmystate.avgVoltRaw, loopmystate.avgCurrentRaw < 0 ? 1 : 0);
-  SERIALDEBUG.printf("Imon: %f, Umon: %f, uptime: %d, Mode: %d, Pset: %f\n", loopmystate.Imon, loopmystate.Umon, cyclecount, loopmysetstate.mode, loopmysetstate.Rset);
+  SERIALDEBUG.printf("Imon: %f, Umon: %f, uptime: %d, Mode: %d, Uset: %f, cal: %d\n", loopmystate.Imon, loopmystate.Umon, cyclecount, loopmysetstate.mode, loopmysetstate.Uset, loopmysetstate.CalibrationUset);
   snprintf(logtxt, 120, "Heap total: %d\nHeap used: %d\nHeap free:  %d\nADC0: %d\n", heaptotal, heapused, heapfree, loopmystate.avgCurrentRaw);
   vTaskDelay(ondelay);
 }
@@ -567,6 +587,8 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
       iset = -1.0f;
       uset = 1000.0f; // Will clamp DAC
       vonset = 1.0f;
+      isetPrev = -2.0f; // Make sure we update
+      usetPrev = -2.0f;
     } 
 
     // Only recalc and set if changed
@@ -592,8 +614,13 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
 
     if (uset != usetPrev)
     {
-      uset = remap(uset, iSetMinVal, (float)uSetDAC.DAC_MIN, uSetMaxVal, (float)uSetDAC.DAC_MAX);
-      usetRaw = (uint32_t)clamp(uset, uSetDAC.DAC_MIN, uSetDAC.DAC_MAX);
+      if (localSetState.CalibrationUset == true) {
+        usetRaw = (uint32_t)localSetState.Uset;
+      } else {
+      //uset = remap(uset, iSetMinVal, (float)uSetDAC.DAC_MIN, uSetMaxVal, (float)uSetDAC.DAC_MAX);
+        uset = state.cal.Uset->remapDAC(uset);
+        usetRaw = (uint32_t)clamp(uset, uSetDAC.DAC_MIN, uSetDAC.DAC_MAX);
+      }
       if (usetRaw != usetRawPrev)
       {
 #ifndef FAKE_HARDWARE
@@ -606,7 +633,8 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
     // Only recalc and set if changed
     if (vonset != vonsetPrev)
     {
-      vonset = remap(vonset, iSetMinVal, (float)vonSetDAC.DAC_MIN, vonSetMaxVal, (float)vonSetDAC.DAC_MAX);
+      //vonset = remap(vonset, iSetMinVal, (float)vonSetDAC.DAC_MIN, vonSetMaxVal, (float)vonSetDAC.DAC_MAX);
+      vonset = state.cal.Von->remapDAC(vonset);
       vonsetRaw = (uint32_t)clamp(vonset, vonSetDAC.DAC_MIN, vonSetDAC.DAC_MAX);
       if (vonsetRaw != vonsetRawPrev)
       {

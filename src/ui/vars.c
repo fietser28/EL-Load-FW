@@ -160,11 +160,22 @@ void set_var_mode(mode_e value) {
   return set_mode(value);
 };
 
+float get_var_von_set() { return localsetcopy.VonSet; };
+void set_var_von_set(float value)
+{
+  setVonset(value);
+};
 
 float get_var_iset() { return localsetcopy.Iset; }; 
 void set_var_iset(float value) 
 {
   setIset(value, false);
+};
+
+float get_var_uset() { return localsetcopy.Uset; };
+void set_var_uset(float value)
+{
+  setUset(value, false);
 };
 
 float get_var_rset() { return localsetcopy.Rset; }; 

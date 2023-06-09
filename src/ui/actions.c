@@ -54,8 +54,14 @@ void action_cal_refresh_measured(lv_event_t *e)
         cal_measured = localstatecopy.avgVoltRaw;
         cal_values.points[cal_curpoint].adc = (int32_t)cal_measured;
     }
-    if (cal_calType == 2) {
+    if (cal_calType == 2) { // Iset
         cal_measured = localstatecopy.Imon;
+        cal_values.points[cal_curpoint].value = cal_measured;
+    }
+    // Von missing
+
+    if (cal_calType == 4) { // Uset
+        cal_measured = localstatecopy.Umon;
         cal_values.points[cal_curpoint].value = cal_measured;
     }
     //TODO: Add others. 
@@ -80,5 +86,11 @@ void action_cal_store_values(lv_event_t *e)
 
 void action_cal_set_dac(lv_event_t *e) 
 {
-    setIset(cal_set, true);
+    if (cal_calType == 2) { // Iset
+        setIset(cal_set, true);
+    }
+    
+    if (cal_calType == 4) { // Uset
+        setUset(cal_set, true);
+    }
 }

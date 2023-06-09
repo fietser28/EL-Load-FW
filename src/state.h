@@ -57,6 +57,7 @@ namespace dcl
         enum ELmode mode;
         bool CalibrationIset; // True means Iset float = DAC value not real value.
         float Iset; // float = 32 bits
+        bool CalibrationUset; // True means Iset float = DAC value not real value.
         float Uset;
         float Rset;
         float Pset;
@@ -113,7 +114,9 @@ public:
     bool clearProtection();
     bool setProtection();
     bool setMode(mode_e newMode);
+    bool setVonset(float newVonset);
     bool setIset(float newIset, bool rawDACvalue = false);
+    bool setUset(float newUset, bool rawDACvalue = false);
     bool setRset(float newRset);
     bool setPset(float newPset);
     bool setOPPset(float OPPset);

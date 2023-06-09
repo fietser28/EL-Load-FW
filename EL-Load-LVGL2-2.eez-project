@@ -491,7 +491,8 @@
         "name": "VonSet",
         "type": "float",
         "defaultValue": "0",
-        "persistent": false
+        "persistent": false,
+        "native": true
       },
       {
         "objID": "a4a514d9-3d4a-4b5b-adef-8e912e987445",
@@ -542,7 +543,8 @@
         "name": "uset",
         "type": "float",
         "defaultValue": "25",
-        "persistent": false
+        "persistent": false,
+        "native": true
       },
       {
         "objID": "778dc054-f278-46d6-ce00-26aefdfe5a90",
@@ -670,7 +672,7 @@
         "objID": "d5223ec8-45c9-4dd4-e70b-8502db332aa7",
         "name": "calData",
         "type": "array:struct:calConfig",
-        "defaultValue": "[ { name: \"Current measure\", unit: \"A\", instruction:\"Apply set current to input\", setType: 9 },\n{ name: \"Voltage measure\", unit: \"V\", instruction:\"Apply set voltage to input\", setType: 10 },\n{ name: \"Current set\", unit: \"\", instruction:\"Apply > set current to input\", setType: 12 }  \n]",
+        "defaultValue": "[ { name: \"Current measure\", unit: \"A\", instruction:\"Apply set current to input\", setType: 9 },\n{ name: \"Voltage measure\", unit: \"V\", instruction:\"Apply set voltage to input\", setType: 10 },\n{ name: \"Current set\", unit: \"\", instruction:\"Apply > set current to input\", setType: 12 },\n{ name: \"Von\", unit: \"\", instruction:\"Apply set Voltage to input\", setType: 12 },\n{ name: \"Voltage set\", unit: \"\", instruction:\"Input 40V/1A, Iset>1A\", setType: 12 }\n]",
         "persistent": false
       },
       {
@@ -2070,7 +2072,7 @@
           "height": 54,
           "customInputs": [],
           "customOutputs": [],
-          "milliseconds": "3000"
+          "milliseconds": "2500"
         },
         {
           "objID": "12f6e8c8-aed3-47d5-e8d8-cd7ca620754b",
@@ -2559,8 +2561,8 @@
         {
           "objID": "b4a420a1-0fda-4225-8415-74c4e8282a55",
           "type": "SwitchActionComponent",
-          "left": 229,
-          "top": -158,
+          "left": 10,
+          "top": -170,
           "width": 140,
           "height": 73,
           "customInputs": [],
@@ -2583,8 +2585,8 @@
         {
           "objID": "df5511f2-bfab-4d4e-f4a0-3387c7fe0c48",
           "type": "SetVariableActionComponent",
-          "left": 413,
-          "top": 11,
+          "left": 414,
+          "top": -21,
           "width": 172,
           "height": 75,
           "customInputs": [],
@@ -3813,8 +3815,8 @@
         {
           "objID": "5668f5ec-0878-454d-9660-fd6f77716b43",
           "type": "StartActionComponent",
-          "left": -204,
-          "top": -158,
+          "left": -142,
+          "top": -451,
           "width": 87,
           "height": 24,
           "customInputs": [],
@@ -3866,30 +3868,10 @@
           "recolor": false
         },
         {
-          "objID": "abc14312-7e34-43b7-bdae-618eb816ad48",
-          "type": "LVGLActionComponent",
-          "left": 664,
-          "top": 553,
-          "width": 279,
-          "height": 54,
-          "customInputs": [],
-          "customOutputs": [],
-          "actions": [
-            {
-              "objID": "a7be758e-fe62-4599-8a7d-f5ccf36ed323",
-              "action": "CHANGE_SCREEN",
-              "screen": "settings",
-              "fadeMode": "NONE",
-              "speed": 0,
-              "delay": 0
-            }
-          ]
-        },
-        {
           "objID": "9687f3c0-f3b3-4da2-b1c6-d7258f97ee4b",
           "type": "SwitchActionComponent",
-          "left": 197,
-          "top": -436,
+          "left": 618,
+          "top": -461,
           "width": 181,
           "height": 111,
           "customInputs": [],
@@ -3924,8 +3906,8 @@
         {
           "objID": "51d92c14-d39a-49d2-b93b-5f186e8a3047",
           "type": "SetVariableActionComponent",
-          "left": 515,
-          "top": -645,
+          "left": 939,
+          "top": -669,
           "width": 156,
           "height": 95,
           "customInputs": [],
@@ -3951,8 +3933,8 @@
         {
           "objID": "bbb3fe04-4937-4b77-ffd0-f50d8233e56e",
           "type": "SetVariableActionComponent",
-          "left": 515,
-          "top": -532,
+          "left": 939,
+          "top": -556,
           "width": 156,
           "height": 95,
           "customInputs": [],
@@ -3978,8 +3960,8 @@
         {
           "objID": "15a2cc76-dd80-4017-98ad-58a025684f84",
           "type": "SetVariableActionComponent",
-          "left": 515,
-          "top": -415,
+          "left": 939,
+          "top": -439,
           "width": 156,
           "height": 95,
           "customInputs": [],
@@ -4005,8 +3987,8 @@
         {
           "objID": "c865b644-58e9-4b67-fd26-a04bb01c9c5e",
           "type": "SetVariableActionComponent",
-          "left": 515,
-          "top": -293,
+          "left": 939,
+          "top": -317,
           "width": 156,
           "height": 95,
           "customInputs": [],
@@ -4032,8 +4014,8 @@
         {
           "objID": "79d66a8b-60d7-4a65-8f1a-3d6704c1b507",
           "type": "SwitchActionComponent",
-          "left": 197,
-          "top": -307,
+          "left": 618,
+          "top": -596,
           "width": 188,
           "height": 111,
           "customInputs": [],
@@ -4209,8 +4191,8 @@
         {
           "objID": "3caaa895-9267-4b11-c47f-29bd76dbed92",
           "type": "LVGLActionComponent",
-          "left": 565,
-          "top": -161,
+          "left": 472,
+          "top": -143,
           "width": 279,
           "height": 54,
           "customInputs": [],
@@ -4229,8 +4211,8 @@
         {
           "objID": "2f46a5f7-a4eb-4a89-de34-29880535f45f",
           "type": "SwitchActionComponent",
-          "left": 643,
-          "top": -1,
+          "left": 634,
+          "top": -24,
           "width": 210,
           "height": 73,
           "customInputs": [
@@ -4259,8 +4241,8 @@
         {
           "objID": "e2999e69-457b-4f23-9398-7918dba922ea",
           "type": "WatchVariableActionComponent",
-          "left": 37,
-          "top": -110,
+          "left": -205,
+          "top": -197,
           "width": 91,
           "height": 54,
           "customInputs": [],
@@ -4270,8 +4252,8 @@
         {
           "objID": "19a38dcc-a42d-47a5-a990-fa6e64b9324e",
           "type": "WatchVariableActionComponent",
-          "left": -212,
-          "top": 23,
+          "left": -330,
+          "top": -31,
           "width": 104,
           "height": 54,
           "customInputs": [],
@@ -4292,8 +4274,8 @@
         {
           "objID": "19d8e996-4f4c-426b-9adc-3732f74aab45",
           "type": "WatchVariableActionComponent",
-          "left": -212,
-          "top": 105,
+          "left": -330,
+          "top": 27,
           "width": 104,
           "height": 54,
           "customInputs": [],
@@ -4314,8 +4296,8 @@
         {
           "objID": "fcdf18e8-241b-43a2-8ae2-9eead5fdfcdd",
           "type": "SetVariableActionComponent",
-          "left": 421,
-          "top": 99,
+          "left": 454,
+          "top": 65,
           "width": 156,
           "height": 55,
           "customInputs": [],
@@ -4468,6 +4450,145 @@
               "value": "setValue"
             }
           ]
+        },
+        {
+          "objID": "e1c4bf54-59a5-4d6e-ce6a-bf84d1c2cf19",
+          "type": "LVGLUserWidgetWidget",
+          "left": 0,
+          "top": 0,
+          "width": 320,
+          "height": 240,
+          "customInputs": [],
+          "customOutputs": [],
+          "style": {
+            "objID": "9fc30636-bef2-4db6-a9ed-6d7dec530201",
+            "inheritFrom": "default"
+          },
+          "hiddenInEditor": true,
+          "timeline": [],
+          "eventHandlers": [],
+          "leftUnit": "px",
+          "topUnit": "px",
+          "widthUnit": "px",
+          "heightUnit": "px",
+          "children": [],
+          "flags": "PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_CHAIN",
+          "hiddenFlag": "kbHidden",
+          "hiddenFlagType": "expression",
+          "clickableFlag": true,
+          "clickableFlagType": "literal",
+          "scrollbarMode": "auto",
+          "scrollDirection": "all",
+          "checkedStateType": "literal",
+          "disabledStateType": "literal",
+          "states": "",
+          "localStyles": {
+            "objID": "67bb2d71-8928-4103-d447-6f978fc859b9"
+          },
+          "userWidgetPageName": "keyboard"
+        },
+        {
+          "objID": "172e718b-ff77-4d8b-cf95-870a2a2dd6fa",
+          "type": "WatchVariableActionComponent",
+          "left": -350,
+          "top": 90,
+          "width": 124,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "variable": "setType"
+        },
+        {
+          "objID": "39996d19-c100-4c8a-e992-73ff14ebf90f",
+          "type": "WatchVariableActionComponent",
+          "left": -436,
+          "top": 162,
+          "width": 172,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "variable": "setValueString"
+        },
+        {
+          "objID": "37898ac0-38a0-48c1-faa6-68bb8aa72a50",
+          "type": "SetVariableActionComponent",
+          "left": 397,
+          "top": -241,
+          "width": 149,
+          "height": 55,
+          "customInputs": [],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "d09b334c-146f-4c6c-875b-8b50b2e071c5",
+              "variable": "kbHidden",
+              "value": "true"
+            }
+          ]
+        },
+        {
+          "objID": "f6fc381a-7b8c-4a7b-e4c1-d20017ec7e21",
+          "type": "SetVariableActionComponent",
+          "left": 673,
+          "top": 554,
+          "width": 156,
+          "height": 55,
+          "customInputs": [],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "e7caf69a-580b-420b-b2ef-2cf4d186aa1e",
+              "variable": "kbHidden",
+              "value": "false"
+            }
+          ]
+        },
+        {
+          "objID": "62041b08-502c-4a0c-dd16-e99b75616a6e",
+          "type": "SwitchActionComponent",
+          "left": 792,
+          "top": 114,
+          "width": 218,
+          "height": 54,
+          "customInputs": [
+            {
+              "objID": "94cd8ee1-5719-4df6-944b-2d3a0e561bee",
+              "name": "newValue",
+              "type": "float"
+            }
+          ],
+          "customOutputs": [],
+          "tests": [
+            {
+              "objID": "b43491de-dde3-4610-f51d-5197a9952844",
+              "condition": "setType == 4",
+              "outputName": "Von",
+              "outputValue": "newValue"
+            }
+          ]
+        },
+        {
+          "objID": "7b953345-1731-4052-8c68-b73eeeaf3e22",
+          "type": "SetVariableActionComponent",
+          "left": 1109,
+          "top": -111,
+          "width": 229,
+          "height": 55,
+          "customInputs": [
+            {
+              "objID": "6186a273-0f1d-4ba4-9789-90718cb0a92f",
+              "name": "newValue",
+              "type": "float"
+            }
+          ],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "2ad70b92-5b84-490f-ea9c-0340087eeb7e",
+              "variable": "VonSet",
+              "value": "newValue"
+            }
+          ]
         }
       ],
       "connectionLines": [
@@ -4570,24 +4691,10 @@
           "input": "@seqin"
         },
         {
-          "objID": "62eeee82-6884-488a-88c0-5ddcb5072eec",
-          "source": "9a7bc995-e9a6-499b-ad67-b6b90798dd64",
-          "output": "@seqout",
-          "target": "abc14312-7e34-43b7-bdae-618eb816ad48",
-          "input": "@seqin"
-        },
-        {
           "objID": "8bc2a572-7325-4882-d196-c0f0bfb62e43",
           "source": "55aba286-5df3-43b6-9f0d-022826272a15",
           "output": "PRESSED",
           "target": "ef057ed8-e259-4ec3-d3ba-8268b78ebec1",
-          "input": "@seqin"
-        },
-        {
-          "objID": "d5b2d16b-94de-44de-a7e4-cbf75e54606e",
-          "source": "ef057ed8-e259-4ec3-d3ba-8268b78ebec1",
-          "output": "@seqout",
-          "target": "abc14312-7e34-43b7-bdae-618eb816ad48",
           "input": "@seqin"
         },
         {
@@ -4722,6 +4829,69 @@
           "output": "CR",
           "target": "fd3b8a36-f8f8-418b-c0a0-22c1caccfa50",
           "input": "@seqin"
+        },
+        {
+          "objID": "01bde7e7-b818-4535-8ecf-35419ddef8d8",
+          "source": "172e718b-ff77-4d8b-cf95-870a2a2dd6fa",
+          "output": "variable",
+          "target": "e1c4bf54-59a5-4d6e-ce6a-bf84d1c2cf19",
+          "input": "f60387c9-c229-4a95-d997-d7129308696e"
+        },
+        {
+          "objID": "2411f161-32c5-431c-80a4-3d7a19506935",
+          "source": "39996d19-c100-4c8a-e992-73ff14ebf90f",
+          "output": "variable",
+          "target": "e1c4bf54-59a5-4d6e-ce6a-bf84d1c2cf19",
+          "input": "a43770d8-abf6-49d9-e723-776d4357c52c"
+        },
+        {
+          "objID": "ec1aa767-faf1-4cbf-9ae6-8217c3ab2f54",
+          "source": "37898ac0-38a0-48c1-faa6-68bb8aa72a50",
+          "output": "@seqout",
+          "target": "9687f3c0-f3b3-4da2-b1c6-d7258f97ee4b",
+          "input": "@seqin"
+        },
+        {
+          "objID": "d60579fe-5d07-4647-fc04-ea5f7eee434b",
+          "source": "e1c4bf54-59a5-4d6e-ce6a-bf84d1c2cf19",
+          "output": "4bf2a32b-1d80-492c-e43d-d4518a965224",
+          "target": "37898ac0-38a0-48c1-faa6-68bb8aa72a50",
+          "input": "@seqin"
+        },
+        {
+          "objID": "98e3c67f-2075-4041-df1c-f2da574e3d3d",
+          "source": "ef057ed8-e259-4ec3-d3ba-8268b78ebec1",
+          "output": "@seqout",
+          "target": "f6fc381a-7b8c-4a7b-e4c1-d20017ec7e21",
+          "input": "@seqin"
+        },
+        {
+          "objID": "b3dc916e-7a63-4f22-ccb3-566c3053db4d",
+          "source": "9a7bc995-e9a6-499b-ad67-b6b90798dd64",
+          "output": "@seqout",
+          "target": "f6fc381a-7b8c-4a7b-e4c1-d20017ec7e21",
+          "input": "@seqin"
+        },
+        {
+          "objID": "993c7829-eb25-4663-d1ae-2e72f6cc786e",
+          "source": "e1c4bf54-59a5-4d6e-ce6a-bf84d1c2cf19",
+          "output": "e611df1d-faa2-45d6-c4cb-591acec7e01c",
+          "target": "62041b08-502c-4a0c-dd16-e99b75616a6e",
+          "input": "newValue"
+        },
+        {
+          "objID": "6abf2a83-ad02-4472-d183-afa22963b7b5",
+          "source": "62041b08-502c-4a0c-dd16-e99b75616a6e",
+          "output": "Von",
+          "target": "7b953345-1731-4052-8c68-b73eeeaf3e22",
+          "input": "newValue"
+        },
+        {
+          "objID": "3b041e0e-8dda-49d9-cb17-38c2ab897c9a",
+          "source": "7b953345-1731-4052-8c68-b73eeeaf3e22",
+          "output": "@seqout",
+          "target": "37898ac0-38a0-48c1-faa6-68bb8aa72a50",
+          "input": "@seqin"
         }
       ],
       "localVariables": [
@@ -4742,6 +4912,13 @@
         {
           "objID": "65a24718-a644-44d8-fd32-ff8e9d58be34",
           "name": "hidegraph",
+          "type": "boolean",
+          "defaultValue": "true",
+          "persistent": false
+        },
+        {
+          "objID": "c93bc60b-1c95-43b4-f2b0-8220b0eb1f3f",
+          "name": "kbHidden",
           "type": "boolean",
           "defaultValue": "true",
           "persistent": false
@@ -7002,7 +7179,7 @@
               }
             }
           },
-          "options": "Current Monitor\nVoltage Monitor\nCurrent Set\nVon\nOCP set\nOVP set",
+          "options": "Current Monitor\nVoltage Monitor\nCurrent Set\nVon Set\nVoltage Set\nOCP set\nOVP set",
           "selected": "cal_calType",
           "selectedType": "expression"
         },
