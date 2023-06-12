@@ -82,14 +82,14 @@ const char *get_var_rmon() {
       lastrmoni = localstatecopy.Imon;
       lastrmonu = localstatecopy.Umon;
       float r = localstatecopy.Imon != 0.0f ? localstatecopy.Umon/localstatecopy.Imon : INFINITY;
-      if ( r != INFINITY) 
+      if ( r == INFINITY || r > 1000000 || r < 0) 
       {
-        //TODO: fix hardcoding of settings
-        value2str(rmonstring, r, -2, 4, 3, true, "\u03a9");
+        snprintf((char *)rmonstring, 10, "\u221e \u03a9");
       } 
       else 
       {
-        snprintf((char *)rmonstring, 10, "INF \u03a9");
+        //TODO: fix hardcoding of settings
+        value2str(rmonstring, r, -2, 4, 3, true, "\u03a9");
       }
     }
     return (char *)rmonstring;

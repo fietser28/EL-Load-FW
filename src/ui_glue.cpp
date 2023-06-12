@@ -1,6 +1,8 @@
 #include <lvgl.h>
 #include "state.h"
 #include "main.h"
+//#include "ui/vars.h"
+//#include "ui/structs.h"
 
 #include "ui/screens.h"
 
