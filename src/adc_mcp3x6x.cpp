@@ -32,7 +32,8 @@ MCP3x6x::MCP3x6x(const uint16_t MCP3x6x_DEVICE_TYPE, const uint8_t pinCS, SPICla
       _channels   = 8;
       break;
     default:
-#warning "undefined MCP3x6x_DEVICE_TYPE"
+// TODO: Fix or remove?
+//#warning "undefined MCP3x6x_DEVICE_TYPE"
       break;
   }
 
