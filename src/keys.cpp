@@ -11,18 +11,6 @@
 #include "ui_glue.h"
 #include "gpio_mcp23008.h"
 
-#define MCP23x08_ADDR_IODIR 0x00
-#define MCP23X08_ADDR_IPOL 0x01
-#define MCP23X08_ADDR_GPINTEN 0x02
-#define MCP23X08_ADDR_DEFVAL 0x03
-#define MCP23X08_ADDR_INTCON 0x04
-#define MCP23X08_ADDR_IOCON 0x05
-#define MCP23X08_ADDR_GPPU 0x06
-#define MCP23X08_ADDR_INTF 0x07
-#define MCP23X08_ADDR_INTCAP 0x08
-#define MCP23X08_ADDR_GPIO 0x09
-#define MCP23X08_ADDR_OLAT 0x0A
-
 // Global keystate structure, used by ui.
 keystate_t keystate;
 
@@ -38,24 +26,6 @@ void keys_task_init(void)
     xTaskCreate(encTask, "enc", 1024, NULL, TASK_PRIORITY_KEYS, &encTaskHandle);
 };
 
-/* uint8_t writeI2C(uint8_t addr, uint8_t opcode, uint8_t data)
-{
-    // Exclusive use, so no Mutex.
-    I2C_KEYS.beginTransmission(addr);
-    I2C_KEYS.write(opcode);
-    I2C_KEYS.write(data);
-    return Wire.endTransmission();
-}
-
-uint8_t readI2C(uint8_t addr, uint8_t opcode)
-{
-    I2C_KEYS.beginTransmission(addr);
-    I2C_KEYS.write(opcode);
-    I2C_KEYS.endTransmission();
-    I2C_KEYS.requestFrom(addr, 1);
-    return I2C_KEYS.read();
-}
- */
 
 static void __not_in_flash_func(ISR_KEYS())
     {
