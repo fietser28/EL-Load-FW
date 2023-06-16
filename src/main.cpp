@@ -19,6 +19,7 @@
 #include "keys.h"
 #include "ui_glue.h"
 #include "eeprom.h"
+#include "gpio_mcp23008.h"
 
 // Fixes lvgl include. TODO: remove?
 #include "LittleFS.h"
@@ -446,50 +447,62 @@ void loop()
 /////////////////////////////////
 static void __not_in_flash_func(ISR_ProtHW())
 {
-  // Just start a high priority task and force immediate context switch if task is available.
-  // digitalWrite(LED_BUILTIN, HIGH);
-  BaseType_t taskProtHWWoken = pdFALSE;
-  vTaskNotifyGiveFromISR(taskProtHW, &taskProtHWWoken);
-  portYIELD_FROM_ISR(taskProtHWWoken);
+  BaseType_t taskWoken = pdFALSE;
+  vTaskNotifyGiveFromISR(taskProtHW, &taskWoken);
+  if (taskWoken != pdFALSE) {
+    portYIELD_FROM_ISR(taskWoken);
+  }
 };
 
 void taskProtHWFunction(void *pvParameters)
 {
   uint32_t ulNotifiedValue;
+  gpio_mcp23008 gpiokeys = gpio_mcp23008();
+  uint8_t  gpiopinstate;
+  bool ocptrig, ocptrig_prev = false;
+  bool ovptrig, ovptrig_prev = false;
+  bool von, von_prev = false;
 
-  // Setup HW pins
-  // pinMode(PIN_OCPTRIGGERED, INPUT_PULLDOWN);  // TODO: Change to floating on final PCB, for testing this avoids spurios triggers if unconnected
-  pinMode(PIN_OVPTRIGGERED, INPUT_PULLDOWN); // TODO: ,,
+  // Setup HW GPIO extender
+  pinMode(PIN_HWGPIO_INT, INPUT);
+  gpiokeys.begin(&I2C_KEYS, I2C_KEYS_SEM, HWIO_CHIP_ADDRES);
+  vTaskDelay(3); //TODO: remove?
+  gpiokeys.pinModes(HWIO_PIN_VONLATCH || HWIO_PIN_resetProt); // Set output pins.
+  vTaskDelay(3); //TODO: remove?
+  gpiokeys.pinInterrupts(HWIO_PIN_OCPTRIG || HWIO_PIN_OVPTRIG || HWIO_PIN_VON, // Only relevant input pins
+                          0x00,  // Compare against 0
+                          HWIO_PIN_OCPTRIG || HWIO_PIN_OVPTRIG); // Only there are compared, other on any change
 
-  // attachInterrupt(digitalPinToInterrupt(PIN_OCPTRIGGERED), ISR_ProtHW, FALLING);
-  // attachInterrupt(digitalPinToInterrupt(PIN_OVPTRIGGERED), ISR_ProtHW, FALLING);
+  ::attachInterrupt(digitalPinToInterrupt(PIN_HWGPIO_INT), ISR_ProtHW, FALLING);
+  gpiopinstate = gpiokeys.digitalRead(); //Clear interrupt pin status.
 
   for (;;)
   {
-    // Notified by interrupt, wait forever on any notification
-    xTaskNotifyWaitIndexed(0,                /* Wait for 0th notification. */
-                           0x00,             /* Don't clear any notification bits on entry. */
-                           ULONG_MAX,        /* Reset the notification value to 0 on exit. */
-                           &ulNotifiedValue, /* Notified value pass out in
-                                                 ulNotifiedValue. */
-                           portMAX_DELAY);   /* Block indefinitely. */
-    // Go to a safe hardware state as fast as possible
-    safeMode(); // Safe mode sets state of OFF.
+    // Notified by interrupt or wait 100ms.
+    ulTaskNotifyTake(pdTRUE, (TickType_t)100); 
 
-    // TODO: move to safeMode function.
-    xSemaphoreTake(setStateMutex, UNKOWN_ERROR_TASK_TIMEOUT);
-    if (setStateMutex != NULL)
+    gpiopinstate = gpiokeys.digitalRead();
+
+    ocptrig = gpiopinstate && HWIO_PIN_OCPTRIG;
+    ovptrig = gpiopinstate && HWIO_PIN_OVPTRIG;
+    von = gpiopinstate && HWIO_PIN_VON;
+
+
+    // Something is changed
+    if (ocptrig != ocptrig_prev || ovptrig != ovptrig_prev || von != von_prev) 
     {
-      if (xSemaphoreTake(setStateMutex, (TickType_t)UNKOWN_ERROR_TASK_TIMEOUT) == pdTRUE)
+      // Protection kicked in.
+      if (ocptrig || ovptrig) 
       {
-        setState.protection = true;
-        xSemaphoreGive(setStateMutex);
+        state.setProtection();
       }
-      else
-      {
-        // TODO: Force reset
-      }
-      // TODO: Force reset, init is not ok.
+
+      // State has changed, update it.
+      state.setHWstate(ocptrig, ovptrig, von);
+
+      ocptrig_prev = ocptrig;
+      ovptrig_prev = ovptrig;
+      von_prev = von;
     }
   }
 };
@@ -594,6 +607,7 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
     }
     else
     {
+      // OFF/Safe Mode
       iset = -1.0f;
       uset = 1000.0f; // Will clamp DAC
       vonset = 1.0f;
@@ -788,11 +802,6 @@ void taskAveragingFunction(void *pvParameters)
     }
     //digitalWrite(PIN_TEST, LOW);
   }
-}
-
-void safeMode()
-{
-  // TODO
 }
 
 // For debugging / testing without hardware.

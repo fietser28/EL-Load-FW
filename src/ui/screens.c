@@ -102,6 +102,13 @@ static void event_handler_cb_main_obj12(lv_event_t *e) {
     if (event == LV_EVENT_PRESSED) {
         flowPropagateValue(flowState, 27, 0);
     }
+    if (event == LV_EVENT_VALUE_CHANGED) {
+        lv_obj_t *ta = lv_event_get_target(e);
+        bool value = lv_obj_has_state(ta, LV_STATE_CHECKED);
+        if (tick_value_change_obj != ta) {
+            assignBooleanProperty(flowState, 27, 2, value, "Failed to assign Checked state");
+        }
+    }
 }
 
 static void event_handler_cb_main_obj14(lv_event_t *e) {
@@ -821,6 +828,7 @@ void create_screen_main() {
                                     lv_obj_set_style_pad_bottom(obj, 0, LV_PART_MAIN | LV_STATE_DISABLED);
                                     lv_obj_set_style_pad_left(obj, 0, LV_PART_MAIN | LV_STATE_DISABLED);
                                     lv_obj_set_style_pad_right(obj, 0, LV_PART_MAIN | LV_STATE_DISABLED);
+                                    lv_obj_set_style_bg_color(obj, lv_color_hex(0xffca0202), LV_PART_MAIN | LV_STATE_CHECKED);
                                     {
                                         lv_obj_t *parent_obj = obj;
                                         {
@@ -1143,6 +1151,16 @@ void tick_screen_main() {
         if (strcmp(new_val, cur_val) != 0) {
             tick_value_change_obj = objects.obj11;
             lv_label_set_text(objects.obj11, new_val);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        bool new_val = evalBooleanProperty(flowState, 27, 2, "Failed to evaluate Checked state");
+        bool cur_val = lv_obj_has_state(objects.obj12, LV_STATE_CHECKED);
+        if (new_val != cur_val) {
+            tick_value_change_obj = objects.obj12;
+            if (new_val) lv_obj_add_state(objects.obj12, LV_STATE_CHECKED);
+            else lv_obj_clear_state(objects.obj12, LV_STATE_CHECKED);
             tick_value_change_obj = NULL;
         }
     }

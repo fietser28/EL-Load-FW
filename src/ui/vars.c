@@ -291,3 +291,5 @@ void set_var_cal_measured(float value) {
 int32_t get_var_cal_numpoints() { return cal_values.numPoints; };
 void set_var_cal_numpoints(int32_t value) {} ; // TODO: Needed?
 
+bool get_var_von_state() { return localstatecopy.VonState; };
+void set_var_von_state(bool value) {}; // Read only.

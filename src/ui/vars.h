@@ -26,6 +26,14 @@ typedef enum {
     mode_e_SHORT = 4
 } mode_e;
 
+typedef enum {
+    calType_e_Imon = 0,
+    calType_e_Umon = 1,
+    calType_e_Iset = 2,
+    calType_e_Von = 3,
+    calType_e_Uset = 4
+} calType_e;
+
 // Flow global variables
 
 enum FlowGlobalVariables {
@@ -109,6 +117,8 @@ extern int32_t get_var_cal_numpoints();
 extern void set_var_cal_numpoints(int32_t value);
 extern bool get_var_protection_triggered();
 extern void set_var_protection_triggered(bool value);
+extern bool get_var_von_state();
+extern void set_var_von_state(bool value);
 
 
 #ifdef __cplusplus

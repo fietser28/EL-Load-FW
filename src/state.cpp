@@ -148,6 +148,24 @@ namespace dcl
         return false;
     }
 
+    // Called from HW Task.
+    bool stateManager::setHWstate(bool ocptrig, bool ovptrig, bool von)
+    {
+        if (_measuredStateMutex != NULL)
+        {
+            // Don't wait to long, it is nog a problem if this is skipped
+            if (xSemaphoreTake(_measuredStateMutex, (TickType_t)10) == pdTRUE)
+            {
+                _measuredState.OCPstate = ocptrig;
+                _measuredState.OVPstate = ovptrig;
+                _measuredState.VonState = von;
+                xSemaphoreGive(_measuredStateMutex);
+                return true;
+            }
+        }
+        return false;
+
+    }
     // Send message to averaging task to clear the power measurements.
     // Note: this is asynchronous!
     bool stateManager::clearPower()

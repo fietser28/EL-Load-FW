@@ -109,12 +109,13 @@
 #define KEYS_PIN_BUT2       1 << 1   // GP1
 #define KEYS_PIN_BUT3       1 << 0   // GP0
 
+// GPIO extender (MCP23008) for hardware signals
 #define HWIO_CHIP_ADDRES    0x27
-#define HWIO_PIN_VONLATCH   1 << 0   // GP0
-#define HWIO_PIN_resetProt  1 << 1   // GP1
-#define HWIO_PIN_OVPTRIG    1 << 5   // GP5
-#define HWIO_PIN_OCPTRIG    1 << 6   // GP6
-#define HWIO_PIN_VON        1 << 7   // GP7
+#define HWIO_PIN_VONLATCH   1 << 0   // GP0 =output
+#define HWIO_PIN_resetProt  1 << 1   // GP1 =output
+#define HWIO_PIN_OVPTRIG    1 << 5   // GP5 =input
+#define HWIO_PIN_OCPTRIG    1 << 6   // GP6 =input
+#define HWIO_PIN_VON        1 << 7   // GP7 =input
 
 
 // TODO: Find new pins and rewire
@@ -231,8 +232,6 @@ extern TaskHandle_t taskDisplay;           // Prio 1@core0: Update display
 extern SemaphoreHandle_t xGuiSemaphore;
 
 // functions in main.cpp
-//extern float remap(float x, float x1, float y1, float x2, float y2);
-extern void safeMode();
 extern uint8_t readInputs();
 extern void setOutputs(setStateStruct &newState);
 extern void timerFakeADCInterruptFunction(TimerHandle_t taskFakeADCInterrupt);

@@ -110,6 +110,7 @@ public:
     bool setAvgMeasurements(float imon, float umon, double As,
                             double Ws, double time, uint32_t avgCurrentRaw, uint32_t avgVoltRaw);
 
+    bool setHWstate(bool ocptrig, bool ovptrig, bool von);
     bool clearPower();
     bool clearProtection();
     bool setProtection();

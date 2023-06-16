@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Size: 22 px
  * Bpp: 4
- * Opts: --user-data-dir=/Users/jan/Library/Application Support/eezstudio --app-path=/Users/jan/sw/studio --no-sandbox --no-zygote --node-integration-in-worker --lang=en-GB --num-raster-threads=4 --enable-zero-copy --enable-gpu-memory-buffer-compositor-resources --enable-main-frame-before-activation --renderer-client-id=5 --launch-time-ticks=273972580 --shared-files --field-trial-handle=1718379636,r,10319317800168794352,11613103347378335200,131072 --disable-features=SpareRendererForSitePerProcess
+ * Opts: --user-data-dir=/Users/jan/Library/Application Support/eezstudio --app-path=/Users/jan/sw/studio --no-sandbox --no-zygote --node-integration-in-worker --lang=en-GB --num-raster-threads=4 --enable-zero-copy --enable-gpu-memory-buffer-compositor-resources --enable-main-frame-before-activation --renderer-client-id=5 --launch-time-ticks=21266943975 --shared-files --field-trial-handle=1718379636,r,11003180319098058461,2473585664203900791,131072 --disable-features=SpareRendererForSitePerProcess
  ******************************************************************************/
 
 #ifdef LV_LVGL_H_INCLUDE_SIMPLE
@@ -1622,7 +1622,14 @@ static LV_ATTRIBUTE_LARGE_CONST const uint8_t glyph_bitmap[] = {
     0x4, 0xf5, 0x9, 0xf3, 0x2f, 0xa0, 0x6f, 0x60,
     0x9f, 0x20, 0xfc, 0xa, 0xfa, 0xc, 0xf0, 0xa,
     0xfc, 0xfc, 0xfc, 0xfa, 0x0, 0x1c, 0xfa, 0x9,
-    0xfc, 0x10
+    0xfc, 0x10,
+
+    /* U+221E "∞" */
+    0x0, 0x45, 0x10, 0x15, 0x40, 0x0, 0xaf, 0xee,
+    0x4e, 0xef, 0xa0, 0x3f, 0x50, 0xaf, 0xa0, 0x5f,
+    0x35, 0xf2, 0x4, 0xf4, 0x2, 0xf5, 0x1f, 0xa5,
+    0xee, 0xe5, 0xaf, 0x10, 0x4d, 0xf9, 0x9, 0xfd,
+    0x40, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0
 };
 
 
@@ -1782,7 +1789,8 @@ static const lv_font_fmt_txt_glyph_dsc_t glyph_dsc[] = {
     {.bitmap_index = 9648, .adv_w = 176, .box_w = 11, .box_h = 15, .ofs_x = 0, .ofs_y = -4},
     {.bitmap_index = 9731, .adv_w = 176, .box_w = 11, .box_h = 11, .ofs_x = 0, .ofs_y = 0},
     {.bitmap_index = 9792, .adv_w = 176, .box_w = 11, .box_h = 15, .ofs_x = 0, .ofs_y = -4},
-    {.bitmap_index = 9875, .adv_w = 176, .box_w = 11, .box_h = 12, .ofs_x = 0, .ofs_y = 0}
+    {.bitmap_index = 9875, .adv_w = 176, .box_w = 11, .box_h = 12, .ofs_x = 0, .ofs_y = 0},
+    {.bitmap_index = 9941, .adv_w = 176, .box_w = 11, .box_h = 7, .ofs_x = 0, .ofs_y = 2}
 };
 
 /*---------------------
@@ -1805,6 +1813,10 @@ static const lv_font_fmt_txt_cmap_t cmaps[] =
     {
         .range_start = 931, .range_length = 39, .glyph_id_start = 113,
         .unicode_list = NULL, .glyph_id_ofs_list = NULL, .list_length = 0, .type = LV_FONT_FMT_TXT_CMAP_FORMAT0_TINY
+    },
+    {
+        .range_start = 8734, .range_length = 1, .glyph_id_start = 152,
+        .unicode_list = NULL, .glyph_id_ofs_list = NULL, .list_length = 0, .type = LV_FONT_FMT_TXT_CMAP_FORMAT0_TINY
     }
 };
 
@@ -1826,7 +1838,7 @@ static lv_font_fmt_txt_dsc_t font_dsc = {
     .cmaps = cmaps,
     .kern_dsc = NULL,
     .kern_scale = 0,
-    .cmap_num = 3,
+    .cmap_num = 4,
     .bpp = 4,
     .kern_classes = 0,
     .bitmap_format = 0,
