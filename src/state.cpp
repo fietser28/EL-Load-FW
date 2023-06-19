@@ -410,12 +410,16 @@ namespace dcl
         msg.avgSamples = 0; // Don't set new window sizes
         msg.clear = false; // Don't clear
         msg.record = setrecord;
+
+        // TODO: use updateAverageTask function instead.
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
             {
                 _setState.record = setrecord;
                 msg.on     = _setState.on;
+                msg.OPPset = _setState.OPPset;
+                msg.OPPdelay = _setState.OPPdelay;
                 xSemaphoreGive(_setStateMutex);
                 xQueueSend(changeAverageSettings, &msg, 10);
                 return true;
