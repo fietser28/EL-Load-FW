@@ -41,7 +41,7 @@ uint8_t gpio_mcp23008::digitalWrites(uint8_t values)
 
 uint8_t gpio_mcp23008::digitalWrite(uint8_t pin, bool value)
 {
-    return digitalWrites(_regs[MCP23X08_ADDR_OLAT] | (value << pin));
+    return digitalWrites((_regs[MCP23X08_ADDR_OLAT] &  ~(1 << pin)) | (value << pin));
 }
 
 uint8_t gpio_mcp23008::pinModes(uint8_t pins)

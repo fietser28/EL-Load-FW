@@ -42,13 +42,12 @@ enum FlowGlobalVariables {
     FLOW_GLOBAL_VARIABLE_SET_VALUE_STRING = 2,
     FLOW_GLOBAL_VARIABLE_SET_TYPES = 3,
     FLOW_GLOBAL_VARIABLE_SET_TYPE = 4,
-    FLOW_GLOBAL_VARIABLE_VON_LATCHED = 5,
-    FLOW_GLOBAL_VARIABLE_OCPSET = 6,
-    FLOW_GLOBAL_VARIABLE_OVPSET = 7,
-    FLOW_GLOBAL_VARIABLE_OTPSET = 8,
-    FLOW_GLOBAL_VARIABLE_OTPDELAY = 9,
-    FLOW_GLOBAL_VARIABLE_PREFIXES = 10,
-    FLOW_GLOBAL_VARIABLE_CAL_DATA = 11
+    FLOW_GLOBAL_VARIABLE_OC_PSET = 5,
+    FLOW_GLOBAL_VARIABLE_OV_PSET = 6,
+    FLOW_GLOBAL_VARIABLE_OT_PSET = 7,
+    FLOW_GLOBAL_VARIABLE_OT_PDELAY = 8,
+    FLOW_GLOBAL_VARIABLE_PREFIXES = 9,
+    FLOW_GLOBAL_VARIABLE_CAL_DATA = 10
 };
 
 // Native global variables
@@ -85,26 +84,28 @@ extern float get_var_iset();
 extern void set_var_iset(float value);
 extern float get_var_uset();
 extern void set_var_uset(float value);
+extern bool get_var_von_latched();
+extern void set_var_von_latched(bool value);
 extern float get_var_rset();
 extern void set_var_rset(float value);
 extern float get_var_pset();
 extern void set_var_pset(float value);
-extern float get_var_oppset();
-extern void set_var_oppset(float value);
-extern float get_var_oppdelay();
-extern void set_var_oppdelay(float value);
+extern float get_var_op_pset();
+extern void set_var_op_pset(float value);
+extern float get_var_op_pdelay();
+extern void set_var_op_pdelay(float value);
 extern bool get_var_precording();
 extern void set_var_precording(bool value);
 extern const char *get_var_logtxt();
 extern void set_var_logtxt(const char *value);
 extern int32_t get_var_nplc();
 extern void set_var_nplc(int32_t value);
-extern int32_t get_var_plfreq();
-extern void set_var_plfreq(int32_t value);
+extern int32_t get_var_pl_freq();
+extern void set_var_pl_freq(int32_t value);
 extern float get_var_sample_rate();
 extern void set_var_sample_rate(float value);
-extern int32_t get_var_adc_osr();
-extern void set_var_adc_osr(int32_t value);
+extern int32_t get_var_ad_c_osr();
+extern void set_var_ad_c_osr(int32_t value);
 extern int32_t get_var_cal_cal_type();
 extern void set_var_cal_cal_type(int32_t value);
 extern int32_t get_var_cal_curpoint();

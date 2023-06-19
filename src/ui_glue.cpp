@@ -1,8 +1,8 @@
 #include <lvgl.h>
 #include "state.h"
 #include "main.h"
-//#include "ui/vars.h"
-//#include "ui/structs.h"
+#include "ui/vars.h"
+#include "ui/structs.h"
 
 #include "ui/screens.h"
 
@@ -75,6 +75,11 @@ void setUset(float value, bool rawDACvalue)
 {
     state.setUset(value, rawDACvalue);
 }
+
+void setVonLatched(bool value)
+{
+    state.setVonLatched(value);
+};
 
 void setRset(float value)
 {

@@ -111,11 +111,11 @@
 
 // GPIO extender (MCP23008) for hardware signals
 #define HWIO_CHIP_ADDRES    0x27
-#define HWIO_PIN_VONLATCH   1 << 0   // GP0 =output
-#define HWIO_PIN_resetProt  1 << 1   // GP1 =output
-#define HWIO_PIN_OVPTRIG    1 << 5   // GP5 =input
-#define HWIO_PIN_OCPTRIG    1 << 6   // GP6 =input
-#define HWIO_PIN_VON        1 << 7   // GP7 =input
+#define HWIO_PIN_VONLATCH   0   // GP0 =output
+#define HWIO_PIN_resetProt  1   // GP1 =output
+#define HWIO_PIN_OVPTRIG    5   // GP5 =input
+#define HWIO_PIN_OCPTRIG    6   // GP6 =input
+#define HWIO_PIN_VON        7   // GP7 =input
 
 
 // TODO: Find new pins and rewire
@@ -190,7 +190,7 @@ struct newAvgMeasurementMsg
 //////////////
 
 // Task priorities & affinities (if applicable)
-#define TASK_PRIORITY_PROTHW    7
+#define TASK_PRIORITY_PROTHW    5
 #define TASK_PRIORITY_MEASURE   6
 #define TASK_PRIORITY_AVERAGE   5
 #define TASK_PRIORITY_UI        3
@@ -206,6 +206,7 @@ struct newAvgMeasurementMsg
 // Highest prio HW protection trigger task, rarely called.
 extern TaskHandle_t taskProtHW; // Prio 6: Hardware triggered OCP/OVP
 extern void taskProtHWFunction(void * pvParameters);
+extern QueueHandle_t changeHWIOSettings;      // Queue/stream from state class to HWIO task.
 
 // Main ADC read and CP/CR calculation and DAC writing, fast and high priority. TODO: pin to RAM.
 // Gets triggered by ADC interrupt@ 1kHz

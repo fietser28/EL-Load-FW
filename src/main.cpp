@@ -38,6 +38,7 @@ SemaphoreHandle_t Wire1Sem;      // Manage sharing between tasks
 // Tasks and buffer allocations
 // HW protection task
 TaskHandle_t taskProtHW;
+QueueHandle_t changeHWIOSettings;
 
 // Measurement and Ouput Task
 TaskHandle_t taskMeasureAndOutput;
@@ -64,10 +65,10 @@ adc_ADS131M02 currentADC = adc_ADS131M02(SPI_ADC, SPI_ADC_CS, PIN_ADC_CLK, PIN_A
 adc_ADS131M02 voltADC = adc_ADS131M02(&currentADC, 1); // volt = secondary channel
 
 dac_dac8555 iSetDAC = dac_dac8555(SPI_DAC1, PIN_DAC1_CS, 0);
-dac_dac8555 uSetDAC = dac_dac8555(SPI_DAC1, PIN_DAC1_CS, 1);
-dac_dac8555 vonSetDAC = dac_dac8555(SPI_DAC1, PIN_DAC1_CS, 2);
-dac_dac8555 OCPSetDAC = dac_dac8555(SPI_DAC1, PIN_DAC1_CS, 3);
-// dac_dac8555 OVPSetDAC = dac_dac8555(SPI_DAC1, PIN_DAC1_CS, 0);
+dac_dac8555 vonSetDAC = dac_dac8555(SPI_DAC1, PIN_DAC1_CS, 3);
+dac_dac8555 OCPSetDAC = dac_dac8555(SPI_DAC1, PIN_DAC1_CS, 2);
+dac_dac8555 OVPSetDAC = dac_dac8555(SPI_DAC1, PIN_DAC1_CS, 1);
+dac_dac8555 uSetDAC = dac_dac8555(SPI_DAC2, PIN_DAC2_CS, 0);
 
 dcl::eeprom::eeprom myeeprom = eeprom::eeprom();
 
@@ -286,7 +287,14 @@ void setup()
 
   WireSem = xSemaphoreCreateMutex();
   Wire1Sem = xSemaphoreCreateMutex();
-  
+
+  // Message stream from state functions to HWIO task.
+  const size_t changeHWIOMsgBuffer = 6 * (4 + sizeof(setStateStruct)); // => Buffer fits 6 messages.
+  changeHWIOSettings = xQueueCreate(6, sizeof(setStateStruct));
+  if (changeHWIOSettings == NULL)
+  { // TODO: reset, something is really wrong....
+  }
+
   // ADC ready semasphore between ISR and measure task
   adcReady = xSemaphoreCreateBinary();
 
@@ -366,10 +374,10 @@ void setup()
 
   // Next create the protection tasks.
   BaseType_t xTaskRet;
-  // xTaskRet = xTaskCreate(taskProtHWFunction, "HWProt", 200, (void *) 1, 4, &taskProtHW);
-  // if (xTaskRet != pdPASS) { // TODO: reset, something is really wrong;
-  //   SERIALDEBUG.println("ERROR: Error starting ProtHW task.");
-  // }
+  xTaskRet = xTaskCreate(taskProtHWFunction, "HWProt", 1024, (void *) 1, TASK_PRIORITY_PROTHW, &taskProtHW);
+  if (xTaskRet != pdPASS) { // TODO: reset, something is really wrong;
+     SERIALDEBUG.println("ERROR: Error starting ProtHW task.");
+  }
   // vTaskCoreAffinitySet(taskProtHW, 0x03); // Can run on both cores.
 
   xTaskRet = xTaskCreate(taskAveragingFunction, "", 1024, (void *)1, TASK_PRIORITY_MEASURE, &taskAveraging);
@@ -463,15 +471,23 @@ void taskProtHWFunction(void *pvParameters)
   bool ovptrig, ovptrig_prev = false;
   bool von, von_prev = false;
 
+  bool vonLatch;
+
+  setStateStruct changeMsg;
+  setStateStruct localSetState;
+  size_t msgBytes;
+  bool stateReceived = false;
+
+
   // Setup HW GPIO extender
   pinMode(PIN_HWGPIO_INT, INPUT);
   gpiokeys.begin(&I2C_KEYS, I2C_KEYS_SEM, HWIO_CHIP_ADDRES);
   vTaskDelay(3); //TODO: remove?
-  gpiokeys.pinModes(HWIO_PIN_VONLATCH || HWIO_PIN_resetProt); // Set output pins.
+  gpiokeys.pinModes(~(1 << HWIO_PIN_VONLATCH | 1 << HWIO_PIN_resetProt)); // Set output pins.
   vTaskDelay(3); //TODO: remove?
-  gpiokeys.pinInterrupts(HWIO_PIN_OCPTRIG || HWIO_PIN_OVPTRIG || HWIO_PIN_VON, // Only relevant input pins
-                          0x00,  // Compare against 0
-                          HWIO_PIN_OCPTRIG || HWIO_PIN_OVPTRIG); // Only there are compared, other on any change
+  //gpiokeys.pinInterrupts(HWIO_PIN_OCPTRIG | HWIO_PIN_OVPTRIG | HWIO_PIN_VON, // Only relevant input pins
+  //                        0x00,  // Compare against 0
+  //                        HWIO_PIN_OCPTRIG | HWIO_PIN_OVPTRIG); // Only there are compared, other on any change
 
   ::attachInterrupt(digitalPinToInterrupt(PIN_HWGPIO_INT), ISR_ProtHW, FALLING);
   gpiopinstate = gpiokeys.digitalRead(); //Clear interrupt pin status.
@@ -483,9 +499,10 @@ void taskProtHWFunction(void *pvParameters)
 
     gpiopinstate = gpiokeys.digitalRead();
 
-    ocptrig = gpiopinstate && HWIO_PIN_OCPTRIG;
-    ovptrig = gpiopinstate && HWIO_PIN_OVPTRIG;
-    von = gpiopinstate && HWIO_PIN_VON;
+    // TODO: implement OCP/OVP 
+    ocptrig = false; //gpiopinstate & HWIO_PIN_OCPTRIG;
+    ovptrig = false; //gpiopinstate & HWIO_PIN_OVPTRIG;
+    von = gpiopinstate & 1 << HWIO_PIN_VON;
 
 
     // Something is changed
@@ -504,6 +521,23 @@ void taskProtHWFunction(void *pvParameters)
       ovptrig_prev = ovptrig;
       von_prev = von;
     }
+
+    // Receive changed settings.
+    // Receive copy of state if send. Using a copy to avoid a mutex lock.
+    // TODO: Changes might take the loop delay (nofity wait time) to execute. Fast enough?
+    msgBytes = xQueueReceive(changeHWIOSettings, &changeMsg, 0);
+    if (msgBytes > 0)
+    {
+      localSetState = changeMsg;
+      stateReceived = true;
+     
+      vonLatch = localSetState.VonLatched;
+      //if (vonLatch != (gpiopinstate & HWIO_PIN_VONLATCH)) // vonLatch pin is inversed in hardware!
+      //{
+        gpiokeys.digitalWrite(HWIO_PIN_VONLATCH, !vonLatch); // vonLatch pin is inversed in hardware!
+      //}
+    }
+
   }
 };
 
@@ -511,9 +545,12 @@ void taskProtHWFunction(void *pvParameters)
 void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
 {
   uint32_t ulNotifiedValue;
+
   newMeasurementMsg measured;
   setStateStruct changeMsg;
   setStateStruct localSetState;
+  size_t msgBytes;
+  bool stateReceived = false;
 
   float imon;
   float umon;
@@ -523,8 +560,6 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
   uint32_t isetRaw, isetRawPrev = 0;
   uint32_t usetRaw, usetRawPrev = 0;
   uint32_t vonsetRaw, vonsetRawPrev = 0;
-  size_t msgBytes;
-  bool stateReceived = false;
 
   vTaskDelay(200); // Wait for affinity.
 

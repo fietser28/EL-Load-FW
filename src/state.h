@@ -118,6 +118,7 @@ public:
     bool setVonset(float newVonset);
     bool setIset(float newIset, bool rawDACvalue = false);
     bool setUset(float newUset, bool rawDACvalue = false);
+    bool setVonLatched(bool value);
     bool setRset(float newRset);
     bool setPset(float newPset);
     bool setOPPset(float OPPset);
@@ -126,6 +127,7 @@ public:
     uint32_t getNPLC();
     bool record(bool setrecord);
     bool toggleRecord();
+    bool updateHWIOTask();
     bool updateMeasureTask();
     bool updateAverageTask(bool clearPower = false);
     bool pushState();

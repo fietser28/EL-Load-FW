@@ -344,7 +344,7 @@ static void event_handler_cb_calibration_obj69(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_nlpc_nlpc_home(lv_event_t *e) {
+static void event_handler_cb_nlpc_nlp_c_home(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_RELEASED) {
@@ -352,7 +352,7 @@ static void event_handler_cb_nlpc_nlpc_home(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_nlpc_nlpc_home_cancel(lv_event_t *e) {
+static void event_handler_cb_nlpc_nlp_c_hom_e_cancel(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_RELEASED) {
@@ -360,7 +360,7 @@ static void event_handler_cb_nlpc_nlpc_home_cancel(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_nlpc_nlpc_home_cancel_1(lv_event_t *e) {
+static void event_handler_cb_nlpc_nlp_c_hom_e_cance_l_1(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_RELEASED) {
@@ -709,7 +709,9 @@ void create_screen_main() {
             }
         }
         {
+            // Main-Lower panel
             lv_obj_t *obj = lv_obj_create(parent_obj);
+            objects.main_lower_panel = obj;
             lv_obj_set_pos(obj, 0, 167);
             lv_obj_set_size(obj, 320, 73);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
@@ -980,7 +982,7 @@ void create_screen_main() {
             lv_obj_set_local_style_prop(obj, LV_STYLE_PAD_LEFT, value, LV_PART_MAIN);
             lv_obj_set_local_style_prop(obj, LV_STYLE_BG_OPA, value, LV_PART_MAIN);
             lv_obj_set_local_style_prop(obj, LV_STYLE_BORDER_WIDTH, value, LV_PART_MAIN);
-            create_user_widget_keyboard(obj, getFlowState(flowState, 63), 30);
+            create_user_widget_keyboard(obj, getFlowState(flowState, 63), 31);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
         }
     }
@@ -1239,7 +1241,7 @@ void tick_screen_main() {
             tick_value_change_obj = NULL;
         }
     }
-    tick_user_widget_keyboard(getFlowState(flowState, 63), 30);
+    tick_user_widget_keyboard(getFlowState(flowState, 63), 31);
 }
 
 void create_screen_settings() {
@@ -1729,7 +1731,7 @@ void create_screen_protections() {
             lv_obj_set_local_style_prop(obj, LV_STYLE_PAD_LEFT, value, LV_PART_MAIN);
             lv_obj_set_local_style_prop(obj, LV_STYLE_BG_OPA, value, LV_PART_MAIN);
             lv_obj_set_local_style_prop(obj, LV_STYLE_BORDER_WIDTH, value, LV_PART_MAIN);
-            create_user_widget_keyboard(obj, getFlowState(flowState, 24), 64);
+            create_user_widget_keyboard(obj, getFlowState(flowState, 24), 65);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
         }
     }
@@ -1811,7 +1813,7 @@ void tick_screen_protections() {
             tick_value_change_obj = NULL;
         }
     }
-    tick_user_widget_keyboard(getFlowState(flowState, 24), 64);
+    tick_user_widget_keyboard(getFlowState(flowState, 24), 65);
 }
 
 void create_screen_calibration() {
@@ -2103,7 +2105,7 @@ void create_screen_calibration() {
             lv_obj_set_local_style_prop(obj, LV_STYLE_PAD_LEFT, value, LV_PART_MAIN);
             lv_obj_set_local_style_prop(obj, LV_STYLE_BG_OPA, value, LV_PART_MAIN);
             lv_obj_set_local_style_prop(obj, LV_STYLE_BORDER_WIDTH, value, LV_PART_MAIN);
-            create_user_widget_keyboard(obj, getFlowState(flowState, 30), 88);
+            create_user_widget_keyboard(obj, getFlowState(flowState, 30), 89);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
         }
     }
@@ -2328,7 +2330,7 @@ void tick_screen_calibration() {
             tick_value_change_obj = NULL;
         }
     }
-    tick_user_widget_keyboard(getFlowState(flowState, 30), 88);
+    tick_user_widget_keyboard(getFlowState(flowState, 30), 89);
     {
         float timeline_position = getTimelinePosition(flowState);
         
@@ -2403,10 +2405,10 @@ void tick_screen_calibration() {
             {
                 // NLPC_HOME
                 lv_obj_t *obj = lv_btn_create(parent_obj);
-                objects.nlpc_home = obj;
+                objects.nlp_c_home = obj;
                 lv_obj_set_pos(obj, 225, 190);
                 lv_obj_set_size(obj, 90, 38);
-                lv_obj_add_event_cb(obj, event_handler_cb_nlpc_nlpc_home, LV_EVENT_ALL, flowState);
+                lv_obj_add_event_cb(obj, event_handler_cb_nlpc_nlp_c_home, LV_EVENT_ALL, flowState);
                 lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
                 lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
                 apply_style_selectbutton(obj);
@@ -2457,10 +2459,10 @@ void tick_screen_calibration() {
             {
                 // NLPC_HOME_CANCEL
                 lv_obj_t *obj = lv_btn_create(parent_obj);
-                objects.nlpc_home_cancel = obj;
+                objects.nlp_c_hom_e_cancel = obj;
                 lv_obj_set_pos(obj, 115, 191);
                 lv_obj_set_size(obj, 90, 38);
-                lv_obj_add_event_cb(obj, event_handler_cb_nlpc_nlpc_home_cancel, LV_EVENT_ALL, flowState);
+                lv_obj_add_event_cb(obj, event_handler_cb_nlpc_nlp_c_hom_e_cancel, LV_EVENT_ALL, flowState);
                 lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
                 lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
                 apply_style_selectbutton(obj);
@@ -2479,10 +2481,10 @@ void tick_screen_calibration() {
             {
                 // NLPC_HOME_CANCEL_1
                 lv_obj_t *obj = lv_btn_create(parent_obj);
-                objects.nlpc_home_cancel_1 = obj;
+                objects.nlp_c_hom_e_cance_l_1 = obj;
                 lv_obj_set_pos(obj, 8, 191);
                 lv_obj_set_size(obj, 90, 38);
-                lv_obj_add_event_cb(obj, event_handler_cb_nlpc_nlpc_home_cancel_1, LV_EVENT_ALL, flowState);
+                lv_obj_add_event_cb(obj, event_handler_cb_nlpc_nlp_c_hom_e_cance_l_1, LV_EVENT_ALL, flowState);
                 lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
                 lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
                 apply_style_selectbutton(obj);
@@ -2568,7 +2570,7 @@ void tick_screen_calibration() {
                 lv_obj_set_local_style_prop(obj, LV_STYLE_PAD_LEFT, value, LV_PART_MAIN);
                 lv_obj_set_local_style_prop(obj, LV_STYLE_BG_OPA, value, LV_PART_MAIN);
                 lv_obj_set_local_style_prop(obj, LV_STYLE_BORDER_WIDTH, value, LV_PART_MAIN);
-                create_user_widget_question_yn(obj, getFlowState(flowState, 25), 100);
+                create_user_widget_question_yn(obj, getFlowState(flowState, 25), 101);
                 lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
             }
         }
@@ -2605,11 +2607,11 @@ void tick_screen_calibration() {
         }
         {
             bool new_val = evalBooleanProperty(flowState, 11, 2, "Failed to evaluate Hidden flag");
-            bool cur_val = lv_obj_has_flag(objects.nlpc_home_cancel, LV_OBJ_FLAG_HIDDEN);
+            bool cur_val = lv_obj_has_flag(objects.nlp_c_hom_e_cancel, LV_OBJ_FLAG_HIDDEN);
             if (new_val != cur_val) {
-                tick_value_change_obj = objects.nlpc_home_cancel;
-                if (new_val) lv_obj_add_flag(objects.nlpc_home_cancel, LV_OBJ_FLAG_HIDDEN);
-                else lv_obj_clear_flag(objects.nlpc_home_cancel, LV_OBJ_FLAG_HIDDEN);
+                tick_value_change_obj = objects.nlp_c_hom_e_cancel;
+                if (new_val) lv_obj_add_flag(objects.nlp_c_hom_e_cancel, LV_OBJ_FLAG_HIDDEN);
+                else lv_obj_clear_flag(objects.nlp_c_hom_e_cancel, LV_OBJ_FLAG_HIDDEN);
                 tick_value_change_obj = NULL;
             }
         }
@@ -2624,11 +2626,11 @@ void tick_screen_calibration() {
         }
         {
             bool new_val = evalBooleanProperty(flowState, 13, 2, "Failed to evaluate Hidden flag");
-            bool cur_val = lv_obj_has_flag(objects.nlpc_home_cancel_1, LV_OBJ_FLAG_HIDDEN);
+            bool cur_val = lv_obj_has_flag(objects.nlp_c_hom_e_cance_l_1, LV_OBJ_FLAG_HIDDEN);
             if (new_val != cur_val) {
-                tick_value_change_obj = objects.nlpc_home_cancel_1;
-                if (new_val) lv_obj_add_flag(objects.nlpc_home_cancel_1, LV_OBJ_FLAG_HIDDEN);
-                else lv_obj_clear_flag(objects.nlpc_home_cancel_1, LV_OBJ_FLAG_HIDDEN);
+                tick_value_change_obj = objects.nlp_c_hom_e_cance_l_1;
+                if (new_val) lv_obj_add_flag(objects.nlp_c_hom_e_cance_l_1, LV_OBJ_FLAG_HIDDEN);
+                else lv_obj_clear_flag(objects.nlp_c_hom_e_cance_l_1, LV_OBJ_FLAG_HIDDEN);
                 tick_value_change_obj = NULL;
             }
         }
@@ -2678,7 +2680,7 @@ void tick_screen_calibration() {
                 tick_value_change_obj = NULL;
             }
         }
-        tick_user_widget_question_yn(getFlowState(flowState, 25), 100);
+        tick_user_widget_question_yn(getFlowState(flowState, 25), 101);
     }
     
     void create_user_widget_question_yn(lv_obj_t *parent_obj, void *flowState, int startWidgetIndex) {

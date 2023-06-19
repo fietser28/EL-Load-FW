@@ -19,13 +19,13 @@ bool get_var_startup_done() { return localsetcopy.startupDone; };
 
 void set_var_alive(bool value) {};
 
-float get_var_oppset() { return localsetcopy.OPPset; };
-void set_var_oppset(float value) 
+float get_var_op_pset() { return localsetcopy.OPPset; };
+void set_var_op_pset(float value) 
 {
   setOPPset(value);
 };
-float get_var_oppdelay() { return localsetcopy.OPPdelay; };
-void set_var_oppdelay(float value)
+float get_var_op_pdelay() { return localsetcopy.OPPdelay; };
+void set_var_op_pdelay(float value)
 {
   setOPPdelay(value);
 };
@@ -178,6 +178,13 @@ void set_var_uset(float value)
   setUset(value, false);
 };
 
+bool get_var_von_latched() { return localsetcopy.VonLatched; };
+void set_var_von_latched(bool value)
+{
+  setVonLatched(value);
+};
+
+
 float get_var_rset() { return localsetcopy.Rset; }; 
 void set_var_rset(float value) 
 {
@@ -212,8 +219,8 @@ int32_t get_var_nplc()
 }
 
 
-void set_var_plfreq(int32_t value) {};
-int32_t get_var_plfreq() 
+void set_var_pl_freq(int32_t value) {};
+int32_t get_var_pl_freq() 
 {
   return (int32_t)localsetcopy.PLFreq;
 }
@@ -224,8 +231,8 @@ float get_var_sample_rate()
   return localsetcopy.sampleRate;
 };
 
-void set_var_adc_osr(int32_t value) {};
-int32_t get_var_adc_osr()
+void set_var_ad_c_osr(int32_t value) {};
+int32_t get_var_ad_c_osr()
 {
   return get_adc_osr();
 }

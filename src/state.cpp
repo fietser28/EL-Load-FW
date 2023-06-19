@@ -43,8 +43,10 @@ namespace dcl
                 _setState.Pset = 12.5f;
                 _setState.VonSet = 1.0f;
                 _setState.protection = false;
+                _setState.VonLatched = false;
                 xSemaphoreGive(_setStateMutex);
                 //updateAverageTask();
+                updateHWIOTask();
                 return true;
             }
         }
@@ -76,6 +78,7 @@ namespace dcl
             {
                 _setState.on = true;
                 xSemaphoreGive(_setStateMutex);
+                updateHWIOTask();
                 updateMeasureTask();
                 updateAverageTask();
                 return true;
@@ -91,6 +94,7 @@ namespace dcl
             {
                 _setState.on = false;
                 xSemaphoreGive(_setStateMutex);
+                updateHWIOTask();
                 updateMeasureTask();
                 updateAverageTask();
                 return true;
@@ -293,6 +297,22 @@ namespace dcl
         return false;
     };
 
+    bool stateManager::setVonLatched(bool value)
+    {
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
+            {
+                _setState.VonLatched = value; 
+                xSemaphoreGive(_setStateMutex);
+                // TODO: not clean: updateMeasureTask doesn't run when updateHWIOTask fails, a problem?
+                updateHWIOTask();
+                return updateMeasureTask();
+            }
+        }
+        return false;
+    };
+
     bool stateManager::setRset(float newRset)
     {
         if (_setStateMutex != NULL)
@@ -442,6 +462,17 @@ namespace dcl
         }
         return false;
 
+    }
+
+    bool stateManager::updateHWIOTask()
+    {
+        setStateStruct msg;
+        if (getSetStateCopy(&msg, (TickType_t)10))
+        {
+            xQueueSend(changeHWIOSettings, &msg, 10);
+            return true;
+        }
+        return false;
     }
 
     bool stateManager::updateMeasureTask()

@@ -23,6 +23,7 @@ extern void set_mode(mode_e newMode);
 extern void setVonset(float value);
 extern void setIset(float value, bool rawDACvalue);
 extern void setUset(float value, bool rawDACvalue);
+extern void setVonLatched(bool value);
 extern void setRset(float value);
 extern void setPset(float value);
 extern void setOPPset(float value);
