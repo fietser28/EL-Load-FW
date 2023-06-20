@@ -36,12 +36,12 @@ namespace dcl
                 _setState.NLPC = DEFAULT_AVG_SAMPLES_NPLC;
                 _setState.OPPset = 80;
                 _setState.OPPdelay = 5;
-                _setState.Iset = 1.111f;
+                _setState.Iset = 0.111f;
                 _setState.Uset = 1000.0f;
                 _setState.CalibrationIset = false;
                 _setState.Rset = 1000.0f;
                 _setState.Pset = 12.5f;
-                _setState.VonSet = 1.0f;
+                _setState.VonSet = 1.1f;
                 _setState.protection = false;
                 _setState.VonLatched = false;
                 xSemaphoreGive(_setStateMutex);
@@ -250,13 +250,14 @@ namespace dcl
         return false;
     }
 
-    bool stateManager::setVonset(float newVonset)
+    bool stateManager::setVonset(float newVonset, bool rawDACvalue)
     {
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 // TODO: Check for limits.
+                _setState.CalibrationVonSet = rawDACvalue;
                 _setState.VonSet = newVonset;
                 xSemaphoreGive(_setStateMutex);
                 return updateMeasureTask();

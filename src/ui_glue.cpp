@@ -61,9 +61,9 @@ void set_mode(mode_e newMode)
     state.setMode(newMode);
 }
 
-void setVonset(float value)
+void setVonset(float value, bool rawDACvalue)
 {
-    state.setVonset(value);
+    state.setVonset(value, rawDACvalue);
 }
 
 void setIset(float value, bool rawDACvalue)
@@ -295,7 +295,10 @@ void write_cal_to_eeprom(int32_t caltype)
         calconfig = state.cal.Iset->getCalConfigRef();
         startaddress = EEPROM_ADDR_CAL_ISET;
         break;
-    // TODO: Von.
+    case 3:
+        calconfig = state.cal.Von->getCalConfigRef();
+        startaddress = EEPROM_ADDR_CAL_VON;
+        break;
     case 4:
         calconfig = state.cal.Uset->getCalConfigRef();
         startaddress = EEPROM_ADDR_CAL_USET;

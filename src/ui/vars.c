@@ -163,7 +163,7 @@ void set_var_mode(mode_e value) {
 float get_var_von_set() { return localsetcopy.VonSet; };
 void set_var_von_set(float value)
 {
-  setVonset(value);
+  setVonset(value, false);
 };
 
 float get_var_iset() { return localsetcopy.Iset; }; 

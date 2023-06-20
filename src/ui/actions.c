@@ -58,8 +58,11 @@ void action_cal_refresh_measured(lv_event_t *e)
         cal_measured = localstatecopy.Imon;
         cal_values.points[cal_curpoint].value = cal_measured;
     }
-    // Von missing
-
+    if (cal_calType == 3) { // VonSet, after do_search action.
+        cal_measured = localstatecopy.Umon;
+        cal_values.points[cal_curpoint].value = cal_measured;
+        cal_values.points[cal_curpoint].dac = (int32_t)cal_set;
+    }
     if (cal_calType == 4) { // Uset
         cal_measured = localstatecopy.Umon;
         cal_values.points[cal_curpoint].value = cal_measured;
@@ -90,7 +93,13 @@ void action_cal_set_dac(lv_event_t *e)
         setIset(cal_set, true);
     }
     
+    if (cal_calType == 3) { // VonSet
+        setVonset(cal_set, true);
+    }
+
     if (cal_calType == 4) { // Uset
         setUset(cal_set, true);
     }
+
+
 }

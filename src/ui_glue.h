@@ -20,7 +20,7 @@ extern bool toggleRecord();
 extern void setOnOff(bool value);
 extern mode_e get_mode();
 extern void set_mode(mode_e newMode);
-extern void setVonset(float value);
+extern void setVonset(float value, bool rawDACvalue);
 extern void setIset(float value, bool rawDACvalue);
 extern void setUset(float value, bool rawDACvalue);
 extern void setVonLatched(bool value);
