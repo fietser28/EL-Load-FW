@@ -178,8 +178,8 @@ void set_var_uset(float value)
   setUset(value, false);
 };
 
-bool get_var_von_latched() { return localsetcopy.VonLatched; };
-void set_var_von_latched(bool value)
+VonType_e get_var_von_latched() { return localsetcopy.VonLatched; };
+void set_var_von_latched(VonType_e value)
 {
   setVonLatched(value);
 };

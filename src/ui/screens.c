@@ -138,7 +138,7 @@ static void event_handler_cb_main_obj19(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 46, 0);
+        flowPropagateValue(flowState, 45, 0);
     }
 }
 
@@ -982,7 +982,7 @@ void create_screen_main() {
             lv_obj_set_local_style_prop(obj, LV_STYLE_PAD_LEFT, value, LV_PART_MAIN);
             lv_obj_set_local_style_prop(obj, LV_STYLE_BG_OPA, value, LV_PART_MAIN);
             lv_obj_set_local_style_prop(obj, LV_STYLE_BORDER_WIDTH, value, LV_PART_MAIN);
-            create_user_widget_keyboard(obj, getFlowState(flowState, 63), 31);
+            create_user_widget_keyboard(obj, getFlowState(flowState, 62), 31);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
         }
     }
@@ -1213,7 +1213,7 @@ void tick_screen_main() {
         }
     }
     {
-        bool new_val = evalBooleanProperty(flowState, 35, 2, "Failed to evaluate Hidden flag");
+        bool new_val = evalBooleanProperty(flowState, 37, 2, "Failed to evaluate Hidden flag");
         bool cur_val = lv_obj_has_flag(objects.wheel, LV_OBJ_FLAG_HIDDEN);
         if (new_val != cur_val) {
             tick_value_change_obj = objects.wheel;
@@ -1223,7 +1223,7 @@ void tick_screen_main() {
         }
     }
     {
-        const char *new_val = evalTextProperty(flowState, 47, 2, "Failed to evaluate Text in Label widget");
+        const char *new_val = evalTextProperty(flowState, 46, 2, "Failed to evaluate Text in Label widget");
         const char *cur_val = lv_label_get_text(objects.obj20);
         if (strcmp(new_val, cur_val) != 0) {
             tick_value_change_obj = objects.obj20;
@@ -1232,7 +1232,7 @@ void tick_screen_main() {
         }
     }
     {
-        bool new_val = evalBooleanProperty(flowState, 63, 2, "Failed to evaluate Hidden flag");
+        bool new_val = evalBooleanProperty(flowState, 62, 2, "Failed to evaluate Hidden flag");
         bool cur_val = lv_obj_has_flag(objects.obj21, LV_OBJ_FLAG_HIDDEN);
         if (new_val != cur_val) {
             tick_value_change_obj = objects.obj21;
@@ -1241,7 +1241,7 @@ void tick_screen_main() {
             tick_value_change_obj = NULL;
         }
     }
-    tick_user_widget_keyboard(getFlowState(flowState, 63), 31);
+    tick_user_widget_keyboard(getFlowState(flowState, 62), 31);
 }
 
 void create_screen_settings() {

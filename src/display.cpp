@@ -15,7 +15,7 @@
 #include "keys.h"
 
 #define MY_LV_TICK_TIME 20
-#define MY_LV_UPDATE_TIME 20
+#define MY_LV_UPDATE_TIME 100
 
 TFT_eSPI tft = TFT_eSPI(); /* TFT instance */
 

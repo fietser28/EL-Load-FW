@@ -76,7 +76,7 @@ void setUset(float value, bool rawDACvalue)
     state.setUset(value, rawDACvalue);
 }
 
-void setVonLatched(bool value)
+void setVonLatched(VonType_e value)
 {
     state.setVonLatched(value);
 };

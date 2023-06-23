@@ -34,6 +34,12 @@ typedef enum {
     calType_e_Uset = 4
 } calType_e;
 
+typedef enum {
+    VonType_e_Unlatched = 0,
+    VonType_e_Latched = 1,
+    VonType_e_Inhibit = 2
+} VonType_e;
+
 // Flow global variables
 
 enum FlowGlobalVariables {
@@ -47,7 +53,8 @@ enum FlowGlobalVariables {
     FLOW_GLOBAL_VARIABLE_OT_PSET = 7,
     FLOW_GLOBAL_VARIABLE_OT_PDELAY = 8,
     FLOW_GLOBAL_VARIABLE_PREFIXES = 9,
-    FLOW_GLOBAL_VARIABLE_CAL_DATA = 10
+    FLOW_GLOBAL_VARIABLE_CAL_DATA = 10,
+    FLOW_GLOBAL_VARIABLE_VON_LATCHED_TEXT = 11
 };
 
 // Native global variables
@@ -84,8 +91,8 @@ extern float get_var_iset();
 extern void set_var_iset(float value);
 extern float get_var_uset();
 extern void set_var_uset(float value);
-extern bool get_var_von_latched();
-extern void set_var_von_latched(bool value);
+extern VonType_e get_var_von_latched();
+extern void set_var_von_latched(VonType_e value);
 extern float get_var_rset();
 extern void set_var_rset(float value);
 extern float get_var_pset();

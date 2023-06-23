@@ -4,6 +4,7 @@
 
 #include "main.h"
 #include "state.h"
+#include "ui/vars.h" // For the enum definitions
 
 namespace dcl
 {
@@ -43,7 +44,7 @@ namespace dcl
                 _setState.Pset = 12.5f;
                 _setState.VonSet = 1.1f;
                 _setState.protection = false;
-                _setState.VonLatched = false;
+                _setState.VonLatched = VonType_e_Unlatched;
                 xSemaphoreGive(_setStateMutex);
                 //updateAverageTask();
                 updateHWIOTask();
@@ -155,15 +156,29 @@ namespace dcl
     // Called from HW Task.
     bool stateManager::setHWstate(bool ocptrig, bool ovptrig, bool von)
     {
+    // Protection kicked in.
+    if (ocptrig || ovptrig) 
+    {
+        state.setProtection();
+    }
+
+    // Von kicks in when on and inhibit mode => Turn load of.
+    // TODO: Fix mutexed around this test?
+    if (_setState.VonLatched == VonType_e_Inhibit && !von && _setState.on)
+    {
+        state.setOff();
+    }
+
         if (_measuredStateMutex != NULL)
         {
-            // Don't wait to long, it is nog a problem if this is skipped
-            if (xSemaphoreTake(_measuredStateMutex, (TickType_t)10) == pdTRUE)
+            if (xSemaphoreTake(_measuredStateMutex, (TickType_t)100) == pdTRUE)
             {
                 _measuredState.OCPstate = ocptrig;
                 _measuredState.OVPstate = ovptrig;
                 _measuredState.VonState = von;
                 xSemaphoreGive(_measuredStateMutex);
+
+                
                 return true;
             }
         }
@@ -298,7 +313,7 @@ namespace dcl
         return false;
     };
 
-    bool stateManager::setVonLatched(bool value)
+    bool stateManager::setVonLatched(VonType_e value)
     {
         if (_setStateMutex != NULL)
         {

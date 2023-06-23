@@ -472,7 +472,7 @@ void taskProtHWFunction(void *pvParameters)
   bool ovptrig, ovptrig_prev = false;
   bool von, von_prev = false;
 
-  bool vonLatch;
+  VonType_e vonLatch;
 
   setStateStruct changeMsg;
   setStateStruct localSetState;
@@ -509,13 +509,9 @@ void taskProtHWFunction(void *pvParameters)
     // Something is changed
     if (ocptrig != ocptrig_prev || ovptrig != ovptrig_prev || von != von_prev) 
     {
-      // Protection kicked in.
-      if (ocptrig || ovptrig) 
-      {
-        state.setProtection();
-      }
 
       // State has changed, update it.
+      // All necessary changed are handled in state functions (protection/off/...)
       state.setHWstate(ocptrig, ovptrig, von);
 
       ocptrig_prev = ocptrig;
@@ -533,12 +529,12 @@ void taskProtHWFunction(void *pvParameters)
       stateReceived = true;
      
       vonLatch = localSetState.VonLatched;
-      //if (vonLatch != (gpiopinstate & HWIO_PIN_VONLATCH)) // vonLatch pin is inversed in hardware!
-      //{
-        gpiokeys.digitalWrite(HWIO_PIN_VONLATCH, !vonLatch); // vonLatch pin is inversed in hardware!
-      //}
+      if (vonLatch == VonType_e_Latched) {
+        gpiokeys.digitalWrite(HWIO_PIN_VONLATCH, false); // vonLatch pin is active low in hardware!
+      } else {
+        gpiokeys.digitalWrite(HWIO_PIN_VONLATCH, true); // vonLatch pin is active low in hardware!
+      }
     }
-
   }
 };
 
@@ -615,14 +611,14 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
 
       case ELmode::CP:
         umon = state.cal.Umon->remapADC(measured.UmonRaw);
-        iset = localSetState.Pset / umon;
-        uset = localSetState.Uset; // Max
+        iset = localSetState.Pset / umon; // TODO: Set to 0 if Von is active. This avoids inrush current.
+        uset = 0.0f; // Do not clamp to max to avoid glitch in switching on.
         break;
 
       case ELmode::CR:
         umon = state.cal.Umon->remapADC(measured.UmonRaw);
-        iset = umon / localSetState.Rset;
-        uset = localSetState.Uset; // Max
+        iset = umon / localSetState.Rset; // // TODO: Set to 0 if Von is active. This avoids inrush current.
+        uset = 0.0f; // Do not clamp to max to void inrush glitch.
         break;
 
       case ELmode::CC:
@@ -645,8 +641,8 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
     else
     {
       // OFF/Safe Mode
-      iset = -1.0f;
-      uset = 1000.0f; // Will clamp DAC
+      iset = -1.0f; // Will clamp ADC to 0
+      uset = 0.0f;  // Do not clamp otherwise a startup glitch will be appear.
       //vonset = 1.0f;
       isetPrev = -2.0f; // Make sure we update
       usetPrev = -2.0f;
