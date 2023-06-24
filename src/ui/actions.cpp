@@ -1,4 +1,5 @@
 #include "lvgl.h"
+#include "main.h"
 #include "actions.h"
 #include "vars.h"
 #include "ui_glue.h"
@@ -16,12 +17,15 @@ void action_getdropdownindex(lv_event_t * e) {
     //set_var_dropdownmodeindex(myindex);
 }
 
+extern "C" {
+
 void action_clear_power(lv_event_t * e) {
-    clearPower();
+    state.clearPower();
 }
 
 void action_toggle_record(lv_event_t * e) {
-    toggleRecord();
+    state.toggleRecord();  
+
 }
 
 void action_text_area_disable_blink(lv_event_t * e) {
@@ -90,16 +94,16 @@ void action_cal_store_values(lv_event_t *e)
 void action_cal_set_dac(lv_event_t *e) 
 {
     if (cal_calType == 2) { // Iset
-        setIset(cal_set, true);
+        state.setIset(cal_set, true);
     }
     
     if (cal_calType == 3) { // VonSet
-        setVonset(cal_set, true);
+        state.setVonset(cal_set, true);
     }
 
     if (cal_calType == 4) { // Uset
-        setUset(cal_set, true);
+        state.setUset(cal_set, true);
     }
-
-
 }
+
+} // extern "C"

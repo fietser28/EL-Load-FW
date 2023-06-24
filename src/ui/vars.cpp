@@ -8,6 +8,7 @@
 #include "FreeRTOS.h"
 #include "semphr.h"
 
+#include "main.h"
 #include "ui_glue.h"
 #include "state.h"
 //#include "display.h"
@@ -22,12 +23,13 @@ void set_var_alive(bool value) {};
 float get_var_op_pset() { return localsetcopy.OPPset; };
 void set_var_op_pset(float value) 
 {
-  setOPPset(value);
+  state.setOPPset(value);
 };
+
 float get_var_op_pdelay() { return localsetcopy.OPPdelay; };
 void set_var_op_pdelay(float value)
 {
-  setOPPdelay(value);
+  state.setOPPdelay(value);
 };
 
 char imonstring[16];
@@ -148,60 +150,86 @@ bool get_var_precording()
 
 void set_var_on(bool value) 
 {
-  setOnOff(value);
+  if (value) {
+    state.setOn();
+  } else {
+    state.setOff();
+  }
 };
 bool get_var_on()
 {
   return localsetcopy.on;
 };
 
-mode_e get_var_mode() { return get_mode(); };
+mode_e get_var_mode() { 
+  mode_e mode;
+  switch (localsetcopy.mode)
+  {
+        case ELmode::CC:
+            mode = mode_e_CC;
+            break;
+        case ELmode::CV:
+            mode = mode_e_CV;
+            break;
+        case ELmode::CR:
+            mode = mode_e_CR;
+            break;
+        case ELmode::CP:
+            mode = mode_e_CP;
+            break;
+        case ELmode::SHORT:
+            mode = mode_e_SHORT;
+        default:
+            mode = mode_e_CC;
+            break;
+  }
+  return mode;
+  };
+
 void set_var_mode(mode_e value) {
-  return set_mode(value);
+    state.setMode(value);
 };
 
 float get_var_von_set() { return localsetcopy.VonSet; };
 void set_var_von_set(float value)
 {
-  setVonset(value, false);
+  state.setVonset(value, false);
 };
 
 float get_var_iset() { return localsetcopy.Iset; }; 
 void set_var_iset(float value) 
 {
-  setIset(value, false);
+      state.setIset(value, false);
 };
 
 float get_var_uset() { return localsetcopy.Uset; };
 void set_var_uset(float value)
 {
-  setUset(value, false);
+  state.setUset(value, false);
 };
 
 VonType_e get_var_von_latched() { return localsetcopy.VonLatched; };
 void set_var_von_latched(VonType_e value)
 {
-  setVonLatched(value);
+  state.setVonLatched(value);
 };
-
 
 float get_var_rset() { return localsetcopy.Rset; }; 
 void set_var_rset(float value) 
 {
-  setRset(value);
+  state.setRset(value);
 };
 
 float get_var_pset() { return localsetcopy.Pset; }; 
 void set_var_pset(float value) 
 {
-  setPset(value);
+  state.setPset(value);
 };
-
 
 bool get_var_protection_triggered() { return localsetcopy.protection; };
 void set_var_protection_triggered(bool value) 
 { 
-  clearProtection();
+  state.clearProtection();
 };
 
 void set_var_logtxt(const char *value) {};
@@ -211,8 +239,9 @@ const char *get_var_logtxt() {
 
 void set_var_nplc(int32_t value) 
 {
-  set_nplc(value);
+  state.setNPLC((uint32_t)value);
 }
+
 int32_t get_var_nplc() 
 {
   return localsetcopy.NLPC;
@@ -234,7 +263,8 @@ float get_var_sample_rate()
 void set_var_ad_c_osr(int32_t value) {};
 int32_t get_var_ad_c_osr()
 {
-  return get_adc_osr();
+  return ADC_OSR;
+
 }
 
 //// Calibration variables & some logic.

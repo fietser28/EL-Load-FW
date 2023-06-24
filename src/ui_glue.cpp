@@ -11,109 +11,7 @@ extern "C" {
 dcl::measuredStateStruct localstatecopy;
 dcl::setStateStruct localsetcopy;
 
-}
-
-extern "C" {
-bool clearPower() {
-    return state.clearPower();
-}
-
-bool toggleRecord() {
-    return state.toggleRecord();  
-}
-
-void setOnOff(bool value)
-{
-    if (value) {
-        state.setOn();
-    } else {
-        state.setOff();
-    }
-}
-
-mode_e get_mode() {
-    mode_e mode;
-    switch (localsetcopy.mode)
-    {
-        case ELmode::CC:
-            mode = mode_e_CC;
-            break;
-        case ELmode::CV:
-            mode = mode_e_CV;
-            break;
-        case ELmode::CR:
-            mode = mode_e_CR;
-            break;
-        case ELmode::CP:
-            mode = mode_e_CP;
-            break;
-        case ELmode::SHORT:
-            mode = mode_e_SHORT;
-        default:
-            mode = mode_e_CC;
-            break;
-    }
-    return mode;
-};
-
-void set_mode(mode_e newMode) 
-{
-    state.setMode(newMode);
-}
-
-void setVonset(float value, bool rawDACvalue)
-{
-    state.setVonset(value, rawDACvalue);
-}
-
-void setIset(float value, bool rawDACvalue)
-{
-    state.setIset(value, rawDACvalue);
-}
-
-void setUset(float value, bool rawDACvalue)
-{
-    state.setUset(value, rawDACvalue);
-}
-
-void setVonLatched(VonType_e value)
-{
-    state.setVonLatched(value);
-};
-
-void setRset(float value)
-{
-    state.setRset(value);
-}
-
-void setPset(float value)
-{
-    state.setPset(value);
-}
-
-bool clearProtection() {
-    return state.clearProtection();
-}
-
-void setOPPset(float value)
-{
-    state.setOPPset(value);
-};
-
-void setOPPdelay(float value)
-{
-    state.setOPPdelay(value);
-};
-
 char logtxt[256];
-
-void set_nplc(int32_t value) {
-    state.setNPLC((uint32_t)value);
-}
-
-int32_t get_adc_osr() {
-    return ADC_OSR;
-}
 
 } // extern "C"
 
@@ -126,6 +24,7 @@ void printlogstr(const char* txt) {
 }
 
 ///// Encoder / key functions.
+///// Waiting for studio/EEZ flow support for this.
 
 lv_group_t *encoder_group;
 lv_group_t *onoff_group;
@@ -185,46 +84,16 @@ void ui_init_encoder_group() {
     onoff_group = lv_group_create();
     lv_group_set_default(encoder_group);
 
-/*
-    //lv_obj_add_event_cb(objects.startup, on_screen_loaded, LV_EVENT_SCREEN_LOADED, 0);
-    lv_obj_add_event_cb(objects.startup, on_screen_unload, LV_EVENT_SCREEN_UNLOAD_START, 0);
-
-    lv_obj_add_event_cb(objects.main, on_screen_loaded, LV_EVENT_SCREEN_LOADED, 0);
-    lv_obj_add_event_cb(objects.main, on_screen_unload, LV_EVENT_SCREEN_UNLOAD_START, 0);
-
-    //lv_obj_add_event_cb(objects.set_value, on_screen_loaded, LV_EVENT_SCREEN_LOADED, 0);
-    //lv_obj_add_event_cb(objects.set_value, on_screen_unload, LV_EVENT_SCREEN_UNLOAD_START, 0);
-
-    lv_obj_add_event_cb(objects.settings, on_screen_loaded, LV_EVENT_SCREEN_LOADED, 0);
-    lv_obj_add_event_cb(objects.settings, on_screen_unload, LV_EVENT_SCREEN_UNLOAD_START, 0);
-
-    lv_obj_add_event_cb(objects.protections, on_screen_loaded, LV_EVENT_SCREEN_LOADED, 0);
-    lv_obj_add_event_cb(objects.protections, on_screen_unload, LV_EVENT_SCREEN_UNLOAD_START, 0);
-
-    lv_obj_add_event_cb(objects.events, on_screen_loaded, LV_EVENT_SCREEN_LOADED, 0);
-    lv_obj_add_event_cb(objects.events, on_screen_unload, LV_EVENT_SCREEN_UNLOAD_START, 0);
-
-    lv_obj_add_event_cb(objects.nlpc, on_screen_loaded, LV_EVENT_SCREEN_LOADED, 0);
-    lv_obj_add_event_cb(objects.nlpc, on_screen_unload, LV_EVENT_SCREEN_UNLOAD_START, 0);
-
-//    lv_obj_add_event_cb(objects.keyboard_1, on_encoder_apply, LV_EVENT_READY, 0);
-*/
-
     for (size_t screen_index = 0; screen_index < get_num_screens(); screen_index++) 
     {
         lv_obj_add_event_cb(get_screen_obj(screen_index), on_screen_loaded_cb, LV_EVENT_SCREEN_LOADED, 0);
         lv_obj_add_event_cb(get_screen_obj(screen_index), on_screen_unload_cb, LV_EVENT_SCREEN_UNLOAD_START, 0);
     }
 
-    //update_groups(objects.main);
-    //update_groups(get_screen_obj(0)); // First screen is already loaded.
-
     on_screen_loaded_cb(get_screen_obj(0));
 }
 
 // Calibration glue
-extern "C" {
-
 void copy_cal_values_from_state(CalibrationValueConfiguration *cal_values, int32_t caltype)
 {
     CalibrationValueConfiguration calconfig = state.cal.Imon->getCalConfig();
@@ -312,4 +181,3 @@ void write_cal_to_eeprom(int32_t caltype)
     myeeprom.calibrationValuesWrite(calconfig, startaddress);
 }
 
-}
