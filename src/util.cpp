@@ -63,6 +63,11 @@ char* floatToEngineeringString(float value, int precision) {
 }
 
 */
+float NTCResistanceToTemp(float res, float beta, float nominalTemp, float nominalRes)
+{
+  float inverseTemp = (1.0f / nominalTemp + log (res  / nominalRes) / beta);
+  return 1.0f/inverseTemp - 273.15f;
+}
 
 } // namespace
 

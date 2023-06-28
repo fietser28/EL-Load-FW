@@ -127,6 +127,8 @@ extern bool get_var_protection_triggered();
 extern void set_var_protection_triggered(bool value);
 extern bool get_var_von_state();
 extern void set_var_von_state(bool value);
+extern float get_var_temperature();
+extern void set_var_temperature(float value);
 
 
 #ifdef __cplusplus

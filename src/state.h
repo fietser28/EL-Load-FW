@@ -25,8 +25,8 @@ namespace dcl
         bool VonState;
         bool OCPstate;
         bool OVPstate;
-        uint16_t Temp1;
-        uint16_t Temp2;
+        float Temp1;
+        float Temp2;
     };
 
     enum ELmode
@@ -112,6 +112,8 @@ public:
                             double Ws, double time, uint32_t avgCurrentRaw, uint32_t avgVoltRaw);
 
     bool setHWstate(bool ocptrig, bool ovptrig, bool von);
+    bool setTemp1(float temp);
+    bool setTemp2(float temp);
     bool clearPower();
     bool clearProtection();
     bool setProtection();

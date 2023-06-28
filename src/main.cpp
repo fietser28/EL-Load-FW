@@ -20,6 +20,7 @@
 #include "ui_glue.h"
 #include "eeprom.h"
 #include "gpio_mcp23008.h"
+#include "adc_ads1x1x.h"   // For temp sensors
 
 // Fixes lvgl include. TODO: remove?
 #include "LittleFS.h"
@@ -447,7 +448,7 @@ void loop()
 //  cyclecount = rp2040.getCycleCount64()/rp2040.f_cpu();
   cyclecount++;
   //SERIALDEBUG.printf("Heap total: %d, used: %d, free:  %d, uptime: %d, ADC0: %i, ADC1: %i, %d\n", heaptotal, heapused, heapfree, cyclecount, loopmystate.avgCurrentRaw, loopmystate.avgVoltRaw, loopmystate.avgCurrentRaw < 0 ? 1 : 0);
-  SERIALDEBUG.printf("Imon: %f, Umon: %f, uptime: %d, Mode: %d, VonSet: %f, CAL: %d\n", loopmystate.Imon, loopmystate.Umon, cyclecount, loopmysetstate.mode, loopmysetstate.VonSet, loopmysetstate.CalibrationVonSet);
+  SERIALDEBUG.printf("Temp1: %f, Temp2: %f, uptime: %d, Mode: %d, VonSet: %f, CAL: %d\n", loopmystate.Temp1, loopmystate.Temp2, cyclecount, loopmysetstate.mode, loopmysetstate.VonSet, loopmysetstate.CalibrationVonSet);
   snprintf(logtxt, 120, "Heap total: %d\nHeap used: %d\nHeap free:  %d\nADC0: %d\n", heaptotal, heapused, heapfree, loopmystate.avgCurrentRaw);
   vTaskDelay(ondelay);
 }
@@ -463,14 +464,26 @@ static void __not_in_flash_func(ISR_ProtHW())
   }
 };
 
+enum tempReadState {
+  chan1reading = 0,
+  chan1ready = 1,
+  chan2reading = 2,
+  chan2ready = 3
+};
+
 void taskProtHWFunction(void *pvParameters)
 {
   uint32_t ulNotifiedValue;
   gpio_mcp23008 gpiokeys = gpio_mcp23008();
+  adc_ads1x1x  tempadc = adc_ads1x1x();
   uint8_t  gpiopinstate;
   bool ocptrig, ocptrig_prev = false;
   bool ovptrig, ovptrig_prev = false;
   bool von, von_prev = false;
+
+  tempReadState tempReadState = tempReadState::chan2ready; 
+  int16_t temp1, temp2;
+  float Rntc1, Rntc2;
 
   VonType_e vonLatch;
 
@@ -479,6 +492,8 @@ void taskProtHWFunction(void *pvParameters)
   size_t msgBytes;
   bool stateReceived = false;
 
+  // Setup Temp ADC
+  tempadc.begin(&I2C_TEMPADC, I2C_TEMPADC_SEM, TEMPADC_ADDRESS);
 
   // Setup HW GPIO extender
   pinMode(PIN_HWGPIO_INT, INPUT);
@@ -517,6 +532,41 @@ void taskProtHWFunction(void *pvParameters)
       ocptrig_prev = ocptrig;
       ovptrig_prev = ovptrig;
       von_prev = von;
+    }
+
+    // NTC temperature reading. This ADC is slow and 1 channel at a time.
+    // Using a small state machine without busy loops to check where we are.
+    switch (tempReadState)
+    {
+    case tempReadState::chan2ready:
+      tempadc.startConversion(ADC_ADS1X1X_MUX_0_3);
+      tempReadState = tempReadState::chan1reading;
+      break;
+    case tempReadState::chan1reading:
+      if (tempadc.isReady()) 
+      {
+        temp1 = tempadc.getValue();
+        Rntc1 = 1.0f/(1.0f/(NTC_R1 + NTC_R2) + tempadc.toVoltage(temp1)/(NTC_VDD * NTC_R1)) - NTC_R1;
+        state.setTemp1(NTCResistanceToTemp(Rntc1, NTC_BETA, NTC_T0, NTC_R0));
+        tempReadState = tempReadState::chan1ready;
+      }
+      break;
+    case tempReadState::chan1ready:
+      tempadc.startConversion(ADC_ADS1X1X_MUX_1_3);
+      tempReadState = tempReadState::chan2reading;
+      break;
+    case tempReadState::chan2reading:
+      if (tempadc.isReady()) 
+      {
+        temp2 = tempadc.getValue();
+        Rntc2 = 1.0f/(1.0f/(NTC_R1 + NTC_R2) + tempadc.toVoltage(temp2)/(NTC_VDD * NTC_R1)) - NTC_R1;
+        state.setTemp2(NTCResistanceToTemp(Rntc2, NTC_BETA, NTC_T0, NTC_R0));
+        tempReadState = tempReadState::chan2ready;
+      }
+      break;
+    default:
+      tempReadState = tempReadState::chan2ready;
+      break;
     }
 
     // Receive changed settings.

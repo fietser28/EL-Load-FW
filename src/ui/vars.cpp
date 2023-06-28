@@ -330,3 +330,10 @@ void set_var_cal_numpoints(int32_t value) {} ; // TODO: Needed?
 
 bool get_var_von_state() { return localstatecopy.VonState; };
 void set_var_von_state(bool value) {}; // Read only.
+
+float get_var_temperature() 
+{
+  return max(localstatecopy.Temp1, localstatecopy.Temp2);
+};
+
+void set_var_temperature(float value) {}; // Read only.

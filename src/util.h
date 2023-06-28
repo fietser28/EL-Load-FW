@@ -45,7 +45,9 @@ namespace dcl
 #ifndef __cplusplus
     typedef struct CalibrationValueConfiguration CalibrationValueConfiguration;
 #endif
-                    
+
+extern float NTCResistanceToTemp(float res, float beta, float nominalTemp, float nominalRes);
+            
 #ifdef __cplusplus
 } // end of namespace
 #endif

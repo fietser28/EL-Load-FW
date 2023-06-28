@@ -9,6 +9,7 @@
 #include "state.h"
 #include "cal.h"
 #include "eeprom.h"
+#include "adc_ads1x1x.h"
 
 // Global Debug settings
 //#define FAKE_HARDWARE   0
@@ -95,6 +96,8 @@
 #define I2C_HWGPIO_SEM Wire1Sem
 #define I2C_EEPROM     Wire1
 #define I2C_EEPROM_SEM Wire1Sem
+#define I2C_TEMPADC     Wire1
+#define I2C_TEMPADC_SEM Wire1Sem
 #define SERIALDEBUG    Serial1
 
 #define EEPROM_ADDR     0x50
@@ -117,6 +120,16 @@
 #define HWIO_PIN_OCPTRIG    6   // GP6 =input
 #define HWIO_PIN_VON        7   // GP7 =input
 
+#define TEMPADC_ADDRESS    0x48
+#define NTC_T0              25+273.15
+#define NTC_R0              10000
+#define NTC_BETA            3435
+#define TEMP1_CHANNEL       ADC_ADS1X1X_MUX_0_3
+#define TEMP2_CHANNEL       ADC_ADS1X1X_MUX_1_3
+
+#define NTC_R1              3300.0f
+#define NTC_R2              6800.0f
+#define NTC_VDD             3.3f
 
 // TODO: Find new pins and rewire
 #define PIN_OVPTRIGGERED 20         // GPIO 20  - pin 26

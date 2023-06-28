@@ -710,6 +710,14 @@
         "type": "array:string",
         "defaultValue": "[ \"Unlatched\", \"Latched\", \"Inhibit\" ]",
         "persistent": false
+      },
+      {
+        "objID": "b4fc9960-d03a-4eb5-efdb-8a0669f88b4c",
+        "name": "Temperature",
+        "type": "float",
+        "defaultValue": "25.1",
+        "persistent": false,
+        "native": true
       }
     ],
     "structures": [
@@ -4112,7 +4120,7 @@
                           }
                         }
                       },
-                      "text": "OTPset + \"\\u00B0C\"",
+                      "text": "Math.round(Temperature, 0)+ \"\\u00B0C\"",
                       "textType": "expression",
                       "longMode": "CLIP",
                       "recolor": false

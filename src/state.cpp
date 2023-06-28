@@ -160,7 +160,7 @@ namespace dcl
     if (ocptrig || ovptrig) 
     {
         state.setProtection();
-    }
+    };
 
     // Von kicks in when on and inhibit mode => Turn load of.
     // TODO: Fix mutexed around this test?
@@ -184,7 +184,36 @@ namespace dcl
         }
         return false;
 
-    }
+    };
+
+    bool stateManager::setTemp1(float temp)
+    {
+        if (_measuredStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_measuredStateMutex, (TickType_t)100) == pdTRUE)
+            {
+                _measuredState.Temp1 = temp;
+                xSemaphoreGive(_measuredStateMutex);
+                return true;
+            }
+        }
+        return false;
+    };
+
+    bool stateManager::setTemp2(float temp)
+    {
+        if (_measuredStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_measuredStateMutex, (TickType_t)100) == pdTRUE)
+            {
+                _measuredState.Temp2 = temp;
+                xSemaphoreGive(_measuredStateMutex);
+                return true;
+            }
+        }
+        return false;
+    };
+
     // Send message to averaging task to clear the power measurements.
     // Note: this is asynchronous!
     bool stateManager::clearPower()
