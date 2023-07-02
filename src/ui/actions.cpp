@@ -50,29 +50,37 @@ void action_grab_encoder(lv_event_t * e) {
 
 void action_cal_refresh_measured(lv_event_t *e) 
 {
-    if (cal_calType == 0) {
+    if (cal_calType == calType_e::calType_e_Imon) {
         cal_measured = localstatecopy.avgCurrentRaw;
         cal_values.points[cal_curpoint].adc = (int32_t)cal_measured;
     }
-    if (cal_calType == 1) {
+    if (cal_calType == calType_e::calType_e_Umon) {
         cal_measured = localstatecopy.avgVoltRaw;
         cal_values.points[cal_curpoint].adc = (int32_t)cal_measured;
     }
-    if (cal_calType == 2) { // Iset
+    if (cal_calType == calType_e::calType_e_Iset) { // Iset
         cal_measured = localstatecopy.Imon;
         cal_values.points[cal_curpoint].value = cal_measured;
     }
-    if (cal_calType == 3) { // VonSet, after do_search action.
+    if (cal_calType == calType_e::calType_e_Von) { // VonSet, after do_search action.
         cal_measured = localstatecopy.Umon;
         cal_values.points[cal_curpoint].value = cal_measured;
         cal_values.points[cal_curpoint].dac = (int32_t)cal_set;
     }
-    if (cal_calType == 4) { // Uset
+    if (cal_calType == calType_e::calType_e_Uset) { // Uset
         cal_measured = localstatecopy.Umon;
         cal_values.points[cal_curpoint].value = cal_measured;
     }
-    //TODO: Add others. 
-
+    if (cal_calType == calType_e::calType_e_OCPset) { // OCPSet, after do_search action.
+        cal_measured = localstatecopy.Imon;
+        cal_values.points[cal_curpoint].value = cal_measured;
+        cal_values.points[cal_curpoint].dac = (int32_t)cal_set;
+    }
+    if (cal_calType == calType_e::calType_e_OVPset) { // VonSet, after do_search action.
+        cal_measured = localstatecopy.Umon;
+        cal_values.points[cal_curpoint].value = cal_measured;
+        cal_values.points[cal_curpoint].dac = (int32_t)cal_set;
+    }
 }
 
 void action_cal_reset_values(lv_event_t *e)
@@ -93,16 +101,24 @@ void action_cal_store_values(lv_event_t *e)
 
 void action_cal_set_dac(lv_event_t *e) 
 {
-    if (cal_calType == 2) { // Iset
+    if (cal_calType == calType_e::calType_e_Iset) { // Iset
         state.setIset(cal_set, true);
     }
     
-    if (cal_calType == 3) { // VonSet
+    if (cal_calType == calType_e::calType_e_Von) { // VonSet
         state.setVonset(cal_set, true);
     }
 
-    if (cal_calType == 4) { // Uset
+    if (cal_calType == calType_e::calType_e_Uset) { // Uset
         state.setUset(cal_set, true);
+    }
+
+    if (cal_calType == calType_e::calType_e_OCPset) {
+        state.setOCP(cal_set, true);
+    }
+
+    if (cal_calType == calType_e::calType_e_OVPset) {
+        state.setOVP(cal_set, true);
     }
 }
 

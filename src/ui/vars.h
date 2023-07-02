@@ -51,12 +51,11 @@ enum FlowGlobalVariables {
     FLOW_GLOBAL_VARIABLE_SET_TYPES = 3,
     FLOW_GLOBAL_VARIABLE_SET_TYPE = 4,
     FLOW_GLOBAL_VARIABLE_OC_PSET = 5,
-    FLOW_GLOBAL_VARIABLE_OV_PSET = 6,
-    FLOW_GLOBAL_VARIABLE_OT_PSET = 7,
-    FLOW_GLOBAL_VARIABLE_OT_PDELAY = 8,
-    FLOW_GLOBAL_VARIABLE_PREFIXES = 9,
-    FLOW_GLOBAL_VARIABLE_CAL_DATA = 10,
-    FLOW_GLOBAL_VARIABLE_VON_LATCHED_TEXT = 11
+    FLOW_GLOBAL_VARIABLE_OT_PSET = 6,
+    FLOW_GLOBAL_VARIABLE_OT_PDELAY = 7,
+    FLOW_GLOBAL_VARIABLE_PREFIXES = 8,
+    FLOW_GLOBAL_VARIABLE_CAL_DATA = 9,
+    FLOW_GLOBAL_VARIABLE_VON_LATCHED_TEXT = 10
 };
 
 // Native global variables
@@ -99,6 +98,8 @@ extern float get_var_rset();
 extern void set_var_rset(float value);
 extern float get_var_pset();
 extern void set_var_pset(float value);
+extern float get_var_ov_pset();
+extern void set_var_ov_pset(float value);
 extern float get_var_op_pset();
 extern void set_var_op_pset(float value);
 extern float get_var_op_pdelay();
@@ -131,6 +132,10 @@ extern bool get_var_von_state();
 extern void set_var_von_state(bool value);
 extern float get_var_temperature();
 extern void set_var_temperature(float value);
+extern bool get_var_oc_pstate();
+extern void set_var_oc_pstate(bool value);
+extern bool get_var_ov_pstate();
+extern void set_var_ov_pstate(bool value);
 
 
 #ifdef __cplusplus

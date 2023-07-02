@@ -64,7 +64,9 @@ namespace dcl
         float VonSet;
         bool CalibrationVonSet; // True means VonSet float = DAC value not real value;
         VonType_e VonLatched;
+        bool CalibrationOCPset; // True means OCPset float = DAC value not real value.
         float OCPset;
+        bool CalibrationOVPset; // True means OVPset float = DAC value not real value.
         float OVPset;
         float OTPset;
         float OTPdelay;
@@ -121,6 +123,8 @@ public:
     bool setVonset(float newVonset, bool rawDACvalue = false);
     bool setIset(float newIset, bool rawDACvalue = false);
     bool setUset(float newUset, bool rawDACvalue = false);
+    bool setOCP(float newOCP, bool rawDACvalue = false);
+    bool setOVP(float newOVP, bool rawDACvalue = false);
     bool setVonLatched(VonType_e value);
     bool setRset(float newRset);
     bool setPset(float newPset);

@@ -38,11 +38,16 @@ namespace dcl
                 _setState.OPPset = 80;
                 _setState.OPPdelay = 5;
                 _setState.Iset = 0.111f;
-                _setState.Uset = 1000.0f;
                 _setState.CalibrationIset = false;
+                _setState.Uset = 1000.0f;
+                _setState.CalibrationUset = false;
                 _setState.Rset = 1000.0f;
                 _setState.Pset = 12.5f;
                 _setState.VonSet = 1.1f;
+                _setState.OCPset = 10.0f;
+                _setState.CalibrationOCPset = false;
+                _setState.OVPset = 10.0f;
+                _setState.CalibrationOVPset = false;
                 _setState.protection = false;
                 _setState.VonLatched = VonType_e_Unlatched;
                 xSemaphoreGive(_setStateMutex);
@@ -341,6 +346,43 @@ namespace dcl
         }
         return false;
     };
+
+    bool stateManager::setOCP(float newOCP, bool rawDACvalue)
+    {
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
+            {
+                // TODO: Check for limits.
+                _setState.CalibrationOCPset = rawDACvalue; 
+                _setState.OCPset = newOCP;
+                xSemaphoreGive(_setStateMutex);
+                // TODO: not clean: updateMeasureTask doesn't run when updateHWIOTask fails, a problem?
+                updateHWIOTask();
+                return updateMeasureTask();
+            }
+        }
+        return false;
+    };
+
+    bool stateManager::setOVP(float newOVP, bool rawDACvalue)
+    {
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
+            {
+                // TODO: Check for limits.
+                _setState.CalibrationOVPset = rawDACvalue; 
+                _setState.OVPset = newOVP;
+                xSemaphoreGive(_setStateMutex);
+                // TODO: not clean: updateMeasureTask doesn't run when updateHWIOTask fails, a problem?
+                updateHWIOTask();
+                return updateMeasureTask();
+            }
+        }
+        return false;
+    };
+
 
     bool stateManager::setVonLatched(VonType_e value)
     {

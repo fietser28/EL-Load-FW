@@ -227,6 +227,12 @@ void set_var_pset(float value)
   state.setPset(value);
 };
 
+float get_var_ov_pset() { return localsetcopy.OVPset; };
+void set_var_ov_pset(float value) 
+{
+  state.setOVP(value, false);
+};
+
 bool get_var_protection_triggered() { return localsetcopy.protection; };
 void set_var_protection_triggered(bool value) 
 { 
@@ -334,9 +340,11 @@ void set_var_cal_numpoints(int32_t value) {} ; // TODO: Needed?
 bool get_var_von_state() { return localstatecopy.VonState; };
 void set_var_von_state(bool value) {}; // Read only.
 
-float get_var_temperature() 
-{
-  return max(localstatecopy.Temp1, localstatecopy.Temp2);
-};
-
+float get_var_temperature() { return max(localstatecopy.Temp1, localstatecopy.Temp2); };
 void set_var_temperature(float value) {}; // Read only.
+
+bool get_var_oc_pstate() { return localstatecopy.OCPstate; };
+void set_var_oc_pstate(bool value) {}; // Read only.
+
+bool get_var_ov_pstate() { return localstatecopy.OVPstate; };
+void set_var_ov_pstate(bool value) {}; // Read only.

@@ -93,6 +93,8 @@ float uSetMaxVal;
 CalibrationValueConfiguration vonSetCal;
 float vonSetMinVal;
 float vonSetMaxVal;
+CalibrationValueConfiguration OCPSetCal;
+CalibrationValueConfiguration OVPSetCal;
 
 // TODO for debug/test
 volatile uint32_t i = -10;
@@ -283,6 +285,26 @@ void setup()
   state.cal.Von->setCalConfig(vonSetCal);
   state.cal.Von->setDACConfig(vonSetDAC.DAC_MIN, vonSetDAC.DAC_MAX);
 
+  OCPSetCal.numPoints = 2;
+  OCPSetCal.points[0].value = 0.50;
+  OCPSetCal.points[0].dac = 100;
+  OCPSetCal.points[1].value = 3.2; 
+  OCPSetCal.points[1].dac = 64000;
+
+  state.cal.OCPset = new calLinear2P();
+  state.cal.OCPset->setCalConfig(OCPSetCal);
+  state.cal.OCPset->setDACConfig(OCPSetDAC.DAC_MIN, OCPSetDAC.DAC_MAX);
+
+  OVPSetCal.numPoints = 2;
+  OVPSetCal.points[0].value = 0.50;
+  OVPSetCal.points[0].dac = 100;
+  OVPSetCal.points[1].value = 3.2; 
+  OVPSetCal.points[1].dac = 64000;
+
+  state.cal.OVPset = new calLinear2P();
+  state.cal.OVPset->setCalConfig(OVPSetCal);
+  state.cal.OVPset->setDACConfig(OVPSetDAC.DAC_MIN, OVPSetDAC.DAC_MAX);
+
   //// FreeRTOS setup.
   //////////////////////////
 
@@ -341,6 +363,8 @@ void setup()
     myeeprom.calibrationValuesRead(state.cal.Iset->getCalConfigRef(), EEPROM_ADDR_CAL_ISET);
     myeeprom.calibrationValuesRead(state.cal.Uset->getCalConfigRef(), EEPROM_ADDR_CAL_USET);
     myeeprom.calibrationValuesRead(state.cal.Von->getCalConfigRef(), EEPROM_ADDR_CAL_VON);
+    //myeeprom.calibrationValuesRead(state.cal.Von->getCalConfigRef(), EEPROM_ADDR_CAL_OCP);
+    myeeprom.calibrationValuesRead(state.cal.Von->getCalConfigRef(), EEPROM_ADDR_CAL_OVP);
   }
   
   //vTaskDelay(50);
@@ -517,7 +541,7 @@ void taskProtHWFunction(void *pvParameters)
 
     // TODO: implement OCP/OVP 
     ocptrig = false; //gpiopinstate & HWIO_PIN_OCPTRIG;
-    ovptrig = false; //gpiopinstate & HWIO_PIN_OVPTRIG;
+    ovptrig = gpiopinstate & 1 << HWIO_PIN_OVPTRIG;
     von = gpiopinstate & 1 << HWIO_PIN_VON;
 
 
@@ -604,9 +628,13 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
   float iset = 0.0f, isetPrev = -0.1f; // DACs init at 0.
   float uset, usetPrev = -0.1f;
   float vonset = 1.1f, vonsetPrev = -0.1f;
+  float ocpset = 10.1f, ocpsetPrev = -0.1f;
+  float ovpset = 80.1f, ovpsetPrev = -0.1f;
   uint32_t isetRaw, isetRawPrev = 0;
   uint32_t usetRaw, usetRawPrev = 0;
   uint32_t vonsetRaw, vonsetRawPrev = 0;
+  uint32_t ocpsetRaw, ocpsetRawPrev = 0;
+  uint32_t ovpsetRaw, ovpsetRawPrev = 0;
 
   vTaskDelay(200); // Wait for affinity.
 
@@ -647,6 +675,8 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
 
     if (stateReceived) {
         vonset = localSetState.VonSet;
+        ocpset = localSetState.OCPset;
+        ovpset = localSetState.OVPset;
     }
 
     if (stateReceived && localSetState.on == true && localSetState.protection == false)
@@ -754,6 +784,44 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
 #endif
         vonsetRawPrev = vonsetRaw;
         vonsetPrev = vonset;
+      }
+    }
+
+    // Only recalc and set if changed
+    if (ocpset != ocpsetPrev || localSetState.CalibrationOCPset == true)
+    {
+      if (localSetState.CalibrationOCPset == true) {
+        ocpsetRaw = (uint32_t)localSetState.OCPset;
+      } else {
+      ocpset = state.cal.OCPset->remapDAC(ocpset);
+      ocpsetRaw = (uint32_t)clamp(ocpset, OCPSetDAC.DAC_MIN, OCPSetDAC.DAC_MAX);
+      }
+      if (ocpsetRaw != ocpsetRawPrev)
+      {
+#ifndef FAKE_HARDWARE
+        OCPSetDAC.write(ocpsetRaw);
+#endif
+        ocpsetRawPrev = ocpsetRaw;
+        ocpsetPrev = ocpset;
+      }
+    }
+
+    // Only recalc and set if changed
+    if (ovpset != ovpsetPrev || localSetState.CalibrationOVPset == true)
+    {
+      if (localSetState.CalibrationOVPset == true) {
+        ovpsetRaw = (uint32_t)localSetState.OVPset;
+      } else {
+      ovpset = state.cal.OVPset->remapDAC(ovpset);
+      ovpsetRaw = (uint32_t)clamp(ovpset, OVPSetDAC.DAC_MIN, OVPSetDAC.DAC_MAX);
+      }
+      if (ovpsetRaw != ovpsetRawPrev)
+      {
+#ifndef FAKE_HARDWARE
+        OVPSetDAC.write(ovpsetRaw);
+#endif
+        ovpsetRawPrev = ovpsetRaw;
+        ovpsetPrev = ovpset;
       }
     }
 
