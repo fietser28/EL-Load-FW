@@ -10,14 +10,6 @@
 using namespace dcl;
 #endif
 
-// For calibration actions
-extern int32_t cal_calType;
-extern int32_t cal_curpoint;
-extern float   cal_measured;
-extern float   cal_set;
-extern CalibrationValueConfiguration cal_values;
-
-
 typedef enum {
     mode_e_CC = 0,
     mode_e_CV = 1,
@@ -31,7 +23,10 @@ typedef enum {
     calType_e_Umon = 1,
     calType_e_Iset = 2,
     calType_e_Von = 3,
-    calType_e_Uset = 4
+    calType_e_Uset = 4,
+    calType_e_OCPset = 5,
+    calType_e_OVPset = 6,
+    calType_e_Undefined = -1
 } calType_e;
 
 typedef enum {
@@ -39,6 +34,13 @@ typedef enum {
     VonType_e_Latched = 1,
     VonType_e_Inhibit = 2
 } VonType_e;
+
+// For calibration actions
+extern calType_e cal_calType;
+extern int32_t cal_curpoint;
+extern float   cal_measured;
+extern float   cal_set;
+extern CalibrationValueConfiguration cal_values;
 
 // Flow global variables
 
@@ -113,8 +115,8 @@ extern float get_var_sample_rate();
 extern void set_var_sample_rate(float value);
 extern int32_t get_var_ad_c_osr();
 extern void set_var_ad_c_osr(int32_t value);
-extern int32_t get_var_cal_cal_type();
-extern void set_var_cal_cal_type(int32_t value);
+extern calType_e get_var_cal_cal_type();
+extern void set_var_cal_cal_type(calType_e value);
 extern int32_t get_var_cal_curpoint();
 extern void set_var_cal_curpoint(int32_t value);
 extern float get_var_cal_set();

@@ -310,7 +310,7 @@
         {
           "objID": "ddb840d3-2cd4-4c24-897d-1e367e2df75f",
           "fileName": "vars.h",
-          "template": "#ifndef EEZ_LVGL_UI_VARS_H\r\n#define EEZ_LVGL_UI_VARS_H\r\n\r\n#include <stdint.h>\r\n#include <stdbool.h>\r\n\r\n#include \"util.h\"\r\n\r\n#ifdef __cplusplus\r\nusing namespace dcl;\r\n#endif\r\n\r\n// For calibration actions\r\nextern int32_t cal_calType;\r\nextern int32_t cal_curpoint;\r\nextern float   cal_measured;\r\nextern float   cal_set;\r\nextern CalibrationValueConfiguration cal_values;\r\n\r\n\r\n//${eez-studio FLOW_ENUMS}\r\n\r\n// Flow global variables\r\n\r\n//${eez-studio FLOW_GLOBAL_VARIABLES_ENUM}\r\n\r\n// Native global variables\r\n\r\n#ifdef __cplusplus\r\nextern \"C\" {\r\n#endif\r\n\r\n//${eez-studio LVGL_VARS_DECL}\r\n\r\n#ifdef __cplusplus\r\n}\r\n#endif\r\n\r\n\r\n#endif /*EEZ_LVGL_UI_VARS_H*/"
+          "template": "#ifndef EEZ_LVGL_UI_VARS_H\r\n#define EEZ_LVGL_UI_VARS_H\r\n\r\n#include <stdint.h>\r\n#include <stdbool.h>\r\n\r\n#include \"util.h\"\r\n\r\n#ifdef __cplusplus\r\nusing namespace dcl;\r\n#endif\r\n\r\n//${eez-studio FLOW_ENUMS}\r\n\r\n// For calibration actions\r\nextern calType_e cal_calType;\r\nextern int32_t cal_curpoint;\r\nextern float   cal_measured;\r\nextern float   cal_set;\r\nextern CalibrationValueConfiguration cal_values;\r\n\r\n// Flow global variables\r\n\r\n//${eez-studio FLOW_GLOBAL_VARIABLES_ENUM}\r\n\r\n// Native global variables\r\n\r\n#ifdef __cplusplus\r\nextern \"C\" {\r\n#endif\r\n\r\n//${eez-studio LVGL_VARS_DECL}\r\n\r\n#ifdef __cplusplus\r\n}\r\n#endif\r\n\r\n\r\n#endif /*EEZ_LVGL_UI_VARS_H*/"
         },
         {
           "objID": "9c770003-b028-4a8b-9447-fea072e67b3a",
@@ -645,13 +645,13 @@
         "objID": "d5223ec8-45c9-4dd4-e70b-8502db332aa7",
         "name": "calData",
         "type": "array:struct:calConfig",
-        "defaultValue": "[ { name: \"Current measure\", unit: \"A\", instruction:\"Input: 2V/I=Set, CC ON\", setType: 9 },\n{ name: \"Voltage measure\", unit: \"V\", instruction:\"In: V=Set/100mA, OFF\", setType: 10 },\n{ name: \"Current set\", unit: \"\", instruction:\"Input: 2V/5A, CC ON\", setType: 12 },\n{ name: \"Von\", unit: \"\", instruction:\"In: V 1&35/100mA, OFF\", setType: 12 },\n{ name: \"Voltage set\", unit: \"\", instruction:\"In:40V/1A, Iset>1A, CV ON\", setType: 12 }\n]",
+        "defaultValue": "[ { name: \"Current measure\", unit: \"A\", instruction:\"Input: 2V/I=Set, CC ON\", setType: 9 },\n{ name: \"Voltage measure\", unit: \"V\", instruction:\"In: V=Set/100mA, OFF\", setType: 10 },\n{ name: \"Current set\", unit: \"\", instruction:\"Input: 2V/5A, CC ON\", setType: 12 },\n{ name: \"Von\", unit: \"\", instruction:\"In: V 1&35/100mA, OFF\", setType: 12 },\n{ name: \"Voltage set\", unit: \"\", instruction:\"In:40V/1A, Iset>1A, CV ON\", setType: 12 },\n{ name: \"OCP set\", unit: \"\", instruction:\"In:2V/0.1&9A, Iset=10A, CC ON\", setType: 12 },\n{ name: \"OVP set\", unit: \"\", instruction:\"In:0.5&75V/100mA, OFF\", setType: 12 }\n]",
         "persistent": false
       },
       {
         "objID": "20c417b0-cbd7-4088-fd99-095ae947d01a",
         "name": "cal_calType",
-        "type": "integer",
+        "type": "enum:calType_e",
         "defaultValue": "0",
         "persistent": false,
         "native": true
@@ -876,6 +876,21 @@
             "objID": "d41ce058-3f19-421e-f0df-4a652f837d2d",
             "name": "Uset",
             "value": 4
+          },
+          {
+            "objID": "2a962f30-b597-4c17-aaa6-28974481e630",
+            "name": "OCPset",
+            "value": 5
+          },
+          {
+            "objID": "342c5c23-d762-4593-bd4b-b794d54913fa",
+            "name": "OVPset",
+            "value": 6
+          },
+          {
+            "objID": "7807dcf6-ac81-40aa-b844-55e699253595",
+            "name": "Undefined",
+            "value": -1
           }
         ]
       },
@@ -4113,9 +4128,9 @@
                           "MAIN": {
                             "DEFAULT": {
                               "align": "CENTER",
-                              "text_font": "MONTSERRAT_14",
                               "text_align": "CENTER",
-                              "pad_top": 2
+                              "pad_top": 2,
+                              "text_font": "MONTSERRAT_20"
                             }
                           }
                         }
@@ -7671,7 +7686,7 @@
           "left": 439,
           "top": 326,
           "width": 268,
-          "height": 54,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -8570,8 +8585,8 @@
         {
           "objID": "85a064e6-af3a-4db0-e1a4-9965291f2e0b",
           "type": "StartActionComponent",
-          "left": -121,
-          "top": -410,
+          "left": -208,
+          "top": -310,
           "width": 87,
           "height": 24,
           "customInputs": [],
@@ -8580,9 +8595,9 @@
         {
           "objID": "de33726e-05cd-43e1-a986-300897b4acb7",
           "type": "SetVariableActionComponent",
-          "left": 681,
-          "top": -410,
-          "width": 177,
+          "left": 594,
+          "top": -310,
+          "width": 220,
           "height": 115,
           "customInputs": [],
           "customOutputs": [],
@@ -8591,7 +8606,7 @@
             {
               "objID": "0c9b7120-f871-48bc-d3c7-3ad1808ea1ff",
               "variable": "cal_calType",
-              "value": "0"
+              "value": "calType_e.Imon"
             },
             {
               "objID": "45b3e131-c3ca-4d10-98ea-e92324a7324e",
@@ -8616,7 +8631,7 @@
           "left": -502,
           "top": 272,
           "width": 142,
-          "height": 54,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "cal_calType"
@@ -8825,7 +8840,7 @@
           "heightUnit": "px",
           "children": [],
           "flags": "PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLLABLE|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_CHAIN",
-          "hiddenFlag": "cal_calType <= 1 || cal_calType == 3",
+          "hiddenFlag": "cal_calType != calType_e.Iset && cal_calType != calType_e.Uset",
           "hiddenFlagType": "expression",
           "clickableFlag": true,
           "clickableFlagType": "literal",
@@ -8901,7 +8916,7 @@
           "left": -170,
           "top": 15,
           "width": 111,
-          "height": 54,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "kbType"
@@ -8912,7 +8927,7 @@
           "left": -170,
           "top": 85,
           "width": 117,
-          "height": 54,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "cal_set"
@@ -8982,8 +8997,8 @@
         {
           "objID": "77d5a505-999e-48f7-a1dc-8aa75ae05cc4",
           "type": "CallActionActionComponent",
-          "left": 1103,
-          "top": 153,
+          "left": 1656,
+          "top": 152,
           "width": 159,
           "height": 24,
           "customInputs": [],
@@ -8995,7 +9010,7 @@
           "type": "CallActionActionComponent",
           "left": 215,
           "top": 466,
-          "width": 128,
+          "width": 127,
           "height": 24,
           "customInputs": [],
           "customOutputs": [],
@@ -9004,8 +9019,8 @@
         {
           "objID": "b2bb08b2-88d6-4c11-8ec7-390a217aafa3",
           "type": "SetVariableActionComponent",
-          "left": 1312,
-          "top": 153,
+          "left": 1873,
+          "top": 152,
           "width": 171,
           "height": 75,
           "customInputs": [],
@@ -9051,7 +9066,7 @@
           "left": 98,
           "top": 670,
           "width": 127,
-          "height": 54,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "from": "0",
@@ -9064,7 +9079,7 @@
           "left": 288,
           "top": 675,
           "width": 143,
-          "height": 70,
+          "height": 69,
           "customInputs": [],
           "customOutputs": [],
           "A": "animate",
@@ -9121,14 +9136,14 @@
           "type": "SwitchActionComponent",
           "left": 707,
           "top": 110,
-          "width": 173,
-          "height": 73,
+          "width": 677,
+          "height": 71,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
             {
               "objID": "b394aae4-934f-4cc2-df07-84564905d5fc",
-              "condition": "cal_calType == 3",
+              "condition": "cal_calType == calType_e.Von || cal_calType == calType_e.OCPset || cal_calType == calType_e.OVPset",
               "outputName": "Von",
               "outputValue": "1"
             },
@@ -9143,8 +9158,8 @@
         {
           "objID": "79ca617b-ab22-45a7-eefc-034861561f9e",
           "type": "CallActionActionComponent",
-          "left": 928,
-          "top": 129,
+          "left": 1486,
+          "top": 108,
           "width": 115,
           "height": 24,
           "customInputs": [],
@@ -9157,7 +9172,7 @@
           "left": -258,
           "top": 643,
           "width": 117,
-          "height": 54,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "animate"
@@ -9168,7 +9183,7 @@
           "left": -96,
           "top": 644,
           "width": 87,
-          "height": 70,
+          "height": 69,
           "customInputs": [
             {
               "objID": "7eec595c-3b18-4365-83e7-a3e7bccb099a",

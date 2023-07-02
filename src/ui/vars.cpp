@@ -269,14 +269,14 @@ int32_t get_var_ad_c_osr()
 
 //// Calibration variables & some logic.
 
-int32_t cal_calType = -1; // Force init and copy!
+calType_e cal_calType = calType_e::calType_e_Undefined; // Force init and copy!
 int32_t cal_curpoint = 0; 
 float cal_set = 0.0f;                       // This is the changed/temp value.
 float cal_measured = 0.0f;                   // This is the changed/temp value.
 CalibrationValueConfiguration cal_values;   // This is the changed/temp configuration.
 
-int32_t get_var_cal_cal_type() { return cal_calType; };
-void set_var_cal_cal_type(int32_t value) { 
+calType_e get_var_cal_cal_type() { return cal_calType; };
+void set_var_cal_cal_type(calType_e value) { 
   // calType changes to different value, update everything.
   if (value != cal_calType){
     cal_calType = value; 
@@ -290,7 +290,8 @@ void set_var_cal_curpoint(int32_t value) {
   if (value >= 0 && value < cal_values.numPoints)
   {
     cal_curpoint = value; 
-    if (cal_calType <= 1) {
+    if (cal_calType == calType_e::calType_e_Imon || cal_calType == calType_e::calType_e_Umon) 
+    {
       // ADC
       cal_set = cal_values.points[value].value;
       cal_measured = cal_values.points[value].adc;
@@ -305,7 +306,8 @@ void set_var_cal_curpoint(int32_t value) {
 float get_var_cal_set() { return cal_set; };
 void set_var_cal_set(float value) { 
   cal_set = value; 
-  if (cal_calType <= 1) {
+  if (cal_calType == calType_e::calType_e_Imon || cal_calType == calType_e::calType_e_Umon) 
+  {
     cal_values.points[cal_curpoint].value = value;
   } else {
     cal_values.points[cal_curpoint].dac = (int32_t)value;
@@ -315,7 +317,7 @@ void set_var_cal_set(float value) {
 float get_var_cal_measured() { return cal_measured; };
 void set_var_cal_measured(float value) { 
   cal_measured = value;
-  if (cal_calType <= 1) 
+  if (cal_calType == calType_e::calType_e_Imon || cal_calType == calType_e::calType_e_Iset) 
   {
     // ADC
     cal_values.points[cal_curpoint].adc = (int32_t)value; 
