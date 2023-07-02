@@ -20,8 +20,8 @@ extern char logtxt[256];
 extern void ui_init_encoder_group();
 
 // Calibration page glue
-extern void copy_cal_values_from_state(CalibrationValueConfiguration *cal_values, int32_t caltype);
-extern void copy_cal_values_to_state(CalibrationValueConfiguration *cal_values, int32_t caltype);
-extern void write_cal_to_eeprom(int32_t caltype);
+extern void copy_cal_values_from_state(CalibrationValueConfiguration *cal_values, calType_e caltype);
+extern void copy_cal_values_to_state(CalibrationValueConfiguration *cal_values, calType_e caltype);
+extern void write_cal_to_eeprom(calType_e caltype);
 
 #endif

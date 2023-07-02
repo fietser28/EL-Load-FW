@@ -71,7 +71,7 @@ dac_dac8555 OCPSetDAC = dac_dac8555(SPI_DAC1, PIN_DAC1_CS, 2);
 dac_dac8555 OVPSetDAC = dac_dac8555(SPI_DAC1, PIN_DAC1_CS, 1);
 dac_dac8555 uSetDAC = dac_dac8555(SPI_DAC2, PIN_DAC2_CS, 0);
 
-dcl::eeprom::eeprom myeeprom = eeprom::eeprom();
+dcl::eeprom::eeprom myeeprom = dcl::eeprom::eeprom();
 
 // Global state manager
 stateManager state;

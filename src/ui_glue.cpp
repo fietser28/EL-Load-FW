@@ -94,89 +94,113 @@ void ui_init_encoder_group() {
 }
 
 // Calibration glue
-void copy_cal_values_from_state(CalibrationValueConfiguration *cal_values, int32_t caltype)
+void copy_cal_values_from_state(CalibrationValueConfiguration *cal_values, calType_e caltype)
 {
     CalibrationValueConfiguration calconfig = state.cal.Imon->getCalConfig();
     switch (caltype)
     {
-    case 0:
+    case calType_e::calType_e_Imon:
         calconfig = state.cal.Imon->getCalConfig();
         break;
-    case 1:
+    case calType_e::calType_e_Umon:
         calconfig = state.cal.Umon->getCalConfig();
         break;
-    case 2:
+    case calType_e::calType_e_Iset:
         calconfig = state.cal.Iset->getCalConfig();
         break;        
-    case 3:
+    case calType_e::calType_e_Von:
         calconfig = state.cal.Von->getCalConfig();
-    case 4:
+        break;
+    case calType_e::calType_e_Uset:
         calconfig = state.cal.Uset->getCalConfig();
-    //default:
-        //return;
-    //    break;
+        break;
+    case calType_e::calType_e_OCPset:
+        calconfig = state.cal.OCPset->getCalConfig();
+        break;
+    case calType_e::calType_e_OVPset:
+        calconfig = state.cal.OVPset->getCalConfig();
+        break;
+    default:
+        // Should not happen. Avoid uncontrolled memcpy
+        // TODO: Add some kind of assert.
+        return;
     }
     memcpy(cal_values, &calconfig, sizeof(CalibrationValueConfiguration));
 };
 
-void copy_cal_values_to_state(CalibrationValueConfiguration *cal_values, int32_t caltype)
+void copy_cal_values_to_state(CalibrationValueConfiguration *cal_values, calType_e caltype)
 {
     CalibrationValueConfiguration *calconfig = state.cal.Imon->getCalConfigRef();
     switch (caltype)
     {
-    case 0:
+    case calType_e::calType_e_Imon:
         calconfig = state.cal.Imon->getCalConfigRef();
         break;
-    case 1:
+    case calType_e::calType_e_Umon:
         calconfig = state.cal.Umon->getCalConfigRef();
         break;
-    case 2:
+    case calType_e::calType_e_Iset:
         calconfig = state.cal.Iset->getCalConfigRef();
         break;
-    case 3:
+    case calType_e::calType_e_Von:
         calconfig = state.cal.Von->getCalConfigRef(); 
         break;
-    case 4:
+    case calType_e::calType_e_Uset:
         calconfig = state.cal.Uset->getCalConfigRef();
-    //default:
-        //return;
-    //    break;
-    // TODO: Add others
+        break;
+    case calType_e::calType_e_OCPset:
+        calconfig = state.cal.OCPset->getCalConfigRef();
+        break;
+    case calType_e::calType_e_OVPset:
+        calconfig = state.cal.OVPset->getCalConfigRef();
+        break;
+    default:
+        // Should not happen. Avoid uncontrolled memcpy
+        // TODO: Add some kind of assert.
+        return;
     }
     memcpy(calconfig, cal_values, sizeof(CalibrationValueConfiguration));
 }
 
-void write_cal_to_eeprom(int32_t caltype)
+void write_cal_to_eeprom(calType_e caltype)
 {
     CalibrationValueConfiguration *calconfig;  // = state.cal.Imon->getCalConfigRef();
     uint32_t startaddress;
     switch (caltype)
     {
-    case 0:
+    case calType_e::calType_e_Imon:
         calconfig = state.cal.Imon->getCalConfigRef();
         startaddress = EEPROM_ADDR_CAL_IMON;
         break;
-    case 1:
+    case calType_e::calType_e_Umon:
         calconfig = state.cal.Umon->getCalConfigRef();
         startaddress = EEPROM_ADDR_CAL_UMON;
         break;
-    case 2:
+    case calType_e::calType_e_Iset:
         calconfig = state.cal.Iset->getCalConfigRef();
         startaddress = EEPROM_ADDR_CAL_ISET;
         break;
-    case 3:
+    case calType_e::calType_e_Von:
         calconfig = state.cal.Von->getCalConfigRef();
         startaddress = EEPROM_ADDR_CAL_VON;
         break;
-    case 4:
+    case calType_e::calType_e_Uset:
         calconfig = state.cal.Uset->getCalConfigRef();
         startaddress = EEPROM_ADDR_CAL_USET;
         break;
+    case calType_e::calType_e_OCPset:
+        calconfig = state.cal.OCPset->getCalConfigRef();
+        startaddress = EEPROM_ADDR_CAL_OCP;
+        break;
+    case calType_e::calType_e_OVPset:
+        calconfig = state.cal.OVPset->getCalConfigRef();
+        startaddress = EEPROM_ADDR_CAL_OVP;
+        break;
     default:
         startaddress = 0xF00; //Dummy
+        // TODO: Add assert of some kind.
         return;
         break;
-    // TODO: Add others
     }
     myeeprom.calibrationValuesWrite(calconfig, startaddress);
 }

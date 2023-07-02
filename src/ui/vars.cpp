@@ -163,6 +163,7 @@ bool get_var_on()
 
 mode_e get_var_mode() { 
   mode_e mode;
+  // this maps the state modes to the UI modes.
   switch (localsetcopy.mode)
   {
         case ELmode::CC:
