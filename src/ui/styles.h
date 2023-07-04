@@ -9,6 +9,7 @@ extern "C" {
 
 extern void apply_style_button(lv_obj_t *obj);
 extern void apply_style_selectbutton(lv_obj_t *obj);
+extern void apply_style_select_button_red_green(lv_obj_t *obj);
 extern void apply_style_blackpanel(lv_obj_t *obj);
 extern void apply_style_bigfont_label(lv_obj_t *obj);
 extern void apply_style_bigfont_normal(lv_obj_t *obj);

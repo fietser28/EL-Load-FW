@@ -227,10 +227,28 @@ void set_var_pset(float value)
   state.setPset(value);
 };
 
+float get_var_oc_pset() { return localsetcopy.OCPset; };
+void set_var_oc_pset(float value)
+{
+  state.setOCP(value, false);
+};
+
 float get_var_ov_pset() { return localsetcopy.OVPset; };
 void set_var_ov_pset(float value) 
 {
   state.setOVP(value, false);
+};
+
+float get_var_ot_pset() { return localsetcopy.OTPset; };
+void set_var_ot_pset(float value)
+{
+  state.setOTPset(value);
+};
+
+float get_var_ot_pdelay() { return localsetcopy.OTPdelay; };
+void set_var_ot_pdelay(float value)
+{
+  state.setOTPdelay(value);
 };
 
 bool get_var_protection_triggered() { return localsetcopy.protection; };
@@ -348,3 +366,9 @@ void set_var_oc_pstate(bool value) {}; // Read only.
 
 bool get_var_ov_pstate() { return localstatecopy.OVPstate; };
 void set_var_ov_pstate(bool value) {}; // Read only.
+
+bool get_var_ot_pstate() { return localstatecopy.OTPstate; };
+void set_var_ot_pstate(bool value) {}; // Read only.
+
+bool get_var_op_pstate() { return localstatecopy.OPPstate; };
+void set_var_op_pstate(bool value) {}; // Read only.

@@ -25,6 +25,8 @@ namespace dcl
         bool VonState;
         bool OCPstate;
         bool OVPstate;
+        bool OPPstate;
+        bool OTPstate;
         float Temp1;
         float Temp2;
     };
@@ -114,6 +116,8 @@ public:
                             double Ws, double time, uint32_t avgCurrentRaw, uint32_t avgVoltRaw);
 
     bool setHWstate(bool ocptrig, bool ovptrig, bool von);
+    bool OTPtriggered();
+    bool OPPtriggered();
     bool setTemp1(float temp);
     bool setTemp2(float temp);
     bool clearPower();
@@ -130,6 +134,8 @@ public:
     bool setPset(float newPset);
     bool setOPPset(float OPPset);
     bool setOPPdelay(float OPPdelay);
+    bool setOTPset(float OTPset);
+    bool setOTPdelay(float OTPdelay);
     bool setNPLC(uint32_t cycles);
     uint32_t getNPLC();
     bool record(bool setrecord);

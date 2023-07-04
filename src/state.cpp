@@ -35,8 +35,10 @@ namespace dcl
                 _setState.PLFreq = DEFAULT_PL_FREQ;
                 _setState.on = false;
                 _setState.NLPC = DEFAULT_AVG_SAMPLES_NPLC;
-                _setState.OPPset = 80;
+                _setState.OPPset = 80.0f;
                 _setState.OPPdelay = 5;
+                _setState.OTPset = 80.0f;
+                _setState.OTPdelay = 10;
                 _setState.Iset = 0.111f;
                 _setState.CalibrationIset = false;
                 _setState.Uset = 1000.0f;
@@ -46,7 +48,7 @@ namespace dcl
                 _setState.VonSet = 1.1f;
                 _setState.OCPset = 10.0f;
                 _setState.CalibrationOCPset = false;
-                _setState.OVPset = 10.0f;
+                _setState.OVPset = 20.0f;
                 _setState.CalibrationOVPset = false;
                 _setState.protection = false;
                 _setState.VonLatched = VonType_e_Unlatched;
@@ -174,21 +176,51 @@ namespace dcl
         state.setOff();
     }
 
+    if (_measuredStateMutex != NULL)
+    {
+        if (xSemaphoreTake(_measuredStateMutex, (TickType_t)100) == pdTRUE)
+        {
+                // Do not clear, only set. Cleared in clearProtection. DO clear when calibrating OCP
+                _measuredState.OCPstate = _setState.CalibrationOCPset ? ocptrig : _measuredState.OCPstate || ocptrig; 
+
+                // Do not clear, only set. Cleared in clearProtection. No need for calibration special: OVP is calibrated in OFF state.
+                _measuredState.OVPstate = _measuredState.OVPstate || ovptrig; 
+
+                _measuredState.VonState = von;
+                xSemaphoreGive(_measuredStateMutex);
+
+                return true;
+        }
+    }
+    return false;
+    };
+
+    bool stateManager::OTPtriggered() 
+    {
         if (_measuredStateMutex != NULL)
         {
             if (xSemaphoreTake(_measuredStateMutex, (TickType_t)100) == pdTRUE)
             {
-                _measuredState.OCPstate = ocptrig;
-                _measuredState.OVPstate = ovptrig;
-                _measuredState.VonState = von;
+                _measuredState.OTPstate = true;
                 xSemaphoreGive(_measuredStateMutex);
-
-                
                 return true;
             }
         }
         return false;
+    };
 
+    bool stateManager::OPPtriggered() 
+    {
+        if (_measuredStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_measuredStateMutex, (TickType_t)100) == pdTRUE)
+            {
+                _measuredState.OPPstate = true;
+                xSemaphoreGive(_measuredStateMutex);
+                return true;
+            }
+        }
+        return false;
     };
 
     bool stateManager::setTemp1(float temp)
@@ -238,11 +270,32 @@ namespace dcl
                 //return true;
             }
         }
+        if (_measuredStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_measuredStateMutex, (TickType_t)100) == pdTRUE)
+            {
+                // Clear HW states
+                _measuredState.OCPstate = false; 
+                _measuredState.OVPstate = false;
+                _measuredState.OTPstate = false;
+                _measuredState.OPPstate = false;
+                xSemaphoreGive(_measuredStateMutex);
+            }
+        }
+        updateHWIOTask();
         return updateAverageTask();
     };
 
     bool stateManager::setProtection()
     {
+        // Avoid protection during calibration.
+        // TODO: mutex?
+        if (_setState.CalibrationIset == true || _setState.CalibrationOCPset == true || _setState.CalibrationOVPset == true ||
+            _setState.CalibrationUset == true || _setState.CalibrationVonSet == true) 
+        {
+            return false;
+        }
+
         setOff();
         if (_setStateMutex != NULL)
         {
@@ -254,6 +307,7 @@ namespace dcl
                 //return true;
             }
         }
+        updateHWIOTask();
         return updateAverageTask();
     };
 
@@ -458,6 +512,36 @@ namespace dcl
             }
         }
         return updateAverageTask();
+    };
+
+   bool stateManager::setOTPset(float OTPset)
+    {
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
+            {
+                _setState.OTPset = OTPset;
+                xSemaphoreGive(_setStateMutex);
+                // TODO: test & update clear hardware;
+                //return true;
+            }
+        }
+        return updateHWIOTask();
+    };
+
+   bool stateManager::setOTPdelay(float OTPdelay)
+    {
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
+            {
+                _setState.OTPdelay = OTPdelay;
+                xSemaphoreGive(_setStateMutex);
+                // TODO: test & update clear hardware;
+                //return true;
+            }
+        }
+        return updateHWIOTask();
     };
 
     bool stateManager::setNPLC(uint32_t cycles)

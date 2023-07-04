@@ -34,7 +34,30 @@
         "objID": "d0e34107-2559-49ee-d80d-a58ff84cddd2",
         "name": "selectbutton",
         "forWidgetType": "LVGLButtonWidget",
-        "childStyles": [],
+        "childStyles": [
+          {
+            "objID": "d4ff419f-cb34-49a7-a6b4-a43e1590bd16",
+            "name": "selectButtonRedGreen",
+            "forWidgetType": "LVGLButtonWidget",
+            "childStyles": [],
+            "definition": {
+              "objID": "5e2461ea-7934-45d8-860c-d1e38c314955",
+              "definition": {
+                "MAIN": {
+                  "DEFAULT": {
+                    "align": "TOP_LEFT",
+                    "bg_color": "#03bd2b",
+                    "text_align": "CENTER"
+                  },
+                  "CHECKED": {
+                    "bg_color": "#ca0202",
+                    "text_color": "#ffff00"
+                  }
+                }
+              }
+            }
+          }
+        ],
         "definition": {
           "objID": "5783e4bb-98a4-44e5-8e3c-a8b460f83bac",
           "definition": {
@@ -492,7 +515,7 @@
         "objID": "cc20a9d5-91e3-4346-b80f-abd1e202f555",
         "name": "setTypes",
         "type": "array:struct:setProperties",
-        "defaultValue": "[ {setName: \"Current\", setUnit:\"A\", setValueMin:0, setValueMax:10},\n{setName: \"Voltage\", setUnit:\"V\", setValueMin:0, setValueMax:80},\n{setName: \"Power\", setUnit:\"W\", setValueMin:0, setValueMax:75},\n{setName: \"Resistance\", setUnit:\"\\u03a9\", setValueMin:0.1, setValueMax:100000},\n{setName: \"Von\", setUnit:\"V\", setValueMin:0, setValueMax:10},\n{setName: \"OCP\", setUnit:\"A\", setValueMin:0, setValueMax:10},\n{setName: \"OVP\", setUnit:\"V\", setValueMin:0, setValueMax:80},\n{setName: \"OPP\", setUnit:\"W\", setValueMin:1, setValueMax:80},\n{setName: \"OTP\", setUnit:\"C\", setValueMin:10, setValueMax:90},\n{setName: \"Current Cal Set\", setUnit:\"A\", setValueMin:-1, setValueMax: 11},\n{setName: \"Voltage Cal Set\", setUnit:\"V\", setValueMin:-1, setValueMax: 90},\n{setName: \"OPP delay\", setUnit:\"s\", setValueMin:1, setValueMax:99},\n{setName: \"16-bit DAC\", setUnit:\"\", setValueMin:0, setValueMax:65535},\n]",
+        "defaultValue": "[ {setName: \"Current\", setUnit:\"A\", setValueMin:0, setValueMax:10},\n{setName: \"Voltage\", setUnit:\"V\", setValueMin:0, setValueMax:80},\n{setName: \"Power\", setUnit:\"W\", setValueMin:0, setValueMax:75},\n{setName: \"Resistance\", setUnit:\"\\u03a9\", setValueMin:0.1, setValueMax:100000},\n{setName: \"Von\", setUnit:\"V\", setValueMin:0, setValueMax:10},\n{setName: \"OCP\", setUnit:\"A\", setValueMin:0, setValueMax:10},\n{setName: \"OVP\", setUnit:\"V\", setValueMin:0, setValueMax:80},\n{setName: \"OPP\", setUnit:\"W\", setValueMin:1, setValueMax:100},\n{setName: \"OTP\", setUnit:\"C\", setValueMin:10, setValueMax:90},\n{setName: \"Current Cal Set\", setUnit:\"A\", setValueMin:-1, setValueMax: 11},\n{setName: \"Voltage Cal Set\", setUnit:\"V\", setValueMin:-1, setValueMax: 90},\n{setName: \"OPP delay\", setUnit:\"s\", setValueMin:1, setValueMax:99},\n{setName: \"16-bit DAC\", setUnit:\"\", setValueMin:0, setValueMax:65535},\n{setName: \"OTP delay\", setUnit:\"s\", setValueMin:1, setValueMax:99},\n]",
         "persistent": false
       },
       {
@@ -547,7 +570,8 @@
         "name": "OCPset",
         "type": "float",
         "defaultValue": "10",
-        "persistent": false
+        "persistent": false,
+        "native": true
       },
       {
         "objID": "f5e96cc5-0ff6-4776-96d0-2708f978a8c2",
@@ -578,14 +602,16 @@
         "name": "OTPset",
         "type": "float",
         "defaultValue": "85",
-        "persistent": false
+        "persistent": false,
+        "native": true
       },
       {
         "objID": "80f7c331-86d7-4a40-eac9-a0c67ec2c198",
         "name": "OTPdelay",
         "type": "float",
-        "defaultValue": "5",
-        "persistent": false
+        "defaultValue": "10",
+        "persistent": false,
+        "native": true
       },
       {
         "objID": "9b17786a-7e95-4937-c6a5-ea2906855783",
@@ -731,6 +757,22 @@
       {
         "objID": "9649e9ca-d55c-40ed-e80b-68523177eafa",
         "name": "OVPstate",
+        "type": "boolean",
+        "defaultValue": "false",
+        "persistent": false,
+        "native": true
+      },
+      {
+        "objID": "028c64b5-5771-41ab-b298-2c84f593030a",
+        "name": "OTPstate",
+        "type": "boolean",
+        "defaultValue": "false",
+        "persistent": false,
+        "native": true
+      },
+      {
+        "objID": "01296cfc-671f-46eb-d89d-00b34abd0081",
+        "name": "OPPstate",
         "type": "boolean",
         "defaultValue": "false",
         "persistent": false,
@@ -4127,20 +4169,9 @@
                       "checkedStateType": "expression",
                       "disabledStateType": "literal",
                       "states": "",
-                      "useStyle": "selectbutton",
+                      "useStyle": "selectButtonRedGreen",
                       "localStyles": {
-                        "objID": "dd97e674-f90d-41d1-ffa8-29d92f40f32f",
-                        "definition": {
-                          "MAIN": {
-                            "DEFAULT": {
-                              "align": "TOP_LEFT",
-                              "bg_color": "#03bd2b"
-                            },
-                            "CHECKED": {
-                              "bg_color": "#ca0202"
-                            }
-                          }
-                        }
+                        "objID": "dd97e674-f90d-41d1-ffa8-29d92f40f32f"
                       }
                     },
                     {
@@ -6474,8 +6505,8 @@
         {
           "objID": "574637cd-9a5f-4777-bf07-92ae576cff7d",
           "type": "LVGLActionComponent",
-          "left": 495,
-          "top": 186,
+          "left": 508,
+          "top": 407,
           "width": 268,
           "height": 54,
           "customInputs": [],
@@ -6753,10 +6784,11 @@
           "clickableFlagType": "literal",
           "scrollbarMode": "auto",
           "scrollDirection": "all",
-          "checkedStateType": "literal",
+          "checkedState": "OCPstate",
+          "checkedStateType": "expression",
           "disabledStateType": "literal",
           "states": "",
-          "useStyle": "selectbutton",
+          "useStyle": "selectButtonRedGreen",
           "localStyles": {
             "objID": "8f10fc46-cb03-476b-8959-06f40ec57f81",
             "definition": {
@@ -6847,10 +6879,11 @@
           "clickableFlagType": "literal",
           "scrollbarMode": "auto",
           "scrollDirection": "all",
-          "checkedStateType": "literal",
+          "checkedState": "OVPstate",
+          "checkedStateType": "expression",
           "disabledStateType": "literal",
           "states": "",
-          "useStyle": "selectbutton",
+          "useStyle": "selectButtonRedGreen",
           "localStyles": {
             "objID": "4d3b949f-5aee-49f5-ab7a-ba84a426cae7",
             "definition": {
@@ -6876,8 +6909,8 @@
         {
           "objID": "e7c8c9d0-8253-40c0-b84a-56119106762b",
           "type": "SetVariableActionComponent",
-          "left": 495,
-          "top": 123,
+          "left": 553,
+          "top": 115,
           "width": 165,
           "height": 55,
           "customInputs": [],
@@ -6896,7 +6929,7 @@
           "left": 748,
           "top": 56,
           "width": 241,
-          "height": 111,
+          "height": 149,
           "customInputs": [
             {
               "objID": "4bbe2526-f601-4a74-e0cc-67795cea3fdc",
@@ -6925,9 +6958,21 @@
               "outputValue": "newValue"
             },
             {
+              "objID": "173eb8a7-0561-48e3-a04e-fb3f417ee957",
+              "condition": "setType == 8",
+              "outputName": "OTP",
+              "outputValue": "newValue"
+            },
+            {
               "objID": "0674590c-58e6-49a8-88d1-cada0c359899",
               "condition": "setType == 11",
               "outputName": "OPPdelay",
+              "outputValue": "newValue"
+            },
+            {
+              "objID": "863e82b2-dac8-4e89-fad9-cc660a63960c",
+              "condition": "setType == 13",
+              "outputName": "OTPdelay",
               "outputValue": "newValue"
             }
           ]
@@ -7072,10 +7117,11 @@
           "clickableFlagType": "literal",
           "scrollbarMode": "auto",
           "scrollDirection": "all",
-          "checkedStateType": "literal",
+          "checkedState": "OPPstate",
+          "checkedStateType": "expression",
           "disabledStateType": "literal",
           "states": "",
-          "useStyle": "selectbutton",
+          "useStyle": "selectButtonRedGreen",
           "localStyles": {
             "objID": "0b629aa5-cfa9-4303-e1b3-ec9cb6e1ecda",
             "definition": {
@@ -7167,10 +7213,11 @@
           "clickableFlagType": "literal",
           "scrollbarMode": "auto",
           "scrollDirection": "all",
-          "checkedStateType": "literal",
+          "checkedState": "OPPstate",
+          "checkedStateType": "expression",
           "disabledStateType": "literal",
           "states": "",
-          "useStyle": "selectbutton",
+          "useStyle": "selectButtonRedGreen",
           "localStyles": {
             "objID": "e77b6515-2977-4ab0-f5af-2ecb5c3bf37d",
             "definition": {
@@ -7282,6 +7329,198 @@
           }
         },
         {
+          "objID": "270a61d2-2de5-431f-a684-03fb3a8ac530",
+          "type": "LVGLButtonWidget",
+          "left": 160,
+          "top": 156,
+          "width": 65,
+          "height": 30,
+          "customInputs": [],
+          "customOutputs": [],
+          "style": {
+            "objID": "f4925997-9ab4-4787-9c0b-0ca396442d89",
+            "useStyle": "default",
+            "childStyles": []
+          },
+          "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "245dad2d-a906-4910-c063-32c409359614",
+              "eventName": "PRESSED",
+              "handlerType": "flow",
+              "action": "getdropdownindex"
+            }
+          ],
+          "leftUnit": "px",
+          "topUnit": "px",
+          "widthUnit": "px",
+          "heightUnit": "px",
+          "children": [
+            {
+              "objID": "9b597dd0-2b91-4d32-90b3-d7639e2fa897",
+              "type": "LVGLLabelWidget",
+              "left": 0,
+              "top": 0,
+              "width": 65,
+              "height": 20,
+              "customInputs": [],
+              "customOutputs": [],
+              "style": {
+                "objID": "19227229-961c-4be0-a857-c98f7f2dcee2",
+                "useStyle": "default",
+                "childStyles": []
+              },
+              "timeline": [],
+              "eventHandlers": [],
+              "leftUnit": "px",
+              "topUnit": "px",
+              "widthUnit": "px",
+              "heightUnit": "px",
+              "children": [],
+              "flags": "PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLLABLE|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_CHAIN",
+              "hiddenFlagType": "literal",
+              "clickableFlagType": "literal",
+              "scrollbarMode": "auto",
+              "scrollDirection": "all",
+              "checkedStateType": "literal",
+              "disabledStateType": "literal",
+              "states": "",
+              "localStyles": {
+                "objID": "4f80078f-b68c-4cf9-ce30-f027c6147285",
+                "definition": {
+                  "MAIN": {
+                    "DEFAULT": {
+                      "align": "CENTER"
+                    }
+                  }
+                }
+              },
+              "text": "OTPset + \"\\u00B0C\"",
+              "textType": "expression",
+              "longMode": "CLIP",
+              "recolor": false
+            }
+          ],
+          "flags": "PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLL_ELASTIC|SCROLL_ON_FOCUS|SCROLL_MOMENTUM|SCROLL_CHAIN",
+          "hiddenFlagType": "literal",
+          "clickableFlag": true,
+          "clickableFlagType": "literal",
+          "scrollbarMode": "auto",
+          "scrollDirection": "all",
+          "checkedState": "OTPstate",
+          "checkedStateType": "expression",
+          "disabledStateType": "literal",
+          "states": "",
+          "useStyle": "selectButtonRedGreen",
+          "localStyles": {
+            "objID": "f7d382f0-07fb-49e6-a5ca-b9c7c334e5fa",
+            "definition": {
+              "MAIN": {
+                "DEFAULT": {
+                  "text_align": "CENTER",
+                  "text_font": "MONTSERRAT_20"
+                }
+              }
+            }
+          }
+        },
+        {
+          "objID": "ff432d04-eb7a-42de-87f6-3debc105090e",
+          "type": "LVGLButtonWidget",
+          "left": 237,
+          "top": 156,
+          "width": 65,
+          "height": 30,
+          "customInputs": [],
+          "customOutputs": [],
+          "style": {
+            "objID": "b289d1a0-e489-40cc-a365-46f571073af1",
+            "useStyle": "default",
+            "childStyles": []
+          },
+          "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "38b0a717-80e1-402b-96e9-5e65203db795",
+              "eventName": "PRESSED",
+              "handlerType": "flow",
+              "action": "getdropdownindex"
+            }
+          ],
+          "leftUnit": "px",
+          "topUnit": "px",
+          "widthUnit": "px",
+          "heightUnit": "px",
+          "children": [
+            {
+              "objID": "d0404985-0bd2-4c5f-ccc6-3af7fe580873",
+              "type": "LVGLLabelWidget",
+              "left": 0,
+              "top": 0,
+              "width": 65,
+              "height": 20,
+              "customInputs": [],
+              "customOutputs": [],
+              "style": {
+                "objID": "cad690db-de6d-4e72-bdce-0ec0b7809fd1",
+                "useStyle": "default",
+                "childStyles": []
+              },
+              "timeline": [],
+              "eventHandlers": [],
+              "leftUnit": "px",
+              "topUnit": "px",
+              "widthUnit": "px",
+              "heightUnit": "px",
+              "children": [],
+              "flags": "PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLLABLE|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_CHAIN",
+              "hiddenFlagType": "literal",
+              "clickableFlagType": "literal",
+              "scrollbarMode": "auto",
+              "scrollDirection": "all",
+              "checkedStateType": "literal",
+              "disabledStateType": "literal",
+              "states": "",
+              "localStyles": {
+                "objID": "f4e1aafe-0c9f-4154-d434-4fa478a41ff5",
+                "definition": {
+                  "MAIN": {
+                    "DEFAULT": {
+                      "align": "CENTER"
+                    }
+                  }
+                }
+              },
+              "text": "OTPdelay + \"s\"",
+              "textType": "expression",
+              "longMode": "CLIP",
+              "recolor": false
+            }
+          ],
+          "flags": "PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLL_ELASTIC|SCROLL_ON_FOCUS|SCROLL_MOMENTUM|SCROLL_CHAIN",
+          "hiddenFlagType": "literal",
+          "clickableFlag": true,
+          "clickableFlagType": "literal",
+          "scrollbarMode": "auto",
+          "scrollDirection": "all",
+          "checkedState": "OTPstate",
+          "checkedStateType": "expression",
+          "disabledStateType": "literal",
+          "states": "",
+          "useStyle": "selectButtonRedGreen",
+          "localStyles": {
+            "objID": "8b117b7f-cf64-42a8-ed91-3ca0852ea131",
+            "definition": {
+              "MAIN": {
+                "DEFAULT": {
+                  "text_align": "CENTER",
+                  "text_font": "MONTSERRAT_20"
+                }
+              }
+            }
+          }
+        },
+        {
           "objID": "e77f5e07-d9bb-4649-9b1d-189495459cbc",
           "type": "LVGLUserWidgetWidget",
           "left": 0,
@@ -7371,8 +7610,8 @@
         {
           "objID": "580aec27-b229-45ab-d9d0-bdd38fb3f1ef",
           "type": "SetVariableActionComponent",
-          "left": 302,
-          "top": 313,
+          "left": 237,
+          "top": 407,
           "width": 220,
           "height": 55,
           "customInputs": [],
@@ -7466,7 +7705,7 @@
           "objID": "c7170a04-919e-4fcb-dea0-73f894349db2",
           "type": "SetVariableActionComponent",
           "left": 1082,
-          "top": 113,
+          "top": 186,
           "width": 169,
           "height": 55,
           "customInputs": [
@@ -7481,6 +7720,106 @@
             {
               "objID": "2f59aa4a-88b0-4784-d2b1-fa58a815956c",
               "variable": "OPPdelay",
+              "value": "new"
+            }
+          ]
+        },
+        {
+          "objID": "c56b4760-cccd-4e94-cfc2-86cdb41f21f8",
+          "type": "SetVariableActionComponent",
+          "left": 550,
+          "top": 180,
+          "width": 171,
+          "height": 95,
+          "customInputs": [],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "b3a2530a-c0ea-4c99-d65f-9d13f87b27b9",
+              "variable": "setType",
+              "value": "13"
+            },
+            {
+              "objID": "293a6821-ba2d-442a-ebf7-e0a07183f29b",
+              "variable": "toKBvalue",
+              "value": "OTPdelay"
+            },
+            {
+              "objID": "78d784f4-e0c4-4a27-9765-83a7e57162f6",
+              "variable": "hideKeyboard",
+              "value": "false"
+            }
+          ]
+        },
+        {
+          "objID": "1c4f0aed-4ab3-459c-8333-5eab139bfc72",
+          "type": "SetVariableActionComponent",
+          "left": 1082,
+          "top": 120,
+          "width": 157,
+          "height": 55,
+          "customInputs": [
+            {
+              "objID": "e3a93ad5-1436-4d9d-e2db-2e3f51e546fb",
+              "name": "new",
+              "type": "float"
+            }
+          ],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "dbe2a39b-33a4-4d75-dd14-f6543bb68077",
+              "variable": "OTPset",
+              "value": "new"
+            }
+          ]
+        },
+        {
+          "objID": "ebea36dd-60ac-4d24-94ef-a5dbac687256",
+          "type": "SetVariableActionComponent",
+          "left": 553,
+          "top": 289,
+          "width": 171,
+          "height": 95,
+          "customInputs": [],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "7bb088ce-b603-4b8f-a583-196be6e251dd",
+              "variable": "setType",
+              "value": "8"
+            },
+            {
+              "objID": "79d0315c-8381-45ca-fe45-647f2b816a45",
+              "variable": "toKBvalue",
+              "value": "OTPset"
+            },
+            {
+              "objID": "862aacbe-e13a-4341-f47b-09ab050a71ff",
+              "variable": "hideKeyboard",
+              "value": "false"
+            }
+          ]
+        },
+        {
+          "objID": "75c14bd5-3580-4fdb-8e82-758bf0729bb8",
+          "type": "SetVariableActionComponent",
+          "left": 1082,
+          "top": 261,
+          "width": 169,
+          "height": 55,
+          "customInputs": [
+            {
+              "objID": "6c048b71-8aa2-4699-efea-9d6b610ff549",
+              "name": "new",
+              "type": "float"
+            }
+          ],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "fd0f757e-d0df-4f5b-a7a1-64a2e89f5765",
+              "variable": "OTPdelay",
               "value": "new"
             }
           ]
@@ -7591,6 +7930,34 @@
           "output": "OPPdelay",
           "target": "c7170a04-919e-4fcb-dea0-73f894349db2",
           "input": "new"
+        },
+        {
+          "objID": "2b8770f5-78a3-447a-d2db-859a757afc9b",
+          "source": "4be6c370-c2f5-4dc5-ed0f-fc3cae9ab7d5",
+          "output": "OTP",
+          "target": "1c4f0aed-4ab3-459c-8333-5eab139bfc72",
+          "input": "new"
+        },
+        {
+          "objID": "e94319a8-f73b-499f-9ec6-a28de0766d9d",
+          "source": "4be6c370-c2f5-4dc5-ed0f-fc3cae9ab7d5",
+          "output": "OTPdelay",
+          "target": "75c14bd5-3580-4fdb-8e82-758bf0729bb8",
+          "input": "new"
+        },
+        {
+          "objID": "3a4d48fd-b5d9-4821-ac55-86bda23430f7",
+          "source": "270a61d2-2de5-431f-a684-03fb3a8ac530",
+          "output": "PRESSED",
+          "target": "ebea36dd-60ac-4d24-94ef-a5dbac687256",
+          "input": "@seqin"
+        },
+        {
+          "objID": "4cf60ee1-aabf-42b0-a23e-0da8490a9e78",
+          "source": "ff432d04-eb7a-42de-87f6-3debc105090e",
+          "output": "PRESSED",
+          "target": "c56b4760-cccd-4e94-cfc2-86cdb41f21f8",
+          "input": "@seqin"
         }
       ],
       "localVariables": [
@@ -11620,7 +11987,7 @@
           "type": "SetVariableActionComponent",
           "left": 191,
           "top": -266,
-          "width": 153,
+          "width": 145,
           "height": 55,
           "customInputs": [
             {
@@ -11643,7 +12010,7 @@
           "type": "SwitchActionComponent",
           "left": 479,
           "top": 155,
-          "width": 770,
+          "width": 705,
           "height": 73,
           "customInputs": [],
           "customOutputs": [],
@@ -11668,7 +12035,7 @@
           "type": "SetVariableActionComponent",
           "left": 404,
           "top": -43,
-          "width": 250,
+          "width": 232,
           "height": 75,
           "customInputs": [],
           "customOutputs": [],
@@ -11691,7 +12058,7 @@
           "type": "SetVariableActionComponent",
           "left": 1297,
           "top": 148,
-          "width": 271,
+          "width": 251,
           "height": 75,
           "customInputs": [],
           "customOutputs": [],
@@ -11713,7 +12080,7 @@
           "type": "SetVariableActionComponent",
           "left": 1297,
           "top": 254,
-          "width": 277,
+          "width": 257,
           "height": 55,
           "customInputs": [],
           "customOutputs": [],
@@ -11730,7 +12097,7 @@
           "type": "OutputActionComponent",
           "left": 1829,
           "top": 174,
-          "width": 91,
+          "width": 89,
           "height": 24,
           "customInputs": [],
           "customOutputs": [],
@@ -11742,7 +12109,7 @@
           "type": "InputActionComponent",
           "left": 19,
           "top": -139,
-          "width": 94,
+          "width": 92,
           "height": 24,
           "customInputs": [],
           "customOutputs": [],
@@ -11754,7 +12121,7 @@
           "type": "SetVariableActionComponent",
           "left": 191,
           "top": -165,
-          "width": 223,
+          "width": 209,
           "height": 95,
           "customInputs": [
             {
@@ -11799,7 +12166,7 @@
           "type": "SwitchActionComponent",
           "left": 1596,
           "top": 148,
-          "width": 190,
+          "width": 178,
           "height": 54,
           "customInputs": [],
           "customOutputs": [],
@@ -11817,7 +12184,7 @@
           "type": "SetVariableActionComponent",
           "left": 414,
           "top": 336,
-          "width": 284,
+          "width": 263,
           "height": 95,
           "customInputs": [],
           "customOutputs": [],

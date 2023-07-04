@@ -363,8 +363,8 @@ void setup()
     myeeprom.calibrationValuesRead(state.cal.Iset->getCalConfigRef(), EEPROM_ADDR_CAL_ISET);
     myeeprom.calibrationValuesRead(state.cal.Uset->getCalConfigRef(), EEPROM_ADDR_CAL_USET);
     myeeprom.calibrationValuesRead(state.cal.Von->getCalConfigRef(), EEPROM_ADDR_CAL_VON);
-    //myeeprom.calibrationValuesRead(state.cal.Von->getCalConfigRef(), EEPROM_ADDR_CAL_OCP);
-    myeeprom.calibrationValuesRead(state.cal.Von->getCalConfigRef(), EEPROM_ADDR_CAL_OVP);
+    myeeprom.calibrationValuesRead(state.cal.OCPset->getCalConfigRef(), EEPROM_ADDR_CAL_OCP);
+    myeeprom.calibrationValuesRead(state.cal.OVPset->getCalConfigRef(), EEPROM_ADDR_CAL_OVP);
   }
   
   //vTaskDelay(50);
@@ -503,11 +503,15 @@ void taskProtHWFunction(void *pvParameters)
   uint8_t  gpiopinstate;
   bool ocptrig, ocptrig_prev = false;
   bool ovptrig, ovptrig_prev = false;
+  bool protection, protection_prev = false;
   bool von, von_prev = false;
 
   tempReadState tempReadState = tempReadState::chan2ready; 
-  int16_t temp1, temp2;
+  int16_t temp1Raw, temp2Raw;
   float Rntc1, Rntc2;
+  float temp1, temp2;
+  bool OTPStarted = false;
+  double OTPTriggerStart;
 
   VonType_e vonLatch;
 
@@ -539,14 +543,12 @@ void taskProtHWFunction(void *pvParameters)
 
     gpiopinstate = gpiokeys.digitalRead();
 
-    // TODO: implement OCP/OVP 
-    ocptrig = false; //gpiopinstate & HWIO_PIN_OCPTRIG;
+    ocptrig = gpiopinstate & 1 << HWIO_PIN_OCPTRIG; 
     ovptrig = gpiopinstate & 1 << HWIO_PIN_OVPTRIG;
     von = gpiopinstate & 1 << HWIO_PIN_VON;
 
-
-    // Something is changed
-    if (ocptrig != ocptrig_prev || ovptrig != ovptrig_prev || von != von_prev) 
+    // Something has changed
+    if (ocptrig != ocptrig_prev || ovptrig != ovptrig_prev || von != von_prev || localSetState.protection != protection_prev) 
     {
 
       // State has changed, update it.
@@ -556,6 +558,7 @@ void taskProtHWFunction(void *pvParameters)
       ocptrig_prev = ocptrig;
       ovptrig_prev = ovptrig;
       von_prev = von;
+      protection_prev = localSetState.protection;
     }
 
     // NTC temperature reading. This ADC is slow and 1 channel at a time.
@@ -569,9 +572,10 @@ void taskProtHWFunction(void *pvParameters)
     case tempReadState::chan1reading:
       if (tempadc.isReady()) 
       {
-        temp1 = tempadc.getValue();
-        Rntc1 = 1.0f/(1.0f/(NTC_R1 + NTC_R2) + tempadc.toVoltage(temp1)/(NTC_VDD * NTC_R1)) - NTC_R1;
-        state.setTemp1(NTCResistanceToTemp(Rntc1, NTC_BETA, NTC_T0, NTC_R0));
+        temp1Raw = tempadc.getValue();
+        Rntc1 = 1.0f/(1.0f/(NTC_R1 + NTC_R2) + tempadc.toVoltage(temp1Raw)/(NTC_VDD * NTC_R1)) - NTC_R1;
+        temp1 = NTCResistanceToTemp(Rntc1, NTC_BETA, NTC_T0, NTC_R0);
+        state.setTemp1(temp1);
         tempReadState = tempReadState::chan1ready;
       }
       break;
@@ -582,15 +586,38 @@ void taskProtHWFunction(void *pvParameters)
     case tempReadState::chan2reading:
       if (tempadc.isReady()) 
       {
-        temp2 = tempadc.getValue();
-        Rntc2 = 1.0f/(1.0f/(NTC_R1 + NTC_R2) + tempadc.toVoltage(temp2)/(NTC_VDD * NTC_R1)) - NTC_R1;
-        state.setTemp2(NTCResistanceToTemp(Rntc2, NTC_BETA, NTC_T0, NTC_R0));
+        temp2Raw = tempadc.getValue();
+        Rntc2 = 1.0f/(1.0f/(NTC_R1 + NTC_R2) + tempadc.toVoltage(temp2Raw)/(NTC_VDD * NTC_R1)) - NTC_R1;
+        temp2 = NTCResistanceToTemp(Rntc2, NTC_BETA, NTC_T0, NTC_R0);
+        state.setTemp2(temp2);
         tempReadState = tempReadState::chan2ready;
       }
       break;
     default:
       tempReadState = tempReadState::chan2ready;
       break;
+    }
+
+    // OTP loop
+    if (localSetState.on && max(temp1, temp2) > localSetState.OTPset)
+    {
+      if (!OTPStarted)
+      {
+        OTPTriggerStart = millis();
+        OTPStarted = true;
+      }
+      else
+      {
+        if (OTPTriggerStart + localSetState.OTPdelay * 1000 <= millis())
+        {
+          state.setProtection();
+          state.OTPtriggered();
+        }
+      }
+    }
+    else
+    {
+      OTPStarted = false;
     }
 
     // Receive changed settings.
@@ -920,6 +947,7 @@ void taskAveragingFunction(void *pvParameters)
           if (OPPTriggerStart + localOPPdelay * 1000 <= millis())
           {
             state.setProtection();
+            state.OPPtriggered();
           }
         }
       }
