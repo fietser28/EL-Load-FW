@@ -34,6 +34,11 @@ uint8_t gpio_mcp23008::digitalRead()
     return readI2C(MCP23X08_ADDR_GPIO);
 };
 
+uint8_t gpio_mcp23008::interruptFlagged()
+{
+    return readI2C(MCP23X08_ADDR_INTF);
+};
+
 uint8_t gpio_mcp23008::digitalWrites(uint8_t values)
 {
     return writeI2C(MCP23X08_ADDR_OLAT, values);

@@ -500,10 +500,10 @@ void taskProtHWFunction(void *pvParameters)
   uint32_t ulNotifiedValue;
   gpio_mcp23008 gpiokeys = gpio_mcp23008();
   adc_ads1x1x  tempadc = adc_ads1x1x();
-  uint8_t  gpiopinstate;
+  uint8_t  gpiopinstate, gpiointerruptflagged;
   bool ocptrig, ocptrig_prev = false;
   bool ovptrig, ovptrig_prev = false;
-  bool protection, protection_prev = false;
+  bool protection, protection_prev = false, protection_prev2 = false;
   bool von, von_prev = false;
 
   tempReadState tempReadState = tempReadState::chan2ready; 
@@ -529,9 +529,9 @@ void taskProtHWFunction(void *pvParameters)
   vTaskDelay(3); //TODO: remove?
   gpiokeys.pinModes(~(1 << HWIO_PIN_VONLATCH | 1 << HWIO_PIN_resetProt)); // Set output pins.
   vTaskDelay(3); //TODO: remove?
-  //gpiokeys.pinInterrupts(HWIO_PIN_OCPTRIG | HWIO_PIN_OVPTRIG | HWIO_PIN_VON, // Only relevant input pins
-  //                        0x00,  // Compare against 0
-  //                        HWIO_PIN_OCPTRIG | HWIO_PIN_OVPTRIG); // Only there are compared, other on any change
+  gpiokeys.pinInterrupts(1 << HWIO_PIN_OCPTRIG | 1 << HWIO_PIN_OVPTRIG | 1 << HWIO_PIN_VON, // Only relevant input pins
+                          0x00,  // Compare against 0
+                          1 << HWIO_PIN_OCPTRIG | 1 << HWIO_PIN_OVPTRIG); // Only these are compared, other on any change
 
   ::attachInterrupt(digitalPinToInterrupt(PIN_HWGPIO_INT), ISR_ProtHW, FALLING);
   gpiopinstate = gpiokeys.digitalRead(); //Clear interrupt pin status.
@@ -541,10 +541,11 @@ void taskProtHWFunction(void *pvParameters)
     // Notified by interrupt or wait 100ms.
     ulTaskNotifyTake(pdTRUE, (TickType_t)100); 
 
+    gpiointerruptflagged = gpiokeys.interruptFlagged();
     gpiopinstate = gpiokeys.digitalRead();
 
-    ocptrig = gpiopinstate & 1 << HWIO_PIN_OCPTRIG; 
-    ovptrig = gpiopinstate & 1 << HWIO_PIN_OVPTRIG;
+    ocptrig = (gpiopinstate & 1 << HWIO_PIN_OCPTRIG) || (gpiointerruptflagged & 1 << HWIO_PIN_OCPTRIG); 
+    ovptrig = (gpiopinstate & 1 << HWIO_PIN_OVPTRIG) || (gpiointerruptflagged & 1 << HWIO_PIN_OVPTRIG);
     von = gpiopinstate & 1 << HWIO_PIN_VON;
 
     // Something has changed
@@ -559,6 +560,7 @@ void taskProtHWFunction(void *pvParameters)
       ovptrig_prev = ovptrig;
       von_prev = von;
       protection_prev = localSetState.protection;
+
     }
 
     // NTC temperature reading. This ADC is slow and 1 channel at a time.
@@ -620,6 +622,7 @@ void taskProtHWFunction(void *pvParameters)
       OTPStarted = false;
     }
 
+
     // Receive changed settings.
     // Receive copy of state if send. Using a copy to avoid a mutex lock.
     // TODO: Changes might take the loop delay (nofity wait time) to execute. Fast enough?
@@ -634,7 +637,15 @@ void taskProtHWFunction(void *pvParameters)
         gpiokeys.digitalWrite(HWIO_PIN_VONLATCH, false); // vonLatch pin is active low in hardware!
       } else {
         gpiokeys.digitalWrite(HWIO_PIN_VONLATCH, true); // vonLatch pin is active low in hardware!
+      };
+
+      if (localSetState.protection == false && protection_prev2 == true)
+      {
+        gpiokeys.digitalWrite(HWIO_PIN_resetProt, true);
+        //vTaskDelay(1 / portTICK_PERIOD_MS);
+        gpiokeys.digitalWrite(HWIO_PIN_resetProt, false);
       }
+      protection_prev2 = localSetState.protection;
     }
   }
 };

@@ -719,7 +719,7 @@
         "objID": "07be0283-a3aa-4a67-f99a-d6a23205f99d",
         "name": "protection_triggered",
         "type": "boolean",
-        "defaultValue": "false",
+        "defaultValue": "true",
         "persistent": false,
         "native": true
       },
@@ -2788,11 +2788,14 @@
                   "bg_color": "#03bd2b"
                 },
                 "CHECKED": {
-                  "bg_color": "#ca0202"
+                  "bg_color": "#ca0202",
+                  "text_color": "#ffff00"
                 },
                 "DISABLED": {
-                  "text_color": "#000000",
-                  "text_opa": 255
+                  "text_color": "#cccccc",
+                  "text_opa": 255,
+                  "bg_color": "#111111",
+                  "bg_opa": 255
                 }
               }
             }

@@ -27,6 +27,7 @@ class gpio_mcp23008
         void begin(TwoWire *Wire, SemaphoreHandle_t WireSemaphore, uint8_t Address);
         void reset();
         uint8_t digitalRead();
+        uint8_t interruptFlagged();
         uint8_t digitalWrites(uint8_t values);
         uint8_t digitalWrite(uint8_t pin, bool value);
         uint8_t pinModes(uint8_t pins);
