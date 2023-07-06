@@ -442,6 +442,14 @@
         "native": true
       },
       {
+        "objID": "f2fe5267-d9c0-4d4a-d3e6-8a091b71f432",
+        "name": "showJoules",
+        "type": "boolean",
+        "defaultValue": "false",
+        "persistent": false,
+        "native": true
+      },
+      {
         "objID": "df91fc20-6f24-49c8-e568-c036d61f19bb",
         "name": "whmon",
         "type": "string",
@@ -3240,9 +3248,9 @@
             {
               "objID": "981043c7-7292-4e64-dfa8-e39bdd00afff",
               "type": "LVGLLabelWidget",
-              "left": 14,
+              "left": 21,
               "top": -12,
-              "width": 155,
+              "width": 148,
               "height": 21,
               "customInputs": [],
               "customOutputs": [],
@@ -3286,9 +3294,9 @@
             {
               "objID": "b20455ef-1e80-455f-81b4-39d96f80024a",
               "type": "LVGLLabelWidget",
-              "left": 14,
+              "left": 21,
               "top": 9,
-              "width": 155,
+              "width": 148,
               "height": 21,
               "customInputs": [],
               "customOutputs": [],
@@ -3298,7 +3306,14 @@
                 "childStyles": []
               },
               "timeline": [],
-              "eventHandlers": [],
+              "eventHandlers": [
+                {
+                  "objID": "6172bd64-817a-4660-9cd4-84bb63efca07",
+                  "eventName": "PRESSED",
+                  "handlerType": "flow",
+                  "action": "getdropdownindex"
+                }
+              ],
               "identifier": "Wh",
               "leftUnit": "px",
               "topUnit": "px",
@@ -3307,6 +3322,7 @@
               "children": [],
               "flags": "PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLLABLE|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_CHAIN",
               "hiddenFlagType": "literal",
+              "clickableFlag": true,
               "clickableFlagType": "literal",
               "scrollbarMode": "auto",
               "scrollDirection": "all",
@@ -5067,7 +5083,7 @@
           "objID": "97852ff0-1402-4fed-a575-32ed9a75e50d",
           "type": "SwitchActionComponent",
           "left": 289,
-          "top": 589,
+          "top": 588,
           "width": 303,
           "height": 92,
           "customInputs": [],
@@ -5113,6 +5129,23 @@
               "objID": "28c5de85-383e-402a-825e-7cd8b31e7ae9",
               "variable": "VonLatched",
               "value": "new"
+            }
+          ]
+        },
+        {
+          "objID": "d51f4b63-19ba-48de-e22b-897cb2b23532",
+          "type": "SetVariableActionComponent",
+          "left": 277,
+          "top": 705,
+          "width": 196,
+          "height": 55,
+          "customInputs": [],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "dd77e598-b19d-4e58-c5e3-0602e1305194",
+              "variable": "showJoules",
+              "value": "!showJoules"
             }
           ]
         }
@@ -5439,6 +5472,13 @@
           "output": "Unlatched",
           "target": "6e65e01b-da50-4830-d8ab-b1034de4bcae",
           "input": "new"
+        },
+        {
+          "objID": "f383f1df-413f-402b-f9e8-17cbd0217679",
+          "source": "b20455ef-1e80-455f-81b4-39d96f80024a",
+          "output": "PRESSED",
+          "target": "d51f4b63-19ba-48de-e22b-897cb2b23532",
+          "input": "@seqin"
         }
       ],
       "localVariables": [

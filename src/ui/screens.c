@@ -62,6 +62,14 @@ static void event_handler_cb_main_obj7(lv_event_t *e) {
     }
 }
 
+static void event_handler_cb_main_wh(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = e->user_data;
+    if (event == LV_EVENT_PRESSED) {
+        flowPropagateValue(flowState, 15, 0);
+    }
+}
+
 static void event_handler_cb_main_obj9(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
@@ -714,8 +722,8 @@ void create_screen_main() {
                     // Ah
                     lv_obj_t *obj = lv_label_create(parent_obj);
                     objects.ah = obj;
-                    lv_obj_set_pos(obj, 14, -12);
-                    lv_obj_set_size(obj, 155, 21);
+                    lv_obj_set_pos(obj, 21, -12);
+                    lv_obj_set_size(obj, 148, 21);
                     lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
                     lv_label_set_text(obj, "");
                     apply_style_small_label(obj);
@@ -725,10 +733,12 @@ void create_screen_main() {
                     // Wh
                     lv_obj_t *obj = lv_label_create(parent_obj);
                     objects.wh = obj;
-                    lv_obj_set_pos(obj, 14, 9);
-                    lv_obj_set_size(obj, 155, 21);
+                    lv_obj_set_pos(obj, 21, 9);
+                    lv_obj_set_size(obj, 148, 21);
                     lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
                     lv_label_set_text(obj, "");
+                    lv_obj_add_event_cb(obj, event_handler_cb_main_wh, LV_EVENT_ALL, flowState);
+                    lv_obj_add_flag(obj, LV_OBJ_FLAG_CLICKABLE);
                     apply_style_small_label(obj);
                     lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_RIGHT, LV_PART_MAIN | LV_STATE_DEFAULT);
                 }

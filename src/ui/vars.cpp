@@ -113,13 +113,27 @@ const char *get_var_ahmon() {
 
 char whstring[16];
 float lastws = -1;
+bool lastWhShowJoules = true;
+bool whShowJoules = false;
+
+bool get_var_show_joules() { return whShowJoules; };
+void set_var_show_joules(bool value) {
+  whShowJoules = value;
+};
 
 void set_var_whmon(const char *value) {  };
 const char *get_var_whmon() {
-    if (localstatecopy.Ws != lastws) {
-    //snprintf((char *)whstring, 10,"%.3f", (localstatecopy.Ws/3600.0f));
-    value2str(whstring, localstatecopy.Ws / 3600.0f, -3, 6, 3, true, "Wh");
+    if (localstatecopy.Ws != lastws || whShowJoules != lastWhShowJoules) {
+      if (whShowJoules) 
+      {
+        value2str(whstring, localstatecopy.Ws, -3, 6, 3, true, "J");
+      } 
+      else 
+      {
+        value2str(whstring, localstatecopy.Ws / 3600.0f, -3, 6, 3, true, "Wh");
+      }
     lastws = localstatecopy.Ws;
+    lastWhShowJoules = whShowJoules;
     }
     return (char *)whstring;
 };

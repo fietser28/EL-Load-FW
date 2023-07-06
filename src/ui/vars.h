@@ -73,6 +73,8 @@ extern const char *get_var_rmon();
 extern void set_var_rmon(const char *value);
 extern const char *get_var_ahmon();
 extern void set_var_ahmon(const char *value);
+extern bool get_var_show_joules();
+extern void set_var_show_joules(bool value);
 extern const char *get_var_whmon();
 extern void set_var_whmon(const char *value);
 extern const char *get_var_montime();
