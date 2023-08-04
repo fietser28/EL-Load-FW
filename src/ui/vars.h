@@ -35,6 +35,14 @@ typedef enum {
     VonType_e_Inhibit = 2
 } VonType_e;
 
+typedef enum {
+    setTypes_e_current = 0,
+    setTypes_e_voltage = 1,
+    setTypes_e_power = 2,
+    setTypes_e_resistance = 3,
+    setTypes_e_von = 4
+} setTypes_e;
+
 // For calibration actions
 extern calType_e cal_calType;
 extern int32_t cal_curpoint;
@@ -52,7 +60,10 @@ enum FlowGlobalVariables {
     FLOW_GLOBAL_VARIABLE_SET_TYPE = 4,
     FLOW_GLOBAL_VARIABLE_PREFIXES = 5,
     FLOW_GLOBAL_VARIABLE_CAL_DATA = 6,
-    FLOW_GLOBAL_VARIABLE_VON_LATCHED_TEXT = 7
+    FLOW_GLOBAL_VARIABLE_VON_LATCHED_TEXT = 7,
+    FLOW_GLOBAL_VARIABLE_FAN_MODE_AUTO = 8,
+    FLOW_GLOBAL_VARIABLE_FAN_SET_SPEED = 9,
+    FLOW_GLOBAL_VARIABLE_FAN_READ_SPEED = 10
 };
 
 // Native global variables

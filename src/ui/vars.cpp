@@ -265,7 +265,10 @@ void set_var_ot_pdelay(float value)
   state.setOTPdelay(value);
 };
 
-bool get_var_protection_triggered() { return localsetcopy.protection; };
+bool get_var_protection_triggered() { 
+  return localsetcopy.protection || localstatecopy.OCPstate || localstatecopy.OVPstate || localstatecopy.OPPstate || localstatecopy.OTPstate; 
+};
+
 void set_var_protection_triggered(bool value) 
 { 
   state.clearProtection();
