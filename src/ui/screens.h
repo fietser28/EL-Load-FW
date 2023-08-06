@@ -133,9 +133,11 @@ typedef struct _objects_t {
     lv_obj_t *obj95;
     lv_obj_t *obj96;
     lv_obj_t *obj97;
-    lv_obj_t *obj97__obj86;
-    lv_obj_t *obj97__obj87;
-    lv_obj_t *obj97__obj88;
+    lv_obj_t *obj98;
+    lv_obj_t *obj99;
+    lv_obj_t *obj99__obj86;
+    lv_obj_t *obj99__obj87;
+    lv_obj_t *obj99__obj88;
     lv_obj_t *on_off_button;
     lv_obj_t *power_panel;
     lv_obj_t *protection_and_temp;

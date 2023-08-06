@@ -788,24 +788,27 @@
       },
       {
         "objID": "d6faa9b1-74cf-457b-ddf6-a18afd063058",
-        "name": "fanModeAuto",
+        "name": "fanModeManual",
         "type": "boolean",
-        "defaultValue": "true",
-        "persistent": false
+        "defaultValue": "false",
+        "persistent": false,
+        "native": true
       },
       {
         "objID": "b27de476-55ff-4419-e2d5-24bc240f5748",
         "name": "fanSetSpeed",
         "type": "integer",
         "defaultValue": "100",
-        "persistent": false
+        "persistent": false,
+        "native": true
       },
       {
         "objID": "88b71f08-97a6-44ba-c102-66543ec325b0",
         "name": "fanReadSpeed",
         "type": "integer",
         "defaultValue": "0",
-        "persistent": false
+        "persistent": false,
+        "native": true
       }
     ],
     "structures": [
@@ -4463,7 +4466,7 @@
           "objID": "51d92c14-d39a-49d2-b93b-5f186e8a3047",
           "type": "SetVariableActionComponent",
           "left": 939,
-          "top": -669,
+          "top": -688,
           "width": 146,
           "height": 95,
           "customInputs": [],
@@ -4490,7 +4493,7 @@
           "objID": "bbb3fe04-4937-4b77-ffd0-f50d8233e56e",
           "type": "SetVariableActionComponent",
           "left": 939,
-          "top": -556,
+          "top": -575,
           "width": 146,
           "height": 95,
           "customInputs": [],
@@ -4517,7 +4520,7 @@
           "objID": "15a2cc76-dd80-4017-98ad-58a025684f84",
           "type": "SetVariableActionComponent",
           "left": 939,
-          "top": -439,
+          "top": -458,
           "width": 146,
           "height": 95,
           "customInputs": [],
@@ -4544,7 +4547,7 @@
           "objID": "c865b644-58e9-4b67-fd26-a04bb01c9c5e",
           "type": "SetVariableActionComponent",
           "left": 939,
-          "top": -317,
+          "top": -336,
           "width": 146,
           "height": 95,
           "customInputs": [],
@@ -5332,14 +5335,26 @@
         {
           "objID": "587ae850-9a05-479e-dc1a-66d9de09a782",
           "type": "DelayActionComponent",
-          "left": 591,
-          "top": -309,
+          "left": 689,
+          "top": -323,
           "width": 87,
           "height": 54,
           "customInputs": [],
           "customOutputs": [],
-          "description": "BUG or strange race condition",
+          "description": "BUG or strange race condition?",
           "milliseconds": "1000"
+        },
+        {
+          "objID": "abcab6e4-eb4c-4e68-e259-2cde123b8e07",
+          "type": "CommentActionComponent",
+          "left": 776,
+          "top": -226,
+          "width": 435,
+          "height": 80,
+          "customInputs": [],
+          "customOutputs": [],
+          "description": "",
+          "text": "<div><!--block-->setValue will not get updated on real display if this delay is not present. Simulation in studio behaves different. Maybe due to keygroup or other lvgl thing?</div>"
         }
       ],
       "connectionLines": [
@@ -11525,7 +11540,7 @@
         {
           "objID": "05f0c889-c99f-4a3f-f8f9-464467d941af",
           "type": "LVGLActionComponent",
-          "left": 1076,
+          "left": 1138,
           "top": 210,
           "width": 256,
           "height": 54,
@@ -11602,15 +11617,15 @@
           "type": "SetVariableActionComponent",
           "left": 398,
           "top": -184,
-          "width": 183,
-          "height": 95,
+          "width": 189,
+          "height": 135,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
             {
               "objID": "d1bf261e-2a12-4038-eedd-892a215a5636",
               "variable": "newMode",
-              "value": "fanModeAuto"
+              "value": "fanModeManual"
             },
             {
               "objID": "6385c33f-6e75-4a6b-ef06-6ddc42e2eccb",
@@ -11620,7 +11635,17 @@
             {
               "objID": "83b27e3c-734b-4033-ce2d-5a9d1385d2ed",
               "variable": "newSpeed",
-              "value": "NPLC"
+              "value": "fanSetSpeed"
+            },
+            {
+              "objID": "0bc0e9ec-bf55-4838-9a4f-29b2a99faa6c",
+              "variable": "oldMode",
+              "value": "fanModeManual"
+            },
+            {
+              "objID": "3c1e5d79-9763-481b-8e84-c6e4cde5d217",
+              "variable": "oldSpeed",
+              "value": "fanSetSpeed"
             }
           ]
         },
@@ -11719,14 +11744,14 @@
           "type": "SetVariableActionComponent",
           "left": 362,
           "top": 511,
-          "width": 183,
+          "width": 189,
           "height": 95,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
             {
               "objID": "d9d5a005-fd09-4074-9ddd-cbb638f4b508",
-              "variable": "fanModeAuto",
+              "variable": "fanModeManual",
               "value": "newMode"
             },
             {
@@ -11807,7 +11832,14 @@
             "childStyles": []
           },
           "timeline": [],
-          "eventHandlers": [],
+          "eventHandlers": [
+            {
+              "objID": "8afb8ce3-7f91-42ef-c94d-055e6530569f",
+              "eventName": "SCREEN_LOADED",
+              "handlerType": "flow",
+              "action": "getdropdownindex"
+            }
+          ],
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -12095,7 +12127,8 @@
           "heightUnit": "px",
           "children": [],
           "flags": "PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE",
-          "hiddenFlagType": "literal",
+          "hiddenFlag": "!newMode",
+          "hiddenFlagType": "expression",
           "clickableFlag": true,
           "clickableFlagType": "literal",
           "scrollbarMode": "auto",
@@ -12106,7 +12139,7 @@
           "localStyles": {
             "objID": "b4572af2-3978-469b-dd09-e2aa603f46b8"
           },
-          "min": 1,
+          "min": 0,
           "max": 100,
           "mode": "NORMAL",
           "value": "newSpeed",
@@ -12181,7 +12214,8 @@
           "heightUnit": "content",
           "children": [],
           "flags": "PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLLABLE|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_CHAIN",
-          "hiddenFlagType": "literal",
+          "hiddenFlag": "!newMode",
+          "hiddenFlagType": "expression",
           "clickableFlagType": "literal",
           "scrollbarMode": "auto",
           "scrollDirection": "all",
@@ -12317,7 +12351,8 @@
           "heightUnit": "content",
           "children": [],
           "flags": "SNAPPABLE|SCROLLABLE|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_CHAIN",
-          "hiddenFlagType": "literal",
+          "hiddenFlag": "!newMode",
+          "hiddenFlagType": "expression",
           "clickableFlagType": "literal",
           "scrollbarMode": "auto",
           "scrollDirection": "all",
@@ -12344,9 +12379,9 @@
         {
           "objID": "bbca1468-59b0-43cd-a78e-38a5f2cb048a",
           "type": "SetVariableActionComponent",
-          "left": 422,
-          "top": 31,
-          "width": 478,
+          "left": 417,
+          "top": -9,
+          "width": 490,
           "height": 55,
           "customInputs": [],
           "customOutputs": [],
@@ -12354,7 +12389,7 @@
             {
               "objID": "08685000-2b98-4a5f-8074-ee940642f9af",
               "variable": "unsavedChanges",
-              "value": "(newMode != fanModeAuto) || (fanSetSpeed != newSpeed)"
+              "value": "(newMode != fanModeManual) || (fanSetSpeed != newSpeed)"
             }
           ]
         },
@@ -12374,7 +12409,7 @@
         {
           "objID": "48a73350-544f-4c4b-dee7-2a40864afc53",
           "type": "SetVariableActionComponent",
-          "left": 907,
+          "left": 978,
           "top": 209,
           "width": 128,
           "height": 55,
@@ -12456,7 +12491,7 @@
         {
           "objID": "697ee336-6e0e-4a36-b732-8911f2531d54",
           "type": "IsTrueActionComponent",
-          "left": 709,
+          "left": 835,
           "top": -184,
           "width": 87,
           "height": 70,
@@ -12467,8 +12502,8 @@
         {
           "objID": "4ec56d77-7c65-49c9-964a-dd30fa0401da",
           "type": "NoopActionComponent",
-          "left": 934,
-          "top": -162,
+          "left": 978,
+          "top": -160,
           "width": 87,
           "height": 24,
           "customInputs": [],
@@ -12478,8 +12513,8 @@
         {
           "objID": "6d2504a1-fcb5-4ebb-a532-2d80e896a992",
           "type": "SetVariableActionComponent",
-          "left": 459,
-          "top": 101,
+          "left": 457,
+          "top": 82,
           "width": 128,
           "height": 55,
           "customInputs": [],
@@ -12489,6 +12524,40 @@
               "objID": "e37a703f-efa2-487d-cd87-91984e2dab56",
               "variable": "hideYN",
               "value": "true"
+            }
+          ]
+        },
+        {
+          "objID": "8ea773ea-f887-4eeb-f077-944318feb650",
+          "type": "SetVariableActionComponent",
+          "left": 622,
+          "top": 62,
+          "width": 189,
+          "height": 55,
+          "customInputs": [],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "81d0f31b-7164-4c59-8e61-e39894471faa",
+              "variable": "fanModeManual",
+              "value": "newMode"
+            }
+          ]
+        },
+        {
+          "objID": "c66b6bdc-f415-4c4a-b623-eae0e2d5a815",
+          "type": "SetVariableActionComponent",
+          "left": 634,
+          "top": 154,
+          "width": 183,
+          "height": 55,
+          "customInputs": [],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "52a9f200-263b-46e0-d5df-e45f83dfdfad",
+              "variable": "fanSetSpeed",
+              "value": "newSpeed"
             }
           ]
         }
@@ -12605,12 +12674,40 @@
           "output": "1bbf9e89-a893-42ee-aab0-e92dc1c53c55",
           "target": "6d2504a1-fcb5-4ebb-a532-2d80e896a992",
           "input": "@seqin"
+        },
+        {
+          "objID": "92d1ca28-9cb6-4355-be48-ba1d0a6feb79",
+          "source": "2ea5af2c-f37f-46c6-d189-6abe06084058",
+          "output": "VALUE_CHANGED",
+          "target": "8ea773ea-f887-4eeb-f077-944318feb650",
+          "input": "@seqin"
+        },
+        {
+          "objID": "56bf2cc9-9786-4ea9-a391-5b0faf475f4c",
+          "source": "40852e71-1485-47f8-8ab9-f4ca45674b44",
+          "output": "VALUE_CHANGED",
+          "target": "c66b6bdc-f415-4c4a-b623-eae0e2d5a815",
+          "input": "@seqin"
+        },
+        {
+          "objID": "4894db50-7522-432e-ea80-537bf2312102",
+          "source": "8f1dae48-5a0d-477c-b32d-d9e95b078da5",
+          "output": "SCREEN_LOADED",
+          "target": "e3338447-0a9d-4f73-9116-d9e04d09f005",
+          "input": "@seqin"
         }
       ],
       "localVariables": [
         {
           "objID": "58c5eb58-1185-4c72-a826-5ff6f957338a",
           "name": "newMode",
+          "type": "boolean",
+          "defaultValue": "false",
+          "persistent": false
+        },
+        {
+          "objID": "ae64e34c-990d-4f8a-90df-0a5e7dd5353c",
+          "name": "oldMode",
           "type": "boolean",
           "defaultValue": "false",
           "persistent": false
@@ -12627,6 +12724,13 @@
           "name": "newSpeed",
           "type": "integer",
           "defaultValue": "10",
+          "persistent": false
+        },
+        {
+          "objID": "907feae5-bf9b-4db5-8103-74df575320b2",
+          "name": "oldSpeed",
+          "type": "integer",
+          "defaultValue": "0",
           "persistent": false
         },
         {

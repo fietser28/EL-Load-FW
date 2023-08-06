@@ -29,6 +29,7 @@ namespace dcl
         bool OTPstate;
         float Temp1;
         float Temp2;
+        uint32_t FanRPM;
     };
 
     enum ELmode
@@ -74,6 +75,8 @@ namespace dcl
         float OTPdelay;
         float OPPset;
         float OPPdelay;
+        bool FanAuto;
+        uint8_t FanManualSpeed;
     };
 
 #ifdef __cplusplus
@@ -120,6 +123,9 @@ public:
     bool OPPtriggered();
     bool setTemp1(float temp);
     bool setTemp2(float temp);
+    bool setFanRPMread(uint32_t rpm);
+    bool setFanAuto(bool value);
+    bool setFanPWM(uint8_t rpm);
     bool clearPower();
     bool clearProtection();
     bool setProtection();

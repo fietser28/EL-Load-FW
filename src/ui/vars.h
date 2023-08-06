@@ -60,10 +60,7 @@ enum FlowGlobalVariables {
     FLOW_GLOBAL_VARIABLE_SET_TYPE = 4,
     FLOW_GLOBAL_VARIABLE_PREFIXES = 5,
     FLOW_GLOBAL_VARIABLE_CAL_DATA = 6,
-    FLOW_GLOBAL_VARIABLE_VON_LATCHED_TEXT = 7,
-    FLOW_GLOBAL_VARIABLE_FAN_MODE_AUTO = 8,
-    FLOW_GLOBAL_VARIABLE_FAN_SET_SPEED = 9,
-    FLOW_GLOBAL_VARIABLE_FAN_READ_SPEED = 10
+    FLOW_GLOBAL_VARIABLE_VON_LATCHED_TEXT = 7
 };
 
 // Native global variables
@@ -156,6 +153,12 @@ extern bool get_var_ot_pstate();
 extern void set_var_ot_pstate(bool value);
 extern bool get_var_op_pstate();
 extern void set_var_op_pstate(bool value);
+extern bool get_var_fan_mode_manual();
+extern void set_var_fan_mode_manual(bool value);
+extern int32_t get_var_fan_set_speed();
+extern void set_var_fan_set_speed(int32_t value);
+extern int32_t get_var_fan_read_speed();
+extern void set_var_fan_read_speed(int32_t value);
 
 
 #ifdef __cplusplus

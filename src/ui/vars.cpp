@@ -389,3 +389,22 @@ void set_var_ot_pstate(bool value) {}; // Read only.
 
 bool get_var_op_pstate() { return localstatecopy.OPPstate; };
 void set_var_op_pstate(bool value) {}; // Read only.
+
+bool get_var_fan_mode_manual() { return !localsetcopy.FanAuto; };
+void set_var_fan_mode_manual(bool value) 
+{
+  state.setFanAuto(!value);
+};
+
+int32_t get_var_fan_set_speed() 
+{ 
+  return localsetcopy.FanManualSpeed/2.55; 
+};
+
+void set_var_fan_set_speed(int32_t value)
+{
+  state.setFanPWM(value * 2.55);
+};
+
+int32_t get_var_fan_read_speed() { return localstatecopy.FanRPM; };
+void set_var_fan_read_speed(int32_t value) {}; // Read only.

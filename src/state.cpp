@@ -52,6 +52,8 @@ namespace dcl
                 _setState.CalibrationOVPset = false;
                 _setState.protection = false;
                 _setState.VonLatched = VonType_e_Unlatched;
+                _setState.FanManualSpeed = 128;
+                _setState.FanAuto = true;
                 xSemaphoreGive(_setStateMutex);
                 //updateAverageTask();
                 updateHWIOTask();
@@ -249,6 +251,60 @@ namespace dcl
             }
         }
         return false;
+    };
+
+    bool stateManager::setFanRPMread(uint32_t rpm)
+    {
+        if (_measuredStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_measuredStateMutex, (TickType_t)100) == pdTRUE)
+            {
+                _measuredState.FanRPM = rpm;
+                xSemaphoreGive(_measuredStateMutex);
+                return true;
+            }
+        }
+        return false;
+    };
+
+    bool stateManager::setFanAuto(bool value)
+    {
+       uint8_t currentPWM = 0;
+       if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
+            {
+                _setState.FanAuto = value;
+                currentPWM = _setState.FanManualSpeed; 
+                xSemaphoreGive(_setStateMutex);
+            }
+        }
+        if (value) {
+            // Auto
+            fancontrol.setPWMDCRamp(fan_max31760::PWM_DC_RAMP_SLOW);
+        } else {
+            // Manual
+            fancontrol.setPWMDCRamp(fan_max31760::PWM_DC_RAMP_FAST);    
+        }
+        fancontrol.setDirectFanControl(!value);
+        if (value) {
+            fancontrol.setPWM(currentPWM);
+        }
+        return true;
+    };
+
+    bool stateManager::setFanPWM(uint8_t rpm)
+    {
+       if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
+            {
+                _setState.FanManualSpeed = rpm;
+                xSemaphoreGive(_setStateMutex);
+            }
+        }
+        fancontrol.setPWM(rpm);
+        return true;
     };
 
     // Send message to averaging task to clear the power measurements.

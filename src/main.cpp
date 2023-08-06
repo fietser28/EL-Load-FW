@@ -21,6 +21,7 @@
 #include "eeprom.h"
 #include "gpio_mcp23008.h"
 #include "adc_ads1x1x.h"   // For temp sensors
+#include "fan_max31760.h"
 
 // Fixes lvgl include. TODO: remove?
 #include "LittleFS.h"
@@ -72,6 +73,8 @@ dac_dac8555 OVPSetDAC = dac_dac8555(SPI_DAC1, PIN_DAC1_CS, 1);
 dac_dac8555 uSetDAC = dac_dac8555(SPI_DAC2, PIN_DAC2_CS, 0);
 
 dcl::eeprom::eeprom myeeprom = dcl::eeprom::eeprom();
+
+fan_max31760 fancontrol = fan_max31760();
 
 // Global state manager
 stateManager state;
@@ -472,7 +475,7 @@ void loop()
 //  cyclecount = rp2040.getCycleCount64()/rp2040.f_cpu();
   cyclecount++;
   //SERIALDEBUG.printf("Heap total: %d, used: %d, free:  %d, uptime: %d, ADC0: %i, ADC1: %i, %d\n", heaptotal, heapused, heapfree, cyclecount, loopmystate.avgCurrentRaw, loopmystate.avgVoltRaw, loopmystate.avgCurrentRaw < 0 ? 1 : 0);
-  SERIALDEBUG.printf("Temp1: %f, Temp2: %f, uptime: %d, Mode: %d, VonSet: %f, CAL: %d\n", loopmystate.Temp1, loopmystate.Temp2, cyclecount, loopmysetstate.mode, loopmysetstate.VonSet, loopmysetstate.CalibrationVonSet);
+  SERIALDEBUG.printf("Temp1: %f, Temp2: %f, uptime: %d, Mode: %d, VonSet: %f, RPM: %d\n", loopmystate.Temp1, loopmystate.Temp2, cyclecount, loopmysetstate.mode, loopmysetstate.VonSet, loopmystate.FanRPM);
   snprintf(logtxt, 120, "Heap total: %d\nHeap used: %d\nHeap free:  %d\nADC0: %d\n", heaptotal, heapused, heapfree, loopmystate.avgCurrentRaw);
   vTaskDelay(ondelay);
 }
@@ -500,6 +503,7 @@ void taskProtHWFunction(void *pvParameters)
   uint32_t ulNotifiedValue;
   gpio_mcp23008 gpiokeys = gpio_mcp23008();
   adc_ads1x1x  tempadc = adc_ads1x1x();
+
   uint8_t  gpiopinstate, gpiointerruptflagged;
   bool ocptrig, ocptrig_prev = false;
   bool ovptrig, ovptrig_prev = false;
@@ -513,6 +517,9 @@ void taskProtHWFunction(void *pvParameters)
   bool OTPStarted = false;
   double OTPTriggerStart;
 
+  bool fanAutoStopped = false;
+  bool fanAutoZero = false;
+
   VonType_e vonLatch;
 
   setStateStruct changeMsg;
@@ -522,6 +529,46 @@ void taskProtHWFunction(void *pvParameters)
 
   // Setup Temp ADC
   tempadc.begin(&I2C_TEMPADC, I2C_TEMPADC_SEM, TEMPADC_ADDRESS);
+
+  // Setup fan controller (and temp measurement)
+  fancontrol.begin(&I2C_FANCTRL, I2C_FANCTRL_SEM, FANCTRL_ADDRESS);
+  vTaskDelay(1); // Wait for chip reset.??? TODO
+  fancontrol.enableTach2(false);
+  fancontrol.enableTach1(true); 
+  fancontrol.setFanSpinUpEnable(false);
+  fancontrol.setTachFull(true);
+  fancontrol.setPulseStretch(false);
+  fancontrol.setPWMDCRamp(fan_max31760::PWM_DC_RAMP_SLOW_MEDIUM);
+  fancontrol.setPWMFreq(fan_max31760::PWM_FREQ_25KHZ);
+  fancontrol.setPWMPolarity(fan_max31760::PWM_POLARITY_NEGATIVE);
+  fancontrol.setFFDC(30); // TODO: safe?
+
+  for (int i = 0; i<= 47; i++) {
+    // LUT0 - LUT10  <= 40C  = off
+    if (i <= 10) {
+      fancontrol.setLUT(i,30);
+      SERIALDEBUG.printf(" LUT: %2d  = %d\n", i, 0);
+    } 
+    // LUT11 - LUT26 (42 - )= PWM 10% - 95%  => increment of 5 per LUT.
+    if (i > 10 && i <= 26) {
+      uint8_t dc = 25 + (i-10)*10;
+      fancontrol.setLUT(i,dc);
+      SERIALDEBUG.printf(" LUT: %2d  = %d\n", i, dc);
+    } 
+    // LUT27 - LUT 47 >= 70C = 100%
+    if (i >26) {
+      fancontrol.setLUT(i, 255);
+      SERIALDEBUG.printf(" LUT: %2d  = %d\n", i, 255);
+    } 
+  }
+    
+//  fancontrol.setFanSpinUpEnable(true);
+//  fancontrol.setPWM(64);
+//  fancontrol.setDirectFanControl(true);
+//  fancontrol.setPWM(64);
+  fancontrol.clearFanFail();
+  state.setFanPWM(128);
+  state.setFanAuto(true);
 
   // Setup HW GPIO extender
   pinMode(PIN_HWGPIO_INT, INPUT);
@@ -565,6 +612,7 @@ void taskProtHWFunction(void *pvParameters)
 
     // NTC temperature reading. This ADC is slow and 1 channel at a time.
     // Using a small state machine without busy loops to check where we are.
+    /*
     switch (tempReadState)
     {
     case tempReadState::chan2ready:
@@ -577,7 +625,7 @@ void taskProtHWFunction(void *pvParameters)
         temp1Raw = tempadc.getValue();
         Rntc1 = 1.0f/(1.0f/(NTC_R1 + NTC_R2) + tempadc.toVoltage(temp1Raw)/(NTC_VDD * NTC_R1)) - NTC_R1;
         temp1 = NTCResistanceToTemp(Rntc1, NTC_BETA, NTC_T0, NTC_R0);
-        state.setTemp1(temp1);
+        //state.setTemp1(temp1);
         tempReadState = tempReadState::chan1ready;
       }
       break;
@@ -598,6 +646,42 @@ void taskProtHWFunction(void *pvParameters)
     default:
       tempReadState = tempReadState::chan2ready;
       break;
+    }
+    */
+
+    // Fan controll
+    fancontrol.getStatus();
+    uint32_t rpm = fancontrol.readRPM();
+    state.setFanRPMread(rpm);
+    temp1 = fancontrol.readTempRemote();
+    state.setTemp1(temp1);
+    temp2 = fancontrol.readTempLocal();
+    state.setTemp2(temp2);
+
+    // Manually stop the fan below 40C, doesn't work via LUT it keeps spinning up due to failure dection and 
+    // PWM = 0 will disable RPM readout.... TODO: Change Fan voltage in HW for PWM = 0
+    if (localSetState.FanAuto == true && fanAutoStopped == false && max(temp1, temp2) < 39 && rpm > 0)
+    {
+        fanAutoStopped = true;
+        fancontrol.setDirectFanControl(true);
+        fancontrol.setPWM(15);
+    }
+
+    if (localSetState.FanAuto == true && fanAutoStopped == true && max(temp1, temp2) > 41) 
+    {
+        fanAutoStopped = false;
+        fancontrol.setPWM(30);
+        fancontrol.setDirectFanControl(false);
+        fanAutoZero == false;
+    }
+    
+
+    // Wait for RPM measure to become 0 before setting PWM to zero
+    // 0 PWM also disables fan error detection in MAX31760
+    if (fanAutoStopped == true && fanAutoZero == false && rpm == 0)
+    {
+      fancontrol.setPWM(0);
+      fanAutoZero == true;
     }
 
     // OTP loop
