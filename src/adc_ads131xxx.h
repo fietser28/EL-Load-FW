@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2023 Jan Nieuwstad <jan.sources@nieuwstad.net>
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #ifndef ADC_ADS131XXX_H
 #define ADC_ADS131XXX_H

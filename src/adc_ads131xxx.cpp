@@ -1,3 +1,8 @@
+// SPDX-FileCopyrightText: 2023 2023 Jan Nieuwstad <jan.sources@nieuwstad.net>
+// SPDX-FileCopyrightText: 2023 Jan Nieuwstad <jan.sources@nieuwstad.net>
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 #include "adc_ads131xxx.h"
 #include "main.h"
 #include "Arduino.h"

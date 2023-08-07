@@ -1,5 +1,7 @@
+// SPDX-FileCopyrightText: 2023 Jan Nieuwstad <jan.sources@nieuwstad.net>
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-License-Identifier: MIT
-// Based on: https://github.com/nerdyscout/Arduino_MCP3x6x_Library from Stefan Herold <stefan.herold@posteo.de>
 
 #ifndef ADC_MCP3x6x_H
 #define ADC_MCP3x6x_H

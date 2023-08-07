@@ -1,0 +1,16 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: EL-Load-FW
+Upstream-Contact: Jan Nieuwstad <jan.sources@nieuwstad.net>
+Source: 
+
+Files: src/ui/*
+Copyright: $YEAR $CONTACT
+License: GPL-3.0-or-later
+
+Files: lib/Rotary/*
+Copyright: 2022 Ben Buxton <bb@cactii.net>
+License: GPL-3.0-only
+
+Files: .vscode/*
+Copyright: $YEAR $CONTACT
+License: GPL-3.0-or-later

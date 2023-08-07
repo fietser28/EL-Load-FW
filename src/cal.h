@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 Jan Nieuwstad <jan.sources@nieuwstad.net>
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 #pragma once
 #include "Arduino.h"
 #include "util.h"
