@@ -3,11 +3,21 @@
   SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
-### Introduction
+## Introduction
 
 Firmware for the EL-Load Electronic Load hardware project (URL to be included). This project is setup as a reference design to be converted in a [EEZ BB3](https://github.com/eez-open/modular-psu) module OR a standalone unit.
 
-### Hardware requirements
+## Build
+
+On Linxu/Mac OS (windows probably similar):
+Make sure platformio is installed and in your PATH and use the following commands:
+```
+git clone https://https://github.com/fietser28/el-load-fw.git
+cd el-load-fw
+pio run
+```
+
+## Hardware requirements
 
 The firmware is designed for the following hardware:
 -  [Raspberry Pi Pico RP2040 MCU](https://www.raspberrypi.com/documentation/microcontrollers/rp2040.html) (the standard [Raspberry Pi Pico](https://www.raspberrypi.com/documentation/microcontrollers/raspberry-pi-pico.html) board will work)
@@ -22,7 +32,9 @@ The firmware is designed for the following hardware:
 Most hardware and pin configurations are currently in the main.h file
 For the ADC and DAC some provisions are in place to be able to replace them with other chips.
 
-### Software setup
+If the ADC is not present FAKE_HARDWARE can be set to 1 in src/main.h to run a timer to simulate the presence of an ADC.
+
+## Software setup
 
 The firmware is using:
 - [EEZ studio](https://www.envox.eu/studio/studio-introduction/) used the Flow part of studio to design and generate the UI code and interactions
@@ -37,15 +49,15 @@ The firmware is using:
 Due to the fact most arduino libraries are not thread safe, they are exclusivly used in a single thread.
 For the chipsets local implementation are made. The I2C chips share the bus and run in different tasks, they are made thread safe.
 
-### Design
+## Design
 
-## State
+### State
 The software is structured around a central state and few tasks with different priorities. Threads receive/retrieve local copies of the state to avoid blockings. The split state (hopefully) allows to change the firmware to be used as a BB3 module (reusing the SPI interface of the display for BB3 communication).
 
 Note: writes to calibration structures in memory are NOT thread safe / protected for speed reasons. Calibration data is only written during startup OR calibration.
 
 
-## (FreeRTOS)Tasks
+### (FreeRTOS)Tasks
 High prioriry task are not blocked by lower priority task by sending messages asynchronously. The messages are picked up at the end of an iteration of the task.
 
 The task are:
@@ -59,7 +71,7 @@ The task are:
 
 There is currently NO watchdog implemented to test if the tasks are alive.
 
-## Flow
+### Flow
 
 There are several screens and a few reused widgets. The most complicated widget is the keyboard, based on a setType variable it displays content (basically from a constant structure) and checks the values for limits. The calibarion screen has a similar setup: Based on a data structure values are displayed. Due to the complex nature part of this structure and variables are implemented native.
 
