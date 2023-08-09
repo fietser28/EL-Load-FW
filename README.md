@@ -12,7 +12,7 @@ Firmware for the EL-Load Electronic Load hardware project (URL to be included). 
 On Linxu/Mac OS (windows probably similar):
 Make sure platformio is installed and in your PATH and use the following commands:
 ```
-git clone https://https://github.com/fietser28/el-load-fw.git
+git clone https://github.com/fietser28/el-load-fw.git
 cd el-load-fw
 pio run
 ```
