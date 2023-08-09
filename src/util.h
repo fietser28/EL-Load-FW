@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 Jan Nieuwstad <jan.sources@nieuwstad.net>
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 #pragma once
 
 #ifdef __cplusplus
@@ -9,7 +13,8 @@ namespace dcl
     float clamp(float x, float min, float max);
 
     /// From BB3 bb3/index.h
-    ////////////////////////
+    /// From https://github.com/eez-open/modular-psu-firmware
+    /////////////////////////////////////////////////////////
 
     /// Calibration parameters for the single point.
     struct CalibrationValuePointConfiguration

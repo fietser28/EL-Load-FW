@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 Jan Nieuwstad <jan.sources@nieuwstad.net>
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 #include <stdio.h>
 #include <string.h>
 #include "util.h"
@@ -5,6 +9,7 @@
 
 namespace dcl {
 
+// From https://github.com/eez-open/modular-psu-firmware
 float remap(float x, float x1, float y1, float x2, float y2) {
     return y1 + (x - x1) * (y2 - y1) / (x2 - x1);
 }
@@ -19,50 +24,10 @@ float clamp(float x, float min, float max) {
     return x;
 }
 
-// check: https://jkorpela.fi/c/eng.html
+// TODO check: https://jkorpela.fi/c/eng.html
 // for simpler/faster implementation
 
-/*
-ChatGTP version (has flaws):
 
-#include <cstring>
-#include <cmath>
-#include <cstdio>
-
-char* floatToEngineeringString(float value, int precision) {
-  char result[100];
-  char prefix[2] = "";
-  if (value == 0.0) {
-    sprintf(result, "0");
-  } else {
-    int exponent = static_cast<int>(floor(log10(fabs(value))));
-    float mantissa = value / pow(10, exponent);
-    mantissa = round(mantissa * pow(10, precision)) / pow(10, precision);
-
-    static const char* prefixes[] = {"y", "z", "a", "f", "", "", "", "k", "M", "G", "T", "P", "E", "Z", "Y"};
-    static const int prefix_exponents[] = {-24, -18, -12, -6, 0, 0, 0, 3, 6, 9, 12, 15, 18, 21, 24};
-
-    for (int i = 0; i < 15; i++) {
-      if (exponent >= prefix_exponents[i] && exponent <= prefix_exponents[i] + 3) {
-        strcpy(prefix, prefixes[i]);
-        exponent -= prefix_exponents[i];
-        break;
-      }
-    }
-
-    if (exponent >= -3 && exponent <= 2) {
-      sprintf(result, "%.*f%s", precision, mantissa, prefix);
-    } else {
-      sprintf(result, "%.*fe%d", precision, mantissa, exponent);
-    }
-  }
-
-  char* str = new char[strlen(result) + 1];
-  strcpy(str, result);
-  return str;
-}
-
-*/
 float NTCResistanceToTemp(float res, float beta, float nominalTemp, float nominalRes)
 {
   float inverseTemp = (1.0f / nominalTemp + log (res  / nominalRes) / beta);
