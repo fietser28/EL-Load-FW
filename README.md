@@ -75,7 +75,7 @@ There is currently NO watchdog implemented to test if the tasks are alive.
 
 There are several screens and a few reused widgets. The most complicated widget is the keyboard, based on a setType variable it displays content (basically from a constant structure) and checks the values for limits. The calibarion screen has a similar setup: Based on a data structure values are displayed. Due to the complex nature part of this structure and variables are implemented native.
 
-There are a lot of mappings to native variables, most are straight forward to and from the state (copy). Exeptions are the calibration structures and the formatting of the measurement values, this is done using an C implementation of the value2str action (for speed, but maybe not needed after all).
+There are a lot of mappings to native variables, most are straight forward to and from the state (copy). Exceptions are the calibration structures and the formatting of the measurement values, this is done using an C implementation of the value2str action (for speed, but maybe not needed after all).
 
 UI interactions and dynamics are mostly implemented in flow: disabling based on a changed value or a specific state are all checked for in the UI.
 
