@@ -59,10 +59,6 @@ QueueHandle_t changeAverageSettings;
 // UI task
 TaskHandle_t taskDisplay;
 
-// Workaround for reset after SWD upload
-TaskHandle_t taskBootBug;
-QueueHandle_t bootbugtestQueue;
-
 // adc_MCP3202 currentADC = adc_MCP3202(SPI_ADC, PIN_SPI0_SS, 0);
 // adc_MCP3202 voltADC = adc_MCP3202(SPI_ADC, PIN_SPI0_SS, 1);
 // adc_MCP3462 currentADC = adc_MCP3462(SPI_ADC, SPI_ADC_CS, 0);
@@ -157,43 +153,6 @@ void setup()
   I2C_KEYS.begin();
 
 
-  // TODO Workaround: Testing proper multi-core boot, otherwise reboot.
-  //////////////
-  /*
-  SERIALDEBUG.println("INFO: Core1 FreeRTOS running? (SWD restart bug)");
-  bootbugtestQueue = xQueueCreate(40, sizeof(uint8_t));
-  BaseType_t bootTaskRet = xTaskCreate(corerunningtest, "BootTest", 200, (void *)1, 5, &taskBootBug);
-  if (bootTaskRet != pdPASS)
-  {
-    SERIALDEBUG.println("FATAL: Unable to start FreeRTOS task...");
-    rp2040.reboot();
-  }
-  vTaskCoreAffinitySet(taskBootBug, 1 << 1); // Runs on core1
-
-  bool core1running = false;
-  uint8_t bootbugmsg = 0;
-  BaseType_t queueresult;
-  while (!core1running)
-  {
-    if (xQueueReceive(bootbugtestQueue, &bootbugmsg, 2000) == pdPASS)
-    {
-      core1running = true;
-    }
-    else
-    {
-      // No message from core1, reset
-      SERIALDEBUG.println("FATAL: Core1 not running, rebooting...");
-      rp2040.reboot();
-    }
-  }
-  vTaskSuspend(taskBootBug);
-  vTaskDelete(taskBootBug);
-  vTaskDelay(10);
-  vQueueDelete(bootbugtestQueue);
-  SERIALDEBUG.println("INFO: FreeRTOS@Core1 running fine.");
-  */
-  // End of multi-core boot workaround.
-  ///////////////
   /*
         // Setup SPI
         pinMode(SPI_ADC_CS, OUTPUT);
