@@ -1122,7 +1122,7 @@ void create_screen_main() {
             lv_obj_set_local_style_prop(obj, LV_STYLE_PAD_LEFT, value, LV_PART_MAIN);
             lv_obj_set_local_style_prop(obj, LV_STYLE_BG_OPA, value, LV_PART_MAIN);
             lv_obj_set_local_style_prop(obj, LV_STYLE_BORDER_WIDTH, value, LV_PART_MAIN);
-            create_user_widget_keyboard(obj, getFlowState(flowState, 62), 35);
+            create_user_widget_keyboard(obj, getFlowState(flowState, 58), 35);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
         }
     }
@@ -1372,7 +1372,7 @@ void tick_screen_main() {
         }
     }
     {
-        bool new_val = evalBooleanProperty(flowState, 62, 2, "Failed to evaluate Hidden flag");
+        bool new_val = evalBooleanProperty(flowState, 58, 2, "Failed to evaluate Hidden flag");
         bool cur_val = lv_obj_has_flag(objects.obj21, LV_OBJ_FLAG_HIDDEN);
         if (new_val != cur_val) {
             tick_value_change_obj = objects.obj21;
@@ -1381,7 +1381,7 @@ void tick_screen_main() {
             tick_value_change_obj = NULL;
         }
     }
-    tick_user_widget_keyboard(getFlowState(flowState, 62), 35);
+    tick_user_widget_keyboard(getFlowState(flowState, 58), 35);
 }
 
 void create_screen_settings() {

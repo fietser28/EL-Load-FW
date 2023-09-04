@@ -2893,13 +2893,7 @@
               "top": -10,
               "width": 160,
               "height": 36,
-              "customInputs": [
-                {
-                  "objID": "959cb7f0-fb07-4fe1-a7c8-d7e67d68d633",
-                  "name": "in",
-                  "type": "string"
-                }
-              ],
+              "customInputs": [],
               "customOutputs": [],
               "style": {
                 "objID": "0fa8e7f4-df22-4dea-b4e0-a76dec65efec",
@@ -2933,7 +2927,7 @@
               "localStyles": {
                 "objID": "4d3c1be1-f91c-4b05-a735-6e01438a7202"
               },
-              "text": "in",
+              "text": "imon",
               "textType": "expression",
               "longMode": "CLIP",
               "recolor": false
@@ -2945,13 +2939,7 @@
               "top": -13,
               "width": 160,
               "height": 36,
-              "customInputs": [
-                {
-                  "objID": "5143ec92-7343-446e-9eea-3964b37f2a25",
-                  "name": "volt",
-                  "type": "string"
-                }
-              ],
+              "customInputs": [],
               "customOutputs": [],
               "style": {
                 "objID": "0fa8e7f4-df22-4dea-b4e0-a76dec65efec",
@@ -2978,7 +2966,7 @@
               "localStyles": {
                 "objID": "4d3c1be1-f91c-4b05-a735-6e01438a7202"
               },
-              "text": "volt + \" \"",
+              "text": "umon + \" \"",
               "textType": "expression",
               "longMode": "CLIP",
               "recolor": false
@@ -2990,13 +2978,7 @@
               "top": 23,
               "width": 160,
               "height": 36,
-              "customInputs": [
-                {
-                  "objID": "7dfafbd7-d6ee-4c07-b80d-744f28f9b11d",
-                  "name": "ohm",
-                  "type": "string"
-                }
-              ],
+              "customInputs": [],
               "customOutputs": [],
               "style": {
                 "objID": "0fa8e7f4-df22-4dea-b4e0-a76dec65efec",
@@ -3023,7 +3005,7 @@
               "localStyles": {
                 "objID": "4d3c1be1-f91c-4b05-a735-6e01438a7202"
               },
-              "text": "ohm",
+              "text": "rmon",
               "textType": "expression",
               "longMode": "CLIP",
               "recolor": false
@@ -3035,13 +3017,7 @@
               "top": 23,
               "width": 160,
               "height": 36,
-              "customInputs": [
-                {
-                  "objID": "1d73e7b4-8e56-42c5-a50a-c98a057d0008",
-                  "name": "watt",
-                  "type": "string"
-                }
-              ],
+              "customInputs": [],
               "customOutputs": [],
               "style": {
                 "objID": "0fa8e7f4-df22-4dea-b4e0-a76dec65efec",
@@ -3068,7 +3044,7 @@
               "localStyles": {
                 "objID": "4d3c1be1-f91c-4b05-a735-6e01438a7202"
               },
-              "text": "watt + \" \"",
+              "text": "pmon + \" \"",
               "textType": "expression",
               "longMode": "CLIP",
               "recolor": false
@@ -3095,7 +3071,7 @@
           "left": 10,
           "top": -170,
           "width": 131,
-          "height": 73,
+          "height": 71,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -3155,6 +3131,7 @@
             "useStyle": "default",
             "childStyles": []
           },
+          "locked": true,
           "hiddenInEditor": false,
           "timeline": [],
           "eventHandlers": [
@@ -4433,7 +4410,7 @@
           "left": 618,
           "top": -461,
           "width": 168,
-          "height": 111,
+          "height": 107,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -4577,7 +4554,7 @@
           "left": 618,
           "top": -596,
           "width": 174,
-          "height": 111,
+          "height": 107,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -4740,7 +4717,7 @@
           "left": 472,
           "top": -143,
           "width": 256,
-          "height": 54,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -4760,7 +4737,7 @@
           "left": 634,
           "top": -24,
           "width": 197,
-          "height": 73,
+          "height": 71,
           "customInputs": [
             {
               "objID": "83302572-c612-4e48-8841-fbf995b31a10",
@@ -4790,54 +4767,10 @@
           "left": -205,
           "top": -197,
           "width": 87,
-          "height": 54,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "on"
-        },
-        {
-          "objID": "19a38dcc-a42d-47a5-a990-fa6e64b9324e",
-          "type": "WatchVariableActionComponent",
-          "left": -330,
-          "top": -31,
-          "width": 99,
-          "height": 54,
-          "customInputs": [],
-          "customOutputs": [],
-          "variable": "imon"
-        },
-        {
-          "objID": "355e2eb4-1d17-4d4b-9f60-0b71f5c1535f",
-          "type": "WatchVariableActionComponent",
-          "left": -212,
-          "top": -56,
-          "width": 99,
-          "height": 54,
-          "customInputs": [],
-          "customOutputs": [],
-          "variable": "umon"
-        },
-        {
-          "objID": "19d8e996-4f4c-426b-9adc-3732f74aab45",
-          "type": "WatchVariableActionComponent",
-          "left": -330,
-          "top": 27,
-          "width": 99,
-          "height": 54,
-          "customInputs": [],
-          "customOutputs": [],
-          "variable": "rmon"
-        },
-        {
-          "objID": "2525cb1b-2108-44d4-9147-62022116aab3",
-          "type": "WatchVariableActionComponent",
-          "left": -212,
-          "top": 185,
-          "width": 99,
-          "height": 54,
-          "customInputs": [],
-          "customOutputs": [],
-          "variable": "pmon"
         },
         {
           "objID": "fcdf18e8-241b-43a2-8ae2-9eead5fdfcdd",
@@ -4879,7 +4812,7 @@
           "left": 397,
           "top": 176,
           "width": 274,
-          "height": 54,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -4899,7 +4832,7 @@
           "left": 187,
           "top": 864,
           "width": 168,
-          "height": 111,
+          "height": 107,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -5040,7 +4973,7 @@
           "left": -350,
           "top": 90,
           "width": 117,
-          "height": 54,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "setType"
@@ -5051,7 +4984,7 @@
           "left": -436,
           "top": 162,
           "width": 160,
-          "height": 54,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "setValueString"
@@ -5096,7 +5029,7 @@
           "left": 784,
           "top": 128,
           "width": 341,
-          "height": 130,
+          "height": 125,
           "customInputs": [
             {
               "objID": "94cd8ee1-5719-4df6-944b-2d3a0e561bee",
@@ -5167,7 +5100,7 @@
           "left": 289,
           "top": 588,
           "width": 303,
-          "height": 92,
+          "height": 89,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -5219,7 +5152,7 @@
           "type": "SetVariableActionComponent",
           "left": 277,
           "top": 705,
-          "width": 196,
+          "width": 195,
           "height": 55,
           "customInputs": [],
           "customOutputs": [],
@@ -5339,7 +5272,7 @@
           "left": 689,
           "top": -323,
           "width": 87,
-          "height": 54,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "description": "BUG or strange race condition?",
@@ -5505,34 +5438,6 @@
           "output": "variable",
           "target": "b4a420a1-0fda-4225-8415-74c4e8282a55",
           "input": "@seqin"
-        },
-        {
-          "objID": "39250dbe-ee12-4a9e-f063-660dfc5eb8e4",
-          "source": "19a38dcc-a42d-47a5-a990-fa6e64b9324e",
-          "output": "variable",
-          "target": "98faa964-ae7e-417f-ac8d-16416aa989a3",
-          "input": "in"
-        },
-        {
-          "objID": "48e35f3f-02dd-402f-989a-ce5e1030ac69",
-          "source": "355e2eb4-1d17-4d4b-9f60-0b71f5c1535f",
-          "output": "variable",
-          "target": "4929d9a7-bc8f-4794-90d0-62c995da3884",
-          "input": "volt"
-        },
-        {
-          "objID": "d865c5d3-ee64-4874-e0b6-657567b76f88",
-          "source": "19d8e996-4f4c-426b-9adc-3732f74aab45",
-          "output": "variable",
-          "target": "e6e76329-bed2-4f8d-c5e6-2a45a95b89cc",
-          "input": "ohm"
-        },
-        {
-          "objID": "4aea0af7-1d9b-4dea-810c-e78f516259e4",
-          "source": "2525cb1b-2108-44d4-9147-62022116aab3",
-          "output": "variable",
-          "target": "86821d0e-2ca3-4b39-d1c8-c23f72dcc518",
-          "input": "watt"
         },
         {
           "objID": "cd34fa5b-af82-4a51-eec9-f86a3e7fead3",
