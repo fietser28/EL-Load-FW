@@ -304,6 +304,7 @@
       "flowSupport": true,
       "displayWidth": 320,
       "displayHeight": 240,
+      "colorFormat": "BGR",
       "targetPlatform": "Arduino-Pico on Raspberry Pi Pico with PlatformIO ",
       "resourceFiles": []
     },
@@ -1113,7 +1114,7 @@
           "type": "InputActionComponent",
           "left": -530,
           "top": -136,
-          "width": 106,
+          "width": 102,
           "height": 24,
           "customInputs": [],
           "customOutputs": [],
@@ -1125,7 +1126,7 @@
           "type": "InputActionComponent",
           "left": 1507,
           "top": -733,
-          "width": 140,
+          "width": 132,
           "height": 24,
           "customInputs": [],
           "customOutputs": [],
@@ -1137,7 +1138,7 @@
           "type": "SwitchActionComponent",
           "left": -217,
           "top": -197,
-          "width": 225,
+          "width": 210,
           "height": 73,
           "customInputs": [
             {
@@ -1168,7 +1169,7 @@
           "type": "EvalExprActionComponent",
           "left": 76,
           "top": -328,
-          "width": 681,
+          "width": 626,
           "height": 54,
           "customInputs": [
             {
@@ -1198,8 +1199,8 @@
           "type": "EvalExprActionComponent",
           "left": 2293,
           "top": -501,
-          "width": 213,
-          "height": 68,
+          "width": 199,
+          "height": 70,
           "customInputs": [
             {
               "objID": "a3fbf70e-1eeb-4224-b109-ff181327e80c",
@@ -1221,8 +1222,8 @@
           "type": "EvalExprActionComponent",
           "left": 2781,
           "top": -269,
-          "width": 466,
-          "height": 85,
+          "width": 430,
+          "height": 88,
           "customInputs": [
             {
               "objID": "8c8faa12-8e17-44b6-ea91-60a4a4c3132b",
@@ -1249,8 +1250,8 @@
           "type": "EvalExprActionComponent",
           "left": 5461,
           "top": -201,
-          "width": 522,
-          "height": 119,
+          "width": 481,
+          "height": 124,
           "customInputs": [
             {
               "objID": "8aae71c4-3fa2-4baa-d18c-ae12a42cba0e",
@@ -1287,7 +1288,7 @@
           "type": "EvalExprActionComponent",
           "left": 958,
           "top": 42,
-          "width": 169,
+          "width": 158,
           "height": 54,
           "customInputs": [
             {
@@ -1305,7 +1306,7 @@
           "type": "EvalExprActionComponent",
           "left": 1209,
           "top": -648,
-          "width": 351,
+          "width": 324,
           "height": 54,
           "customInputs": [
             {
@@ -1335,7 +1336,7 @@
           "type": "EvalExprActionComponent",
           "left": 921,
           "top": -565,
-          "width": 206,
+          "width": 193,
           "height": 54,
           "customInputs": [
             {
@@ -1353,7 +1354,7 @@
           "type": "InputActionComponent",
           "left": 1682,
           "top": -757,
-          "width": 101,
+          "width": 97,
           "height": 24,
           "customInputs": [],
           "customOutputs": [],
@@ -1365,8 +1366,8 @@
           "type": "EvalExprActionComponent",
           "left": 1932,
           "top": -800,
-          "width": 646,
-          "height": 119,
+          "width": 594,
+          "height": 124,
           "customInputs": [
             {
               "objID": "be77979c-016f-4f43-85ae-13adb73a7060",
@@ -1403,7 +1404,7 @@
           "type": "EvalExprActionComponent",
           "left": 2554,
           "top": -381,
-          "width": 186,
+          "width": 174,
           "height": 54,
           "customInputs": [
             {
@@ -1421,7 +1422,7 @@
           "type": "SwitchActionComponent",
           "left": 4268,
           "top": -432,
-          "width": 314,
+          "width": 293,
           "height": 92,
           "customInputs": [
             {
@@ -1463,7 +1464,7 @@
           "type": "EvalExprActionComponent",
           "left": 3281,
           "top": -459,
-          "width": 179,
+          "width": 168,
           "height": 54,
           "customInputs": [
             {
@@ -1481,8 +1482,8 @@
           "type": "IsTrueActionComponent",
           "left": 3513,
           "top": -352,
-          "width": 466,
-          "height": 68,
+          "width": 430,
+          "height": 70,
           "customInputs": [
             {
               "objID": "c22fd4b1-b404-4760-9352-1e07da57a836",
@@ -1504,8 +1505,8 @@
           "type": "ConstantActionComponent",
           "left": 4126,
           "top": -318,
-          "width": 88,
-          "height": 51,
+          "width": 87,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "value": "true"
@@ -1515,8 +1516,8 @@
           "type": "ConstantActionComponent",
           "left": 4126,
           "top": -248,
-          "width": 88,
-          "height": 51,
+          "width": 87,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "value": "false"
@@ -1526,7 +1527,7 @@
           "type": "EvalExprActionComponent",
           "left": 4688,
           "top": -194,
-          "width": 374,
+          "width": 346,
           "height": 54,
           "customInputs": [
             {
@@ -1543,7 +1544,7 @@
           "type": "SwitchActionComponent",
           "left": 4268,
           "top": -611,
-          "width": 811,
+          "width": 745,
           "height": 92,
           "customInputs": [
             {
@@ -1590,7 +1591,7 @@
           "type": "SetVariableActionComponent",
           "left": 2691,
           "top": -888,
-          "width": 180,
+          "width": 170,
           "height": 55,
           "customInputs": [
             {
@@ -1613,7 +1614,7 @@
           "type": "InputActionComponent",
           "left": -418,
           "top": -773,
-          "width": 88,
+          "width": 87,
           "height": 24,
           "customInputs": [],
           "customOutputs": [],
@@ -1625,7 +1626,7 @@
           "type": "EvalExprActionComponent",
           "left": -279,
           "top": -800,
-          "width": 276,
+          "width": 257,
           "height": 54,
           "customInputs": [
             {
@@ -1643,7 +1644,7 @@
           "type": "EvalExprActionComponent",
           "left": 1199,
           "top": -733,
-          "width": 213,
+          "width": 198,
           "height": 54,
           "customInputs": [
             {
@@ -1660,7 +1661,7 @@
           "type": "EvalExprActionComponent",
           "left": 3290,
           "top": -176,
-          "width": 179,
+          "width": 168,
           "height": 54,
           "customInputs": [
             {
@@ -1677,7 +1678,7 @@
           "type": "SetVariableActionComponent",
           "left": -781,
           "top": -248,
-          "width": 418,
+          "width": 389,
           "height": 75,
           "customInputs": [
             {
@@ -3132,7 +3133,7 @@
             "childStyles": []
           },
           "locked": true,
-          "hiddenInEditor": false,
+          "hiddenInEditor": true,
           "timeline": [],
           "eventHandlers": [
             {
@@ -8449,7 +8450,7 @@
           "left": 439,
           "top": 326,
           "width": 268,
-          "height": 54,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -9394,7 +9395,7 @@
           "left": -502,
           "top": 272,
           "width": 142,
-          "height": 54,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "cal_calType"
@@ -9472,8 +9473,8 @@
           "type": "LVGLLabelWidget",
           "left": 278,
           "top": 140,
-          "width": 25,
-          "height": 25,
+          "width": 26,
+          "height": 26,
           "customInputs": [],
           "customOutputs": [],
           "style": {
@@ -9558,10 +9559,11 @@
                   "text_color": "#ffff00",
                   "bg_color": "#818181",
                   "bg_opa": 255,
-                  "text_font": "MONTSERRAT_20",
+                  "text_font": "MONTSERRAT_24",
                   "text_align": "CENTER",
-                  "transform_pivot_x": 11,
-                  "transform_pivot_y": 11
+                  "transform_pivot_x": 13,
+                  "transform_pivot_y": 13,
+                  "radius": 10
                 },
                 "DISABLED": {
                   "text_color": "#cccccc"
@@ -9650,7 +9652,7 @@
             "useStyle": "default",
             "childStyles": []
           },
-          "hiddenInEditor": false,
+          "hiddenInEditor": true,
           "timeline": [],
           "eventHandlers": [],
           "leftUnit": "px",
@@ -9679,7 +9681,7 @@
           "left": -170,
           "top": 15,
           "width": 111,
-          "height": 54,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "kbType"
@@ -9690,7 +9692,7 @@
           "left": -170,
           "top": 85,
           "width": 117,
-          "height": 54,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "cal_set"
@@ -9773,7 +9775,7 @@
           "type": "CallActionActionComponent",
           "left": 215,
           "top": 466,
-          "width": 128,
+          "width": 127,
           "height": 24,
           "customInputs": [],
           "customOutputs": [],
@@ -9829,7 +9831,7 @@
           "left": 98,
           "top": 670,
           "width": 127,
-          "height": 54,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "from": "0",
@@ -9842,7 +9844,7 @@
           "left": 288,
           "top": 675,
           "width": 143,
-          "height": 70,
+          "height": 69,
           "customInputs": [],
           "customOutputs": [],
           "A": "animate",
@@ -9900,7 +9902,7 @@
           "left": 707,
           "top": 110,
           "width": 677,
-          "height": 73,
+          "height": 71,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -9935,7 +9937,7 @@
           "left": -258,
           "top": 643,
           "width": 117,
-          "height": 54,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "animate"
@@ -9946,7 +9948,7 @@
           "left": -96,
           "top": 644,
           "width": 87,
-          "height": 70,
+          "height": 69,
           "customInputs": [
             {
               "objID": "7eec595c-3b18-4365-83e7-a3e7bccb099a",
