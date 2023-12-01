@@ -83,7 +83,7 @@
 
 //#define PIN_TEMP2_ADC     27         // GPIO 27 - ADC1 => I2C for keys & hw
 #define PIN_KEYS_SCL      27
-#define PIN_HWGPIO_SCL    26
+#define PIN_HWGPIO_SCL    27
 
 //#define PIN_TEST          28  
 #define PIN_KEYS_INT        28        // GPIO 28 - MCP23008 INT signal from keys.    
