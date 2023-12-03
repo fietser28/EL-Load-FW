@@ -220,7 +220,7 @@ struct newAvgMeasurementMsg
 //#define TASK_PRIORITY_UI_TICK   5
 
 
-#define TASK_AFFINITY_MEASURE   1 << 0    // Core1
+#define TASK_AFFINITY_MEASURE   1 << 1    // Core1
 #define TASK_AFFINITY_AVERAGE   1 << 1    // Core1
 #define TASK_AFFINITY_UI        1 << 0    // Core0
 //#define TASK_AFFINITY_UI_TICK   1 << 0    // Core0
