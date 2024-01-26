@@ -17,7 +17,7 @@
 #include "fan_max31760.h"
 
 // Global Debug settings
-//#define FAKE_HARDWARE   0
+#define FAKE_HARDWARE   1
 
 /// Hardware definition
 ///////////////////////
@@ -112,13 +112,14 @@
 
 // GPIO extender (MCP23x08) for keys
 #define KEYS_CHIP_ADDRESS   0x20
-#define KEYS_PIN_ENC0       0x10     // GP4
-#define KEYS_PIN_ENC1       0x04     // GP2
-#define KEYS_PIN_ENCBUT     0x08     // GP3
-#define KEYS_PIN_BUT0       1 << 7   // GP7
-#define KEYS_PIN_BUT1       1 << 6   // GP6
-#define KEYS_PIN_BUT2       1 << 1   // GP1
-#define KEYS_PIN_BUT3       1 << 0   // GP0
+#define KEYS_PIN_ENC0       4   // GP4
+#define KEYS_PIN_ENC1       2   // GP2
+#define KEYS_PIN_ENCBUT     3   // GP3
+#define KEYS_PIN_BUT0       7   // GP7
+#define KEYS_PIN_BUT1       6   // GP6
+#define KEYS_PIN_BUT2       1   // GP1
+#define KEYS_PIN_BUT3       0   // GP0
+#define KEYS_PIN_LED0       5   // GP5 
 
 // GPIO extender (MCP23008) for hardware signals
 #define HWIO_CHIP_ADDRES    0x27

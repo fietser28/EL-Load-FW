@@ -153,6 +153,7 @@ public:
     bool updateHWIOTask();
     bool updateMeasureTask();
     bool updateAverageTask(bool clearPower = false);
+    bool updateKeysTask();
     bool pushState();
     calibration cal;
 

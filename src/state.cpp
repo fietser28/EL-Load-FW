@@ -7,6 +7,7 @@
 
 #include "main.h"
 #include "state.h"
+#include "keys.h"
 #include "ui/vars.h" // For the enum definitions
 
 namespace dcl
@@ -94,6 +95,7 @@ namespace dcl
                 updateHWIOTask();
                 updateMeasureTask();
                 updateAverageTask();
+                updateKeysTask();
                 return true;
             }
         }
@@ -110,6 +112,7 @@ namespace dcl
                 updateHWIOTask();
                 updateMeasureTask();
                 updateAverageTask();
+                updateKeysTask();
                 return true;
             }
         }
@@ -718,6 +721,12 @@ namespace dcl
             return true;
         }
         return false;
+    }
+
+    bool stateManager::updateKeysTask()
+    {
+        keys_update();
+        return true;
     }
 
 }

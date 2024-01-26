@@ -19,3 +19,5 @@ extern keystate_t keystate;
 }
 
 extern void keys_task_init(void);
+extern void keys_update(void);
+
