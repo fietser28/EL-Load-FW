@@ -27,8 +27,8 @@ TaskHandle_t guiTaskHandle;
 
 static TimerHandle_t guiTimerHandle;
 
-static const uint32_t screenWidth = TFT_WIDTH;
-static const uint32_t screenHeight = TFT_HEIGHT;
+static const uint32_t screenWidth = EEZ_WIDTH;
+static const uint32_t screenHeight = EEZ_HEIGHT;
 
 static lv_disp_draw_buf_t draw_buf;
 static lv_color_t buf[screenWidth * 10];
@@ -94,9 +94,14 @@ static void my_touchpad_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data
   {
     data->state = LV_INDEV_STATE_PR;
 
+  #ifdef TOUCH_ROTATE90
     // Set the coordinates (note the rotation X <-> Y, also scaled...)
     data->point.x = 320 - (touchX * 4) / 3;
     data->point.y = 240 - (touchY * 3) / 4;
+  #else
+    data->point.x = 320 - touchX;
+    data->point.y = 240 - touchY;
+  #endif
   }
 }
 
@@ -241,7 +246,7 @@ static void __not_in_flash_func(guiTask(void *pvParameter))
   lv_init();
 
   tft.begin();        /* TFT init */
-  tft.setRotation(3); /* Landscape orientation, flipped */
+  tft.setRotation(TFT_ROTATION); /* Landscape orientation, flipped */
   tft.initDMA();
   /*Set the touchscreen calibration data,
     the actual data for your display can be aquired using

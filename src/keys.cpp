@@ -101,7 +101,7 @@ static void encTask(void *pvParameter)
         keystate.button0 = gpioval & KEYS_PIN_BUT0 ? false : true ;
         keystate.button1 = gpioval & KEYS_PIN_BUT1 ? false : true ;
         keystate.button2 = gpioval & KEYS_PIN_BUT2 ? false : true ;
-        keystate.button3 = gpioval & KEYS_PIN_BUT3 ? false : true ;
+        keystate.button3 = gpioval & KEYS_PIN_BUT0 ? false : true ; // TODO: Fix button assignment for different setups.
 
         if( keystate.button3 != button3prev)   // Button state changed 
         {
