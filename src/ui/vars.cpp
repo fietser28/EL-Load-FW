@@ -306,8 +306,8 @@ float get_var_sample_rate()
   return localsetcopy.sampleRate;
 };
 
-void set_var_ad_c_osr(int32_t value) {};
-int32_t get_var_ad_c_osr()
+void set_var_adc_osr(int32_t value) {};
+int32_t get_var_adc_osr()
 {
   return ADC_OSR;
 

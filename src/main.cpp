@@ -152,7 +152,6 @@ void setup()
   //I2C_KEYS.setClock(400000);
   I2C_KEYS.begin();
 
-
   /*
         // Setup SPI
         pinMode(SPI_ADC_CS, OUTPUT);
@@ -172,8 +171,8 @@ void setup()
 */
 
   state.begin(); // Setup memory, mutexes and queues.
-  snprintf(logtxt, 200, "- Empty log -");
-
+  //snprintf(logtxt, 200, "- Empty log -");
+  printlogstr("OK  - Startup");
 
   // TODO: Hardcoded calibration values for now
   currentCal.numPoints = 2;
@@ -317,11 +316,27 @@ void setup()
   bool eepromMagicFound = myeeprom.magicDetect();
 
   SERIALDEBUG.printf("EEPROM detect magic: %d\n", eepromMagicFound);
+  if (eepromMagicFound) {
+    printlogstr("OK: EEPROM magic found.");
+  } else {
+    printlogstr("ERROR: No EEPROM with magic found.");
+  }
 
-  // Write magic if not found. E.g. initialize eeprom.
-//  if (!eepromMagicFound) {
-//    myeeprom.magicWrite();
-//  }
+/*
+  // Write magic if not found. E.g. initialize eeprom and write default values.
+  if (!eepromMagicFound) {
+    myeeprom.magicWrite();
+    printlogstr("INFO: EEPROM magic written?");
+    write_cal_to_eeprom(calType_e::calType_e_Imon);
+    write_cal_to_eeprom(calType_e::calType_e_Umon);
+    write_cal_to_eeprom(calType_e::calType_e_Iset);
+    write_cal_to_eeprom(calType_e::calType_e_Uset);
+    write_cal_to_eeprom(calType_e::calType_e_Von);
+    write_cal_to_eeprom(calType_e::calType_e_OCPset);
+    write_cal_to_eeprom(calType_e::calType_e_OVPset);
+    printlogstr("INFO: Default cal values stored.");
+  }
+*/
 
   if (eepromMagicFound) {
     myeeprom.calibrationValuesRead(state.cal.Imon->getCalConfigRef(), EEPROM_ADDR_CAL_IMON);
@@ -390,6 +405,7 @@ void setup()
 #ifdef FAKE_HARDWARE
   vTaskDelay(500); // Wait for tasks to start 
   SERIALDEBUG.println("INFO: Using FAKE HARDWARE ");
+  printlogstr("INFO:  Using FAKE ADC/DAC HARDWARE\n ");
   timerFakeADCInterrupt = xTimerCreate("", FAKE_HARDWARE_TIMER_TICKS, pdTRUE, ( void * ) 0, timerFakeADCInterruptFunction);
   if (timerFakeADCInterrupt == NULL ) {
     SERIALDEBUG.println("ERROR: Unable to create FakeADCTimer.");
@@ -439,7 +455,8 @@ void loop()
   cyclecount++;
   //SERIALDEBUG.printf("Heap total: %d, used: %d, free:  %d, uptime: %d, ADC0: %i, ADC1: %i, %d\n", heaptotal, heapused, heapfree, cyclecount, loopmystate.avgCurrentRaw, loopmystate.avgVoltRaw, loopmystate.avgCurrentRaw < 0 ? 1 : 0);
   SERIALDEBUG.printf("Temp1: %f, Temp2: %f, uptime: %d, Mode: %d, VonSet: %f, RPM: %d\n", loopmystate.Temp1, loopmystate.Temp2, cyclecount, loopmysetstate.mode, loopmysetstate.VonSet, loopmystate.FanRPM);
-  snprintf(logtxt, 120, "Heap total: %d\nHeap used: %d\nHeap free:  %d\nADC0: %d\n", heaptotal, heapused, heapfree, loopmystate.avgCurrentRaw);
+  //snprintf(logtxt, 120, "Heap total: %d\nHeap used: %d\nHeap free:  %d\nADC0: %d\n", heaptotal, heapused, heapfree, loopmystate.avgCurrentRaw);
+  //printlogstr(logtxt, 120, "Heap total: %d\nHeap used: %d\nHeap free:  %d\nADC0: %d\n", heaptotal, heapused, heapfree, loopmystate.avgCurrentRaw);
   vTaskDelay(ondelay);
 }
 

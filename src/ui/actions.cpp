@@ -126,4 +126,21 @@ void action_cal_set_dac(lv_event_t *e)
     }
 }
 
+void action_cal_store_defaults(lv_event_t * e)
+{
+    if (myeeprom.magicWrite()) {
+        printlogstr("INFO: EEPROM magic written.");
+        write_cal_to_eeprom(calType_e::calType_e_Imon);
+        write_cal_to_eeprom(calType_e::calType_e_Umon);
+        write_cal_to_eeprom(calType_e::calType_e_Iset);
+        write_cal_to_eeprom(calType_e::calType_e_Uset);
+        write_cal_to_eeprom(calType_e::calType_e_Von);
+        write_cal_to_eeprom(calType_e::calType_e_OCPset);
+        write_cal_to_eeprom(calType_e::calType_e_OVPset);
+        printlogstr("INFO: Default cal values stored.");
+    } else {
+        printlogstr("ERROR: Unable to write EEPROM magic.");        
+    }
+}
+
 } // extern "C"

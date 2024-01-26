@@ -15,7 +15,9 @@ extern "C" {
 dcl::measuredStateStruct localstatecopy;
 dcl::setStateStruct localsetcopy;
 
-char logtxt[256];
+const u_int16_t logsize = 512;
+char logtxt[logsize];
+uint16_t logpointer = 0;
 
 } // extern "C"
 
@@ -24,7 +26,17 @@ void printlogval(int val1, int val2, int val3, int val4) {
 }
 
 void printlogstr(const char* txt) {
-    snprintf(logtxt, 60, "%s\n", txt);
+    uint16_t written = snprintf(logtxt + logpointer, logsize - 1 - logpointer, "%s\n", txt);
+    if (written > 0 && written < logsize - 1 - logpointer) {
+        logpointer = logpointer + written;
+    } else if (written > logsize - logpointer) {
+        logpointer = logsize - 1;
+    } 
+}
+
+void clearlog() {
+    logpointer = 0;
+    logtxt[0] = '\x00';
 }
 
 ///// Encoder / key functions.

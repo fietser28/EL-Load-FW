@@ -22,12 +22,12 @@ typedef struct _objects_t {
     lv_obj_t *main_lower_panel;
     lv_obj_t *mode_selector;
     lv_obj_t *montime;
-    lv_obj_t *nlp_c_hom_e_1;
-    lv_obj_t *nlp_c_hom_e_cance_l_1;
-    lv_obj_t *nlp_c_hom_e_cance_l_2;
-    lv_obj_t *nlp_c_hom_e_cance_l_3;
-    lv_obj_t *nlp_c_hom_e_cancel;
-    lv_obj_t *nlp_c_home;
+    lv_obj_t *nlpc_home;
+    lv_obj_t *nlpc_home_1;
+    lv_obj_t *nlpc_home_cancel;
+    lv_obj_t *nlpc_home_cancel_1;
+    lv_obj_t *nlpc_home_cancel_2;
+    lv_obj_t *nlpc_home_cancel_3;
     lv_obj_t *obj0;
     lv_obj_t *obj1;
     lv_obj_t *obj10;

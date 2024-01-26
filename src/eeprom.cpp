@@ -87,8 +87,8 @@ namespace dcl::eeprom
             write(EEPROM_ADDR_MAGIC + i, eeprom_magic[i]);
             vTaskDelay(20 / portTICK_PERIOD_MS);
         }
-        // TODO: error checking and reporting.
-        return 0;
+        // And try to read it back as a test....
+        return magicDetect();
     };
 
 CalibrationValueConfiguration testdata;

@@ -418,7 +418,7 @@ static void event_handler_cb_calibration_obj75(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_nlpc_nlp_c_home(lv_event_t *e) {
+static void event_handler_cb_nlpc_nlpc_home(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_RELEASED) {
@@ -426,7 +426,7 @@ static void event_handler_cb_nlpc_nlp_c_home(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_nlpc_nlp_c_hom_e_cancel(lv_event_t *e) {
+static void event_handler_cb_nlpc_nlpc_home_cancel(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_RELEASED) {
@@ -434,7 +434,7 @@ static void event_handler_cb_nlpc_nlp_c_hom_e_cancel(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_nlpc_nlp_c_hom_e_cance_l_1(lv_event_t *e) {
+static void event_handler_cb_nlpc_nlpc_home_cancel_1(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_RELEASED) {
@@ -472,7 +472,7 @@ static void event_handler_cb_nlpc_obj83(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_fan_nlp_c_hom_e_1(lv_event_t *e) {
+static void event_handler_cb_fan_nlpc_home_1(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_RELEASED) {
@@ -488,7 +488,7 @@ static void event_handler_cb_fan_obj91(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_fan_nlp_c_hom_e_cance_l_2(lv_event_t *e) {
+static void event_handler_cb_fan_nlpc_home_cancel_2(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_RELEASED) {
@@ -496,7 +496,7 @@ static void event_handler_cb_fan_nlp_c_hom_e_cance_l_2(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_fan_nlp_c_hom_e_cance_l_3(lv_event_t *e) {
+static void event_handler_cb_fan_nlpc_home_cancel_3(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_RELEASED) {
@@ -592,6 +592,8 @@ void create_screen_startup() {
     lv_obj_set_pos(obj, 0, 0);
     lv_obj_set_size(obj, 320, 240);
     lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_set_style_text_font(obj, &lv_font_montserrat_14, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(obj, lv_color_hex(0xffaaaaaa), LV_PART_MAIN | LV_STATE_DEFAULT);
     {
         lv_obj_t *parent_obj = obj;
         {
@@ -616,11 +618,9 @@ void create_screen_startup() {
             lv_obj_set_pos(obj, 3, 42);
             lv_obj_set_size(obj, 314, 194);
             lv_label_set_text(obj, "");
-            lv_obj_set_style_bg_color(obj, lv_color_hex(0xff222222), LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_obj_set_style_bg_opa(obj, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_obj_set_style_text_color(obj, lv_color_hex(0xff00ffff), LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_text_color(obj, lv_color_hex(0xffffffff), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_opa(obj, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_obj_set_style_text_font(obj, &lv_font_montserrat_20, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_text_font(obj, &lv_font_montserrat_14, LV_PART_MAIN | LV_STATE_DEFAULT);
         }
     }
 }
@@ -2224,8 +2224,9 @@ void create_screen_calibration() {
                     lv_obj_set_pos(obj, 0, 0);
                     lv_obj_set_size(obj, 90, 32);
                     lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
-                    lv_label_set_text(obj, "Recal");
+                    lv_label_set_text(obj, "Init \nEEPROM");
                     lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+                    lv_obj_set_style_text_font(obj, &lv_font_montserrat_14, LV_PART_MAIN | LV_STATE_DEFAULT);
                 }
             }
         }
@@ -2356,7 +2357,7 @@ void create_screen_calibration() {
             lv_obj_t *obj = lv_label_create(parent_obj);
             objects.obj74 = obj;
             lv_obj_set_pos(obj, 278, 140);
-            lv_obj_set_size(obj, 25, 25);
+            lv_obj_set_size(obj, 26, 26);
             lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
             lv_label_set_text(obj, "");
             lv_obj_add_event_cb(obj, event_handler_cb_calibration_obj74, LV_EVENT_ALL, flowState);
@@ -2365,10 +2366,11 @@ void create_screen_calibration() {
             lv_obj_set_style_text_color(obj, lv_color_hex(0xffffff00), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_bg_color(obj, lv_color_hex(0xff818181), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_bg_opa(obj, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_obj_set_style_text_font(obj, &lv_font_montserrat_20, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_text_font(obj, &lv_font_montserrat_24, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_obj_set_style_transform_pivot_x(obj, 11, LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_obj_set_style_transform_pivot_y(obj, 11, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_transform_pivot_x(obj, 13, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_transform_pivot_y(obj, 13, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_radius(obj, 10, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_color(obj, lv_color_hex(0xffcccccc), LV_PART_MAIN | LV_STATE_DISABLED);
         }
         {
@@ -2701,10 +2703,10 @@ void tick_screen_calibration() {
             {
                 // NLPC_HOME
                 lv_obj_t *obj = lv_btn_create(parent_obj);
-                objects.nlp_c_home = obj;
+                objects.nlpc_home = obj;
                 lv_obj_set_pos(obj, 225, 190);
                 lv_obj_set_size(obj, 90, 38);
-                lv_obj_add_event_cb(obj, event_handler_cb_nlpc_nlp_c_home, LV_EVENT_ALL, flowState);
+                lv_obj_add_event_cb(obj, event_handler_cb_nlpc_nlpc_home, LV_EVENT_ALL, flowState);
                 lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
                 lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
                 apply_style_selectbutton(obj);
@@ -2755,10 +2757,10 @@ void tick_screen_calibration() {
             {
                 // NLPC_HOME_CANCEL
                 lv_obj_t *obj = lv_btn_create(parent_obj);
-                objects.nlp_c_hom_e_cancel = obj;
+                objects.nlpc_home_cancel = obj;
                 lv_obj_set_pos(obj, 115, 191);
                 lv_obj_set_size(obj, 90, 38);
-                lv_obj_add_event_cb(obj, event_handler_cb_nlpc_nlp_c_hom_e_cancel, LV_EVENT_ALL, flowState);
+                lv_obj_add_event_cb(obj, event_handler_cb_nlpc_nlpc_home_cancel, LV_EVENT_ALL, flowState);
                 lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
                 lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
                 apply_style_selectbutton(obj);
@@ -2777,10 +2779,10 @@ void tick_screen_calibration() {
             {
                 // NLPC_HOME_CANCEL_1
                 lv_obj_t *obj = lv_btn_create(parent_obj);
-                objects.nlp_c_hom_e_cance_l_1 = obj;
+                objects.nlpc_home_cancel_1 = obj;
                 lv_obj_set_pos(obj, 8, 191);
                 lv_obj_set_size(obj, 90, 38);
-                lv_obj_add_event_cb(obj, event_handler_cb_nlpc_nlp_c_hom_e_cance_l_1, LV_EVENT_ALL, flowState);
+                lv_obj_add_event_cb(obj, event_handler_cb_nlpc_nlpc_home_cancel_1, LV_EVENT_ALL, flowState);
                 lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
                 lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
                 apply_style_selectbutton(obj);
@@ -2903,11 +2905,11 @@ void tick_screen_calibration() {
         }
         {
             bool new_val = evalBooleanProperty(flowState, 11, 2, "Failed to evaluate Hidden flag");
-            bool cur_val = lv_obj_has_flag(objects.nlp_c_hom_e_cancel, LV_OBJ_FLAG_HIDDEN);
+            bool cur_val = lv_obj_has_flag(objects.nlpc_home_cancel, LV_OBJ_FLAG_HIDDEN);
             if (new_val != cur_val) {
-                tick_value_change_obj = objects.nlp_c_hom_e_cancel;
-                if (new_val) lv_obj_add_flag(objects.nlp_c_hom_e_cancel, LV_OBJ_FLAG_HIDDEN);
-                else lv_obj_clear_flag(objects.nlp_c_hom_e_cancel, LV_OBJ_FLAG_HIDDEN);
+                tick_value_change_obj = objects.nlpc_home_cancel;
+                if (new_val) lv_obj_add_flag(objects.nlpc_home_cancel, LV_OBJ_FLAG_HIDDEN);
+                else lv_obj_clear_flag(objects.nlpc_home_cancel, LV_OBJ_FLAG_HIDDEN);
                 tick_value_change_obj = NULL;
             }
         }
@@ -2922,11 +2924,11 @@ void tick_screen_calibration() {
         }
         {
             bool new_val = evalBooleanProperty(flowState, 13, 2, "Failed to evaluate Hidden flag");
-            bool cur_val = lv_obj_has_flag(objects.nlp_c_hom_e_cance_l_1, LV_OBJ_FLAG_HIDDEN);
+            bool cur_val = lv_obj_has_flag(objects.nlpc_home_cancel_1, LV_OBJ_FLAG_HIDDEN);
             if (new_val != cur_val) {
-                tick_value_change_obj = objects.nlp_c_hom_e_cance_l_1;
-                if (new_val) lv_obj_add_flag(objects.nlp_c_hom_e_cance_l_1, LV_OBJ_FLAG_HIDDEN);
-                else lv_obj_clear_flag(objects.nlp_c_hom_e_cance_l_1, LV_OBJ_FLAG_HIDDEN);
+                tick_value_change_obj = objects.nlpc_home_cancel_1;
+                if (new_val) lv_obj_add_flag(objects.nlpc_home_cancel_1, LV_OBJ_FLAG_HIDDEN);
+                else lv_obj_clear_flag(objects.nlpc_home_cancel_1, LV_OBJ_FLAG_HIDDEN);
                 tick_value_change_obj = NULL;
             }
         }
@@ -3007,10 +3009,10 @@ void tick_screen_calibration() {
             {
                 // NLPC_HOME_1
                 lv_obj_t *obj = lv_btn_create(parent_obj);
-                objects.nlp_c_hom_e_1 = obj;
+                objects.nlpc_home_1 = obj;
                 lv_obj_set_pos(obj, 225, 190);
                 lv_obj_set_size(obj, 90, 38);
-                lv_obj_add_event_cb(obj, event_handler_cb_fan_nlp_c_hom_e_1, LV_EVENT_ALL, flowState);
+                lv_obj_add_event_cb(obj, event_handler_cb_fan_nlpc_home_1, LV_EVENT_ALL, flowState);
                 lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
                 lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
                 apply_style_selectbutton(obj);
@@ -3066,10 +3068,10 @@ void tick_screen_calibration() {
             {
                 // NLPC_HOME_CANCEL_2
                 lv_obj_t *obj = lv_btn_create(parent_obj);
-                objects.nlp_c_hom_e_cance_l_2 = obj;
+                objects.nlpc_home_cancel_2 = obj;
                 lv_obj_set_pos(obj, 115, 191);
                 lv_obj_set_size(obj, 90, 38);
-                lv_obj_add_event_cb(obj, event_handler_cb_fan_nlp_c_hom_e_cance_l_2, LV_EVENT_ALL, flowState);
+                lv_obj_add_event_cb(obj, event_handler_cb_fan_nlpc_home_cancel_2, LV_EVENT_ALL, flowState);
                 lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
                 lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
                 apply_style_selectbutton(obj);
@@ -3088,10 +3090,10 @@ void tick_screen_calibration() {
             {
                 // NLPC_HOME_CANCEL_3
                 lv_obj_t *obj = lv_btn_create(parent_obj);
-                objects.nlp_c_hom_e_cance_l_3 = obj;
+                objects.nlpc_home_cancel_3 = obj;
                 lv_obj_set_pos(obj, 8, 191);
                 lv_obj_set_size(obj, 90, 38);
-                lv_obj_add_event_cb(obj, event_handler_cb_fan_nlp_c_hom_e_cance_l_3, LV_EVENT_ALL, flowState);
+                lv_obj_add_event_cb(obj, event_handler_cb_fan_nlpc_home_cancel_3, LV_EVENT_ALL, flowState);
                 lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
                 lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
                 apply_style_selectbutton(obj);
@@ -3214,11 +3216,11 @@ void tick_screen_calibration() {
         }
         {
             bool new_val = evalBooleanProperty(flowState, 11, 2, "Failed to evaluate Hidden flag");
-            bool cur_val = lv_obj_has_flag(objects.nlp_c_hom_e_cance_l_2, LV_OBJ_FLAG_HIDDEN);
+            bool cur_val = lv_obj_has_flag(objects.nlpc_home_cancel_2, LV_OBJ_FLAG_HIDDEN);
             if (new_val != cur_val) {
-                tick_value_change_obj = objects.nlp_c_hom_e_cance_l_2;
-                if (new_val) lv_obj_add_flag(objects.nlp_c_hom_e_cance_l_2, LV_OBJ_FLAG_HIDDEN);
-                else lv_obj_clear_flag(objects.nlp_c_hom_e_cance_l_2, LV_OBJ_FLAG_HIDDEN);
+                tick_value_change_obj = objects.nlpc_home_cancel_2;
+                if (new_val) lv_obj_add_flag(objects.nlpc_home_cancel_2, LV_OBJ_FLAG_HIDDEN);
+                else lv_obj_clear_flag(objects.nlpc_home_cancel_2, LV_OBJ_FLAG_HIDDEN);
                 tick_value_change_obj = NULL;
             }
         }
@@ -3233,11 +3235,11 @@ void tick_screen_calibration() {
         }
         {
             bool new_val = evalBooleanProperty(flowState, 13, 2, "Failed to evaluate Hidden flag");
-            bool cur_val = lv_obj_has_flag(objects.nlp_c_hom_e_cance_l_3, LV_OBJ_FLAG_HIDDEN);
+            bool cur_val = lv_obj_has_flag(objects.nlpc_home_cancel_3, LV_OBJ_FLAG_HIDDEN);
             if (new_val != cur_val) {
-                tick_value_change_obj = objects.nlp_c_hom_e_cance_l_3;
-                if (new_val) lv_obj_add_flag(objects.nlp_c_hom_e_cance_l_3, LV_OBJ_FLAG_HIDDEN);
-                else lv_obj_clear_flag(objects.nlp_c_hom_e_cance_l_3, LV_OBJ_FLAG_HIDDEN);
+                tick_value_change_obj = objects.nlpc_home_cancel_3;
+                if (new_val) lv_obj_add_flag(objects.nlpc_home_cancel_3, LV_OBJ_FLAG_HIDDEN);
+                else lv_obj_clear_flag(objects.nlpc_home_cancel_3, LV_OBJ_FLAG_HIDDEN);
                 tick_value_change_obj = NULL;
             }
         }

@@ -2137,6 +2137,14 @@
       "implementationType": "native"
     },
     {
+      "objID": "693a88b3-8b41-4486-8de3-4e12d84cac33",
+      "components": [],
+      "connectionLines": [],
+      "localVariables": [],
+      "name": "cal_store_defaults",
+      "implementationType": "native"
+    },
+    {
       "objID": "e7a13ffa-a975-42ca-8df2-088bce3d5c38",
       "components": [
         {
@@ -2638,11 +2646,9 @@
             "definition": {
               "MAIN": {
                 "DEFAULT": {
-                  "bg_color": "#222222",
-                  "bg_opa": 255,
-                  "text_color": "#00ffff",
+                  "text_color": "#ffffff",
                   "text_opa": 255,
-                  "text_font": "MONTSERRAT_20"
+                  "text_font": "MONTSERRAT_14"
                 }
               }
             }
@@ -2683,7 +2689,15 @@
       "width": 320,
       "height": 240,
       "lvglLocalStyles": {
-        "objID": "7285d75d-b791-42e3-f7fb-c6413d00f551"
+        "objID": "7285d75d-b791-42e3-f7fb-c6413d00f551",
+        "definition": {
+          "MAIN": {
+            "DEFAULT": {
+              "text_font": "MONTSERRAT_14",
+              "text_color": "#aaaaaa"
+            }
+          }
+        }
       }
     },
     {
@@ -3072,7 +3086,7 @@
           "left": 10,
           "top": -170,
           "width": 131,
-          "height": 71,
+          "height": 73,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -4411,7 +4425,7 @@
           "left": 618,
           "top": -461,
           "width": 168,
-          "height": 107,
+          "height": 111,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -4555,7 +4569,7 @@
           "left": 618,
           "top": -596,
           "width": 174,
-          "height": 107,
+          "height": 111,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -4718,7 +4732,7 @@
           "left": 472,
           "top": -143,
           "width": 256,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -4738,7 +4752,7 @@
           "left": 634,
           "top": -24,
           "width": 197,
-          "height": 71,
+          "height": 73,
           "customInputs": [
             {
               "objID": "83302572-c612-4e48-8841-fbf995b31a10",
@@ -4768,7 +4782,7 @@
           "left": -205,
           "top": -197,
           "width": 87,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "on"
@@ -4813,7 +4827,7 @@
           "left": 397,
           "top": 176,
           "width": 274,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -4833,7 +4847,7 @@
           "left": 187,
           "top": 864,
           "width": 168,
-          "height": 107,
+          "height": 111,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -4974,7 +4988,7 @@
           "left": -350,
           "top": 90,
           "width": 117,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "setType"
@@ -4985,7 +4999,7 @@
           "left": -436,
           "top": 162,
           "width": 160,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "setValueString"
@@ -5030,7 +5044,7 @@
           "left": 784,
           "top": 128,
           "width": 341,
-          "height": 125,
+          "height": 130,
           "customInputs": [
             {
               "objID": "94cd8ee1-5719-4df6-944b-2d3a0e561bee",
@@ -5101,7 +5115,7 @@
           "left": 289,
           "top": 588,
           "width": 303,
-          "height": 89,
+          "height": 92,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -5153,7 +5167,7 @@
           "type": "SetVariableActionComponent",
           "left": 277,
           "top": 705,
-          "width": 195,
+          "width": 196,
           "height": 55,
           "customInputs": [],
           "customOutputs": [],
@@ -5273,7 +5287,7 @@
           "left": 689,
           "top": -323,
           "width": 87,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "description": "BUG or strange race condition?",
@@ -8450,7 +8464,7 @@
           "left": 439,
           "top": 326,
           "width": 268,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -8814,12 +8828,13 @@
                 "definition": {
                   "MAIN": {
                     "DEFAULT": {
-                      "align": "CENTER"
+                      "align": "CENTER",
+                      "text_font": "MONTSERRAT_14"
                     }
                   }
                 }
               },
-              "text": "Recal",
+              "text": "Init \nEEPROM",
               "textType": "literal",
               "longMode": "CLIP",
               "recolor": false
@@ -9395,7 +9410,7 @@
           "left": -502,
           "top": 272,
           "width": 142,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "cal_calType"
@@ -9681,7 +9696,7 @@
           "left": -170,
           "top": 15,
           "width": 111,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "kbType"
@@ -9692,7 +9707,7 @@
           "left": -170,
           "top": 85,
           "width": 117,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "cal_set"
@@ -9775,7 +9790,7 @@
           "type": "CallActionActionComponent",
           "left": 215,
           "top": 466,
-          "width": 127,
+          "width": 128,
           "height": 24,
           "customInputs": [],
           "customOutputs": [],
@@ -9831,7 +9846,7 @@
           "left": 98,
           "top": 670,
           "width": 127,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "from": "0",
@@ -9844,7 +9859,7 @@
           "left": 288,
           "top": 675,
           "width": 143,
-          "height": 69,
+          "height": 70,
           "customInputs": [],
           "customOutputs": [],
           "A": "animate",
@@ -9861,23 +9876,6 @@
           "customInputs": [],
           "customOutputs": [],
           "name": "nop"
-        },
-        {
-          "objID": "03201540-8f23-4fbd-ca6b-8d917cf10c77",
-          "type": "SetVariableActionComponent",
-          "left": 151,
-          "top": 567,
-          "width": 159,
-          "height": 55,
-          "customInputs": [],
-          "customOutputs": [],
-          "entries": [
-            {
-              "objID": "fd51e773-9f14-4ff7-a762-0741695e2087",
-              "variable": "animate",
-              "value": "!animate"
-            }
-          ]
         },
         {
           "objID": "dcbe32d2-4f12-45dd-80a3-05020257f7a5",
@@ -9902,7 +9900,7 @@
           "left": 707,
           "top": 110,
           "width": 677,
-          "height": 71,
+          "height": 73,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -9937,7 +9935,7 @@
           "left": -258,
           "top": 643,
           "width": 117,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "animate"
@@ -9948,7 +9946,7 @@
           "left": -96,
           "top": 644,
           "width": 87,
-          "height": 69,
+          "height": 70,
           "customInputs": [
             {
               "objID": "7eec595c-3b18-4365-83e7-a3e7bccb099a",
@@ -9958,6 +9956,17 @@
           ],
           "customOutputs": [],
           "value": "value"
+        },
+        {
+          "objID": "21f4c7c7-3ac9-4f0b-d9c4-c0d18e0075d8",
+          "type": "CallActionActionComponent",
+          "left": 160,
+          "top": 552,
+          "width": 138,
+          "height": 24,
+          "customInputs": [],
+          "customOutputs": [],
+          "action": "cal_store_defaults"
         }
       ],
       "connectionLines": [
@@ -10102,13 +10111,6 @@
           "input": "@seqin"
         },
         {
-          "objID": "705daf2d-11e8-41ed-bf9e-533c90edda51",
-          "source": "ef115d15-261a-4be8-ea1d-78b5cb967c61",
-          "output": "PRESSED",
-          "target": "03201540-8f23-4fbd-ca6b-8d917cf10c77",
-          "input": "@seqin"
-        },
-        {
           "objID": "e48c9d96-a078-4279-940b-d3ab6e90c016",
           "source": "bf47d8bc-4890-46a5-a4f4-48d2d5b9bef6",
           "output": "PRESSED",
@@ -10155,6 +10157,13 @@
           "source": "65daed1e-cea8-40e6-e20c-8216052bde33",
           "output": "True",
           "target": "47b7924b-245b-4a46-8c35-ed651f7060b3",
+          "input": "@seqin"
+        },
+        {
+          "objID": "0270e42d-fe30-43db-cae1-841214b8c3c7",
+          "source": "ef115d15-261a-4be8-ea1d-78b5cb967c61",
+          "output": "PRESSED",
+          "target": "21f4c7c7-3ac9-4f0b-d9c4-c0d18e0075d8",
           "input": "@seqin"
         }
       ],

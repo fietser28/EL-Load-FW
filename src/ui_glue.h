@@ -17,8 +17,10 @@ extern lv_group_t *encoder_group;
 extern lv_group_t *onoff_group;
 
 extern void printlogval(int val1, int val2, int val3, int val4);
+extern void printlogstr(const char* txt);
+
 extern void printstr(const char* txt);
-extern char logtxt[256];
+extern char logtxt[512];
 
 ///// Encoder / key functions.
 extern void ui_init_encoder_group();
