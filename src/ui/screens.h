@@ -44,6 +44,8 @@ typedef struct _objects_t {
     lv_obj_t *obj20;
     lv_obj_t *obj21;
     lv_obj_t *obj21__kbtext2;
+    lv_obj_t *obj21__max_button;
+    lv_obj_t *obj21__min_button;
     lv_obj_t *obj21__obj22;
     lv_obj_t *obj21__obj23;
     lv_obj_t *obj24;
@@ -84,6 +86,8 @@ typedef struct _objects_t {
     lv_obj_t *obj56;
     lv_obj_t *obj57;
     lv_obj_t *obj57__kbtext2;
+    lv_obj_t *obj57__max_button;
+    lv_obj_t *obj57__min_button;
     lv_obj_t *obj57__obj22;
     lv_obj_t *obj57__obj23;
     lv_obj_t *obj58;
@@ -108,6 +112,8 @@ typedef struct _objects_t {
     lv_obj_t *obj75;
     lv_obj_t *obj76;
     lv_obj_t *obj76__kbtext2;
+    lv_obj_t *obj76__max_button;
+    lv_obj_t *obj76__min_button;
     lv_obj_t *obj76__obj22;
     lv_obj_t *obj76__obj23;
     lv_obj_t *obj77;

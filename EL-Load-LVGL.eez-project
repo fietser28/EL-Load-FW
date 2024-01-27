@@ -525,7 +525,7 @@
         "objID": "cc20a9d5-91e3-4346-b80f-abd1e202f555",
         "name": "setTypes",
         "type": "array:struct:setProperties",
-        "defaultValue": "[ {setName: \"Current\", setUnit:\"A\", setValueMin:0, setValueMax:10},\n{setName: \"Voltage\", setUnit:\"V\", setValueMin:0, setValueMax:80},\n{setName: \"Power\", setUnit:\"W\", setValueMin:0, setValueMax:75},\n{setName: \"Resistance\", setUnit:\"\\u03a9\", setValueMin:0.1, setValueMax:100000},\n{setName: \"Von\", setUnit:\"V\", setValueMin:0, setValueMax:10},\n{setName: \"OCP\", setUnit:\"A\", setValueMin:0, setValueMax:10},\n{setName: \"OVP\", setUnit:\"V\", setValueMin:0, setValueMax:80},\n{setName: \"OPP\", setUnit:\"W\", setValueMin:1, setValueMax:100},\n{setName: \"OTP\", setUnit:\"C\", setValueMin:10, setValueMax:90},\n{setName: \"Current Cal Set\", setUnit:\"A\", setValueMin:-1, setValueMax: 11},\n{setName: \"Voltage Cal Set\", setUnit:\"V\", setValueMin:-1, setValueMax: 90},\n{setName: \"OPP delay\", setUnit:\"s\", setValueMin:1, setValueMax:99},\n{setName: \"16-bit DAC\", setUnit:\"\", setValueMin:0, setValueMax:65535},\n{setName: \"OTP delay\", setUnit:\"s\", setValueMin:1, setValueMax:99},\n]",
+        "defaultValue": "[ {setName: \"Current\", setUnit:\"A\", setValueMin:0, setValueMax:10},\n{setName: \"Voltage\", setUnit:\"V\", setValueMin:0, setValueMax:80},\n{setName: \"Power\", setUnit:\"W\", setValueMin:0, setValueMax:80},\n{setName: \"Resistance\", setUnit:\"\\u03a9\", setValueMin:0.1, setValueMax:100000},\n{setName: \"Von\", setUnit:\"V\", setValueMin:0, setValueMax:10},\n{setName: \"OCP\", setUnit:\"A\", setValueMin:0, setValueMax:10},\n{setName: \"OVP\", setUnit:\"V\", setValueMin:0, setValueMax:80},\n{setName: \"OPP\", setUnit:\"W\", setValueMin:1, setValueMax:125},\n{setName: \"OTP\", setUnit:\"C\", setValueMin:10, setValueMax:100},\n{setName: \"Current Cal Set\", setUnit:\"A\", setValueMin:-1, setValueMax: 11},\n{setName: \"Voltage Cal Set\", setUnit:\"V\", setValueMin:-1, setValueMax: 90},\n{setName: \"OPP delay\", setUnit:\"s\", setValueMin:1, setValueMax:99},\n{setName: \"16-bit DAC\", setUnit:\"\", setValueMin:0, setValueMax:65535},\n{setName: \"OTP delay\", setUnit:\"s\", setValueMin:1, setValueMax:99},\n]",
         "persistent": false
       },
       {
@@ -13461,10 +13461,10 @@
         {
           "objID": "b3715882-fd86-4b58-b158-6729bc4ca397",
           "type": "LVGLTextareaWidget",
-          "left": 0,
-          "top": 25,
-          "width": 280,
-          "height": 50,
+          "left": 58,
+          "top": 26,
+          "width": 204,
+          "height": 43,
           "customInputs": [],
           "customOutputs": [],
           "style": {
@@ -13497,8 +13497,7 @@
                 "DEFAULT": {
                   "text_align": "CENTER",
                   "text_font": "MONTSERRAT_24",
-                  "border_width": 0,
-                  "radius": 0
+                  "border_width": 0
                 }
               },
               "CURSOR": {
@@ -13614,10 +13613,10 @@
         {
           "objID": "5de035e6-71fc-4244-f0d9-45cd30653727",
           "type": "SwitchActionComponent",
-          "left": 479,
-          "top": 155,
+          "left": 736,
+          "top": 140,
           "width": 705,
-          "height": 73,
+          "height": 71,
           "customInputs": [],
           "customOutputs": [],
           "description": "valid range check",
@@ -13639,8 +13638,8 @@
         {
           "objID": "a4dbfbb6-c4c3-4b2d-8db5-c80e40172ef8",
           "type": "SetVariableActionComponent",
-          "left": 404,
-          "top": -43,
+          "left": 430,
+          "top": 136,
           "width": 232,
           "height": 75,
           "customInputs": [],
@@ -13662,8 +13661,8 @@
         {
           "objID": "5de1a473-9736-46ef-fa5f-6d852afe36bd",
           "type": "SetVariableActionComponent",
-          "left": 1297,
-          "top": 148,
+          "left": 1554,
+          "top": 133,
           "width": 251,
           "height": 75,
           "customInputs": [],
@@ -13684,8 +13683,8 @@
         {
           "objID": "4f53176c-6bf1-481e-ef82-f994f830df94",
           "type": "SetVariableActionComponent",
-          "left": 1297,
-          "top": 254,
+          "left": 1554,
+          "top": 239,
           "width": 257,
           "height": 55,
           "customInputs": [],
@@ -13701,8 +13700,8 @@
         {
           "objID": "e611df1d-faa2-45d6-c4cb-591acec7e01c",
           "type": "OutputActionComponent",
-          "left": 1979,
-          "top": 174,
+          "left": 2077,
+          "top": 159,
           "width": 89,
           "height": 24,
           "customInputs": [],
@@ -13770,10 +13769,10 @@
         {
           "objID": "e835830f-3dff-4fff-88a7-ace0ea11d6ac",
           "type": "SwitchActionComponent",
-          "left": 1596,
-          "top": 148,
+          "left": 1853,
+          "top": 133,
           "width": 178,
-          "height": 54,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -13809,6 +13808,232 @@
               "objID": "2a6f0ae3-3a26-4c7b-ede3-8c07c0ca54d5",
               "variable": "newValueString",
               "value": "startValueFloat"
+            }
+          ]
+        },
+        {
+          "objID": "dca5d539-1bac-4174-e74a-f848bfcb7761",
+          "type": "LVGLButtonWidget",
+          "left": 263,
+          "top": 26,
+          "width": 56,
+          "height": 43,
+          "customInputs": [],
+          "customOutputs": [],
+          "style": {
+            "objID": "b6abedc2-55ef-44c8-97d9-621189210746",
+            "useStyle": "default",
+            "childStyles": []
+          },
+          "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "4590e4a1-4d18-45f7-aeaf-e45ce5f71aa5",
+              "eventName": "PRESSED",
+              "handlerType": "flow",
+              "action": "getdropdownindex"
+            }
+          ],
+          "identifier": "max-button",
+          "leftUnit": "px",
+          "topUnit": "px",
+          "widthUnit": "px",
+          "heightUnit": "px",
+          "children": [
+            {
+              "objID": "b50de817-8d56-4d77-e56c-8a82d2eac37c",
+              "type": "LVGLLabelWidget",
+              "left": 0,
+              "top": 0,
+              "width": 56,
+              "height": 28,
+              "customInputs": [],
+              "customOutputs": [],
+              "style": {
+                "objID": "636de33e-00b4-44fe-fbc4-07cd4cd18ad0",
+                "useStyle": "default",
+                "childStyles": []
+              },
+              "timeline": [],
+              "eventHandlers": [],
+              "leftUnit": "px",
+              "topUnit": "px",
+              "widthUnit": "px",
+              "heightUnit": "px",
+              "children": [],
+              "flags": "PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLLABLE|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_CHAIN",
+              "hiddenFlagType": "literal",
+              "clickableFlagType": "literal",
+              "scrollbarMode": "auto",
+              "scrollDirection": "all",
+              "checkedStateType": "literal",
+              "disabledStateType": "literal",
+              "states": "",
+              "useStyle": "",
+              "localStyles": {
+                "objID": "f3929a06-c76a-4fb0-f1b8-bbcebbeedcd0",
+                "definition": {
+                  "MAIN": {
+                    "DEFAULT": {
+                      "align": "CENTER"
+                    }
+                  }
+                }
+              },
+              "text": "Max",
+              "textType": "literal",
+              "longMode": "CLIP",
+              "recolor": false
+            }
+          ],
+          "flags": "PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLL_ELASTIC|SCROLL_ON_FOCUS|SCROLL_MOMENTUM|SCROLL_CHAIN",
+          "hiddenFlagType": "literal",
+          "clickableFlag": true,
+          "clickableFlagType": "literal",
+          "scrollbarMode": "auto",
+          "scrollDirection": "all",
+          "checkedStateType": "literal",
+          "disabledStateType": "literal",
+          "states": "",
+          "useStyle": "selectbutton",
+          "localStyles": {
+            "objID": "d5a304af-ab3c-4233-d3df-c3a077fa041e",
+            "definition": {
+              "MAIN": {
+                "DEFAULT": {
+                  "text_align": "CENTER"
+                }
+              }
+            }
+          }
+        },
+        {
+          "objID": "3a4a08c7-7d9b-4175-b102-e0e60209eda2",
+          "type": "LVGLButtonWidget",
+          "left": 1,
+          "top": 26,
+          "width": 56,
+          "height": 43,
+          "customInputs": [],
+          "customOutputs": [],
+          "style": {
+            "objID": "de0761b3-19ef-475f-8f7f-126e0270465b",
+            "useStyle": "default",
+            "childStyles": []
+          },
+          "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "3437d741-2fef-4710-fba0-47660fa287b5",
+              "eventName": "PRESSED",
+              "handlerType": "flow",
+              "action": "getdropdownindex"
+            }
+          ],
+          "identifier": "min-button",
+          "leftUnit": "px",
+          "topUnit": "px",
+          "widthUnit": "px",
+          "heightUnit": "px",
+          "children": [
+            {
+              "objID": "fc8d75dc-01dd-42df-b466-c8291a0fed59",
+              "type": "LVGLLabelWidget",
+              "left": 0,
+              "top": 0,
+              "width": 56,
+              "height": 28,
+              "customInputs": [],
+              "customOutputs": [],
+              "style": {
+                "objID": "7046b0b7-8f3f-4de7-fa3e-826e1711a0df",
+                "useStyle": "default",
+                "childStyles": []
+              },
+              "timeline": [],
+              "eventHandlers": [],
+              "leftUnit": "px",
+              "topUnit": "px",
+              "widthUnit": "px",
+              "heightUnit": "px",
+              "children": [],
+              "flags": "PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLLABLE|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_CHAIN",
+              "hiddenFlagType": "literal",
+              "clickableFlagType": "literal",
+              "scrollbarMode": "auto",
+              "scrollDirection": "all",
+              "checkedStateType": "literal",
+              "disabledStateType": "literal",
+              "states": "",
+              "useStyle": "",
+              "localStyles": {
+                "objID": "02e7ecd2-ae4e-4866-fdc1-c5d9ccea0273",
+                "definition": {
+                  "MAIN": {
+                    "DEFAULT": {
+                      "align": "CENTER"
+                    }
+                  }
+                }
+              },
+              "text": "Min",
+              "textType": "literal",
+              "longMode": "CLIP",
+              "recolor": false
+            }
+          ],
+          "flags": "PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLL_ELASTIC|SCROLL_ON_FOCUS|SCROLL_MOMENTUM|SCROLL_CHAIN",
+          "hiddenFlagType": "literal",
+          "clickableFlag": true,
+          "clickableFlagType": "literal",
+          "scrollbarMode": "auto",
+          "scrollDirection": "all",
+          "checkedStateType": "literal",
+          "disabledStateType": "literal",
+          "states": "",
+          "useStyle": "selectbutton",
+          "localStyles": {
+            "objID": "854216e8-9cf5-4ecf-91af-2ec894ea47cf",
+            "definition": {
+              "MAIN": {
+                "DEFAULT": {
+                  "text_align": "CENTER"
+                }
+              }
+            }
+          }
+        },
+        {
+          "objID": "226383de-bfda-43bd-a272-f527311fa76c",
+          "type": "SetVariableActionComponent",
+          "left": 430,
+          "top": 33,
+          "width": 331,
+          "height": 55,
+          "customInputs": [],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "9e3eee6c-5271-49b1-cfce-8cb8b1a0c648",
+              "variable": "newValueString",
+              "value": "setTypes[setType].setValueMax"
+            }
+          ]
+        },
+        {
+          "objID": "00af1621-2b8d-49d8-ca82-e91220cb20c7",
+          "type": "SetVariableActionComponent",
+          "left": -385,
+          "top": 100,
+          "width": 331,
+          "height": 55,
+          "customInputs": [],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "fc648fd4-c107-42d4-b250-50f4c5701c8e",
+              "variable": "newValueString",
+              "value": "setTypes[setType].setValueMin"
             }
           ]
         }
@@ -13882,6 +14107,20 @@
           "source": "e835830f-3dff-4fff-88a7-ace0ea11d6ac",
           "output": "newValue",
           "target": "e611df1d-faa2-45d6-c4cb-591acec7e01c",
+          "input": "@seqin"
+        },
+        {
+          "objID": "ca5b13ab-8f66-4311-b2c1-b93ae8e7c9f5",
+          "source": "dca5d539-1bac-4174-e74a-f848bfcb7761",
+          "output": "PRESSED",
+          "target": "226383de-bfda-43bd-a272-f527311fa76c",
+          "input": "@seqin"
+        },
+        {
+          "objID": "c06f8b1e-9d24-4b58-8cdb-2b66fa2d749d",
+          "source": "3a4a08c7-7d9b-4175-b102-e0e60209eda2",
+          "output": "PRESSED",
+          "target": "00af1621-2b8d-49d8-ca82-e91220cb20c7",
           "input": "@seqin"
         }
       ],
