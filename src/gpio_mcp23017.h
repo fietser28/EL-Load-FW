@@ -10,6 +10,9 @@
 #include <semphr.h>
 //#include <task.h>
 
+#define MCP23X17_ADDR_NOBANK_IOCON 0x0A
+
+// Addresses in BANK mode
 #define MCP23X17_ADDR_IODIR 0x00
 #define MCP23X17_ADDR_IPOL 0x01
 #define MCP23X17_ADDR_GPINTEN 0x02
@@ -37,6 +40,7 @@ class gpio_mcp23017
         uint8_t interruptFlagged(uint8_t bank);
         uint8_t digitalWrites(uint8_t bank, uint8_t values);
         uint8_t digitalWrite(uint8_t bank, uint8_t pin, bool value);
+        uint8_t digitalWrite(uint8_t pin, bool value);
         uint8_t pinModes(uint8_t bank, uint8_t pins);
         uint8_t pinMode(uint8_t bank, uint8_t pin, bool mode);
         uint8_t pinInterrupts(uint8_t bank, uint8_t enable, uint8_t onValue, uint8_t compValue);

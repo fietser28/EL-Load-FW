@@ -22,13 +22,16 @@ void gpio_mcp23017::begin(TwoWire *Wire, SemaphoreHandle_t WireSemaphore, uint8_
 void gpio_mcp23017::reset()
 {
     // First Set bank mode to 1 and combine interrupt pins
-    writeI2C(MCP23X17_ADDR_IOCON, 0xC0);
+    writeI2C(MCP23X17_ADDR_NOBANK_IOCON, 0xC0);   // First switch to BANK mode.
     _regs[0][MCP23X17_ADDR_IOCON] = 0xC0;
     _regs[1][MCP23X17_ADDR_IOCON] = 0xC0;
 
     // Set default POR/RST values (in case reset pin is not connected/used).
     writeI2C(MCP23X17_BANKA | MCP23X17_ADDR_IODIR, 0xff);
+    _regs[0][MCP23X17_ADDR_IODIR] = 0xff;
+
     writeI2C(MCP23X17_BANKB | MCP23X17_ADDR_IODIR, 0xff);
+    _regs[1][MCP23X17_ADDR_IODIR] = 0xff;
     // All other registers default to 0x00, except for IOCON!
     // Not the fastest way but it works.
     for (int i = 1; i <= MCP23X17_ADDR_LAST; i++)
@@ -61,6 +64,11 @@ uint8_t gpio_mcp23017::digitalWrites(uint8_t bank, uint8_t values)
 uint8_t gpio_mcp23017::digitalWrite(uint8_t bank, uint8_t pin, bool value)
 {
     return digitalWrites(bank, (_regs[bank == MCP23X17_BANKB][MCP23X17_ADDR_OLAT] &  ~(1 << pin)) | (value << pin));
+}
+
+uint8_t gpio_mcp23017::digitalWrite(uint8_t pin, bool value)
+{
+    return digitalWrite(pin < 8 ? 0x00 : 0x10, pin, value);
 }
 
 uint8_t gpio_mcp23017::pinModes(uint8_t bank, uint8_t pins)
