@@ -52,6 +52,9 @@ static void guiTimerFunction(TimerHandle_t tm)
 void __not_in_flash_func(gui_task_init(void))
 {
 
+  // Turn backlight on (hide garbage)
+  digitalWrite(TFT_BL, LOW);
+
   guiTimerHandle = xTimerCreate("", pdMS_TO_TICKS(MY_LV_TICK_TIME), pdTRUE, (void *) 0, guiTimerFunction);
   //xTimerStart(guiTimerHandle, 10);
 
@@ -302,7 +305,8 @@ static void __not_in_flash_func(guiTask(void *pvParameter))
 #endif
 
   // Manually turn on backlight (avoid garbage at startup)
-  digitalWrite(TFT_BL, HIGH);
+  // Now handled by flow itself
+  //digitalWrite(TFT_BL, HIGH);
   xTimerStart(guiTimerHandle, 10);
 
   while (1)
