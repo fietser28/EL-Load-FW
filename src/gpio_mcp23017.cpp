@@ -68,7 +68,7 @@ uint8_t gpio_mcp23017::digitalWrite(uint8_t bank, uint8_t pin, bool value)
 
 uint8_t gpio_mcp23017::digitalWrite(uint8_t pin, bool value)
 {
-    return digitalWrite(pin < 8 ? 0x00 : 0x10, pin, value);
+    return digitalWrite(pin < 8 ? 0x00 : 0x10, pin < 8 ? pin : pin - 8, value);
 }
 
 uint8_t gpio_mcp23017::pinModes(uint8_t bank, uint8_t pins)

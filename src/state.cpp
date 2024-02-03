@@ -58,9 +58,19 @@ namespace dcl
                 _setState.VonLatched = VonType_e_Unlatched;
                 _setState.FanManualSpeed = 128;
                 _setState.FanAuto = true;
+                _setState.rangeCurrentLow = false;
+                _setState.rangeVoltageLow = false;
+                _setState.senseVoltRemote = false;
                 xSemaphoreGive(_setStateMutex);
                 //updateAverageTask();
                 updateHWIOTask();
+                // Needed to get relay & sw in defined state.
+                state.setVoltSense(true);
+                state.setVoltSense(false);
+                state.setRangeCurrent(true);
+                state.setRangeCurrent(false);
+                state.setRangeVoltage(true);
+                state.setRangeVoltage(false);
                 return true;
             }
         }
@@ -273,27 +283,27 @@ namespace dcl
         return false;
     };
 
-    bool stateManager::setFanAuto(bool value)
+    bool stateManager::setFanAuto(bool fanauto)
     {
        uint8_t currentPWM = 0;
        if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
-                _setState.FanAuto = value;
+                _setState.FanAuto = fanauto;
                 currentPWM = _setState.FanManualSpeed; 
                 xSemaphoreGive(_setStateMutex);
             }
         }
-        if (value) {
+        if (fanauto) {
             // Auto
             fancontrol.setPWMDCRamp(fan_max31760::PWM_DC_RAMP_SLOW);
         } else {
             // Manual
             fancontrol.setPWMDCRamp(fan_max31760::PWM_DC_RAMP_FAST);    
         }
-        fancontrol.setDirectFanControl(!value);
-        if (value) {
+        fancontrol.setDirectFanControl(!fanauto);
+        if (!fanauto) {
             fancontrol.setPWM(currentPWM);
         }
         return true;
@@ -301,16 +311,71 @@ namespace dcl
 
     bool stateManager::setFanPWM(uint8_t rpm)
     {
-       if (_setStateMutex != NULL)
+        bool fanAuto;
+        if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 _setState.FanManualSpeed = rpm;
+                fanAuto = _setState.FanAuto;
                 xSemaphoreGive(_setStateMutex);
+                if (!fanAuto) { 
+                    fancontrol.setDirectFanControl(true);
+                    fancontrol.setPWM(rpm);
+                    return true;
+                }
             }
         }
-        fancontrol.setPWM(rpm);
-        return true;
+        return false;
+    };
+
+    bool stateManager::setVoltSense(bool senseOn)
+    {
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
+            {
+                _setState.senseVoltRemote = senseOn;
+                xSemaphoreGive(_setStateMutex);
+                    updateHWIOTask();
+                    return true;
+                }
+            }
+        return false;
+    };
+
+    bool stateManager::setRangeCurrent(bool lowOn)
+    {
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
+            {
+                _setState.rangeCurrentLow = lowOn;
+                xSemaphoreGive(_setStateMutex);
+                updateHWIOTask();
+                updateMeasureTask();
+                updateAverageTask();
+                return true;
+            }
+        }
+        return false;
+    };
+
+    bool stateManager::setRangeVoltage(bool lowOn)
+    {
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
+            {
+                _setState.rangeVoltageLow = lowOn;
+                xSemaphoreGive(_setStateMutex);
+                updateHWIOTask();
+                updateMeasureTask();
+                updateAverageTask();
+                return true;
+                }
+            }
+        return false;
     };
 
     // Send message to averaging task to clear the power measurements.

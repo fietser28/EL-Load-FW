@@ -143,4 +143,12 @@ void action_cal_store_defaults(lv_event_t * e)
     }
 }
 
+void action_display_off(lv_event_t * e) {
+    digitalWrite(TFT_BL, LOW);
+};
+
+void action_display_on(lv_event_t * e) {
+      digitalWrite(TFT_BL, HIGH);
+};
+
 } // extern "C"

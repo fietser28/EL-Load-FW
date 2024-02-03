@@ -122,12 +122,19 @@
 #define KEYS_PIN_LED0       5   // GP5 
 
 // GPIO extender (MCP23008) for hardware signals
-#define HWIO_CHIP_ADDRES    0x27
-#define HWIO_PIN_VONLATCH   0   // GP0 =output
-#define HWIO_PIN_resetProt  1   // GP1 =output
-#define HWIO_PIN_OVPTRIG    5   // GP5 =input
-#define HWIO_PIN_OCPTRIG    6   // GP6 =input
-#define HWIO_PIN_VON        7   // GP7 =input
+#define HWIO_CHIP_ADDRES      0x27
+#define HWIO_PIN_VONLATCH     0   // GPA0 =output
+#define HWIO_PIN_resetProt    1   // GPA1 =output
+#define HWIO_PIN_HWProtEnable 2   // GPA2 =output
+#define HWIO_PIN_SENSE_ERROR  3   // GPA3 =input
+#define HWIO_CLAMPOFF         4   // GPA4 =input
+#define HWIO_PIN_OVPTRIG      5   // GPA5 =input
+#define HWIO_PIN_OCPTRIG      6   // GPA6 =input
+#define HWIO_PIN_VON          7   // GPA7 =input
+#define HWIO_PIN_VOLTSENSECLR 11  // GPB4 =output
+#define HWIO_PIN_CURRRANGELOW 13  // GPB5 =output
+#define HWIO_PIN_VOLTRANGELOW 14  // GPB6 =output
+#define HWIO_PIN_VOLTSENSESET 15  // GPB7 =output
 
 #define TEMPADC_ADDRESS    0x48
 #define NTC_T0              25+273.15

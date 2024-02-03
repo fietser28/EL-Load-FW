@@ -24,6 +24,7 @@
 #include "ui_glue.h"
 #include "eeprom.h"
 #include "gpio_mcp23008.h"
+#include "gpio_mcp23017.h"
 #include "adc_ads1x1x.h"   // For temp sensors
 #include "fan_max31760.h"
 
@@ -136,11 +137,14 @@ void corerunningtest(void *pvParameters)
 
 void setup()
 {
+  pinMode(TFT_BL, OUTPUT);
+  digitalWrite(TFT_BL, LOW);
+
   pinMode(LED_BUILTIN, OUTPUT);
   SERIALDEBUG.setPollingMode(true);
   SERIALDEBUG.begin(115200);
 
-  sleep_ms(2000); // Wait for serial to connect
+  sleep_ms(4000); // Wait for serial to connect
   // Flush serial
   while (SERIALDEBUG.available())
   {
@@ -171,8 +175,7 @@ void setup()
 */
 
   state.begin(); // Setup memory, mutexes and queues.
-  //snprintf(logtxt, 200, "- Empty log -");
-  printlogstr("OK  - Startup");
+  printlogstr("INFO: Startup.");
 
   // TODO: Hardcoded calibration values for now
   currentCal.numPoints = 2;
@@ -356,8 +359,6 @@ void setup()
 
   uint8_t eepromVersionRead = myeeprom.read(EEPROM_ADDR_VERSION);
 
-  myeeprom.read(EEPROM_ADDR_VERSION);
-
   SERIALDEBUG.printf("EEPROM Version read: %x\n", eepromVersionRead);
 
   SERIALDEBUG.printf("Single calibration size: %d\n", sizeof(CalibrationValueConfiguration));
@@ -369,15 +370,15 @@ void setup()
   state.setOff();
   state.clearPower();
 
-  vTaskDelay(400);
+  //vTaskDelay(400);
 
   keys_task_init();
 
-  vTaskDelay(400);
+  //vTaskDelay(400);
 
   //gui_task_init();
 
-  vTaskDelay(400);
+  //vTaskDelay(400);
 
   // Next create the protection tasks.
   BaseType_t xTaskRet;
@@ -386,6 +387,7 @@ void setup()
      SERIALDEBUG.println("ERROR: Error starting ProtHW task.");
   }
   // vTaskCoreAffinitySet(taskProtHW, 0x03); // Can run on both cores.
+  vTaskDelay(3000);
 
   xTaskRet = xTaskCreate(taskAveragingFunction, "", 1024, (void *)1, TASK_PRIORITY_MEASURE, &taskAveraging);
   if (xTaskRet != pdPASS)
@@ -405,7 +407,7 @@ void setup()
 #ifdef FAKE_HARDWARE
   vTaskDelay(500); // Wait for tasks to start 
   SERIALDEBUG.println("INFO: Using FAKE HARDWARE ");
-  printlogstr("INFO:  Using FAKE ADC/DAC HARDWARE\n ");
+  printlogstr("INFO:  Using FAKE ADC/DAC HARDWARE");
   timerFakeADCInterrupt = xTimerCreate("", FAKE_HARDWARE_TIMER_TICKS, pdTRUE, ( void * ) 0, timerFakeADCInterruptFunction);
   if (timerFakeADCInterrupt == NULL ) {
     SERIALDEBUG.println("ERROR: Unable to create FakeADCTimer.");
@@ -420,8 +422,9 @@ void setup()
   { // TODO: reset, something is really wrong;
     SERIALDEBUG.println("ERROR: Error starting blink task.");
   }
-  vTaskCoreAffinitySet(taskDisplay, 1 << 0);
+  //vTaskCoreAffinitySet(taskDisplay, 1 << 0);
 
+  
   state.startupDone();
   SERIALDEBUG.println("INFO: Setup done.");
 
@@ -435,6 +438,10 @@ setStateStruct loopmysetstate;
 
 int heaptotal, heapused, heapfree; 
 int cyclecount = 0;
+
+// TODO remove, just for testing.
+uint8_t fanstatus = 0;
+
 
 void loop()
 {
@@ -454,9 +461,10 @@ void loop()
 //  cyclecount = rp2040.getCycleCount64()/rp2040.f_cpu();
   cyclecount++;
   //SERIALDEBUG.printf("Heap total: %d, used: %d, free:  %d, uptime: %d, ADC0: %i, ADC1: %i, %d\n", heaptotal, heapused, heapfree, cyclecount, loopmystate.avgCurrentRaw, loopmystate.avgVoltRaw, loopmystate.avgCurrentRaw < 0 ? 1 : 0);
-  SERIALDEBUG.printf("Temp1: %f, Temp2: %f, uptime: %d, Mode: %d, VonSet: %f, RPM: %d\n", loopmystate.Temp1, loopmystate.Temp2, cyclecount, loopmysetstate.mode, loopmysetstate.VonSet, loopmystate.FanRPM);
+  SERIALDEBUG.printf("Temp1: %f, Temp2: %f, uptime: %d, Mode: %d, VonSet: %f, RPM: %d, status: %d\n", loopmystate.Temp1, loopmystate.Temp2, cyclecount, loopmysetstate.mode, loopmysetstate.VonSet, loopmystate.FanRPM, fanstatus);
   //snprintf(logtxt, 120, "Heap total: %d\nHeap used: %d\nHeap free:  %d\nADC0: %d\n", heaptotal, heapused, heapfree, loopmystate.avgCurrentRaw);
   //printlogstr(logtxt, 120, "Heap total: %d\nHeap used: %d\nHeap free:  %d\nADC0: %d\n", heaptotal, heapused, heapfree, loopmystate.avgCurrentRaw);
+  if (fanstatus == 1) {fancontrol.clearFanFail(); };
   vTaskDelay(ondelay);
 }
 
@@ -478,17 +486,22 @@ enum tempReadState {
   chan2ready = 3
 };
 
+
 void taskProtHWFunction(void *pvParameters)
 {
   uint32_t ulNotifiedValue;
-  gpio_mcp23008 gpiokeys = gpio_mcp23008();
-  adc_ads1x1x  tempadc = adc_ads1x1x();
+  //gpio_mcp23008 gpiokeys = gpio_mcp23008();
+  gpio_mcp23017 hwio = gpio_mcp23017(); 
+  //adc_ads1x1x  tempadc = adc_ads1x1x();
 
   uint8_t  gpiopinstate, gpiointerruptflagged;
   bool ocptrig, ocptrig_prev = false;
   bool ovptrig, ovptrig_prev = false;
   bool protection, protection_prev = false, protection_prev2 = false;
   bool von, von_prev = false;
+  bool senseVoltage = false;
+  bool rangeCurrentLow = false;
+  bool rangeVoltageLow = false;
 
   tempReadState tempReadState = tempReadState::chan2ready; 
   int16_t temp1Raw, temp2Raw;
@@ -508,25 +521,38 @@ void taskProtHWFunction(void *pvParameters)
   bool stateReceived = false;
 
   // Setup Temp ADC
-  tempadc.begin(&I2C_TEMPADC, I2C_TEMPADC_SEM, TEMPADC_ADDRESS);
+  //tempadc.begin(&I2C_TEMPADC, I2C_TEMPADC_SEM, TEMPADC_ADDRESS);
 
   // Setup fan controller (and temp measurement)
   fancontrol.begin(&I2C_FANCTRL, I2C_FANCTRL_SEM, FANCTRL_ADDRESS);
-  vTaskDelay(1); // Wait for chip reset.??? TODO
+  vTaskDelay(3); // Wait for chip reset.??? TODO
   fancontrol.enableTach2(false);
+  vTaskDelay(3); // Wait for chip reset.??? TODO
   fancontrol.enableTach1(true); 
+  vTaskDelay(3); // Wait for chip reset.??? TODO
+  //  fancontrol.setFanSpinUpEnable(false);
   fancontrol.setFanSpinUpEnable(false);
-  fancontrol.setTachFull(true);
+  vTaskDelay(3); // Wait for chip reset.??? TODO
+//  fancontrol.setTachFull(true);
+  fancontrol.setTachFull(false);
+  vTaskDelay(3); // Wait for chip reset.??? TODO
   fancontrol.setPulseStretch(false);
-  fancontrol.setPWMDCRamp(fan_max31760::PWM_DC_RAMP_SLOW_MEDIUM);
+//  fancontrol.setPWMDCRamp(fan_max31760::PWM_DC_RAMP_SLOW_MEDIUM);
+  vTaskDelay(3); // Wait for chip reset.??? TODO
   fancontrol.setPWMFreq(fan_max31760::PWM_FREQ_25KHZ);
-  fancontrol.setPWMPolarity(fan_max31760::PWM_POLARITY_NEGATIVE);
+//  fancontrol.setPWMPolarity(fan_max31760::PWM_POLARITY_NEGATIVE);
+  vTaskDelay(3); // Wait for chip reset.??? TODO
+  fancontrol.setPWMPolarity(fan_max31760::PWM_POLARITY_POSITIVE);
+  vTaskDelay(3); // Wait for chip reset.??? TODO
+  fancontrol.setPWMDCRamp(fan_max31760::PWM_DC_RAMP_SLOW_MEDIUM);
+  vTaskDelay(3); // Wait for chip reset.??? TODO
   fancontrol.setFFDC(30); // TODO: safe?
+  //fancontrol.setTransistorIFR(0x17); // TODO: hardcoded but Depends on transistor (type), something to calibrate?
 
   for (int i = 0; i<= 47; i++) {
     // LUT0 - LUT10  <= 40C  = off
     if (i <= 10) {
-      fancontrol.setLUT(i,30);
+      fancontrol.setLUT(i,0); // Value = 30 for voltage controlled.
       SERIALDEBUG.printf(" LUT: %2d  = %d\n", i, 0);
     } 
     // LUT11 - LUT26 (42 - )= PWM 10% - 95%  => increment of 5 per LUT.
@@ -547,9 +573,10 @@ void taskProtHWFunction(void *pvParameters)
 //  fancontrol.setDirectFanControl(true);
 //  fancontrol.setPWM(64);
   fancontrol.clearFanFail();
-  state.setFanPWM(128);
+  state.setFanPWM(192);
   state.setFanAuto(true);
 
+/* Old MCP23008 
   // Setup HW GPIO extender
   pinMode(PIN_HWGPIO_INT, INPUT);
   gpiokeys.begin(&I2C_KEYS, I2C_KEYS_SEM, HWIO_CHIP_ADDRES);
@@ -562,14 +589,31 @@ void taskProtHWFunction(void *pvParameters)
 
   ::attachInterrupt(digitalPinToInterrupt(PIN_HWGPIO_INT), ISR_ProtHW, FALLING);
   gpiopinstate = gpiokeys.digitalRead(); //Clear interrupt pin status.
+*/
+  // Setup HW GPIO extender (MCP23017)
+  pinMode(PIN_HWGPIO_INT, INPUT);
+  hwio.begin(&I2C_KEYS, I2C_KEYS_SEM, HWIO_CHIP_ADDRES);
+  vTaskDelay(500); //TODO: remove?
+  hwio.pinModes(0, ~(1 << HWIO_PIN_VONLATCH | 1 << HWIO_PIN_resetProt | 1 << HWIO_PIN_HWProtEnable)); // Set output pins bank0
+  vTaskDelay(500); //TODO: remove?
+  // TODO: Cleaner implementation, not hardcoded like this.
+  hwio.pinModes(0x10, (uint8_t)((~(1 << HWIO_PIN_VOLTSENSECLR | 1 << HWIO_PIN_CURRRANGELOW |1 << HWIO_PIN_VOLTRANGELOW | 1 << HWIO_PIN_VOLTSENSESET)) >> 8)) ; // Set output pins bank1
+  vTaskDelay(500); //TODO: remove?
+  hwio.pinInterrupts  (0,  // Bank 
+                          1 << HWIO_PIN_OCPTRIG | 1 << HWIO_PIN_OVPTRIG | 1 << HWIO_PIN_VON, // Only relevant input pins
+                          0x00,  // Compare against 0
+                          1 << HWIO_PIN_OCPTRIG | 1 << HWIO_PIN_OVPTRIG); // Only these are compared, other on any change
+
+  ::attachInterrupt(digitalPinToInterrupt(PIN_HWGPIO_INT), ISR_ProtHW, FALLING);
+  gpiopinstate = hwio.digitalRead(0); //Clear interrupt pin status. Only needed for bank0
 
   for (;;)
   {
     // Notified by interrupt or wait 100ms.
     ulTaskNotifyTake(pdTRUE, (TickType_t)100); 
 
-    gpiointerruptflagged = gpiokeys.interruptFlagged();
-    gpiopinstate = gpiokeys.digitalRead();
+    gpiointerruptflagged = hwio.interruptFlagged(0);
+    gpiopinstate = hwio.digitalRead(0); // Inputs are on bank0, therefor we only need to read bank0
 
     ocptrig = (gpiopinstate & 1 << HWIO_PIN_OCPTRIG) || (gpiointerruptflagged & 1 << HWIO_PIN_OCPTRIG); 
     ovptrig = (gpiopinstate & 1 << HWIO_PIN_OVPTRIG) || (gpiointerruptflagged & 1 << HWIO_PIN_OVPTRIG);
@@ -630,7 +674,7 @@ void taskProtHWFunction(void *pvParameters)
     */
 
     // Fan controll
-    fancontrol.getStatus();
+    fanstatus = fancontrol.getStatus();
     uint32_t rpm = fancontrol.readRPM();
     state.setFanRPMread(rpm);
     temp1 = fancontrol.readTempRemote();
@@ -638,6 +682,7 @@ void taskProtHWFunction(void *pvParameters)
     temp2 = fancontrol.readTempLocal();
     state.setTemp2(temp2);
 
+/* DC controlled logic 
     // Manually stop the fan below 40C, doesn't work via LUT it keeps spinning up due to failure dection and 
     // PWM = 0 will disable RPM readout.... TODO: Change Fan voltage in HW for PWM = 0
     if (localSetState.FanAuto == true && fanAutoStopped == false && max(temp1, temp2) < 39 && rpm > 0)
@@ -663,6 +708,8 @@ void taskProtHWFunction(void *pvParameters)
       fancontrol.setPWM(0);
       fanAutoZero == true;
     }
+
+*/
 
     // OTP loop
     if (localSetState.on && max(temp1, temp2) > localSetState.OTPset)
@@ -698,18 +745,47 @@ void taskProtHWFunction(void *pvParameters)
      
       vonLatch = localSetState.VonLatched;
       if (vonLatch == VonType_e_Latched) {
-        gpiokeys.digitalWrite(HWIO_PIN_VONLATCH, false); // vonLatch pin is active low in hardware!
+        hwio.digitalWrite(HWIO_PIN_VONLATCH, false); // vonLatch pin is active low in hardware!
       } else {
-        gpiokeys.digitalWrite(HWIO_PIN_VONLATCH, true); // vonLatch pin is active low in hardware!
+        hwio.digitalWrite(HWIO_PIN_VONLATCH, true); // vonLatch pin is active low in hardware!
       };
 
       if (localSetState.protection == false && protection_prev2 == true)
       {
-        gpiokeys.digitalWrite(HWIO_PIN_resetProt, true);
+        hwio.digitalWrite(HWIO_PIN_resetProt, true);
         //vTaskDelay(1 / portTICK_PERIOD_MS);
-        gpiokeys.digitalWrite(HWIO_PIN_resetProt, false);
+        hwio.digitalWrite(HWIO_PIN_resetProt, false);
       }
       protection_prev2 = localSetState.protection;
+
+      if (localSetState.senseVoltRemote != senseVoltage) {
+        if (localSetState.senseVoltRemote == true) {
+          //Trigger set coil.
+          hwio.digitalWrite(HWIO_PIN_VOLTSENSESET, HIGH);
+          vTaskDelay(100); // TODO: lazy implementation
+          hwio.digitalWrite(HWIO_PIN_VOLTSENSESET, LOW);
+        } else {
+          //Trigger clear coil.
+          hwio.digitalWrite(HWIO_PIN_VOLTSENSECLR, HIGH);
+          vTaskDelay(100); // TODO: lazy implementation
+          hwio.digitalWrite(HWIO_PIN_VOLTSENSECLR, LOW);
+        }
+        senseVoltage = localSetState.senseVoltRemote;
+      }
+
+      if (localSetState.rangeCurrentLow != rangeCurrentLow) 
+      {
+          hwio.digitalWrite(HWIO_PIN_CURRRANGELOW, localSetState.rangeCurrentLow);
+          rangeCurrentLow = localSetState.rangeCurrentLow;
+      };
+
+      if (localSetState.rangeVoltageLow != rangeVoltageLow) 
+      {
+          hwio.digitalWrite(HWIO_PIN_VOLTRANGELOW, localSetState.rangeVoltageLow);
+          rangeVoltageLow = localSetState.rangeVoltageLow;
+      };
+
+      
     }
   }
 };

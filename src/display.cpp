@@ -81,6 +81,7 @@ static void my_disp_flush(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t
 }
 
 /*Read the touchpad*/
+// TODO: Add calibration
 static void my_touchpad_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data)
 {
   // data->state = LV_INDEV_STATE_REL;
@@ -102,7 +103,7 @@ static void my_touchpad_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data
     data->point.x = 320 - (touchX * 4) / 3;
     data->point.y = 240 - (touchY * 3) / 4;
   #else
-    data->point.x = 320 - touchX;
+    data->point.x = 320 - touchX + 10; // - 20 = manual calibration, TODO
     data->point.y = 240 - touchY;
   #endif
   }

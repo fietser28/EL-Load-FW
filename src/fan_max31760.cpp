@@ -81,7 +81,27 @@ void fan_max31760::begin(TwoWire *Wire, SemaphoreHandle_t WireSemaphore, uint8_t
 
 void fan_max31760::reset()
 {
+    // Reset all EEPROM registers, a lot of MAX31760 registers are nonvolatile
+    writeI2C(MAX31760_ADDR_CR1, 0x01);
+    writeI2C(MAX31760_ADDR_CR2, 0x10);
+    writeI2C(MAX31760_ADDR_CR3, 0x03);
+    writeI2C(MAX31760_ADDR_FFDC,0xFF);
+    writeI2C(MAX31760_ADDR_MASK, 0xC0);
+    writeI2C(MAX31760_ADDR_RHSH, 0x55);
+    writeI2C(MAX31760_ADDR_RHSL, 0x00);
+    writeI2C(MAX31760_ADDR_LOTSH, 0x55);
+    writeI2C(MAX31760_ADDR_LOTSL, 0x00);
+    writeI2C(MAX31760_ADDR_ROTSH, 0x6E);
+    writeI2C(MAX31760_ADDR_ROTSL, 0x00);
+    writeI2C(MAX31760_ADDR_LHSH, 0x46);
+    writeI2C(MAX31760_ADDR_LHSL, 0x00);
+    writeI2C(MAX31760_ADDR_TCTH, 0xff); // default = ff
+    writeI2C(MAX31760_ADDR_TCTL, 0xfe); // default = fe
+    // Skip LUT
+    writeI2C(MAX31760_ADDR_IFR, 0x18);
+
     writeI2C(MAX31760_ADDR_CR1, 1 << MAX31760_BIT_POR);
+
 };
 
 float fan_max31760::tempRaw2Float(uint8_t msb, uint8_t lsb) 
@@ -114,9 +134,15 @@ uint32_t fan_max31760::readRPM()
 {
     uint8_t tch = readI2C(MAX31760_ADDR_TC1H);
     uint8_t tcl = readI2C(MAX31760_ADDR_TC1L);
+    uint8_t curpwm = readI2C(MAX31760_ADDR_PWMV);
     
+    // Sanity check
+    if (tch == 0 && tcl == 0) { return 0; }
+    // If PWM = 0, tacho values are not updated, fan goes to 0.
+    if (curpwm == 0) { return 0; }
+
     uint32_t rpm = (60*100000/FAN_TACH_PULS_PER_REVOLUTION)/(tch * 256 + tcl);
-    return rpm < 60 ? 0 : rpm;
+    return (rpm < 60) || (rpm > 1000000) ? 0 : rpm;
 };
 
 uint8_t fan_max31760::getStatus()
@@ -198,6 +224,13 @@ uint8_t fan_max31760::setLUT(uint8_t lut, uint8_t value)
 uint8_t fan_max31760::setFFDC(uint8_t dutycycle)
 {
     return writeI2C(MAX31760_ADDR_FFDC, dutycycle);
+};
+uint8_t fan_max31760::setTransistorIFR(uint8_t ifr)
+{
+    if (ifr >= 0x40) {
+        return 255; // Invalid IFR factor
+    }
+    return writeI2C(MAX31760_ADDR_IFR, ifr);
 };
 
 

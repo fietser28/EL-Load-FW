@@ -15,6 +15,8 @@ ActionExecFunc actions[] = {
     action_cal_store_values,
     action_cal_set_dac,
     action_cal_store_defaults,
+    action_display_off,
+    action_display_on,
 };
 
 

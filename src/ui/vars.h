@@ -60,7 +60,8 @@ enum FlowGlobalVariables {
     FLOW_GLOBAL_VARIABLE_SET_TYPE = 4,
     FLOW_GLOBAL_VARIABLE_PREFIXES = 5,
     FLOW_GLOBAL_VARIABLE_CAL_DATA = 6,
-    FLOW_GLOBAL_VARIABLE_VON_LATCHED_TEXT = 7
+    FLOW_GLOBAL_VARIABLE_VON_LATCHED_TEXT = 7,
+    FLOW_GLOBAL_VARIABLE_DISPLAY_BACKLIGHT = 8
 };
 
 // Native global variables
@@ -159,6 +160,12 @@ extern int32_t get_var_fan_set_speed();
 extern void set_var_fan_set_speed(int32_t value);
 extern int32_t get_var_fan_read_speed();
 extern void set_var_fan_read_speed(int32_t value);
+extern bool get_var_range_current_low();
+extern void set_var_range_current_low(bool value);
+extern bool get_var_range_voltage_low();
+extern void set_var_range_voltage_low(bool value);
+extern bool get_var_remote_sense_voltage();
+extern void set_var_remote_sense_voltage(bool value);
 
 
 #ifdef __cplusplus

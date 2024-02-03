@@ -17,6 +17,8 @@ extern void action_cal_reset_values(lv_event_t * e);
 extern void action_cal_store_values(lv_event_t * e);
 extern void action_cal_set_dac(lv_event_t * e);
 extern void action_cal_store_defaults(lv_event_t * e);
+extern void action_display_off(lv_event_t * e);
+extern void action_display_on(lv_event_t * e);
 
 
 #ifdef __cplusplus

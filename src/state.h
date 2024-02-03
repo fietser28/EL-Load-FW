@@ -81,18 +81,28 @@ namespace dcl
         float OPPdelay;
         bool FanAuto;
         uint8_t FanManualSpeed;
+        bool rangeCurrentLow;
+        bool rangeVoltageLow;
+        bool senseVoltRemote;
     };
 
 #ifdef __cplusplus
     struct calibration
     {
         cal *Imon;
+        cal *ImonLow;
         cal *Umon;
+        cal *UmonLow;
         cal *Iset;
+        cal *IsetLow;
         cal *Uset;
+        cal *UsetLow;
         cal *Von;
+        cal *VonLow;
         cal *OCPset;
+        cal *OCPsetLow;
         cal *OVPset;
+        cal *OVPsetLow;
 //        cal *OTPset;
 //        cal *Temp1;
 //        cal *Temp2;
@@ -128,8 +138,11 @@ public:
     bool setTemp1(float temp);
     bool setTemp2(float temp);
     bool setFanRPMread(uint32_t rpm);
-    bool setFanAuto(bool value);
+    bool setFanAuto(bool fanauto);
     bool setFanPWM(uint8_t rpm);
+    bool setVoltSense(bool senseOn);
+    bool setRangeCurrent(bool lowOn);
+    bool setRangeVoltage(bool lowOn);
     bool clearPower();
     bool clearProtection();
     bool setProtection();

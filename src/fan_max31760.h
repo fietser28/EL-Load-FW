@@ -52,6 +52,7 @@ class fan_max31760
         uint8_t enableTach2(bool enable);
         uint8_t setLUT(uint8_t lut, uint8_t value);
         uint8_t setFFDC(uint8_t dutycycle);
+        uint8_t setTransistorIFR(uint8_t ifr);
 
     private:
         TwoWire *_wire;

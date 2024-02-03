@@ -400,15 +400,52 @@ void set_var_fan_mode_manual(bool value)
   state.setFanAuto(!value);
 };
 
+
+// Scaled: 1-100% => 20%-100% PWM 
 int32_t get_var_fan_set_speed() 
 { 
-  return localsetcopy.FanManualSpeed/2.55; 
+  return (max(localsetcopy.FanManualSpeed/(2.55 - 0.50)-50,0)); 
 };
 
 void set_var_fan_set_speed(int32_t value)
 {
-  state.setFanPWM(value * 2.55);
+  if (value >= 100.0) {
+    state.setFanPWM(255);
+  } else if (value <= 0.0) {
+    state.setFanPWM(0);
+  } else {
+    state.setFanPWM(value*(2.05) + 50);
+  }
 };
 
 int32_t get_var_fan_read_speed() { return localstatecopy.FanRPM; };
 void set_var_fan_read_speed(int32_t value) {}; // Read only.
+
+bool get_var_range_current_low() 
+{
+  return localsetcopy.rangeCurrentLow;
+};
+
+void set_var_range_current_low(bool value)
+{
+  state.setRangeCurrent(value);
+};
+
+bool get_var_range_voltage_low() 
+{
+  return localsetcopy.rangeVoltageLow;
+};
+
+void set_var_range_voltage_low(bool value)
+{
+  state.setRangeVoltage(value);
+};
+
+bool get_var_remote_sense_voltage()
+{
+  return localsetcopy.senseVoltRemote;
+};
+void set_var_remote_sense_voltage(bool value)
+{
+  state.setVoltSense(value);
+};
