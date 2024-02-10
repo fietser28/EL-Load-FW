@@ -64,6 +64,7 @@ namespace dcl
                 xSemaphoreGive(_setStateMutex);
                 //updateAverageTask();
                 updateHWIOTask();
+                updateKeysTask(); // For led
                 // Needed to get relay & sw in defined state.
                 state.setVoltSense(true);
                 state.setVoltSense(false);
@@ -344,6 +345,12 @@ namespace dcl
         return false;
     };
 
+    bool stateManager::getVoltSense()
+    {
+        // No locking needed.
+        return _setState.senseVoltRemote;
+    }
+
     bool stateManager::setRangeCurrent(bool lowOn)
     {
         if (_setStateMutex != NULL)
@@ -361,6 +368,12 @@ namespace dcl
         return false;
     };
 
+    bool stateManager::getRangeCurrentLow()
+    {
+        // No locking needed.
+        return _setState.rangeCurrentLow;
+    }
+
     bool stateManager::setRangeVoltage(bool lowOn)
     {
         if (_setStateMutex != NULL)
@@ -377,6 +390,12 @@ namespace dcl
             }
         return false;
     };
+
+    bool stateManager::getRangeVoltageLow()
+    {
+        // No locking needed.
+        return _setState.rangeVoltageLow;
+    }
 
     // Send message to averaging task to clear the power measurements.
     // Note: this is asynchronous!
@@ -684,6 +703,22 @@ namespace dcl
         return updateAverageTask();
     };
 
+    bool stateManager::setPLFreq(uint32_t freq)
+    {
+        if (freq != 50 && freq != 60) {
+            return false;
+        }
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
+            {
+                _setState.PLFreq = freq;
+                xSemaphoreGive(_setStateMutex);
+            };
+        };
+        return updateAverageTask();
+    };
+
     uint32_t stateManager::getNPLC()
     {
         uint16_t cycles;
@@ -694,6 +729,21 @@ namespace dcl
                 cycles = _setState.NLPC;
                 xSemaphoreGive(_setStateMutex);
                 return cycles;
+            };
+        };
+        return 1;
+    };
+
+    uint32_t stateManager::getPLFreq()
+    {
+        uint16_t freq;
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
+            {
+                freq = _setState.PLFreq;
+                xSemaphoreGive(_setStateMutex);
+                return freq;
             };
         };
         return 1;

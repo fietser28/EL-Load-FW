@@ -16,6 +16,7 @@
 #include "main.h"
 #include "state.h"
 #include "util.h"
+#include "ranges.h"
 #include "cal.h"
 #include "adc.h"
 #include "dac.h"
@@ -27,12 +28,14 @@
 #include "gpio_mcp23017.h"
 #include "adc_ads1x1x.h"   // For temp sensors
 #include "fan_max31760.h"
+#include "scpi/scpi-def.h"
 
 // Fixes lvgl include. TODO: remove?
 #include "LittleFS.h"
 
 using namespace dcl;
 using namespace dcl::eeprom;
+using namespace dcl::scpi;
 
 #ifdef FAKE_HARDWARE
 TimerHandle_t timerFakeADCInterrupt;
@@ -133,6 +136,8 @@ void corerunningtest(void *pvParameters)
   }
 }
 */
+
+int heaptotal, heapused, heapfree; 
 
 
 void setup()
@@ -402,7 +407,7 @@ void setup()
   { // TODO: reset, something is really wrong;
     SERIALDEBUG.println("ERROR: Error starting MeasureAndOutput task.");
   }
-  vTaskCoreAffinitySet(taskMeasureAndOutput, TASK_AFFINITY_MEASURE); 
+  //vTaskCoreAffinitySet(taskMeasureAndOutput, TASK_AFFINITY_MEASURE); 
 
 #ifdef FAKE_HARDWARE
   vTaskDelay(500); // Wait for tasks to start 
@@ -424,7 +429,25 @@ void setup()
   }
   //vTaskCoreAffinitySet(taskDisplay, 1 << 0);
 
+  heaptotal = rp2040.getTotalHeap();
+  heapused = rp2040.getUsedHeap();
+  heapfree = rp2040.getFreeHeap();
+  SERIALDEBUG.printf("Heap total: %d, used: %d, free:  %d\n", heaptotal, heapused, heapfree);
   
+
+  SCPI_Init(&scpi_context,
+            scpi_commands,
+            &scpi_interface,
+            scpi_units_def,
+            SCPI_IDN1, SCPI_IDN2, SCPI_IDN3, SCPI_IDN4,
+            scpi_input_buffer, SCPI_INPUT_BUFFER_LENGTH,
+            scpi_error_queue_data, SCPI_ERROR_QUEUE_SIZE);
+
+  heaptotal = rp2040.getTotalHeap();
+  heapused = rp2040.getUsedHeap();
+  heapfree = rp2040.getFreeHeap();
+  SERIALDEBUG.printf("Heap total: %d, used: %d, free:  %d\n", heaptotal, heapused, heapfree);
+
   state.startupDone();
   SERIALDEBUG.println("INFO: Setup done.");
 
@@ -436,7 +459,6 @@ const TickType_t ondelay = 1000;
 measuredStateStruct loopmystate;
 setStateStruct loopmysetstate;
 
-int heaptotal, heapused, heapfree; 
 int cyclecount = 0;
 
 // TODO remove, just for testing.
@@ -448,24 +470,35 @@ void loop()
   // TODO: Replace with SCPI reading class/task?
   if (SERIALDEBUG.available())
   {
-    SERIALDEBUG.write(SERIALDEBUG.read());
+    //SERIALDEBUG.write(SERIALDEBUG.read());
+    char ch = SERIALDEBUG.read();
+    if (ch == '\r') {
+        heaptotal = rp2040.getTotalHeap();
+        heapused = rp2040.getUsedHeap();
+        heapfree = rp2040.getFreeHeap();
+        SERIALDEBUG.printf("\nHeap total: %d, used: %d, free:  %d\n", heaptotal, heapused, heapfree);
+    } else {
+        SERIALDEBUG.write(ch); // TODO: Keep echo back or make it an option?
+    }
+    SCPI_Input(&scpi_context, &ch, 1);
   }
   
-  bool getok = state.getMeasuredStateCopy(&loopmystate, 20);
-  getok = getok && state.getSetStateCopy(&loopmysetstate, 20);
+  //bool getok = state.getMeasuredStateCopy(&loopmystate, 20);
+  //getok = getok && state.getSetStateCopy(&loopmysetstate, 20);
 
   //SERIALDEBUG.printf("%.4f (%.5f/%.5f) %d %d\n", loopmystate.Imon, loopmystate.As/3600.0f, loopmystate.Ptime, getok, loopmysetstate.startupDone);
-  heaptotal = rp2040.getTotalHeap();
-  heapused = rp2040.getUsedHeap();
-  heapfree = rp2040.getFreeHeap();
+  //heaptotal = rp2040.getTotalHeap();
+  //heapused = rp2040.getUsedHeap();
+  //heapfree = rp2040.getFreeHeap();
 //  cyclecount = rp2040.getCycleCount64()/rp2040.f_cpu();
-  cyclecount++;
+  //cyclecount++;
   //SERIALDEBUG.printf("Heap total: %d, used: %d, free:  %d, uptime: %d, ADC0: %i, ADC1: %i, %d\n", heaptotal, heapused, heapfree, cyclecount, loopmystate.avgCurrentRaw, loopmystate.avgVoltRaw, loopmystate.avgCurrentRaw < 0 ? 1 : 0);
-  SERIALDEBUG.printf("Temp1: %f, Temp2: %f, uptime: %d, Mode: %d, VonSet: %f, RPM: %d, status: %d\n", loopmystate.Temp1, loopmystate.Temp2, cyclecount, loopmysetstate.mode, loopmysetstate.VonSet, loopmystate.FanRPM, fanstatus);
+  //SERIALDEBUG.printf("Temp1: %f, Temp2: %f, uptime: %d, Mode: %d, VonSet: %f, RPM: %d, status: %d\n", loopmystate.Temp1, loopmystate.Temp2, cyclecount, loopmysetstate.mode, loopmysetstate.VonSet, loopmystate.FanRPM, fanstatus);
   //snprintf(logtxt, 120, "Heap total: %d\nHeap used: %d\nHeap free:  %d\nADC0: %d\n", heaptotal, heapused, heapfree, loopmystate.avgCurrentRaw);
   //printlogstr(logtxt, 120, "Heap total: %d\nHeap used: %d\nHeap free:  %d\nADC0: %d\n", heaptotal, heapused, heapfree, loopmystate.avgCurrentRaw);
-  if (fanstatus == 1) {fancontrol.clearFanFail(); };
-  vTaskDelay(ondelay);
+  //if (fanstatus == 1) {fancontrol.clearFanFail(); };
+  //vTaskDelay(ondelay);
+
 }
 
 // HW Protection interrupt & task

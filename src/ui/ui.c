@@ -5,8 +5,8 @@
 #include "actions.h"
 
 ActionExecFunc actions[] = {
-    action_getdropdownindex,
     action_clear_power,
+    action_getdropdownindex,
     action_toggle_record,
     action_text_area_disable_blink,
     action_grab_encoder,
@@ -17,6 +17,7 @@ ActionExecFunc actions[] = {
     action_cal_store_defaults,
     action_display_off,
     action_display_on,
+    action_get_type_data,
 };
 
 

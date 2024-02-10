@@ -449,3 +449,6 @@ void set_var_remote_sense_voltage(bool value)
 {
   state.setVoltSense(value);
 };
+
+//ranges_e get_var_range_select() { return range_select; };
+//void set_var_range_select(ranges_e value) { range_select = value; };

@@ -6,14 +6,17 @@
 #include "main.h"
 #include "actions.h"
 #include "vars.h"
+#include "structs.h"
 #include "ui_glue.h"
+#include "ranges.h"
 
-
+/*
 void action_getrollerindex(lv_event_t * e) {
     lv_obj_t *roller = lv_event_get_target(e);
     uint16_t myindex = lv_roller_get_selected(roller);
     //set_var_roller1index(myindex);
 }
+*/
 
 void action_getdropdownindex(lv_event_t * e) {
     lv_obj_t *dropdown = lv_event_get_target(e);
@@ -149,6 +152,19 @@ void action_display_off(lv_event_t * e) {
 
 void action_display_on(lv_event_t * e) {
       digitalWrite(TFT_BL, HIGH);
+};
+
+void action_get_type_data(lv_event_t * e) {
+
+    ranges_e range = (ranges_e)flow::getGlobalVariable(FLOW_GLOBAL_VARIABLE_RANGE_TYPE).getInt();
+    
+    setPropertiesValue properties = flow::getGlobalVariable(FLOW_GLOBAL_VARIABLE_RANGE_PROPERTIES);
+
+    properties.setName(ranges[range].setName);
+    properties.setUnit(ranges[range].unitName);
+    properties.setValueMin(ranges[range].minValue);
+    properties.setValueMax(ranges[range].maxValue);
+    properties.setValueDefault(ranges[range].defValue);
 };
 
 } // extern "C"

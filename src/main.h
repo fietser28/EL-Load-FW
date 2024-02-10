@@ -12,6 +12,8 @@
 
 #include "state.h"
 #include "cal.h"
+#include "ranges.h"
+
 #include "eeprom.h"
 #include "adc_ads1x1x.h"
 #include "fan_max31760.h"

@@ -28,6 +28,7 @@ enum setPropertiesFlowStructureFields {
     FLOW_STRUCTURE_SET_PROPERTIES_FIELD_SET_UNIT = 1,
     FLOW_STRUCTURE_SET_PROPERTIES_FIELD_SET_VALUE_MIN = 2,
     FLOW_STRUCTURE_SET_PROPERTIES_FIELD_SET_VALUE_MAX = 3,
+    FLOW_STRUCTURE_SET_PROPERTIES_FIELD_SET_VALUE_DEFAULT = 4,
     FLOW_STRUCTURE_SET_PROPERTIES_NUM_FIELDS
 };
 
@@ -92,6 +93,13 @@ struct setPropertiesValue {
     }
     void setValueMax(float setValueMax) {
         value.getArray()->values[FLOW_STRUCTURE_SET_PROPERTIES_FIELD_SET_VALUE_MAX] = FloatValue(setValueMax);
+    }
+    
+    float setValueDefault() {
+        return value.getArray()->values[FLOW_STRUCTURE_SET_PROPERTIES_FIELD_SET_VALUE_DEFAULT].getFloat();
+    }
+    void setValueDefault(float setValueDefault) {
+        value.getArray()->values[FLOW_STRUCTURE_SET_PROPERTIES_FIELD_SET_VALUE_DEFAULT] = FloatValue(setValueDefault);
     }
 };
 
@@ -159,11 +167,11 @@ struct calConfigValue {
         value.getArray()->values[FLOW_STRUCTURE_CAL_CONFIG_FIELD_INSTRUCTION] = StringValue(instruction);
     }
     
-    int setType() {
-        return value.getArray()->values[FLOW_STRUCTURE_CAL_CONFIG_FIELD_SET_TYPE].getInt();
+    ranges_e setType() {
+        return (ranges_e)value.getArray()->values[FLOW_STRUCTURE_CAL_CONFIG_FIELD_SET_TYPE].getInt();
     }
-    void setType(int setType) {
-        value.getArray()->values[FLOW_STRUCTURE_CAL_CONFIG_FIELD_SET_TYPE] = IntegerValue(setType);
+    void setType(ranges_e setType) {
+        value.getArray()->values[FLOW_STRUCTURE_CAL_CONFIG_FIELD_SET_TYPE] = IntegerValue((int)setType);
     }
 };
 

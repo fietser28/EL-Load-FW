@@ -141,8 +141,11 @@ public:
     bool setFanAuto(bool fanauto);
     bool setFanPWM(uint8_t rpm);
     bool setVoltSense(bool senseOn);
+    bool getVoltSense();
     bool setRangeCurrent(bool lowOn);
+    bool getRangeCurrentLow();
     bool setRangeVoltage(bool lowOn);
+    bool getRangeVoltageLow();
     bool clearPower();
     bool clearProtection();
     bool setProtection();
@@ -161,6 +164,8 @@ public:
     bool setOTPdelay(float OTPdelay);
     bool setNPLC(uint32_t cycles);
     uint32_t getNPLC();
+    bool setPLFreq(uint32_t freq);
+    uint32_t getPLFreq();
     bool record(bool setrecord);
     bool toggleRecord();
     bool updateHWIOTask();

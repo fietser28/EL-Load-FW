@@ -59,7 +59,7 @@ void __not_in_flash_func(gui_task_init(void))
   //xTimerStart(guiTimerHandle, 10);
 
   xTaskCreate(guiTask, "", 2048, NULL, TASK_PRIORITY_UI, &guiTaskHandle);
-  vTaskCoreAffinitySet(guiTaskHandle, TASK_AFFINITY_UI);
+  //vTaskCoreAffinitySet(guiTaskHandle, TASK_AFFINITY_UI);
 };
 
 /**********************

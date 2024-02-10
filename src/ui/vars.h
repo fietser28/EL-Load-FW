@@ -43,6 +43,25 @@ typedef enum {
     setTypes_e_von = 4
 } setTypes_e;
 
+typedef enum {
+    ranges_e_Curr_High = 0,
+    ranges_e_Curr_Low = 1,
+    ranges_e_Volt_High = 2,
+    ranges_e_Volt_Low = 3,
+    ranges_e_Power = 4,
+    ranges_e_Res = 5,
+    ranges_e_Von_High = 6,
+    ranges_e_Von_Low = 7,
+    ranges_e_OCP_High = 8,
+    ranges_e_OCP_Low = 9,
+    ranges_e_OVP_High = 10,
+    ranges_e_OVP_Low = 11,
+    ranges_e_OPP_Power = 12,
+    ranges_e_OPP_Delay = 13,
+    ranges_e_OTP_Temp = 14,
+    ranges_e_OTP_Delay = 15
+} ranges_e;
+
 // For calibration actions
 extern calType_e cal_calType;
 extern int32_t cal_curpoint;
@@ -61,7 +80,9 @@ enum FlowGlobalVariables {
     FLOW_GLOBAL_VARIABLE_PREFIXES = 5,
     FLOW_GLOBAL_VARIABLE_CAL_DATA = 6,
     FLOW_GLOBAL_VARIABLE_VON_LATCHED_TEXT = 7,
-    FLOW_GLOBAL_VARIABLE_DISPLAY_BACKLIGHT = 8
+    FLOW_GLOBAL_VARIABLE_DISPLAY_BACKLIGHT = 8,
+    FLOW_GLOBAL_VARIABLE_RANGE_PROPERTIES = 9,
+    FLOW_GLOBAL_VARIABLE_RANGE_TYPE = 10
 };
 
 // Native global variables
