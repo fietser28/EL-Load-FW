@@ -56,6 +56,16 @@ extern scpi_result_t scpi_cmd_source_modeQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_input_prot_clear(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_input_prot_tripQ(scpi_t *context);
 
+extern scpi_result_t scpi_cmd_source_cap(scpi_t *context);
+extern scpi_result_t scpi_cmd_source_capQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_source_cap_clear(scpi_t *context);
+extern scpi_result_t scpi_cmd_source_cap_ahstop(scpi_t *context);
+extern scpi_result_t scpi_cmd_source_cap_ahstopQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_source_cap_timestop(scpi_t *context);
+extern scpi_result_t scpi_cmd_source_cap_timestopQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_source_cap_voltstop(scpi_t *context);
+extern scpi_result_t scpi_cmd_source_cap_voltstopQ(scpi_t *context);
+
 extern scpi_result_t scpi_cmd_source_current(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_currentQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_current_prot_level(scpi_t *context);
@@ -65,10 +75,31 @@ extern scpi_result_t scpi_cmd_source_current_rangeQ(scpi_t *context);
 
 extern scpi_result_t scpi_cmd_source_voltage(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_voltageQ(scpi_t *context);
+
+extern scpi_result_t scpi_cmd_source_voltage_on(scpi_t *context);
+extern scpi_result_t scpi_cmd_source_voltage_onQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_source_voltage_on_latch(scpi_t *context);
+extern scpi_result_t scpi_cmd_source_voltage_on_latchQ(scpi_t *context);
+
 extern scpi_result_t scpi_cmd_source_voltage_prot_level(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_voltage_prot_levelQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_voltage_range(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_voltage_rangeQ(scpi_t *context);
+
+extern scpi_result_t scpi_cmd_source_res(scpi_t *context);
+extern scpi_result_t scpi_cmd_source_resQ(scpi_t *context);
+
+extern scpi_result_t scpi_cmd_source_pow(scpi_t *context);
+extern scpi_result_t scpi_cmd_source_powQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_source_pow_prot_level(scpi_t *context);
+extern scpi_result_t scpi_cmd_source_pow_prot_levelQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_source_pow_prot_delay(scpi_t *context);
+extern scpi_result_t scpi_cmd_source_pow_prot_delayQ(scpi_t *context);
+
+extern scpi_result_t scpi_cmd_syst_temp_prot(scpi_t *context);
+extern scpi_result_t scpi_cmd_syst_temp_protQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_syst_temp_prot_del(scpi_t *context);
+extern scpi_result_t scpi_cmd_syst_temp_prot_delQ(scpi_t *context);
 }
 
 

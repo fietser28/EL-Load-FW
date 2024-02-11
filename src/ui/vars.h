@@ -59,7 +59,13 @@ typedef enum {
     ranges_e_OPP_Power = 12,
     ranges_e_OPP_Delay = 13,
     ranges_e_OTP_Temp = 14,
-    ranges_e_OTP_Delay = 15
+    ranges_e_OTP_Delay = 15,
+    ranges_e_Curr_Cal = 16,
+    ranges_e_Volt_Cal = 17,
+    ranges_e_DAC16b = 18,
+    ranges_e_AHStop = 19,
+    ranges_e_TimeStop = 20,
+    ranges_e_VoltStop = 21
 } ranges_e;
 
 // For calibration actions

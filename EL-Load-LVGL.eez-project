@@ -1248,6 +1248,36 @@
             "objID": "41aff70d-3230-4dd7-88c7-f2f09624e15c",
             "name": "OTP_Delay",
             "value": 15
+          },
+          {
+            "objID": "c6c510cd-b9f5-4120-b2c0-b5a44febb038",
+            "name": "Curr_Cal",
+            "value": 16
+          },
+          {
+            "objID": "751f9f3a-ba4d-459d-e250-b748fb7abf6f",
+            "name": "Volt_Cal",
+            "value": 17
+          },
+          {
+            "objID": "6d6960ae-6139-464e-c788-2240938d0d0f",
+            "name": "DAC16b",
+            "value": 18
+          },
+          {
+            "objID": "eb84cce2-999a-4883-a335-d27555288ddc",
+            "name": "AHStop",
+            "value": 19
+          },
+          {
+            "objID": "64c39924-5cc2-4ccb-dcd8-ad19f66e72ca",
+            "name": "TimeStop",
+            "value": 20
+          },
+          {
+            "objID": "c432ebf1-49fe-45a4-c4ac-30a61fc7a65f",
+            "name": "VoltStop",
+            "value": 21
           }
         ]
       }

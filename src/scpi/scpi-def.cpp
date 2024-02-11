@@ -179,6 +179,14 @@ scpi_choice_def_t sense_plfreq_list[] = {
      SCPI_CHOICE_LIST_END /* termination of option list */
 };
 
+// Helper list for Von Latch types
+scpi_choice_def_t von_latch_mode_list[] = {
+     {"OFF", VonType_e::VonType_e_Unlatched},
+     {"ON", VonType_e::VonType_e_Latched},
+     {"INhibit", VonType_e::VonType_e_Inhibit},
+     SCPI_CHOICE_LIST_END /* termination of option list */
+};
+
 //// SCPI COMMANDS
 //////////////////
 
@@ -417,6 +425,60 @@ scpi_result_t scpi_cmd_source_input_prot_tripQ(scpi_t *context)
     return SCPI_RES_OK;    
 };
 
+scpi_result_t scpi_cmd_source_cap(scpi_t *context) {
+    scpi_bool_t param1;
+    if (!SCPI_ParamBool(context, &param1, TRUE)) {
+         return SCPI_RES_ERR;
+    }
+    if (!state.record(param1)) {
+        SCPI_ErrorPush(context, SCPI_ERROR_EXECUTION_ERROR);
+        return SCPI_RES_ERR;
+    };
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_source_capQ(scpi_t *context) {
+    setStateStruct localSetState; 
+    state.getSetStateCopy(&localSetState, 1000);
+    SCPI_ResultBool(context, localSetState.record);
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_source_cap_clear(scpi_t *context) {
+    if (!state.clearPower()) {
+        SCPI_ErrorPush(context, SCPI_ERROR_EXECUTION_ERROR);
+        return SCPI_RES_ERR;
+    };
+    return SCPI_RES_OK;
+};
+
+char error_not_implemented[] = { "Command not implemented" };
+
+scpi_result_t scpi_cmd_source_cap_ahstop(scpi_t *context) {
+    SCPI_ErrorPushEx(context, SCPI_ERROR_COMMAND, error_not_implemented, sizeof(error_not_implemented));
+    return SCPI_RES_ERR;
+};
+
+scpi_result_t scpi_cmd_source_cap_ahstopQ(scpi_t *context) {
+    SCPI_ErrorPushEx(context, SCPI_ERROR_COMMAND, error_not_implemented, sizeof(error_not_implemented));
+    return SCPI_RES_ERR;
+};
+scpi_result_t scpi_cmd_source_cap_timestop(scpi_t *context) {
+    SCPI_ErrorPushEx(context, SCPI_ERROR_COMMAND, error_not_implemented, sizeof(error_not_implemented));
+    return SCPI_RES_ERR;
+};
+scpi_result_t scpi_cmd_source_cap_timestopQ(scpi_t *context) {
+    SCPI_ErrorPushEx(context, SCPI_ERROR_COMMAND, error_not_implemented, sizeof(error_not_implemented));
+    return SCPI_RES_ERR;
+};
+scpi_result_t scpi_cmd_source_cap_voltstop(scpi_t *context) {
+    SCPI_ErrorPushEx(context, SCPI_ERROR_COMMAND, error_not_implemented, sizeof(error_not_implemented));
+    return SCPI_RES_ERR;
+};
+scpi_result_t scpi_cmd_source_cap_voltstopQ(scpi_t *context) {
+    SCPI_ErrorPushEx(context, SCPI_ERROR_COMMAND, error_not_implemented, sizeof(error_not_implemented));
+    return SCPI_RES_ERR;
+};
 
 scpi_result_t scpi_cmd_source_current(scpi_t *context)
 {
@@ -573,6 +635,62 @@ scpi_result_t scpi_cmd_source_voltageQ(scpi_t *context)
     return SCPI_RES_OK;
 };
 
+scpi_result_t scpi_cmd_source_voltage_on(scpi_t *context) {
+    scpi_parameter_t param;
+    scpi_number_t    scpi_number;
+    scpi_special_number_t scpi_special;
+    float value;
+    ranges_e range;
+
+    if (state.getRangeVoltageLow()) 
+    {
+        range = ranges_e::ranges_e_Von_Low;
+    } else {
+        range = ranges_e::ranges_e_Von_High;
+    };
+    // Parse command to number type
+    if (!SCPI_ParamNumber(context, number_specials, &scpi_number, TRUE)) {
+        return SCPI_RES_ERR;
+    }
+    // translate number type to real value depending on range definition
+    if (!get_value_from_param(context, scpi_number, range, value)) {
+        return SCPI_RES_ERR;
+    };
+    if (!state.setVonset(value)) {
+        SCPI_ErrorPush(context, SCPI_ERROR_DEVICE_ERROR);
+        return SCPI_RES_ERR;
+    };
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_source_voltage_onQ(scpi_t *context) {
+    setStateStruct localSetState;
+    state.getSetStateCopy(&localSetState, 1000);
+    
+    SCPI_ResultFloat(context, localSetState.VonSet);
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_source_voltage_on_latch(scpi_t *context) {
+    int32_t param;
+    if (!SCPI_ParamChoice(context, von_latch_mode_list, &param, TRUE)) {
+        return SCPI_RES_ERR;
+    }
+    if (!state.setVonLatched((VonType_e)param)) {
+        SCPI_ErrorPush(context, SCPI_ERROR_DEVICE_ERROR);
+        return SCPI_RES_ERR;
+    };
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_source_voltage_on_latchQ(scpi_t *context) {
+    setStateStruct localSetState;
+    state.getSetStateCopy(&localSetState, 1000);
+    
+    SCPI_ResultInt8(context, localSetState.VonLatched);
+    return SCPI_RES_OK;
+};
+
 scpi_result_t scpi_cmd_source_voltage_prot_level(scpi_t *context)
 {
     scpi_parameter_t param;
@@ -635,6 +753,191 @@ scpi_result_t scpi_cmd_source_voltage_range(scpi_t *context) {
 
 scpi_result_t scpi_cmd_source_voltage_rangeQ(scpi_t *context) {
     SCPI_ResultCharacters(context, state.getRangeVoltageLow() ? "L" : "H", 1);
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_source_res(scpi_t *context)
+{
+    scpi_parameter_t param;
+    scpi_number_t    scpi_number;
+    scpi_special_number_t scpi_special;
+    float value;
+    ranges_e range = ranges_e::ranges_e_Res;
+
+    // Parse command to number type
+    if (!SCPI_ParamNumber(context, number_specials, &scpi_number, TRUE)) {
+        return SCPI_RES_ERR;
+    }
+    // translate number type to real value depending on range definition
+    if (!get_value_from_param(context, scpi_number, range, value)) {
+        return SCPI_RES_ERR;
+    };
+    if (!state.setRset(value)) {
+        SCPI_ErrorPush(context, SCPI_ERROR_DEVICE_ERROR);
+        return SCPI_RES_ERR;
+    };
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_source_resQ(scpi_t *context)
+{
+    setStateStruct localSetState;
+    state.getSetStateCopy(&localSetState, 1000);
+    
+    SCPI_ResultFloat(context, localSetState.Rset);
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_source_pow(scpi_t *context)
+{
+    scpi_parameter_t param;
+    scpi_number_t    scpi_number;
+    scpi_special_number_t scpi_special;
+    float value;
+    ranges_e range = ranges_e::ranges_e_Power;
+
+    // Parse command to number type
+    if (!SCPI_ParamNumber(context, number_specials, &scpi_number, TRUE)) {
+        return SCPI_RES_ERR;
+    }
+    // translate number type to real value depending on range definition
+    if (!get_value_from_param(context, scpi_number, range, value)) {
+        return SCPI_RES_ERR;
+    };
+    if (!state.setPset(value)) {
+        SCPI_ErrorPush(context, SCPI_ERROR_DEVICE_ERROR);
+        return SCPI_RES_ERR;
+    };
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_source_powQ(scpi_t *context)
+{
+    setStateStruct localSetState;
+    state.getSetStateCopy(&localSetState, 1000);
+    
+    SCPI_ResultFloat(context, localSetState.Pset);
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_source_pow_prot_level(scpi_t *context)
+{
+    scpi_parameter_t param;
+    scpi_number_t    scpi_number;
+    scpi_special_number_t scpi_special;
+    float value;
+    ranges_e range = ranges_e::ranges_e_OPP_Power;
+
+    // Parse command to number type
+    if (!SCPI_ParamNumber(context, number_specials, &scpi_number, TRUE)) {
+        return SCPI_RES_ERR;
+    }
+    // translate number type to real value depending on range definition
+    if (!get_value_from_param(context, scpi_number, range, value)) {
+        return SCPI_RES_ERR;
+    };
+    if (!state.setOPPset(value)) {
+        SCPI_ErrorPush(context, SCPI_ERROR_DEVICE_ERROR);
+        return SCPI_RES_ERR;
+    };
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_source_pow_prot_levelQ(scpi_t *context)
+{
+    setStateStruct localSetState;
+    state.getSetStateCopy(&localSetState, 1000);
+    
+    SCPI_ResultFloat(context, localSetState.OPPset);
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_source_pow_prot_delay(scpi_t *context)
+{
+    scpi_parameter_t param;
+    scpi_number_t    scpi_number;
+    scpi_special_number_t scpi_special;
+    float value;
+    ranges_e range = ranges_e::ranges_e_OPP_Delay;
+
+    // Parse command to number type
+    if (!SCPI_ParamNumber(context, number_specials, &scpi_number, TRUE)) {
+        return SCPI_RES_ERR;
+    }
+    // translate number type to real value depending on range definition
+    if (!get_value_from_param(context, scpi_number, range, value)) {
+        return SCPI_RES_ERR;
+    };
+    if (!state.setOPPdelay(value)) {
+        SCPI_ErrorPush(context, SCPI_ERROR_DEVICE_ERROR);
+        return SCPI_RES_ERR;
+    };
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_source_pow_prot_delayQ(scpi_t *context)
+{
+    setStateStruct localSetState;
+    state.getSetStateCopy(&localSetState, 1000);
+    
+    SCPI_ResultFloat(context, localSetState.OPPdelay);
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_syst_temp_prot(scpi_t *context) {
+    scpi_parameter_t param;
+    scpi_number_t    scpi_number;
+    scpi_special_number_t scpi_special;
+    float value;
+    ranges_e range = ranges_e::ranges_e_OTP_Temp;
+
+    // Parse command to number type
+    if (!SCPI_ParamNumber(context, number_specials, &scpi_number, TRUE)) {
+        return SCPI_RES_ERR;
+    }
+    // translate number type to real value depending on range definition
+    if (!get_value_from_param(context, scpi_number, range, value)) {
+        return SCPI_RES_ERR;
+    };
+    if (!state.setOTPset(value)) {
+        SCPI_ErrorPush(context, SCPI_ERROR_DEVICE_ERROR);
+        return SCPI_RES_ERR;
+    };
+    return SCPI_RES_OK;
+};
+scpi_result_t scpi_cmd_syst_temp_protQ(scpi_t *context) {
+    setStateStruct localSetState;
+    state.getSetStateCopy(&localSetState, 1000);
+    
+    SCPI_ResultFloat(context, localSetState.OTPset);
+    return SCPI_RES_OK;
+};
+scpi_result_t scpi_cmd_syst_temp_prot_del(scpi_t *context) {
+    scpi_parameter_t param;
+    scpi_number_t    scpi_number;
+    scpi_special_number_t scpi_special;
+    float value;
+    ranges_e range = ranges_e::ranges_e_OTP_Delay;
+
+    // Parse command to number type
+    if (!SCPI_ParamNumber(context, number_specials, &scpi_number, TRUE)) {
+        return SCPI_RES_ERR;
+    }
+    // translate number type to real value depending on range definition
+    if (!get_value_from_param(context, scpi_number, range, value)) {
+        return SCPI_RES_ERR;
+    };
+    if (!state.setOTPdelay(value)) {
+        SCPI_ErrorPush(context, SCPI_ERROR_DEVICE_ERROR);
+        return SCPI_RES_ERR;
+    };
+    return SCPI_RES_OK;
+};
+scpi_result_t scpi_cmd_syst_temp_prot_delQ(scpi_t *context) {
+    setStateStruct localSetState;
+    state.getSetStateCopy(&localSetState, 1000);
+    
+    SCPI_ResultFloat(context, localSetState.OTPdelay);
     return SCPI_RES_OK;
 };
 

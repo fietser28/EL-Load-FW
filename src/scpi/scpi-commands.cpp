@@ -66,6 +66,17 @@ const scpi_command_t scpi_commands[] = {
     {"[SOURce]:INPut:PROTection:CLEar", scpi_cmd_source_input_prot_clear, 0},
     {"[SOURce]:INPut:PROTection:TRIPped?", scpi_cmd_source_input_prot_tripQ, 0},
 
+    // Capacity set commands
+    {"[SOURce]:CAPacity[:STATe]", scpi_cmd_source_cap, 0},  // ON|OFF|1|0
+    {"[SOURce]:CAPacity[:STATe]?", scpi_cmd_source_capQ, 0},
+    {"[SOURce]:CAPacity:ZERO", scpi_cmd_source_cap_clear, 0},
+    {"[SOURce]:CAPacity:AH[:STOP]", scpi_cmd_source_cap_ahstop, 0}, 
+    {"[SOURce]:CAPacity:AH[:STOP]?", scpi_cmd_source_cap_ahstopQ, 0},
+    {"[SOURce]:CAPacity:VOLTage[:STOP]", scpi_cmd_source_cap_voltstop, 0},
+    {"[SOURce]:CAPacity:VOLTAge[:STOP]?", scpi_cmd_source_cap_voltstopQ, 0},
+    {"[SOURce]:CAPacity:TIMe[:STOP]", scpi_cmd_source_cap_timestop, 0},
+    {"[SOURce]:CAPacity:TIMe[:STOP]?", scpi_cmd_source_cap_timestop, 0},
+    
     // Current set commands
     {"[SOURce]:CURRent[:LEVel][:IMMediate][:AMPLitude]", scpi_cmd_source_current,0},
     {"[SOURce]:CURRent[:LEVel][:IMMediate][:AMPLitude]?", scpi_cmd_source_currentQ,0},
@@ -76,6 +87,20 @@ const scpi_command_t scpi_commands[] = {
     {"[SOURce]:CURRent:RANGe", scpi_cmd_source_current_range,0},
     {"[SOURce]:CURRent:RANGe?", scpi_cmd_source_current_rangeQ,0},
     
+    // Power set commands
+    {"[SOURce]:POWer[:LEVel][:IMMediate][:AMPLitude]", scpi_cmd_source_pow,0},
+    {"[SOURce]:POWer[:LEVel][:IMMediate][:AMPLitude]?", scpi_cmd_source_powQ,0},
+    
+    {"[SOURce]:POWer:PROTection[:LEVel]", scpi_cmd_source_pow_prot_level,0},
+    {"[SOURce]:POWer:PROTection[:LEVel]?", scpi_cmd_source_pow_prot_levelQ,0},
+
+    {"[SOURce]:POWer:PROTection:DELay[:TIMe]", scpi_cmd_source_pow_prot_delay,0},
+    {"[SOURce]:POWer:PROTection:DELay[:TIMe]?", scpi_cmd_source_pow_prot_delayQ,0},
+
+    // Resistance set commands
+    {"[SOURce]:RESistance[:LEVel][:IMMediate][:AMPLitude]", scpi_cmd_source_res,0},
+    {"[SOURce]:RESistance[:LEVel][:IMMediate][:AMPLitude]?", scpi_cmd_source_resQ,0},
+
     // Voltage set commands
     {"[SOURce]:VOLTage[:LEVel][:IMMediate][:AMPLitude]", scpi_cmd_source_voltage,0},
     {"[SOURce]:VOLTage[:LEVel][:IMMediate][:AMPLitude]?", scpi_cmd_source_voltageQ,0},
@@ -86,28 +111,17 @@ const scpi_command_t scpi_commands[] = {
     {"[SOURce]:VOLTage:RANGe", scpi_cmd_source_voltage_range,0},
     {"[SOURce]:VOLTage:RANGe?", scpi_cmd_source_voltage_rangeQ,0},
     
+    // Von set sommands
+    {"[SOURce]:VOLTage[:LEVel]:ON[:IMMediate][:AMPLitude]", scpi_cmd_source_voltage_on,0},
+    {"[SOURce]:VOLTage[:LEVel]:ON[:IMMediate][:AMPLitude]?", scpi_cmd_source_voltage_onQ,0},
+    {"[SOURce]:VOLTage:ON:LATCh", scpi_cmd_source_voltage_on_latch,0},
+    {"[SOURce]:VOLTage:ON:LATCh?", scpi_cmd_source_voltage_on_latchQ,0},
 
-
-    /* DMM */
-//    {"MEASure:VOLTage:DC?", DMM_MeasureVoltageDcQ, 0},
-//    {"CONFigure:VOLTage:DC", DMM_ConfigureVoltageDc, 0},
-//    {"MEASure:VOLTage:DC:RATio?", SCPI_StubQ, 0},
-//    {"MEASure:VOLTage:AC?", DMM_MeasureVoltageAcQ, 0},
-//    {"MEASure:CURRent:DC?", SCPI_StubQ, 0},
-//    {"MEASure:CURRent:AC?", SCPI_StubQ, 0},
-//    {"MEASure:RESistance?", SCPI_StubQ, 0},
-//    {"MEASure:FRESistance?", SCPI_StubQ, 0},
-//    {"MEASure:FREQuency?", SCPI_StubQ, 0},
-//    {"MEASure:PERiod?", SCPI_StubQ, 0},
-
- //   {"SYSTem:COMMunication:TCPIP:CONTROL?", SCPI_SystemCommTcpipControlQ, 0},
-
-//    {"TEST:BOOL", TEST_Bool, 0},
-//    {"TEST:CHOice?", TEST_ChoiceQ, 0},
-//    {"TEST#:NUMbers#", TEST_Numbers, 0},
-//    {"TEST:TEXT", TEST_Text, 0},
-//    {"TEST:ARBitrary?", TEST_ArbQ, 0},
-//    {"TEST:CHANnellist", TEST_Chanlst, 0},
+    // System
+    {"SYSTem:TEMPerature:PROTextion[:LEVel]", scpi_cmd_syst_temp_prot,0},
+    {"SYSTem:TEMPerature:PROTextion[:LEVel]?", scpi_cmd_syst_temp_protQ,0},
+    {"SYSTem:TEMPerature:PROTextion:DELay[:TIMe]", scpi_cmd_syst_temp_prot_del,0},
+    {"SYSTem:TEMPerature:PROTextion:DELay[:TIMe]?", scpi_cmd_syst_temp_prot_delQ,0},
 
     SCPI_CMD_LIST_END
 };

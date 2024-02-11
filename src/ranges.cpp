@@ -26,5 +26,9 @@ const _range ranges[] = {
     { "OTP delay",      "s",      SCPI_UNIT_SECOND, 1.0, 600.0,    20.0},   // OTP_Delay = 15
     { "Current Cal Set","A",      SCPI_UNIT_AMPER, -1.0, 11.0,      0.1},   // Curr_Cal  = 16
     { "Voltage Cal Set","V",      SCPI_UNIT_VOLT,  -1.0, 100.0,     0.1},   // Volt_Cal  = 17
-    { "16bit DAC",      "",       SCPI_UNIT_NONE,     0, 65535,       0},   // 16bDAC    = 18
+    { "16bit DAC",      "",       SCPI_UNIT_NONE,     0, 65535,       0},   // DAC16b    = 18
+    { "Cap Ah Stop",    "Ah",     SCPI_UNIT_JOULE,    1, 3600,       10},   // AHStop    = 19
+    { "Cap Time Stop",  "s",      SCPI_UNIT_SECOND,   1, 864000,  86400},   // TimeStop  = 20
+    { "Cap Volt Stop",  "V",      SCPI_UNIT_VOLT,    0.5, 80,       3.0},   // VoltStop  = 21
+
 };
