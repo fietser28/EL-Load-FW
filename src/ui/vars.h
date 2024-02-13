@@ -65,7 +65,8 @@ typedef enum {
     ranges_e_DAC16b = 18,
     ranges_e_AHStop = 19,
     ranges_e_TimeStop = 20,
-    ranges_e_VoltStop = 21
+    ranges_e_VoltStop = 21,
+    ranges_e_WHStop = 22
 } ranges_e;
 
 // For calibration actions
@@ -193,6 +194,24 @@ extern bool get_var_range_voltage_low();
 extern void set_var_range_voltage_low(bool value);
 extern bool get_var_remote_sense_voltage();
 extern void set_var_remote_sense_voltage(bool value);
+extern float get_var_cap_volt_stop();
+extern void set_var_cap_volt_stop(float value);
+extern float get_var_cap_ah_stop();
+extern void set_var_cap_ah_stop(float value);
+extern float get_var_cap_time_stop();
+extern void set_var_cap_time_stop(float value);
+extern bool get_var_cap_volt_stop_triggered();
+extern void set_var_cap_volt_stop_triggered(bool value);
+extern bool get_var_cap_ah_stop_triggered();
+extern void set_var_cap_ah_stop_triggered(bool value);
+extern bool get_var_cap_time_stop_triggered();
+extern void set_var_cap_time_stop_triggered(bool value);
+extern bool get_var_cap_limit_triggered();
+extern void set_var_cap_limit_triggered(bool value);
+extern float get_var_cap_wh_stop();
+extern void set_var_cap_wh_stop(float value);
+extern bool get_var_cap_wh_stop_triggered();
+extern void set_var_cap_wh_stop_triggered(bool value);
 
 
 #ifdef __cplusplus

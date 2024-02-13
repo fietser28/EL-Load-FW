@@ -167,4 +167,8 @@ void action_get_type_data(lv_event_t * e) {
     properties.setValueDefault(ranges[range].defValue);
 };
 
+void action_clear_capacity_limits(lv_event_t * e) {
+    state.clearCapacityLimit();
+};
+
 } // extern "C"

@@ -31,6 +31,10 @@ namespace dcl
         bool OVPstate;
         bool OPPstate;
         bool OTPstate;
+        bool CapVoltStopTriggered;
+        bool CapAhStopTriggered;
+        bool CapWhStopTriggered;
+        bool CapTimeStopTriggered;
         float Temp1;
         float Temp2;
         uint32_t FanRPM;
@@ -79,6 +83,11 @@ namespace dcl
         float OTPdelay;
         float OPPset;
         float OPPdelay;
+        float CapVoltStop;
+        float CapAhStop;
+        float CapWhStop;
+        float CapTimeStop;
+        bool capacityLimit;
         bool FanAuto;
         uint8_t FanManualSpeed;
         bool rangeCurrentLow;
@@ -132,6 +141,8 @@ public:
     bool setAvgMeasurements(float imon, float umon, double As,
                             double Ws, double time, uint32_t avgCurrentRaw, uint32_t avgVoltRaw);
 
+    bool setCapacityTriggers(bool VoltStop, bool AhStop, bool WhStop, bool TimeStop);
+
     bool setHWstate(bool ocptrig, bool ovptrig, bool von);
     bool OTPtriggered();
     bool OPPtriggered();
@@ -149,6 +160,8 @@ public:
     bool clearPower();
     bool clearProtection();
     bool setProtection();
+    bool clearCapacityLimit();
+    bool setCapacityLimit();
     bool setMode(mode_e newMode);
     bool setVonset(float newVonset, bool rawDACvalue = false);
     bool setIset(float newIset, bool rawDACvalue = false);
@@ -162,6 +175,10 @@ public:
     bool setOPPdelay(float OPPdelay);
     bool setOTPset(float OTPset);
     bool setOTPdelay(float OTPdelay);
+    bool setCapVoltStop(float voltStop);
+    bool setCapAhStop(float AhStop);
+    bool setCapWhStop(float WhStop);
+    bool setCapTimeStop(float TimeStop);
     bool setNPLC(uint32_t cycles);
     uint32_t getNPLC();
     bool setPLFreq(uint32_t freq);

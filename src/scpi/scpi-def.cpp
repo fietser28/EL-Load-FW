@@ -213,6 +213,24 @@ scpi_result_t scpi_cmd_fetch_voltage(scpi_t *context) {
     return SCPI_RES_OK;
 };
 
+scpi_result_t scpi_cmd_fetch_power(scpi_t *context) {
+    char buffer[64] = { 0 };
+    measuredStateStruct localMeasuredState; 
+    state.getMeasuredStateCopy(&localMeasuredState, 1000);
+
+    SCPI_FloatToStr(localMeasuredState.Imon * localMeasuredState.Umon,buffer,sizeof(buffer));
+    SCPI_ResultCharacters(context, buffer, strlen(buffer));
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_fetch_cap(scpi_t *context) {
+    measuredStateStruct localMeasuredState; 
+    state.getMeasuredStateCopy(&localMeasuredState, 1000);
+    const float cap_array[] = { (float)localMeasuredState.As / 3600.0f, (float)localMeasuredState.Ws / 3600.0f, (float)localMeasuredState.Ptime};
+    SCPI_ResultArrayFloat(context, cap_array, 3, SCPI_FORMAT_NORMAL );
+    return SCPI_RES_OK;
+};
+
 scpi_result_t scpi_cmd_sense_nplc(scpi_t *context)
 {
     scpi_bool_t res;
@@ -290,15 +308,6 @@ scpi_result_t scpi_cmd_sense_plfreqQ(scpi_t *context)
     return SCPI_RES_OK;
 };
 
-scpi_result_t scpi_cmd_fetch_power(scpi_t *context) {
-    char buffer[64] = { 0 };
-    measuredStateStruct localMeasuredState; 
-    state.getMeasuredStateCopy(&localMeasuredState, 1000);
-
-    SCPI_FloatToStr(localMeasuredState.Imon * localMeasuredState.Umon,buffer,sizeof(buffer));
-    SCPI_ResultCharacters(context, buffer, strlen(buffer));
-    return SCPI_RES_OK;
-};
 
 scpi_result_t scpi_cmd_sense_volt_remote(scpi_t *context)
 {
@@ -460,9 +469,15 @@ scpi_result_t scpi_cmd_source_cap_ahstop(scpi_t *context) {
 };
 
 scpi_result_t scpi_cmd_source_cap_ahstopQ(scpi_t *context) {
-    SCPI_ErrorPushEx(context, SCPI_ERROR_COMMAND, error_not_implemented, sizeof(error_not_implemented));
-    return SCPI_RES_ERR;
+    char buffer[64] = { 0 };
+    setStateStruct localSetState; 
+    state.getSetStateCopy(&localSetState, 1000);
+
+    SCPI_FloatToStr(localSetState.CapAhStop,buffer,sizeof(buffer));
+    SCPI_ResultCharacters(context, buffer, strlen(buffer));
+    return SCPI_RES_OK;
 };
+
 scpi_result_t scpi_cmd_source_cap_timestop(scpi_t *context) {
     SCPI_ErrorPushEx(context, SCPI_ERROR_COMMAND, error_not_implemented, sizeof(error_not_implemented));
     return SCPI_RES_ERR;

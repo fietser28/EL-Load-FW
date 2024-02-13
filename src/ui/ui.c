@@ -18,6 +18,7 @@ ActionExecFunc actions[] = {
     action_display_off,
     action_display_on,
     action_get_type_data,
+    action_clear_capacity_limits,
 };
 
 

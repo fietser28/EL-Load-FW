@@ -38,6 +38,7 @@ scpi_result_t SCPI_Flush(scpi_t * context);
 extern scpi_result_t scpi_cmd_fetch_current(scpi_t *context);
 extern scpi_result_t scpi_cmd_fetch_voltage(scpi_t *context);
 extern scpi_result_t scpi_cmd_fetch_power(scpi_t *context);
+extern scpi_result_t scpi_cmd_fetch_cap(scpi_t *context);
 
 extern scpi_result_t scpi_cmd_sense_nplc(scpi_t *context);
 extern scpi_result_t scpi_cmd_sense_nplcQ(scpi_t *context);

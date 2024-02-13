@@ -1082,6 +1082,11 @@ void taskAveragingFunction(void *pvParameters)
   unsigned long OPPTriggerStart = 0;
   bool OPPStarted = false;
 
+  // Capacity limits
+  float localVoltStop = 0, prevVoltStop = 0;
+  float localAsStop   = 0, prevAsStop = 0;
+  float localTimeStop = 0, prevTimeStop = 0;
+
   //SERIALDEBUG.println("INFO: Going into average loop.");
   state.updateAverageTask(); // Prepare message for myself to load defaults.
 
@@ -1119,6 +1124,7 @@ void taskAveragingFunction(void *pvParameters)
         Ws += (double)umon * (double)imon * interval;
       }
 
+      // Perform OPP and OTP checks
       if (on && umon * imon > localOPPset)
       {
         if (!OPPStarted)
@@ -1139,11 +1145,21 @@ void taskAveragingFunction(void *pvParameters)
       {
         OPPStarted = false;
       }
+
+/*
+      // Perform Capacity limit checks.
+      if (on && record && (localVoltStop >= umon || localAsStop >= As || localTimeStop != time))
+      {
+        state.setCapacityTriggers(localVoltStop, localAsStop, localTimeStop);
+        prevVoltStop = localVoltStop;
+        prevAsStop = localAsStop;
+        prevTimeStop = localTimeStop;
+      }
+*/
+      // Notify main task.
       state.setAvgMeasurements(imon, umon, As, Ws, time, avgCurrentRaw, avgVoltRaw);
       update = false;
     }
-
-
 
     // Settings changed if there is a message for it.
     msgBytes = xQueueReceive(changeAverageSettings, &settingsMsg, 0);
@@ -1166,6 +1182,9 @@ void taskAveragingFunction(void *pvParameters)
       sendCalData = settingsMsg.sendCalData; // obsolete?
       localOPPset = settingsMsg.OPPset;
       localOPPdelay = settingsMsg.OPPdelay;
+      localAsStop = settingsMsg.CapAhStop * 3600.0f; // As is in Amp * seconds not Amp * hours.
+      localVoltStop = settingsMsg.CapVoltStop;
+      localVoltStop = settingsMsg.CapTimeStop;
     }
     //digitalWrite(PIN_TEST, LOW);
   }

@@ -206,6 +206,10 @@ struct changeAverageSettingsMsg {
     bool sendCalData;
     float OPPset;
     float OPPdelay;
+    float CapVoltStop;
+    float CapAhStop; //TODO: Remove?
+    float CapWhStop; //TODO: Remove?
+    float CapTimeStop; // TODO: Remove?
 };
 
 // Message from averaging task to state manager

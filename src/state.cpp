@@ -39,23 +39,28 @@ namespace dcl
                 _setState.PLFreq = DEFAULT_PL_FREQ;
                 _setState.on = false;
                 _setState.NLPC = DEFAULT_AVG_SAMPLES_NPLC;
-                _setState.OPPset = 80.0f;
-                _setState.OPPdelay = 5;
-                _setState.OTPset = 80.0f;
-                _setState.OTPdelay = 10;
-                _setState.Iset = 0.111f;
+                _setState.OPPset = ranges[ranges_e_OPP_Delay].defValue;
+                _setState.OPPdelay = ranges[ranges_e_OPP_Delay].defValue;
+                _setState.OTPset = ranges[ranges_e_OTP_Temp].defValue;
+                _setState.OTPdelay = ranges[ranges_e_OTP_Delay].defValue;
+                _setState.Iset = ranges[ranges_e_Curr_High].defValue;
                 _setState.CalibrationIset = false;
-                _setState.Uset = 1000.0f;
+                _setState.Uset = ranges[ranges_e_Volt_High].defValue;
                 _setState.CalibrationUset = false;
-                _setState.Rset = 1000.0f;
-                _setState.Pset = 12.5f;
-                _setState.VonSet = 1.1f;
-                _setState.OCPset = 10.0f;
+                _setState.Rset = ranges[ranges_e_Res].defValue;
+                _setState.Pset = ranges[ranges_e_Power].defValue;
+                _setState.VonSet = ranges[ranges_e_Von_High].defValue;
+                _setState.OCPset = ranges[ranges_e_OCP_High].defValue;
                 _setState.CalibrationOCPset = false;
-                _setState.OVPset = 20.0f;
+                _setState.OVPset = ranges[ranges_e_OVP_High].defValue;
                 _setState.CalibrationOVPset = false;
                 _setState.protection = false;
                 _setState.VonLatched = VonType_e_Unlatched;
+                _setState.CapVoltStop = ranges[ranges_e_VoltStop].defValue;
+                _setState.CapAhStop = ranges[ranges_e_AHStop].defValue;
+                _setState.CapWhStop = ranges[ranges_e_WHStop].defValue;
+                _setState.CapTimeStop = ranges[ranges_e_TimeStop].defValue;
+                _setState.capacityLimit = false;
                 _setState.FanManualSpeed = 128;
                 _setState.FanAuto = true;
                 _setState.rangeCurrentLow = false;
@@ -94,7 +99,7 @@ namespace dcl
 
     bool stateManager::setOn() {        
         // Don't enable if there is a protection
-        if (_setState.protection == true) {
+        if (_setState.protection == true || ( _setState.capacityLimit == true && _setState.record == true)) {
             return false;
         }
         if (_setStateMutex != NULL)
@@ -172,8 +177,47 @@ namespace dcl
                 _measuredState.Ptime = time;
                 _measuredState.avgCurrentRaw = avgCurrentRaw;
                 _measuredState.avgVoltRaw = avgVoltRaw;
+                if (_setState.record) { // TODO: Lazy on lock
+                    _measuredState.CapVoltStopTriggered = _measuredState.CapVoltStopTriggered || ( _setState.CapVoltStop >= umon); // TODO?: Lazy on lock
+                    _measuredState.CapAhStopTriggered   = _measuredState.CapAhStopTriggered   || ( _setState.CapAhStop   <= ((float)As / 3600.0f)); // TODO?: Lazy on lock
+                    _measuredState.CapWhStopTriggered   = _measuredState.CapWhStopTriggered   || ( _setState.CapWhStop   <= ((float)Ws / 3600.0f)); // TODO?: Lazy on lock
+                    _measuredState.CapTimeStopTriggered = _measuredState.CapTimeStopTriggered || ( _setState.CapTimeStop <= time); // TODO?: Lazy on lock
+                }
                 xSemaphoreGive(_measuredStateMutex);
+                if (!_setState.capacityLimit && (_measuredState.CapVoltStopTriggered  || _measuredState.CapAhStopTriggered || 
+                                                 _measuredState.CapTimeStopTriggered  || _measuredState.CapWhStopTriggered)) 
+                {
+                    state.setCapacityLimit();
+                }
+                if (_setState.capacityLimit && !_measuredState.CapVoltStopTriggered && !_measuredState.CapAhStopTriggered && 
+                    !_measuredState.CapTimeStopTriggered && !_measuredState.CapWhStopTriggered) 
+                {
+                    state.clearCapacityLimit();
+                }
                 return true;
+            }
+        }
+        return false;
+    }
+
+    // Called from Avg Task if triggered.
+    bool stateManager::setCapacityTriggers(bool VoltStop, bool AhStop, bool WhStop, bool TimeStop)
+    {
+        if (_measuredStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_measuredStateMutex, (TickType_t)200) == pdTRUE)
+            {
+                _measuredState.CapVoltStopTriggered = VoltStop;
+                _measuredState.CapAhStopTriggered = AhStop;
+                _measuredState.CapWhStopTriggered = WhStop;
+                _measuredState.CapTimeStopTriggered = TimeStop;
+                xSemaphoreGive(_measuredStateMutex);
+            }
+            if (VoltStop || AhStop || TimeStop) {
+                state.setCapacityLimit();
+            }
+            if (!VoltStop && !AhStop && !TimeStop) {
+                state.clearCapacityLimit();
             }
         }
         return false;
@@ -457,6 +501,54 @@ namespace dcl
         return updateAverageTask();
     };
 
+    bool stateManager::clearCapacityLimit()
+    {
+       if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
+            {
+                _setState.capacityLimit = false;
+                xSemaphoreGive(_setStateMutex);
+            }
+        }
+       if (_measuredStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_measuredStateMutex, portMAX_DELAY) == pdTRUE)
+            {
+                _measuredState.CapVoltStopTriggered = false;
+                _measuredState.CapAhStopTriggered = false;
+                _measuredState.CapWhStopTriggered = false;
+                _measuredState.CapTimeStopTriggered = false;
+                xSemaphoreGive(_measuredStateMutex);
+                return true;
+            }
+        }
+        return updateAverageTask();
+    };
+
+    bool stateManager::setCapacityLimit()
+    {
+        // Avoid hitting limits during calibration.
+        // TODO: mutex?
+        if (_setState.CalibrationIset == true || _setState.CalibrationOCPset == true || _setState.CalibrationOVPset == true ||
+            _setState.CalibrationUset == true || _setState.CalibrationVonSet == true) 
+        {
+            return false;
+        }
+
+        setOff();
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
+            {
+                _setState.capacityLimit = true;
+                xSemaphoreGive(_setStateMutex);
+            }
+        }
+        updateHWIOTask();
+        return updateAverageTask();
+    };
+
     bool stateManager::setMode(mode_e newMode)
     {
     if (_setStateMutex != NULL)
@@ -688,6 +780,54 @@ namespace dcl
             }
         }
         return updateHWIOTask();
+    };
+
+    bool stateManager::setCapVoltStop(float voltStop) {
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
+            {
+                _setState.CapVoltStop = voltStop;
+                xSemaphoreGive(_setStateMutex);
+            }
+        }
+        return updateAverageTask();
+    };
+
+    bool stateManager::setCapAhStop(float AhStop) {
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
+            {
+                _setState.CapAhStop = AhStop;
+                xSemaphoreGive(_setStateMutex);
+            }
+        }
+        return updateAverageTask();
+    };
+
+    bool stateManager::setCapWhStop(float WhStop) {
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
+            {
+                _setState.CapWhStop = WhStop;
+                xSemaphoreGive(_setStateMutex);
+            }
+        }
+        return updateAverageTask();
+    };
+
+    bool stateManager::setCapTimeStop(float TimeStop) {
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
+            {
+                _setState.CapTimeStop = TimeStop;
+                xSemaphoreGive(_setStateMutex);
+            }
+        }
+        return updateAverageTask();
     };
 
     bool stateManager::setNPLC(uint32_t cycles)

@@ -23,7 +23,7 @@ static void event_handler_cb_main_mode_selector(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_main_on_off_button(lv_event_t *e) {
+static void event_handler_cb_main_on_of_f_button(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
@@ -71,236 +71,11 @@ static void event_handler_cb_main_wh(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 19, 0);
+        flowPropagateValue(flowState, 18, 0);
     }
 }
 
 static void event_handler_cb_main_obj10(lv_event_t *e) {
-    lv_event_code_t event = lv_event_get_code(e);
-    void *flowState = e->user_data;
-    if (event == LV_EVENT_PRESSED) {
-        action_clear_power(e);
-    }
-}
-
-static void event_handler_cb_main_set_value_area(lv_event_t *e) {
-    lv_event_code_t event = lv_event_get_code(e);
-    void *flowState = e->user_data;
-    if (event == LV_EVENT_FOCUSED) {
-        action_text_area_disable_blink(e);
-    }
-    if (event == LV_EVENT_VALUE_CHANGED) {
-        flowPropagateValue(flowState, 26, 1);
-    }
-    if (event == LV_EVENT_VALUE_CHANGED) {
-        lv_obj_t *ta = lv_event_get_target(e);
-        const char *value = lv_textarea_get_text(ta);
-        if (tick_value_change_obj != ta) {
-            assignStringProperty(flowState, 26, 2, value, "Failed to assign Text in Textarea widget");
-        }
-    }
-}
-
-static void event_handler_cb_main_obj12(lv_event_t *e) {
-    lv_event_code_t event = lv_event_get_code(e);
-    void *flowState = e->user_data;
-    if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 27, 0);
-    }
-}
-
-static void event_handler_cb_main_obj13(lv_event_t *e) {
-    lv_event_code_t event = lv_event_get_code(e);
-    void *flowState = e->user_data;
-    if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 31, 0);
-    }
-    if (event == LV_EVENT_VALUE_CHANGED) {
-        lv_obj_t *ta = lv_event_get_target(e);
-        bool value = lv_obj_has_state(ta, LV_STATE_CHECKED);
-        if (tick_value_change_obj != ta) {
-            assignBooleanProperty(flowState, 31, 2, value, "Failed to assign Checked state");
-        }
-    }
-}
-
-static void event_handler_cb_main_obj15(lv_event_t *e) {
-    lv_event_code_t event = lv_event_get_code(e);
-    void *flowState = e->user_data;
-    if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 33, 0);
-    }
-}
-
-static void event_handler_cb_main_obj17(lv_event_t *e) {
-    lv_event_code_t event = lv_event_get_code(e);
-    void *flowState = e->user_data;
-    if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 36, 0);
-    }
-    if (event == LV_EVENT_VALUE_CHANGED) {
-        lv_obj_t *ta = lv_event_get_target(e);
-        bool value = lv_obj_has_state(ta, LV_STATE_CHECKED);
-        if (tick_value_change_obj != ta) {
-            assignBooleanProperty(flowState, 36, 2, value, "Failed to assign Checked state");
-        }
-    }
-}
-
-static void event_handler_cb_main_obj20(lv_event_t *e) {
-    lv_event_code_t event = lv_event_get_code(e);
-    void *flowState = e->user_data;
-    if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 48, 0);
-    }
-}
-
-static void event_handler_cb_settings_obj26(lv_event_t *e) {
-    lv_event_code_t event = lv_event_get_code(e);
-    void *flowState = e->user_data;
-    if (event == LV_EVENT_RELEASED) {
-        flowPropagateValue(flowState, 0, 0);
-    }
-}
-
-static void event_handler_cb_settings_obj28(lv_event_t *e) {
-    lv_event_code_t event = lv_event_get_code(e);
-    void *flowState = e->user_data;
-    if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 4, 0);
-    }
-}
-
-static void event_handler_cb_settings_obj30(lv_event_t *e) {
-    lv_event_code_t event = lv_event_get_code(e);
-    void *flowState = e->user_data;
-    if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 7, 0);
-    }
-}
-
-static void event_handler_cb_settings_obj32(lv_event_t *e) {
-    lv_event_code_t event = lv_event_get_code(e);
-    void *flowState = e->user_data;
-    if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 10, 0);
-    }
-}
-
-static void event_handler_cb_settings_obj34(lv_event_t *e) {
-    lv_event_code_t event = lv_event_get_code(e);
-    void *flowState = e->user_data;
-    if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 12, 0);
-    }
-}
-
-static void event_handler_cb_settings_obj36(lv_event_t *e) {
-    lv_event_code_t event = lv_event_get_code(e);
-    void *flowState = e->user_data;
-    if (event == LV_EVENT_RELEASED) {
-        flowPropagateValue(flowState, 16, 0);
-    }
-}
-
-static void event_handler_cb_settings_obj38(lv_event_t *e) {
-    lv_event_code_t event = lv_event_get_code(e);
-    void *flowState = e->user_data;
-    if (event == LV_EVENT_RELEASED) {
-        flowPropagateValue(flowState, 19, 0);
-    }
-}
-
-static void event_handler_cb_settings_obj40(lv_event_t *e) {
-    lv_event_code_t event = lv_event_get_code(e);
-    void *flowState = e->user_data;
-    if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 22, 0);
-    }
-}
-
-static void event_handler_cb_settings_obj42(lv_event_t *e) {
-    lv_event_code_t event = lv_event_get_code(e);
-    void *flowState = e->user_data;
-    if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 24, 0);
-    }
-}
-
-static void event_handler_cb_events_obj45(lv_event_t *e) {
-    lv_event_code_t event = lv_event_get_code(e);
-    void *flowState = e->user_data;
-    if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 0, 0);
-    }
-}
-
-static void event_handler_cb_events_obj47(lv_event_t *e) {
-    lv_event_code_t event = lv_event_get_code(e);
-    void *flowState = e->user_data;
-    if (event == LV_EVENT_VALUE_CHANGED) {
-        lv_obj_t *ta = lv_event_get_target(e);
-        const char *value = lv_textarea_get_text(ta);
-        if (tick_value_change_obj != ta) {
-            assignStringProperty(flowState, 4, 2, value, "Failed to assign Text in Textarea widget");
-        }
-    }
-}
-
-static void event_handler_cb_protections_obj49(lv_event_t *e) {
-    lv_event_code_t event = lv_event_get_code(e);
-    void *flowState = e->user_data;
-    if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 0, 0);
-    }
-}
-
-static void event_handler_cb_protections_obj51(lv_event_t *e) {
-    lv_event_code_t event = lv_event_get_code(e);
-    void *flowState = e->user_data;
-    if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 8, 0);
-    }
-    if (event == LV_EVENT_VALUE_CHANGED) {
-        lv_obj_t *ta = lv_event_get_target(e);
-        bool value = lv_obj_has_state(ta, LV_STATE_CHECKED);
-        if (tick_value_change_obj != ta) {
-            assignBooleanProperty(flowState, 8, 2, value, "Failed to assign Checked state");
-        }
-    }
-}
-
-static void event_handler_cb_protections_obj53(lv_event_t *e) {
-    lv_event_code_t event = lv_event_get_code(e);
-    void *flowState = e->user_data;
-    if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 10, 0);
-    }
-    if (event == LV_EVENT_VALUE_CHANGED) {
-        lv_obj_t *ta = lv_event_get_target(e);
-        bool value = lv_obj_has_state(ta, LV_STATE_CHECKED);
-        if (tick_value_change_obj != ta) {
-            assignBooleanProperty(flowState, 10, 2, value, "Failed to assign Checked state");
-        }
-    }
-}
-
-static void event_handler_cb_protections_obj55(lv_event_t *e) {
-    lv_event_code_t event = lv_event_get_code(e);
-    void *flowState = e->user_data;
-    if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 18, 0);
-    }
-    if (event == LV_EVENT_VALUE_CHANGED) {
-        lv_obj_t *ta = lv_event_get_target(e);
-        bool value = lv_obj_has_state(ta, LV_STATE_CHECKED);
-        if (tick_value_change_obj != ta) {
-            assignBooleanProperty(flowState, 18, 2, value, "Failed to assign Checked state");
-        }
-    }
-}
-
-static void event_handler_cb_protections_obj57(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
@@ -315,30 +90,170 @@ static void event_handler_cb_protections_obj57(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_protections_obj59(lv_event_t *e) {
+static void event_handler_cb_main_set_value_area(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
-    if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 22, 0);
+    if (event == LV_EVENT_FOCUSED) {
+        action_text_area_disable_blink(e);
+    }
+    if (event == LV_EVENT_VALUE_CHANGED) {
+        flowPropagateValue(flowState, 25, 1);
+    }
+    if (event == LV_EVENT_VALUE_CHANGED) {
+        lv_obj_t *ta = lv_event_get_target(e);
+        const char *value = lv_textarea_get_text(ta);
+        if (tick_value_change_obj != ta) {
+            assignStringProperty(flowState, 25, 2, value, "Failed to assign Text in Textarea widget");
+        }
     }
 }
 
-static void event_handler_cb_protections_obj60(lv_event_t *e) {
+static void event_handler_cb_main_obj12(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 24, 0);
+        flowPropagateValue(flowState, 26, 0);
+    }
+}
+
+static void event_handler_cb_main_obj13(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = e->user_data;
+    if (event == LV_EVENT_PRESSED) {
+        flowPropagateValue(flowState, 30, 0);
     }
     if (event == LV_EVENT_VALUE_CHANGED) {
         lv_obj_t *ta = lv_event_get_target(e);
         bool value = lv_obj_has_state(ta, LV_STATE_CHECKED);
         if (tick_value_change_obj != ta) {
-            assignBooleanProperty(flowState, 24, 2, value, "Failed to assign Checked state");
+            assignBooleanProperty(flowState, 30, 2, value, "Failed to assign Checked state");
         }
     }
 }
 
-static void event_handler_cb_protections_obj62(lv_event_t *e) {
+static void event_handler_cb_main_obj15(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = e->user_data;
+    if (event == LV_EVENT_PRESSED) {
+        flowPropagateValue(flowState, 32, 0);
+    }
+}
+
+static void event_handler_cb_main_obj17(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = e->user_data;
+    if (event == LV_EVENT_PRESSED) {
+        flowPropagateValue(flowState, 35, 0);
+    }
+    if (event == LV_EVENT_VALUE_CHANGED) {
+        lv_obj_t *ta = lv_event_get_target(e);
+        bool value = lv_obj_has_state(ta, LV_STATE_CHECKED);
+        if (tick_value_change_obj != ta) {
+            assignBooleanProperty(flowState, 35, 2, value, "Failed to assign Checked state");
+        }
+    }
+}
+
+static void event_handler_cb_main_obj20(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = e->user_data;
+    if (event == LV_EVENT_PRESSED) {
+        flowPropagateValue(flowState, 47, 0);
+    }
+}
+
+static void event_handler_cb_capacity_obj26(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = e->user_data;
+    if (event == LV_EVENT_PRESSED) {
+        flowPropagateValue(flowState, 0, 0);
+    }
+}
+
+static void event_handler_cb_capacity_obj28(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = e->user_data;
+    if (event == LV_EVENT_PRESSED) {
+        flowPropagateValue(flowState, 5, 0);
+    }
+    if (event == LV_EVENT_VALUE_CHANGED) {
+        lv_obj_t *ta = lv_event_get_target(e);
+        bool value = lv_obj_has_state(ta, LV_STATE_CHECKED);
+        if (tick_value_change_obj != ta) {
+            assignBooleanProperty(flowState, 5, 2, value, "Failed to assign Checked state");
+        }
+    }
+}
+
+static void event_handler_cb_capacity_obj30(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = e->user_data;
+    if (event == LV_EVENT_PRESSED) {
+        flowPropagateValue(flowState, 7, 0);
+    }
+    if (event == LV_EVENT_VALUE_CHANGED) {
+        lv_obj_t *ta = lv_event_get_target(e);
+        bool value = lv_obj_has_state(ta, LV_STATE_CHECKED);
+        if (tick_value_change_obj != ta) {
+            assignBooleanProperty(flowState, 7, 2, value, "Failed to assign Checked state");
+        }
+    }
+}
+
+static void event_handler_cb_capacity_obj32(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = e->user_data;
+    if (event == LV_EVENT_PRESSED) {
+        flowPropagateValue(flowState, 9, 0);
+    }
+    if (event == LV_EVENT_VALUE_CHANGED) {
+        lv_obj_t *ta = lv_event_get_target(e);
+        bool value = lv_obj_has_state(ta, LV_STATE_CHECKED);
+        if (tick_value_change_obj != ta) {
+            assignBooleanProperty(flowState, 9, 2, value, "Failed to assign Checked state");
+        }
+    }
+}
+
+static void event_handler_cb_capacity_obj34(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = e->user_data;
+    if (event == LV_EVENT_PRESSED) {
+        flowPropagateValue(flowState, 11, 0);
+    }
+    if (event == LV_EVENT_VALUE_CHANGED) {
+        lv_obj_t *ta = lv_event_get_target(e);
+        bool value = lv_obj_has_state(ta, LV_STATE_CHECKED);
+        if (tick_value_change_obj != ta) {
+            assignBooleanProperty(flowState, 11, 2, value, "Failed to assign Checked state");
+        }
+    }
+}
+
+static void event_handler_cb_capacity_on_of_f_button_1(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = e->user_data;
+    if (event == LV_EVENT_PRESSED) {
+        flowPropagateValue(flowState, 21, 0);
+    }
+    if (event == LV_EVENT_VALUE_CHANGED) {
+        lv_obj_t *ta = lv_event_get_target(e);
+        bool value = lv_obj_has_state(ta, LV_STATE_CHECKED);
+        if (tick_value_change_obj != ta) {
+            assignBooleanProperty(flowState, 21, 2, value, "Failed to assign Checked state");
+        }
+    }
+}
+
+static void event_handler_cb_capacity_obj37(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = e->user_data;
+    if (event == LV_EVENT_PRESSED) {
+        action_toggle_record(e);
+    }
+}
+
+static void event_handler_cb_capacity_obj39(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
@@ -353,7 +268,221 @@ static void event_handler_cb_protections_obj62(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_calibration_obj66(lv_event_t *e) {
+static void event_handler_cb_capacity_obj41(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = e->user_data;
+    if (event == LV_EVENT_PRESSED) {
+        action_clear_power(e);
+    }
+}
+
+static void event_handler_cb_capacity_obj43(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = e->user_data;
+    if (event == LV_EVENT_PRESSED) {
+        action_clear_capacity_limits(e);
+    }
+}
+
+static void event_handler_cb_settings_obj46(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = e->user_data;
+    if (event == LV_EVENT_RELEASED) {
+        flowPropagateValue(flowState, 0, 0);
+    }
+}
+
+static void event_handler_cb_settings_obj48(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = e->user_data;
+    if (event == LV_EVENT_PRESSED) {
+        flowPropagateValue(flowState, 4, 0);
+    }
+}
+
+static void event_handler_cb_settings_obj50(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = e->user_data;
+    if (event == LV_EVENT_PRESSED) {
+        flowPropagateValue(flowState, 7, 0);
+    }
+}
+
+static void event_handler_cb_settings_obj52(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = e->user_data;
+    if (event == LV_EVENT_PRESSED) {
+        flowPropagateValue(flowState, 10, 0);
+    }
+}
+
+static void event_handler_cb_settings_obj54(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = e->user_data;
+    if (event == LV_EVENT_PRESSED) {
+        flowPropagateValue(flowState, 12, 0);
+    }
+}
+
+static void event_handler_cb_settings_obj56(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = e->user_data;
+    if (event == LV_EVENT_RELEASED) {
+        flowPropagateValue(flowState, 16, 0);
+    }
+}
+
+static void event_handler_cb_settings_obj58(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = e->user_data;
+    if (event == LV_EVENT_RELEASED) {
+        flowPropagateValue(flowState, 19, 0);
+    }
+}
+
+static void event_handler_cb_settings_obj60(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = e->user_data;
+    if (event == LV_EVENT_PRESSED) {
+        flowPropagateValue(flowState, 22, 0);
+    }
+}
+
+static void event_handler_cb_settings_obj62(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = e->user_data;
+    if (event == LV_EVENT_PRESSED) {
+        flowPropagateValue(flowState, 24, 0);
+    }
+}
+
+static void event_handler_cb_events_obj65(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = e->user_data;
+    if (event == LV_EVENT_PRESSED) {
+        flowPropagateValue(flowState, 0, 0);
+    }
+}
+
+static void event_handler_cb_events_obj67(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = e->user_data;
+    if (event == LV_EVENT_VALUE_CHANGED) {
+        lv_obj_t *ta = lv_event_get_target(e);
+        const char *value = lv_textarea_get_text(ta);
+        if (tick_value_change_obj != ta) {
+            assignStringProperty(flowState, 4, 2, value, "Failed to assign Text in Textarea widget");
+        }
+    }
+}
+
+static void event_handler_cb_protections_obj69(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = e->user_data;
+    if (event == LV_EVENT_PRESSED) {
+        flowPropagateValue(flowState, 0, 0);
+    }
+}
+
+static void event_handler_cb_protections_obj71(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = e->user_data;
+    if (event == LV_EVENT_PRESSED) {
+        flowPropagateValue(flowState, 8, 0);
+    }
+    if (event == LV_EVENT_VALUE_CHANGED) {
+        lv_obj_t *ta = lv_event_get_target(e);
+        bool value = lv_obj_has_state(ta, LV_STATE_CHECKED);
+        if (tick_value_change_obj != ta) {
+            assignBooleanProperty(flowState, 8, 2, value, "Failed to assign Checked state");
+        }
+    }
+}
+
+static void event_handler_cb_protections_obj73(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = e->user_data;
+    if (event == LV_EVENT_PRESSED) {
+        flowPropagateValue(flowState, 10, 0);
+    }
+    if (event == LV_EVENT_VALUE_CHANGED) {
+        lv_obj_t *ta = lv_event_get_target(e);
+        bool value = lv_obj_has_state(ta, LV_STATE_CHECKED);
+        if (tick_value_change_obj != ta) {
+            assignBooleanProperty(flowState, 10, 2, value, "Failed to assign Checked state");
+        }
+    }
+}
+
+static void event_handler_cb_protections_obj75(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = e->user_data;
+    if (event == LV_EVENT_PRESSED) {
+        flowPropagateValue(flowState, 18, 0);
+    }
+    if (event == LV_EVENT_VALUE_CHANGED) {
+        lv_obj_t *ta = lv_event_get_target(e);
+        bool value = lv_obj_has_state(ta, LV_STATE_CHECKED);
+        if (tick_value_change_obj != ta) {
+            assignBooleanProperty(flowState, 18, 2, value, "Failed to assign Checked state");
+        }
+    }
+}
+
+static void event_handler_cb_protections_obj77(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = e->user_data;
+    if (event == LV_EVENT_PRESSED) {
+        flowPropagateValue(flowState, 20, 0);
+    }
+    if (event == LV_EVENT_VALUE_CHANGED) {
+        lv_obj_t *ta = lv_event_get_target(e);
+        bool value = lv_obj_has_state(ta, LV_STATE_CHECKED);
+        if (tick_value_change_obj != ta) {
+            assignBooleanProperty(flowState, 20, 2, value, "Failed to assign Checked state");
+        }
+    }
+}
+
+static void event_handler_cb_protections_obj79(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = e->user_data;
+    if (event == LV_EVENT_PRESSED) {
+        flowPropagateValue(flowState, 22, 0);
+    }
+}
+
+static void event_handler_cb_protections_obj80(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = e->user_data;
+    if (event == LV_EVENT_PRESSED) {
+        flowPropagateValue(flowState, 24, 0);
+    }
+    if (event == LV_EVENT_VALUE_CHANGED) {
+        lv_obj_t *ta = lv_event_get_target(e);
+        bool value = lv_obj_has_state(ta, LV_STATE_CHECKED);
+        if (tick_value_change_obj != ta) {
+            assignBooleanProperty(flowState, 24, 2, value, "Failed to assign Checked state");
+        }
+    }
+}
+
+static void event_handler_cb_protections_obj82(lv_event_t *e) {
+    lv_event_code_t event = lv_event_get_code(e);
+    void *flowState = e->user_data;
+    if (event == LV_EVENT_PRESSED) {
+        flowPropagateValue(flowState, 26, 0);
+    }
+    if (event == LV_EVENT_VALUE_CHANGED) {
+        lv_obj_t *ta = lv_event_get_target(e);
+        bool value = lv_obj_has_state(ta, LV_STATE_CHECKED);
+        if (tick_value_change_obj != ta) {
+            assignBooleanProperty(flowState, 26, 2, value, "Failed to assign Checked state");
+        }
+    }
+}
+
+static void event_handler_cb_calibration_obj86(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_VALUE_CHANGED) {
@@ -365,7 +494,7 @@ static void event_handler_cb_calibration_obj66(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_calibration_obj67(lv_event_t *e) {
+static void event_handler_cb_calibration_obj87(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
@@ -373,7 +502,7 @@ static void event_handler_cb_calibration_obj67(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_calibration_obj71(lv_event_t *e) {
+static void event_handler_cb_calibration_obj91(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
@@ -381,7 +510,7 @@ static void event_handler_cb_calibration_obj71(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_calibration_obj72(lv_event_t *e) {
+static void event_handler_cb_calibration_obj92(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
@@ -389,12 +518,12 @@ static void event_handler_cb_calibration_obj72(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_calibration_obj73(lv_event_t *e) {
+static void event_handler_cb_calibration_obj93(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
 }
 
-static void event_handler_cb_calibration_obj74(lv_event_t *e) {
+static void event_handler_cb_calibration_obj94(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
@@ -402,7 +531,7 @@ static void event_handler_cb_calibration_obj74(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_calibration_obj76(lv_event_t *e) {
+static void event_handler_cb_calibration_obj96(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
@@ -410,12 +539,12 @@ static void event_handler_cb_calibration_obj76(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_calibration_obj77(lv_event_t *e) {
+static void event_handler_cb_calibration_obj97(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
 }
 
-static void event_handler_cb_calibration_obj79(lv_event_t *e) {
+static void event_handler_cb_calibration_obj99(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
@@ -423,7 +552,7 @@ static void event_handler_cb_calibration_obj79(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_calibration_obj80(lv_event_t *e) {
+static void event_handler_cb_calibration_obj100(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
@@ -431,7 +560,7 @@ static void event_handler_cb_calibration_obj80(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_calibration_obj81(lv_event_t *e) {
+static void event_handler_cb_calibration_obj101(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
@@ -439,7 +568,7 @@ static void event_handler_cb_calibration_obj81(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_calibration_obj82(lv_event_t *e) {
+static void event_handler_cb_calibration_obj102(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
@@ -471,7 +600,7 @@ static void event_handler_cb_nplc_nlpc_home_cancel_1(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_nplc_obj89(lv_event_t *e) {
+static void event_handler_cb_nplc_obj109(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_VALUE_CHANGED) {
@@ -486,7 +615,7 @@ static void event_handler_cb_nplc_obj89(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_nplc_obj90(lv_event_t *e) {
+static void event_handler_cb_nplc_obj110(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_VALUE_CHANGED) {
@@ -509,7 +638,7 @@ static void event_handler_cb_fan_nlpc_home_1(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_fan_obj98(lv_event_t *e) {
+static void event_handler_cb_fan_obj118(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_SCREEN_LOADED) {
@@ -533,7 +662,7 @@ static void event_handler_cb_fan_nlpc_home_cancel_3(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_fan_obj102(lv_event_t *e) {
+static void event_handler_cb_fan_obj122(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_VALUE_CHANGED) {
@@ -548,7 +677,7 @@ static void event_handler_cb_fan_obj102(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_fan_obj104(lv_event_t *e) {
+static void event_handler_cb_fan_obj124(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_VALUE_CHANGED) {
@@ -571,7 +700,7 @@ static void event_handler_cb_display_nlpc_home_2(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_display_obj108(lv_event_t *e) {
+static void event_handler_cb_display_obj128(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_SCREEN_LOADED) {
@@ -595,7 +724,7 @@ static void event_handler_cb_display_nlpc_home_cancel_5(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_display_obj111(lv_event_t *e) {
+static void event_handler_cb_display_obj131(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_VALUE_CHANGED) {
@@ -610,7 +739,7 @@ static void event_handler_cb_display_obj111(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_display_obj113(lv_event_t *e) {
+static void event_handler_cb_display_obj133(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_VALUE_CHANGED) {
@@ -625,7 +754,7 @@ static void event_handler_cb_display_obj113(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_display_obj115(lv_event_t *e) {
+static void event_handler_cb_display_obj135(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_RELEASED) {
@@ -641,7 +770,7 @@ static void event_handler_cb_display_display_off(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_question_yn_obj93(lv_event_t *e) {
+static void event_handler_cb_question_yn_obj113(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
@@ -649,7 +778,7 @@ static void event_handler_cb_question_yn_obj93(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_question_yn_obj94(lv_event_t *e) {
+static void event_handler_cb_question_yn_obj114(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_PRESSED) {
@@ -708,7 +837,7 @@ static void event_handler_cb_keyboard_old2_kbtext2_1(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_keyboard_old2_obj118(lv_event_t *e) {
+static void event_handler_cb_keyboard_old2_obj138(lv_event_t *e) {
     lv_event_code_t event = lv_event_get_code(e);
     void *flowState = e->user_data;
     if (event == LV_EVENT_READY) {
@@ -816,10 +945,10 @@ void create_screen_main() {
         {
             // ON-OFF button
             lv_obj_t *obj = lv_btn_create(parent_obj);
-            objects.on_off_button = obj;
+            objects.on_of_f_button = obj;
             lv_obj_set_pos(obj, -4, 4);
             lv_obj_set_size(obj, 109, 38);
-            lv_obj_add_event_cb(obj, event_handler_cb_main_on_off_button, LV_EVENT_ALL, flowState);
+            lv_obj_add_event_cb(obj, event_handler_cb_main_on_of_f_button, LV_EVENT_ALL, flowState);
             lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
             apply_style_button(obj);
@@ -997,7 +1126,7 @@ void create_screen_main() {
                     lv_obj_t *obj = lv_label_create(parent_obj);
                     objects.ah = obj;
                     lv_obj_set_pos(obj, 21, -12);
-                    lv_obj_set_size(obj, 148, 21);
+                    lv_obj_set_size(obj, 140, 21);
                     lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
                     lv_label_set_text(obj, "");
                     apply_style_small_label(obj);
@@ -1008,7 +1137,7 @@ void create_screen_main() {
                     lv_obj_t *obj = lv_label_create(parent_obj);
                     objects.wh = obj;
                     lv_obj_set_pos(obj, 21, 9);
-                    lv_obj_set_size(obj, 148, 21);
+                    lv_obj_set_size(obj, 140, 21);
                     lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
                     lv_label_set_text(obj, "");
                     lv_obj_add_event_cb(obj, event_handler_cb_main_wh, LV_EVENT_ALL, flowState);
@@ -1020,7 +1149,7 @@ void create_screen_main() {
                     // montime
                     lv_obj_t *obj = lv_label_create(parent_obj);
                     objects.montime = obj;
-                    lv_obj_set_pos(obj, 172, 0);
+                    lv_obj_set_pos(obj, 164, 0);
                     lv_obj_set_size(obj, 92, 21);
                     lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
                     lv_label_set_text(obj, "");
@@ -1032,22 +1161,23 @@ void create_screen_main() {
                     lv_obj_t *obj = lv_btn_create(parent_obj);
                     objects.obj10 = obj;
                     lv_obj_set_pos(obj, 11, 1);
-                    lv_obj_set_size(obj, 32, 32);
+                    lv_obj_set_size(obj, 38, 32);
                     lv_obj_add_event_cb(obj, event_handler_cb_main_obj10, LV_EVENT_ALL, flowState);
                     lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
                     lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
-                    apply_style_selectbutton(obj);
+                    apply_style_select_button_red_green(obj);
                     lv_obj_set_style_align(obj, LV_ALIGN_RIGHT_MID, LV_PART_MAIN | LV_STATE_DEFAULT);
                     {
                         lv_obj_t *parent_obj = obj;
                         {
                             lv_obj_t *obj = lv_label_create(parent_obj);
                             objects.obj11 = obj;
-                            lv_obj_set_pos(obj, 1, 0);
-                            lv_obj_set_size(obj, 24, 24);
+                            lv_obj_set_pos(obj, 0, 0);
+                            lv_obj_set_size(obj, 36, 24);
                             lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
                             lv_label_set_text(obj, "");
                             lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+                            lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
                         }
                     }
                 }
@@ -1326,7 +1456,7 @@ void create_screen_main() {
             lv_obj_set_local_style_prop(obj, LV_STYLE_PAD_LEFT, value, LV_PART_MAIN);
             lv_obj_set_local_style_prop(obj, LV_STYLE_BG_OPA, value, LV_PART_MAIN);
             lv_obj_set_local_style_prop(obj, LV_STYLE_BORDER_WIDTH, value, LV_PART_MAIN);
-            create_user_widget_keyboard(obj, getFlowState(flowState, 59), 65);
+            create_user_widget_keyboard(obj, getFlowState(flowState, 56), 97);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
         }
     }
@@ -1355,21 +1485,21 @@ void tick_screen_main() {
     }
     {
         bool new_val = evalBooleanProperty(flowState, 0, 2, "Failed to evaluate Checked state");
-        bool cur_val = lv_obj_has_state(objects.on_off_button, LV_STATE_CHECKED);
+        bool cur_val = lv_obj_has_state(objects.on_of_f_button, LV_STATE_CHECKED);
         if (new_val != cur_val) {
-            tick_value_change_obj = objects.on_off_button;
-            if (new_val) lv_obj_add_state(objects.on_off_button, LV_STATE_CHECKED);
-            else lv_obj_clear_state(objects.on_off_button, LV_STATE_CHECKED);
+            tick_value_change_obj = objects.on_of_f_button;
+            if (new_val) lv_obj_add_state(objects.on_of_f_button, LV_STATE_CHECKED);
+            else lv_obj_clear_state(objects.on_of_f_button, LV_STATE_CHECKED);
             tick_value_change_obj = NULL;
         }
     }
     {
         bool new_val = evalBooleanProperty(flowState, 0, 3, "Failed to evaluate Disabled state");
-        bool cur_val = lv_obj_has_state(objects.on_off_button, LV_STATE_DISABLED);
+        bool cur_val = lv_obj_has_state(objects.on_of_f_button, LV_STATE_DISABLED);
         if (new_val != cur_val) {
-            tick_value_change_obj = objects.on_off_button;
-            if (new_val) lv_obj_add_state(objects.on_off_button, LV_STATE_DISABLED);
-            else lv_obj_clear_state(objects.on_off_button, LV_STATE_DISABLED);
+            tick_value_change_obj = objects.on_of_f_button;
+            if (new_val) lv_obj_add_state(objects.on_of_f_button, LV_STATE_DISABLED);
+            else lv_obj_clear_state(objects.on_of_f_button, LV_STATE_DISABLED);
             tick_value_change_obj = NULL;
         }
     }
@@ -1477,7 +1607,7 @@ void tick_screen_main() {
         }
     }
     {
-        const char *new_val = evalTextProperty(flowState, 17, 2, "Failed to evaluate Text in Label widget");
+        const char *new_val = evalTextProperty(flowState, 16, 2, "Failed to evaluate Text in Label widget");
         const char *cur_val = lv_label_get_text(objects.obj9);
         if (strcmp(new_val, cur_val) != 0) {
             tick_value_change_obj = objects.obj9;
@@ -1486,7 +1616,7 @@ void tick_screen_main() {
         }
     }
     {
-        const char *new_val = evalTextProperty(flowState, 18, 2, "Failed to evaluate Text in Label widget");
+        const char *new_val = evalTextProperty(flowState, 17, 2, "Failed to evaluate Text in Label widget");
         const char *cur_val = lv_label_get_text(objects.ah);
         if (strcmp(new_val, cur_val) != 0) {
             tick_value_change_obj = objects.ah;
@@ -1495,7 +1625,7 @@ void tick_screen_main() {
         }
     }
     {
-        const char *new_val = evalTextProperty(flowState, 19, 2, "Failed to evaluate Text in Label widget");
+        const char *new_val = evalTextProperty(flowState, 18, 2, "Failed to evaluate Text in Label widget");
         const char *cur_val = lv_label_get_text(objects.wh);
         if (strcmp(new_val, cur_val) != 0) {
             tick_value_change_obj = objects.wh;
@@ -1504,7 +1634,7 @@ void tick_screen_main() {
         }
     }
     {
-        const char *new_val = evalTextProperty(flowState, 20, 2, "Failed to evaluate Text in Label widget");
+        const char *new_val = evalTextProperty(flowState, 19, 2, "Failed to evaluate Text in Label widget");
         const char *cur_val = lv_label_get_text(objects.montime);
         if (strcmp(new_val, cur_val) != 0) {
             tick_value_change_obj = objects.montime;
@@ -1513,7 +1643,17 @@ void tick_screen_main() {
         }
     }
     {
-        const char *new_val = evalTextProperty(flowState, 22, 2, "Failed to evaluate Text in Label widget");
+        bool new_val = evalBooleanProperty(flowState, 20, 2, "Failed to evaluate Checked state");
+        bool cur_val = lv_obj_has_state(objects.obj10, LV_STATE_CHECKED);
+        if (new_val != cur_val) {
+            tick_value_change_obj = objects.obj10;
+            if (new_val) lv_obj_add_state(objects.obj10, LV_STATE_CHECKED);
+            else lv_obj_clear_state(objects.obj10, LV_STATE_CHECKED);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        const char *new_val = evalTextProperty(flowState, 21, 2, "Failed to evaluate Text in Label widget");
         const char *cur_val = lv_label_get_text(objects.obj11);
         if (strcmp(new_val, cur_val) != 0) {
             tick_value_change_obj = objects.obj11;
@@ -1522,7 +1662,7 @@ void tick_screen_main() {
         }
     }
     {
-        bool new_val = evalBooleanProperty(flowState, 24, 2, "Failed to evaluate Hidden flag");
+        bool new_val = evalBooleanProperty(flowState, 23, 2, "Failed to evaluate Hidden flag");
         bool cur_val = lv_obj_has_flag(objects.iset, LV_OBJ_FLAG_HIDDEN);
         if (new_val != cur_val) {
             tick_value_change_obj = objects.iset;
@@ -1532,7 +1672,7 @@ void tick_screen_main() {
         }
     }
     {
-        const char *new_val = evalTextProperty(flowState, 25, 2, "Failed to evaluate Text in Label widget");
+        const char *new_val = evalTextProperty(flowState, 24, 2, "Failed to evaluate Text in Label widget");
         const char *cur_val = lv_label_get_text(objects.isetlabel);
         if (strcmp(new_val, cur_val) != 0) {
             tick_value_change_obj = objects.isetlabel;
@@ -1541,7 +1681,7 @@ void tick_screen_main() {
         }
     }
     {
-        const char *new_val = evalTextProperty(flowState, 26, 2, "Failed to evaluate Text in Textarea widget");
+        const char *new_val = evalTextProperty(flowState, 25, 2, "Failed to evaluate Text in Textarea widget");
         const char *cur_val = lv_textarea_get_text(objects.set_value_area);
         if (strcmp(new_val, cur_val) != 0) {
             tick_value_change_obj = objects.set_value_area;
@@ -1550,7 +1690,7 @@ void tick_screen_main() {
         }
     }
     {
-        const char *new_val = evalTextProperty(flowState, 27, 2, "Failed to evaluate Text in Label widget");
+        const char *new_val = evalTextProperty(flowState, 26, 2, "Failed to evaluate Text in Label widget");
         const char *cur_val = lv_label_get_text(objects.obj12);
         if (strcmp(new_val, cur_val) != 0) {
             tick_value_change_obj = objects.obj12;
@@ -1559,7 +1699,7 @@ void tick_screen_main() {
         }
     }
     {
-        bool new_val = evalBooleanProperty(flowState, 31, 2, "Failed to evaluate Checked state");
+        bool new_val = evalBooleanProperty(flowState, 30, 2, "Failed to evaluate Checked state");
         bool cur_val = lv_obj_has_state(objects.obj13, LV_STATE_CHECKED);
         if (new_val != cur_val) {
             tick_value_change_obj = objects.obj13;
@@ -1569,7 +1709,7 @@ void tick_screen_main() {
         }
     }
     {
-        const char *new_val = evalTextProperty(flowState, 32, 2, "Failed to evaluate Text in Label widget");
+        const char *new_val = evalTextProperty(flowState, 31, 2, "Failed to evaluate Text in Label widget");
         const char *cur_val = lv_label_get_text(objects.obj14);
         if (strcmp(new_val, cur_val) != 0) {
             tick_value_change_obj = objects.obj14;
@@ -1578,7 +1718,7 @@ void tick_screen_main() {
         }
     }
     {
-        const char *new_val = evalTextProperty(flowState, 34, 2, "Failed to evaluate Text in Label widget");
+        const char *new_val = evalTextProperty(flowState, 33, 2, "Failed to evaluate Text in Label widget");
         const char *cur_val = lv_label_get_text(objects.obj16);
         if (strcmp(new_val, cur_val) != 0) {
             tick_value_change_obj = objects.obj16;
@@ -1587,7 +1727,7 @@ void tick_screen_main() {
         }
     }
     {
-        bool new_val = evalBooleanProperty(flowState, 36, 2, "Failed to evaluate Checked state");
+        bool new_val = evalBooleanProperty(flowState, 35, 2, "Failed to evaluate Checked state");
         bool cur_val = lv_obj_has_state(objects.obj17, LV_STATE_CHECKED);
         if (new_val != cur_val) {
             tick_value_change_obj = objects.obj17;
@@ -1597,7 +1737,7 @@ void tick_screen_main() {
         }
     }
     {
-        const char *new_val = evalTextProperty(flowState, 37, 2, "Failed to evaluate Text in Label widget");
+        const char *new_val = evalTextProperty(flowState, 36, 2, "Failed to evaluate Text in Label widget");
         const char *cur_val = lv_label_get_text(objects.obj18);
         if (strcmp(new_val, cur_val) != 0) {
             tick_value_change_obj = objects.obj18;
@@ -1606,7 +1746,7 @@ void tick_screen_main() {
         }
     }
     {
-        const char *new_val = evalTextProperty(flowState, 38, 2, "Failed to evaluate Text in Label widget");
+        const char *new_val = evalTextProperty(flowState, 37, 2, "Failed to evaluate Text in Label widget");
         const char *cur_val = lv_label_get_text(objects.obj19);
         if (strcmp(new_val, cur_val) != 0) {
             tick_value_change_obj = objects.obj19;
@@ -1615,7 +1755,7 @@ void tick_screen_main() {
         }
     }
     {
-        bool new_val = evalBooleanProperty(flowState, 40, 2, "Failed to evaluate Hidden flag");
+        bool new_val = evalBooleanProperty(flowState, 39, 2, "Failed to evaluate Hidden flag");
         bool cur_val = lv_obj_has_flag(objects.wheel, LV_OBJ_FLAG_HIDDEN);
         if (new_val != cur_val) {
             tick_value_change_obj = objects.wheel;
@@ -1625,7 +1765,7 @@ void tick_screen_main() {
         }
     }
     {
-        const char *new_val = evalTextProperty(flowState, 49, 2, "Failed to evaluate Text in Label widget");
+        const char *new_val = evalTextProperty(flowState, 48, 2, "Failed to evaluate Text in Label widget");
         const char *cur_val = lv_label_get_text(objects.obj21);
         if (strcmp(new_val, cur_val) != 0) {
             tick_value_change_obj = objects.obj21;
@@ -1634,7 +1774,7 @@ void tick_screen_main() {
         }
     }
     {
-        bool new_val = evalBooleanProperty(flowState, 59, 2, "Failed to evaluate Hidden flag");
+        bool new_val = evalBooleanProperty(flowState, 56, 2, "Failed to evaluate Hidden flag");
         bool cur_val = lv_obj_has_flag(objects.obj22, LV_OBJ_FLAG_HIDDEN);
         if (new_val != cur_val) {
             tick_value_change_obj = objects.obj22;
@@ -1643,13 +1783,13 @@ void tick_screen_main() {
             tick_value_change_obj = NULL;
         }
     }
-    tick_user_widget_keyboard(getFlowState(flowState, 59), 65);
+    tick_user_widget_keyboard(getFlowState(flowState, 56), 97);
 }
 
-void create_screen_settings() {
+void create_screen_capacity() {
     void *flowState = getFlowState(0, 2);
     lv_obj_t *obj = lv_obj_create(0);
-    objects.settings = obj;
+    objects.capacity = obj;
     lv_obj_set_pos(obj, 0, 0);
     lv_obj_set_size(obj, 320, 240);
     lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
@@ -1659,141 +1799,274 @@ void create_screen_settings() {
         {
             lv_obj_t *obj = lv_label_create(parent_obj);
             objects.obj25 = obj;
-            lv_obj_set_pos(obj, 1, 0);
+            lv_obj_set_pos(obj, 0, 0);
             lv_obj_set_size(obj, 320, 25);
-            lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
             lv_label_set_text(obj, "");
             apply_style_small_header(obj);
-            lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_obj_set_style_bg_color(obj, lv_color_hex(0xff5060a0), LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_obj_set_style_text_color(obj, lv_color_hex(0xffdddddd), LV_PART_MAIN | LV_STATE_DEFAULT);
-            lv_obj_set_style_bg_opa(obj, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
         }
         {
             lv_obj_t *obj = lv_btn_create(parent_obj);
             objects.obj26 = obj;
-            lv_obj_set_pos(obj, 206, 206);
-            lv_obj_set_size(obj, 105, 32);
-            lv_obj_add_event_cb(obj, event_handler_cb_settings_obj26, LV_EVENT_ALL, flowState);
+            lv_obj_set_pos(obj, -2, -2);
+            lv_obj_set_size(obj, 55, 38);
+            lv_obj_add_event_cb(obj, event_handler_cb_capacity_obj26, LV_EVENT_ALL, flowState);
             lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
             apply_style_selectbutton(obj);
+            lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_align(obj, LV_ALIGN_BOTTOM_RIGHT, LV_PART_MAIN | LV_STATE_DEFAULT);
             {
                 lv_obj_t *parent_obj = obj;
                 {
                     lv_obj_t *obj = lv_label_create(parent_obj);
                     objects.obj27 = obj;
                     lv_obj_set_pos(obj, 0, 0);
-                    lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+                    lv_obj_set_size(obj, LV_PCT(100), LV_PCT(100));
+                    lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
                     lv_label_set_text(obj, "");
                     lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
                 }
             }
         }
         {
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            lv_obj_set_pos(obj, 0, 175);
+            lv_obj_set_size(obj, 202, 24);
+            lv_label_set_text(obj, "Time limit: ");
+            apply_style_small_label(obj);
+            lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_RIGHT, LV_PART_MAIN | LV_STATE_DEFAULT);
+        }
+        {
             lv_obj_t *obj = lv_btn_create(parent_obj);
             objects.obj28 = obj;
-            lv_obj_set_pos(obj, 9, 206);
-            lv_obj_set_size(obj, 188, 32);
-            lv_obj_add_event_cb(obj, event_handler_cb_settings_obj28, LV_EVENT_ALL, flowState);
+            lv_obj_set_pos(obj, 204, 174);
+            lv_obj_set_size(obj, 114, 24);
+            lv_obj_add_event_cb(obj, event_handler_cb_capacity_obj28, LV_EVENT_ALL, flowState);
             lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
-            apply_style_selectbutton(obj);
+            apply_style_select_button_red_green(obj);
+            lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
             {
                 lv_obj_t *parent_obj = obj;
                 {
                     lv_obj_t *obj = lv_label_create(parent_obj);
                     objects.obj29 = obj;
                     lv_obj_set_pos(obj, 0, 0);
-                    lv_obj_set_size(obj, 188, LV_SIZE_CONTENT);
+                    lv_obj_set_size(obj, 114, 22);
                     lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
                     lv_label_set_text(obj, "");
+                    lv_obj_set_style_text_font(obj, &lv_font_montserrat_18, LV_PART_MAIN | LV_STATE_DEFAULT);
                     lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+                    lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
                 }
             }
         }
         {
             lv_obj_t *obj = lv_btn_create(parent_obj);
             objects.obj30 = obj;
-            lv_obj_set_pos(obj, 9, 134);
-            lv_obj_set_size(obj, 188, 32);
-            lv_obj_add_event_cb(obj, event_handler_cb_settings_obj30, LV_EVENT_ALL, flowState);
+            lv_obj_set_pos(obj, 204, 147);
+            lv_obj_set_size(obj, 114, 24);
+            lv_obj_add_event_cb(obj, event_handler_cb_capacity_obj30, LV_EVENT_ALL, flowState);
             lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
-            apply_style_selectbutton(obj);
+            apply_style_select_button_red_green(obj);
+            lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
             {
                 lv_obj_t *parent_obj = obj;
                 {
                     lv_obj_t *obj = lv_label_create(parent_obj);
                     objects.obj31 = obj;
                     lv_obj_set_pos(obj, 0, 0);
-                    lv_obj_set_size(obj, 188, LV_SIZE_CONTENT);
+                    lv_obj_set_size(obj, 114, 22);
                     lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
                     lv_label_set_text(obj, "");
+                    lv_obj_set_style_text_font(obj, &lv_font_montserrat_18, LV_PART_MAIN | LV_STATE_DEFAULT);
                     lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+                    lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
                 }
             }
         }
         {
             lv_obj_t *obj = lv_btn_create(parent_obj);
             objects.obj32 = obj;
-            lv_obj_set_pos(obj, 9, 170);
-            lv_obj_set_size(obj, 188, 32);
-            lv_obj_add_event_cb(obj, event_handler_cb_settings_obj32, LV_EVENT_ALL, flowState);
+            lv_obj_set_pos(obj, 204, 92);
+            lv_obj_set_size(obj, 114, 24);
+            lv_obj_add_event_cb(obj, event_handler_cb_capacity_obj32, LV_EVENT_ALL, flowState);
             lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
-            apply_style_selectbutton(obj);
+            apply_style_select_button_red_green(obj);
+            lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
             {
                 lv_obj_t *parent_obj = obj;
                 {
                     lv_obj_t *obj = lv_label_create(parent_obj);
                     objects.obj33 = obj;
                     lv_obj_set_pos(obj, 0, 0);
-                    lv_obj_set_size(obj, 188, LV_SIZE_CONTENT);
+                    lv_obj_set_size(obj, 114, 22);
                     lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
                     lv_label_set_text(obj, "");
+                    lv_obj_set_style_text_font(obj, &lv_font_montserrat_18, LV_PART_MAIN | LV_STATE_DEFAULT);
                     lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+                    lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
                 }
             }
         }
         {
             lv_obj_t *obj = lv_btn_create(parent_obj);
             objects.obj34 = obj;
-            lv_obj_set_pos(obj, 9, 98);
-            lv_obj_set_size(obj, 188, 32);
-            lv_obj_add_event_cb(obj, event_handler_cb_settings_obj34, LV_EVENT_ALL, flowState);
+            lv_obj_set_pos(obj, 204, 119);
+            lv_obj_set_size(obj, 114, 24);
+            lv_obj_add_event_cb(obj, event_handler_cb_capacity_obj34, LV_EVENT_ALL, flowState);
             lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
-            apply_style_selectbutton(obj);
+            apply_style_select_button_red_green(obj);
+            lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
             {
                 lv_obj_t *parent_obj = obj;
                 {
                     lv_obj_t *obj = lv_label_create(parent_obj);
                     objects.obj35 = obj;
                     lv_obj_set_pos(obj, 0, 0);
-                    lv_obj_set_size(obj, 188, LV_SIZE_CONTENT);
+                    lv_obj_set_size(obj, 114, 22);
                     lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
                     lv_label_set_text(obj, "");
-                    apply_style_button_text(obj);
+                    lv_obj_set_style_text_font(obj, &lv_font_montserrat_18, LV_PART_MAIN | LV_STATE_DEFAULT);
+                    lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+                    lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+                }
+            }
+        }
+        {
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            lv_obj_set_pos(obj, 0, 132);
+            lv_obj_set_size(obj, 202, 24);
+            lv_label_set_text(obj, "Capacity limit: ");
+            apply_style_small_label(obj);
+            lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_RIGHT, LV_PART_MAIN | LV_STATE_DEFAULT);
+        }
+        {
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            lv_obj_set_pos(obj, 0, 91);
+            lv_obj_set_size(obj, 202, 24);
+            lv_label_set_text(obj, "Stop Voltage: ");
+            apply_style_small_label(obj);
+            lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_RIGHT, LV_PART_MAIN | LV_STATE_DEFAULT);
+        }
+        {
+            // Ah_2
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            objects.ah_2 = obj;
+            lv_obj_set_pos(obj, 0, 25);
+            lv_obj_set_size(obj, 148, 21);
+            lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
+            lv_label_set_text(obj, "");
+            apply_style_small_label(obj);
+            lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_RIGHT, LV_PART_MAIN | LV_STATE_DEFAULT);
+        }
+        {
+            // Ah_3
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            objects.ah_3 = obj;
+            lv_obj_set_pos(obj, 172, 25);
+            lv_obj_set_size(obj, 148, 21);
+            lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
+            lv_label_set_text(obj, "");
+            apply_style_small_label(obj);
+            lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_RIGHT, LV_PART_MAIN | LV_STATE_DEFAULT);
+        }
+        {
+            // Ah_4
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            objects.ah_4 = obj;
+            lv_obj_set_pos(obj, 0, 46);
+            lv_obj_set_size(obj, 148, 21);
+            lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
+            lv_label_set_text(obj, "");
+            apply_style_small_label(obj);
+            lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_RIGHT, LV_PART_MAIN | LV_STATE_DEFAULT);
+        }
+        {
+            // Ah_5
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            objects.ah_5 = obj;
+            lv_obj_set_pos(obj, 0, 67);
+            lv_obj_set_size(obj, 148, 21);
+            lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
+            lv_label_set_text(obj, "");
+            apply_style_small_label(obj);
+            lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_RIGHT, LV_PART_MAIN | LV_STATE_DEFAULT);
+        }
+        {
+            // Ah_6
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            objects.ah_6 = obj;
+            lv_obj_set_pos(obj, 172, 46);
+            lv_obj_set_size(obj, 148, 21);
+            lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
+            lv_label_set_text(obj, "");
+            apply_style_small_label(obj);
+            lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_RIGHT, LV_PART_MAIN | LV_STATE_DEFAULT);
+        }
+        {
+            // Ah_7
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            objects.ah_7 = obj;
+            lv_obj_set_pos(obj, 172, 67);
+            lv_obj_set_size(obj, 148, 21);
+            lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
+            lv_label_set_text(obj, "");
+            apply_style_small_label(obj);
+            lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_RIGHT, LV_PART_MAIN | LV_STATE_DEFAULT);
+        }
+        {
+            // ON-OFF button_1
+            lv_obj_t *obj = lv_btn_create(parent_obj);
+            objects.on_of_f_button_1 = obj;
+            lv_obj_set_pos(obj, 2, -2);
+            lv_obj_set_size(obj, 90, 38);
+            lv_obj_add_event_cb(obj, event_handler_cb_capacity_on_of_f_button_1, LV_EVENT_ALL, flowState);
+            lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
+            lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
+            apply_style_button(obj);
+            lv_obj_set_style_align(obj, LV_ALIGN_BOTTOM_LEFT, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_bg_color(obj, lv_color_hex(0xff03bd2b), LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_bg_color(obj, lv_color_hex(0xffca0202), LV_PART_MAIN | LV_STATE_CHECKED);
+            lv_obj_set_style_text_color(obj, lv_color_hex(0xffffff00), LV_PART_MAIN | LV_STATE_CHECKED);
+            lv_obj_set_style_text_color(obj, lv_color_hex(0xffcccccc), LV_PART_MAIN | LV_STATE_DISABLED);
+            lv_obj_set_style_text_opa(obj, 255, LV_PART_MAIN | LV_STATE_DISABLED);
+            lv_obj_set_style_bg_color(obj, lv_color_hex(0xff111111), LV_PART_MAIN | LV_STATE_DISABLED);
+            lv_obj_set_style_bg_opa(obj, 255, LV_PART_MAIN | LV_STATE_DISABLED);
+            {
+                lv_obj_t *parent_obj = obj;
+                {
+                    lv_obj_t *obj = lv_label_create(parent_obj);
+                    objects.obj36 = obj;
+                    lv_obj_set_pos(obj, 0, 0);
+                    lv_obj_set_size(obj, LV_PCT(100), LV_PCT(100));
+                    lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
+                    lv_label_set_text(obj, "");
+                    lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
                 }
             }
         }
         {
             lv_obj_t *obj = lv_btn_create(parent_obj);
-            objects.obj36 = obj;
-            lv_obj_set_pos(obj, 206, 170);
-            lv_obj_set_size(obj, 105, 32);
-            lv_obj_add_event_cb(obj, event_handler_cb_settings_obj36, LV_EVENT_ALL, flowState);
+            objects.obj37 = obj;
+            lv_obj_set_pos(obj, 2, -77);
+            lv_obj_set_size(obj, 32, 32);
+            lv_obj_add_event_cb(obj, event_handler_cb_capacity_obj37, LV_EVENT_ALL, flowState);
             lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
             apply_style_selectbutton(obj);
+            lv_obj_set_style_align(obj, LV_ALIGN_LEFT_MID, LV_PART_MAIN | LV_STATE_DEFAULT);
             {
                 lv_obj_t *parent_obj = obj;
                 {
                     lv_obj_t *obj = lv_label_create(parent_obj);
-                    objects.obj37 = obj;
-                    lv_obj_set_pos(obj, 0, 0);
-                    lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+                    objects.obj38 = obj;
+                    lv_obj_set_pos(obj, 1, 0);
+                    lv_obj_set_size(obj, 24, 24);
+                    lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
                     lv_label_set_text(obj, "");
                     lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
                 }
@@ -1801,20 +2074,46 @@ void create_screen_settings() {
         }
         {
             lv_obj_t *obj = lv_btn_create(parent_obj);
-            objects.obj38 = obj;
-            lv_obj_set_pos(obj, 206, 134);
-            lv_obj_set_size(obj, 105, 32);
-            lv_obj_add_event_cb(obj, event_handler_cb_settings_obj38, LV_EVENT_ALL, flowState);
+            objects.obj39 = obj;
+            lv_obj_set_pos(obj, -32, -2);
+            lv_obj_set_size(obj, 55, 38);
+            lv_obj_add_event_cb(obj, event_handler_cb_capacity_obj39, LV_EVENT_ALL, flowState);
             lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
-            apply_style_selectbutton(obj);
+            apply_style_select_button_red_green(obj);
+            lv_obj_set_style_align(obj, LV_ALIGN_BOTTOM_MID, LV_PART_MAIN | LV_STATE_DEFAULT);
             {
                 lv_obj_t *parent_obj = obj;
                 {
                     lv_obj_t *obj = lv_label_create(parent_obj);
-                    objects.obj39 = obj;
-                    lv_obj_set_pos(obj, 0, 0);
-                    lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+                    objects.obj40 = obj;
+                    lv_obj_set_pos(obj, 0, -1);
+                    lv_obj_set_size(obj, 78, 23);
+                    lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
+                    lv_label_set_text(obj, "");
+                    lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+                    lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+                }
+            }
+        }
+        {
+            lv_obj_t *obj = lv_btn_create(parent_obj);
+            objects.obj41 = obj;
+            lv_obj_set_pos(obj, -142, -148);
+            lv_obj_set_size(obj, 32, 32);
+            lv_obj_add_event_cb(obj, event_handler_cb_capacity_obj41, LV_EVENT_ALL, flowState);
+            lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
+            lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
+            apply_style_selectbutton(obj);
+            lv_obj_set_style_align(obj, LV_ALIGN_BOTTOM_MID, LV_PART_MAIN | LV_STATE_DEFAULT);
+            {
+                lv_obj_t *parent_obj = obj;
+                {
+                    lv_obj_t *obj = lv_label_create(parent_obj);
+                    objects.obj42 = obj;
+                    lv_obj_set_pos(obj, 1, -1);
+                    lv_obj_set_size(obj, 24, 24);
+                    lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
                     lv_label_set_text(obj, "");
                     lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
                 }
@@ -1822,52 +2121,47 @@ void create_screen_settings() {
         }
         {
             lv_obj_t *obj = lv_btn_create(parent_obj);
-            objects.obj40 = obj;
-            lv_obj_set_pos(obj, 9, 62);
-            lv_obj_set_size(obj, 188, 32);
-            lv_obj_add_event_cb(obj, event_handler_cb_settings_obj40, LV_EVENT_ALL, flowState);
+            objects.obj43 = obj;
+            lv_obj_set_pos(obj, 51, -2);
+            lv_obj_set_size(obj, 88, 38);
+            lv_obj_add_event_cb(obj, event_handler_cb_capacity_obj43, LV_EVENT_ALL, flowState);
             lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
             apply_style_selectbutton(obj);
+            lv_obj_set_style_align(obj, LV_ALIGN_BOTTOM_MID, LV_PART_MAIN | LV_STATE_DEFAULT);
             {
                 lv_obj_t *parent_obj = obj;
                 {
                     lv_obj_t *obj = lv_label_create(parent_obj);
-                    objects.obj41 = obj;
-                    lv_obj_set_pos(obj, 0, 0);
-                    lv_obj_set_size(obj, 188, LV_SIZE_CONTENT);
+                    lv_obj_set_pos(obj, 0, -1);
+                    lv_obj_set_size(obj, 88, 24);
                     lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
-                    lv_label_set_text(obj, "");
-                    apply_style_button_text(obj);
+                    lv_label_set_text(obj, "Clear");
+                    lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+                    lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
                 }
             }
         }
         {
-            lv_obj_t *obj = lv_btn_create(parent_obj);
-            objects.obj42 = obj;
-            lv_obj_set_pos(obj, 9, 27);
-            lv_obj_set_size(obj, 188, 32);
-            lv_obj_add_event_cb(obj, event_handler_cb_settings_obj42, LV_EVENT_ALL, flowState);
-            lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
+            lv_obj_t *obj = lv_obj_create(parent_obj);
+            objects.obj44 = obj;
+            lv_obj_set_pos(obj, 0, 0);
+            lv_obj_set_size(obj, 320, 240);
+            lv_style_value_t value;
+            value.num = 0;
+            lv_obj_set_local_style_prop(obj, LV_STYLE_PAD_LEFT, value, LV_PART_MAIN);
+            lv_obj_set_local_style_prop(obj, LV_STYLE_PAD_TOP, value, LV_PART_MAIN);
+            lv_obj_set_local_style_prop(obj, LV_STYLE_PAD_RIGHT, value, LV_PART_MAIN);
+            lv_obj_set_local_style_prop(obj, LV_STYLE_PAD_LEFT, value, LV_PART_MAIN);
+            lv_obj_set_local_style_prop(obj, LV_STYLE_BG_OPA, value, LV_PART_MAIN);
+            lv_obj_set_local_style_prop(obj, LV_STYLE_BORDER_WIDTH, value, LV_PART_MAIN);
+            create_user_widget_keyboard(obj, getFlowState(flowState, 43), 124);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
-            apply_style_selectbutton(obj);
-            {
-                lv_obj_t *parent_obj = obj;
-                {
-                    lv_obj_t *obj = lv_label_create(parent_obj);
-                    objects.obj43 = obj;
-                    lv_obj_set_pos(obj, 0, 0);
-                    lv_obj_set_size(obj, 188, LV_SIZE_CONTENT);
-                    lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
-                    lv_label_set_text(obj, "");
-                    apply_style_button_text(obj);
-                }
-            }
         }
     }
 }
 
-void tick_screen_settings() {
+void tick_screen_capacity() {
     void *flowState = getFlowState(0, 2);
     {
         const char *new_val = evalTextProperty(flowState, 1, 2, "Failed to evaluate Text in Label widget");
@@ -1888,11 +2182,31 @@ void tick_screen_settings() {
         }
     }
     {
-        const char *new_val = evalTextProperty(flowState, 5, 2, "Failed to evaluate Text in Label widget");
+        bool new_val = evalBooleanProperty(flowState, 5, 2, "Failed to evaluate Checked state");
+        bool cur_val = lv_obj_has_state(objects.obj28, LV_STATE_CHECKED);
+        if (new_val != cur_val) {
+            tick_value_change_obj = objects.obj28;
+            if (new_val) lv_obj_add_state(objects.obj28, LV_STATE_CHECKED);
+            else lv_obj_clear_state(objects.obj28, LV_STATE_CHECKED);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        const char *new_val = evalTextProperty(flowState, 6, 2, "Failed to evaluate Text in Label widget");
         const char *cur_val = lv_label_get_text(objects.obj29);
         if (strcmp(new_val, cur_val) != 0) {
             tick_value_change_obj = objects.obj29;
             lv_label_set_text(objects.obj29, new_val);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        bool new_val = evalBooleanProperty(flowState, 7, 2, "Failed to evaluate Checked state");
+        bool cur_val = lv_obj_has_state(objects.obj30, LV_STATE_CHECKED);
+        if (new_val != cur_val) {
+            tick_value_change_obj = objects.obj30;
+            if (new_val) lv_obj_add_state(objects.obj30, LV_STATE_CHECKED);
+            else lv_obj_clear_state(objects.obj30, LV_STATE_CHECKED);
             tick_value_change_obj = NULL;
         }
     }
@@ -1906,7 +2220,17 @@ void tick_screen_settings() {
         }
     }
     {
-        const char *new_val = evalTextProperty(flowState, 11, 2, "Failed to evaluate Text in Label widget");
+        bool new_val = evalBooleanProperty(flowState, 9, 2, "Failed to evaluate Checked state");
+        bool cur_val = lv_obj_has_state(objects.obj32, LV_STATE_CHECKED);
+        if (new_val != cur_val) {
+            tick_value_change_obj = objects.obj32;
+            if (new_val) lv_obj_add_state(objects.obj32, LV_STATE_CHECKED);
+            else lv_obj_clear_state(objects.obj32, LV_STATE_CHECKED);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        const char *new_val = evalTextProperty(flowState, 10, 2, "Failed to evaluate Text in Label widget");
         const char *cur_val = lv_label_get_text(objects.obj33);
         if (strcmp(new_val, cur_val) != 0) {
             tick_value_change_obj = objects.obj33;
@@ -1915,7 +2239,17 @@ void tick_screen_settings() {
         }
     }
     {
-        const char *new_val = evalTextProperty(flowState, 13, 2, "Failed to evaluate Text in Label widget");
+        bool new_val = evalBooleanProperty(flowState, 11, 2, "Failed to evaluate Checked state");
+        bool cur_val = lv_obj_has_state(objects.obj34, LV_STATE_CHECKED);
+        if (new_val != cur_val) {
+            tick_value_change_obj = objects.obj34;
+            if (new_val) lv_obj_add_state(objects.obj34, LV_STATE_CHECKED);
+            else lv_obj_clear_state(objects.obj34, LV_STATE_CHECKED);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        const char *new_val = evalTextProperty(flowState, 12, 2, "Failed to evaluate Text in Label widget");
         const char *cur_val = lv_label_get_text(objects.obj35);
         if (strcmp(new_val, cur_val) != 0) {
             tick_value_change_obj = objects.obj35;
@@ -1924,45 +2258,455 @@ void tick_screen_settings() {
         }
     }
     {
-        const char *new_val = evalTextProperty(flowState, 17, 2, "Failed to evaluate Text in Label widget");
-        const char *cur_val = lv_label_get_text(objects.obj37);
+        const char *new_val = evalTextProperty(flowState, 15, 2, "Failed to evaluate Text in Label widget");
+        const char *cur_val = lv_label_get_text(objects.ah_2);
         if (strcmp(new_val, cur_val) != 0) {
-            tick_value_change_obj = objects.obj37;
-            lv_label_set_text(objects.obj37, new_val);
+            tick_value_change_obj = objects.ah_2;
+            lv_label_set_text(objects.ah_2, new_val);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        const char *new_val = evalTextProperty(flowState, 16, 2, "Failed to evaluate Text in Label widget");
+        const char *cur_val = lv_label_get_text(objects.ah_3);
+        if (strcmp(new_val, cur_val) != 0) {
+            tick_value_change_obj = objects.ah_3;
+            lv_label_set_text(objects.ah_3, new_val);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        const char *new_val = evalTextProperty(flowState, 17, 2, "Failed to evaluate Text in Label widget");
+        const char *cur_val = lv_label_get_text(objects.ah_4);
+        if (strcmp(new_val, cur_val) != 0) {
+            tick_value_change_obj = objects.ah_4;
+            lv_label_set_text(objects.ah_4, new_val);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        const char *new_val = evalTextProperty(flowState, 18, 2, "Failed to evaluate Text in Label widget");
+        const char *cur_val = lv_label_get_text(objects.ah_5);
+        if (strcmp(new_val, cur_val) != 0) {
+            tick_value_change_obj = objects.ah_5;
+            lv_label_set_text(objects.ah_5, new_val);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        const char *new_val = evalTextProperty(flowState, 19, 2, "Failed to evaluate Text in Label widget");
+        const char *cur_val = lv_label_get_text(objects.ah_6);
+        if (strcmp(new_val, cur_val) != 0) {
+            tick_value_change_obj = objects.ah_6;
+            lv_label_set_text(objects.ah_6, new_val);
             tick_value_change_obj = NULL;
         }
     }
     {
         const char *new_val = evalTextProperty(flowState, 20, 2, "Failed to evaluate Text in Label widget");
-        const char *cur_val = lv_label_get_text(objects.obj39);
+        const char *cur_val = lv_label_get_text(objects.ah_7);
         if (strcmp(new_val, cur_val) != 0) {
-            tick_value_change_obj = objects.obj39;
-            lv_label_set_text(objects.obj39, new_val);
+            tick_value_change_obj = objects.ah_7;
+            lv_label_set_text(objects.ah_7, new_val);
             tick_value_change_obj = NULL;
         }
     }
     {
-        const char *new_val = evalTextProperty(flowState, 23, 2, "Failed to evaluate Text in Label widget");
-        const char *cur_val = lv_label_get_text(objects.obj41);
+        bool new_val = evalBooleanProperty(flowState, 21, 2, "Failed to evaluate Checked state");
+        bool cur_val = lv_obj_has_state(objects.on_of_f_button_1, LV_STATE_CHECKED);
+        if (new_val != cur_val) {
+            tick_value_change_obj = objects.on_of_f_button_1;
+            if (new_val) lv_obj_add_state(objects.on_of_f_button_1, LV_STATE_CHECKED);
+            else lv_obj_clear_state(objects.on_of_f_button_1, LV_STATE_CHECKED);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        bool new_val = evalBooleanProperty(flowState, 21, 3, "Failed to evaluate Disabled state");
+        bool cur_val = lv_obj_has_state(objects.on_of_f_button_1, LV_STATE_DISABLED);
+        if (new_val != cur_val) {
+            tick_value_change_obj = objects.on_of_f_button_1;
+            if (new_val) lv_obj_add_state(objects.on_of_f_button_1, LV_STATE_DISABLED);
+            else lv_obj_clear_state(objects.on_of_f_button_1, LV_STATE_DISABLED);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        const char *new_val = evalTextProperty(flowState, 22, 2, "Failed to evaluate Text in Label widget");
+        const char *cur_val = lv_label_get_text(objects.obj36);
         if (strcmp(new_val, cur_val) != 0) {
-            tick_value_change_obj = objects.obj41;
-            lv_label_set_text(objects.obj41, new_val);
+            tick_value_change_obj = objects.obj36;
+            lv_label_set_text(objects.obj36, new_val);
             tick_value_change_obj = NULL;
         }
     }
     {
         const char *new_val = evalTextProperty(flowState, 25, 2, "Failed to evaluate Text in Label widget");
-        const char *cur_val = lv_label_get_text(objects.obj43);
+        const char *cur_val = lv_label_get_text(objects.obj38);
         if (strcmp(new_val, cur_val) != 0) {
-            tick_value_change_obj = objects.obj43;
-            lv_label_set_text(objects.obj43, new_val);
+            tick_value_change_obj = objects.obj38;
+            lv_label_set_text(objects.obj38, new_val);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        bool new_val = evalBooleanProperty(flowState, 26, 2, "Failed to evaluate Checked state");
+        bool cur_val = lv_obj_has_state(objects.obj39, LV_STATE_CHECKED);
+        if (new_val != cur_val) {
+            tick_value_change_obj = objects.obj39;
+            if (new_val) lv_obj_add_state(objects.obj39, LV_STATE_CHECKED);
+            else lv_obj_clear_state(objects.obj39, LV_STATE_CHECKED);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        const char *new_val = evalTextProperty(flowState, 27, 2, "Failed to evaluate Text in Label widget");
+        const char *cur_val = lv_label_get_text(objects.obj40);
+        if (strcmp(new_val, cur_val) != 0) {
+            tick_value_change_obj = objects.obj40;
+            lv_label_set_text(objects.obj40, new_val);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        const char *new_val = evalTextProperty(flowState, 40, 2, "Failed to evaluate Text in Label widget");
+        const char *cur_val = lv_label_get_text(objects.obj42);
+        if (strcmp(new_val, cur_val) != 0) {
+            tick_value_change_obj = objects.obj42;
+            lv_label_set_text(objects.obj42, new_val);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        bool new_val = evalBooleanProperty(flowState, 43, 2, "Failed to evaluate Hidden flag");
+        bool cur_val = lv_obj_has_flag(objects.obj44, LV_OBJ_FLAG_HIDDEN);
+        if (new_val != cur_val) {
+            tick_value_change_obj = objects.obj44;
+            if (new_val) lv_obj_add_flag(objects.obj44, LV_OBJ_FLAG_HIDDEN);
+            else lv_obj_clear_flag(objects.obj44, LV_OBJ_FLAG_HIDDEN);
+            tick_value_change_obj = NULL;
+        }
+    }
+    tick_user_widget_keyboard(getFlowState(flowState, 43), 124);
+}
+
+void create_screen_settings() {
+    void *flowState = getFlowState(0, 3);
+    lv_obj_t *obj = lv_obj_create(0);
+    objects.settings = obj;
+    lv_obj_set_pos(obj, 0, 0);
+    lv_obj_set_size(obj, 320, 240);
+    lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_set_style_bg_color(obj, lv_color_hex(0xff000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    {
+        lv_obj_t *parent_obj = obj;
+        {
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            objects.obj45 = obj;
+            lv_obj_set_pos(obj, 1, 0);
+            lv_obj_set_size(obj, 320, 25);
+            lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
+            lv_label_set_text(obj, "");
+            apply_style_small_header(obj);
+            lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_bg_color(obj, lv_color_hex(0xff5060a0), LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_text_color(obj, lv_color_hex(0xffdddddd), LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_bg_opa(obj, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+        }
+        {
+            lv_obj_t *obj = lv_btn_create(parent_obj);
+            objects.obj46 = obj;
+            lv_obj_set_pos(obj, 206, 206);
+            lv_obj_set_size(obj, 105, 32);
+            lv_obj_add_event_cb(obj, event_handler_cb_settings_obj46, LV_EVENT_ALL, flowState);
+            lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
+            lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
+            apply_style_selectbutton(obj);
+            {
+                lv_obj_t *parent_obj = obj;
+                {
+                    lv_obj_t *obj = lv_label_create(parent_obj);
+                    objects.obj47 = obj;
+                    lv_obj_set_pos(obj, 0, 0);
+                    lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+                    lv_label_set_text(obj, "");
+                    lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+                }
+            }
+        }
+        {
+            lv_obj_t *obj = lv_btn_create(parent_obj);
+            objects.obj48 = obj;
+            lv_obj_set_pos(obj, 9, 206);
+            lv_obj_set_size(obj, 188, 32);
+            lv_obj_add_event_cb(obj, event_handler_cb_settings_obj48, LV_EVENT_ALL, flowState);
+            lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
+            lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
+            apply_style_selectbutton(obj);
+            {
+                lv_obj_t *parent_obj = obj;
+                {
+                    lv_obj_t *obj = lv_label_create(parent_obj);
+                    objects.obj49 = obj;
+                    lv_obj_set_pos(obj, 0, 0);
+                    lv_obj_set_size(obj, 188, LV_SIZE_CONTENT);
+                    lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
+                    lv_label_set_text(obj, "");
+                    lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+                }
+            }
+        }
+        {
+            lv_obj_t *obj = lv_btn_create(parent_obj);
+            objects.obj50 = obj;
+            lv_obj_set_pos(obj, 9, 134);
+            lv_obj_set_size(obj, 188, 32);
+            lv_obj_add_event_cb(obj, event_handler_cb_settings_obj50, LV_EVENT_ALL, flowState);
+            lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
+            lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
+            apply_style_selectbutton(obj);
+            {
+                lv_obj_t *parent_obj = obj;
+                {
+                    lv_obj_t *obj = lv_label_create(parent_obj);
+                    objects.obj51 = obj;
+                    lv_obj_set_pos(obj, 0, 0);
+                    lv_obj_set_size(obj, 188, LV_SIZE_CONTENT);
+                    lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
+                    lv_label_set_text(obj, "");
+                    lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+                }
+            }
+        }
+        {
+            lv_obj_t *obj = lv_btn_create(parent_obj);
+            objects.obj52 = obj;
+            lv_obj_set_pos(obj, 9, 170);
+            lv_obj_set_size(obj, 188, 32);
+            lv_obj_add_event_cb(obj, event_handler_cb_settings_obj52, LV_EVENT_ALL, flowState);
+            lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
+            lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
+            apply_style_selectbutton(obj);
+            {
+                lv_obj_t *parent_obj = obj;
+                {
+                    lv_obj_t *obj = lv_label_create(parent_obj);
+                    objects.obj53 = obj;
+                    lv_obj_set_pos(obj, 0, 0);
+                    lv_obj_set_size(obj, 188, LV_SIZE_CONTENT);
+                    lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
+                    lv_label_set_text(obj, "");
+                    lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+                }
+            }
+        }
+        {
+            lv_obj_t *obj = lv_btn_create(parent_obj);
+            objects.obj54 = obj;
+            lv_obj_set_pos(obj, 9, 98);
+            lv_obj_set_size(obj, 188, 32);
+            lv_obj_add_event_cb(obj, event_handler_cb_settings_obj54, LV_EVENT_ALL, flowState);
+            lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
+            lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
+            apply_style_selectbutton(obj);
+            {
+                lv_obj_t *parent_obj = obj;
+                {
+                    lv_obj_t *obj = lv_label_create(parent_obj);
+                    objects.obj55 = obj;
+                    lv_obj_set_pos(obj, 0, 0);
+                    lv_obj_set_size(obj, 188, LV_SIZE_CONTENT);
+                    lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
+                    lv_label_set_text(obj, "");
+                    apply_style_button_text(obj);
+                }
+            }
+        }
+        {
+            lv_obj_t *obj = lv_btn_create(parent_obj);
+            objects.obj56 = obj;
+            lv_obj_set_pos(obj, 206, 170);
+            lv_obj_set_size(obj, 105, 32);
+            lv_obj_add_event_cb(obj, event_handler_cb_settings_obj56, LV_EVENT_ALL, flowState);
+            lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
+            lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
+            apply_style_selectbutton(obj);
+            {
+                lv_obj_t *parent_obj = obj;
+                {
+                    lv_obj_t *obj = lv_label_create(parent_obj);
+                    objects.obj57 = obj;
+                    lv_obj_set_pos(obj, 0, 0);
+                    lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+                    lv_label_set_text(obj, "");
+                    lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+                }
+            }
+        }
+        {
+            lv_obj_t *obj = lv_btn_create(parent_obj);
+            objects.obj58 = obj;
+            lv_obj_set_pos(obj, 206, 134);
+            lv_obj_set_size(obj, 105, 32);
+            lv_obj_add_event_cb(obj, event_handler_cb_settings_obj58, LV_EVENT_ALL, flowState);
+            lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
+            lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
+            apply_style_selectbutton(obj);
+            {
+                lv_obj_t *parent_obj = obj;
+                {
+                    lv_obj_t *obj = lv_label_create(parent_obj);
+                    objects.obj59 = obj;
+                    lv_obj_set_pos(obj, 0, 0);
+                    lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+                    lv_label_set_text(obj, "");
+                    lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+                }
+            }
+        }
+        {
+            lv_obj_t *obj = lv_btn_create(parent_obj);
+            objects.obj60 = obj;
+            lv_obj_set_pos(obj, 9, 62);
+            lv_obj_set_size(obj, 188, 32);
+            lv_obj_add_event_cb(obj, event_handler_cb_settings_obj60, LV_EVENT_ALL, flowState);
+            lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
+            lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
+            apply_style_selectbutton(obj);
+            {
+                lv_obj_t *parent_obj = obj;
+                {
+                    lv_obj_t *obj = lv_label_create(parent_obj);
+                    objects.obj61 = obj;
+                    lv_obj_set_pos(obj, 0, 0);
+                    lv_obj_set_size(obj, 188, LV_SIZE_CONTENT);
+                    lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
+                    lv_label_set_text(obj, "");
+                    apply_style_button_text(obj);
+                }
+            }
+        }
+        {
+            lv_obj_t *obj = lv_btn_create(parent_obj);
+            objects.obj62 = obj;
+            lv_obj_set_pos(obj, 9, 27);
+            lv_obj_set_size(obj, 188, 32);
+            lv_obj_add_event_cb(obj, event_handler_cb_settings_obj62, LV_EVENT_ALL, flowState);
+            lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
+            lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
+            apply_style_selectbutton(obj);
+            {
+                lv_obj_t *parent_obj = obj;
+                {
+                    lv_obj_t *obj = lv_label_create(parent_obj);
+                    objects.obj63 = obj;
+                    lv_obj_set_pos(obj, 0, 0);
+                    lv_obj_set_size(obj, 188, LV_SIZE_CONTENT);
+                    lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
+                    lv_label_set_text(obj, "");
+                    apply_style_button_text(obj);
+                }
+            }
+        }
+    }
+}
+
+void tick_screen_settings() {
+    void *flowState = getFlowState(0, 3);
+    {
+        const char *new_val = evalTextProperty(flowState, 1, 2, "Failed to evaluate Text in Label widget");
+        const char *cur_val = lv_label_get_text(objects.obj45);
+        if (strcmp(new_val, cur_val) != 0) {
+            tick_value_change_obj = objects.obj45;
+            lv_label_set_text(objects.obj45, new_val);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        const char *new_val = evalTextProperty(flowState, 2, 2, "Failed to evaluate Text in Label widget");
+        const char *cur_val = lv_label_get_text(objects.obj47);
+        if (strcmp(new_val, cur_val) != 0) {
+            tick_value_change_obj = objects.obj47;
+            lv_label_set_text(objects.obj47, new_val);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        const char *new_val = evalTextProperty(flowState, 5, 2, "Failed to evaluate Text in Label widget");
+        const char *cur_val = lv_label_get_text(objects.obj49);
+        if (strcmp(new_val, cur_val) != 0) {
+            tick_value_change_obj = objects.obj49;
+            lv_label_set_text(objects.obj49, new_val);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        const char *new_val = evalTextProperty(flowState, 8, 2, "Failed to evaluate Text in Label widget");
+        const char *cur_val = lv_label_get_text(objects.obj51);
+        if (strcmp(new_val, cur_val) != 0) {
+            tick_value_change_obj = objects.obj51;
+            lv_label_set_text(objects.obj51, new_val);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        const char *new_val = evalTextProperty(flowState, 11, 2, "Failed to evaluate Text in Label widget");
+        const char *cur_val = lv_label_get_text(objects.obj53);
+        if (strcmp(new_val, cur_val) != 0) {
+            tick_value_change_obj = objects.obj53;
+            lv_label_set_text(objects.obj53, new_val);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        const char *new_val = evalTextProperty(flowState, 13, 2, "Failed to evaluate Text in Label widget");
+        const char *cur_val = lv_label_get_text(objects.obj55);
+        if (strcmp(new_val, cur_val) != 0) {
+            tick_value_change_obj = objects.obj55;
+            lv_label_set_text(objects.obj55, new_val);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        const char *new_val = evalTextProperty(flowState, 17, 2, "Failed to evaluate Text in Label widget");
+        const char *cur_val = lv_label_get_text(objects.obj57);
+        if (strcmp(new_val, cur_val) != 0) {
+            tick_value_change_obj = objects.obj57;
+            lv_label_set_text(objects.obj57, new_val);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        const char *new_val = evalTextProperty(flowState, 20, 2, "Failed to evaluate Text in Label widget");
+        const char *cur_val = lv_label_get_text(objects.obj59);
+        if (strcmp(new_val, cur_val) != 0) {
+            tick_value_change_obj = objects.obj59;
+            lv_label_set_text(objects.obj59, new_val);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        const char *new_val = evalTextProperty(flowState, 23, 2, "Failed to evaluate Text in Label widget");
+        const char *cur_val = lv_label_get_text(objects.obj61);
+        if (strcmp(new_val, cur_val) != 0) {
+            tick_value_change_obj = objects.obj61;
+            lv_label_set_text(objects.obj61, new_val);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        const char *new_val = evalTextProperty(flowState, 25, 2, "Failed to evaluate Text in Label widget");
+        const char *cur_val = lv_label_get_text(objects.obj63);
+        if (strcmp(new_val, cur_val) != 0) {
+            tick_value_change_obj = objects.obj63;
+            lv_label_set_text(objects.obj63, new_val);
             tick_value_change_obj = NULL;
         }
     }
 }
 
 void create_screen_events() {
-    void *flowState = getFlowState(0, 3);
+    void *flowState = getFlowState(0, 4);
     lv_obj_t *obj = lv_obj_create(0);
     objects.events = obj;
     lv_obj_set_pos(obj, 0, 0);
@@ -1973,7 +2717,7 @@ void create_screen_events() {
         lv_obj_t *parent_obj = obj;
         {
             lv_obj_t *obj = lv_label_create(parent_obj);
-            objects.obj44 = obj;
+            objects.obj64 = obj;
             lv_obj_set_pos(obj, 0, 0);
             lv_obj_set_size(obj, 320, 25);
             lv_label_set_text(obj, "");
@@ -1981,10 +2725,10 @@ void create_screen_events() {
         }
         {
             lv_obj_t *obj = lv_btn_create(parent_obj);
-            objects.obj45 = obj;
+            objects.obj65 = obj;
             lv_obj_set_pos(obj, 225, 200);
             lv_obj_set_size(obj, 90, 38);
-            lv_obj_add_event_cb(obj, event_handler_cb_events_obj45, LV_EVENT_ALL, flowState);
+            lv_obj_add_event_cb(obj, event_handler_cb_events_obj65, LV_EVENT_ALL, flowState);
             lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
             apply_style_selectbutton(obj);
@@ -1993,7 +2737,7 @@ void create_screen_events() {
                 lv_obj_t *parent_obj = obj;
                 {
                     lv_obj_t *obj = lv_label_create(parent_obj);
-                    objects.obj46 = obj;
+                    objects.obj66 = obj;
                     lv_obj_set_pos(obj, 0, 0);
                     lv_obj_set_size(obj, LV_PCT(100), LV_PCT(100));
                     lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
@@ -2004,13 +2748,13 @@ void create_screen_events() {
         }
         {
             lv_obj_t *obj = lv_textarea_create(parent_obj);
-            objects.obj47 = obj;
+            objects.obj67 = obj;
             lv_obj_set_pos(obj, 3, 26);
             lv_obj_set_size(obj, 314, 161);
             lv_textarea_set_max_length(obj, 500);
             lv_textarea_set_one_line(obj, false);
             lv_textarea_set_password_mode(obj, false);
-            lv_obj_add_event_cb(obj, event_handler_cb_events_obj47, LV_EVENT_ALL, flowState);
+            lv_obj_add_event_cb(obj, event_handler_cb_events_obj67, LV_EVENT_ALL, flowState);
             lv_obj_set_style_bg_color(obj, lv_color_hex(0xff444444), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_color(obj, lv_color_hex(0xff00ffff), LV_PART_MAIN | LV_STATE_DEFAULT);
         }
@@ -2018,38 +2762,38 @@ void create_screen_events() {
 }
 
 void tick_screen_events() {
-    void *flowState = getFlowState(0, 3);
+    void *flowState = getFlowState(0, 4);
     {
         const char *new_val = evalTextProperty(flowState, 1, 2, "Failed to evaluate Text in Label widget");
-        const char *cur_val = lv_label_get_text(objects.obj44);
+        const char *cur_val = lv_label_get_text(objects.obj64);
         if (strcmp(new_val, cur_val) != 0) {
-            tick_value_change_obj = objects.obj44;
-            lv_label_set_text(objects.obj44, new_val);
+            tick_value_change_obj = objects.obj64;
+            lv_label_set_text(objects.obj64, new_val);
             tick_value_change_obj = NULL;
         }
     }
     {
         const char *new_val = evalTextProperty(flowState, 2, 2, "Failed to evaluate Text in Label widget");
-        const char *cur_val = lv_label_get_text(objects.obj46);
+        const char *cur_val = lv_label_get_text(objects.obj66);
         if (strcmp(new_val, cur_val) != 0) {
-            tick_value_change_obj = objects.obj46;
-            lv_label_set_text(objects.obj46, new_val);
+            tick_value_change_obj = objects.obj66;
+            lv_label_set_text(objects.obj66, new_val);
             tick_value_change_obj = NULL;
         }
     }
     {
         const char *new_val = evalTextProperty(flowState, 4, 2, "Failed to evaluate Text in Textarea widget");
-        const char *cur_val = lv_textarea_get_text(objects.obj47);
+        const char *cur_val = lv_textarea_get_text(objects.obj67);
         if (strcmp(new_val, cur_val) != 0) {
-            tick_value_change_obj = objects.obj47;
-            lv_textarea_set_text(objects.obj47, new_val);
+            tick_value_change_obj = objects.obj67;
+            lv_textarea_set_text(objects.obj67, new_val);
             tick_value_change_obj = NULL;
         }
     }
 }
 
 void create_screen_protections() {
-    void *flowState = getFlowState(0, 4);
+    void *flowState = getFlowState(0, 5);
     lv_obj_t *obj = lv_obj_create(0);
     objects.protections = obj;
     lv_obj_set_pos(obj, 0, 0);
@@ -2060,7 +2804,7 @@ void create_screen_protections() {
         lv_obj_t *parent_obj = obj;
         {
             lv_obj_t *obj = lv_label_create(parent_obj);
-            objects.obj48 = obj;
+            objects.obj68 = obj;
             lv_obj_set_pos(obj, 0, 0);
             lv_obj_set_size(obj, 320, 26);
             lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
@@ -2069,10 +2813,10 @@ void create_screen_protections() {
         }
         {
             lv_obj_t *obj = lv_btn_create(parent_obj);
-            objects.obj49 = obj;
+            objects.obj69 = obj;
             lv_obj_set_pos(obj, 212, 200);
             lv_obj_set_size(obj, 90, 32);
-            lv_obj_add_event_cb(obj, event_handler_cb_protections_obj49, LV_EVENT_ALL, flowState);
+            lv_obj_add_event_cb(obj, event_handler_cb_protections_obj69, LV_EVENT_ALL, flowState);
             lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
             apply_style_selectbutton(obj);
@@ -2081,7 +2825,7 @@ void create_screen_protections() {
                 lv_obj_t *parent_obj = obj;
                 {
                     lv_obj_t *obj = lv_label_create(parent_obj);
-                    objects.obj50 = obj;
+                    objects.obj70 = obj;
                     lv_obj_set_pos(obj, 0, 0);
                     lv_obj_set_size(obj, 90, 32);
                     lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
@@ -2126,10 +2870,10 @@ void create_screen_protections() {
         }
         {
             lv_obj_t *obj = lv_btn_create(parent_obj);
-            objects.obj51 = obj;
+            objects.obj71 = obj;
             lv_obj_set_pos(obj, 160, 32);
             lv_obj_set_size(obj, 142, 30);
-            lv_obj_add_event_cb(obj, event_handler_cb_protections_obj51, LV_EVENT_ALL, flowState);
+            lv_obj_add_event_cb(obj, event_handler_cb_protections_obj71, LV_EVENT_ALL, flowState);
             lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
             apply_style_select_button_red_green(obj);
@@ -2138,7 +2882,7 @@ void create_screen_protections() {
                 lv_obj_t *parent_obj = obj;
                 {
                     lv_obj_t *obj = lv_label_create(parent_obj);
-                    objects.obj52 = obj;
+                    objects.obj72 = obj;
                     lv_obj_set_pos(obj, 0, 0);
                     lv_obj_set_size(obj, 142, 30);
                     lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
@@ -2149,10 +2893,10 @@ void create_screen_protections() {
         }
         {
             lv_obj_t *obj = lv_btn_create(parent_obj);
-            objects.obj53 = obj;
+            objects.obj73 = obj;
             lv_obj_set_pos(obj, 160, 73);
             lv_obj_set_size(obj, 142, 30);
-            lv_obj_add_event_cb(obj, event_handler_cb_protections_obj53, LV_EVENT_ALL, flowState);
+            lv_obj_add_event_cb(obj, event_handler_cb_protections_obj73, LV_EVENT_ALL, flowState);
             lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
             apply_style_select_button_red_green(obj);
@@ -2161,7 +2905,7 @@ void create_screen_protections() {
                 lv_obj_t *parent_obj = obj;
                 {
                     lv_obj_t *obj = lv_label_create(parent_obj);
-                    objects.obj54 = obj;
+                    objects.obj74 = obj;
                     lv_obj_set_pos(obj, 0, 0);
                     lv_obj_set_size(obj, 142, 30);
                     lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
@@ -2172,10 +2916,10 @@ void create_screen_protections() {
         }
         {
             lv_obj_t *obj = lv_btn_create(parent_obj);
-            objects.obj55 = obj;
+            objects.obj75 = obj;
             lv_obj_set_pos(obj, 160, 117);
             lv_obj_set_size(obj, 65, 30);
-            lv_obj_add_event_cb(obj, event_handler_cb_protections_obj55, LV_EVENT_ALL, flowState);
+            lv_obj_add_event_cb(obj, event_handler_cb_protections_obj75, LV_EVENT_ALL, flowState);
             lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
             apply_style_select_button_red_green(obj);
@@ -2185,7 +2929,7 @@ void create_screen_protections() {
                 lv_obj_t *parent_obj = obj;
                 {
                     lv_obj_t *obj = lv_label_create(parent_obj);
-                    objects.obj56 = obj;
+                    objects.obj76 = obj;
                     lv_obj_set_pos(obj, 0, 0);
                     lv_obj_set_size(obj, 65, 20);
                     lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
@@ -2196,10 +2940,10 @@ void create_screen_protections() {
         }
         {
             lv_obj_t *obj = lv_btn_create(parent_obj);
-            objects.obj57 = obj;
+            objects.obj77 = obj;
             lv_obj_set_pos(obj, 237, 117);
             lv_obj_set_size(obj, 65, 30);
-            lv_obj_add_event_cb(obj, event_handler_cb_protections_obj57, LV_EVENT_ALL, flowState);
+            lv_obj_add_event_cb(obj, event_handler_cb_protections_obj77, LV_EVENT_ALL, flowState);
             lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
             apply_style_select_button_red_green(obj);
@@ -2209,7 +2953,7 @@ void create_screen_protections() {
                 lv_obj_t *parent_obj = obj;
                 {
                     lv_obj_t *obj = lv_label_create(parent_obj);
-                    objects.obj58 = obj;
+                    objects.obj78 = obj;
                     lv_obj_set_pos(obj, 0, 0);
                     lv_obj_set_size(obj, 65, 20);
                     lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
@@ -2220,10 +2964,10 @@ void create_screen_protections() {
         }
         {
             lv_obj_t *obj = lv_btn_create(parent_obj);
-            objects.obj59 = obj;
+            objects.obj79 = obj;
             lv_obj_set_pos(obj, 22, 200);
             lv_obj_set_size(obj, 164, 32);
-            lv_obj_add_event_cb(obj, event_handler_cb_protections_obj59, LV_EVENT_ALL, flowState);
+            lv_obj_add_event_cb(obj, event_handler_cb_protections_obj79, LV_EVENT_ALL, flowState);
             lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
             apply_style_selectbutton(obj);
@@ -2244,10 +2988,10 @@ void create_screen_protections() {
         }
         {
             lv_obj_t *obj = lv_btn_create(parent_obj);
-            objects.obj60 = obj;
+            objects.obj80 = obj;
             lv_obj_set_pos(obj, 160, 156);
             lv_obj_set_size(obj, 65, 30);
-            lv_obj_add_event_cb(obj, event_handler_cb_protections_obj60, LV_EVENT_ALL, flowState);
+            lv_obj_add_event_cb(obj, event_handler_cb_protections_obj80, LV_EVENT_ALL, flowState);
             lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
             apply_style_select_button_red_green(obj);
@@ -2257,7 +3001,7 @@ void create_screen_protections() {
                 lv_obj_t *parent_obj = obj;
                 {
                     lv_obj_t *obj = lv_label_create(parent_obj);
-                    objects.obj61 = obj;
+                    objects.obj81 = obj;
                     lv_obj_set_pos(obj, 0, 0);
                     lv_obj_set_size(obj, 65, 20);
                     lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
@@ -2268,10 +3012,10 @@ void create_screen_protections() {
         }
         {
             lv_obj_t *obj = lv_btn_create(parent_obj);
-            objects.obj62 = obj;
+            objects.obj82 = obj;
             lv_obj_set_pos(obj, 237, 156);
             lv_obj_set_size(obj, 65, 30);
-            lv_obj_add_event_cb(obj, event_handler_cb_protections_obj62, LV_EVENT_ALL, flowState);
+            lv_obj_add_event_cb(obj, event_handler_cb_protections_obj82, LV_EVENT_ALL, flowState);
             lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
             apply_style_select_button_red_green(obj);
@@ -2281,7 +3025,7 @@ void create_screen_protections() {
                 lv_obj_t *parent_obj = obj;
                 {
                     lv_obj_t *obj = lv_label_create(parent_obj);
-                    objects.obj63 = obj;
+                    objects.obj83 = obj;
                     lv_obj_set_pos(obj, 0, 0);
                     lv_obj_set_size(obj, 65, 20);
                     lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
@@ -2292,7 +3036,7 @@ void create_screen_protections() {
         }
         {
             lv_obj_t *obj = lv_obj_create(parent_obj);
-            objects.obj64 = obj;
+            objects.obj84 = obj;
             lv_obj_set_pos(obj, 0, 0);
             lv_obj_set_size(obj, 320, 240);
             lv_style_value_t value;
@@ -2303,171 +3047,171 @@ void create_screen_protections() {
             lv_obj_set_local_style_prop(obj, LV_STYLE_PAD_LEFT, value, LV_PART_MAIN);
             lv_obj_set_local_style_prop(obj, LV_STYLE_BG_OPA, value, LV_PART_MAIN);
             lv_obj_set_local_style_prop(obj, LV_STYLE_BORDER_WIDTH, value, LV_PART_MAIN);
-            create_user_widget_keyboard(obj, getFlowState(flowState, 28), 114);
+            create_user_widget_keyboard(obj, getFlowState(flowState, 28), 173);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
         }
     }
 }
 
 void tick_screen_protections() {
-    void *flowState = getFlowState(0, 4);
+    void *flowState = getFlowState(0, 5);
     {
         const char *new_val = evalTextProperty(flowState, 1, 2, "Failed to evaluate Text in Label widget");
-        const char *cur_val = lv_label_get_text(objects.obj48);
+        const char *cur_val = lv_label_get_text(objects.obj68);
         if (strcmp(new_val, cur_val) != 0) {
-            tick_value_change_obj = objects.obj48;
-            lv_label_set_text(objects.obj48, new_val);
+            tick_value_change_obj = objects.obj68;
+            lv_label_set_text(objects.obj68, new_val);
             tick_value_change_obj = NULL;
         }
     }
     {
         const char *new_val = evalTextProperty(flowState, 2, 2, "Failed to evaluate Text in Label widget");
-        const char *cur_val = lv_label_get_text(objects.obj50);
+        const char *cur_val = lv_label_get_text(objects.obj70);
         if (strcmp(new_val, cur_val) != 0) {
-            tick_value_change_obj = objects.obj50;
-            lv_label_set_text(objects.obj50, new_val);
+            tick_value_change_obj = objects.obj70;
+            lv_label_set_text(objects.obj70, new_val);
             tick_value_change_obj = NULL;
         }
     }
     {
         bool new_val = evalBooleanProperty(flowState, 8, 2, "Failed to evaluate Checked state");
-        bool cur_val = lv_obj_has_state(objects.obj51, LV_STATE_CHECKED);
+        bool cur_val = lv_obj_has_state(objects.obj71, LV_STATE_CHECKED);
         if (new_val != cur_val) {
-            tick_value_change_obj = objects.obj51;
-            if (new_val) lv_obj_add_state(objects.obj51, LV_STATE_CHECKED);
-            else lv_obj_clear_state(objects.obj51, LV_STATE_CHECKED);
+            tick_value_change_obj = objects.obj71;
+            if (new_val) lv_obj_add_state(objects.obj71, LV_STATE_CHECKED);
+            else lv_obj_clear_state(objects.obj71, LV_STATE_CHECKED);
             tick_value_change_obj = NULL;
         }
     }
     {
         const char *new_val = evalTextProperty(flowState, 9, 2, "Failed to evaluate Text in Label widget");
-        const char *cur_val = lv_label_get_text(objects.obj52);
+        const char *cur_val = lv_label_get_text(objects.obj72);
         if (strcmp(new_val, cur_val) != 0) {
-            tick_value_change_obj = objects.obj52;
-            lv_label_set_text(objects.obj52, new_val);
+            tick_value_change_obj = objects.obj72;
+            lv_label_set_text(objects.obj72, new_val);
             tick_value_change_obj = NULL;
         }
     }
     {
         bool new_val = evalBooleanProperty(flowState, 10, 2, "Failed to evaluate Checked state");
-        bool cur_val = lv_obj_has_state(objects.obj53, LV_STATE_CHECKED);
+        bool cur_val = lv_obj_has_state(objects.obj73, LV_STATE_CHECKED);
         if (new_val != cur_val) {
-            tick_value_change_obj = objects.obj53;
-            if (new_val) lv_obj_add_state(objects.obj53, LV_STATE_CHECKED);
-            else lv_obj_clear_state(objects.obj53, LV_STATE_CHECKED);
+            tick_value_change_obj = objects.obj73;
+            if (new_val) lv_obj_add_state(objects.obj73, LV_STATE_CHECKED);
+            else lv_obj_clear_state(objects.obj73, LV_STATE_CHECKED);
             tick_value_change_obj = NULL;
         }
     }
     {
         const char *new_val = evalTextProperty(flowState, 11, 2, "Failed to evaluate Text in Label widget");
-        const char *cur_val = lv_label_get_text(objects.obj54);
+        const char *cur_val = lv_label_get_text(objects.obj74);
         if (strcmp(new_val, cur_val) != 0) {
-            tick_value_change_obj = objects.obj54;
-            lv_label_set_text(objects.obj54, new_val);
+            tick_value_change_obj = objects.obj74;
+            lv_label_set_text(objects.obj74, new_val);
             tick_value_change_obj = NULL;
         }
     }
     {
         bool new_val = evalBooleanProperty(flowState, 18, 2, "Failed to evaluate Checked state");
-        bool cur_val = lv_obj_has_state(objects.obj55, LV_STATE_CHECKED);
+        bool cur_val = lv_obj_has_state(objects.obj75, LV_STATE_CHECKED);
         if (new_val != cur_val) {
-            tick_value_change_obj = objects.obj55;
-            if (new_val) lv_obj_add_state(objects.obj55, LV_STATE_CHECKED);
-            else lv_obj_clear_state(objects.obj55, LV_STATE_CHECKED);
+            tick_value_change_obj = objects.obj75;
+            if (new_val) lv_obj_add_state(objects.obj75, LV_STATE_CHECKED);
+            else lv_obj_clear_state(objects.obj75, LV_STATE_CHECKED);
             tick_value_change_obj = NULL;
         }
     }
     {
         const char *new_val = evalTextProperty(flowState, 19, 2, "Failed to evaluate Text in Label widget");
-        const char *cur_val = lv_label_get_text(objects.obj56);
+        const char *cur_val = lv_label_get_text(objects.obj76);
         if (strcmp(new_val, cur_val) != 0) {
-            tick_value_change_obj = objects.obj56;
-            lv_label_set_text(objects.obj56, new_val);
+            tick_value_change_obj = objects.obj76;
+            lv_label_set_text(objects.obj76, new_val);
             tick_value_change_obj = NULL;
         }
     }
     {
         bool new_val = evalBooleanProperty(flowState, 20, 2, "Failed to evaluate Checked state");
-        bool cur_val = lv_obj_has_state(objects.obj57, LV_STATE_CHECKED);
+        bool cur_val = lv_obj_has_state(objects.obj77, LV_STATE_CHECKED);
         if (new_val != cur_val) {
-            tick_value_change_obj = objects.obj57;
-            if (new_val) lv_obj_add_state(objects.obj57, LV_STATE_CHECKED);
-            else lv_obj_clear_state(objects.obj57, LV_STATE_CHECKED);
+            tick_value_change_obj = objects.obj77;
+            if (new_val) lv_obj_add_state(objects.obj77, LV_STATE_CHECKED);
+            else lv_obj_clear_state(objects.obj77, LV_STATE_CHECKED);
             tick_value_change_obj = NULL;
         }
     }
     {
         const char *new_val = evalTextProperty(flowState, 21, 2, "Failed to evaluate Text in Label widget");
-        const char *cur_val = lv_label_get_text(objects.obj58);
+        const char *cur_val = lv_label_get_text(objects.obj78);
         if (strcmp(new_val, cur_val) != 0) {
-            tick_value_change_obj = objects.obj58;
-            lv_label_set_text(objects.obj58, new_val);
+            tick_value_change_obj = objects.obj78;
+            lv_label_set_text(objects.obj78, new_val);
             tick_value_change_obj = NULL;
         }
     }
     {
         bool new_val = evalBooleanProperty(flowState, 22, 2, "Failed to evaluate Disabled state");
-        bool cur_val = lv_obj_has_state(objects.obj59, LV_STATE_DISABLED);
+        bool cur_val = lv_obj_has_state(objects.obj79, LV_STATE_DISABLED);
         if (new_val != cur_val) {
-            tick_value_change_obj = objects.obj59;
-            if (new_val) lv_obj_add_state(objects.obj59, LV_STATE_DISABLED);
-            else lv_obj_clear_state(objects.obj59, LV_STATE_DISABLED);
+            tick_value_change_obj = objects.obj79;
+            if (new_val) lv_obj_add_state(objects.obj79, LV_STATE_DISABLED);
+            else lv_obj_clear_state(objects.obj79, LV_STATE_DISABLED);
             tick_value_change_obj = NULL;
         }
     }
     {
         bool new_val = evalBooleanProperty(flowState, 24, 2, "Failed to evaluate Checked state");
-        bool cur_val = lv_obj_has_state(objects.obj60, LV_STATE_CHECKED);
+        bool cur_val = lv_obj_has_state(objects.obj80, LV_STATE_CHECKED);
         if (new_val != cur_val) {
-            tick_value_change_obj = objects.obj60;
-            if (new_val) lv_obj_add_state(objects.obj60, LV_STATE_CHECKED);
-            else lv_obj_clear_state(objects.obj60, LV_STATE_CHECKED);
+            tick_value_change_obj = objects.obj80;
+            if (new_val) lv_obj_add_state(objects.obj80, LV_STATE_CHECKED);
+            else lv_obj_clear_state(objects.obj80, LV_STATE_CHECKED);
             tick_value_change_obj = NULL;
         }
     }
     {
         const char *new_val = evalTextProperty(flowState, 25, 2, "Failed to evaluate Text in Label widget");
-        const char *cur_val = lv_label_get_text(objects.obj61);
+        const char *cur_val = lv_label_get_text(objects.obj81);
         if (strcmp(new_val, cur_val) != 0) {
-            tick_value_change_obj = objects.obj61;
-            lv_label_set_text(objects.obj61, new_val);
+            tick_value_change_obj = objects.obj81;
+            lv_label_set_text(objects.obj81, new_val);
             tick_value_change_obj = NULL;
         }
     }
     {
         bool new_val = evalBooleanProperty(flowState, 26, 2, "Failed to evaluate Checked state");
-        bool cur_val = lv_obj_has_state(objects.obj62, LV_STATE_CHECKED);
+        bool cur_val = lv_obj_has_state(objects.obj82, LV_STATE_CHECKED);
         if (new_val != cur_val) {
-            tick_value_change_obj = objects.obj62;
-            if (new_val) lv_obj_add_state(objects.obj62, LV_STATE_CHECKED);
-            else lv_obj_clear_state(objects.obj62, LV_STATE_CHECKED);
+            tick_value_change_obj = objects.obj82;
+            if (new_val) lv_obj_add_state(objects.obj82, LV_STATE_CHECKED);
+            else lv_obj_clear_state(objects.obj82, LV_STATE_CHECKED);
             tick_value_change_obj = NULL;
         }
     }
     {
         const char *new_val = evalTextProperty(flowState, 27, 2, "Failed to evaluate Text in Label widget");
-        const char *cur_val = lv_label_get_text(objects.obj63);
+        const char *cur_val = lv_label_get_text(objects.obj83);
         if (strcmp(new_val, cur_val) != 0) {
-            tick_value_change_obj = objects.obj63;
-            lv_label_set_text(objects.obj63, new_val);
+            tick_value_change_obj = objects.obj83;
+            lv_label_set_text(objects.obj83, new_val);
             tick_value_change_obj = NULL;
         }
     }
     {
         bool new_val = evalBooleanProperty(flowState, 28, 2, "Failed to evaluate Hidden flag");
-        bool cur_val = lv_obj_has_flag(objects.obj64, LV_OBJ_FLAG_HIDDEN);
+        bool cur_val = lv_obj_has_flag(objects.obj84, LV_OBJ_FLAG_HIDDEN);
         if (new_val != cur_val) {
-            tick_value_change_obj = objects.obj64;
-            if (new_val) lv_obj_add_flag(objects.obj64, LV_OBJ_FLAG_HIDDEN);
-            else lv_obj_clear_flag(objects.obj64, LV_OBJ_FLAG_HIDDEN);
+            tick_value_change_obj = objects.obj84;
+            if (new_val) lv_obj_add_flag(objects.obj84, LV_OBJ_FLAG_HIDDEN);
+            else lv_obj_clear_flag(objects.obj84, LV_OBJ_FLAG_HIDDEN);
             tick_value_change_obj = NULL;
         }
     }
-    tick_user_widget_keyboard(getFlowState(flowState, 28), 114);
+    tick_user_widget_keyboard(getFlowState(flowState, 28), 173);
 }
 
 void create_screen_calibration() {
-    void *flowState = getFlowState(0, 5);
+    void *flowState = getFlowState(0, 6);
     lv_obj_t *obj = lv_obj_create(0);
     objects.calibration = obj;
     lv_obj_set_pos(obj, 0, 0);
@@ -2478,7 +3222,7 @@ void create_screen_calibration() {
         lv_obj_t *parent_obj = obj;
         {
             lv_obj_t *obj = lv_label_create(parent_obj);
-            objects.obj65 = obj;
+            objects.obj85 = obj;
             lv_obj_set_pos(obj, 0, 1);
             lv_obj_set_size(obj, 320, 27);
             lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
@@ -2487,11 +3231,11 @@ void create_screen_calibration() {
         }
         {
             lv_obj_t *obj = lv_dropdown_create(parent_obj);
-            objects.obj66 = obj;
+            objects.obj86 = obj;
             lv_obj_set_pos(obj, 0, 28);
             lv_obj_set_size(obj, 320, LV_SIZE_CONTENT);
             lv_dropdown_set_options(obj, "Current Monitor\nVoltage Monitor\nCurrent Set\nVon Set\nVoltage Set\nOCP set\nOVP set");
-            lv_obj_add_event_cb(obj, event_handler_cb_calibration_obj66, LV_EVENT_ALL, flowState);
+            lv_obj_add_event_cb(obj, event_handler_cb_calibration_obj86, LV_EVENT_ALL, flowState);
             apply_style_selector_small(obj);
             lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
         }
@@ -2505,10 +3249,10 @@ void create_screen_calibration() {
         }
         {
             lv_obj_t *obj = lv_btn_create(parent_obj);
-            objects.obj67 = obj;
+            objects.obj87 = obj;
             lv_obj_set_pos(obj, 166, 98);
             lv_obj_set_size(obj, 97, 32);
-            lv_obj_add_event_cb(obj, event_handler_cb_calibration_obj67, LV_EVENT_ALL, flowState);
+            lv_obj_add_event_cb(obj, event_handler_cb_calibration_obj87, LV_EVENT_ALL, flowState);
             lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
             apply_style_selectbutton(obj);
@@ -2524,7 +3268,7 @@ void create_screen_calibration() {
                 lv_obj_t *parent_obj = obj;
                 {
                     lv_obj_t *obj = lv_label_create(parent_obj);
-                    objects.obj68 = obj;
+                    objects.obj88 = obj;
                     lv_obj_set_pos(obj, 0, 0);
                     lv_obj_set_size(obj, 79, 32);
                     lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
@@ -2543,7 +3287,7 @@ void create_screen_calibration() {
         }
         {
             lv_obj_t *obj = lv_label_create(parent_obj);
-            objects.obj69 = obj;
+            objects.obj89 = obj;
             lv_obj_set_pos(obj, 0, 70);
             lv_obj_set_size(obj, 320, 24);
             lv_label_set_long_mode(obj, LV_LABEL_LONG_SCROLL);
@@ -2553,7 +3297,7 @@ void create_screen_calibration() {
         }
         {
             lv_obj_t *obj = lv_label_create(parent_obj);
-            objects.obj70 = obj;
+            objects.obj90 = obj;
             lv_obj_set_pos(obj, 160, 172);
             lv_obj_set_size(obj, 109, 25);
             lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
@@ -2563,10 +3307,10 @@ void create_screen_calibration() {
         }
         {
             lv_obj_t *obj = lv_btn_create(parent_obj);
-            objects.obj71 = obj;
+            objects.obj91 = obj;
             lv_obj_set_pos(obj, 10, 206);
             lv_obj_set_size(obj, 90, 32);
-            lv_obj_add_event_cb(obj, event_handler_cb_calibration_obj71, LV_EVENT_ALL, flowState);
+            lv_obj_add_event_cb(obj, event_handler_cb_calibration_obj91, LV_EVENT_ALL, flowState);
             lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
             apply_style_selectbutton(obj);
@@ -2586,10 +3330,10 @@ void create_screen_calibration() {
         }
         {
             lv_obj_t *obj = lv_btn_create(parent_obj);
-            objects.obj72 = obj;
+            objects.obj92 = obj;
             lv_obj_set_pos(obj, 198, 206);
             lv_obj_set_size(obj, 45, 32);
-            lv_obj_add_event_cb(obj, event_handler_cb_calibration_obj72, LV_EVENT_ALL, flowState);
+            lv_obj_add_event_cb(obj, event_handler_cb_calibration_obj92, LV_EVENT_ALL, flowState);
             lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
             apply_style_selectbutton(obj);
@@ -2598,22 +3342,22 @@ void create_screen_calibration() {
                 lv_obj_t *parent_obj = obj;
                 {
                     lv_obj_t *obj = lv_label_create(parent_obj);
-                    objects.obj73 = obj;
+                    objects.obj93 = obj;
                     lv_obj_set_pos(obj, 0, 0);
                     lv_obj_set_size(obj, 45, 32);
                     lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
                     lv_label_set_text(obj, "");
-                    lv_obj_add_event_cb(obj, event_handler_cb_calibration_obj73, LV_EVENT_ALL, flowState);
+                    lv_obj_add_event_cb(obj, event_handler_cb_calibration_obj93, LV_EVENT_ALL, flowState);
                     lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
                 }
             }
         }
         {
             lv_obj_t *obj = lv_btn_create(parent_obj);
-            objects.obj74 = obj;
+            objects.obj94 = obj;
             lv_obj_set_pos(obj, 126, 206);
             lv_obj_set_size(obj, 45, 32);
-            lv_obj_add_event_cb(obj, event_handler_cb_calibration_obj74, LV_EVENT_ALL, flowState);
+            lv_obj_add_event_cb(obj, event_handler_cb_calibration_obj94, LV_EVENT_ALL, flowState);
             lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
             apply_style_selectbutton(obj);
@@ -2622,7 +3366,7 @@ void create_screen_calibration() {
                 lv_obj_t *parent_obj = obj;
                 {
                     lv_obj_t *obj = lv_label_create(parent_obj);
-                    objects.obj75 = obj;
+                    objects.obj95 = obj;
                     lv_obj_set_pos(obj, 0, 0);
                     lv_obj_set_size(obj, 45, 32);
                     lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
@@ -2633,10 +3377,10 @@ void create_screen_calibration() {
         }
         {
             lv_obj_t *obj = lv_btn_create(parent_obj);
-            objects.obj76 = obj;
+            objects.obj96 = obj;
             lv_obj_set_pos(obj, 269, 206);
             lv_obj_set_size(obj, 45, 32);
-            lv_obj_add_event_cb(obj, event_handler_cb_calibration_obj76, LV_EVENT_ALL, flowState);
+            lv_obj_add_event_cb(obj, event_handler_cb_calibration_obj96, LV_EVENT_ALL, flowState);
             lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
             apply_style_selectbutton(obj);
@@ -2645,19 +3389,19 @@ void create_screen_calibration() {
                 lv_obj_t *parent_obj = obj;
                 {
                     lv_obj_t *obj = lv_label_create(parent_obj);
-                    objects.obj77 = obj;
+                    objects.obj97 = obj;
                     lv_obj_set_pos(obj, 0, 0);
                     lv_obj_set_size(obj, 45, 32);
                     lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
                     lv_label_set_text(obj, "");
-                    lv_obj_add_event_cb(obj, event_handler_cb_calibration_obj77, LV_EVENT_ALL, flowState);
+                    lv_obj_add_event_cb(obj, event_handler_cb_calibration_obj97, LV_EVENT_ALL, flowState);
                     lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
                 }
             }
         }
         {
             lv_obj_t *obj = lv_label_create(parent_obj);
-            objects.obj78 = obj;
+            objects.obj98 = obj;
             lv_obj_set_pos(obj, 151, 140);
             lv_obj_set_size(obj, 127, LV_SIZE_CONTENT);
             lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
@@ -2675,12 +3419,12 @@ void create_screen_calibration() {
         }
         {
             lv_obj_t *obj = lv_label_create(parent_obj);
-            objects.obj79 = obj;
+            objects.obj99 = obj;
             lv_obj_set_pos(obj, 136, 173);
             lv_obj_set_size(obj, 24, 24);
             lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
             lv_label_set_text(obj, "");
-            lv_obj_add_event_cb(obj, event_handler_cb_calibration_obj79, LV_EVENT_ALL, flowState);
+            lv_obj_add_event_cb(obj, event_handler_cb_calibration_obj99, LV_EVENT_ALL, flowState);
             lv_obj_add_flag(obj, LV_OBJ_FLAG_CLICKABLE);
             apply_style_small_label_symbol(obj);
             lv_obj_set_style_bg_color(obj, lv_color_hex(0xff818181), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -2692,12 +3436,12 @@ void create_screen_calibration() {
         }
         {
             lv_obj_t *obj = lv_label_create(parent_obj);
-            objects.obj80 = obj;
+            objects.obj100 = obj;
             lv_obj_set_pos(obj, 268, 172);
             lv_obj_set_size(obj, 24, 24);
             lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
             lv_label_set_text(obj, "");
-            lv_obj_add_event_cb(obj, event_handler_cb_calibration_obj80, LV_EVENT_ALL, flowState);
+            lv_obj_add_event_cb(obj, event_handler_cb_calibration_obj100, LV_EVENT_ALL, flowState);
             lv_obj_add_flag(obj, LV_OBJ_FLAG_CLICKABLE);
             apply_style_small_label_symbol(obj);
             lv_obj_set_style_text_color(obj, lv_color_hex(0xffffff00), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -2709,12 +3453,12 @@ void create_screen_calibration() {
         }
         {
             lv_obj_t *obj = lv_label_create(parent_obj);
-            objects.obj81 = obj;
+            objects.obj101 = obj;
             lv_obj_set_pos(obj, 278, 140);
             lv_obj_set_size(obj, 26, 26);
             lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
             lv_label_set_text(obj, "");
-            lv_obj_add_event_cb(obj, event_handler_cb_calibration_obj81, LV_EVENT_ALL, flowState);
+            lv_obj_add_event_cb(obj, event_handler_cb_calibration_obj101, LV_EVENT_ALL, flowState);
             lv_obj_add_flag(obj, LV_OBJ_FLAG_CLICKABLE);
             apply_style_small_label_symbol(obj);
             lv_obj_set_style_text_color(obj, lv_color_hex(0xffffff00), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -2729,12 +3473,12 @@ void create_screen_calibration() {
         }
         {
             lv_obj_t *obj = lv_label_create(parent_obj);
-            objects.obj82 = obj;
+            objects.obj102 = obj;
             lv_obj_set_pos(obj, 114, 140);
             lv_obj_set_size(obj, 24, 24);
             lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
             lv_label_set_text(obj, "");
-            lv_obj_add_event_cb(obj, event_handler_cb_calibration_obj82, LV_EVENT_ALL, flowState);
+            lv_obj_add_event_cb(obj, event_handler_cb_calibration_obj102, LV_EVENT_ALL, flowState);
             lv_obj_add_flag(obj, LV_OBJ_FLAG_CLICKABLE);
             apply_style_small_label_symbol(obj);
             lv_obj_set_style_text_color(obj, lv_color_hex(0xffffff00), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -2746,7 +3490,7 @@ void create_screen_calibration() {
         }
         {
             lv_obj_t *obj = lv_obj_create(parent_obj);
-            objects.obj83 = obj;
+            objects.obj103 = obj;
             lv_obj_set_pos(obj, 0, 0);
             lv_obj_set_size(obj, 320, 240);
             lv_style_value_t value;
@@ -2757,252 +3501,252 @@ void create_screen_calibration() {
             lv_obj_set_local_style_prop(obj, LV_STYLE_PAD_LEFT, value, LV_PART_MAIN);
             lv_obj_set_local_style_prop(obj, LV_STYLE_BG_OPA, value, LV_PART_MAIN);
             lv_obj_set_local_style_prop(obj, LV_STYLE_BORDER_WIDTH, value, LV_PART_MAIN);
-            create_user_widget_keyboard(obj, getFlowState(flowState, 30), 140);
+            create_user_widget_keyboard(obj, getFlowState(flowState, 30), 40);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
         }
     }
 }
 
 void tick_screen_calibration() {
-    void *flowState = getFlowState(0, 5);
+    void *flowState = getFlowState(0, 6);
     {
         const char *new_val = evalTextProperty(flowState, 1, 2, "Failed to evaluate Text in Label widget");
-        const char *cur_val = lv_label_get_text(objects.obj65);
+        const char *cur_val = lv_label_get_text(objects.obj85);
         if (strcmp(new_val, cur_val) != 0) {
-            tick_value_change_obj = objects.obj65;
-            lv_label_set_text(objects.obj65, new_val);
+            tick_value_change_obj = objects.obj85;
+            lv_label_set_text(objects.obj85, new_val);
             tick_value_change_obj = NULL;
         }
     }
     {
         bool new_val = evalBooleanProperty(flowState, 0, 2, "Failed to evaluate Disabled state");
-        bool cur_val = lv_obj_has_state(objects.obj66, LV_STATE_DISABLED);
+        bool cur_val = lv_obj_has_state(objects.obj86, LV_STATE_DISABLED);
         if (new_val != cur_val) {
-            tick_value_change_obj = objects.obj66;
-            if (new_val) lv_obj_add_state(objects.obj66, LV_STATE_DISABLED);
-            else lv_obj_clear_state(objects.obj66, LV_STATE_DISABLED);
+            tick_value_change_obj = objects.obj86;
+            if (new_val) lv_obj_add_state(objects.obj86, LV_STATE_DISABLED);
+            else lv_obj_clear_state(objects.obj86, LV_STATE_DISABLED);
             tick_value_change_obj = NULL;
         }
     }
     {
         int32_t new_val = evalIntegerProperty(flowState, 0, 3, "Failed to evaluate Selected in Dropdown widget");
-        int32_t cur_val = lv_dropdown_get_selected(objects.obj66);
+        int32_t cur_val = lv_dropdown_get_selected(objects.obj86);
         if (new_val != cur_val) {
-            tick_value_change_obj = objects.obj66;
-            lv_dropdown_set_selected(objects.obj66, new_val);
+            tick_value_change_obj = objects.obj86;
+            lv_dropdown_set_selected(objects.obj86, new_val);
             tick_value_change_obj = NULL;
         }
     }
     {
         const char *new_val = evalTextProperty(flowState, 5, 2, "Failed to evaluate Text in Label widget");
-        const char *cur_val = lv_label_get_text(objects.obj68);
+        const char *cur_val = lv_label_get_text(objects.obj88);
         if (strcmp(new_val, cur_val) != 0) {
-            tick_value_change_obj = objects.obj68;
-            lv_label_set_text(objects.obj68, new_val);
+            tick_value_change_obj = objects.obj88;
+            lv_label_set_text(objects.obj88, new_val);
             tick_value_change_obj = NULL;
         }
     }
     {
         const char *new_val = evalTextProperty(flowState, 7, 2, "Failed to evaluate Text in Label widget");
-        const char *cur_val = lv_label_get_text(objects.obj69);
+        const char *cur_val = lv_label_get_text(objects.obj89);
         if (strcmp(new_val, cur_val) != 0) {
-            tick_value_change_obj = objects.obj69;
-            lv_label_set_text(objects.obj69, new_val);
+            tick_value_change_obj = objects.obj89;
+            lv_label_set_text(objects.obj89, new_val);
             tick_value_change_obj = NULL;
         }
     }
     {
         const char *new_val = evalTextProperty(flowState, 8, 2, "Failed to evaluate Text in Label widget");
-        const char *cur_val = lv_label_get_text(objects.obj70);
+        const char *cur_val = lv_label_get_text(objects.obj90);
         if (strcmp(new_val, cur_val) != 0) {
-            tick_value_change_obj = objects.obj70;
-            lv_label_set_text(objects.obj70, new_val);
+            tick_value_change_obj = objects.obj90;
+            lv_label_set_text(objects.obj90, new_val);
             tick_value_change_obj = NULL;
         }
     }
     {
         bool new_val = evalBooleanProperty(flowState, 11, 2, "Failed to evaluate Disabled state");
-        bool cur_val = lv_obj_has_state(objects.obj72, LV_STATE_DISABLED);
+        bool cur_val = lv_obj_has_state(objects.obj92, LV_STATE_DISABLED);
         if (new_val != cur_val) {
-            tick_value_change_obj = objects.obj72;
-            if (new_val) lv_obj_add_state(objects.obj72, LV_STATE_DISABLED);
-            else lv_obj_clear_state(objects.obj72, LV_STATE_DISABLED);
+            tick_value_change_obj = objects.obj92;
+            if (new_val) lv_obj_add_state(objects.obj92, LV_STATE_DISABLED);
+            else lv_obj_clear_state(objects.obj92, LV_STATE_DISABLED);
             tick_value_change_obj = NULL;
         }
     }
     {
         bool new_val = evalBooleanProperty(flowState, 12, 2, "Failed to evaluate Disabled state");
-        bool cur_val = lv_obj_has_state(objects.obj73, LV_STATE_DISABLED);
+        bool cur_val = lv_obj_has_state(objects.obj93, LV_STATE_DISABLED);
         if (new_val != cur_val) {
-            tick_value_change_obj = objects.obj73;
-            if (new_val) lv_obj_add_state(objects.obj73, LV_STATE_DISABLED);
-            else lv_obj_clear_state(objects.obj73, LV_STATE_DISABLED);
+            tick_value_change_obj = objects.obj93;
+            if (new_val) lv_obj_add_state(objects.obj93, LV_STATE_DISABLED);
+            else lv_obj_clear_state(objects.obj93, LV_STATE_DISABLED);
             tick_value_change_obj = NULL;
         }
     }
     {
         const char *new_val = evalTextProperty(flowState, 12, 3, "Failed to evaluate Text in Label widget");
-        const char *cur_val = lv_label_get_text(objects.obj73);
+        const char *cur_val = lv_label_get_text(objects.obj93);
         if (strcmp(new_val, cur_val) != 0) {
-            tick_value_change_obj = objects.obj73;
-            lv_label_set_text(objects.obj73, new_val);
+            tick_value_change_obj = objects.obj93;
+            lv_label_set_text(objects.obj93, new_val);
             tick_value_change_obj = NULL;
         }
     }
     {
         bool new_val = evalBooleanProperty(flowState, 13, 2, "Failed to evaluate Disabled state");
-        bool cur_val = lv_obj_has_state(objects.obj74, LV_STATE_DISABLED);
+        bool cur_val = lv_obj_has_state(objects.obj94, LV_STATE_DISABLED);
         if (new_val != cur_val) {
-            tick_value_change_obj = objects.obj74;
-            if (new_val) lv_obj_add_state(objects.obj74, LV_STATE_DISABLED);
-            else lv_obj_clear_state(objects.obj74, LV_STATE_DISABLED);
+            tick_value_change_obj = objects.obj94;
+            if (new_val) lv_obj_add_state(objects.obj94, LV_STATE_DISABLED);
+            else lv_obj_clear_state(objects.obj94, LV_STATE_DISABLED);
             tick_value_change_obj = NULL;
         }
     }
     {
         const char *new_val = evalTextProperty(flowState, 14, 2, "Failed to evaluate Text in Label widget");
-        const char *cur_val = lv_label_get_text(objects.obj75);
+        const char *cur_val = lv_label_get_text(objects.obj95);
         if (strcmp(new_val, cur_val) != 0) {
-            tick_value_change_obj = objects.obj75;
-            lv_label_set_text(objects.obj75, new_val);
+            tick_value_change_obj = objects.obj95;
+            lv_label_set_text(objects.obj95, new_val);
             tick_value_change_obj = NULL;
         }
     }
     {
         bool new_val = evalBooleanProperty(flowState, 15, 2, "Failed to evaluate Disabled state");
-        bool cur_val = lv_obj_has_state(objects.obj76, LV_STATE_DISABLED);
+        bool cur_val = lv_obj_has_state(objects.obj96, LV_STATE_DISABLED);
         if (new_val != cur_val) {
-            tick_value_change_obj = objects.obj76;
-            if (new_val) lv_obj_add_state(objects.obj76, LV_STATE_DISABLED);
-            else lv_obj_clear_state(objects.obj76, LV_STATE_DISABLED);
+            tick_value_change_obj = objects.obj96;
+            if (new_val) lv_obj_add_state(objects.obj96, LV_STATE_DISABLED);
+            else lv_obj_clear_state(objects.obj96, LV_STATE_DISABLED);
             tick_value_change_obj = NULL;
         }
     }
     {
         bool new_val = evalBooleanProperty(flowState, 16, 2, "Failed to evaluate Disabled state");
-        bool cur_val = lv_obj_has_state(objects.obj77, LV_STATE_DISABLED);
+        bool cur_val = lv_obj_has_state(objects.obj97, LV_STATE_DISABLED);
         if (new_val != cur_val) {
-            tick_value_change_obj = objects.obj77;
-            if (new_val) lv_obj_add_state(objects.obj77, LV_STATE_DISABLED);
-            else lv_obj_clear_state(objects.obj77, LV_STATE_DISABLED);
+            tick_value_change_obj = objects.obj97;
+            if (new_val) lv_obj_add_state(objects.obj97, LV_STATE_DISABLED);
+            else lv_obj_clear_state(objects.obj97, LV_STATE_DISABLED);
             tick_value_change_obj = NULL;
         }
     }
     {
         const char *new_val = evalTextProperty(flowState, 16, 3, "Failed to evaluate Text in Label widget");
-        const char *cur_val = lv_label_get_text(objects.obj77);
+        const char *cur_val = lv_label_get_text(objects.obj97);
         if (strcmp(new_val, cur_val) != 0) {
-            tick_value_change_obj = objects.obj77;
-            lv_label_set_text(objects.obj77, new_val);
+            tick_value_change_obj = objects.obj97;
+            lv_label_set_text(objects.obj97, new_val);
             tick_value_change_obj = NULL;
         }
     }
     {
         const char *new_val = evalTextProperty(flowState, 17, 2, "Failed to evaluate Text in Label widget");
-        const char *cur_val = lv_label_get_text(objects.obj78);
+        const char *cur_val = lv_label_get_text(objects.obj98);
         if (strcmp(new_val, cur_val) != 0) {
-            tick_value_change_obj = objects.obj78;
-            lv_label_set_text(objects.obj78, new_val);
+            tick_value_change_obj = objects.obj98;
+            lv_label_set_text(objects.obj98, new_val);
             tick_value_change_obj = NULL;
         }
     }
     {
         bool new_val = evalBooleanProperty(flowState, 19, 2, "Failed to evaluate Disabled state");
-        bool cur_val = lv_obj_has_state(objects.obj79, LV_STATE_DISABLED);
+        bool cur_val = lv_obj_has_state(objects.obj99, LV_STATE_DISABLED);
         if (new_val != cur_val) {
-            tick_value_change_obj = objects.obj79;
-            if (new_val) lv_obj_add_state(objects.obj79, LV_STATE_DISABLED);
-            else lv_obj_clear_state(objects.obj79, LV_STATE_DISABLED);
+            tick_value_change_obj = objects.obj99;
+            if (new_val) lv_obj_add_state(objects.obj99, LV_STATE_DISABLED);
+            else lv_obj_clear_state(objects.obj99, LV_STATE_DISABLED);
             tick_value_change_obj = NULL;
         }
     }
     {
         const char *new_val = evalTextProperty(flowState, 19, 3, "Failed to evaluate Text in Label widget");
-        const char *cur_val = lv_label_get_text(objects.obj79);
+        const char *cur_val = lv_label_get_text(objects.obj99);
         if (strcmp(new_val, cur_val) != 0) {
-            tick_value_change_obj = objects.obj79;
-            lv_label_set_text(objects.obj79, new_val);
+            tick_value_change_obj = objects.obj99;
+            lv_label_set_text(objects.obj99, new_val);
             tick_value_change_obj = NULL;
         }
     }
     {
         bool new_val = evalBooleanProperty(flowState, 20, 2, "Failed to evaluate Disabled state");
-        bool cur_val = lv_obj_has_state(objects.obj80, LV_STATE_DISABLED);
+        bool cur_val = lv_obj_has_state(objects.obj100, LV_STATE_DISABLED);
         if (new_val != cur_val) {
-            tick_value_change_obj = objects.obj80;
-            if (new_val) lv_obj_add_state(objects.obj80, LV_STATE_DISABLED);
-            else lv_obj_clear_state(objects.obj80, LV_STATE_DISABLED);
+            tick_value_change_obj = objects.obj100;
+            if (new_val) lv_obj_add_state(objects.obj100, LV_STATE_DISABLED);
+            else lv_obj_clear_state(objects.obj100, LV_STATE_DISABLED);
             tick_value_change_obj = NULL;
         }
     }
     {
         const char *new_val = evalTextProperty(flowState, 20, 3, "Failed to evaluate Text in Label widget");
-        const char *cur_val = lv_label_get_text(objects.obj80);
+        const char *cur_val = lv_label_get_text(objects.obj100);
         if (strcmp(new_val, cur_val) != 0) {
-            tick_value_change_obj = objects.obj80;
-            lv_label_set_text(objects.obj80, new_val);
+            tick_value_change_obj = objects.obj100;
+            lv_label_set_text(objects.obj100, new_val);
             tick_value_change_obj = NULL;
         }
     }
     {
         const char *new_val = evalTextProperty(flowState, 28, 2, "Failed to evaluate Text in Label widget");
-        const char *cur_val = lv_label_get_text(objects.obj81);
+        const char *cur_val = lv_label_get_text(objects.obj101);
         if (strcmp(new_val, cur_val) != 0) {
-            tick_value_change_obj = objects.obj81;
-            lv_label_set_text(objects.obj81, new_val);
+            tick_value_change_obj = objects.obj101;
+            lv_label_set_text(objects.obj101, new_val);
             tick_value_change_obj = NULL;
         }
     }
     {
         bool new_val = evalBooleanProperty(flowState, 29, 2, "Failed to evaluate Hidden flag");
-        bool cur_val = lv_obj_has_flag(objects.obj82, LV_OBJ_FLAG_HIDDEN);
+        bool cur_val = lv_obj_has_flag(objects.obj102, LV_OBJ_FLAG_HIDDEN);
         if (new_val != cur_val) {
-            tick_value_change_obj = objects.obj82;
-            if (new_val) lv_obj_add_flag(objects.obj82, LV_OBJ_FLAG_HIDDEN);
-            else lv_obj_clear_flag(objects.obj82, LV_OBJ_FLAG_HIDDEN);
+            tick_value_change_obj = objects.obj102;
+            if (new_val) lv_obj_add_flag(objects.obj102, LV_OBJ_FLAG_HIDDEN);
+            else lv_obj_clear_flag(objects.obj102, LV_OBJ_FLAG_HIDDEN);
             tick_value_change_obj = NULL;
         }
     }
     {
         const char *new_val = evalTextProperty(flowState, 29, 3, "Failed to evaluate Text in Label widget");
-        const char *cur_val = lv_label_get_text(objects.obj82);
+        const char *cur_val = lv_label_get_text(objects.obj102);
         if (strcmp(new_val, cur_val) != 0) {
-            tick_value_change_obj = objects.obj82;
-            lv_label_set_text(objects.obj82, new_val);
+            tick_value_change_obj = objects.obj102;
+            lv_label_set_text(objects.obj102, new_val);
             tick_value_change_obj = NULL;
         }
     }
     {
         bool new_val = evalBooleanProperty(flowState, 30, 2, "Failed to evaluate Hidden flag");
-        bool cur_val = lv_obj_has_flag(objects.obj83, LV_OBJ_FLAG_HIDDEN);
+        bool cur_val = lv_obj_has_flag(objects.obj103, LV_OBJ_FLAG_HIDDEN);
         if (new_val != cur_val) {
-            tick_value_change_obj = objects.obj83;
-            if (new_val) lv_obj_add_flag(objects.obj83, LV_OBJ_FLAG_HIDDEN);
-            else lv_obj_clear_flag(objects.obj83, LV_OBJ_FLAG_HIDDEN);
+            tick_value_change_obj = objects.obj103;
+            if (new_val) lv_obj_add_flag(objects.obj103, LV_OBJ_FLAG_HIDDEN);
+            else lv_obj_clear_flag(objects.obj103, LV_OBJ_FLAG_HIDDEN);
             tick_value_change_obj = NULL;
         }
     }
-    tick_user_widget_keyboard(getFlowState(flowState, 30), 140);
+    tick_user_widget_keyboard(getFlowState(flowState, 30), 40);
     {
         float timeline_position = getTimelinePosition(flowState);
         
         static struct {
             float last_timeline_position;
-            int32_t obj_obj81_rotate_init_value;
+            int32_t obj_obj101_rotate_init_value;
         } anim_state = { -1 };
         
         if (anim_state.last_timeline_position == -1) {
             anim_state.last_timeline_position = 0;
-            anim_state.obj_obj81_rotate_init_value = lv_obj_get_style_prop(objects.obj81, LV_PART_MAIN, LV_STYLE_TRANSFORM_ANGLE).num;
+            anim_state.obj_obj101_rotate_init_value = lv_obj_get_style_prop(objects.obj101, LV_PART_MAIN, LV_STYLE_TRANSFORM_ANGLE).num;
         }
         
         if (timeline_position != anim_state.last_timeline_position) {
             anim_state.last_timeline_position = timeline_position;
             
             {
-                lv_obj_t *obj = objects.obj81;
+                lv_obj_t *obj = objects.obj101;
                 
-                float rotate_value = anim_state.obj_obj81_rotate_init_value;
+                float rotate_value = anim_state.obj_obj101_rotate_init_value;
                 
                 while (1) {
                     // keyframe #1
@@ -3030,7 +3774,7 @@ void tick_screen_calibration() {
     }
     
     void create_screen_nplc() {
-        void *flowState = getFlowState(0, 6);
+        void *flowState = getFlowState(0, 7);
         lv_obj_t *obj = lv_obj_create(0);
         objects.nplc = obj;
         lv_obj_set_pos(obj, 0, 0);
@@ -3068,7 +3812,7 @@ void tick_screen_calibration() {
                     lv_obj_t *parent_obj = obj;
                     {
                         lv_obj_t *obj = lv_label_create(parent_obj);
-                        objects.obj84 = obj;
+                        objects.obj104 = obj;
                         lv_obj_set_pos(obj, 0, 0);
                         lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
                         lv_label_set_text(obj, "");
@@ -3078,7 +3822,7 @@ void tick_screen_calibration() {
             }
             {
                 lv_obj_t *obj = lv_label_create(parent_obj);
-                objects.obj85 = obj;
+                objects.obj105 = obj;
                 lv_obj_set_pos(obj, 108, 156);
                 lv_obj_set_size(obj, 212, 24);
                 lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
@@ -3099,7 +3843,7 @@ void tick_screen_calibration() {
             }
             {
                 lv_obj_t *obj = lv_label_create(parent_obj);
-                objects.obj86 = obj;
+                objects.obj106 = obj;
                 lv_obj_set_pos(obj, 101, 73);
                 lv_obj_set_size(obj, 219, LV_SIZE_CONTENT);
                 lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
@@ -3122,7 +3866,7 @@ void tick_screen_calibration() {
                     lv_obj_t *parent_obj = obj;
                     {
                         lv_obj_t *obj = lv_label_create(parent_obj);
-                        objects.obj87 = obj;
+                        objects.obj107 = obj;
                         lv_obj_set_pos(obj, 0, 0);
                         lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
                         lv_label_set_text(obj, "");
@@ -3144,7 +3888,7 @@ void tick_screen_calibration() {
                     lv_obj_t *parent_obj = obj;
                     {
                         lv_obj_t *obj = lv_label_create(parent_obj);
-                        objects.obj88 = obj;
+                        objects.obj108 = obj;
                         lv_obj_set_pos(obj, 3, -1);
                         lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
                         lv_label_set_text(obj, "");
@@ -3154,11 +3898,11 @@ void tick_screen_calibration() {
             }
             {
                 lv_obj_t *obj = lv_slider_create(parent_obj);
-                objects.obj89 = obj;
+                objects.obj109 = obj;
                 lv_obj_set_pos(obj, 141, 117);
                 lv_obj_set_size(obj, 166, 10);
                 lv_slider_set_range(obj, 1, 100);
-                lv_obj_add_event_cb(obj, event_handler_cb_nplc_obj89, LV_EVENT_ALL, flowState);
+                lv_obj_add_event_cb(obj, event_handler_cb_nplc_obj109, LV_EVENT_ALL, flowState);
                 apply_style_slider(obj);
             }
             {
@@ -3190,16 +3934,16 @@ void tick_screen_calibration() {
             }
             {
                 lv_obj_t *obj = lv_dropdown_create(parent_obj);
-                objects.obj90 = obj;
+                objects.obj110 = obj;
                 lv_obj_set_pos(obj, 101, 28);
                 lv_obj_set_size(obj, 80, 36);
                 lv_dropdown_set_options(obj, "50 Hz\n60 Hz");
-                lv_obj_add_event_cb(obj, event_handler_cb_nplc_obj90, LV_EVENT_ALL, flowState);
+                lv_obj_add_event_cb(obj, event_handler_cb_nplc_obj110, LV_EVENT_ALL, flowState);
                 apply_style_selector_small(obj);
             }
             {
                 lv_obj_t *obj = lv_label_create(parent_obj);
-                objects.obj91 = obj;
+                objects.obj111 = obj;
                 lv_obj_set_pos(obj, 101, 110);
                 lv_obj_set_size(obj, 32, LV_SIZE_CONTENT);
                 lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
@@ -3211,7 +3955,7 @@ void tick_screen_calibration() {
             }
             {
                 lv_obj_t *obj = lv_obj_create(parent_obj);
-                objects.obj92 = obj;
+                objects.obj112 = obj;
                 lv_obj_set_pos(obj, 0, 2);
                 lv_obj_set_size(obj, 320, 240);
                 lv_style_value_t value;
@@ -3222,38 +3966,38 @@ void tick_screen_calibration() {
                 lv_obj_set_local_style_prop(obj, LV_STYLE_PAD_LEFT, value, LV_PART_MAIN);
                 lv_obj_set_local_style_prop(obj, LV_STYLE_BG_OPA, value, LV_PART_MAIN);
                 lv_obj_set_local_style_prop(obj, LV_STYLE_BORDER_WIDTH, value, LV_PART_MAIN);
-                create_user_widget_question_yn(obj, getFlowState(flowState, 25), 155);
+                create_user_widget_question_yn(obj, getFlowState(flowState, 25), 55);
                 lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
             }
         }
     }
     
     void tick_screen_nplc() {
-        void *flowState = getFlowState(0, 6);
+        void *flowState = getFlowState(0, 7);
         {
             const char *new_val = evalTextProperty(flowState, 6, 2, "Failed to evaluate Text in Label widget");
-            const char *cur_val = lv_label_get_text(objects.obj84);
+            const char *cur_val = lv_label_get_text(objects.obj104);
             if (strcmp(new_val, cur_val) != 0) {
-                tick_value_change_obj = objects.obj84;
-                lv_label_set_text(objects.obj84, new_val);
+                tick_value_change_obj = objects.obj104;
+                lv_label_set_text(objects.obj104, new_val);
                 tick_value_change_obj = NULL;
             }
         }
         {
             const char *new_val = evalTextProperty(flowState, 8, 2, "Failed to evaluate Text in Label widget");
-            const char *cur_val = lv_label_get_text(objects.obj85);
+            const char *cur_val = lv_label_get_text(objects.obj105);
             if (strcmp(new_val, cur_val) != 0) {
-                tick_value_change_obj = objects.obj85;
-                lv_label_set_text(objects.obj85, new_val);
+                tick_value_change_obj = objects.obj105;
+                lv_label_set_text(objects.obj105, new_val);
                 tick_value_change_obj = NULL;
             }
         }
         {
             const char *new_val = evalTextProperty(flowState, 10, 2, "Failed to evaluate Text in Label widget");
-            const char *cur_val = lv_label_get_text(objects.obj86);
+            const char *cur_val = lv_label_get_text(objects.obj106);
             if (strcmp(new_val, cur_val) != 0) {
-                tick_value_change_obj = objects.obj86;
-                lv_label_set_text(objects.obj86, new_val);
+                tick_value_change_obj = objects.obj106;
+                lv_label_set_text(objects.obj106, new_val);
                 tick_value_change_obj = NULL;
             }
         }
@@ -3269,10 +4013,10 @@ void tick_screen_calibration() {
         }
         {
             const char *new_val = evalTextProperty(flowState, 12, 2, "Failed to evaluate Text in Label widget");
-            const char *cur_val = lv_label_get_text(objects.obj87);
+            const char *cur_val = lv_label_get_text(objects.obj107);
             if (strcmp(new_val, cur_val) != 0) {
-                tick_value_change_obj = objects.obj87;
-                lv_label_set_text(objects.obj87, new_val);
+                tick_value_change_obj = objects.obj107;
+                lv_label_set_text(objects.obj107, new_val);
                 tick_value_change_obj = NULL;
             }
         }
@@ -3288,55 +4032,55 @@ void tick_screen_calibration() {
         }
         {
             const char *new_val = evalTextProperty(flowState, 14, 2, "Failed to evaluate Text in Label widget");
-            const char *cur_val = lv_label_get_text(objects.obj88);
+            const char *cur_val = lv_label_get_text(objects.obj108);
             if (strcmp(new_val, cur_val) != 0) {
-                tick_value_change_obj = objects.obj88;
-                lv_label_set_text(objects.obj88, new_val);
+                tick_value_change_obj = objects.obj108;
+                lv_label_set_text(objects.obj108, new_val);
                 tick_value_change_obj = NULL;
             }
         }
         {
             int32_t new_val = evalIntegerProperty(flowState, 15, 2, "Failed to evaluate Value in Slider widget");
-            int32_t cur_val = lv_slider_get_value(objects.obj89);
+            int32_t cur_val = lv_slider_get_value(objects.obj109);
             if (new_val != cur_val) {
-                tick_value_change_obj = objects.obj89;
-                lv_slider_set_value(objects.obj89, new_val, LV_ANIM_OFF);
+                tick_value_change_obj = objects.obj109;
+                lv_slider_set_value(objects.obj109, new_val, LV_ANIM_OFF);
                 tick_value_change_obj = NULL;
             }
         }
         {
             int32_t new_val = evalIntegerProperty(flowState, 19, 2, "Failed to evaluate Selected in Dropdown widget");
-            int32_t cur_val = lv_dropdown_get_selected(objects.obj90);
+            int32_t cur_val = lv_dropdown_get_selected(objects.obj110);
             if (new_val != cur_val) {
-                tick_value_change_obj = objects.obj90;
-                lv_dropdown_set_selected(objects.obj90, new_val);
+                tick_value_change_obj = objects.obj110;
+                lv_dropdown_set_selected(objects.obj110, new_val);
                 tick_value_change_obj = NULL;
             }
         }
         {
             const char *new_val = evalTextProperty(flowState, 20, 2, "Failed to evaluate Text in Label widget");
-            const char *cur_val = lv_label_get_text(objects.obj91);
+            const char *cur_val = lv_label_get_text(objects.obj111);
             if (strcmp(new_val, cur_val) != 0) {
-                tick_value_change_obj = objects.obj91;
-                lv_label_set_text(objects.obj91, new_val);
+                tick_value_change_obj = objects.obj111;
+                lv_label_set_text(objects.obj111, new_val);
                 tick_value_change_obj = NULL;
             }
         }
         {
             bool new_val = evalBooleanProperty(flowState, 25, 2, "Failed to evaluate Hidden flag");
-            bool cur_val = lv_obj_has_flag(objects.obj92, LV_OBJ_FLAG_HIDDEN);
+            bool cur_val = lv_obj_has_flag(objects.obj112, LV_OBJ_FLAG_HIDDEN);
             if (new_val != cur_val) {
-                tick_value_change_obj = objects.obj92;
-                if (new_val) lv_obj_add_flag(objects.obj92, LV_OBJ_FLAG_HIDDEN);
-                else lv_obj_clear_flag(objects.obj92, LV_OBJ_FLAG_HIDDEN);
+                tick_value_change_obj = objects.obj112;
+                if (new_val) lv_obj_add_flag(objects.obj112, LV_OBJ_FLAG_HIDDEN);
+                else lv_obj_clear_flag(objects.obj112, LV_OBJ_FLAG_HIDDEN);
                 tick_value_change_obj = NULL;
             }
         }
-        tick_user_widget_question_yn(getFlowState(flowState, 25), 155);
+        tick_user_widget_question_yn(getFlowState(flowState, 25), 55);
     }
     
     void create_screen_fan() {
-        void *flowState = getFlowState(0, 7);
+        void *flowState = getFlowState(0, 8);
         lv_obj_t *obj = lv_obj_create(0);
         objects.fan = obj;
         lv_obj_set_pos(obj, 0, 0);
@@ -3374,7 +4118,7 @@ void tick_screen_calibration() {
                     lv_obj_t *parent_obj = obj;
                     {
                         lv_obj_t *obj = lv_label_create(parent_obj);
-                        objects.obj96 = obj;
+                        objects.obj116 = obj;
                         lv_obj_set_pos(obj, 0, 0);
                         lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
                         lv_label_set_text(obj, "");
@@ -3384,7 +4128,7 @@ void tick_screen_calibration() {
             }
             {
                 lv_obj_t *obj = lv_label_create(parent_obj);
-                objects.obj97 = obj;
+                objects.obj117 = obj;
                 lv_obj_set_pos(obj, 127, 144);
                 lv_obj_set_size(obj, 204, 24);
                 lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
@@ -3398,19 +4142,19 @@ void tick_screen_calibration() {
             }
             {
                 lv_obj_t *obj = lv_label_create(parent_obj);
-                objects.obj98 = obj;
+                objects.obj118 = obj;
                 lv_obj_set_pos(obj, 0, 0);
                 lv_obj_set_size(obj, 320, 24);
                 lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
                 lv_label_set_text(obj, "Fan Settings");
-                lv_obj_add_event_cb(obj, event_handler_cb_fan_obj98, LV_EVENT_ALL, flowState);
+                lv_obj_add_event_cb(obj, event_handler_cb_fan_obj118, LV_EVENT_ALL, flowState);
                 apply_style_small_header(obj);
                 lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
                 lv_obj_set_style_text_color(obj, lv_color_hex(0xffdddddd), LV_PART_MAIN | LV_STATE_DEFAULT);
             }
             {
                 lv_obj_t *obj = lv_label_create(parent_obj);
-                objects.obj99 = obj;
+                objects.obj119 = obj;
                 lv_obj_set_pos(obj, 127, 73);
                 lv_obj_set_size(obj, 193, LV_SIZE_CONTENT);
                 lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
@@ -3433,7 +4177,7 @@ void tick_screen_calibration() {
                     lv_obj_t *parent_obj = obj;
                     {
                         lv_obj_t *obj = lv_label_create(parent_obj);
-                        objects.obj100 = obj;
+                        objects.obj120 = obj;
                         lv_obj_set_pos(obj, 0, 0);
                         lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
                         lv_label_set_text(obj, "");
@@ -3455,7 +4199,7 @@ void tick_screen_calibration() {
                     lv_obj_t *parent_obj = obj;
                     {
                         lv_obj_t *obj = lv_label_create(parent_obj);
-                        objects.obj101 = obj;
+                        objects.obj121 = obj;
                         lv_obj_set_pos(obj, 3, -1);
                         lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
                         lv_label_set_text(obj, "");
@@ -3465,10 +4209,10 @@ void tick_screen_calibration() {
             }
             {
                 lv_obj_t *obj = lv_slider_create(parent_obj);
-                objects.obj102 = obj;
+                objects.obj122 = obj;
                 lv_obj_set_pos(obj, 127, 117);
                 lv_obj_set_size(obj, 180, 10);
-                lv_obj_add_event_cb(obj, event_handler_cb_fan_obj102, LV_EVENT_ALL, flowState);
+                lv_obj_add_event_cb(obj, event_handler_cb_fan_obj122, LV_EVENT_ALL, flowState);
                 apply_style_slider(obj);
             }
             {
@@ -3482,7 +4226,7 @@ void tick_screen_calibration() {
             }
             {
                 lv_obj_t *obj = lv_label_create(parent_obj);
-                objects.obj103 = obj;
+                objects.obj123 = obj;
                 lv_obj_set_pos(obj, 1, 110);
                 lv_obj_set_size(obj, 114, LV_SIZE_CONTENT);
                 lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
@@ -3501,16 +4245,16 @@ void tick_screen_calibration() {
             }
             {
                 lv_obj_t *obj = lv_dropdown_create(parent_obj);
-                objects.obj104 = obj;
+                objects.obj124 = obj;
                 lv_obj_set_pos(obj, 160, 28);
                 lv_obj_set_size(obj, 102, 36);
                 lv_dropdown_set_options(obj, "Auto\nManual");
-                lv_obj_add_event_cb(obj, event_handler_cb_fan_obj104, LV_EVENT_ALL, flowState);
+                lv_obj_add_event_cb(obj, event_handler_cb_fan_obj124, LV_EVENT_ALL, flowState);
                 apply_style_selector_small(obj);
             }
             {
                 lv_obj_t *obj = lv_label_create(parent_obj);
-                objects.obj105 = obj;
+                objects.obj125 = obj;
                 lv_obj_set_pos(obj, 189, 110);
                 lv_obj_set_size(obj, 32, LV_SIZE_CONTENT);
                 lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
@@ -3522,7 +4266,7 @@ void tick_screen_calibration() {
             }
             {
                 lv_obj_t *obj = lv_obj_create(parent_obj);
-                objects.obj106 = obj;
+                objects.obj126 = obj;
                 lv_obj_set_pos(obj, 0, 2);
                 lv_obj_set_size(obj, 320, 240);
                 lv_style_value_t value;
@@ -3533,38 +4277,38 @@ void tick_screen_calibration() {
                 lv_obj_set_local_style_prop(obj, LV_STYLE_PAD_LEFT, value, LV_PART_MAIN);
                 lv_obj_set_local_style_prop(obj, LV_STYLE_BG_OPA, value, LV_PART_MAIN);
                 lv_obj_set_local_style_prop(obj, LV_STYLE_BORDER_WIDTH, value, LV_PART_MAIN);
-                create_user_widget_question_yn(obj, getFlowState(flowState, 25), 36);
+                create_user_widget_question_yn(obj, getFlowState(flowState, 25), 70);
                 lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
             }
         }
     }
     
     void tick_screen_fan() {
-        void *flowState = getFlowState(0, 7);
+        void *flowState = getFlowState(0, 8);
         {
             const char *new_val = evalTextProperty(flowState, 6, 2, "Failed to evaluate Text in Label widget");
-            const char *cur_val = lv_label_get_text(objects.obj96);
+            const char *cur_val = lv_label_get_text(objects.obj116);
             if (strcmp(new_val, cur_val) != 0) {
-                tick_value_change_obj = objects.obj96;
-                lv_label_set_text(objects.obj96, new_val);
+                tick_value_change_obj = objects.obj116;
+                lv_label_set_text(objects.obj116, new_val);
                 tick_value_change_obj = NULL;
             }
         }
         {
             const char *new_val = evalTextProperty(flowState, 8, 2, "Failed to evaluate Text in Label widget");
-            const char *cur_val = lv_label_get_text(objects.obj97);
+            const char *cur_val = lv_label_get_text(objects.obj117);
             if (strcmp(new_val, cur_val) != 0) {
-                tick_value_change_obj = objects.obj97;
-                lv_label_set_text(objects.obj97, new_val);
+                tick_value_change_obj = objects.obj117;
+                lv_label_set_text(objects.obj117, new_val);
                 tick_value_change_obj = NULL;
             }
         }
         {
             const char *new_val = evalTextProperty(flowState, 10, 2, "Failed to evaluate Text in Label widget");
-            const char *cur_val = lv_label_get_text(objects.obj99);
+            const char *cur_val = lv_label_get_text(objects.obj119);
             if (strcmp(new_val, cur_val) != 0) {
-                tick_value_change_obj = objects.obj99;
-                lv_label_set_text(objects.obj99, new_val);
+                tick_value_change_obj = objects.obj119;
+                lv_label_set_text(objects.obj119, new_val);
                 tick_value_change_obj = NULL;
             }
         }
@@ -3580,10 +4324,10 @@ void tick_screen_calibration() {
         }
         {
             const char *new_val = evalTextProperty(flowState, 12, 2, "Failed to evaluate Text in Label widget");
-            const char *cur_val = lv_label_get_text(objects.obj100);
+            const char *cur_val = lv_label_get_text(objects.obj120);
             if (strcmp(new_val, cur_val) != 0) {
-                tick_value_change_obj = objects.obj100;
-                lv_label_set_text(objects.obj100, new_val);
+                tick_value_change_obj = objects.obj120;
+                lv_label_set_text(objects.obj120, new_val);
                 tick_value_change_obj = NULL;
             }
         }
@@ -3599,85 +4343,85 @@ void tick_screen_calibration() {
         }
         {
             const char *new_val = evalTextProperty(flowState, 14, 2, "Failed to evaluate Text in Label widget");
-            const char *cur_val = lv_label_get_text(objects.obj101);
+            const char *cur_val = lv_label_get_text(objects.obj121);
             if (strcmp(new_val, cur_val) != 0) {
-                tick_value_change_obj = objects.obj101;
-                lv_label_set_text(objects.obj101, new_val);
+                tick_value_change_obj = objects.obj121;
+                lv_label_set_text(objects.obj121, new_val);
                 tick_value_change_obj = NULL;
             }
         }
         {
             bool new_val = evalBooleanProperty(flowState, 15, 2, "Failed to evaluate Hidden flag");
-            bool cur_val = lv_obj_has_flag(objects.obj102, LV_OBJ_FLAG_HIDDEN);
+            bool cur_val = lv_obj_has_flag(objects.obj122, LV_OBJ_FLAG_HIDDEN);
             if (new_val != cur_val) {
-                tick_value_change_obj = objects.obj102;
-                if (new_val) lv_obj_add_flag(objects.obj102, LV_OBJ_FLAG_HIDDEN);
-                else lv_obj_clear_flag(objects.obj102, LV_OBJ_FLAG_HIDDEN);
+                tick_value_change_obj = objects.obj122;
+                if (new_val) lv_obj_add_flag(objects.obj122, LV_OBJ_FLAG_HIDDEN);
+                else lv_obj_clear_flag(objects.obj122, LV_OBJ_FLAG_HIDDEN);
                 tick_value_change_obj = NULL;
             }
         }
         {
             int32_t new_val = evalIntegerProperty(flowState, 15, 3, "Failed to evaluate Value in Slider widget");
-            int32_t cur_val = lv_slider_get_value(objects.obj102);
+            int32_t cur_val = lv_slider_get_value(objects.obj122);
             if (new_val != cur_val) {
-                tick_value_change_obj = objects.obj102;
-                lv_slider_set_value(objects.obj102, new_val, LV_ANIM_OFF);
+                tick_value_change_obj = objects.obj122;
+                lv_slider_set_value(objects.obj122, new_val, LV_ANIM_OFF);
                 tick_value_change_obj = NULL;
             }
         }
         {
             bool new_val = evalBooleanProperty(flowState, 17, 2, "Failed to evaluate Hidden flag");
-            bool cur_val = lv_obj_has_flag(objects.obj103, LV_OBJ_FLAG_HIDDEN);
+            bool cur_val = lv_obj_has_flag(objects.obj123, LV_OBJ_FLAG_HIDDEN);
             if (new_val != cur_val) {
-                tick_value_change_obj = objects.obj103;
-                if (new_val) lv_obj_add_flag(objects.obj103, LV_OBJ_FLAG_HIDDEN);
-                else lv_obj_clear_flag(objects.obj103, LV_OBJ_FLAG_HIDDEN);
+                tick_value_change_obj = objects.obj123;
+                if (new_val) lv_obj_add_flag(objects.obj123, LV_OBJ_FLAG_HIDDEN);
+                else lv_obj_clear_flag(objects.obj123, LV_OBJ_FLAG_HIDDEN);
                 tick_value_change_obj = NULL;
             }
         }
         {
             int32_t new_val = evalIntegerProperty(flowState, 19, 2, "Failed to evaluate Selected in Dropdown widget");
-            int32_t cur_val = lv_dropdown_get_selected(objects.obj104);
+            int32_t cur_val = lv_dropdown_get_selected(objects.obj124);
             if (new_val != cur_val) {
-                tick_value_change_obj = objects.obj104;
-                lv_dropdown_set_selected(objects.obj104, new_val);
+                tick_value_change_obj = objects.obj124;
+                lv_dropdown_set_selected(objects.obj124, new_val);
                 tick_value_change_obj = NULL;
             }
         }
         {
             bool new_val = evalBooleanProperty(flowState, 20, 2, "Failed to evaluate Hidden flag");
-            bool cur_val = lv_obj_has_flag(objects.obj105, LV_OBJ_FLAG_HIDDEN);
+            bool cur_val = lv_obj_has_flag(objects.obj125, LV_OBJ_FLAG_HIDDEN);
             if (new_val != cur_val) {
-                tick_value_change_obj = objects.obj105;
-                if (new_val) lv_obj_add_flag(objects.obj105, LV_OBJ_FLAG_HIDDEN);
-                else lv_obj_clear_flag(objects.obj105, LV_OBJ_FLAG_HIDDEN);
+                tick_value_change_obj = objects.obj125;
+                if (new_val) lv_obj_add_flag(objects.obj125, LV_OBJ_FLAG_HIDDEN);
+                else lv_obj_clear_flag(objects.obj125, LV_OBJ_FLAG_HIDDEN);
                 tick_value_change_obj = NULL;
             }
         }
         {
             const char *new_val = evalTextProperty(flowState, 20, 3, "Failed to evaluate Text in Label widget");
-            const char *cur_val = lv_label_get_text(objects.obj105);
+            const char *cur_val = lv_label_get_text(objects.obj125);
             if (strcmp(new_val, cur_val) != 0) {
-                tick_value_change_obj = objects.obj105;
-                lv_label_set_text(objects.obj105, new_val);
+                tick_value_change_obj = objects.obj125;
+                lv_label_set_text(objects.obj125, new_val);
                 tick_value_change_obj = NULL;
             }
         }
         {
             bool new_val = evalBooleanProperty(flowState, 25, 2, "Failed to evaluate Hidden flag");
-            bool cur_val = lv_obj_has_flag(objects.obj106, LV_OBJ_FLAG_HIDDEN);
+            bool cur_val = lv_obj_has_flag(objects.obj126, LV_OBJ_FLAG_HIDDEN);
             if (new_val != cur_val) {
-                tick_value_change_obj = objects.obj106;
-                if (new_val) lv_obj_add_flag(objects.obj106, LV_OBJ_FLAG_HIDDEN);
-                else lv_obj_clear_flag(objects.obj106, LV_OBJ_FLAG_HIDDEN);
+                tick_value_change_obj = objects.obj126;
+                if (new_val) lv_obj_add_flag(objects.obj126, LV_OBJ_FLAG_HIDDEN);
+                else lv_obj_clear_flag(objects.obj126, LV_OBJ_FLAG_HIDDEN);
                 tick_value_change_obj = NULL;
             }
         }
-        tick_user_widget_question_yn(getFlowState(flowState, 25), 36);
+        tick_user_widget_question_yn(getFlowState(flowState, 25), 70);
     }
     
     void create_screen_display() {
-        void *flowState = getFlowState(0, 8);
+        void *flowState = getFlowState(0, 9);
         lv_obj_t *obj = lv_obj_create(0);
         objects.display = obj;
         lv_obj_set_pos(obj, 0, 0);
@@ -3715,7 +4459,7 @@ void tick_screen_calibration() {
                     lv_obj_t *parent_obj = obj;
                     {
                         lv_obj_t *obj = lv_label_create(parent_obj);
-                        objects.obj107 = obj;
+                        objects.obj127 = obj;
                         lv_obj_set_pos(obj, 0, 0);
                         lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
                         lv_label_set_text(obj, "");
@@ -3725,12 +4469,12 @@ void tick_screen_calibration() {
             }
             {
                 lv_obj_t *obj = lv_label_create(parent_obj);
-                objects.obj108 = obj;
+                objects.obj128 = obj;
                 lv_obj_set_pos(obj, 0, 0);
                 lv_obj_set_size(obj, 320, 24);
                 lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
                 lv_label_set_text(obj, "Display Settings");
-                lv_obj_add_event_cb(obj, event_handler_cb_display_obj108, LV_EVENT_ALL, flowState);
+                lv_obj_add_event_cb(obj, event_handler_cb_display_obj128, LV_EVENT_ALL, flowState);
                 apply_style_small_header(obj);
                 lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
                 lv_obj_set_style_text_color(obj, lv_color_hex(0xffdddddd), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -3749,7 +4493,7 @@ void tick_screen_calibration() {
                     lv_obj_t *parent_obj = obj;
                     {
                         lv_obj_t *obj = lv_label_create(parent_obj);
-                        objects.obj109 = obj;
+                        objects.obj129 = obj;
                         lv_obj_set_pos(obj, 0, 0);
                         lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
                         lv_label_set_text(obj, "");
@@ -3771,7 +4515,7 @@ void tick_screen_calibration() {
                     lv_obj_t *parent_obj = obj;
                     {
                         lv_obj_t *obj = lv_label_create(parent_obj);
-                        objects.obj110 = obj;
+                        objects.obj130 = obj;
                         lv_obj_set_pos(obj, 3, -1);
                         lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
                         lv_label_set_text(obj, "");
@@ -3781,15 +4525,15 @@ void tick_screen_calibration() {
             }
             {
                 lv_obj_t *obj = lv_slider_create(parent_obj);
-                objects.obj111 = obj;
+                objects.obj131 = obj;
                 lv_obj_set_pos(obj, 131, 80);
                 lv_obj_set_size(obj, 180, 10);
-                lv_obj_add_event_cb(obj, event_handler_cb_display_obj111, LV_EVENT_ALL, flowState);
+                lv_obj_add_event_cb(obj, event_handler_cb_display_obj131, LV_EVENT_ALL, flowState);
                 apply_style_slider(obj);
             }
             {
                 lv_obj_t *obj = lv_label_create(parent_obj);
-                objects.obj112 = obj;
+                objects.obj132 = obj;
                 lv_obj_set_pos(obj, 1, 73);
                 lv_obj_set_size(obj, 114, LV_SIZE_CONTENT);
                 lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
@@ -3799,16 +4543,16 @@ void tick_screen_calibration() {
             }
             {
                 lv_obj_t *obj = lv_dropdown_create(parent_obj);
-                objects.obj113 = obj;
+                objects.obj133 = obj;
                 lv_obj_set_pos(obj, 160, 28);
                 lv_obj_set_size(obj, 102, 36);
                 lv_dropdown_set_options(obj, "Auto\nManual");
-                lv_obj_add_event_cb(obj, event_handler_cb_display_obj113, LV_EVENT_ALL, flowState);
+                lv_obj_add_event_cb(obj, event_handler_cb_display_obj133, LV_EVENT_ALL, flowState);
                 apply_style_selector_small(obj);
             }
             {
                 lv_obj_t *obj = lv_label_create(parent_obj);
-                objects.obj114 = obj;
+                objects.obj134 = obj;
                 lv_obj_set_pos(obj, 189, 73);
                 lv_obj_set_size(obj, 32, LV_SIZE_CONTENT);
                 lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
@@ -3820,10 +4564,10 @@ void tick_screen_calibration() {
             }
             {
                 lv_obj_t *obj = lv_btn_create(parent_obj);
-                objects.obj115 = obj;
+                objects.obj135 = obj;
                 lv_obj_set_pos(obj, 8, 144);
                 lv_obj_set_size(obj, 197, 38);
-                lv_obj_add_event_cb(obj, event_handler_cb_display_obj115, LV_EVENT_ALL, flowState);
+                lv_obj_add_event_cb(obj, event_handler_cb_display_obj135, LV_EVENT_ALL, flowState);
                 lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
                 lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
                 apply_style_selectbutton(obj);
@@ -3840,7 +4584,7 @@ void tick_screen_calibration() {
             }
             {
                 lv_obj_t *obj = lv_obj_create(parent_obj);
-                objects.obj116 = obj;
+                objects.obj136 = obj;
                 lv_obj_set_pos(obj, 0, 2);
                 lv_obj_set_size(obj, 320, 240);
                 lv_style_value_t value;
@@ -3851,7 +4595,7 @@ void tick_screen_calibration() {
                 lv_obj_set_local_style_prop(obj, LV_STYLE_PAD_LEFT, value, LV_PART_MAIN);
                 lv_obj_set_local_style_prop(obj, LV_STYLE_BG_OPA, value, LV_PART_MAIN);
                 lv_obj_set_local_style_prop(obj, LV_STYLE_BORDER_WIDTH, value, LV_PART_MAIN);
-                create_user_widget_question_yn(obj, getFlowState(flowState, 23), 50);
+                create_user_widget_question_yn(obj, getFlowState(flowState, 23), 84);
                 lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
             }
             {
@@ -3868,13 +4612,13 @@ void tick_screen_calibration() {
     }
     
     void tick_screen_display() {
-        void *flowState = getFlowState(0, 8);
+        void *flowState = getFlowState(0, 9);
         {
             const char *new_val = evalTextProperty(flowState, 6, 2, "Failed to evaluate Text in Label widget");
-            const char *cur_val = lv_label_get_text(objects.obj107);
+            const char *cur_val = lv_label_get_text(objects.obj127);
             if (strcmp(new_val, cur_val) != 0) {
-                tick_value_change_obj = objects.obj107;
-                lv_label_set_text(objects.obj107, new_val);
+                tick_value_change_obj = objects.obj127;
+                lv_label_set_text(objects.obj127, new_val);
                 tick_value_change_obj = NULL;
             }
         }
@@ -3890,10 +4634,10 @@ void tick_screen_calibration() {
         }
         {
             const char *new_val = evalTextProperty(flowState, 10, 2, "Failed to evaluate Text in Label widget");
-            const char *cur_val = lv_label_get_text(objects.obj109);
+            const char *cur_val = lv_label_get_text(objects.obj129);
             if (strcmp(new_val, cur_val) != 0) {
-                tick_value_change_obj = objects.obj109;
-                lv_label_set_text(objects.obj109, new_val);
+                tick_value_change_obj = objects.obj129;
+                lv_label_set_text(objects.obj129, new_val);
                 tick_value_change_obj = NULL;
             }
         }
@@ -3909,81 +4653,81 @@ void tick_screen_calibration() {
         }
         {
             const char *new_val = evalTextProperty(flowState, 12, 2, "Failed to evaluate Text in Label widget");
-            const char *cur_val = lv_label_get_text(objects.obj110);
+            const char *cur_val = lv_label_get_text(objects.obj130);
             if (strcmp(new_val, cur_val) != 0) {
-                tick_value_change_obj = objects.obj110;
-                lv_label_set_text(objects.obj110, new_val);
+                tick_value_change_obj = objects.obj130;
+                lv_label_set_text(objects.obj130, new_val);
                 tick_value_change_obj = NULL;
             }
         }
         {
             bool new_val = evalBooleanProperty(flowState, 13, 2, "Failed to evaluate Hidden flag");
-            bool cur_val = lv_obj_has_flag(objects.obj111, LV_OBJ_FLAG_HIDDEN);
+            bool cur_val = lv_obj_has_flag(objects.obj131, LV_OBJ_FLAG_HIDDEN);
             if (new_val != cur_val) {
-                tick_value_change_obj = objects.obj111;
-                if (new_val) lv_obj_add_flag(objects.obj111, LV_OBJ_FLAG_HIDDEN);
-                else lv_obj_clear_flag(objects.obj111, LV_OBJ_FLAG_HIDDEN);
+                tick_value_change_obj = objects.obj131;
+                if (new_val) lv_obj_add_flag(objects.obj131, LV_OBJ_FLAG_HIDDEN);
+                else lv_obj_clear_flag(objects.obj131, LV_OBJ_FLAG_HIDDEN);
                 tick_value_change_obj = NULL;
             }
         }
         {
             int32_t new_val = evalIntegerProperty(flowState, 13, 3, "Failed to evaluate Value in Slider widget");
-            int32_t cur_val = lv_slider_get_value(objects.obj111);
+            int32_t cur_val = lv_slider_get_value(objects.obj131);
             if (new_val != cur_val) {
-                tick_value_change_obj = objects.obj111;
-                lv_slider_set_value(objects.obj111, new_val, LV_ANIM_OFF);
+                tick_value_change_obj = objects.obj131;
+                lv_slider_set_value(objects.obj131, new_val, LV_ANIM_OFF);
                 tick_value_change_obj = NULL;
             }
         }
         {
             bool new_val = evalBooleanProperty(flowState, 14, 2, "Failed to evaluate Hidden flag");
-            bool cur_val = lv_obj_has_flag(objects.obj112, LV_OBJ_FLAG_HIDDEN);
+            bool cur_val = lv_obj_has_flag(objects.obj132, LV_OBJ_FLAG_HIDDEN);
             if (new_val != cur_val) {
-                tick_value_change_obj = objects.obj112;
-                if (new_val) lv_obj_add_flag(objects.obj112, LV_OBJ_FLAG_HIDDEN);
-                else lv_obj_clear_flag(objects.obj112, LV_OBJ_FLAG_HIDDEN);
+                tick_value_change_obj = objects.obj132;
+                if (new_val) lv_obj_add_flag(objects.obj132, LV_OBJ_FLAG_HIDDEN);
+                else lv_obj_clear_flag(objects.obj132, LV_OBJ_FLAG_HIDDEN);
                 tick_value_change_obj = NULL;
             }
         }
         {
             int32_t new_val = evalIntegerProperty(flowState, 15, 2, "Failed to evaluate Selected in Dropdown widget");
-            int32_t cur_val = lv_dropdown_get_selected(objects.obj113);
+            int32_t cur_val = lv_dropdown_get_selected(objects.obj133);
             if (new_val != cur_val) {
-                tick_value_change_obj = objects.obj113;
-                lv_dropdown_set_selected(objects.obj113, new_val);
+                tick_value_change_obj = objects.obj133;
+                lv_dropdown_set_selected(objects.obj133, new_val);
                 tick_value_change_obj = NULL;
             }
         }
         {
             bool new_val = evalBooleanProperty(flowState, 16, 2, "Failed to evaluate Hidden flag");
-            bool cur_val = lv_obj_has_flag(objects.obj114, LV_OBJ_FLAG_HIDDEN);
+            bool cur_val = lv_obj_has_flag(objects.obj134, LV_OBJ_FLAG_HIDDEN);
             if (new_val != cur_val) {
-                tick_value_change_obj = objects.obj114;
-                if (new_val) lv_obj_add_flag(objects.obj114, LV_OBJ_FLAG_HIDDEN);
-                else lv_obj_clear_flag(objects.obj114, LV_OBJ_FLAG_HIDDEN);
+                tick_value_change_obj = objects.obj134;
+                if (new_val) lv_obj_add_flag(objects.obj134, LV_OBJ_FLAG_HIDDEN);
+                else lv_obj_clear_flag(objects.obj134, LV_OBJ_FLAG_HIDDEN);
                 tick_value_change_obj = NULL;
             }
         }
         {
             const char *new_val = evalTextProperty(flowState, 16, 3, "Failed to evaluate Text in Label widget");
-            const char *cur_val = lv_label_get_text(objects.obj114);
+            const char *cur_val = lv_label_get_text(objects.obj134);
             if (strcmp(new_val, cur_val) != 0) {
-                tick_value_change_obj = objects.obj114;
-                lv_label_set_text(objects.obj114, new_val);
+                tick_value_change_obj = objects.obj134;
+                lv_label_set_text(objects.obj134, new_val);
                 tick_value_change_obj = NULL;
             }
         }
         {
             bool new_val = evalBooleanProperty(flowState, 23, 2, "Failed to evaluate Hidden flag");
-            bool cur_val = lv_obj_has_flag(objects.obj116, LV_OBJ_FLAG_HIDDEN);
+            bool cur_val = lv_obj_has_flag(objects.obj136, LV_OBJ_FLAG_HIDDEN);
             if (new_val != cur_val) {
-                tick_value_change_obj = objects.obj116;
-                if (new_val) lv_obj_add_flag(objects.obj116, LV_OBJ_FLAG_HIDDEN);
-                else lv_obj_clear_flag(objects.obj116, LV_OBJ_FLAG_HIDDEN);
+                tick_value_change_obj = objects.obj136;
+                if (new_val) lv_obj_add_flag(objects.obj136, LV_OBJ_FLAG_HIDDEN);
+                else lv_obj_clear_flag(objects.obj136, LV_OBJ_FLAG_HIDDEN);
                 tick_value_change_obj = NULL;
             }
         }
-        tick_user_widget_question_yn(getFlowState(flowState, 23), 50);
+        tick_user_widget_question_yn(getFlowState(flowState, 23), 84);
         {
             bool new_val = evalBooleanProperty(flowState, 30, 2, "Failed to evaluate Hidden flag");
             bool cur_val = lv_obj_has_flag(objects.display_off, LV_OBJ_FLAG_HIDDEN);
@@ -4013,7 +4757,7 @@ void tick_screen_calibration() {
                         ((lv_obj_t **)&objects)[startWidgetIndex + 0] = obj;
                         lv_obj_set_pos(obj, 0, 115);
                         lv_obj_set_size(obj, 100, 32);
-                        lv_obj_add_event_cb(obj, event_handler_cb_question_yn_obj93, LV_EVENT_ALL, flowState);
+                        lv_obj_add_event_cb(obj, event_handler_cb_question_yn_obj113, LV_EVENT_ALL, flowState);
                         lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
                         lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
                         apply_style_button(obj);
@@ -4033,7 +4777,7 @@ void tick_screen_calibration() {
                         ((lv_obj_t **)&objects)[startWidgetIndex + 1] = obj;
                         lv_obj_set_pos(obj, 130, 115);
                         lv_obj_set_size(obj, 100, 32);
-                        lv_obj_add_event_cb(obj, event_handler_cb_question_yn_obj94, LV_EVENT_ALL, flowState);
+                        lv_obj_add_event_cb(obj, event_handler_cb_question_yn_obj114, LV_EVENT_ALL, flowState);
                         lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
                         lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
                         apply_style_button(obj);
@@ -4250,7 +4994,7 @@ void tick_screen_calibration() {
                 lv_obj_set_pos(obj, 0, 70);
                 lv_obj_set_size(obj, 320, 170);
                 lv_keyboard_set_mode(obj, LV_KEYBOARD_MODE_NUMBER);
-                lv_obj_add_event_cb(obj, event_handler_cb_keyboard_old2_obj118, LV_EVENT_ALL, flowState);
+                lv_obj_add_event_cb(obj, event_handler_cb_keyboard_old2_obj138, LV_EVENT_ALL, flowState);
                 lv_obj_set_style_align(obj, LV_ALIGN_TOP_LEFT, LV_PART_MAIN | LV_STATE_DEFAULT);
                 lv_obj_set_style_text_font(obj, &lv_font_montserrat_20, LV_PART_MAIN | LV_STATE_DEFAULT);
             }
@@ -4333,6 +5077,7 @@ void create_screens() {
     
     create_screen_startup();
     create_screen_main();
+    create_screen_capacity();
     create_screen_settings();
     create_screen_events();
     create_screen_protections();
@@ -4347,6 +5092,7 @@ typedef void (*tick_screen_func_t)();
 tick_screen_func_t tick_screen_funcs[] = {
     tick_screen_startup,
     tick_screen_main,
+    tick_screen_capacity,
     tick_screen_settings,
     tick_screen_events,
     tick_screen_protections,

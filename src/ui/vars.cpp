@@ -452,3 +452,26 @@ void set_var_remote_sense_voltage(bool value)
 
 //ranges_e get_var_range_select() { return range_select; };
 //void set_var_range_select(ranges_e value) { range_select = value; };
+float get_var_cap_volt_stop() {  return localsetcopy.CapVoltStop; };
+void set_var_cap_volt_stop(float value) { state.setCapVoltStop(value); };
+
+float get_var_cap_ah_stop() { return localsetcopy.CapAhStop; };
+void set_var_cap_ah_stop(float value) { state.setCapAhStop(value); };
+
+float get_var_cap_wh_stop() { return localsetcopy.CapWhStop; };
+void set_var_cap_wh_stop(float value) { state.setCapWhStop(value); };
+
+float get_var_cap_time_stop() { return localsetcopy.CapTimeStop; };
+void set_var_cap_time_stop(float value) { state.setCapTimeStop(value); };
+
+bool get_var_cap_volt_stop_triggered() { return localstatecopy.CapVoltStopTriggered; };
+void set_var_cap_volt_stop_triggered(bool value) {}; //Read only. 
+bool get_var_cap_ah_stop_triggered() { return localstatecopy.CapAhStopTriggered; };
+void set_var_cap_ah_stop_triggered(bool value) {}; // Read only.
+bool get_var_cap_time_stop_triggered() { return localstatecopy.CapTimeStopTriggered; };
+void set_var_cap_time_stop_triggered(bool value) {}; // Read only.
+bool get_var_cap_limit_triggered() { return localsetcopy.capacityLimit; };
+void set_var_cap_limit_triggered(bool value) {}; // Read only. 
+bool get_var_cap_wh_stop_triggered() { return localstatecopy.CapWhStopTriggered; };
+void set_var_cap_wh_stop_triggered(bool value) {}; // Read only.
+

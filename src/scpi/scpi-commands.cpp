@@ -47,6 +47,7 @@ const scpi_command_t scpi_commands[] = {
     {"FETCh[:SCALar]:CURRent[:DC]?", scpi_cmd_fetch_current, 0},
     {"FETCh[:SCALar]:VOLTage[:DC]?", scpi_cmd_fetch_voltage, 0},
     {"FETCh[:SCALar]:POWer[:DC]?", scpi_cmd_fetch_power, 0},
+    {"FETCh:CAPacity?", scpi_cmd_fetch_cap, 0},
 
     // Averaging functions
     {"[SENSe]:NPLCycles", scpi_cmd_sense_nplc, 0},
@@ -58,6 +59,10 @@ const scpi_command_t scpi_commands[] = {
     {"[SENSe]:VOLTage:REMote", scpi_cmd_sense_volt_remote, 0},
     {"[SENSe]:VOLTage:REMote?", scpi_cmd_sense_volt_remoteQ, 0},
     
+    // ON/OFF state
+    {"[SOURce]:INPut[:STATe]", scpi_cmd_source_input_state, 0},
+    {"[Source]:INPut[:STATe]?", scpi_cmd_source_input_stateQ, 0},
+
     // Main mode
     {"[SOURce]:INPut:MODE", scpi_cmd_source_mode, 0},
     {"[SOURce]:INPut:MODE?", scpi_cmd_source_modeQ, 0},
