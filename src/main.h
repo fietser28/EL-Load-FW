@@ -216,6 +216,8 @@ struct changeAverageSettingsMsg {
     bool record;
     bool on;
     bool sendCalData;
+    bool rangeCurrentLow;
+    bool rangeVoltageLow;
     float OPPset;
     float OPPdelay;
     float CapVoltStop;

@@ -947,6 +947,8 @@ namespace dcl
                 msg.avgSamples = (_setState.NLPC * _setState.sampleRate) / _setState.PLFreq;
                 msg.OPPset = _setState.OPPset;
                 msg.OPPdelay = _setState.OPPdelay;
+                msg.rangeCurrentLow = _setState.rangeCurrentLow;
+                msg.rangeVoltageLow = _setState.rangeVoltageLow;
                 xSemaphoreGive(_setStateMutex);
                 xQueueSend(changeAverageSettings, &msg, 10);
                 return true;

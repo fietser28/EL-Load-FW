@@ -20,12 +20,19 @@ typedef enum {
 
 typedef enum {
     calType_e_Imon_High = 0,
-    calType_e_Umon_High = 1,
-    calType_e_Iset_High = 2,
-    calType_e_Von_High = 3,
-    calType_e_Uset_High = 4,
-    calType_e_OCPset_High = 5,
-    calType_e_OVPset_High = 6,
+    calType_e_Imon_Low = 1,
+    calType_e_Umon_High = 2,
+    calType_e_Umon_Low = 3,
+    calType_e_Iset_High = 4,
+    calType_e_Iset_Low = 5,
+    calType_e_Uset_High = 6,
+    calType_e_Uset_Low = 7,
+    calType_e_Von_High = 8,
+    calType_e_Von_Low = 9,
+    calType_e_OCPset_High = 10,
+    calType_e_OVPset_High = 11,
+    calType_e_OCPset_Low = 12,
+    calType_e_OVPset_Low = 13,
     calType_e_Undefined = -1
 } calType_e;
 
@@ -218,6 +225,10 @@ extern float get_var_cap_wh_stop();
 extern void set_var_cap_wh_stop(float value);
 extern bool get_var_cap_wh_stop_triggered();
 extern void set_var_cap_wh_stop_triggered(bool value);
+extern const char *get_var_cal_unit();
+extern void set_var_cal_unit(const char *value);
+extern ranges_e get_var_cal_keyboard();
+extern void set_var_cal_keyboard(ranges_e value);
 
 
 #ifdef __cplusplus

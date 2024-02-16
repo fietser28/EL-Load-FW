@@ -336,7 +336,8 @@ void set_var_cal_curpoint(int32_t value) {
   if (value >= 0 && value < cal_values.numPoints)
   {
     cal_curpoint = value; 
-    if (cal_calType == calType_e::calType_e_Imon_High || cal_calType == calType_e::calType_e_Umon_High) 
+    if (cal_calType == calType_e::calType_e_Imon_High || cal_calType == calType_e::calType_e_Imon_Low || 
+        cal_calType == calType_e::calType_e_Umon_High || cal_calType == calType_e::calType_e_Umon_Low) 
     {
       // ADC
       cal_set = cal_values.points[value].value;
@@ -352,7 +353,8 @@ void set_var_cal_curpoint(int32_t value) {
 float get_var_cal_set() { return cal_set; };
 void set_var_cal_set(float value) { 
   cal_set = value; 
-  if (cal_calType == calType_e::calType_e_Imon_High || cal_calType == calType_e::calType_e_Umon_High) 
+  if (cal_calType == calType_e::calType_e_Imon_High || cal_calType == calType_e::calType_e_Imon_Low || 
+      cal_calType == calType_e::calType_e_Umon_High || cal_calType == calType_e::calType_e_Umon_Low) 
   {
     cal_values.points[cal_curpoint].value = value;
   } else {
@@ -363,7 +365,8 @@ void set_var_cal_set(float value) {
 float get_var_cal_measured() { return cal_measured; };
 void set_var_cal_measured(float value) { 
   cal_measured = value;
-  if (cal_calType == calType_e::calType_e_Imon_High || cal_calType == calType_e::calType_e_Iset_High) 
+  if (cal_calType == calType_e::calType_e_Imon_High || cal_calType == calType_e::calType_e_Imon_Low || 
+      cal_calType == calType_e::calType_e_Umon_High || cal_calType == calType_e::calType_e_Umon_Low) 
   {
     // ADC
     cal_values.points[cal_curpoint].adc = (int32_t)value; 
@@ -375,6 +378,13 @@ void set_var_cal_measured(float value) {
 
 int32_t get_var_cal_numpoints() { return cal_values.numPoints; };
 void set_var_cal_numpoints(int32_t value) {} ; // TODO: Needed?
+
+const char *get_var_cal_unit() { return ranges[caldefaults[cal_calType].keyBoard].unitName; };
+void set_var_cal_unit(const char *value) {}; // Read only.
+
+ranges_e get_var_cal_keyboard() { return caldefaults[cal_calType].keyBoard; };
+void set_var_cal_keyboard(ranges_e value) {}; // Read only.
+
 
 bool get_var_von_state() { return localstatecopy.VonState; };
 void set_var_von_state(bool value) {}; // Read only.

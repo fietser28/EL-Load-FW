@@ -86,22 +86,19 @@ stateManager state;
 // TODO: put this in a class somewhere
 
 CalibrationValueConfiguration currentCal;
-float currentMinVal;
-float currentMaxVal;
+CalibrationValueConfiguration currentCalLow;
 CalibrationValueConfiguration voltCal;
-float voltMinVal;
-float voltMaxVal;
+CalibrationValueConfiguration voltCalLow;
 CalibrationValueConfiguration iSetCal;
-float iSetMinVal;
-float iSetMaxVal;
+CalibrationValueConfiguration iSetCalLow;
 CalibrationValueConfiguration uSetCal;
-float uSetMinVal;
-float uSetMaxVal;
+CalibrationValueConfiguration uSetCalLow;
 CalibrationValueConfiguration vonSetCal;
-float vonSetMinVal;
-float vonSetMaxVal;
+CalibrationValueConfiguration vonSetCalLow;
 CalibrationValueConfiguration OCPSetCal;
+CalibrationValueConfiguration OCPSetCalLow;
 CalibrationValueConfiguration OVPSetCal;
+CalibrationValueConfiguration OVPSetCalLow;
 
 // TODO for debug/test
 volatile uint32_t i = -10;
@@ -161,24 +158,6 @@ void setup()
   //I2C_KEYS.setClock(400000);
   I2C_KEYS.begin();
 
-  /*
-        // Setup SPI
-        pinMode(SPI_ADC_CS, OUTPUT);
-        digitalWrite(SPI_ADC_CS, HIGH);
-        pinMode(PIN_DAC1_CS, OUTPUT);
-        digitalWrite(PIN_DAC1_CS, HIGH);
-
-        SERIALDEBUG.println("INFO: ADC SPI.set... done");
-          // Setup ADC SPI
-        SPI_ADC.setRX(SPI_ADC_RX);
-        SPI_ADC.setTX(SPI_ADC_TX);
-        SPI_ADC.setSCK(SPI_ADC_SCK);
-        SERIALDEBUG.println("INFO: ADC SPI.begin... done");
-
-        SPI_ADC.begin();
-        SERIALDEBUG.println("INFO: ADC SPI done");
-*/
-
   state.begin(); // Setup memory, mutexes and queues.
   printlogstr("INFO: Startup.");
 
@@ -193,13 +172,15 @@ void setup()
   state.cal.Imon->setCalConfig(currentCal);
   state.cal.Imon->setADCConfig(currentADC.ADC_MIN, currentADC.ADC_MAX);
 
+  currentCalLow.numPoints = 2;
+  currentCalLow.points[0].value = 0.05; //0.0; // 0.1V  => 1.0A
+  currentCalLow.points[0].adc = 700000; //4575;
+  currentCalLow.points[1].value = 0.95 ; // 1.000V => 10A
+  currentCalLow.points[1].adc = 6963036;
 
-  //float currentC = (currentCal.points[1].value - currentCal.points[0].value) / (currentCal.points[1].adc - currentCal.points[0].adc);
-  //float currentO = currentCal.points[0].value - currentCal.points[0].adc * currentC;
-
-  //currentMinVal = currentO;
-  //currentMaxVal = (float)currentADC.ADC_MAX * currentC;
-  //SERIALDEBUG.printf("INFO: Current calibration min,max,coeff: %.4f  %.4f %.4e\n", currentMinVal, currentMaxVal, currentC);
+  state.cal.ImonLow = new calLinear2P();
+  state.cal.ImonLow->setCalConfig(currentCalLow);
+  state.cal.ImonLow->setADCConfig(currentADC.ADC_MIN, currentADC.ADC_MAX);
 
 //  CalibrationValueConfiguration voltCal;
   voltCal.numPoints = 2;
@@ -212,13 +193,15 @@ void setup()
   state.cal.Umon->setCalConfig(voltCal);
   state.cal.Umon->setADCConfig(voltADC.ADC_MIN, voltADC.ADC_MAX);
 
-  //float voltC = (voltCal.points[1].value - voltCal.points[0].value) / (voltCal.points[1].adc - voltCal.points[0].adc);
-  //float voltO = voltCal.points[0].value - voltCal.points[0].adc * voltC;
+  voltCalLow.numPoints = 2;
+  voltCalLow.points[0].value = 0.0; // 50mV
+  voltCalLow.points[0].adc = 2059;
+  voltCalLow.points[1].value = 100.0; // 1.000V => 100V //1.100 * 34 * 2.1; // 1.100V => >80V
+  voltCalLow.points[1].adc = 6970322;
 
-  //voltMinVal = voltO;
-  //voltMaxVal = (float)voltADC.ADC_MAX * voltC;
-
-  //SERIALDEBUG.printf("INFO: Volt calibration min,max,coeff: %.4f  %.4f %.4e\n", voltMinVal, voltMaxVal, voltC);
+  state.cal.UmonLow = new calLinear2P();
+  state.cal.UmonLow->setCalConfig(voltCalLow);
+  state.cal.UmonLow->setADCConfig(voltADC.ADC_MIN, voltADC.ADC_MAX);
 
   iSetCal.numPoints = 2;
   iSetCal.points[0].value = 0.00299; // @3.3Vinput (AMS1117)
@@ -230,13 +213,15 @@ void setup()
   state.cal.Iset->setCalConfig(iSetCal);
   state.cal.Iset->setDACConfig(iSetDAC.DAC_MIN, iSetDAC.DAC_MAX);
 
-  //float iSetC = (iSetCal.points[1].value - iSetCal.points[0].value) / (iSetCal.points[1].dac - iSetCal.points[0].dac);
-  //float iSetO = iSetCal.points[0].value - iSetCal.points[0].dac * iSetC;
+  iSetCalLow.numPoints = 2;
+  iSetCalLow.points[0].value = 0.00299; // @3.3Vinput (AMS1117)
+  iSetCalLow.points[0].dac = 100;
+  iSetCalLow.points[1].value = 3.2374; // @3.3Vinput (AMS1117)
+  iSetCalLow.points[1].dac = 64000;
 
-  //iSetMinVal = iSetO;
-  //iSetMaxVal = (float)iSetDAC.DAC_MAX * iSetC;
-
-  //SERIALDEBUG.printf("INFO: Iset calibration min,max,coeff: %.4f  %.4f %.4e\n", iSetMinVal, iSetMaxVal, iSetC);
+  state.cal.IsetLow = new calLinear2P();
+  state.cal.IsetLow->setCalConfig(iSetCalLow);
+  state.cal.IsetLow->setDACConfig(iSetDAC.DAC_MIN, iSetDAC.DAC_MAX);
 
   uSetCal.numPoints = 2;
   uSetCal.points[0].value = 1.00;
@@ -248,6 +233,16 @@ void setup()
   state.cal.Uset->setCalConfig(uSetCal);
   state.cal.Uset->setDACConfig(uSetDAC.DAC_MIN, uSetDAC.DAC_MAX);
 
+  uSetCalLow.numPoints = 2;
+  uSetCalLow.points[0].value = 1.00;
+  uSetCalLow.points[0].dac = 100;
+  uSetCalLow.points[1].value = 3.2; 
+  uSetCalLow.points[1].dac = 64000;
+
+  state.cal.UsetLow = new calLinear2P();
+  state.cal.UsetLow->setCalConfig(uSetCalLow);
+  state.cal.UsetLow->setDACConfig(uSetDAC.DAC_MIN, uSetDAC.DAC_MAX);
+
   vonSetCal.numPoints = 2;
   vonSetCal.points[0].value = 0.50;
   vonSetCal.points[0].dac = 100;
@@ -257,6 +252,16 @@ void setup()
   state.cal.Von = new calLinear2P();
   state.cal.Von->setCalConfig(vonSetCal);
   state.cal.Von->setDACConfig(vonSetDAC.DAC_MIN, vonSetDAC.DAC_MAX);
+
+  vonSetCalLow.numPoints = 2;
+  vonSetCalLow.points[0].value = 0.50;
+  vonSetCalLow.points[0].dac = 100;
+  vonSetCalLow.points[1].value = 3.2; 
+  vonSetCalLow.points[1].dac = 64000;
+
+  state.cal.VonLow = new calLinear2P();
+  state.cal.VonLow->setCalConfig(vonSetCalLow);
+  state.cal.VonLow->setDACConfig(vonSetDAC.DAC_MIN, vonSetDAC.DAC_MAX);
 
   OCPSetCal.numPoints = 2;
   OCPSetCal.points[0].value = 0.50;
@@ -268,6 +273,16 @@ void setup()
   state.cal.OCPset->setCalConfig(OCPSetCal);
   state.cal.OCPset->setDACConfig(OCPSetDAC.DAC_MIN, OCPSetDAC.DAC_MAX);
 
+  OCPSetCalLow.numPoints = 2;
+  OCPSetCalLow.points[0].value = 0.50;
+  OCPSetCalLow.points[0].dac = 100;
+  OCPSetCalLow.points[1].value = 3.2; 
+  OCPSetCalLow.points[1].dac = 64000;
+
+  state.cal.OCPsetLow = new calLinear2P();
+  state.cal.OCPsetLow->setCalConfig(OCPSetCalLow);
+  state.cal.OCPsetLow->setDACConfig(OCPSetDAC.DAC_MIN, OCPSetDAC.DAC_MAX);
+
   OVPSetCal.numPoints = 2;
   OVPSetCal.points[0].value = 0.50;
   OVPSetCal.points[0].dac = 100;
@@ -277,6 +292,16 @@ void setup()
   state.cal.OVPset = new calLinear2P();
   state.cal.OVPset->setCalConfig(OVPSetCal);
   state.cal.OVPset->setDACConfig(OVPSetDAC.DAC_MIN, OVPSetDAC.DAC_MAX);
+
+  OVPSetCalLow.numPoints = 2;
+  OVPSetCalLow.points[0].value = 0.50;
+  OVPSetCalLow.points[0].dac = 100;
+  OVPSetCalLow.points[1].value = 3.2; 
+  OVPSetCalLow.points[1].dac = 64000;
+
+  state.cal.OVPsetLow = new calLinear2P();
+  state.cal.OVPsetLow->setCalConfig(OVPSetCalLow);
+  state.cal.OVPsetLow->setDACConfig(OVPSetDAC.DAC_MIN, OVPSetDAC.DAC_MAX);
 
   //// FreeRTOS setup.
   //////////////////////////
@@ -347,13 +372,18 @@ void setup()
 */
 
   if (eepromMagicFound) {
-    myeeprom.calibrationValuesRead(state.cal.Imon->getCalConfigRef(), EEPROM_ADDR_CAL_IMON);
-    myeeprom.calibrationValuesRead(state.cal.Umon->getCalConfigRef(), EEPROM_ADDR_CAL_UMON);
-    myeeprom.calibrationValuesRead(state.cal.Iset->getCalConfigRef(), EEPROM_ADDR_CAL_ISET);
-    myeeprom.calibrationValuesRead(state.cal.Uset->getCalConfigRef(), EEPROM_ADDR_CAL_USET);
-    myeeprom.calibrationValuesRead(state.cal.Von->getCalConfigRef(), EEPROM_ADDR_CAL_VON);
-    myeeprom.calibrationValuesRead(state.cal.OCPset->getCalConfigRef(), EEPROM_ADDR_CAL_OCP);
-    myeeprom.calibrationValuesRead(state.cal.OVPset->getCalConfigRef(), EEPROM_ADDR_CAL_OVP);
+    myeeprom.calibrationValuesRead(state.cal.Imon->getCalConfigRef(), EEPROM_ADDR_CAL_IMON_H);
+    myeeprom.calibrationValuesRead(state.cal.ImonLow->getCalConfigRef(), EEPROM_ADDR_CAL_IMON_L);
+    myeeprom.calibrationValuesRead(state.cal.Umon->getCalConfigRef(), EEPROM_ADDR_CAL_UMON_H);
+    myeeprom.calibrationValuesRead(state.cal.UmonLow->getCalConfigRef(), EEPROM_ADDR_CAL_UMON_L);
+    myeeprom.calibrationValuesRead(state.cal.Iset->getCalConfigRef(), EEPROM_ADDR_CAL_ISET_H);
+    myeeprom.calibrationValuesRead(state.cal.IsetLow->getCalConfigRef(), EEPROM_ADDR_CAL_ISET_L);
+    myeeprom.calibrationValuesRead(state.cal.Von->getCalConfigRef(),  EEPROM_ADDR_CAL_VON_H);
+    myeeprom.calibrationValuesRead(state.cal.VonLow->getCalConfigRef(),  EEPROM_ADDR_CAL_VON_L);
+    myeeprom.calibrationValuesRead(state.cal.OCPset->getCalConfigRef(), EEPROM_ADDR_CAL_OCP_H);
+    myeeprom.calibrationValuesRead(state.cal.OCPsetLow->getCalConfigRef(), EEPROM_ADDR_CAL_OCP_L);
+    myeeprom.calibrationValuesRead(state.cal.OVPset->getCalConfigRef(), EEPROM_ADDR_CAL_OVP_H);
+    myeeprom.calibrationValuesRead(state.cal.OVPsetLow->getCalConfigRef(), EEPROM_ADDR_CAL_OVP_L);
   }
   
   //vTaskDelay(50);
@@ -841,6 +871,8 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
   float vonset = 1.1f, vonsetPrev = -0.1f;
   float ocpset = 10.1f, ocpsetPrev = -0.1f;
   float ovpset = 80.1f, ovpsetPrev = -0.1f;
+  bool  rangeCurrentLowPrev = false;
+  bool  rangeVoltLowPrev = false;
   uint32_t isetRaw, isetRawPrev = 0;
   uint32_t usetRaw, usetRawPrev = 0;
   uint32_t vonsetRaw, vonsetRawPrev = 0;
@@ -901,13 +933,13 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
         break;
 
       case ELmode::CP:
-        umon = state.cal.Umon->remapADC(measured.UmonRaw);
+        umon = localSetState.rangeVoltageLow ? state.cal.UmonLow->remapADC(measured.UmonRaw) : state.cal.Umon->remapADC(measured.UmonRaw);
         iset = localSetState.Pset / umon; // TODO: Set to 0 if Von is active. This avoids inrush current.
         uset = 0.0f; // Do not clamp to max to avoid glitch in switching on.
         break;
 
       case ELmode::CR:
-        umon = state.cal.Umon->remapADC(measured.UmonRaw);
+        umon = localSetState.rangeVoltageLow ? state.cal.UmonLow->remapADC(measured.UmonRaw) : state.cal.Umon->remapADC(measured.UmonRaw);
         iset = umon / localSetState.Rset; // // TODO: Set to 0 if Von is active. This avoids inrush current.
         uset = 0.0f; // Do not clamp to max to void inrush glitch.
         break;
@@ -940,12 +972,12 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
     } 
 
     // Only recalc and set if changed
-    if (iset != isetPrev)
+    if (iset != isetPrev || localSetState.rangeCurrentLow != rangeCurrentLowPrev)
     {
       if (localSetState.CalibrationIset == true) {
         isetRaw = (uint32_t)localSetState.Iset;
       } else {
-        iset = state.cal.Iset->remapDAC(iset);
+        iset = localSetState.rangeCurrentLow ? state.cal.IsetLow->remapDAC(iset) : state.cal.Iset->remapDAC(iset);
         isetRaw = iset;
       }
       if (isetRaw != isetRawPrev)
@@ -960,13 +992,13 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
     }
     // Time critical part ends here. CP and CR loop have changing iset, not uset.
 
-    if (uset != usetPrev)
+    if (uset != usetPrev || localSetState.rangeVoltageLow != rangeVoltLowPrev)
     {
       if (localSetState.CalibrationUset == true) {
         usetRaw = (uint32_t)localSetState.Uset;
       } else {
       //uset = remap(uset, iSetMinVal, (float)uSetDAC.DAC_MIN, uSetMaxVal, (float)uSetDAC.DAC_MAX);
-        uset = state.cal.Uset->remapDAC(uset);
+        uset =  localSetState.rangeVoltageLow ? state.cal.UsetLow->remapDAC(uset) : state.cal.Uset->remapDAC(uset);
         usetRaw = (uint32_t)clamp(uset, uSetDAC.DAC_MIN, uSetDAC.DAC_MAX);
       }
       if (usetRaw != usetRawPrev)
@@ -979,13 +1011,13 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
       }
     }
     // Only recalc and set if changed
-    if (vonset != vonsetPrev || localSetState.CalibrationVonSet == true)
+    if (vonset != vonsetPrev || localSetState.CalibrationVonSet == true || localSetState.rangeVoltageLow != rangeVoltLowPrev)
     {
       if (localSetState.CalibrationVonSet == true) {
         vonsetRaw = (uint32_t)localSetState.VonSet;
       } else {
       //vonset = remap(vonset, iSetMinVal, (float)vonSetDAC.DAC_MIN, vonSetMaxVal, (float)vonSetDAC.DAC_MAX);
-      vonset = state.cal.Von->remapDAC(vonset);
+      vonset = localSetState.rangeVoltageLow ? state.cal.VonLow->remapDAC(vonset) : state.cal.Von->remapDAC(vonset);
       vonsetRaw = (uint32_t)clamp(vonset, vonSetDAC.DAC_MIN, vonSetDAC.DAC_MAX);
       }
       if (vonsetRaw != vonsetRawPrev)
@@ -999,12 +1031,12 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
     }
 
     // Only recalc and set if changed
-    if (ocpset != ocpsetPrev || localSetState.CalibrationOCPset == true)
+    if (ocpset != ocpsetPrev || localSetState.CalibrationOCPset == true || localSetState.rangeCurrentLow != rangeCurrentLowPrev)
     {
       if (localSetState.CalibrationOCPset == true) {
         ocpsetRaw = (uint32_t)localSetState.OCPset;
       } else {
-      ocpset = state.cal.OCPset->remapDAC(ocpset);
+      ocpset = localSetState.rangeCurrentLow ? state.cal.OCPsetLow->remapDAC(ocpset) : state.cal.OCPset->remapDAC(ocpset);
       ocpsetRaw = (uint32_t)clamp(ocpset, OCPSetDAC.DAC_MIN, OCPSetDAC.DAC_MAX);
       }
       if (ocpsetRaw != ocpsetRawPrev)
@@ -1018,12 +1050,12 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
     }
 
     // Only recalc and set if changed
-    if (ovpset != ovpsetPrev || localSetState.CalibrationOVPset == true)
+    if (ovpset != ovpsetPrev || localSetState.CalibrationOVPset == true || localSetState.rangeVoltageLow != rangeVoltLowPrev)
     {
       if (localSetState.CalibrationOVPset == true) {
         ovpsetRaw = (uint32_t)localSetState.OVPset;
       } else {
-      ovpset = state.cal.OVPset->remapDAC(ovpset);
+      ovpset = localSetState.rangeVoltageLow ? state.cal.OVPset->remapDAC(ovpset) : state.cal.OVPset->remapDAC(ovpset);
       ovpsetRaw = (uint32_t)clamp(ovpset, OVPSetDAC.DAC_MIN, OVPSetDAC.DAC_MAX);
       }
       if (ovpsetRaw != ovpsetRawPrev)
@@ -1038,6 +1070,13 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
 
     // Send measurements to avg task.
     xMessageBufferSend(newMeasurements, &measured, sizeof(measured), 0);
+
+    if (localSetState.rangeCurrentLow != rangeCurrentLowPrev) {
+      rangeCurrentLowPrev = localSetState.rangeCurrentLow;
+    }
+    if (localSetState.rangeVoltageLow != rangeVoltLowPrev) {
+      rangeVoltLowPrev = localSetState.rangeVoltageLow;
+    }
 
     // Receive changed settings.
     // Receive copy of state if send. Using a copy to avoid a mutex lock.
@@ -1082,6 +1121,10 @@ void taskAveragingFunction(void *pvParameters)
   unsigned long OPPTriggerStart = 0;
   bool OPPStarted = false;
 
+  // Ragne settings
+  bool localRangeCurrentLow = false;
+  bool localRangeVoltageLow = false;
+
   // Capacity limits
   float localVoltStop = 0, prevVoltStop = 0;
   float localAsStop   = 0, prevAsStop = 0;
@@ -1111,8 +1154,8 @@ void taskAveragingFunction(void *pvParameters)
     if (update)
     {
       //digitalWrite(PIN_TEST, HIGH);
-      imon = state.cal.Imon->remapADC(avgCurrentRaw);
-      umon = state.cal.Umon->remapADC(avgVoltRaw);
+      imon = localRangeCurrentLow ?  state.cal.ImonLow->remapADC(avgCurrentRaw) : state.cal.Imon->remapADC(avgCurrentRaw);
+      umon = localRangeVoltageLow ?  state.cal.UmonLow->remapADC(avgVoltRaw) :  state.cal.Umon->remapADC(avgVoltRaw);
       //imon = remap((float)avgCurrentRaw, (float)currentADC.ADC_MIN, currentMinVal, (float)currentADC.ADC_MAX, currentMaxVal);
       //umon = remap((float)avgVoltRaw, (float)voltADC.ADC_MIN, voltMinVal, (float)voltADC.ADC_MAX, voltMaxVal);
       if (record && on)
@@ -1182,6 +1225,8 @@ void taskAveragingFunction(void *pvParameters)
       sendCalData = settingsMsg.sendCalData; // obsolete?
       localOPPset = settingsMsg.OPPset;
       localOPPdelay = settingsMsg.OPPdelay;
+      localRangeCurrentLow = settingsMsg.rangeCurrentLow;
+      localRangeVoltageLow = settingsMsg.rangeVoltageLow;
       localAsStop = settingsMsg.CapAhStop * 3600.0f; // As is in Amp * seconds not Amp * hours.
       localVoltStop = settingsMsg.CapVoltStop;
       localVoltStop = settingsMsg.CapTimeStop;
