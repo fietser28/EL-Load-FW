@@ -14,6 +14,8 @@
 #include "cal.h"
 #include "ranges.h"
 
+#include "dac.h"
+#include "adc.h"
 #include "eeprom.h"
 #include "adc_ads1x1x.h"
 #include "fan_max31760.h"
@@ -181,6 +183,16 @@ using namespace dcl;
 // Global state manager
 
 extern dcl::stateManager state;
+
+extern adc_ADS131M02 currentADC;
+extern adc_ADS131M02 voltADC; // volt = secondary channel
+
+extern dac_dac8555 iSetDAC;
+extern dac_dac8555 vonSetDAC;
+extern dac_dac8555 OCPSetDAC;
+extern dac_dac8555 OVPSetDAC;
+extern dac_dac8555 uSetDAC;
+
 extern dcl::eeprom::eeprom myeeprom;
 extern fan_max31760 fancontrol;
 
@@ -272,4 +284,25 @@ extern SemaphoreHandle_t xGuiSemaphore;
 extern uint8_t readInputs();
 extern void setOutputs(setStateStruct &newState);
 extern void timerFakeADCInterruptFunction(TimerHandle_t taskFakeADCInterrupt);
+
+
+// TODO: put this in a class somewhere
+
+extern CalibrationValueConfiguration currentCal;
+extern float currentMinVal;
+extern float currentMaxVal;
+extern CalibrationValueConfiguration voltCal;
+extern float voltMinVal;
+extern float voltMaxVal;
+extern CalibrationValueConfiguration iSetCal;
+extern float iSetMinVal;
+extern float iSetMaxVal;
+extern CalibrationValueConfiguration uSetCal;
+extern float uSetMinVal;
+extern float uSetMaxVal;
+extern CalibrationValueConfiguration vonSetCal;
+extern float vonSetMinVal;
+extern float vonSetMaxVal;
+extern CalibrationValueConfiguration OCPSetCal;
+extern CalibrationValueConfiguration OVPSetCal;
 

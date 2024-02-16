@@ -227,7 +227,7 @@ scpi_result_t scpi_cmd_fetch_cap(scpi_t *context) {
     measuredStateStruct localMeasuredState; 
     state.getMeasuredStateCopy(&localMeasuredState, 1000);
     const float cap_array[] = { (float)localMeasuredState.As / 3600.0f, (float)localMeasuredState.Ws / 3600.0f, (float)localMeasuredState.Ptime};
-    SCPI_ResultArrayFloat(context, cap_array, 3, SCPI_FORMAT_NORMAL );
+    SCPI_ResultArrayFloat(context, cap_array, 3, SCPI_FORMAT_ASCII );
     return SCPI_RES_OK;
 };
 
@@ -530,7 +530,6 @@ scpi_result_t scpi_cmd_source_current(scpi_t *context)
 
 scpi_result_t scpi_cmd_source_currentQ(scpi_t *context)
 {
-
     setStateStruct localSetState;
     state.getSetStateCopy(&localSetState, 1000);
     

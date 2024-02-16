@@ -115,25 +115,25 @@ void copy_cal_values_from_state(CalibrationValueConfiguration *cal_values, calTy
     CalibrationValueConfiguration calconfig = state.cal.Imon->getCalConfig();
     switch (caltype)
     {
-    case calType_e::calType_e_Imon:
+    case calType_e::calType_e_Imon_High:
         calconfig = state.cal.Imon->getCalConfig();
         break;
-    case calType_e::calType_e_Umon:
+    case calType_e::calType_e_Umon_High:
         calconfig = state.cal.Umon->getCalConfig();
         break;
-    case calType_e::calType_e_Iset:
+    case calType_e::calType_e_Iset_High:
         calconfig = state.cal.Iset->getCalConfig();
         break;        
-    case calType_e::calType_e_Von:
+    case calType_e::calType_e_Von_High:
         calconfig = state.cal.Von->getCalConfig();
         break;
-    case calType_e::calType_e_Uset:
+    case calType_e::calType_e_Uset_High:
         calconfig = state.cal.Uset->getCalConfig();
         break;
-    case calType_e::calType_e_OCPset:
+    case calType_e::calType_e_OCPset_High:
         calconfig = state.cal.OCPset->getCalConfig();
         break;
-    case calType_e::calType_e_OVPset:
+    case calType_e::calType_e_OVPset_High:
         calconfig = state.cal.OVPset->getCalConfig();
         break;
     default:
@@ -149,25 +149,25 @@ void copy_cal_values_to_state(CalibrationValueConfiguration *cal_values, calType
     CalibrationValueConfiguration *calconfig = state.cal.Imon->getCalConfigRef();
     switch (caltype)
     {
-    case calType_e::calType_e_Imon:
+    case calType_e::calType_e_Imon_High:
         calconfig = state.cal.Imon->getCalConfigRef();
         break;
-    case calType_e::calType_e_Umon:
+    case calType_e::calType_e_Umon_High:
         calconfig = state.cal.Umon->getCalConfigRef();
         break;
-    case calType_e::calType_e_Iset:
+    case calType_e::calType_e_Iset_High:
         calconfig = state.cal.Iset->getCalConfigRef();
         break;
-    case calType_e::calType_e_Von:
+    case calType_e::calType_e_Von_High:
         calconfig = state.cal.Von->getCalConfigRef(); 
         break;
-    case calType_e::calType_e_Uset:
+    case calType_e::calType_e_Uset_High:
         calconfig = state.cal.Uset->getCalConfigRef();
         break;
-    case calType_e::calType_e_OCPset:
+    case calType_e::calType_e_OCPset_High:
         calconfig = state.cal.OCPset->getCalConfigRef();
         break;
-    case calType_e::calType_e_OVPset:
+    case calType_e::calType_e_OVPset_High:
         calconfig = state.cal.OVPset->getCalConfigRef();
         break;
     default:
@@ -184,31 +184,31 @@ void write_cal_to_eeprom(calType_e caltype)
     uint32_t startaddress;
     switch (caltype)
     {
-    case calType_e::calType_e_Imon:
+    case calType_e::calType_e_Imon_High:
         calconfig = state.cal.Imon->getCalConfigRef();
         startaddress = EEPROM_ADDR_CAL_IMON;
         break;
-    case calType_e::calType_e_Umon:
+    case calType_e::calType_e_Umon_High:
         calconfig = state.cal.Umon->getCalConfigRef();
         startaddress = EEPROM_ADDR_CAL_UMON;
         break;
-    case calType_e::calType_e_Iset:
+    case calType_e::calType_e_Iset_High:
         calconfig = state.cal.Iset->getCalConfigRef();
         startaddress = EEPROM_ADDR_CAL_ISET;
         break;
-    case calType_e::calType_e_Von:
+    case calType_e::calType_e_Von_High:
         calconfig = state.cal.Von->getCalConfigRef();
         startaddress = EEPROM_ADDR_CAL_VON;
         break;
-    case calType_e::calType_e_Uset:
+    case calType_e::calType_e_Uset_High:
         calconfig = state.cal.Uset->getCalConfigRef();
         startaddress = EEPROM_ADDR_CAL_USET;
         break;
-    case calType_e::calType_e_OCPset:
+    case calType_e::calType_e_OCPset_High:
         calconfig = state.cal.OCPset->getCalConfigRef();
         startaddress = EEPROM_ADDR_CAL_OCP;
         break;
-    case calType_e::calType_e_OVPset:
+    case calType_e::calType_e_OVPset_High:
         calconfig = state.cal.OVPset->getCalConfigRef();
         startaddress = EEPROM_ADDR_CAL_OVP;
         break;

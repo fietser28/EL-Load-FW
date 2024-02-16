@@ -19,15 +19,21 @@ typedef enum {
 } mode_e;
 
 typedef enum {
-    calType_e_Imon = 0,
-    calType_e_Umon = 1,
-    calType_e_Iset = 2,
-    calType_e_Von = 3,
-    calType_e_Uset = 4,
-    calType_e_OCPset = 5,
-    calType_e_OVPset = 6,
+    calType_e_Imon_High = 0,
+    calType_e_Umon_High = 1,
+    calType_e_Iset_High = 2,
+    calType_e_Von_High = 3,
+    calType_e_Uset_High = 4,
+    calType_e_OCPset_High = 5,
+    calType_e_OVPset_High = 6,
     calType_e_Undefined = -1
 } calType_e;
+
+typedef enum {
+    calCalType_e_ADC = 0,
+    calCalType_e_DAC = 1,
+    calCalType_e_LEVEL = 2
+} calCalType_e;
 
 typedef enum {
     VonType_e_Unlatched = 0,

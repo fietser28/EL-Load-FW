@@ -336,7 +336,7 @@ void set_var_cal_curpoint(int32_t value) {
   if (value >= 0 && value < cal_values.numPoints)
   {
     cal_curpoint = value; 
-    if (cal_calType == calType_e::calType_e_Imon || cal_calType == calType_e::calType_e_Umon) 
+    if (cal_calType == calType_e::calType_e_Imon_High || cal_calType == calType_e::calType_e_Umon_High) 
     {
       // ADC
       cal_set = cal_values.points[value].value;
@@ -352,7 +352,7 @@ void set_var_cal_curpoint(int32_t value) {
 float get_var_cal_set() { return cal_set; };
 void set_var_cal_set(float value) { 
   cal_set = value; 
-  if (cal_calType == calType_e::calType_e_Imon || cal_calType == calType_e::calType_e_Umon) 
+  if (cal_calType == calType_e::calType_e_Imon_High || cal_calType == calType_e::calType_e_Umon_High) 
   {
     cal_values.points[cal_curpoint].value = value;
   } else {
@@ -363,7 +363,7 @@ void set_var_cal_set(float value) {
 float get_var_cal_measured() { return cal_measured; };
 void set_var_cal_measured(float value) { 
   cal_measured = value;
-  if (cal_calType == calType_e::calType_e_Imon || cal_calType == calType_e::calType_e_Iset) 
+  if (cal_calType == calType_e::calType_e_Imon_High || cal_calType == calType_e::calType_e_Iset_High) 
   {
     // ADC
     cal_values.points[cal_curpoint].adc = (int32_t)value; 

@@ -1,5 +1,10 @@
 #pragma once
+
 #include "scpi/scpi.h"
+
+#include "main.h"
+#include "cal.h"
+#include "ui/vars.h"
 
 struct _range {
     const char* setName;
@@ -11,3 +16,19 @@ struct _range {
 };
 
 extern const _range ranges[];
+
+struct _caldef {
+    float value0;
+    float adc0;
+    float value1;
+    float adc1;
+    uint32_t adcMin;
+    uint32_t adcMax;
+    ranges_e keyBoard;
+    calCalType_e type;
+    cal* stateRef;
+    uint16_t eepromAddress;
+};
+
+extern _caldef caldefaults[];
+

@@ -1145,43 +1145,64 @@
         "members": [
           {
             "objID": "7637dba7-91fb-4fd0-baed-01f6479b59d1",
-            "name": "Imon",
+            "name": "Imon_High",
             "value": 0
           },
           {
             "objID": "52a76193-f2aa-4547-896c-8705a657bb26",
-            "name": "Umon",
+            "name": "Umon_High",
             "value": 1
           },
           {
             "objID": "88aedbbf-992d-4fa5-b4f8-daa054b6bee4",
-            "name": "Iset",
+            "name": "Iset_High",
             "value": 2
           },
           {
             "objID": "d8408926-769c-4aca-c3a9-642ddf3e740c",
-            "name": "Von",
+            "name": "Von_High",
             "value": 3
           },
           {
             "objID": "d41ce058-3f19-421e-f0df-4a652f837d2d",
-            "name": "Uset",
+            "name": "Uset_High",
             "value": 4
           },
           {
             "objID": "2a962f30-b597-4c17-aaa6-28974481e630",
-            "name": "OCPset",
+            "name": "OCPset_High",
             "value": 5
           },
           {
             "objID": "342c5c23-d762-4593-bd4b-b794d54913fa",
-            "name": "OVPset",
+            "name": "OVPset_High",
             "value": 6
           },
           {
             "objID": "7807dcf6-ac81-40aa-b844-55e699253595",
             "name": "Undefined",
             "value": -1
+          }
+        ]
+      },
+      {
+        "objID": "e833f1d9-2b40-44e5-fec7-ff49f554ab55",
+        "name": "calCalType_e",
+        "members": [
+          {
+            "objID": "60908c09-7109-42fb-f38f-84561c2a6c07",
+            "name": "ADC",
+            "value": 0
+          },
+          {
+            "objID": "9db95481-83fe-4ecb-b426-5b0c5e6de69e",
+            "name": "DAC",
+            "value": 1
+          },
+          {
+            "objID": "0678ecce-5146-476d-e6f4-63b601f6b75a",
+            "name": "LEVEL",
+            "value": 2
           }
         ]
       },
@@ -2642,19 +2663,19 @@
           "tests": [
             {
               "objID": "7e328e57-4b3e-4e45-d7ca-d02e4a494c34",
-              "condition": "cal_calType == calType_e.Von && VonState == false",
+              "condition": "cal_calType == calType_e.Von_High && VonState == false",
               "outputName": "Von_True",
               "outputValue": "1"
             },
             {
               "objID": "5c198ee4-5b63-4382-d83c-c8765a4e5615",
-              "condition": "cal_calType == calType_e.OCPset && OCPstate == true",
+              "condition": "cal_calType == calType_e.OCPset_High && OCPstate == true",
               "outputName": "OCP_off",
               "outputValue": "1"
             },
             {
               "objID": "4cd315fe-7ee6-438b-e649-6987949d3d33",
-              "condition": "cal_calType == calType_e.OVPset && OVPstate == true",
+              "condition": "cal_calType == calType_e.OVPset_High && OVPstate == true",
               "outputName": "OVP_off",
               "outputValue": "1"
             },
@@ -3732,25 +3753,14 @@
           "type": "SetVariableActionComponent",
           "left": 459,
           "top": -52,
-          "width": 164,
-          "height": 75,
+          "width": 99,
+          "height": 55,
           "customInputs": [],
-          "customOutputs": [
-            {
-              "objID": "934ce0f8-5efc-4de7-a642-7b0850dbb1cd",
-              "name": "newon",
-              "type": "boolean"
-            }
-          ],
+          "customOutputs": [],
           "entries": [
             {
               "objID": "2f9df20f-0997-48d9-c51f-6183a8dab36f",
               "variable": "on",
-              "value": "!on"
-            },
-            {
-              "objID": "89d5cd7c-2514-4de2-d472-78f2f9a44810",
-              "variable": "newon",
               "value": "!on"
             }
           ]
@@ -5141,7 +5151,7 @@
           "type": "SetVariableActionComponent",
           "left": 939,
           "top": -464,
-          "width": 196,
+          "width": 195,
           "height": 75,
           "customInputs": [],
           "customOutputs": [],
@@ -12579,7 +12589,7 @@
             {
               "objID": "0c9b7120-f871-48bc-d3c7-3ad1808ea1ff",
               "variable": "cal_calType",
-              "value": "calType_e.Imon"
+              "value": "calType_e.Imon_High"
             },
             {
               "objID": "45b3e131-c3ca-4d10-98ea-e92324a7324e",
@@ -12816,7 +12826,7 @@
           "heightUnit": "px",
           "children": [],
           "flags": "PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLLABLE|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_CHAIN",
-          "hiddenFlag": "cal_calType != calType_e.Iset && cal_calType != calType_e.Uset",
+          "hiddenFlag": "cal_calType != calType_e.Iset_High && cal_calType != calType_e.Uset_High",
           "hiddenFlagType": "expression",
           "clickableFlag": true,
           "clickableFlagType": "literal",
@@ -13103,7 +13113,7 @@
           "tests": [
             {
               "objID": "b394aae4-934f-4cc2-df07-84564905d5fc",
-              "condition": "cal_calType == calType_e.Von || cal_calType == calType_e.OCPset || cal_calType == calType_e.OVPset",
+              "condition": "cal_calType == calType_e.Von_High || cal_calType == calType_e.OCPset_High || cal_calType == calType_e.OVPset_High",
               "outputName": "Von",
               "outputValue": "1"
             },
