@@ -60,6 +60,7 @@ namespace dcl
         bool on;
         bool protection;
         bool record;
+        bool CalibrationMode;
         bool startupDone;
         uint32_t PLFreq;
         float sampleRate;
@@ -127,6 +128,8 @@ public:
     void begin();
     bool setDefaults();
     void startupDone();
+    bool CalibrationMode(bool on);
+    bool getCalibrationMode();
 
     bool setOn();
     bool setOff();

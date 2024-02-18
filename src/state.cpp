@@ -9,7 +9,8 @@
 #include "state.h"
 #include "keys.h"
 #include "ui/vars.h" // For the enum definitions
-
+#include "ui/ui.h"
+#include "ui/screens.h"
 namespace dcl
 {
 
@@ -38,6 +39,7 @@ namespace dcl
                 _setState.sampleRate = ((float)F_CPU)/((float)CLOCK_DIVIDER_ADC * 2.0f * (float)ADC_OSR);
                 _setState.PLFreq = DEFAULT_PL_FREQ;
                 _setState.on = false;
+                _setState.CalibrationMode = false;
                 _setState.NLPC = DEFAULT_AVG_SAMPLES_NPLC;
                 _setState.OPPset = ranges[ranges_e_OPP_Delay].defValue;
                 _setState.OPPdelay = ranges[ranges_e_OPP_Delay].defValue;
@@ -95,6 +97,39 @@ namespace dcl
                 updateMeasureTask();
             }
         }
+    }
+
+    bool stateManager::CalibrationMode(bool on) 
+    {
+        changeScreen_s msg;
+
+        if (_setState.CalibrationMode == on) {
+            return false; // Already in this mode.
+        }
+
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
+            {
+                _setState.CalibrationMode = on;
+                xSemaphoreGive(_setStateMutex);
+                if (on == true) {
+                    msg.newScreen = SCREEN_ID_CALIBRATION;
+                    msg.pop = false;
+                } else {
+                    msg.newScreen = SCREEN_ID_MAIN; // Just to be sure.
+                    msg.pop = true;
+                }
+                xQueueSend(changeScreen, &msg, 100);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool stateManager::getCalibrationMode()
+    {
+        return _setState.CalibrationMode; // Atomic, no locking needed.
     }
 
     bool stateManager::setOn() {        

@@ -43,6 +43,29 @@ const scpi_command_t scpi_commands[] = {
 
     {"STATus:PRESet", SCPI_StatusPreset, 0}, //TODO: Reset to defaults?
 
+    /* Calibration */
+    {"CALibration[:MODE]", scpi_cmd_cal, 0},
+    {"CALibration[:MODE]?", scpi_cmd_calQ, 0},
+
+    {"CALibration:TYPe", scpi_cmd_cal_type, 0},
+    {"CALibration:TYPe?", scpi_cmd_cal_typeQ, 0},
+
+    {"CALibration:POInt", scpi_cmd_cal_point, 0},
+    {"CALibration:POInt?", scpi_cmd_cal_pointQ, 0},
+    {"CALibration:POInt:MAX?", scpi_cmd_cal_point_maxQ, 0},
+
+//    {"CALibration:CURRent[:DATA]", scpi_cmd_cal_curr, 0},
+//    {"CALibration:CLEar", scpi_cmd_cal_cle, 0},
+
+//    {"CALibration:MEASure?", scpi_cmd_cal_meas, 0},
+
+    //{"CALibration:STATe", scpi_cmd_cal_stat, 0},
+//    {"CALibration:SAVE", scpi_cmd_cal_save, 0},
+//    {"CALibration:TYPE", scpi_cmd_cal_type, 0},
+
+//    {"CALibration:VOLTage[:DATA]", scpi_cmd_cal_volt, 0},
+
+
     /* Fetch */
     {"FETCh[:SCALar]:CURRent[:DC]?", scpi_cmd_fetch_current, 0},
     {"FETCh[:SCALar]:VOLTage[:DC]?", scpi_cmd_fetch_voltage, 0},

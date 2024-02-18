@@ -8,6 +8,7 @@
 #include "scpi/scpi.h"
 
 #include "main.h"
+#include "../ui/vars.h"
 #include "scpi-def.h"
 
 using namespace dcl;
@@ -187,11 +188,137 @@ scpi_choice_def_t von_latch_mode_list[] = {
      SCPI_CHOICE_LIST_END /* termination of option list */
 };
 
+scpi_choice_def_t cal_type_list[] = {
+    {"IMONHigh", calType_e_Imon_High},
+    {"IMONLow", calType_e_Imon_Low},
+    {"UMONHigh", calType_e_Umon_High},
+    {"UMONLow", calType_e_Umon_Low},
+    {"ISETHigh", calType_e_Iset_High},
+    {"ISETLow", calType_e_Iset_Low},
+    {"USETHigh", calType_e_Uset_High},
+    {"USETLow", calType_e_Uset_Low},
+    {"VONHigh", calType_e_Von_High},
+    {"VONLow", calType_e_Von_Low},
+    {"OCPHigh", calType_e_OCPset_High},
+    {"OCPLow", calType_e_OCPset_Low},
+    {"OVPHigh", calType_e_OVPset_High},
+    {"OVPLow", calType_e_OVPset_Low}
+};
+
 //// SCPI COMMANDS
 //////////////////
 
 // Fetch current available data
 ///////////////////////////////
+
+// CALIBRATION COMMANDS
+scpi_result_t scpi_cmd_cal(scpi_t *context) {
+    scpi_bool_t param1;
+
+    if (!SCPI_ParamBool(context, &param1, TRUE)) {
+         return SCPI_RES_ERR;
+    }
+   
+    if (state.CalibrationMode(param1)) {
+        return SCPI_RES_OK;
+    } else {
+        return SCPI_RES_ERR;
+    };
+};
+
+scpi_result_t scpi_cmd_calQ(scpi_t *context)
+{
+    SCPI_ResultBool(context, state.getCalibrationMode());
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_cal_type(scpi_t *context) {
+    int32_t param;
+
+    if (!SCPI_ParamChoice(context, cal_type_list, &param, TRUE)) {
+         return SCPI_RES_ERR;
+    }
+
+    if (!state.getCalibrationMode()) {
+        SCPI_ErrorPush(context, SCPI_ERROR_CALIBRATION_FAILED);
+        return SCPI_RES_ERR;
+    }
+
+    set_var_cal_cal_type((calType_e)param);
+    return SCPI_RES_OK;
+}
+
+scpi_result_t scpi_cmd_cal_typeQ(scpi_t *context)
+{
+    if (!state.getCalibrationMode()) {
+        SCPI_ErrorPush(context, SCPI_ERROR_CALIBRATION_FAILED);
+        return SCPI_RES_ERR;
+    }
+
+    SCPI_ResultUInt32(context, get_var_cal_cal_type());
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_cal_point(scpi_t *context) {
+    scpi_bool_t res;
+    scpi_parameter_t param1;
+    int32_t value = 0;
+
+    if (!state.getCalibrationMode()) {
+        SCPI_ErrorPush(context, SCPI_ERROR_CALIBRATION_FAILED);
+        return SCPI_RES_ERR;
+    }
+
+    res = SCPI_Parameter(context, &param1, FALSE);
+
+    if (res) {
+        // Is parameter a number without suffix?
+        if (SCPI_ParamIsNumber(&param1, FALSE)) {
+            // Convert parameter to unsigned int. Result is in value.
+            SCPI_ParamToInt32(context, &param1, &value);
+
+            value = value - 1; // In UI and SCPI 1 based, in code 0 based.
+
+            if (value >= 1 && value <= get_var_cal_numpoints()) { //TODO: replace numpoints with proper function from cal.c
+                set_var_cal_curpoint(value);
+                return SCPI_RES_OK;
+            } else {
+                //SCPI_ErrorPushEx(context, SCPI_ERROR_ILLEGAL_PARAMETER_VALUE, " valid range: 1-100", 0);
+                SCPI_ErrorPush(context, SCPI_ERROR_ILLEGAL_PARAMETER_VALUE);
+                return SCPI_RES_ERR;
+            }; 
+
+        } else {
+            SCPI_ErrorPush(context, SCPI_ERROR_ILLEGAL_PARAMETER_VALUE);
+            return SCPI_RES_ERR;
+        }
+    } else {
+        SCPI_ErrorPush(context, SCPI_ERROR_ILLEGAL_PARAMETER_VALUE);
+        return SCPI_RES_ERR;
+    }
+    SCPI_ErrorPush(context, SCPI_ERROR_PARAMETER_ERROR);
+    return SCPI_RES_ERR;
+};
+
+scpi_result_t scpi_cmd_cal_pointQ(scpi_t *context) {
+    if (!state.getCalibrationMode()) {
+        SCPI_ErrorPush(context, SCPI_ERROR_CALIBRATION_FAILED);
+        return SCPI_RES_ERR;
+    }
+
+    SCPI_ResultUInt32(context, get_var_cal_curpoint() + 1);
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_cal_point_maxQ(scpi_t *context) {
+    if (!state.getCalibrationMode()) {
+        SCPI_ErrorPush(context, SCPI_ERROR_CALIBRATION_FAILED);
+        return SCPI_RES_ERR;
+    }
+    SCPI_ResultInt32(context, get_var_cal_numpoints());    
+    return SCPI_RES_OK;
+};
+// FETCH commands
 
 scpi_result_t scpi_cmd_fetch_current(scpi_t *context) {
     char buffer[64] = { 0 };
@@ -329,6 +456,10 @@ scpi_result_t scpi_cmd_sense_volt_remoteQ(scpi_t *context)
     SCPI_ResultBool(context, state.getVoltSense());
     return SCPI_RES_OK;
 }
+
+
+
+ // SOURCE commands
 
 scpi_result_t scpi_cmd_source_input_state(scpi_t *context){
     scpi_bool_t param1;

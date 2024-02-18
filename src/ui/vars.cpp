@@ -321,6 +321,7 @@ float cal_set = 0.0f;                       // This is the changed/temp value.
 float cal_measured = 0.0f;                   // This is the changed/temp value.
 CalibrationValueConfiguration cal_values;   // This is the changed/temp configuration.
 
+// USED BY SCPI!
 calType_e get_var_cal_cal_type() { return cal_calType; };
 void set_var_cal_cal_type(calType_e value) { 
   // calType changes to different value, update everything.
@@ -331,6 +332,7 @@ void set_var_cal_cal_type(calType_e value) {
   }
 };
 
+// USED BY SCPI!
 int32_t get_var_cal_curpoint() { return cal_curpoint; };
 void set_var_cal_curpoint(int32_t value) { 
   if (value >= 0 && value < cal_values.numPoints)
@@ -376,6 +378,7 @@ void set_var_cal_measured(float value) {
  }
 };
 
+// Used by SCPI
 int32_t get_var_cal_numpoints() { return cal_values.numPoints; };
 void set_var_cal_numpoints(int32_t value) {} ; // TODO: Needed?
 
@@ -384,6 +387,11 @@ void set_var_cal_unit(const char *value) {}; // Read only.
 
 ranges_e get_var_cal_keyboard() { return caldefaults[cal_calType].keyBoard; };
 void set_var_cal_keyboard(ranges_e value) {}; // Read only.
+
+bool get_var_calibration_mode() { return localsetcopy.CalibrationMode; };
+void set_var_calibration_mode(bool value) {
+  state.CalibrationMode(value);
+};
 
 
 bool get_var_von_state() { return localstatecopy.VonState; };

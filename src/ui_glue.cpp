@@ -232,7 +232,7 @@ void write_cal_to_eeprom(calType_e caltype)
         break;
     case calType_e::calType_e_Imon_Low:
         calconfig = state.cal.Imon->getCalConfigRef();
-        startaddress = EEPROM_ADDR_CAL_IMON_H;
+        startaddress = EEPROM_ADDR_CAL_IMON_L;
         break;
     case calType_e::calType_e_Umon_High:
         calconfig = state.cal.Umon->getCalConfigRef();

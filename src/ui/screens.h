@@ -63,10 +63,10 @@ typedef struct _objects_t {
     lv_obj_t *obj110;
     lv_obj_t *obj111;
     lv_obj_t *obj112;
-    lv_obj_t *obj113;
-    lv_obj_t *obj113__obj114;
-    lv_obj_t *obj113__obj115;
-    lv_obj_t *obj113__obj116;
+    lv_obj_t *obj112__obj113;
+    lv_obj_t *obj112__obj114;
+    lv_obj_t *obj112__obj115;
+    lv_obj_t *obj116;
     lv_obj_t *obj117;
     lv_obj_t *obj118;
     lv_obj_t *obj119;
@@ -78,10 +78,10 @@ typedef struct _objects_t {
     lv_obj_t *obj124;
     lv_obj_t *obj125;
     lv_obj_t *obj126;
+    lv_obj_t *obj126__obj113;
+    lv_obj_t *obj126__obj114;
+    lv_obj_t *obj126__obj115;
     lv_obj_t *obj127;
-    lv_obj_t *obj127__obj114;
-    lv_obj_t *obj127__obj115;
-    lv_obj_t *obj127__obj116;
     lv_obj_t *obj128;
     lv_obj_t *obj129;
     lv_obj_t *obj13;
@@ -92,10 +92,9 @@ typedef struct _objects_t {
     lv_obj_t *obj134;
     lv_obj_t *obj135;
     lv_obj_t *obj136;
-    lv_obj_t *obj137;
-    lv_obj_t *obj137__obj114;
-    lv_obj_t *obj137__obj115;
-    lv_obj_t *obj137__obj116;
+    lv_obj_t *obj136__obj113;
+    lv_obj_t *obj136__obj114;
+    lv_obj_t *obj136__obj115;
     lv_obj_t *obj14;
     lv_obj_t *obj15;
     lv_obj_t *obj16;
@@ -218,6 +217,22 @@ typedef struct _objects_t {
 } objects_t;
 
 extern objects_t objects;
+
+enum ScreensEnum {
+    SCREEN_ID_STARTUP = 1,
+    SCREEN_ID_MAIN = 2,
+    SCREEN_ID_CAPACITY = 3,
+    SCREEN_ID_SETTINGS = 4,
+    SCREEN_ID_EVENTS = 5,
+    SCREEN_ID_PROTECTIONS = 6,
+    SCREEN_ID_CALIBRATION = 7,
+    SCREEN_ID_NPLC = 8,
+    SCREEN_ID_FAN = 9,
+    SCREEN_ID_DISPLAY = 10,
+    SCREEN_ID_QUESTION_YN = 11,
+    SCREEN_ID_KEYBOARD = 12,
+    SCREEN_ID_KEYBOARD_OLD2 = 13,
+};
 
 void create_screen_startup();
 void tick_screen_startup();

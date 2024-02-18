@@ -13,6 +13,7 @@
 #include "state.h"
 #include "cal.h"
 #include "ranges.h"
+#include "ui/screens.h"
 
 #include "dac.h"
 #include "adc.h"
@@ -236,6 +237,12 @@ struct newAvgMeasurementMsg
     double Ptime;
 };
 
+struct changeScreen_s 
+{
+    ScreensEnum newScreen;
+    bool    pop;
+};
+
 /// Task setup
 //////////////
 
@@ -280,7 +287,9 @@ extern TaskHandle_t taskDisplay;           // Prio 1@core0: Update display
 /* Creates a semaphore to handle concurrent call to lvgl stuff
  * If you wish to call *any* lvgl function from other threads/tasks
  * you should lock on the very same semaphore! */
-extern SemaphoreHandle_t xGuiSemaphore;
+// extern SemaphoreHandle_t xGuiSemaphore; // TODO: Unused?
+extern QueueHandle_t changeScreen;
+
 
 // functions in main.cpp
 extern uint8_t readInputs();

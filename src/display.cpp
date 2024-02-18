@@ -12,6 +12,7 @@
 #include "math.h" 
 
 #include "ui/ui.h"
+#include "ui/screens.h"
 #include "main.h"
 #include "state.h"
 #include "ui_glue.h"
@@ -36,6 +37,9 @@ static lv_color_t buf[screenWidth * 10];
 static lv_disp_drv_t disp_drv;
 static lv_indev_drv_t indev_drv;     // Touchscreen
 static lv_indev_drv_t indev_enc_drv; // Encoder
+
+changeScreen_s newScreenMsg; // new Flow screen ID msg.
+size_t screenMsgBytes;       // queue messages size
 
 void my_log_cb(const char* logline) 
 {
@@ -245,7 +249,7 @@ static void my_encoder_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data)
 
 static void __not_in_flash_func(guiTask(void *pvParameter))
 {
-  vTaskDelay(100); // Wait for core affinity.
+  //vTaskDelay(100); // Wait for core affinity.
 
   lv_init();
 
@@ -308,6 +312,7 @@ static void __not_in_flash_func(guiTask(void *pvParameter))
   // Manually turn on backlight (avoid garbage at startup)
   // Now handled by flow itself
   //digitalWrite(TFT_BL, HIGH);
+
   xTimerStart(guiTimerHandle, 10);
 
   while (1)
@@ -317,6 +322,17 @@ static void __not_in_flash_func(guiTask(void *pvParameter))
     state.getSetStateCopy(&localsetcopy, 0);
     lv_task_handler();
     ui_tick();
+    screenMsgBytes = xQueueReceive(changeScreen, &newScreenMsg, 0);
+    if ( screenMsgBytes > 0)
+    {
+      if (newScreenMsg.pop == true) {
+        eez_flow_pop_screen(LV_SCR_LOAD_ANIM_NONE,0,0);
+      } else {
+        if (newScreenMsg.newScreen != eez_flow_get_current_screen()) {
+          eez_flow_push_screen(newScreenMsg.newScreen, LV_SCR_LOAD_ANIM_NONE, 0, 0);
+        }
+      }
+    }
     unsigned long loopend = millis();
     TickType_t loopdelay = pdMS_TO_TICKS(MY_LV_UPDATE_TIME);
     if (loopend > loopstart) // No millis overflow.

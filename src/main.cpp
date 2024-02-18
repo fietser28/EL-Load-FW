@@ -18,6 +18,7 @@
 #include "util.h"
 #include "ranges.h"
 #include "cal.h"
+#include "ui/screens.h"
 #include "adc.h"
 #include "dac.h"
 #include "display.h"
@@ -60,8 +61,12 @@ TaskHandle_t taskAveraging;
 MessageBufferHandle_t newMeasurements;
 QueueHandle_t changeAverageSettings;
 
+// Blink task
+TaskHandle_t taskBlink; 
+
 // UI task
-TaskHandle_t taskDisplay;
+// Task definition is in display.cpp
+QueueHandle_t changeScreen;
 
 // adc_MCP3202 currentADC = adc_MCP3202(SPI_ADC, PIN_SPI0_SS, 0);
 // adc_MCP3202 voltADC = adc_MCP3202(SPI_ADC, PIN_SPI0_SS, 1);
@@ -340,6 +345,13 @@ void setup()
   { // TODO: reset, something is really wrong....
   }
 
+  // Message stream from state functions to display task.
+  const size_t changeScreenBuffer = 6 * ( 4 + sizeof(changeScreen_s));
+  changeScreen = xQueueCreate(6, sizeof(changeScreen_s));
+  if (changeScreen == NULL) 
+  { // TODO: reset, something is really wrong....
+  }
+
   myeeprom.begin(&I2C_EEPROM, I2C_EEPROM_SEM, EEPROM_ADDR, 64, 32);
 
   // Wait for serial....
@@ -452,12 +464,12 @@ void setup()
 #endif
 
 
-  xTaskRet = xTaskCreate(blinkloop1, "", 200, (void *)1, 1, &taskDisplay);
+  xTaskRet = xTaskCreate(blinkloop1, "", 200, (void *)1, 1, &taskBlink);
   if (xTaskRet != pdPASS)
   { // TODO: reset, something is really wrong;
     SERIALDEBUG.println("ERROR: Error starting blink task.");
   }
-  //vTaskCoreAffinitySet(taskDisplay, 1 << 0);
+  //vTaskCoreAffinitySet(taskBlink, 1 << 0);
 
   heaptotal = rp2040.getTotalHeap();
   heapused = rp2040.getUsedHeap();

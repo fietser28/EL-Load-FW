@@ -134,12 +134,19 @@ void action_cal_store_defaults(lv_event_t * e)
     if (myeeprom.magicWrite()) {
         printlogstr("INFO: EEPROM magic written.");
         write_cal_to_eeprom(calType_e::calType_e_Imon_High);
+        write_cal_to_eeprom(calType_e::calType_e_Imon_Low);
         write_cal_to_eeprom(calType_e::calType_e_Umon_High);
+        write_cal_to_eeprom(calType_e::calType_e_Umon_Low);
         write_cal_to_eeprom(calType_e::calType_e_Iset_High);
+        write_cal_to_eeprom(calType_e::calType_e_Iset_Low);
         write_cal_to_eeprom(calType_e::calType_e_Uset_High);
+        write_cal_to_eeprom(calType_e::calType_e_Uset_Low);
         write_cal_to_eeprom(calType_e::calType_e_Von_High);
+        write_cal_to_eeprom(calType_e::calType_e_Von_Low);
         write_cal_to_eeprom(calType_e::calType_e_OCPset_High);
+        write_cal_to_eeprom(calType_e::calType_e_OCPset_Low);
         write_cal_to_eeprom(calType_e::calType_e_OVPset_High);
+        write_cal_to_eeprom(calType_e::calType_e_OVPset_Low);
         printlogstr("INFO: Default cal values stored.");
     } else {
         printlogstr("ERROR: Unable to write EEPROM magic.");        

@@ -35,6 +35,14 @@ scpi_result_t SCPI_Flush(scpi_t * context);
 //scpi_result_t SCPI_SystemCommTcpipControlQ(scpi_t * context);
 
 // EL-Load
+extern scpi_result_t scpi_cmd_cal(scpi_t *context);
+extern scpi_result_t scpi_cmd_calQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_cal_type(scpi_t *context);
+extern scpi_result_t scpi_cmd_cal_typeQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_cal_point(scpi_t *context);
+extern scpi_result_t scpi_cmd_cal_pointQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_cal_point_maxQ(scpi_t *context);
+
 extern scpi_result_t scpi_cmd_fetch_current(scpi_t *context);
 extern scpi_result_t scpi_cmd_fetch_voltage(scpi_t *context);
 extern scpi_result_t scpi_cmd_fetch_power(scpi_t *context);
