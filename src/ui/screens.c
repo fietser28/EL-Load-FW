@@ -932,7 +932,7 @@ void create_screen_main() {
             // modeSelector
             lv_obj_t *obj = lv_dropdown_create(parent_obj);
             objects.mode_selector = obj;
-            lv_obj_set_pos(obj, 4, 4);
+            lv_obj_set_pos(obj, 2, 2);
             lv_obj_set_size(obj, 130, 38);
             lv_dropdown_set_options(obj, "Mode CC\nMode CV\nMode CP\nMode CR\nSHORT");
             lv_obj_add_event_cb(obj, event_handler_cb_main_mode_selector, LV_EVENT_ALL, flowState);
@@ -940,14 +940,17 @@ void create_screen_main() {
             lv_obj_set_style_text_color(obj, lv_color_hex(0xffffff00), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_bg_color(obj, lv_color_hex(0xff818181), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_font(obj, &lv_font_montserrat_18, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_border_width(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_bg_color(obj, lv_color_hex(0xff111111), LV_PART_MAIN | LV_STATE_DISABLED);
             lv_obj_set_style_text_color(obj, lv_color_hex(0xffcccccc), LV_PART_MAIN | LV_STATE_DISABLED);
+            lv_obj_set_style_bg_color(obj, lv_color_hex(0xff404040), LV_PART_SELECTED | LV_STATE_DEFAULT);
+            lv_obj_set_style_bg_opa(obj, 0, LV_PART_SELECTED | LV_STATE_DEFAULT);
         }
         {
             // ON-OFF button
             lv_obj_t *obj = lv_btn_create(parent_obj);
             objects.on_of_f_button = obj;
-            lv_obj_set_pos(obj, -4, 4);
+            lv_obj_set_pos(obj, -2, 2);
             lv_obj_set_size(obj, 109, 38);
             lv_obj_add_event_cb(obj, event_handler_cb_main_on_of_f_button, LV_EVENT_ALL, flowState);
             lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
@@ -1028,7 +1031,6 @@ void create_screen_main() {
                     lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
                     lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
                     apply_style_select_button90deg(obj);
-                    lv_obj_set_style_radius(obj, 4, LV_PART_MAIN | LV_STATE_DEFAULT);
                     {
                         lv_obj_t *parent_obj = obj;
                         {
@@ -1416,7 +1418,7 @@ void create_screen_main() {
             // wheel
             lv_obj_t *obj = lv_label_create(parent_obj);
             objects.wheel = obj;
-            lv_obj_set_pos(obj, 135, 27);
+            lv_obj_set_pos(obj, 133, 27);
             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
             lv_label_set_text(obj, "x");
             lv_obj_set_style_text_color(obj, lv_color_hex(0xffffff00), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -1424,12 +1426,13 @@ void create_screen_main() {
         {
             lv_obj_t *obj = lv_btn_create(parent_obj);
             objects.obj20 = obj;
-            lv_obj_set_pos(obj, 143, 4);
+            lv_obj_set_pos(obj, 11, 2);
             lv_obj_set_size(obj, 58, 38);
             lv_obj_add_event_cb(obj, event_handler_cb_main_obj20, LV_EVENT_ALL, flowState);
             lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
             apply_style_selectbutton(obj);
+            lv_obj_set_style_align(obj, LV_ALIGN_TOP_MID, LV_PART_MAIN | LV_STATE_DEFAULT);
             {
                 lv_obj_t *parent_obj = obj;
                 {
