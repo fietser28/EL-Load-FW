@@ -16,8 +16,8 @@ const scpi_command_t scpi_commands[] = {
     {"*ESE?", SCPI_CoreEseQ, 0},
     {"*ESR?", SCPI_CoreEsrQ, 0},
     {"*IDN?", SCPI_CoreIdnQ, 0},
-    {"*OPC", SCPI_CoreOpc, 0},
-    {"*OPC?", SCPI_CoreOpcQ, 0},
+    {"*OPC", scpi_opc, 0},
+    {"*OPC?", scpi_opcQ, 0},
     {"*RST", SCPI_CoreRst, 0},  // OK? should be equal to StatusPreset?
     {"*SRE", SCPI_CoreSre, 0},
     {"*SRE?", SCPI_CoreSreQ, 0},
@@ -54,10 +54,15 @@ const scpi_command_t scpi_commands[] = {
     {"CALibration:POInt?", scpi_cmd_cal_pointQ, 0},
     {"CALibration:POInt:MAX?", scpi_cmd_cal_point_maxQ, 0},
 
+    {"CALibration:SET", scpi_cmd_cal_set, 0},
+    {"CALibration:SET?", scpi_cmd_cal_setQ, 0},
+
+    {"CALibration:MEASure?", scpi_cmd_cal_measQ, 0},
+
 //    {"CALibration:CURRent[:DATA]", scpi_cmd_cal_curr, 0},
 //    {"CALibration:CLEar", scpi_cmd_cal_cle, 0},
 
-//    {"CALibration:MEASure?", scpi_cmd_cal_meas, 0},
+    {"CALibration:MEASure", scpi_cmd_cal_meas, 0},
 
     //{"CALibration:STATe", scpi_cmd_cal_stat, 0},
 //    {"CALibration:SAVE", scpi_cmd_cal_save, 0},

@@ -16,8 +16,11 @@
 #include "ui_glue.h"
 #include "state.h"
 //#include "display.h"
+#include "scpi/scpi-def.h"
 #include "vars.h"
 #include "util.h"
+
+using namespace dcl::scpi;
 
 void set_var_startup_done(bool value) {};
 bool get_var_startup_done() { return localsetcopy.startupDone; };
@@ -315,6 +318,7 @@ int32_t get_var_adc_osr()
 
 //// Calibration variables & some logic.
 
+// Also used by SCPI command/query functions TODO: move to cal.h and make seperate function
 calType_e cal_calType = calType_e::calType_e_Undefined; // Force init and copy!
 int32_t cal_curpoint = 0; 
 float cal_set = 0.0f;                       // This is the changed/temp value.
@@ -332,7 +336,7 @@ void set_var_cal_cal_type(calType_e value) {
   }
 };
 
-// USED BY SCPI!
+// USED BY SCPI! TODO: move to cal.h/cpp and make seperate function
 int32_t get_var_cal_curpoint() { return cal_curpoint; };
 void set_var_cal_curpoint(int32_t value) { 
   if (value >= 0 && value < cal_values.numPoints)
@@ -352,6 +356,7 @@ void set_var_cal_curpoint(int32_t value) {
   }
 };
 
+// Used by SCPI. TODO: move to cal.h/cpp and make seperate function
 float get_var_cal_set() { return cal_set; };
 void set_var_cal_set(float value) { 
   cal_set = value; 
@@ -378,7 +383,7 @@ void set_var_cal_measured(float value) {
  }
 };
 
-// Used by SCPI
+// Used by SCPI TODO: move to cal.h/cpp and make seperate function
 int32_t get_var_cal_numpoints() { return cal_values.numPoints; };
 void set_var_cal_numpoints(int32_t value) {} ; // TODO: Needed?
 
@@ -388,11 +393,24 @@ void set_var_cal_unit(const char *value) {}; // Read only.
 ranges_e get_var_cal_keyboard() { return caldefaults[cal_calType].keyBoard; };
 void set_var_cal_keyboard(ranges_e value) {}; // Read only.
 
+// Used by SCPI TODO: move to cal.h/cpp and make seperate function
 bool get_var_calibration_mode() { return localsetcopy.CalibrationMode; };
 void set_var_calibration_mode(bool value) {
   state.CalibrationMode(value);
 };
 
+// Used by SCPI TODO: move to cal.h/cpp and make seperate function
+bool cal_animate = false;
+bool get_var_cal_animate() { return cal_animate; };
+void set_var_cal_animate(bool value) {
+  cal_animate = value;
+};
+
+bool cal_triggerMeasure = false;
+bool get_var_cal_trigger_measure() { return cal_triggerMeasure; };
+void set_var_cal_trigger_measure(bool value) {
+  cal_triggerMeasure = value;
+};
 
 bool get_var_von_state() { return localstatecopy.VonState; };
 void set_var_von_state(bool value) {}; // Read only.
@@ -492,4 +510,3 @@ bool get_var_cap_limit_triggered() { return localsetcopy.capacityLimit; };
 void set_var_cap_limit_triggered(bool value) {}; // Read only. 
 bool get_var_cap_wh_stop_triggered() { return localstatecopy.CapWhStopTriggered; };
 void set_var_cap_wh_stop_triggered(bool value) {}; // Read only.
-

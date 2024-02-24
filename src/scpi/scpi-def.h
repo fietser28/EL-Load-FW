@@ -18,6 +18,10 @@ using namespace dcl;
 
 namespace dcl::scpi {
 
+extern int32_t scpi_busy; // For OPC functionallity
+extern int32_t scpi_busy_inc();
+extern int32_t scpi_busy_dec();
+
 // SCPI data structures
 extern const scpi_command_t scpi_commands[];
 extern scpi_interface_t scpi_interface;
@@ -34,6 +38,9 @@ scpi_result_t SCPI_Flush(scpi_t * context);
 
 //scpi_result_t SCPI_SystemCommTcpipControlQ(scpi_t * context);
 
+extern scpi_result_t scpi_opc(scpi_t *context);
+extern scpi_result_t scpi_opcQ(scpi_t *context);
+
 // EL-Load
 extern scpi_result_t scpi_cmd_cal(scpi_t *context);
 extern scpi_result_t scpi_cmd_calQ(scpi_t *context);
@@ -42,6 +49,11 @@ extern scpi_result_t scpi_cmd_cal_typeQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_cal_point(scpi_t *context);
 extern scpi_result_t scpi_cmd_cal_pointQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_cal_point_maxQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_cal_set(scpi_t *context);
+extern scpi_result_t scpi_cmd_cal_setQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_cal_measQ(scpi_t *context);
+
+extern scpi_result_t scpi_cmd_cal_meas(scpi_t *context);
 
 extern scpi_result_t scpi_cmd_fetch_current(scpi_t *context);
 extern scpi_result_t scpi_cmd_fetch_voltage(scpi_t *context);

@@ -8,7 +8,8 @@
 #include "scpi/scpi.h"
 
 #include "main.h"
-#include "../ui/vars.h"
+#include "../ui/vars.h"     // TODO: Remove this dependancy  
+#include "../ui/actions.h"  // TODO: Remove this dependancy
 #include "scpi-def.h"
 
 using namespace dcl;
@@ -24,6 +25,20 @@ scpi_interface_t scpi_interface = {
     /*.reset = */ SCPI_Reset,
 };
 
+int32_t scpi_busy = 0;
+
+int32_t scpi_busy_inc() {
+  return ++scpi_busy;
+}
+
+int32_t scpi_busy_dec() {
+  if (scpi_busy == 0) {
+    return 0; //TODO add assert we hit a bug.
+  }
+  return --scpi_busy;
+}
+
+
 char scpi_input_buffer[SCPI_INPUT_BUFFER_LENGTH];
 scpi_error_t scpi_error_queue_data[SCPI_ERROR_QUEUE_SIZE];
 
@@ -35,7 +50,11 @@ size_t SCPI_Write(scpi_t * context, const char * data, size_t len) {
 };
 
 int SCPI_Error(scpi_t * context, int_fast16_t err) {   
-    SERIALDEBUG.printf("**ERROR: %d, \"%s\"\n", err, SCPI_ErrorTranslate(err));
+    if (err == 0) {
+        SERIALDEBUG.printf("%d, \"%s\"\n", err, SCPI_ErrorTranslate(err));
+    } else {
+        SERIALDEBUG.printf("**ERROR: %d, \"%s\"\n", err, SCPI_ErrorTranslate(err));
+    }
     return 0;
 };
 
@@ -129,7 +148,7 @@ enum special_lowhigh {
 
 scpi_choice_def_t range_specials[] = {
      {"Low", special_lowhigh::SCPI_LOWHIGH_LOW},
-     {"High", special_lowhigh::SCPI_LOWHIGH_LOW},
+     {"High", special_lowhigh::SCPI_LOWHIGH_HIGH},
      {"DEFault", special_lowhigh::SCPI_LOWHIGH_DEFAULT},
      SCPI_CHOICE_LIST_END /* termination of option list */
 };
@@ -208,6 +227,27 @@ scpi_choice_def_t cal_type_list[] = {
 //// SCPI COMMANDS
 //////////////////
 
+
+/**
+ * *OPC
+ * @param context
+ * @return 
+ */
+scpi_result_t scpi_opc(scpi_t * context) {
+    SCPI_RegSetBits(context, SCPI_REG_ESR, ESR_OPC);
+    return SCPI_RES_OK;
+}
+
+/**
+ * *OPC?
+ * @param context
+ * @return 
+ */
+scpi_result_t scpi_opcQ(scpi_t * context) {
+    SCPI_ResultInt32(context, scpi_busy == 0);
+    return SCPI_RES_OK;
+}
+
 // Fetch current available data
 ///////////////////////////////
 
@@ -279,7 +319,7 @@ scpi_result_t scpi_cmd_cal_point(scpi_t *context) {
 
             value = value - 1; // In UI and SCPI 1 based, in code 0 based.
 
-            if (value >= 1 && value <= get_var_cal_numpoints()) { //TODO: replace numpoints with proper function from cal.c
+            if (value >= 0 && value <= get_var_cal_numpoints()) { //TODO: replace numpoints with proper function from cal.c
                 set_var_cal_curpoint(value);
                 return SCPI_RES_OK;
             } else {
@@ -318,6 +358,84 @@ scpi_result_t scpi_cmd_cal_point_maxQ(scpi_t *context) {
     SCPI_ResultInt32(context, get_var_cal_numpoints());    
     return SCPI_RES_OK;
 };
+
+scpi_result_t scpi_cmd_cal_set(scpi_t *context) {
+    scpi_bool_t res;
+    scpi_parameter_t param1;
+    float value = 0;
+
+    if (!state.getCalibrationMode()) {
+        SCPI_ErrorPush(context, SCPI_ERROR_CALIBRATION_FAILED);
+        return SCPI_RES_ERR;
+    }
+
+    res = SCPI_Parameter(context, &param1, FALSE);
+
+    if (res) {
+        // Is parameter a number without suffix?
+        if (SCPI_ParamIsNumber(&param1, FALSE)) {
+            // Convert parameter to unsigned int. Result is in value.
+            SCPI_ParamToFloat(context, &param1, &value);
+
+            
+            if (value >= ranges[caldefaults[cal_calType].keyBoard].minValue && 
+                value <= ranges[caldefaults[cal_calType].keyBoard].maxValue ) { 
+                set_var_cal_set(value);
+                return SCPI_RES_OK;
+            } else {
+                //SCPI_ErrorPushEx(context, SCPI_ERROR_ILLEGAL_PARAMETER_VALUE, " valid range: 1-100", 0);
+                SCPI_ErrorPush(context, SCPI_ERROR_ILLEGAL_PARAMETER_VALUE);
+                return SCPI_RES_ERR;
+            }; 
+
+        } else {
+            SCPI_ErrorPush(context, SCPI_ERROR_ILLEGAL_PARAMETER_VALUE);
+            return SCPI_RES_ERR;
+        }
+    } else {
+        SCPI_ErrorPush(context, SCPI_ERROR_ILLEGAL_PARAMETER_VALUE);
+        return SCPI_RES_ERR;
+    }
+    SCPI_ErrorPush(context, SCPI_ERROR_PARAMETER_ERROR);
+    return SCPI_RES_ERR;
+};
+
+scpi_result_t scpi_cmd_cal_setQ(scpi_t *context) {
+    if (!state.getCalibrationMode()) {
+        SCPI_ErrorPush(context, SCPI_ERROR_CALIBRATION_FAILED);
+        return SCPI_RES_ERR;
+    }
+    SCPI_ResultFloat(context, get_var_cal_set());    
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_cal_measQ(scpi_t *context) {
+    if (!state.getCalibrationMode()) {
+        SCPI_ErrorPush(context, SCPI_ERROR_CALIBRATION_FAILED);
+        return SCPI_RES_ERR;
+    }
+    SCPI_ResultFloat(context, get_var_cal_measured());    
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_cal_meas(scpi_t *context) {
+    if (get_var_cal_trigger_measure()) {
+        return SCPI_RES_ERR;
+    }
+
+    // TODO replace with more advanced flow action call
+    //scpi_busy_inc(); //Done in flow for now
+
+    if (caldefaults[cal_calType].type == calCalType_e_DAC) {
+        action_cal_set_dac((lv_event_t *)NULL);
+        vTaskDelay(1000);
+    }
+
+    set_var_cal_trigger_measure(true);
+
+    return SCPI_RES_OK;
+};
+
 // FETCH commands
 
 scpi_result_t scpi_cmd_fetch_current(scpi_t *context) {
@@ -717,7 +835,8 @@ scpi_result_t scpi_cmd_source_current_range(scpi_t *context) {
     scpi_parameter_t param;
     scpi_number_t    scpi_number;
     bool rangeIsLow;
-    ranges_e rangeLow, rangeHigh;
+    ranges_e rangeLow = ranges_e::ranges_e_Curr_Low;
+    ranges_e rangeHigh = ranges_e::ranges_e_Curr_High;
 
     // Parse command to number type
     if (!SCPI_ParamNumber(context, range_specials, &scpi_number, TRUE)) {
@@ -738,7 +857,7 @@ scpi_result_t scpi_cmd_source_current_range(scpi_t *context) {
 };
 
 scpi_result_t scpi_cmd_source_current_rangeQ(scpi_t *context) {
-    SCPI_ResultCharacters(context, state.getRangeVoltageLow() ? "L" : "H", 1);
+    SCPI_ResultCharacters(context, state.getRangeCurrentLow() ? "L" : "H", 1);
     return SCPI_RES_OK;
 };
 
@@ -876,7 +995,7 @@ scpi_result_t scpi_cmd_source_voltage_prot_levelQ(scpi_t *context)
 
 scpi_result_t scpi_cmd_source_voltage_range(scpi_t *context) {
     scpi_parameter_t param;
-    scpi_number_t    scpi_number;
+    scpi_number_t    scpi_number; 
     bool rangeIsLow;
     ranges_e rangeLow = ranges_e_Volt_Low;
     ranges_e rangeHigh = ranges_e_Volt_High;

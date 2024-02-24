@@ -231,6 +231,10 @@ extern ranges_e get_var_cal_keyboard();
 extern void set_var_cal_keyboard(ranges_e value);
 extern bool get_var_calibration_mode();
 extern void set_var_calibration_mode(bool value);
+extern bool get_var_cal_animate();
+extern void set_var_cal_animate(bool value);
+extern bool get_var_cal_trigger_measure();
+extern void set_var_cal_trigger_measure(bool value);
 
 
 #ifdef __cplusplus

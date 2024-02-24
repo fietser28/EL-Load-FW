@@ -1024,6 +1024,22 @@
         "defaultValue": "false",
         "persistent": false,
         "native": true
+      },
+      {
+        "objID": "38a15167-dc70-471e-b011-18f25ac74386",
+        "name": "cal_animate",
+        "type": "boolean",
+        "defaultValue": "false",
+        "persistent": false,
+        "native": true
+      },
+      {
+        "objID": "b7ab6e5d-bcdf-415b-edb4-b22c1d0a4933",
+        "name": "cal_triggerMeasure",
+        "type": "boolean",
+        "defaultValue": "false",
+        "persistent": false,
+        "native": true
       }
     ],
     "structures": [
@@ -2899,6 +2915,22 @@
       "connectionLines": [],
       "localVariables": [],
       "name": "clearCapacityLimits",
+      "implementationType": "native"
+    },
+    {
+      "objID": "bbb743ed-706d-4fdc-ed23-df007034bbf1",
+      "components": [],
+      "connectionLines": [],
+      "localVariables": [],
+      "name": "scpi_busy_incr",
+      "implementationType": "native"
+    },
+    {
+      "objID": "749ab4b4-3540-40d3-ab9d-bd7060ab9639",
+      "components": [],
+      "connectionLines": [],
+      "localVariables": [],
+      "name": "scpi_busy_decr",
       "implementationType": "native"
     }
   ],
@@ -5093,7 +5125,7 @@
           "left": 585,
           "top": -542,
           "width": 208,
-          "height": 125,
+          "height": 130,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -5200,7 +5232,7 @@
           "type": "SetVariableActionComponent",
           "left": 939,
           "top": -464,
-          "width": 195,
+          "width": 196,
           "height": 75,
           "customInputs": [],
           "customOutputs": [],
@@ -5359,7 +5391,7 @@
           "left": 472,
           "top": -143,
           "width": 256,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -5379,7 +5411,7 @@
           "left": 392,
           "top": 237,
           "width": 274,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -5399,7 +5431,7 @@
           "left": 194,
           "top": 1067,
           "width": 168,
-          "height": 107,
+          "height": 111,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -5500,7 +5532,7 @@
           "type": "SetVariableActionComponent",
           "left": 525,
           "top": 1313,
-          "width": 195,
+          "width": 196,
           "height": 75,
           "customInputs": [],
           "customOutputs": [],
@@ -5561,7 +5593,7 @@
           "left": -393,
           "top": 45,
           "width": 129,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "rangeType"
@@ -5572,7 +5604,7 @@
           "left": -436,
           "top": 162,
           "width": 160,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "setValueString"
@@ -5617,7 +5649,7 @@
           "left": 784,
           "top": 128,
           "width": 360,
-          "height": 161,
+          "height": 169,
           "customInputs": [
             {
               "objID": "94cd8ee1-5719-4df6-944b-2d3a0e561bee",
@@ -5688,7 +5720,7 @@
           "left": 289,
           "top": 588,
           "width": 303,
-          "height": 89,
+          "height": 92,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -5740,7 +5772,7 @@
           "type": "SetVariableActionComponent",
           "left": 277,
           "top": 705,
-          "width": 195,
+          "width": 196,
           "height": 55,
           "customInputs": [],
           "customOutputs": [],
@@ -5860,7 +5892,7 @@
           "left": 689,
           "top": -323,
           "width": 87,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "description": "BUG or strange race condition?",
@@ -5918,7 +5950,7 @@
           "left": 172,
           "top": -387,
           "width": 99,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "mode"
@@ -5952,7 +5984,7 @@
           "left": 172,
           "top": -646,
           "width": 99,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "iset"
@@ -5963,7 +5995,7 @@
           "left": 172,
           "top": -581,
           "width": 99,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "uset\n"
@@ -5974,7 +6006,7 @@
           "left": 172,
           "top": -520,
           "width": 99,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "pset"
@@ -5985,7 +6017,7 @@
           "left": 172,
           "top": -451,
           "width": 99,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "rset"
@@ -5996,7 +6028,7 @@
           "left": 392,
           "top": 173,
           "width": 256,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -6049,7 +6081,7 @@
           "left": 480,
           "top": 784,
           "width": 168,
-          "height": 107,
+          "height": 111,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -6135,7 +6167,7 @@
           "type": "SetVariableActionComponent",
           "left": 726,
           "top": 934,
-          "width": 195,
+          "width": 196,
           "height": 55,
           "customInputs": [],
           "customOutputs": [],
@@ -6792,7 +6824,7 @@
           "left": 431,
           "top": 448,
           "width": 268,
-          "height": 54,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -7965,7 +7997,7 @@
           "left": 202,
           "top": 540,
           "width": 274,
-          "height": 54,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -7985,7 +8017,7 @@
           "left": -213,
           "top": 91,
           "width": 166,
-          "height": 54,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "valueToKeyboard"
@@ -7996,7 +8028,7 @@
           "left": -213,
           "top": 25,
           "width": 148,
-          "height": 54,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "capRangeType"
@@ -8109,7 +8141,7 @@
           "left": 681,
           "top": 73,
           "width": 364,
-          "height": 111,
+          "height": 107,
           "customInputs": [
             {
               "objID": "7efc2463-57f3-4ae6-f1c9-9e672d7ea549",
@@ -13017,8 +13049,8 @@
         {
           "objID": "77d5a505-999e-48f7-a1dc-8aa75ae05cc4",
           "type": "CallActionActionComponent",
-          "left": 1688,
-          "top": 153,
+          "left": 2459,
+          "top": 172,
           "width": 159,
           "height": 24,
           "customInputs": [],
@@ -13039,12 +13071,13 @@
         {
           "objID": "b2bb08b2-88d6-4c11-8ec7-390a217aafa3",
           "type": "SetVariableActionComponent",
-          "left": 1873,
-          "top": 152,
-          "width": 171,
-          "height": 75,
+          "left": 2653,
+          "top": 172,
+          "width": 208,
+          "height": 95,
           "customInputs": [],
           "customOutputs": [],
+          "description": "TODO: remove triggerMeasure when native action trigger is in place.",
           "entries": [
             {
               "objID": "c985dada-d3e6-4a58-d6df-e6ea61950923",
@@ -13053,7 +13086,12 @@
             },
             {
               "objID": "785ec83c-4430-49dd-cc0b-9aeb16be6fd7",
-              "variable": "animate",
+              "variable": "cal_animate",
+              "value": "false"
+            },
+            {
+              "objID": "e74a4ae9-2f6f-4184-a2cf-07e3dac064f8",
+              "variable": "cal_triggerMeasure",
               "value": "false"
             }
           ]
@@ -13098,11 +13136,11 @@
           "type": "CompareActionComponent",
           "left": 288,
           "top": 675,
-          "width": 143,
+          "width": 168,
           "height": 70,
           "customInputs": [],
           "customOutputs": [],
-          "A": "animate",
+          "A": "cal_animate",
           "B": "true",
           "operator": "="
         },
@@ -13120,16 +13158,16 @@
         {
           "objID": "dcbe32d2-4f12-45dd-80a3-05020257f7a5",
           "type": "SetVariableActionComponent",
-          "left": 450,
-          "top": 110,
-          "width": 134,
+          "left": 1097,
+          "top": 127,
+          "width": 159,
           "height": 55,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
             {
               "objID": "e33ba5e9-12c6-4f20-9d3b-b91e3210e471",
-              "variable": "animate",
+              "variable": "cal_animate",
               "value": "true"
             }
           ]
@@ -13137,8 +13175,8 @@
         {
           "objID": "b69bacc5-dcaf-488d-d3b6-0191d218fd13",
           "type": "SwitchActionComponent",
-          "left": 707,
-          "top": 110,
+          "left": 1447,
+          "top": 127,
           "width": 770,
           "height": 73,
           "customInputs": [],
@@ -13161,8 +13199,8 @@
         {
           "objID": "79ca617b-ab22-45a7-eefc-034861561f9e",
           "type": "CallActionActionComponent",
-          "left": 1525,
-          "top": 106,
+          "left": 2287,
+          "top": 126,
           "width": 115,
           "height": 24,
           "customInputs": [],
@@ -13174,11 +13212,11 @@
           "type": "WatchVariableActionComponent",
           "left": -258,
           "top": 643,
-          "width": 117,
+          "width": 142,
           "height": 54,
           "customInputs": [],
           "customOutputs": [],
-          "variable": "animate"
+          "variable": "cal_animate"
         },
         {
           "objID": "65daed1e-cea8-40e6-e20c-8216052bde33",
@@ -13225,6 +13263,40 @@
               "value": "false"
             }
           ]
+        },
+        {
+          "objID": "de804729-5b50-4f0e-9e4f-86c8a6c36615",
+          "type": "WatchVariableActionComponent",
+          "left": 845,
+          "top": 4,
+          "width": 185,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "description": "trigger from SCPI (temporary)",
+          "variable": "cal_triggerMeasure"
+        },
+        {
+          "objID": "940478af-2134-4090-ce71-a01e03763ce8",
+          "type": "CallActionActionComponent",
+          "left": 1286,
+          "top": 127,
+          "width": 117,
+          "height": 24,
+          "customInputs": [],
+          "customOutputs": [],
+          "action": "scpi_busy_incr"
+        },
+        {
+          "objID": "8e346026-b130-4673-fa8a-5ab264c50bd4",
+          "type": "CallActionActionComponent",
+          "left": 2885,
+          "top": 172,
+          "width": 121,
+          "height": 24,
+          "customInputs": [],
+          "customOutputs": [],
+          "action": "scpi_busy_decr"
         }
       ],
       "connectionLines": [
@@ -13369,13 +13441,6 @@
           "input": "@seqin"
         },
         {
-          "objID": "3ba11ff4-691c-4b7c-815e-9ca9e1a9e83f",
-          "source": "dcbe32d2-4f12-45dd-80a3-05020257f7a5",
-          "output": "@seqout",
-          "target": "b69bacc5-dcaf-488d-d3b6-0191d218fd13",
-          "input": "@seqin"
-        },
-        {
           "objID": "3b2cf34d-f303-4984-b264-795f32e73264",
           "source": "b69bacc5-dcaf-488d-d3b6-0191d218fd13",
           "output": "other",
@@ -13423,6 +13488,34 @@
           "output": "PRESSED",
           "target": "19ed88af-e4fb-4efb-bc7b-346854c36812",
           "input": "@seqin"
+        },
+        {
+          "objID": "f2cfff22-bf55-4d67-9807-4a08d9cdaea3",
+          "source": "de804729-5b50-4f0e-9e4f-86c8a6c36615",
+          "output": "variable",
+          "target": "dcbe32d2-4f12-45dd-80a3-05020257f7a5",
+          "input": "@seqin"
+        },
+        {
+          "objID": "0e0c5870-880a-4ed4-86cb-a1bdfa7cdab4",
+          "source": "b2bb08b2-88d6-4c11-8ec7-390a217aafa3",
+          "output": "@seqout",
+          "target": "8e346026-b130-4673-fa8a-5ab264c50bd4",
+          "input": "@seqin"
+        },
+        {
+          "objID": "9981515b-651f-48f8-f6a7-848928431e74",
+          "source": "dcbe32d2-4f12-45dd-80a3-05020257f7a5",
+          "output": "@seqout",
+          "target": "940478af-2134-4090-ce71-a01e03763ce8",
+          "input": "@seqin"
+        },
+        {
+          "objID": "8a6036d1-2efa-494a-f5ec-aaa95584ff27",
+          "source": "940478af-2134-4090-ce71-a01e03763ce8",
+          "output": "@seqout",
+          "target": "b69bacc5-dcaf-488d-d3b6-0191d218fd13",
+          "input": "@seqin"
         }
       ],
       "localVariables": [
@@ -13450,13 +13543,6 @@
         {
           "objID": "4d116761-a61d-487e-c18f-653e212712ef",
           "name": "setChanged",
-          "type": "boolean",
-          "defaultValue": "false",
-          "persistent": false
-        },
-        {
-          "objID": "f4ca6026-ea2f-4f40-bb62-195fcd563092",
-          "name": "animate",
           "type": "boolean",
           "defaultValue": "false",
           "persistent": false

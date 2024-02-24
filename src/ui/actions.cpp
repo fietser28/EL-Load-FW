@@ -9,6 +9,7 @@
 #include "structs.h"
 #include "ui_glue.h"
 #include "ranges.h"
+#include "scpi-def.h"
 
 /*
 void action_getrollerindex(lv_event_t * e) {
@@ -106,25 +107,26 @@ void action_cal_store_values(lv_event_t *e)
     write_cal_to_eeprom(cal_calType);
 }
 
+// Used by SCPI. TODO: rearrange to move to cal.cpp
 void action_cal_set_dac(lv_event_t *e) 
 {
-    if (cal_calType == calType_e::calType_e_Iset_High) { // Iset
+    if (cal_calType == calType_e_Iset_High || cal_calType == calType_e_Iset_Low) { // Iset
         state.setIset(cal_set, true);
     }
     
-    if (cal_calType == calType_e::calType_e_Von_High) { // VonSet
+    if (cal_calType == calType_e_Von_High || cal_calType == calType_e_Von_Low) { // VonSet
         state.setVonset(cal_set, true);
     }
 
-    if (cal_calType == calType_e::calType_e_Uset_High) { // Uset
+    if (cal_calType == calType_e_Uset_High || cal_calType == calType_e_Uset_Low) { // Uset
         state.setUset(cal_set, true);
     }
 
-    if (cal_calType == calType_e::calType_e_OCPset_High) {
+    if (cal_calType == calType_e_OCPset_High || cal_calType == calType_e_OCPset_Low) {
         state.setOCP(cal_set, true);
     }
 
-    if (cal_calType == calType_e::calType_e_OVPset_High) {
+    if (cal_calType == calType_e_OVPset_High || cal_calType == calType_e_OVPset_Low) {
         state.setOVP(cal_set, true);
     }
 }
@@ -177,5 +179,9 @@ void action_get_type_data(lv_event_t * e) {
 void action_clear_capacity_limits(lv_event_t * e) {
     state.clearCapacityLimit();
 };
+
+
+void action_scpi_busy_incr(lv_event_t * e) { dcl::scpi::scpi_busy_inc(); };
+void action_scpi_busy_decr(lv_event_t * e) { dcl::scpi::scpi_busy_dec(); };
 
 } // extern "C"

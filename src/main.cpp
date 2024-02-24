@@ -518,9 +518,9 @@ void loop()
         heaptotal = rp2040.getTotalHeap();
         heapused = rp2040.getUsedHeap();
         heapfree = rp2040.getFreeHeap();
-        SERIALDEBUG.printf("\nHeap total: %d, used: %d, free:  %d\n", heaptotal, heapused, heapfree);
+        SERIALDEBUG.printf("\nHeap total: %d, used: %d, free:  %d, scpi busy: %d\n", heaptotal, heapused, heapfree,scpi_busy);
     } else {
-        SERIALDEBUG.write(ch); // TODO: Keep echo back or make it an option?
+    //    SERIALDEBUG.write(ch); // TODO: Keep echo back or make it an option?
     }
     SCPI_Input(&scpi_context, &ch, 1);
   }
