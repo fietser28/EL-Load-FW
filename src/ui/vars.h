@@ -79,7 +79,8 @@ typedef enum {
     ranges_e_AHStop = 19,
     ranges_e_TimeStop = 20,
     ranges_e_VoltStop = 21,
-    ranges_e_WHStop = 22
+    ranges_e_WHStop = 22,
+    ranges_e_FanSpeed = 23
 } ranges_e;
 
 // For calibration actions
@@ -88,6 +89,8 @@ extern int32_t cal_curpoint;
 extern float   cal_measured;
 extern float   cal_set;
 extern CalibrationValueConfiguration cal_values;
+
+extern bool cal_valuesChanged;
 
 // Flow global variables
 
@@ -235,6 +238,10 @@ extern bool get_var_cal_animate();
 extern void set_var_cal_animate(bool value);
 extern bool get_var_cal_trigger_measure();
 extern void set_var_cal_trigger_measure(bool value);
+extern bool get_var_cal_values_changed();
+extern void set_var_cal_values_changed(bool value);
+extern bool get_var_cap_limit_enabled();
+extern void set_var_cap_limit_enabled(bool value);
 
 
 #ifdef __cplusplus

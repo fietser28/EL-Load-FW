@@ -24,6 +24,7 @@ extern void apply_style_extra_small_label(lv_obj_t *obj);
 extern void apply_style_small_header(lv_obj_t *obj);
 extern void apply_style_button_text(lv_obj_t *obj);
 extern void apply_style_button_text90deg(lv_obj_t *obj);
+extern void apply_style_checkbox_default(lv_obj_t *obj);
 
 
 #ifdef __cplusplus

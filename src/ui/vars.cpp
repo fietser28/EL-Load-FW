@@ -275,7 +275,7 @@ void set_var_ot_pdelay(float value)
 bool get_var_protection_triggered() { 
   return localsetcopy.protection || localstatecopy.OCPstate || localstatecopy.OVPstate || localstatecopy.OPPstate || localstatecopy.OTPstate; 
 };
-
+// TODO: Change into action.
 void set_var_protection_triggered(bool value) 
 { 
   state.clearProtection();
@@ -412,6 +412,13 @@ void set_var_cal_trigger_measure(bool value) {
   cal_triggerMeasure = value;
 };
 
+// Used by SCPI. TODO: move to cal.cpp/h
+bool cal_valuesChanged = false;
+bool get_var_cal_values_changed() { return cal_valuesChanged; };
+void set_var_cal_values_changed(bool value) {
+  cal_valuesChanged = value;
+};
+
 bool get_var_von_state() { return localstatecopy.VonState; };
 void set_var_von_state(bool value) {}; // Read only.
 
@@ -510,3 +517,8 @@ bool get_var_cap_limit_triggered() { return localsetcopy.capacityLimit; };
 void set_var_cap_limit_triggered(bool value) {}; // Read only. 
 bool get_var_cap_wh_stop_triggered() { return localstatecopy.CapWhStopTriggered; };
 void set_var_cap_wh_stop_triggered(bool value) {}; // Read only.
+bool get_var_cap_limit_enabled() { return localsetcopy.capacityLimitEnabled; };
+void set_var_cap_limit_enabled(bool value) {
+    state.setCapacityLimitEnabled(value);
+};
+
