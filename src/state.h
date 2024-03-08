@@ -89,6 +89,7 @@ namespace dcl
         float CapWhStop;
         float CapTimeStop;
         bool capacityLimit;
+        bool capacityLimitEnabled;
         bool FanAuto;
         uint8_t FanManualSpeed;
         bool rangeCurrentLow;
@@ -165,6 +166,7 @@ public:
     bool setProtection();
     bool clearCapacityLimit();
     bool setCapacityLimit();
+    bool setCapacityLimitEnabled(bool enable);
     bool setMode(mode_e newMode);
     bool setVonset(float newVonset, bool rawDACvalue = false);
     bool setIset(float newIset, bool rawDACvalue = false);

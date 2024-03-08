@@ -11,6 +11,10 @@
 #include "ui/vars.h" // For the enum definitions
 #include "ui/ui.h"
 #include "ui/screens.h"
+#include "scpi/scpi-def.h"
+
+using namespace dcl::scpi;
+
 namespace dcl
 {
 
@@ -31,6 +35,7 @@ namespace dcl
 
     bool stateManager::setDefaults() 
     {
+        scpi_busy_inc();
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
@@ -63,13 +68,13 @@ namespace dcl
                 _setState.CapWhStop = ranges[ranges_e_WHStop].defValue;
                 _setState.CapTimeStop = ranges[ranges_e_TimeStop].defValue;
                 _setState.capacityLimit = false;
-                _setState.FanManualSpeed = 128;
+                _setState.FanManualSpeed = ranges[ranges_e_FanSpeed].defValue;
                 _setState.FanAuto = true;
                 _setState.rangeCurrentLow = false;
                 _setState.rangeVoltageLow = false;
                 _setState.senseVoltRemote = false;
                 xSemaphoreGive(_setStateMutex);
-                //updateAverageTask();
+                updateAverageTask();
                 updateHWIOTask();
                 updateKeysTask(); // For led
                 // Needed to get relay & sw in defined state.
@@ -79,9 +84,11 @@ namespace dcl
                 state.setRangeCurrent(false);
                 state.setRangeVoltage(true);
                 state.setRangeVoltage(false);
+                scpi_busy_inc();
                 return true;
             }
         }
+        scpi_busy_inc();
         return false;
     }
 
@@ -119,6 +126,7 @@ namespace dcl
                 } else {
                     msg.newScreen = SCREEN_ID_MAIN; // Just to be sure.
                     msg.pop = true;
+                    state.setDefaults(); // Cleanup calibration mess.
                 }
                 xQueueSend(changeScreen, &msg, 100);
                 return true;
@@ -212,14 +220,15 @@ namespace dcl
                 _measuredState.Ptime = time;
                 _measuredState.avgCurrentRaw = avgCurrentRaw;
                 _measuredState.avgVoltRaw = avgVoltRaw;
-                if (_setState.record) { // TODO: Lazy on lock
+                if (_setState.record && _setState.capacityLimitEnabled) { // TODO: Lazy on lock
                     _measuredState.CapVoltStopTriggered = _measuredState.CapVoltStopTriggered || ( _setState.CapVoltStop >= umon); // TODO?: Lazy on lock
                     _measuredState.CapAhStopTriggered   = _measuredState.CapAhStopTriggered   || ( _setState.CapAhStop   <= ((float)As / 3600.0f)); // TODO?: Lazy on lock
                     _measuredState.CapWhStopTriggered   = _measuredState.CapWhStopTriggered   || ( _setState.CapWhStop   <= ((float)Ws / 3600.0f)); // TODO?: Lazy on lock
                     _measuredState.CapTimeStopTriggered = _measuredState.CapTimeStopTriggered || ( _setState.CapTimeStop <= time); // TODO?: Lazy on lock
                 }
                 xSemaphoreGive(_measuredStateMutex);
-                if (!_setState.capacityLimit && (_measuredState.CapVoltStopTriggered  || _measuredState.CapAhStopTriggered || 
+                if (_setState.capacityLimitEnabled && !_setState.capacityLimit && 
+                                                (_measuredState.CapVoltStopTriggered  || _measuredState.CapAhStopTriggered || 
                                                  _measuredState.CapTimeStopTriggered  || _measuredState.CapWhStopTriggered)) 
                 {
                     state.setCapacityLimit();
@@ -248,7 +257,7 @@ namespace dcl
                 _measuredState.CapTimeStopTriggered = TimeStop;
                 xSemaphoreGive(_measuredStateMutex);
             }
-            if (VoltStop || AhStop || TimeStop) {
+            if (_setState.capacityLimitEnabled && ( VoltStop || AhStop || TimeStop)) {
                 state.setCapacityLimit();
             }
             if (!VoltStop && !AhStop && !TimeStop) {
@@ -577,6 +586,20 @@ namespace dcl
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 _setState.capacityLimit = true;
+                xSemaphoreGive(_setStateMutex);
+            }
+        }
+        updateHWIOTask();
+        return updateAverageTask();
+    };
+
+    bool stateManager::setCapacityLimitEnabled(bool enable)
+    {
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
+            {
+                _setState.capacityLimitEnabled = enable;
                 xSemaphoreGive(_setStateMutex);
             }
         }
@@ -928,24 +951,13 @@ namespace dcl
     // Note: this is asynchronous!
     bool stateManager::record(bool setrecord)
     {
-
-        changeAverageSettingsMsg msg;
-        msg.avgSamples = 0; // Don't set new window sizes
-        msg.clear = false; // Don't clear
-        msg.record = setrecord;
-
-        // TODO: use updateAverageTask function instead.
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
             {
                 _setState.record = setrecord;
-                msg.on     = _setState.on;
-                msg.OPPset = _setState.OPPset;
-                msg.OPPdelay = _setState.OPPdelay;
                 xSemaphoreGive(_setStateMutex);
-                xQueueSend(changeAverageSettings, &msg, 10);
-                return true;
+                return updateAverageTask(false);
             }
         }
         return false;

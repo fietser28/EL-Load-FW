@@ -75,10 +75,11 @@ QueueHandle_t changeScreen;
 adc_ADS131M02 currentADC = adc_ADS131M02(SPI_ADC, SPI_ADC_CS, PIN_ADC_CLK, PIN_ADC_RDY);
 adc_ADS131M02 voltADC = adc_ADS131M02(&currentADC, 1); // volt = secondary channel
 
+// TODO: Properly define the channels in main.h 
 dac_dac8555 iSetDAC = dac_dac8555(SPI_DAC1, PIN_DAC1_CS, 0);
-dac_dac8555 vonSetDAC = dac_dac8555(SPI_DAC1, PIN_DAC1_CS, 3);
+dac_dac8555 vonSetDAC = dac_dac8555(SPI_DAC1, PIN_DAC1_CS, 1);
 dac_dac8555 OCPSetDAC = dac_dac8555(SPI_DAC1, PIN_DAC1_CS, 2);
-dac_dac8555 OVPSetDAC = dac_dac8555(SPI_DAC1, PIN_DAC1_CS, 1);
+dac_dac8555 OVPSetDAC = dac_dac8555(SPI_DAC1, PIN_DAC1_CS, 3);
 dac_dac8555 uSetDAC = dac_dac8555(SPI_DAC2, PIN_DAC2_CS, 0);
 
 dcl::eeprom::eeprom myeeprom = dcl::eeprom::eeprom();
@@ -421,7 +422,7 @@ void setup()
 
   keys_task_init();
 
-  //vTaskDelay(400);
+  vTaskDelay(2000);
 
   //gui_task_init();
 
@@ -491,10 +492,7 @@ void setup()
   SERIALDEBUG.printf("Heap total: %d, used: %d, free:  %d\n", heaptotal, heapused, heapfree);
 
   state.startupDone();
-  SERIALDEBUG.println("INFO: Setup done.");
-
-  state.setOn();
-  
+  SERIALDEBUG.println("INFO: Setup done.");  
 }
 
 const TickType_t ondelay = 1000;
@@ -1170,6 +1168,9 @@ void taskAveragingFunction(void *pvParameters)
       umon = localRangeVoltageLow ?  state.cal.UmonLow->remapADC(avgVoltRaw) :  state.cal.Umon->remapADC(avgVoltRaw);
       //imon = remap((float)avgCurrentRaw, (float)currentADC.ADC_MIN, currentMinVal, (float)currentADC.ADC_MAX, currentMaxVal);
       //umon = remap((float)avgVoltRaw, (float)voltADC.ADC_MIN, voltMinVal, (float)voltADC.ADC_MAX, voltMaxVal);
+      imon = max(imon, 0); // Avoid negative values (around 0mA)
+      umon = max(umon, 0); // Avoid negative values (around 0V)
+
       if (record && on)
       {
         interval = (double)(avgSampleWindow * (float)CLOCK_DIVIDER_ADC * 2.0f * (float)ADC_OSR / ((float)F_CPU)); // TODO: Use variables/constants. 15 = clock divider, 2 = ADC fmod, 4096 = ADC OSR.

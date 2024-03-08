@@ -224,6 +224,14 @@ scpi_choice_def_t cal_type_list[] = {
     {"OVPLow", calType_e_OVPset_Low}
 };
 
+// Helper list for fan mode parsing.
+scpi_choice_def_t fan_mode_list[] = {
+     {"AUTO", true},
+     {"MANual", false},
+     SCPI_CHOICE_LIST_END /* termination of option list */
+};
+
+
 //// SCPI COMMANDS
 //////////////////
 
@@ -419,6 +427,10 @@ scpi_result_t scpi_cmd_cal_measQ(scpi_t *context) {
 };
 
 scpi_result_t scpi_cmd_cal_meas(scpi_t *context) {
+    if (!state.getCalibrationMode()) {
+        SCPI_ErrorPush(context, SCPI_ERROR_CALIBRATION_FAILED);
+        return SCPI_RES_ERR;
+    }
     if (get_var_cal_trigger_measure()) {
         return SCPI_RES_ERR;
     }
@@ -435,6 +447,33 @@ scpi_result_t scpi_cmd_cal_meas(scpi_t *context) {
 
     return SCPI_RES_OK;
 };
+
+scpi_result_t scpi_cmd_cal_type_save(scpi_t *context) {
+    if (!state.getCalibrationMode()) {
+        SCPI_ErrorPush(context, SCPI_ERROR_CALIBRATION_FAILED);
+        return SCPI_RES_ERR;
+    }
+    if (!cal_valuesChanged) {
+        SCPI_ErrorPush(context, SCPI_ERROR_CALIBRATION_FAILED);
+        return SCPI_RES_ERR;
+    }
+    action_cal_store_values(NULL);
+    set_var_cal_values_changed(false);
+    return SCPI_RES_OK;
+}
+
+scpi_result_t scpi_cmd_cal_type_reset(scpi_t *context) {
+    if (!state.getCalibrationMode()) {
+        SCPI_ErrorPush(context, SCPI_ERROR_CALIBRATION_FAILED);
+        return SCPI_RES_ERR;
+    }
+    if (!cal_valuesChanged) {
+        SCPI_ErrorPush(context, SCPI_ERROR_CALIBRATION_FAILED);
+        return SCPI_RES_ERR;
+    }
+    action_cal_reset_values(NULL);
+    return SCPI_RES_OK;
+}
 
 // FETCH commands
 
@@ -709,6 +748,27 @@ scpi_result_t scpi_cmd_source_cap_clear(scpi_t *context) {
     };
     return SCPI_RES_OK;
 };
+
+scpi_result_t scpi_cmd_source_cap_limit(scpi_t *context) {
+    scpi_bool_t param1;
+    if (!SCPI_ParamBool(context, &param1, TRUE)) {
+         return SCPI_RES_ERR;
+    }
+    if (!state.record(param1)) {
+        SCPI_ErrorPush(context, SCPI_ERROR_EXECUTION_ERROR);
+        return SCPI_RES_ERR;
+    };
+    state.setCapacityLimitEnabled((bool)param1);
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_source_cap_limitQ(scpi_t *context) {
+    setStateStruct localSetState; 
+    state.getSetStateCopy(&localSetState, 1000);
+    SCPI_ResultBool(context, localSetState.capacityLimitEnabled);
+    return SCPI_RES_OK;
+};
+
 
 char error_not_implemented[] = { "Command not implemented" };
 
@@ -1145,6 +1205,74 @@ scpi_result_t scpi_cmd_source_pow_prot_delayQ(scpi_t *context)
     state.getSetStateCopy(&localSetState, 1000);
     
     SCPI_ResultFloat(context, localSetState.OPPdelay);
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_syst_fan_mode(scpi_t *context) {
+    int32_t param;
+    if (!SCPI_ParamChoice(context, fan_mode_list, &param, TRUE)) {
+        return SCPI_RES_ERR;
+    }
+    if (!state.setFanAuto((bool)param)) {
+        SCPI_ErrorPush(context, SCPI_ERROR_DEVICE_ERROR);
+        return SCPI_RES_ERR;
+    };
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_syst_fan_modeQ(scpi_t *context) {
+    setStateStruct localSetState;
+    state.getSetStateCopy(&localSetState, 1000);
+    
+    if (localSetState.FanAuto) {
+        SCPI_ResultText(context, "AUTO");
+    } else {
+        SCPI_ResultText(context, "MANUAL");
+    }
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_syst_fan_speed(scpi_t *context) {
+    scpi_parameter_t param;
+    scpi_number_t    scpi_number;
+    scpi_special_number_t scpi_special;
+    float value;
+    ranges_e range;
+
+    // Parse command to number type
+    if (!SCPI_ParamNumber(context, number_specials, &scpi_number, TRUE)) {
+        return SCPI_RES_ERR;
+    }
+
+    // translate number type to real value depending on range definition
+    if (!get_value_from_param(context, scpi_number, ranges_e_FanSpeed, value)) {
+        return SCPI_RES_ERR;
+    };
+
+    set_var_fan_set_speed((int32_t)value);
+    return SCPI_RES_OK;
+
+};
+scpi_result_t scpi_cmd_syst_fan_speedQ(scpi_t *context) {
+    setStateStruct localSetState;
+    state.getSetStateCopy(&localSetState, 1000);
+
+    SCPI_ResultInt32(context, (int32_t)max(localSetState.FanManualSpeed/(2.55 - 0.50)-50,0));
+    return SCPI_RES_OK; 
+};
+
+scpi_result_t scpi_cmd_syst_fan_rpmQ(scpi_t *context) {
+    measuredStateStruct localMeasureState;
+    state.getMeasuredStateCopy(&localMeasureState, 1000);
+    
+    SCPI_ResultFloat(context, localMeasureState.FanRPM);
+    return SCPI_RES_OK;
+};
+scpi_result_t scpi_cmd_syst_tempQ(scpi_t *context) {
+    measuredStateStruct localMeasureState;
+    state.getMeasuredStateCopy(&localMeasureState, 1000);
+    
+    SCPI_ResultFloat(context, localMeasureState.Temp1);
     return SCPI_RES_OK;
 };
 

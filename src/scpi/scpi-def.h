@@ -54,6 +54,8 @@ extern scpi_result_t scpi_cmd_cal_setQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_cal_measQ(scpi_t *context);
 
 extern scpi_result_t scpi_cmd_cal_meas(scpi_t *context);
+extern scpi_result_t scpi_cmd_cal_type_save(scpi_t *context);
+extern scpi_result_t scpi_cmd_cal_type_reset(scpi_t *context);
 
 extern scpi_result_t scpi_cmd_fetch_current(scpi_t *context);
 extern scpi_result_t scpi_cmd_fetch_voltage(scpi_t *context);
@@ -80,6 +82,8 @@ extern scpi_result_t scpi_cmd_source_input_prot_tripQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_cap(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_capQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_cap_clear(scpi_t *context);
+extern scpi_result_t scpi_cmd_source_cap_limit(scpi_t *context);
+extern scpi_result_t scpi_cmd_source_cap_limitQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_cap_ahstop(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_cap_ahstopQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_cap_timestop(scpi_t *context);
@@ -117,6 +121,12 @@ extern scpi_result_t scpi_cmd_source_pow_prot_levelQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_pow_prot_delay(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_pow_prot_delayQ(scpi_t *context);
 
+extern scpi_result_t scpi_cmd_syst_fan_mode(scpi_t *context);
+extern scpi_result_t scpi_cmd_syst_fan_modeQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_syst_fan_speed(scpi_t *context);
+extern scpi_result_t scpi_cmd_syst_fan_speedQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_syst_fan_rpmQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_syst_tempQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_syst_temp_prot(scpi_t *context);
 extern scpi_result_t scpi_cmd_syst_temp_protQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_syst_temp_prot_del(scpi_t *context);

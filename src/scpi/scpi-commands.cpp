@@ -65,7 +65,8 @@ const scpi_command_t scpi_commands[] = {
     {"CALibration:MEASure", scpi_cmd_cal_meas, 0},
 
     //{"CALibration:STATe", scpi_cmd_cal_stat, 0},
-//    {"CALibration:SAVE", scpi_cmd_cal_save, 0},
+    {"CALibration[:TYPe]:SAVE", scpi_cmd_cal_type_save, 0},
+    {"CALibration[:TYPe]:RESET", scpi_cmd_cal_type_reset, 0},
 //    {"CALibration:TYPE", scpi_cmd_cal_type, 0},
 
 //    {"CALibration:VOLTage[:DATA]", scpi_cmd_cal_volt, 0},
@@ -102,17 +103,19 @@ const scpi_command_t scpi_commands[] = {
     // Capacity set commands
     {"[SOURce]:CAPacity[:STATe]", scpi_cmd_source_cap, 0},  // ON|OFF|1|0
     {"[SOURce]:CAPacity[:STATe]?", scpi_cmd_source_capQ, 0},
-    {"[SOURce]:CAPacity:ZERO", scpi_cmd_source_cap_clear, 0},
-    {"[SOURce]:CAPacity:AH[:STOP]", scpi_cmd_source_cap_ahstop, 0}, 
-    {"[SOURce]:CAPacity:AH[:STOP]?", scpi_cmd_source_cap_ahstopQ, 0},
-    {"[SOURce]:CAPacity:VOLTage[:STOP]", scpi_cmd_source_cap_voltstop, 0},
-    {"[SOURce]:CAPacity:VOLTAge[:STOP]?", scpi_cmd_source_cap_voltstopQ, 0},
-    {"[SOURce]:CAPacity:TIMe[:STOP]", scpi_cmd_source_cap_timestop, 0},
-    {"[SOURce]:CAPacity:TIMe[:STOP]?", scpi_cmd_source_cap_timestop, 0},
+    {"[SOURce]:CAPacity:LIMit[:ENable]", scpi_cmd_source_cap_limit, 0}, // 1/0  Enable/disable capacity limits
+    {"[SOURce]:CAPacity:LIMit[:ENable]?", scpi_cmd_source_cap_limitQ, 0},
+    {"[SOURce]:CAPacity:LIMit:AH[:STOP]", scpi_cmd_source_cap_ahstop, 0},  // float,  Ah limit
+    {"[SOURce]:CAPacity:LIMit:AH[:STOP]?", scpi_cmd_source_cap_ahstopQ, 0},
+    {"[SOURce]:CAPacity:LIMit:TIMe[:STOP]", scpi_cmd_source_cap_timestop, 0}, // // float,  max. time limit in seconds
+    {"[SOURce]:CAPacity:LIMit:TIMe[:STOP]?", scpi_cmd_source_cap_timestop, 0},
+    {"[SOURce]:CAPacity:LIMit:VOLTage[:STOP]", scpi_cmd_source_cap_voltstop, 0},   // float, min. Volt limit 
+    {"[SOURce]:CAPacity:LIMit:VOLTAge[:STOP]?", scpi_cmd_source_cap_voltstopQ, 0},
+    {"[SOURce]:CAPacity:ZERO", scpi_cmd_source_cap_clear, 0}, // Reset capacity values to zero
     
     // Current set commands
-    {"[SOURce]:CURRent[:LEVel][:IMMediate][:AMPLitude]", scpi_cmd_source_current,0},
-    {"[SOURce]:CURRent[:LEVel][:IMMediate][:AMPLitude]?", scpi_cmd_source_currentQ,0},
+    {"[SOURce]:CURRent[:LEVel][:IMMediate][:AMPLitude]", scpi_cmd_source_current,0},    // float | min|max|default
+    {"[SOURce]:CURRent[:LEVel][:IMMediate][:AMPLitude]?", scpi_cmd_source_currentQ,0},  
     
     {"[SOURce]:CURRent:PROTection[:LEVel]", scpi_cmd_source_current_prot_level,0},
     {"[SOURce]:CURRent:PROTection[:LEVel]?", scpi_cmd_source_current_prot_levelQ,0},
@@ -150,7 +153,14 @@ const scpi_command_t scpi_commands[] = {
     {"[SOURce]:VOLTage:ON:LATCh", scpi_cmd_source_voltage_on_latch,0},
     {"[SOURce]:VOLTage:ON:LATCh?", scpi_cmd_source_voltage_on_latchQ,0},
 
-    // System
+    // System (in BB3 this section is module specific, not system: SYST:MODULE#:....?)
+    {"SYSTem:FAN:MODE", scpi_cmd_syst_fan_mode,0},  // AUTO | MANual
+    {"SYSTem:FAN:MODE?", scpi_cmd_syst_fan_modeQ,0},  // AUTO | MANual
+    {"SYSTem:FAN:RPM?", scpi_cmd_syst_fan_rpmQ,0},  
+    {"SYSTem:FAN:SPEED", scpi_cmd_syst_fan_speed,0},  // 0-100 | MIN|MAX|DEFAULT
+    {"SYSTem:FAN:SPEED?", scpi_cmd_syst_fan_speedQ,0},  
+ 
+    {"SYSTem:TEMPerature?", scpi_cmd_syst_tempQ,0},  
     {"SYSTem:TEMPerature:PROTextion[:LEVel]", scpi_cmd_syst_temp_prot,0},
     {"SYSTem:TEMPerature:PROTextion[:LEVel]?", scpi_cmd_syst_temp_protQ,0},
     {"SYSTem:TEMPerature:PROTextion:DELay[:TIMe]", scpi_cmd_syst_temp_prot_del,0},

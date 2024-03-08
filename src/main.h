@@ -22,7 +22,7 @@
 #include "fan_max31760.h"
 
 // Global Debug settings
-#define FAKE_HARDWARE   1
+//#define FAKE_HARDWARE   1
 
 /// Hardware definition
 ///////////////////////
@@ -136,7 +136,7 @@
 #define HWIO_PIN_OVPTRIG      5   // GPA5 =input
 #define HWIO_PIN_OCPTRIG      6   // GPA6 =input
 #define HWIO_PIN_VON          7   // GPA7 =input
-#define HWIO_PIN_VOLTSENSECLR 11  // GPB4 =output
+#define HWIO_PIN_VOLTSENSECLR 12  // GPB4 =output  (12-8=4)
 #define HWIO_PIN_CURRRANGELOW 13  // GPB5 =output
 #define HWIO_PIN_VOLTRANGELOW 14  // GPB6 =output
 #define HWIO_PIN_VOLTSENSESET 15  // GPB7 =output
