@@ -47,7 +47,12 @@ const char *get_var_imon() {
   // Only format if changed.
   if (localstatecopy.Imon != lastimon) {
     lastimon = localstatecopy.Imon;
-    value2str(imonstring, lastimon, -3, 5, 3, true, "A");
+    if (localsetcopy.rangeCurrentLow == true) {
+      //TODO: fix hardcoding of settings
+      value2str(imonstring, lastimon, -4, 5, 3, true, "A");
+    } else {
+      value2str(imonstring, lastimon, -3, 5, 3, true, "A");
+    }
   }
   return imonstring;
 }
@@ -60,8 +65,13 @@ const char *get_var_umon() {
   // Only format if changed.
   if (localstatecopy.Umon != lastumon) {
     lastumon = localstatecopy.Umon;
-    //TODO: fix hardcoding of settings
-    value2str(umonstring, lastumon, -3, 5, 3, true, "V");
+    if (localsetcopy.rangeVoltageLow == true) {
+      //TODO: fix hardcoding of settings
+      value2str(umonstring, lastumon, -4, 5, 3, true, "V");
+    } else {
+      //TODO: fix hardcoding of settings
+      value2str(umonstring, lastumon, -2, 5, 3, true, "V");
+    }
   }
   return umonstring;
 }
