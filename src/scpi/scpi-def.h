@@ -51,6 +51,7 @@ extern scpi_result_t scpi_cmd_cal_pointQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_cal_point_maxQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_cal_set(scpi_t *context);
 extern scpi_result_t scpi_cmd_cal_setQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_cal_adcQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_cal_measQ(scpi_t *context);
 
 extern scpi_result_t scpi_cmd_cal_meas(scpi_t *context);

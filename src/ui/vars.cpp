@@ -67,10 +67,10 @@ const char *get_var_umon() {
     lastumon = localstatecopy.Umon;
     if (localsetcopy.rangeVoltageLow == true) {
       //TODO: fix hardcoding of settings
-      value2str(umonstring, lastumon, -4, 5, 3, true, "V");
+      value2str(umonstring, lastumon, -4, 5, 4, true, "V");
     } else {
       //TODO: fix hardcoding of settings
-      value2str(umonstring, lastumon, -2, 5, 3, true, "V");
+      value2str(umonstring, lastumon, -3, 5, 3, true, "V");
     }
   }
   return umonstring;

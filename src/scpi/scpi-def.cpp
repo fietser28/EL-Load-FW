@@ -224,6 +224,13 @@ scpi_choice_def_t cal_type_list[] = {
     {"OVPLow", calType_e_OVPset_Low}
 };
 
+// Helper list for adc min/max request.
+scpi_choice_def_t cal_adc_minmax[] = {
+     {"MIN", 0},
+     {"MAX", 1},
+     SCPI_CHOICE_LIST_END /* termination of option list */
+};
+
 // Helper list for fan mode parsing.
 scpi_choice_def_t fan_mode_list[] = {
      {"AUTO", true},
@@ -423,6 +430,25 @@ scpi_result_t scpi_cmd_cal_measQ(scpi_t *context) {
         return SCPI_RES_ERR;
     }
     SCPI_ResultFloat(context, get_var_cal_measured());    
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_cal_adcQ(scpi_t *context) {
+    int32_t param;
+    if (!state.getCalibrationMode()) {
+        SCPI_ErrorPush(context, SCPI_ERROR_CALIBRATION_FAILED);
+        return SCPI_RES_ERR;
+    }
+
+    if (!SCPI_ParamChoice(context, cal_adc_minmax, &param, TRUE)) {
+         return SCPI_RES_ERR;
+    }
+
+    if (param == 0) {
+        SCPI_ResultInt32(context, caldefaults[cal_calType].adcMin);
+    } else {
+        SCPI_ResultInt32(context, caldefaults[cal_calType].adcMax);     
+    }
     return SCPI_RES_OK;
 };
 

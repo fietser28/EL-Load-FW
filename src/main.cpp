@@ -571,6 +571,7 @@ void taskProtHWFunction(void *pvParameters)
   bool ocptrig, ocptrig_prev = false;
   bool ovptrig, ovptrig_prev = false;
   bool protection, protection_prev = false, protection_prev2 = false;
+  bool HWprotenable_prev = false;
   bool von, von_prev = false;
   bool senseVoltage = false;
   bool rangeCurrentLow = false;
@@ -676,6 +677,8 @@ void taskProtHWFunction(void *pvParameters)
                           1 << HWIO_PIN_OCPTRIG | 1 << HWIO_PIN_OVPTRIG | 1 << HWIO_PIN_VON, // Only relevant input pins
                           0x00,  // Compare against 0
                           1 << HWIO_PIN_OCPTRIG | 1 << HWIO_PIN_OVPTRIG); // Only these are compared, other on any change
+  vTaskDelay(100); //TODO: remove?
+  hwio.digitalWrite(HWIO_PIN_HWProtEnable, false); //TODO: Implement functionality, for now keep pin low.
 
   ::attachInterrupt(digitalPinToInterrupt(PIN_HWGPIO_INT), ISR_ProtHW, FALLING);
   gpiopinstate = hwio.digitalRead(0); //Clear interrupt pin status. Only needed for bank0
@@ -1057,6 +1060,7 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
         ocpsetRawPrev = ocpsetRaw;
         ocpsetPrev = ocpset;
       }
+      rangeCurrentLowPrev = localSetState.rangeCurrentLow;
     }
 
     // Only recalc and set if changed
@@ -1065,7 +1069,7 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
       if (localSetState.CalibrationOVPset == true) {
         ovpsetRaw = (uint32_t)localSetState.OVPset;
       } else {
-      ovpset = localSetState.rangeVoltageLow ? state.cal.OVPset->remapDAC(ovpset) : state.cal.OVPset->remapDAC(ovpset);
+      ovpset = localSetState.rangeVoltageLow ? state.cal.OVPsetLow->remapDAC(ovpset) : state.cal.OVPset->remapDAC(ovpset);
       ovpsetRaw = (uint32_t)clamp(ovpset, OVPSetDAC.DAC_MIN, OVPSetDAC.DAC_MAX);
       }
       if (ovpsetRaw != ovpsetRawPrev)
@@ -1076,6 +1080,7 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
         ovpsetRawPrev = ovpsetRaw;
         ovpsetPrev = ovpset;
       }
+      rangeVoltLowPrev = localSetState.rangeVoltageLow;
     }
 
     // Send measurements to avg task.

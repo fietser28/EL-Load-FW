@@ -57,6 +57,8 @@ const scpi_command_t scpi_commands[] = {
     {"CALibration:SET", scpi_cmd_cal_set, 0},
     {"CALibration:SET?", scpi_cmd_cal_setQ, 0},
 
+    {"CALibration:ADC?", scpi_cmd_cal_adcQ, 0},
+
     {"CALibration:MEASure?", scpi_cmd_cal_measQ, 0},
 
 //    {"CALibration:CURRent[:DATA]", scpi_cmd_cal_curr, 0},

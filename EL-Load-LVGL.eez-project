@@ -2609,7 +2609,7 @@
         {
           "objID": "338f3ecf-b4ba-49d8-a240-7b4eb8955f8e",
           "type": "SetVariableActionComponent",
-          "left": -1131,
+          "left": -1382,
           "top": -97,
           "width": 214,
           "height": 75,
@@ -2632,7 +2632,7 @@
         {
           "objID": "fdb65d9d-8030-48da-fa07-fbcdd135a253",
           "type": "StartActionComponent",
-          "left": -1259,
+          "left": -1505,
           "top": -97,
           "width": 87,
           "height": 24,
@@ -2653,12 +2653,13 @@
         {
           "objID": "7e420d79-2648-4517-ace7-743fe3e4d7c2",
           "type": "SetVariableActionComponent",
-          "left": 617,
-          "top": -97,
+          "left": 794,
+          "top": -122,
           "width": 245,
           "height": 95,
           "customInputs": [],
           "customOutputs": [],
+          "description": "go up",
           "entries": [
             {
               "objID": "e4a0fab1-c7e7-4f97-e56b-f36977756a7b",
@@ -2680,7 +2681,7 @@
         {
           "objID": "1bcfc542-2efe-4d63-a4c2-5b9796515837",
           "type": "CallActionActionComponent",
-          "left": -492,
+          "left": -867,
           "top": -97,
           "width": 101,
           "height": 24,
@@ -2691,12 +2692,13 @@
         {
           "objID": "553964f0-6a76-4a48-9ac8-015923f4c18d",
           "type": "SetVariableActionComponent",
-          "left": 617,
+          "left": 794,
           "top": 23,
           "width": 245,
           "height": 95,
           "customInputs": [],
           "customOutputs": [],
+          "description": "go down",
           "entries": [
             {
               "objID": "4b2411be-7de3-4cfb-c5d4-7a4c258cabca",
@@ -2716,21 +2718,10 @@
           ]
         },
         {
-          "objID": "4be6f896-3eb1-4679-e46a-1cee6f23f84c",
-          "type": "CallActionActionComponent",
-          "left": 928,
-          "top": -97,
-          "width": 101,
-          "height": 24,
-          "customInputs": [],
-          "customOutputs": [],
-          "action": "cal_set_dac"
-        },
-        {
           "objID": "2b42b729-b71c-4b0f-8954-f43275e730e6",
           "type": "CompareActionComponent",
-          "left": 1066,
-          "top": -97,
+          "left": 1236,
+          "top": -112,
           "width": 168,
           "height": 70,
           "customInputs": [],
@@ -2742,8 +2733,8 @@
         {
           "objID": "6b13bf39-d8f7-4afd-9454-5a4c3d2bdeb9",
           "type": "EndActionComponent",
-          "left": 1285,
-          "top": -55,
+          "left": 1461,
+          "top": -67,
           "width": 87,
           "height": 24,
           "customInputs": [],
@@ -2752,8 +2743,8 @@
         {
           "objID": "af7332e3-85b9-4451-f4f9-78fa290224e1",
           "type": "SetVariableActionComponent",
-          "left": -880,
-          "top": -97,
+          "left": -1134,
+          "top": -98,
           "width": 220,
           "height": 75,
           "customInputs": [],
@@ -2775,13 +2766,13 @@
         {
           "objID": "76ee4385-2500-49c5-bd12-c9e9b98953e8",
           "type": "DelayActionComponent",
-          "left": -640,
+          "left": -734,
           "top": -97,
           "width": 87,
           "height": 54,
           "customInputs": [],
           "customOutputs": [],
-          "description": "some race condition?",
+          "description": "wait for dac to settle before clearing protection",
           "milliseconds": "1000"
         },
         {
@@ -2820,6 +2811,23 @@
               "outputValue": "1"
             }
           ]
+        },
+        {
+          "objID": "5d4dccb9-b444-4293-e6fb-a5f9ae827c25",
+          "type": "SetVariableActionComponent",
+          "left": -598,
+          "top": -97,
+          "width": 220,
+          "height": 55,
+          "customInputs": [],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "f9633e49-e194-4e1d-976a-9aa58fba519e",
+              "variable": "protection_triggered",
+              "value": "false"
+            }
+          ]
         }
       ],
       "connectionLines": [
@@ -2828,41 +2836,6 @@
           "source": "fdb65d9d-8030-48da-fa07-fbcdd135a253",
           "output": "@seqout",
           "target": "338f3ecf-b4ba-49d8-a240-7b4eb8955f8e",
-          "input": "@seqin"
-        },
-        {
-          "objID": "7d2c83ad-23f3-4186-f083-4406f530c9ff",
-          "source": "1bcfc542-2efe-4d63-a4c2-5b9796515837",
-          "output": "@seqout",
-          "target": "a9fd0df8-dc6e-4c90-8de5-ee5a0bfc9832",
-          "input": "@seqin"
-        },
-        {
-          "objID": "0cbc4e8a-8ec5-4d78-c069-9dd867d946ca",
-          "source": "7e420d79-2648-4517-ace7-743fe3e4d7c2",
-          "output": "@seqout",
-          "target": "4be6f896-3eb1-4679-e46a-1cee6f23f84c",
-          "input": "@seqin"
-        },
-        {
-          "objID": "32ef0094-5c53-4b9f-bfe9-ae61fe6ff377",
-          "source": "553964f0-6a76-4a48-9ac8-015923f4c18d",
-          "output": "@seqout",
-          "target": "4be6f896-3eb1-4679-e46a-1cee6f23f84c",
-          "input": "@seqin"
-        },
-        {
-          "objID": "02cf77d7-75f1-495e-b77d-76ab849ca493",
-          "source": "4be6f896-3eb1-4679-e46a-1cee6f23f84c",
-          "output": "@seqout",
-          "target": "2b42b729-b71c-4b0f-8954-f43275e730e6",
-          "input": "@seqin"
-        },
-        {
-          "objID": "0ca628f6-fbb4-4308-9f98-df7d1090b65b",
-          "source": "2b42b729-b71c-4b0f-8954-f43275e730e6",
-          "output": "True",
-          "target": "a9fd0df8-dc6e-4c90-8de5-ee5a0bfc9832",
           "input": "@seqin"
         },
         {
@@ -2877,20 +2850,6 @@
           "source": "338f3ecf-b4ba-49d8-a240-7b4eb8955f8e",
           "output": "@seqout",
           "target": "af7332e3-85b9-4451-f4f9-78fa290224e1",
-          "input": "@seqin"
-        },
-        {
-          "objID": "f50e4f0a-0b2f-4bf8-b30c-c67e8400d11a",
-          "source": "76ee4385-2500-49c5-bd12-c9e9b98953e8",
-          "output": "@seqout",
-          "target": "1bcfc542-2efe-4d63-a4c2-5b9796515837",
-          "input": "@seqin"
-        },
-        {
-          "objID": "34bdbb80-be8d-4d70-b47d-a200cd61516d",
-          "source": "af7332e3-85b9-4451-f4f9-78fa290224e1",
-          "output": "@seqout",
-          "target": "76ee4385-2500-49c5-bd12-c9e9b98953e8",
           "input": "@seqin"
         },
         {
@@ -2926,6 +2885,55 @@
           "source": "6d75c756-014e-4be8-aca4-5c78be5f4c9f",
           "output": "go_lower",
           "target": "553964f0-6a76-4a48-9ac8-015923f4c18d",
+          "input": "@seqin"
+        },
+        {
+          "objID": "0925d825-349f-4ddf-ad26-6f03ef18b2e2",
+          "source": "5d4dccb9-b444-4293-e6fb-a5f9ae827c25",
+          "output": "@seqout",
+          "target": "a9fd0df8-dc6e-4c90-8de5-ee5a0bfc9832",
+          "input": "@seqin"
+        },
+        {
+          "objID": "92509751-2ecd-4dcb-b36a-76fabf5ad8e4",
+          "source": "af7332e3-85b9-4451-f4f9-78fa290224e1",
+          "output": "@seqout",
+          "target": "1bcfc542-2efe-4d63-a4c2-5b9796515837",
+          "input": "@seqin"
+        },
+        {
+          "objID": "9fbedb2d-3cc6-4e86-e2d0-97a92d1126eb",
+          "source": "1bcfc542-2efe-4d63-a4c2-5b9796515837",
+          "output": "@seqout",
+          "target": "76ee4385-2500-49c5-bd12-c9e9b98953e8",
+          "input": "@seqin"
+        },
+        {
+          "objID": "326b3a2d-baa4-4f41-a58c-591b532277d9",
+          "source": "76ee4385-2500-49c5-bd12-c9e9b98953e8",
+          "output": "@seqout",
+          "target": "5d4dccb9-b444-4293-e6fb-a5f9ae827c25",
+          "input": "@seqin"
+        },
+        {
+          "objID": "35f89d16-ec7f-49fd-8333-9163c7f64779",
+          "source": "2b42b729-b71c-4b0f-8954-f43275e730e6",
+          "output": "True",
+          "target": "1bcfc542-2efe-4d63-a4c2-5b9796515837",
+          "input": "@seqin"
+        },
+        {
+          "objID": "906c3d34-16b6-43bc-8343-6e5450ad0498",
+          "source": "7e420d79-2648-4517-ace7-743fe3e4d7c2",
+          "output": "@seqout",
+          "target": "2b42b729-b71c-4b0f-8954-f43275e730e6",
+          "input": "@seqin"
+        },
+        {
+          "objID": "b1830a0a-f58a-493a-fbcb-adcfc64876e3",
+          "source": "553964f0-6a76-4a48-9ac8-015923f4c18d",
+          "output": "@seqout",
+          "target": "2b42b729-b71c-4b0f-8954-f43275e730e6",
           "input": "@seqin"
         }
       ],
@@ -3685,7 +3693,7 @@
                   "localStyles": {
                     "objID": "589d60f5-dd69-4a7b-d749-34ede084bdeb"
                   },
-                  "text": "rangeVoltageLow ? \"9V\" : \"80V\"",
+                  "text": "rangeVoltageLow ? \"10V\" : \"80V\"",
                   "textType": "expression",
                   "longMode": "CLIP",
                   "recolor": false

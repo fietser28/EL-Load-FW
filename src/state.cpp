@@ -84,11 +84,11 @@ namespace dcl
                 state.setRangeCurrent(false);
                 state.setRangeVoltage(true);
                 state.setRangeVoltage(false);
-                scpi_busy_inc();
+                scpi_busy_dec();
                 return true;
             }
         }
-        scpi_busy_inc();
+        scpi_busy_dec();
         return false;
     }
 
@@ -271,7 +271,7 @@ namespace dcl
     bool stateManager::setHWstate(bool ocptrig, bool ovptrig, bool von)
     {
     // Protection kicked in.
-    if (ocptrig || ovptrig) 
+    if (!_setState.CalibrationMode && (ocptrig || ovptrig)) 
     {
         state.setProtection();
     };
@@ -291,7 +291,7 @@ namespace dcl
                 _measuredState.OCPstate = _setState.CalibrationOCPset ? ocptrig : _measuredState.OCPstate || ocptrig; 
 
                 // Do not clear, only set. Cleared in clearProtection. No need for calibration special: OVP is calibrated in OFF state.
-                _measuredState.OVPstate = _measuredState.OVPstate || ovptrig; 
+                _measuredState.OVPstate = _setState.CalibrationOVPset ? ovptrig : _measuredState.OVPstate || ovptrig; 
 
                 _measuredState.VonState = von;
                 xSemaphoreGive(_measuredStateMutex);
@@ -504,7 +504,7 @@ namespace dcl
                 //return true;
             }
         }
-        if (_measuredStateMutex != NULL)
+        if (!_setState.CalibrationMode && _measuredStateMutex != NULL)
         {
             if (xSemaphoreTake(_measuredStateMutex, (TickType_t)100) == pdTRUE)
             {

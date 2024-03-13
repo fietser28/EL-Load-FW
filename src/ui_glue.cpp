@@ -231,7 +231,7 @@ void write_cal_to_eeprom(calType_e caltype)
         startaddress = EEPROM_ADDR_CAL_IMON_H;
         break;
     case calType_e::calType_e_Imon_Low:
-        calconfig = state.cal.Imon->getCalConfigRef();
+        calconfig = state.cal.ImonLow->getCalConfigRef();
         startaddress = EEPROM_ADDR_CAL_IMON_L;
         break;
     case calType_e::calType_e_Umon_High:
@@ -239,7 +239,7 @@ void write_cal_to_eeprom(calType_e caltype)
         startaddress = EEPROM_ADDR_CAL_UMON_H;
         break;
     case calType_e::calType_e_Umon_Low:
-        calconfig = state.cal.Umon->getCalConfigRef();
+        calconfig = state.cal.UmonLow->getCalConfigRef();
         startaddress = EEPROM_ADDR_CAL_UMON_L;
         break;
     case calType_e::calType_e_Iset_High:
@@ -247,7 +247,7 @@ void write_cal_to_eeprom(calType_e caltype)
         startaddress = EEPROM_ADDR_CAL_ISET_H;
         break;
     case calType_e::calType_e_Iset_Low:
-        calconfig = state.cal.Iset->getCalConfigRef();
+        calconfig = state.cal.IsetLow->getCalConfigRef();
         startaddress = EEPROM_ADDR_CAL_ISET_L;
         break;
     case calType_e::calType_e_Von_High:
@@ -255,7 +255,7 @@ void write_cal_to_eeprom(calType_e caltype)
         startaddress = EEPROM_ADDR_CAL_VON_H;
         break;
     case calType_e::calType_e_Von_Low:
-        calconfig = state.cal.Von->getCalConfigRef();
+        calconfig = state.cal.VonLow->getCalConfigRef();
         startaddress = EEPROM_ADDR_CAL_VON_L;
         break;
     case calType_e::calType_e_Uset_High:
@@ -263,7 +263,7 @@ void write_cal_to_eeprom(calType_e caltype)
         startaddress = EEPROM_ADDR_CAL_USET_H;
         break;
     case calType_e::calType_e_Uset_Low:
-        calconfig = state.cal.Uset->getCalConfigRef();
+        calconfig = state.cal.UsetLow->getCalConfigRef();
         startaddress = EEPROM_ADDR_CAL_USET_L;
         break;
     case calType_e::calType_e_OCPset_High:
@@ -271,7 +271,7 @@ void write_cal_to_eeprom(calType_e caltype)
         startaddress = EEPROM_ADDR_CAL_OCP_H;
         break;
     case calType_e::calType_e_OCPset_Low:
-        calconfig = state.cal.OCPset->getCalConfigRef();
+        calconfig = state.cal.OCPsetLow->getCalConfigRef();
         startaddress = EEPROM_ADDR_CAL_OCP_L;
         break;
     case calType_e::calType_e_OVPset_High:
@@ -279,7 +279,7 @@ void write_cal_to_eeprom(calType_e caltype)
         startaddress = EEPROM_ADDR_CAL_OVP_H;
         break;
     case calType_e::calType_e_OVPset_Low:
-        calconfig = state.cal.OVPset->getCalConfigRef();
+        calconfig = state.cal.OVPsetLow->getCalConfigRef();
         startaddress = EEPROM_ADDR_CAL_OVP_L;
         break;
     default:
