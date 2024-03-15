@@ -44,6 +44,14 @@
         "native": false
       },
       {
+        "objID": "54a47a22-c35c-4357-ba20-a01cfacc067d",
+        "name": "sdm",
+        "type": "object:Instrument",
+        "defaultValue": "null",
+        "persistent": true,
+        "native": false
+      },
+      {
         "objID": "79a77c8c-7aa4-4ad7-b7e7-55d05b519070",
         "name": "psu_channel",
         "type": "integer",
@@ -118,7 +126,7 @@
       {
         "objID": "ad585910-f8ed-4e16-8389-3fce463dbb7c",
         "name": "imon",
-        "type": "float",
+        "type": "double",
         "defaultValue": "0",
         "persistent": false,
         "native": false
@@ -126,7 +134,7 @@
       {
         "objID": "b6684f46-b74f-4294-c6e1-770f37a49014",
         "name": "umon",
-        "type": "float",
+        "type": "double",
         "defaultValue": "0",
         "persistent": false,
         "native": false
@@ -164,6 +172,14 @@
         "native": false
       },
       {
+        "objID": "089fa76d-8ed2-464f-e22c-ff2af882f5a9",
+        "name": "cal_set",
+        "type": "float",
+        "defaultValue": "0",
+        "persistent": false,
+        "native": false
+      },
+      {
         "objID": "10df4661-ff1a-46c1-8dd0-ced24b8836e3",
         "name": "calData",
         "description": "Data from/to device",
@@ -184,7 +200,7 @@
         "objID": "c116f2e9-ba61-4524-df5c-e1fff963c08a",
         "name": "calSetting",
         "type": "array:struct:calTypeSettings",
-        "defaultValue": "[ \n{ on:true, dcl_mode:mode_e.CC, I_low: false, V_low:false, iset: 0.1, psu_volt1:2.0, psu_current1: 0.1, psu_volt2: 2, psu_current2: 4.8},\n{ on:true, dcl_mode:mode_e.CC, I_low: true,  V_low:false, iset: 1.0, psu_volt1:2.0, psu_current1: 0.1, psu_volt2: 2, psu_current2: 0.95},\n{ on:false, dcl_mode:mode_e.CC, I_low: false, V_low:false, iset: 1.0, psu_volt1:0.5, psu_current1: 0.1, psu_volt2: 35, psu_current2: 0.1},\n{ on:false, dcl_mode:mode_e.CC, I_low: false, V_low:true, iset: 1.0, psu_volt1:0.5, psu_current1: 0.1, psu_volt2: 8.5, psu_current2: 0.1},\n{ on:true,  dcl_mode:mode_e.CC, I_low: false, V_low:false, iset: 1.0, psu_volt1:2.0, psu_current1: 5.0, psu_volt2: 2, psu_current2: 5.0},\n{ on:true, dcl_mode:mode_e.CC, I_low: true, V_low:false, iset: 1.0, psu_volt1:2.0, psu_current1: 5.0, psu_volt2: 2, psu_current2: 5.0},\n{ on:false, dcl_mode:mode_e.CC, I_low: false, V_low:false, iset: 1.0, psu_volt1:1.0, psu_current1: 0.1, psu_volt2: 35, psu_current2: 4.8},\n{ on:false, dcl_mode:mode_e.CC, I_low: false, V_low:true, iset: 1.0, psu_volt1:1.0, psu_current1: 0.1, psu_volt2: 8.5, psu_current2: 4.8},\n{ on:false, dcl_mode:mode_e.CC, iset: 1.0, psu_volt1:2.0, psu_current1: 0.1, psu_volt2: 2, psu_current2: 4.8},\n{ on:false, dcl_mode:mode_e.CC, iset: 1.0, psu_volt1:2.0, psu_current1: 0.1, psu_volt2: 2, psu_current2: 4.8},\n{ on:false, dcl_mode:mode_e.CC, iset: 1.0, psu_volt1:2.0, psu_current1: 0.1, psu_volt2: 2, psu_current2: 4.8},\n{ on:false, dcl_mode:mode_e.CC, iset: 1.0, psu_volt1:2.0, psu_current1: 0.1, psu_volt2: 2, psu_current2: 4.8},\n{ on:false, dcl_mode:mode_e.CC, iset: 1.0, psu_volt1:2.0, psu_current1: 0.1, psu_volt2: 2, psu_current2: 4.8},\n{ on:false, dcl_mode:mode_e.CC, iset: 1.0, psu_volt1:2.0, psu_current1: 0.1, psu_volt2: 2, psu_current2: 4.8},\n  ]",
+        "defaultValue": "[ \n{ on:true, dcl_mode:mode_e.CC, I_low: false, V_low:false, iset: 0.1, psu_volt1:2.0, psu_current1: 0.2, psu_volt2: 2, psu_current2: 4.8, von: true},\n{ on:true, dcl_mode:mode_e.CC, I_low: true,  V_low:false, iset: 1.0, psu_volt1:2.0, psu_current1: 0.1, psu_volt2: 2, psu_current2: 0.95, von: true},\n{ on:false, dcl_mode:mode_e.CC, I_low: false, V_low:false, iset: 1.0, psu_volt1:0.5, psu_current1: 0.1, psu_volt2: 35, psu_current2: 0.1, von: false},\n{ on:false, dcl_mode:mode_e.CC, I_low: false, V_low:true, iset: 1.0, psu_volt1:0.5, psu_current1: 0.1, psu_volt2: 8.5, psu_current2: 0.1, von: false},\n{ on:true,  dcl_mode:mode_e.CC, I_low: false, V_low:false, iset: 1.0, psu_volt1:2.0, psu_current1: 5.0, psu_volt2: 2, psu_current2: 5.0, von: true},\n{ on:true, dcl_mode:mode_e.CC, I_low: true, V_low:false, iset: 1.0, psu_volt1:2.0, psu_current1: 5.0, psu_volt2: 2, psu_current2: 5.0, von: true},\n{ on:false, dcl_mode:mode_e.CC, I_low: false, V_low:false, iset: 1.0, psu_volt1:1.0, psu_current1: 0.1, psu_volt2: 35, psu_current2: 4.8, von:false},\n{ on:false, dcl_mode:mode_e.CC, I_low: false, V_low:true, iset: 1.0, psu_volt1:1.0, psu_current1: 0.1, psu_volt2: 8.5, psu_current2: 4.8, von:false},\n{ on:false, dcl_mode:mode_e.CC, I_low: false, V_low:false, iset: 1.0, psu_volt1:2.0, psu_current1: 0.1, psu_volt2: 2, psu_current2: 4.8,  von:false},\n{ on:false, dcl_mode:mode_e.CC, I_low: false, V_low:true, iset: 1.0, psu_volt1:2.0, psu_current1: 0.1, psu_volt2: 2, psu_current2: 4.8, von:false},\n{ on:true, dcl_mode:mode_e.CC, I_low: false, V_low:false, iset: 10.0, psu_volt1:2.0, psu_current1: 0.1, psu_volt2: 2, psu_current2: 4.8, von: true},\n{ on:true, dcl_mode:mode_e.CC, I_low: true, V_low:false, iset: 10.0, psu_volt1:2.0, psu_current1: 0.05, psu_volt2: 2, psu_current2: 0.95, von:true},\n{ on:false, dcl_mode:mode_e.CC, I_low: false, V_low:false, iset: 1.0, psu_volt1:0.5, psu_current1: 0.1, psu_volt2: 35, psu_current2: 0.1, von:true},\n{ on:false, dcl_mode:mode_e.CC, I_low: false, V_low:true, iset: 1.0, psu_volt1:0.5, psu_current1: 0.1, psu_volt2: 8.5, psu_current2: 0.1, von:true}\n  ]",
         "persistent": false,
         "native": false
       },
@@ -243,6 +259,86 @@
         "defaultValue": "false",
         "persistent": false,
         "native": false
+      },
+      {
+        "objID": "06f49249-1d38-4669-fd73-8f8d20eafbc8",
+        "name": "cal_valuesChanged",
+        "type": "boolean",
+        "defaultValue": "false",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "efd09400-b703-4fcf-d9e7-30efe51ae6d6",
+        "name": "fan_rpm",
+        "type": "integer",
+        "defaultValue": "0",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "c159ddb9-d87f-44cb-8c6e-c06ef47ee773",
+        "name": "loop_ping",
+        "type": "boolean",
+        "defaultValue": "false",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "2b2276d8-f288-48df-fb64-80698509b9c2",
+        "name": "pmon",
+        "type": "double",
+        "defaultValue": "0",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "098e9f0b-0efb-4361-b4f9-1ae67a81a8a0",
+        "name": "temp",
+        "type": "double",
+        "defaultValue": "0",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "f72a2a3f-5969-4f2d-dee7-ab018ddd02a7",
+        "name": "thermal_power_temp",
+        "type": "array:struct:thermal_power_temp",
+        "defaultValue": "null",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "f3543a2d-881a-424b-f0cc-521728f27c6a",
+        "name": "dcl_on",
+        "type": "boolean",
+        "defaultValue": "false",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "65f94d59-dc32-445c-9183-63efef53d552",
+        "name": "thermal_power_temp_steps",
+        "type": "integer",
+        "defaultValue": "0",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "af9e01a1-ea38-40da-aa2e-0f3902ff065f",
+        "name": "ref_volt",
+        "type": "enum:ref_volt_e",
+        "defaultValue": "ref_volt_e.DCP405",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "c77ae816-12dd-479d-b1e0-af7ed4cb6de6",
+        "name": "ref_cur",
+        "type": "enum:ref_current_e",
+        "defaultValue": "ref_current_e.DCP405",
+        "persistent": false,
+        "native": false
       }
     ],
     "structures": [
@@ -274,6 +370,16 @@
             "objID": "fb282cab-b446-40a4-ce70-91a91400db71",
             "name": "dac1",
             "type": "double"
+          },
+          {
+            "objID": "c2c0d40a-0e5b-447a-c6ae-991450a97e95",
+            "name": "adcMin",
+            "type": "integer"
+          },
+          {
+            "objID": "5e16d5c8-abad-456e-86fe-e55ccc31bc3a",
+            "name": "adcMax",
+            "type": "integer"
           }
         ]
       },
@@ -324,6 +430,27 @@
           {
             "objID": "c589185c-f8df-4269-cdd3-0aadedb89ea1",
             "name": "psu_current2",
+            "type": "double"
+          },
+          {
+            "objID": "a6aae102-d3da-42af-c198-bab4eb91e75b",
+            "name": "von",
+            "type": "boolean"
+          }
+        ]
+      },
+      {
+        "objID": "b4dcbbe1-c597-4417-88f2-1b6db88ab992",
+        "name": "thermal_power_temp",
+        "fields": [
+          {
+            "objID": "4fe37b56-9c3b-4f97-fde7-1251223eaf7f",
+            "name": "power",
+            "type": "double"
+          },
+          {
+            "objID": "7037da5f-849f-420a-e8fd-1fe49390bcc0",
+            "name": "temp",
             "type": "double"
           }
         ]
@@ -467,6 +594,48 @@
             "value": 4
           }
         ]
+      },
+      {
+        "objID": "d23c8b4e-c15f-41f7-be12-7350aadea3bf",
+        "name": "ref_volt_e",
+        "members": [
+          {
+            "objID": "1c32de2d-7fa9-41a7-bcfd-81bcc0697e11",
+            "name": "DCP405",
+            "value": 0
+          },
+          {
+            "objID": "52d542d1-57d5-46e4-9315-b4b8b120b38d",
+            "name": "MIO168_AIN1",
+            "value": 1
+          },
+          {
+            "objID": "d80ac65b-90ef-48c5-f5e8-0ba914687284",
+            "name": "SDM3045X",
+            "value": 2
+          }
+        ]
+      },
+      {
+        "objID": "b6180ee9-1629-41fd-b71f-8eeaaade107f",
+        "name": "ref_current_e",
+        "members": [
+          {
+            "objID": "88f0168d-b7cc-49e2-c121-51ace2e5c20e",
+            "name": "DCP405",
+            "value": 0
+          },
+          {
+            "objID": "479236fe-b36f-4423-9b84-07726e78bec0",
+            "name": "MIO168_AIN2",
+            "value": 1
+          },
+          {
+            "objID": "824e5f2d-fb13-406a-da43-865386013a5d",
+            "name": "SDM3045X",
+            "value": 2
+          }
+        ]
       }
     ]
   },
@@ -548,7 +717,7 @@
           "left": -261,
           "top": -17,
           "width": 210,
-          "height": 137,
+          "height": 197,
           "customInputs": [],
           "customOutputs": [
             {
@@ -558,14 +727,14 @@
             }
           ],
           "instrument": "dcl",
-          "scpi": "opc = *OPC?\ncal_mode = cal:mode?\nimon = fetch:curr?\numon = fetch:volt?\ncapstr = fetch:cap?\nnplc = sense:nplc?\nstate_Ilow = curr:range?\nstate_Ulow = volt:range?",
+          "scpi": "opc = *OPC?\ndcl_on = inp?\ncal_mode = cal:mode?\nimon = fetch:curr?\numon = fetch:volt?\npmon = fetch:power?\ncapstr = fetch:cap?\nnplc = sense:nplc?\nstate_Ilow = curr:range?\nstate_Ulow = volt:range?\nfan_rpm = syst:fan:rpm?\ntemp = syst:temp?",
           "timeout": "null",
           "delay": "null"
         },
         {
           "objID": "ad1ef487-7e9d-438c-f7fb-b432a4a11e04",
           "type": "EndActionComponent",
-          "left": 1005,
+          "left": 1066,
           "top": 28,
           "width": 87,
           "height": 24,
@@ -601,7 +770,7 @@
           "left": -420,
           "top": -17,
           "width": 100,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "scpi_sem"
@@ -609,14 +778,14 @@
         {
           "objID": "3b7ab82c-414a-40f7-f47a-fee34f710017",
           "type": "SCPIActionComponent",
-          "left": 557,
-          "top": -101,
-          "width": 151,
-          "height": 65,
+          "left": 551,
+          "top": -119,
+          "width": 194,
+          "height": 80,
           "customInputs": [],
           "customOutputs": [],
           "instrument": "dcl",
-          "scpi": "cal_type = cal:type?\ncal_point = cal:point?",
+          "scpi": "cal_type = cal:type?\ncal_point = cal:point?\ncal_valuesChanged = cal:meas?",
           "timeout": "null",
           "delay": "null"
         },
@@ -626,7 +795,7 @@
           "left": 365,
           "top": -18,
           "width": 98,
-          "height": 69,
+          "height": 70,
           "customInputs": [],
           "customOutputs": [],
           "value": "cal_mode"
@@ -636,8 +805,8 @@
           "type": "SetVariableActionComponent",
           "left": 811,
           "top": 25,
-          "width": 146,
-          "height": 55,
+          "width": 183,
+          "height": 75,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -645,6 +814,11 @@
               "objID": "7c846bbc-e918-4a42-8261-671e55fb8900",
               "variable": "scpi_sem",
               "value": "false"
+            },
+            {
+              "objID": "567780e1-091a-4ff7-d0ea-e1b58597f78a",
+              "variable": "loop_ping",
+              "value": "!loop_ping"
             }
           ]
         }
@@ -1008,8 +1182,8 @@
           "type": "SCPIActionComponent",
           "left": -97,
           "top": -66,
-          "width": 211,
-          "height": 125,
+          "width": 242,
+          "height": 158,
           "customInputs": [
             {
               "objID": "b159bedf-d780-46cf-fd46-19fd07674dab",
@@ -1019,7 +1193,7 @@
           ],
           "customOutputs": [],
           "instrument": "dcl",
-          "scpi": "cal:type {calTypeNames[i]}\ncal:point 1\n{calData[i].set0} = cal:set?\n{calData[i].dac0} = cal:meas?\ncal:point 2\n{calData[i].set1} = cal:set?\n{calData[i].dac1} = cal:meas?",
+          "scpi": "cal:type {calTypeNames[i]}\ncal:point 1\n{calData[i].set0} = cal:set?\n{calData[i].dac0} = cal:meas?\ncal:point 2\n{calData[i].set1} = cal:set?\n{calData[i].dac1} = cal:meas?\n{calData[i].adcMin} = cal:adc? min\n{calData[i].adcMax} = cal:adc? max",
           "timeout": "null",
           "delay": "null"
         },
@@ -1041,7 +1215,7 @@
           "left": -248,
           "top": -154,
           "width": 100,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "scpi_sem"
@@ -1167,7 +1341,7 @@
           "left": -308,
           "top": -32,
           "width": 100,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "scpi_sem"
@@ -1178,7 +1352,7 @@
           "left": -146,
           "top": -32,
           "width": 230,
-          "height": 65,
+          "height": 67,
           "customInputs": [
             {
               "objID": "6d59ba46-fe14-4a3b-d96d-c70c800f54a3",
@@ -1295,8 +1469,8 @@
         {
           "objID": "d6ee7fb3-a9e4-4f0d-cc12-427b938ee183",
           "type": "StartActionComponent",
-          "left": -601,
-          "top": -121,
+          "left": -844,
+          "top": -117,
           "width": 87,
           "height": 24,
           "customInputs": [],
@@ -1305,72 +1479,34 @@
         {
           "objID": "65179ef9-8b81-4097-9cce-2d40bf43d1b1",
           "type": "SCPIActionComponent",
-          "left": -14,
-          "top": -97,
-          "width": 397,
-          "height": 101,
+          "left": -568,
+          "top": -46,
+          "width": 403,
+          "height": 119,
           "customInputs": [],
           "customOutputs": [],
           "instrument": "dcl",
-          "scpi": "source:input off\nsource:input:mode {modeStrings[calSetting[cal_type].dcl_mode]}\nvolt:range {calSetting[cal_type].V_low ? \"L\" : \"H\"}\ncurr:range {calSetting[cal_type].I_low ? \"L\" : \"H\"}\nsource:input {calSetting[cal_type].on ? \"ON\" : \"OFF\" }",
+          "scpi": "source:input off\nsource:input:mode {modeStrings[calSetting[cal_type].dcl_mode]}\nvolt:range {calSetting[cal_type].V_low ? \"L\" : \"H\"}\ncurr:range {calSetting[cal_type].I_low ? \"L\" : \"H\"}\nsource:volt:on:latch {calSetting[cal_type].von ? \"ON\" : \"OFF\" }\nsource:input {calSetting[cal_type].on ? \"ON\" : \"OFF\" }",
           "timeout": "null",
           "delay": "null"
         },
         {
           "objID": "0f3e8ce3-a9f5-4e6a-fb53-68aa919e9d6f",
           "type": "EndActionComponent",
-          "left": 809,
-          "top": -23,
+          "left": 1353,
+          "top": -18,
           "width": 87,
           "height": 24,
           "customInputs": [],
           "customOutputs": []
         },
         {
-          "objID": "09d1ac31-ae74-44e2-889c-bd4b591a1389",
-          "type": "SwitchActionComponent",
-          "left": -293,
-          "top": -46,
-          "width": 167,
-          "height": 71,
-          "customInputs": [],
-          "customOutputs": [],
-          "tests": [
-            {
-              "objID": "0507fef2-664b-4f44-f460-f0be0ac39a4d",
-              "condition": "cal_point == 1",
-              "outputName": "point1",
-              "outputValue": "1"
-            },
-            {
-              "objID": "d6f4d2fb-2679-4570-d921-402626769131",
-              "condition": "cal_point == 2",
-              "outputName": "point2",
-              "outputValue": "1"
-            }
-          ]
-        },
-        {
-          "objID": "380323f0-fdd9-4d9c-e861-e0f1b31e9a0d",
-          "type": "SCPIActionComponent",
-          "left": -14,
-          "top": 31,
-          "width": 397,
-          "height": 101,
-          "customInputs": [],
-          "customOutputs": [],
-          "instrument": "dcl",
-          "scpi": "source:input off\nsource:input:mode {modeStrings[calSetting[cal_type].dcl_mode]}\nvolt:range {calSetting[cal_type].V_low ? \"L\" : \"H\"}\ncurr:range {calSetting[cal_type].I_low ? \"L\" : \"H\"}\nsource:input {calSetting[cal_type].on ? \"ON\" : \"OFF\" }",
-          "timeout": "null",
-          "delay": "null"
-        },
-        {
           "objID": "a7e69553-0a23-4d1e-c667-e717ff5b7454",
           "type": "TestAndSetActionComponent",
-          "left": -452,
-          "top": -49,
+          "left": -695,
+          "top": -45,
           "width": 100,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "scpi_sem"
@@ -1378,8 +1514,8 @@
         {
           "objID": "04543357-4cf3-42da-9fed-2af7a0dbcc97",
           "type": "SetVariableActionComponent",
-          "left": 491,
-          "top": -23,
+          "left": 1017,
+          "top": -28,
           "width": 202,
           "height": 75,
           "customInputs": [],
@@ -1396,30 +1532,71 @@
               "value": "true"
             }
           ]
+        },
+        {
+          "objID": "5f16a8e5-d768-4191-e602-261a1a263451",
+          "type": "SCPIActionComponent",
+          "left": 748,
+          "top": -93,
+          "width": 195,
+          "height": 54,
+          "customInputs": [
+            {
+              "objID": "50ab1344-5ab7-479c-e81f-75ef9e773bbf",
+              "name": "set_value",
+              "type": "float"
+            }
+          ],
+          "customOutputs": [],
+          "instrument": "dcl",
+          "scpi": "cal:set {set_value}",
+          "timeout": "null",
+          "delay": "null"
+        },
+        {
+          "objID": "6939abb9-1a32-42a1-ecb7-bbb5f398e765",
+          "type": "SwitchActionComponent",
+          "left": -51,
+          "top": -46,
+          "width": 618,
+          "height": 130,
+          "customInputs": [],
+          "customOutputs": [],
+          "tests": [
+            {
+              "objID": "be9eb35d-110b-4b11-b4f6-6bfd3a0c525e",
+              "condition": "cal_point == 1 && (cal_type == calType_e.Umon_High || cal_type == calType_e.Umon_Low)",
+              "outputName": "set_volt1",
+              "outputValue": "calSetting[cal_type].psu_volt1"
+            },
+            {
+              "objID": "a15e398b-8602-4be9-9546-14f614c708d5",
+              "condition": "cal_point == 2 && (cal_type == calType_e.Umon_High || cal_type == calType_e.Umon_Low)",
+              "outputName": "set_volt2",
+              "outputValue": "calSetting[cal_type].psu_volt2"
+            },
+            {
+              "objID": "85898138-2db0-4709-c878-5e876f670668",
+              "condition": "cal_point == 1 && (cal_type == calType_e.Imon_High || cal_type == calType_e.Imon_Low)",
+              "outputName": "set_curr1",
+              "outputValue": "calSetting[cal_type].psu_current1"
+            },
+            {
+              "objID": "564e1880-cc8c-4b7b-fe14-6e10d4929995",
+              "condition": "cal_point == 2 && (cal_type == calType_e.Imon_High || cal_type == calType_e.Imon_Low)",
+              "outputName": "set_cur2",
+              "outputValue": "calSetting[cal_type].psu_current2"
+            },
+            {
+              "objID": "eb58f2d8-6177-47f9-ba5e-b4bd2a0db1c2",
+              "condition": "true",
+              "outputName": "default",
+              "outputValue": "0"
+            }
+          ]
         }
       ],
       "connectionLines": [
-        {
-          "objID": "295467d6-d73b-4046-e8e6-79ec059be72c",
-          "source": "09d1ac31-ae74-44e2-889c-bd4b591a1389",
-          "output": "point1",
-          "target": "65179ef9-8b81-4097-9cce-2d40bf43d1b1",
-          "input": "@seqin"
-        },
-        {
-          "objID": "c0a41dc9-ed19-45f1-8f1e-b04fa7159a44",
-          "source": "09d1ac31-ae74-44e2-889c-bd4b591a1389",
-          "output": "point2",
-          "target": "380323f0-fdd9-4d9c-e861-e0f1b31e9a0d",
-          "input": "@seqin"
-        },
-        {
-          "objID": "feae76e6-03dd-4b9a-bdcb-bea8642b7290",
-          "source": "a7e69553-0a23-4d1e-c667-e717ff5b7454",
-          "output": "@seqout",
-          "target": "09d1ac31-ae74-44e2-889c-bd4b591a1389",
-          "input": "@seqin"
-        },
         {
           "objID": "de2ad89c-e86d-4f1f-d330-7db2b8e3305f",
           "source": "d6ee7fb3-a9e4-4f0d-cc12-427b938ee183",
@@ -1428,25 +1605,67 @@
           "input": "@seqin"
         },
         {
-          "objID": "1ffcce60-b988-4b6d-8114-acb361b160af",
-          "source": "65179ef9-8b81-4097-9cce-2d40bf43d1b1",
-          "output": "@seqout",
-          "target": "04543357-4cf3-42da-9fed-2af7a0dbcc97",
-          "input": "@seqin"
-        },
-        {
-          "objID": "b921f38a-d939-4a6f-e464-331089ae1c3e",
-          "source": "380323f0-fdd9-4d9c-e861-e0f1b31e9a0d",
-          "output": "@seqout",
-          "target": "04543357-4cf3-42da-9fed-2af7a0dbcc97",
-          "input": "@seqin"
-        },
-        {
           "objID": "00d3a4a5-2cb4-483a-bf7f-eb99150a7128",
           "source": "04543357-4cf3-42da-9fed-2af7a0dbcc97",
           "output": "@seqout",
           "target": "0f3e8ce3-a9f5-4e6a-fb53-68aa919e9d6f",
           "input": "@seqin"
+        },
+        {
+          "objID": "0d49f47b-ebf6-4e58-bbde-90ab91fad6a8",
+          "source": "6939abb9-1a32-42a1-ecb7-bbb5f398e765",
+          "output": "default",
+          "target": "04543357-4cf3-42da-9fed-2af7a0dbcc97",
+          "input": "@seqin"
+        },
+        {
+          "objID": "1e7eb540-2782-49c9-8139-50003a69770e",
+          "source": "5f16a8e5-d768-4191-e602-261a1a263451",
+          "output": "@seqout",
+          "target": "04543357-4cf3-42da-9fed-2af7a0dbcc97",
+          "input": "@seqin"
+        },
+        {
+          "objID": "3a6a3b4e-e872-459d-a146-505708dcd93a",
+          "source": "a7e69553-0a23-4d1e-c667-e717ff5b7454",
+          "output": "@seqout",
+          "target": "65179ef9-8b81-4097-9cce-2d40bf43d1b1",
+          "input": "@seqin"
+        },
+        {
+          "objID": "558c7dde-5419-435a-e4f0-ba1929c75d1e",
+          "source": "65179ef9-8b81-4097-9cce-2d40bf43d1b1",
+          "output": "@seqout",
+          "target": "6939abb9-1a32-42a1-ecb7-bbb5f398e765",
+          "input": "@seqin"
+        },
+        {
+          "objID": "d5c45ead-c30a-42eb-b9fc-56e57ffbe5d8",
+          "source": "6939abb9-1a32-42a1-ecb7-bbb5f398e765",
+          "output": "set_volt2",
+          "target": "5f16a8e5-d768-4191-e602-261a1a263451",
+          "input": "set_value"
+        },
+        {
+          "objID": "4d625e1d-6c15-4ee7-cfdd-79ef1cb96763",
+          "source": "6939abb9-1a32-42a1-ecb7-bbb5f398e765",
+          "output": "set_volt1",
+          "target": "5f16a8e5-d768-4191-e602-261a1a263451",
+          "input": "set_value"
+        },
+        {
+          "objID": "7e370fcc-edf2-4699-ee0a-15e7141bdb2a",
+          "source": "6939abb9-1a32-42a1-ecb7-bbb5f398e765",
+          "output": "set_curr1",
+          "target": "5f16a8e5-d768-4191-e602-261a1a263451",
+          "input": "set_value"
+        },
+        {
+          "objID": "8a98e4b2-26a1-405a-8947-96ab6ed95d14",
+          "source": "6939abb9-1a32-42a1-ecb7-bbb5f398e765",
+          "output": "set_cur2",
+          "target": "5f16a8e5-d768-4191-e602-261a1a263451",
+          "input": "set_value"
         }
       ],
       "localVariables": [],
@@ -1472,7 +1691,7 @@
           "left": 60,
           "top": -117,
           "width": 262,
-          "height": 89,
+          "height": 93,
           "customInputs": [],
           "customOutputs": [],
           "instrument": "psu",
@@ -1496,7 +1715,7 @@
           "left": -207,
           "top": -84,
           "width": 167,
-          "height": 71,
+          "height": 73,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -1520,7 +1739,7 @@
           "left": 60,
           "top": 11,
           "width": 262,
-          "height": 89,
+          "height": 93,
           "customInputs": [],
           "customOutputs": [],
           "instrument": "psu",
@@ -1600,10 +1819,10 @@
         {
           "objID": "cf94ff9b-07da-41e2-9e82-ad37a602ba11",
           "type": "TestAndSetActionComponent",
-          "left": -167,
-          "top": -25,
+          "left": 77,
+          "top": -8,
           "width": 100,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "scpi_sem"
@@ -1611,10 +1830,10 @@
         {
           "objID": "1ef4fbaa-ee1e-499a-e613-8c129c874338",
           "type": "SCPIActionComponent",
-          "left": -34,
-          "top": -25,
+          "left": 210,
+          "top": -8,
           "width": 87,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "catchError": false,
@@ -1626,8 +1845,8 @@
         {
           "objID": "aedf73ae-1ae7-4ed3-ae69-a12f66c41382",
           "type": "SetVariableActionComponent",
-          "left": 92,
-          "top": -25,
+          "left": 336,
+          "top": -8,
           "width": 189,
           "height": 75,
           "customInputs": [],
@@ -1648,8 +1867,8 @@
         {
           "objID": "827dce13-8cb2-404e-e6de-c5fb7dcf531b",
           "type": "StartActionComponent",
-          "left": -283,
-          "top": -25,
+          "left": -1017,
+          "top": -298,
           "width": 87,
           "height": 24,
           "customInputs": [],
@@ -1658,12 +1877,196 @@
         {
           "objID": "9895ff61-7c2d-468f-9a99-6026b80a7ba0",
           "type": "EndActionComponent",
-          "left": 324,
-          "top": -25,
+          "left": 563,
+          "top": -8,
           "width": 87,
           "height": 24,
           "customInputs": [],
           "customOutputs": []
+        },
+        {
+          "objID": "2cb0c12e-3d99-4c1a-9cf8-2849ee9a547b",
+          "type": "SwitchActionComponent",
+          "left": -1017,
+          "top": -230,
+          "width": 768,
+          "height": 130,
+          "customInputs": [],
+          "customOutputs": [],
+          "tests": [
+            {
+              "objID": "4e0bf97f-1166-43c7-e698-a17ba4a488eb",
+              "condition": "ref_cur == ref_current_e.MIO168_AIN2 && (  cal_type == calType_e.Imon_High|| cal_type == calType_e.Imon_Low )",
+              "outputName": "curr_MIO",
+              "outputValue": "1"
+            },
+            {
+              "objID": "371a9c0c-f1ce-4813-ea59-cf77d9359279",
+              "condition": "ref_cur == ref_current_e.SDM3045X && (  cal_type == calType_e.Imon_High|| cal_type == calType_e.Imon_Low )",
+              "outputName": "curr_SDM",
+              "outputValue": "1"
+            },
+            {
+              "objID": "fc4b0d40-02c6-459e-8881-4a9a54578ed6",
+              "condition": "ref_volt == ref_volt_e.MIO168_AIN1 && (  cal_type == calType_e.Umon_High|| cal_type == calType_e.Umon_Low )",
+              "outputName": "volt_MIO",
+              "outputValue": "1"
+            },
+            {
+              "objID": "3627fadf-f382-410f-9ee7-e9a1ee152db5",
+              "condition": "ref_volt == ref_volt_e.SDM3045X && (  cal_type == calType_e.Umon_High|| cal_type == calType_e.Umon_Low )",
+              "outputName": "volt_SDM",
+              "outputValue": "1"
+            },
+            {
+              "objID": "3f84b955-1f7c-4851-9e91-81fedd9513b7",
+              "condition": "true",
+              "outputName": "other",
+              "outputValue": "1"
+            }
+          ]
+        },
+        {
+          "objID": "71681ac8-1feb-4334-face-f24b5b0afb71",
+          "type": "DelayActionComponent",
+          "left": -162,
+          "top": -382,
+          "width": 87,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "milliseconds": "2500"
+        },
+        {
+          "objID": "c60243f0-d434-4073-c4f7-04ea9023988e",
+          "type": "SCPIActionComponent",
+          "left": -43,
+          "top": -382,
+          "width": 194,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "instrument": "psu",
+          "scpi": "ref_value = meas:curr? (@304)",
+          "timeout": "null",
+          "delay": "null"
+        },
+        {
+          "objID": "a58803b3-2eb3-4d23-aac3-0228f9cb0eab",
+          "type": "SCPIActionComponent",
+          "left": 364,
+          "top": -142,
+          "width": 133,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "instrument": "dcl",
+          "scpi": "cal:set {ref_value}",
+          "timeout": "null",
+          "delay": "null"
+        },
+        {
+          "objID": "7026fbc5-3586-43b8-b884-14cf633b08eb",
+          "type": "DelayActionComponent",
+          "left": -162,
+          "top": -238,
+          "width": 87,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "milliseconds": "2500"
+        },
+        {
+          "objID": "b452a780-11c7-46e9-9014-5d294b23889f",
+          "type": "SCPIActionComponent",
+          "left": -43,
+          "top": -238,
+          "width": 194,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "instrument": "psu",
+          "scpi": "ref_value = meas:volt? (@303)",
+          "timeout": "null",
+          "delay": "null"
+        },
+        {
+          "objID": "b6643f9b-d53a-46c5-da03-6ed73284ddd3",
+          "type": "DelayActionComponent",
+          "left": -162,
+          "top": -169,
+          "width": 87,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "milliseconds": "2500"
+        },
+        {
+          "objID": "632496e6-3f2e-4573-9377-9e6dfc584a54",
+          "type": "SCPIActionComponent",
+          "left": -43,
+          "top": -169,
+          "width": 200,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "instrument": "sdm\n",
+          "scpi": "ref_value = meas:volt:dc? auto",
+          "timeout": "3000",
+          "delay": "null"
+        },
+        {
+          "objID": "ec90a5b1-07bf-4943-d27e-ce45e4bf3a08",
+          "type": "DelayActionComponent",
+          "left": -162,
+          "top": -316,
+          "width": 87,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "milliseconds": "2500"
+        },
+        {
+          "objID": "1a6f0991-8951-4fad-f859-548b881972a1",
+          "type": "SCPIActionComponent",
+          "left": -43,
+          "top": -316,
+          "width": 200,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "instrument": "sdm\n",
+          "scpi": "ref_value = meas:curr:dc? auto",
+          "timeout": "3000",
+          "delay": "null"
+        },
+        {
+          "objID": "ceaf8ee3-7d03-49f1-8c27-ab63ef316ed5",
+          "type": "TestAndSetActionComponent",
+          "left": 239,
+          "top": -142,
+          "width": 100,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "variable": "scpi_sem"
+        },
+        {
+          "objID": "490b3c07-7ebe-43b9-c858-8b364ccf83fc",
+          "type": "SetVariableActionComponent",
+          "left": 525,
+          "top": -142,
+          "width": 146,
+          "height": 55,
+          "customInputs": [],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "04b4bc49-ab82-45aa-99d0-d521e42b4242",
+              "variable": "scpi_sem",
+              "value": "false"
+            }
+          ]
         }
       ],
       "connectionLines": [
@@ -1682,21 +2085,142 @@
           "input": "@seqin"
         },
         {
-          "objID": "b05beabd-707b-4337-cf53-d8b4be593e0d",
-          "source": "827dce13-8cb2-404e-e6de-c5fb7dcf531b",
-          "output": "@seqout",
-          "target": "cf94ff9b-07da-41e2-9e82-ad37a602ba11",
-          "input": "@seqin"
-        },
-        {
           "objID": "ebc8358a-fbb6-4943-dbb7-ea4edffd81fa",
           "source": "aedf73ae-1ae7-4ed3-ae69-a12f66c41382",
           "output": "@seqout",
           "target": "9895ff61-7c2d-468f-9a99-6026b80a7ba0",
           "input": "@seqin"
+        },
+        {
+          "objID": "aa60fe43-31aa-44bc-8420-bf29b1a6d180",
+          "source": "2cb0c12e-3d99-4c1a-9cf8-2849ee9a547b",
+          "output": "other",
+          "target": "cf94ff9b-07da-41e2-9e82-ad37a602ba11",
+          "input": "@seqin"
+        },
+        {
+          "objID": "3b76df70-b541-49c8-ea80-1beea61b36ed",
+          "source": "827dce13-8cb2-404e-e6de-c5fb7dcf531b",
+          "output": "@seqout",
+          "target": "2cb0c12e-3d99-4c1a-9cf8-2849ee9a547b",
+          "input": "@seqin"
+        },
+        {
+          "objID": "e0a75c32-c1cb-4185-961f-2a136d70c8dd",
+          "source": "2cb0c12e-3d99-4c1a-9cf8-2849ee9a547b",
+          "output": "curr_MIO",
+          "target": "71681ac8-1feb-4334-face-f24b5b0afb71",
+          "input": "@seqin"
+        },
+        {
+          "objID": "fa546516-cc44-42fd-ad33-18c79e2e2ae3",
+          "source": "71681ac8-1feb-4334-face-f24b5b0afb71",
+          "output": "@seqout",
+          "target": "c60243f0-d434-4073-c4f7-04ea9023988e",
+          "input": "@seqin"
+        },
+        {
+          "objID": "4c45046f-6945-4418-da59-2cd442a06a06",
+          "source": "7026fbc5-3586-43b8-b884-14cf633b08eb",
+          "output": "@seqout",
+          "target": "b452a780-11c7-46e9-9014-5d294b23889f",
+          "input": "@seqin"
+        },
+        {
+          "objID": "0565fc08-462a-4643-d091-510a3431605e",
+          "source": "b6643f9b-d53a-46c5-da03-6ed73284ddd3",
+          "output": "@seqout",
+          "target": "632496e6-3f2e-4573-9377-9e6dfc584a54",
+          "input": "@seqin"
+        },
+        {
+          "objID": "3f5929d6-9706-424a-a0fd-95bedfcae646",
+          "source": "2cb0c12e-3d99-4c1a-9cf8-2849ee9a547b",
+          "output": "volt_MIO",
+          "target": "7026fbc5-3586-43b8-b884-14cf633b08eb",
+          "input": "@seqin"
+        },
+        {
+          "objID": "16a45737-d1c2-44f7-acfe-40c66b29cc31",
+          "source": "2cb0c12e-3d99-4c1a-9cf8-2849ee9a547b",
+          "output": "volt_SDM",
+          "target": "b6643f9b-d53a-46c5-da03-6ed73284ddd3",
+          "input": "@seqin"
+        },
+        {
+          "objID": "bcbd5d81-1098-4ba6-a8e5-32ea0abbfdd9",
+          "source": "ec90a5b1-07bf-4943-d27e-ce45e4bf3a08",
+          "output": "@seqout",
+          "target": "1a6f0991-8951-4fad-f859-548b881972a1",
+          "input": "@seqin"
+        },
+        {
+          "objID": "74b3b1a2-23c3-47c6-871f-1cc236f065ce",
+          "source": "2cb0c12e-3d99-4c1a-9cf8-2849ee9a547b",
+          "output": "curr_SDM",
+          "target": "ec90a5b1-07bf-4943-d27e-ce45e4bf3a08",
+          "input": "@seqin"
+        },
+        {
+          "objID": "c069ad0e-a224-4c06-8567-878ff4c79910",
+          "source": "c60243f0-d434-4073-c4f7-04ea9023988e",
+          "output": "@seqout",
+          "target": "ceaf8ee3-7d03-49f1-8c27-ab63ef316ed5",
+          "input": "@seqin"
+        },
+        {
+          "objID": "b1eab196-0b30-4b86-c80f-5999171671fa",
+          "source": "1a6f0991-8951-4fad-f859-548b881972a1",
+          "output": "@seqout",
+          "target": "ceaf8ee3-7d03-49f1-8c27-ab63ef316ed5",
+          "input": "@seqin"
+        },
+        {
+          "objID": "c99bf894-c521-44be-cbfa-de25ac425712",
+          "source": "b452a780-11c7-46e9-9014-5d294b23889f",
+          "output": "@seqout",
+          "target": "ceaf8ee3-7d03-49f1-8c27-ab63ef316ed5",
+          "input": "@seqin"
+        },
+        {
+          "objID": "7a0b5631-133c-4e24-9b26-15e15e7d4a81",
+          "source": "632496e6-3f2e-4573-9377-9e6dfc584a54",
+          "output": "@seqout",
+          "target": "ceaf8ee3-7d03-49f1-8c27-ab63ef316ed5",
+          "input": "@seqin"
+        },
+        {
+          "objID": "6c6c606b-de87-4b13-9caa-7c1dcf9143fb",
+          "source": "ceaf8ee3-7d03-49f1-8c27-ab63ef316ed5",
+          "output": "@seqout",
+          "target": "a58803b3-2eb3-4d23-aac3-0228f9cb0eab",
+          "input": "@seqin"
+        },
+        {
+          "objID": "45807b6b-9d00-42fc-a76c-95d845eb9bcd",
+          "source": "a58803b3-2eb3-4d23-aac3-0228f9cb0eab",
+          "output": "@seqout",
+          "target": "490b3c07-7ebe-43b9-c858-8b364ccf83fc",
+          "input": "@seqin"
+        },
+        {
+          "objID": "e9809aef-9377-4547-d855-b9185327b336",
+          "source": "490b3c07-7ebe-43b9-c858-8b364ccf83fc",
+          "output": "@seqout",
+          "target": "cf94ff9b-07da-41e2-9e82-ad37a602ba11",
+          "input": "@seqin"
         }
       ],
-      "localVariables": [],
+      "localVariables": [
+        {
+          "objID": "28ada102-57e4-4b7e-e20e-4e964c68995e",
+          "name": "ref_value",
+          "type": "double",
+          "defaultValue": "0",
+          "persistent": false,
+          "native": false
+        }
+      ],
       "name": "cal_measure",
       "implementationType": "flow"
     },
@@ -1764,7 +2288,7 @@
           "left": -315,
           "top": -123,
           "width": 87,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "milliseconds": "2500"
@@ -1775,7 +2299,7 @@
           "left": 63,
           "top": -123,
           "width": 87,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "milliseconds": "2500"
@@ -2055,6 +2579,673 @@
       ],
       "name": "cal_all",
       "implementationType": "flow"
+    },
+    {
+      "objID": "924935d0-9b65-4d40-f7e1-e6107b730d1d",
+      "components": [
+        {
+          "objID": "e9fb44ff-d83b-471b-aa4e-c6414fe7c14e",
+          "type": "StartActionComponent",
+          "left": -351,
+          "top": -115,
+          "width": 87,
+          "height": 24,
+          "customInputs": [],
+          "customOutputs": []
+        },
+        {
+          "objID": "58d8416a-39a9-4b26-e94d-881b8d1d852b",
+          "type": "SetVariableActionComponent",
+          "left": -217,
+          "top": -115,
+          "width": 128,
+          "height": 75,
+          "customInputs": [],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "f1118c54-768e-4a1f-90c5-cf6980f600fa",
+              "variable": "avg_sum",
+              "value": "0"
+            },
+            {
+              "objID": "25d8e645-66a2-49e5-b65c-0e322b2c1224",
+              "variable": "avg_count",
+              "value": "0"
+            }
+          ]
+        },
+        {
+          "objID": "f500bb9f-5dbf-4bb5-bbb9-597afbc03ec3",
+          "type": "EndActionComponent",
+          "left": 310,
+          "top": -115,
+          "width": 87,
+          "height": 24,
+          "customInputs": [],
+          "customOutputs": []
+        },
+        {
+          "objID": "33361169-a55d-4bc5-e5f3-de5c07b6870c",
+          "type": "WatchVariableActionComponent",
+          "left": -248,
+          "top": 71,
+          "width": 129,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "description": "watch every loop during delay",
+          "variable": "loop_ping"
+        },
+        {
+          "objID": "4cd17b3d-9e4e-4711-b7f6-e0355c8f1825",
+          "type": "SetVariableActionComponent",
+          "left": 153,
+          "top": 34,
+          "width": 202,
+          "height": 75,
+          "customInputs": [],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "274634ec-9e75-455f-8cc0-bb4bb7472423",
+              "variable": "avg_sum",
+              "value": "avg_sum + temp"
+            },
+            {
+              "objID": "01912376-67cf-4bb9-8f94-bb24c67f4398",
+              "variable": "avg_count",
+              "value": "avg_count + 1"
+            }
+          ]
+        },
+        {
+          "objID": "383a1a91-f5dd-475f-c73e-006e065ccd13",
+          "type": "DelayActionComponent",
+          "left": -49,
+          "top": -115,
+          "width": 90,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "description": "",
+          "milliseconds": "3*60*1000"
+        },
+        {
+          "objID": "e02295c0-5b9c-454d-c268-835da73abe92",
+          "type": "EvalExprActionComponent",
+          "left": 91,
+          "top": -115,
+          "width": 163,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "description": "calculate average",
+          "expression": "avg_sum/avg_count"
+        },
+        {
+          "objID": "87b89dd7-de63-4dbb-ee2a-75fa35e189d4",
+          "type": "OutputActionComponent",
+          "left": 310,
+          "top": -40,
+          "width": 89,
+          "height": 24,
+          "customInputs": [],
+          "customOutputs": [],
+          "name": "temp_avg",
+          "outputType": "double"
+        },
+        {
+          "objID": "db97584e-b247-4d34-fd85-dc1fffbcfb83",
+          "type": "SwitchActionComponent",
+          "left": -41,
+          "top": 97,
+          "width": 101,
+          "height": 73,
+          "customInputs": [],
+          "customOutputs": [],
+          "tests": [
+            {
+              "objID": "72191dc9-232b-4906-ce7d-fb1dbd27ffdf",
+              "condition": "dcl_on",
+              "outputName": "on",
+              "outputValue": "1"
+            },
+            {
+              "objID": "611a5f3f-92f0-4ed2-bf51-dd5468742a0a",
+              "condition": "true",
+              "outputName": "off",
+              "outputValue": "1\n"
+            }
+          ]
+        },
+        {
+          "objID": "abec81f6-d5ae-43f3-95a1-a10bd4aaa86c",
+          "type": "ErrorActionComponent",
+          "left": 153,
+          "top": 198,
+          "width": 102,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "description": "thermal limit",
+          "message": "\"switched off\""
+        }
+      ],
+      "connectionLines": [
+        {
+          "objID": "f01f122e-6426-4908-d538-a67cc7f48a12",
+          "source": "e9fb44ff-d83b-471b-aa4e-c6414fe7c14e",
+          "output": "@seqout",
+          "target": "58d8416a-39a9-4b26-e94d-881b8d1d852b",
+          "input": "@seqin"
+        },
+        {
+          "objID": "204af6ab-752c-4fcb-da62-0f6d0ee32c2c",
+          "source": "58d8416a-39a9-4b26-e94d-881b8d1d852b",
+          "output": "@seqout",
+          "target": "383a1a91-f5dd-475f-c73e-006e065ccd13",
+          "input": "@seqin"
+        },
+        {
+          "objID": "2ac81dbb-cae6-43ed-db4d-de8d34172a3e",
+          "source": "383a1a91-f5dd-475f-c73e-006e065ccd13",
+          "output": "@seqout",
+          "target": "e02295c0-5b9c-454d-c268-835da73abe92",
+          "input": "@seqin"
+        },
+        {
+          "objID": "e4e1f640-9480-41fa-f9cd-32602eaecd7b",
+          "source": "e02295c0-5b9c-454d-c268-835da73abe92",
+          "output": "result",
+          "target": "87b89dd7-de63-4dbb-ee2a-75fa35e189d4",
+          "input": "@seqin"
+        },
+        {
+          "objID": "80f46809-50f5-4dfe-c24b-4eb234412937",
+          "source": "e02295c0-5b9c-454d-c268-835da73abe92",
+          "output": "@seqout",
+          "target": "f500bb9f-5dbf-4bb5-bbb9-597afbc03ec3",
+          "input": "@seqin"
+        },
+        {
+          "objID": "82e1f393-d183-4c28-819e-6ec804e6a273",
+          "source": "33361169-a55d-4bc5-e5f3-de5c07b6870c",
+          "output": "variable",
+          "target": "db97584e-b247-4d34-fd85-dc1fffbcfb83",
+          "input": "@seqin"
+        },
+        {
+          "objID": "89bedf01-3d4e-42c3-92ed-bdf722685780",
+          "source": "db97584e-b247-4d34-fd85-dc1fffbcfb83",
+          "output": "on",
+          "target": "4cd17b3d-9e4e-4711-b7f6-e0355c8f1825",
+          "input": "@seqin"
+        },
+        {
+          "objID": "07122a77-09ec-4ae2-cc4b-8a1095f3a431",
+          "source": "db97584e-b247-4d34-fd85-dc1fffbcfb83",
+          "output": "off",
+          "target": "abec81f6-d5ae-43f3-95a1-a10bd4aaa86c",
+          "input": "@seqin"
+        }
+      ],
+      "localVariables": [
+        {
+          "objID": "ac426f06-7798-4d85-aeab-0ee689d83695",
+          "name": "avg_sum",
+          "type": "double",
+          "defaultValue": "0",
+          "persistent": false,
+          "native": false
+        },
+        {
+          "objID": "e50b58ec-82fe-44dd-9eec-b18c280b777b",
+          "name": "avg_count",
+          "type": "integer",
+          "defaultValue": "0",
+          "persistent": false,
+          "native": false
+        }
+      ],
+      "name": "thermal_temp_avg",
+      "implementationType": "flow"
+    },
+    {
+      "objID": "b324f81e-1af5-4718-a169-4c8b986f0267",
+      "components": [
+        {
+          "objID": "3a82dd70-58aa-436f-d62d-78a23f5c72eb",
+          "type": "StartActionComponent",
+          "left": -518,
+          "top": -149,
+          "width": 87,
+          "height": 24,
+          "customInputs": [],
+          "customOutputs": []
+        },
+        {
+          "objID": "828a89d8-8fc8-4fe7-b80e-90ff677bc1d8",
+          "type": "SetVariableActionComponent",
+          "left": 244,
+          "top": -149,
+          "width": 288,
+          "height": 135,
+          "customInputs": [],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "6e02dd99-41a7-4135-cb69-1e5eb2fac117",
+              "variable": "power",
+              "value": "40"
+            },
+            {
+              "objID": "ac3e7e42-3283-42c4-ce57-07d0c0eed770",
+              "variable": "temp_avg_prev",
+              "value": "0"
+            },
+            {
+              "objID": "1a34285e-44a8-45a9-c706-ee1db56fcc08",
+              "variable": "power_index",
+              "value": "0"
+            },
+            {
+              "objID": "bb11c4aa-9910-4f33-8c55-158408778b61",
+              "variable": "thermal_power_temp",
+              "value": "Array.allocate(25)"
+            },
+            {
+              "objID": "e8ed8990-518d-49de-da33-a05cd4ae0ef3",
+              "variable": "thermal_power_temp_steps",
+              "value": "0"
+            }
+          ]
+        },
+        {
+          "objID": "bed1e797-90f4-4a09-d99c-aee47b94bee6",
+          "type": "SCPIActionComponent",
+          "left": 84,
+          "top": -149,
+          "width": 120,
+          "height": 145,
+          "customInputs": [],
+          "customOutputs": [],
+          "instrument": "psu",
+          "scpi": "inst CH1\noutput off\nPOWer:LIMit max\nCURRent:LIMit max\nVOLTage:LIMit max\ncurrent 4\nvolt 35\noutput on",
+          "timeout": "null",
+          "delay": "100"
+        },
+        {
+          "objID": "d7e4fb1e-d23f-4d4b-970f-513f2c0f42ac",
+          "type": "TestAndSetActionComponent",
+          "left": -394,
+          "top": -149,
+          "width": 100,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "variable": "scpi_sem"
+        },
+        {
+          "objID": "bb2941df-2ac1-4628-aa8f-55943f1f0a1f",
+          "type": "SCPIActionComponent",
+          "left": -261,
+          "top": -149,
+          "width": 127,
+          "height": 158,
+          "customInputs": [],
+          "customOutputs": [],
+          "instrument": "dcl",
+          "scpi": "input 0\ninp:mode cp\nvolt:prot max\ncurr:prot max\npower:prot max\nsyst:temp:prot 95\nsyst:fan manual\nsyst:fan:speed 100\npow 0",
+          "timeout": "null",
+          "delay": "100"
+        },
+        {
+          "objID": "87ae057a-ba69-4604-cf08-2497c6289442",
+          "type": "SetVariableActionComponent",
+          "left": -102,
+          "top": -149,
+          "width": 146,
+          "height": 55,
+          "customInputs": [],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "2bd7e733-42fc-4cb1-aa97-2fb6bd155975",
+              "variable": "scpi_sem",
+              "value": "false"
+            }
+          ]
+        },
+        {
+          "objID": "97acaa13-d1fc-487b-ccc4-50445cd17040",
+          "type": "CompareActionComponent",
+          "left": 1268,
+          "top": 399,
+          "width": 265,
+          "height": 70,
+          "customInputs": [
+            {
+              "objID": "fff79da9-1925-42fc-e7fc-b84008a03589",
+              "name": "new",
+              "type": "double"
+            }
+          ],
+          "customOutputs": [],
+          "description": "Is temp stable?",
+          "A": "new * 0.99",
+          "B": "temp_avg_prev ",
+          "operator": ">="
+        },
+        {
+          "objID": "1b077b7d-bb32-46da-e89c-5c6be0d91a4e",
+          "type": "TestAndSetActionComponent",
+          "left": 445,
+          "top": 38,
+          "width": 100,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "variable": "scpi_sem"
+        },
+        {
+          "objID": "d33f8d11-f7e1-4d6c-d10b-73c4ce4a70a0",
+          "type": "SCPIActionComponent",
+          "left": 578,
+          "top": 38,
+          "width": 87,
+          "height": 80,
+          "customInputs": [],
+          "customOutputs": [],
+          "description": "set power",
+          "instrument": "dcl",
+          "scpi": "pow {power}\ncap:zero\ninput on",
+          "timeout": "null",
+          "delay": "null"
+        },
+        {
+          "objID": "3956f17c-1e87-4eb3-b08f-e1303652780c",
+          "type": "SetVariableActionComponent",
+          "left": 711,
+          "top": 38,
+          "width": 146,
+          "height": 55,
+          "customInputs": [],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "eb0b2459-df76-4774-98c8-ebd3fe4b9392",
+              "variable": "scpi_sem",
+              "value": "false"
+            }
+          ]
+        },
+        {
+          "objID": "475727b2-aa72-4ec2-c213-e14b5420e457",
+          "type": "CallActionActionComponent",
+          "left": 911,
+          "top": 399,
+          "width": 139,
+          "height": 70,
+          "customInputs": [],
+          "customOutputs": [],
+          "catchError": true,
+          "description": "Average temp for set time, error = off = thermal limit hit",
+          "action": "thermal_temp_avg"
+        },
+        {
+          "objID": "fb604452-c52e-425a-e32e-b76d1c9e23b9",
+          "type": "SetVariableActionComponent",
+          "left": 1591,
+          "top": 282,
+          "width": 200,
+          "height": 55,
+          "customInputs": [
+            {
+              "objID": "5daa034d-28e3-4903-e8b8-1e221996b624",
+              "name": "new",
+              "type": "double"
+            }
+          ],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "8fa9ffe4-0749-434b-98d0-660f1267bfae",
+              "variable": "temp_avg_prev",
+              "value": "new"
+            }
+          ]
+        },
+        {
+          "objID": "ef32737a-80b5-499b-aa8d-acc40edf5a6a",
+          "type": "LabelOutActionComponent",
+          "left": 2390,
+          "top": 550,
+          "width": 87,
+          "height": 24,
+          "customInputs": [],
+          "customOutputs": [],
+          "label": "next_loop"
+        },
+        {
+          "objID": "c820ab58-acb9-41a6-9e30-7bf831d509d5",
+          "type": "LabelInActionComponent",
+          "left": 282,
+          "top": 38,
+          "width": 87,
+          "height": 24,
+          "customInputs": [],
+          "customOutputs": [],
+          "label": "next_loop"
+        },
+        {
+          "objID": "ea7e0047-2ab5-4199-c5b1-360bd6fa2d10",
+          "type": "EndActionComponent",
+          "left": 1113,
+          "top": 688,
+          "width": 87,
+          "height": 24,
+          "customInputs": [],
+          "customOutputs": []
+        },
+        {
+          "objID": "f3d401bd-7611-4e1e-eb89-0b97684c477c",
+          "type": "SetVariableActionComponent",
+          "left": 1599,
+          "top": 550,
+          "width": 835,
+          "height": 95,
+          "customInputs": [
+            {
+              "objID": "972aa7b4-67ac-4e09-a4e8-daf0a7f736fd",
+              "name": "tempin",
+              "type": "double"
+            }
+          ],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "ef2a7cfc-8a70-4759-bd41-1080edc9bcd1",
+              "variable": "thermal_power_temp[thermal_power_temp_steps]",
+              "value": "Flow.makeValue(\"struct:thermal_power_temp\",{ power: power, temp: tempin})"
+            },
+            {
+              "objID": "a17ead0d-a8b0-4ced-c0f6-b702f67ce3d3",
+              "variable": "power ",
+              "value": "power + 10"
+            },
+            {
+              "objID": "8b12b5a6-dd96-4c87-efb8-3200ee0262db",
+              "variable": "thermal_power_temp_steps",
+              "value": "thermal_power_temp_steps+1"
+            }
+          ]
+        }
+      ],
+      "connectionLines": [
+        {
+          "objID": "984202ff-92e6-4b97-d7c1-aa7132699c3c",
+          "source": "3a82dd70-58aa-436f-d62d-78a23f5c72eb",
+          "output": "@seqout",
+          "target": "d7e4fb1e-d23f-4d4b-970f-513f2c0f42ac",
+          "input": "@seqin"
+        },
+        {
+          "objID": "31d3817a-6a35-4388-d135-e38034fb0804",
+          "source": "d7e4fb1e-d23f-4d4b-970f-513f2c0f42ac",
+          "output": "@seqout",
+          "target": "bb2941df-2ac1-4628-aa8f-55943f1f0a1f",
+          "input": "@seqin"
+        },
+        {
+          "objID": "59ee02a3-22ac-446f-abc0-d11922c48b3c",
+          "source": "bb2941df-2ac1-4628-aa8f-55943f1f0a1f",
+          "output": "@seqout",
+          "target": "87ae057a-ba69-4604-cf08-2497c6289442",
+          "input": "@seqin"
+        },
+        {
+          "objID": "58fbdefd-863e-4125-c45b-861185c7fa6f",
+          "source": "87ae057a-ba69-4604-cf08-2497c6289442",
+          "output": "@seqout",
+          "target": "bed1e797-90f4-4a09-d99c-aee47b94bee6",
+          "input": "@seqin"
+        },
+        {
+          "objID": "686851f0-04e1-4a18-c91d-b4340a5495f0",
+          "source": "bed1e797-90f4-4a09-d99c-aee47b94bee6",
+          "output": "@seqout",
+          "target": "828a89d8-8fc8-4fe7-b80e-90ff677bc1d8",
+          "input": "@seqin"
+        },
+        {
+          "objID": "955998fa-70d0-4e53-c995-372307fc474b",
+          "source": "1b077b7d-bb32-46da-e89c-5c6be0d91a4e",
+          "output": "@seqout",
+          "target": "d33f8d11-f7e1-4d6c-d10b-73c4ce4a70a0",
+          "input": "@seqin"
+        },
+        {
+          "objID": "18c2e97b-4dc0-44b9-d4c0-f9f2a2a5b56f",
+          "source": "d33f8d11-f7e1-4d6c-d10b-73c4ce4a70a0",
+          "output": "@seqout",
+          "target": "3956f17c-1e87-4eb3-b08f-e1303652780c",
+          "input": "@seqin"
+        },
+        {
+          "objID": "57c17edf-5c8a-4536-9214-292e85524427",
+          "source": "828a89d8-8fc8-4fe7-b80e-90ff677bc1d8",
+          "output": "@seqout",
+          "target": "1b077b7d-bb32-46da-e89c-5c6be0d91a4e",
+          "input": "@seqin"
+        },
+        {
+          "objID": "5fb31609-4203-46bc-d3c0-8e45a3bb4fcc",
+          "source": "3956f17c-1e87-4eb3-b08f-e1303652780c",
+          "output": "@seqout",
+          "target": "475727b2-aa72-4ec2-c213-e14b5420e457",
+          "input": "@seqin"
+        },
+        {
+          "objID": "c24a8171-ea19-4842-e98c-ac5ff9dc19b6",
+          "source": "475727b2-aa72-4ec2-c213-e14b5420e457",
+          "output": "87b89dd7-de63-4dbb-ee2a-75fa35e189d4",
+          "target": "97acaa13-d1fc-487b-ccc4-50445cd17040",
+          "input": "new"
+        },
+        {
+          "objID": "cb77062f-4dd8-471f-dc1f-d346b0d245a6",
+          "source": "475727b2-aa72-4ec2-c213-e14b5420e457",
+          "output": "87b89dd7-de63-4dbb-ee2a-75fa35e189d4",
+          "target": "fb604452-c52e-425a-e32e-b76d1c9e23b9",
+          "input": "new"
+        },
+        {
+          "objID": "bab253a9-b9a7-4be2-b547-26a5fc4b5d10",
+          "source": "97acaa13-d1fc-487b-ccc4-50445cd17040",
+          "output": "True",
+          "target": "fb604452-c52e-425a-e32e-b76d1c9e23b9",
+          "input": "@seqin"
+        },
+        {
+          "objID": "8e731469-1e0c-471f-eb9a-92a3260c9a0c",
+          "source": "fb604452-c52e-425a-e32e-b76d1c9e23b9",
+          "output": "@seqout",
+          "target": "1b077b7d-bb32-46da-e89c-5c6be0d91a4e",
+          "input": "@seqin"
+        },
+        {
+          "objID": "17d5d164-012b-43cc-c2ee-902a399c8ee2",
+          "source": "c820ab58-acb9-41a6-9e30-7bf831d509d5",
+          "output": "@seqout",
+          "target": "1b077b7d-bb32-46da-e89c-5c6be0d91a4e",
+          "input": "@seqin"
+        },
+        {
+          "objID": "5972754d-e631-4b80-bd0b-c8afa8c9137b",
+          "source": "475727b2-aa72-4ec2-c213-e14b5420e457",
+          "output": "@error",
+          "target": "ea7e0047-2ab5-4199-c5b1-360bd6fa2d10",
+          "input": "@seqin"
+        },
+        {
+          "objID": "8aff5ee4-788e-49ac-8916-b621c6c51f6a",
+          "source": "97acaa13-d1fc-487b-ccc4-50445cd17040",
+          "output": "False",
+          "target": "f3d401bd-7611-4e1e-eb89-0b97684c477c",
+          "input": "@seqin"
+        },
+        {
+          "objID": "ca40dd74-ad5b-4d17-b26b-9698fc530e88",
+          "source": "475727b2-aa72-4ec2-c213-e14b5420e457",
+          "output": "87b89dd7-de63-4dbb-ee2a-75fa35e189d4",
+          "target": "f3d401bd-7611-4e1e-eb89-0b97684c477c",
+          "input": "tempin"
+        },
+        {
+          "objID": "c3891433-df5f-4a3d-f0cc-5f76d7f76447",
+          "source": "f3d401bd-7611-4e1e-eb89-0b97684c477c",
+          "output": "@seqout",
+          "target": "ef32737a-80b5-499b-aa8d-acc40edf5a6a",
+          "input": "@seqin"
+        }
+      ],
+      "localVariables": [
+        {
+          "objID": "bfb289c3-c73a-4119-e50a-9f249fddb4b1",
+          "name": "power",
+          "type": "double",
+          "defaultValue": "0",
+          "persistent": false,
+          "native": false
+        },
+        {
+          "objID": "25703a46-bf9d-42a3-8513-8948871bc527",
+          "name": "temp_avg_prev",
+          "type": "double",
+          "defaultValue": "0",
+          "persistent": false,
+          "native": false
+        },
+        {
+          "objID": "bb9123b4-7919-4e84-a148-96ebbb156f63",
+          "name": "power_index",
+          "type": "integer",
+          "defaultValue": "0",
+          "persistent": false,
+          "native": false
+        },
+        {
+          "objID": "befcf82e-e0ab-4055-c6e1-244f399f1333",
+          "name": "step_count",
+          "type": "integer",
+          "defaultValue": "0",
+          "persistent": false,
+          "native": false
+        }
+      ],
+      "name": "thermal_run1",
+      "implementationType": "flow"
     }
   ],
   "userPages": [
@@ -2144,7 +3335,7 @@
           "height": 33,
           "customInputs": [],
           "customOutputs": [],
-          "data": "\"Button\"",
+          "data": "\"Thermal\"",
           "style": {
             "objID": "9e76f612-3d72-4e55-f9ab-3944a64e1614",
             "useStyle": "pagebg",
@@ -2182,7 +3373,7 @@
           "left": 140,
           "top": 1294,
           "width": 182,
-          "height": 69,
+          "height": 70,
           "customInputs": [
             {
               "objID": "f704db21-4708-4417-e1e2-8156728364ab",
@@ -2199,7 +3390,7 @@
           "left": 586,
           "top": 1194,
           "width": 113,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [
             {
@@ -2299,22 +3490,27 @@
                   "eventHandlers": []
                 },
                 {
-                  "objID": "d3b31d77-f6a5-4545-e011-ff33f6551fe9",
+                  "objID": "52d7f05e-f39d-4fbc-f178-571168b48c60",
                   "type": "LineChartWidget",
-                  "left": 56,
-                  "top": 626,
-                  "width": 1176,
-                  "height": 160,
+                  "left": 63,
+                  "top": 564,
+                  "width": 1171,
+                  "height": 212,
                   "customInputs": [
                     {
-                      "objID": "77bcfaab-1f91-4ad5-b8e9-7e5e73ba38eb",
+                      "objID": "22ad2f78-1c4a-44d1-9e27-7e9bc4d40d4c",
                       "name": "value",
+                      "type": "any"
+                    },
+                    {
+                      "objID": "51fcd909-afda-4a80-fcd3-0e14e92ebce7",
+                      "name": "uIn",
                       "type": "any"
                     }
                   ],
                   "customOutputs": [],
                   "style": {
-                    "objID": "8aada558-2e28-48c6-87d5-b84855b01ec7",
+                    "objID": "31b912a5-6177-4d5e-f53a-af49ba5abd60",
                     "useStyle": "default",
                     "conditionalStyles": [],
                     "childStyles": []
@@ -2324,15 +3520,16 @@
                   "xValue": "Date.now()",
                   "lines": [
                     {
-                      "objID": "9c78e26e-443f-4279-cd11-901db90a529e",
-                      "label": "\"I\"",
-                      "color": "#e00000",
-                      "value": "imon"
+                      "objID": "0d9def01-f3de-48da-a8ab-20fbc7ba22b9",
+                      "label": "\"Current\"",
+                      "color": "#ff0000",
+                      "value": "value"
                     },
                     {
-                      "objID": "d492c8d1-a5d5-43fa-e46c-65199ca60ccc",
-                      "label": "\"U\"",
-                      "color": "#000fe6"
+                      "objID": "a283f82b-e1d2-43db-896a-8913a5603972",
+                      "label": "\"Voltage\"",
+                      "color": "#2e3cff",
+                      "value": "uIn"
                     }
                   ],
                   "title": "",
@@ -2348,9 +3545,9 @@
                   "yAxisRangeOption": "floating",
                   "yAxisRangeFrom": 0,
                   "yAxisRangeTo": 10,
-                  "maxPoints": "60",
+                  "maxPoints": "40",
                   "margin": {
-                    "objID": "96811523-46be-474a-f5dd-bb15fd531699",
+                    "objID": "79913770-bafa-4783-cbe0-b521becfa289",
                     "top": 50,
                     "right": 0,
                     "bottom": 50,
@@ -2358,7 +3555,7 @@
                   },
                   "marker": "",
                   "markerStyle": {
-                    "objID": "f0b4c959-8c11-416f-fa76-76cad66ef4f3",
+                    "objID": "b12c661d-3069-4ed5-e663-a67d6fc90339",
                     "useStyle": "default",
                     "conditionalStyles": [],
                     "childStyles": []
@@ -2420,11 +3617,203 @@
                 "objID": "15a2a6de-8fdf-4771-b4c9-75e0b5c4c650",
                 "useStyle": "default",
                 "conditionalStyles": [],
-                "childStyles": []
+                "childStyles": [],
+                "color": "#cccccc"
               },
               "timeline": [],
               "eventHandlers": [],
-              "widgets": [],
+              "widgets": [
+                {
+                  "objID": "6b9f13fd-b67e-49a2-ecf3-ee826e77938d",
+                  "type": "TextDashboardWidget",
+                  "left": 44,
+                  "top": 6,
+                  "width": 381,
+                  "height": 86,
+                  "customInputs": [],
+                  "customOutputs": [],
+                  "data": "Math.round(pmon, 2) + \" W\"",
+                  "style": {
+                    "objID": "d1bdeb65-00da-4f24-b828-a135d42ecbb4",
+                    "useStyle": "default",
+                    "conditionalStyles": [],
+                    "childStyles": [],
+                    "fontSize": "64",
+                    "fontWeight": "bold",
+                    "alignHorizontal": "center",
+                    "alignVertical": "center",
+                    "color": "#ffff00"
+                  },
+                  "timeline": [],
+                  "eventHandlers": []
+                },
+                {
+                  "objID": "599add48-e373-42f0-9ac7-b480e55d146b",
+                  "type": "LineChartWidget",
+                  "left": 44,
+                  "top": 92,
+                  "width": 1197,
+                  "height": 566,
+                  "customInputs": [
+                    {
+                      "objID": "1cfc7bc7-ae26-48fd-95df-bd5127e22918",
+                      "name": "power",
+                      "type": "any"
+                    },
+                    {
+                      "objID": "3e403a18-c14f-4ba7-cf98-75d3cbcd95db",
+                      "name": "temp",
+                      "type": "any"
+                    },
+                    {
+                      "objID": "30c7fc84-2323-4f70-863d-ae9753189f32",
+                      "name": "fan",
+                      "type": "any"
+                    }
+                  ],
+                  "customOutputs": [],
+                  "style": {
+                    "objID": "44ba52a3-6c39-44b6-c091-15a05431cefa",
+                    "useStyle": "default",
+                    "conditionalStyles": [],
+                    "childStyles": [],
+                    "color": "#cccccc",
+                    "backgroundColor": "#222222",
+                    "activeColor": "#828282"
+                  },
+                  "timeline": [],
+                  "eventHandlers": [],
+                  "xValue": "Date.now()",
+                  "lines": [
+                    {
+                      "objID": "2e7fc807-caff-4051-e88d-171beddd1041",
+                      "label": "\"Power (W)\"",
+                      "color": "#e1ff00",
+                      "value": "power"
+                    },
+                    {
+                      "objID": "47012bb0-2dc1-4b3d-a138-cf27c77211cd",
+                      "label": "\"Temperature (C)\"",
+                      "color": "#ff0000",
+                      "value": "temp"
+                    },
+                    {
+                      "objID": "c0ac024a-a81e-44bc-b05e-5e03ce0e3d1b",
+                      "label": "\"Fan RPM (%)\"",
+                      "color": "#1100ff",
+                      "value": "fan"
+                    }
+                  ],
+                  "title": "",
+                  "displayModebar": "hover",
+                  "showLegend": true,
+                  "showXAxis": true,
+                  "showYAxis": true,
+                  "showGrid": true,
+                  "showZeroLines": true,
+                  "xAxisRangeOption": "floating",
+                  "xAxisRangeFrom": 0,
+                  "xAxisRangeTo": 10,
+                  "yAxisRangeOption": "floating",
+                  "yAxisRangeFrom": 0,
+                  "yAxisRangeTo": 10,
+                  "maxPoints": "10000",
+                  "margin": {
+                    "objID": "3702551d-3676-45ae-ef90-99a7a5685d4a",
+                    "top": 50,
+                    "right": 0,
+                    "bottom": 50,
+                    "left": 50
+                  },
+                  "marker": "",
+                  "markerStyle": {
+                    "objID": "07606927-1307-4d9a-db32-6e6e677f9214",
+                    "useStyle": "default",
+                    "conditionalStyles": [],
+                    "childStyles": []
+                  }
+                },
+                {
+                  "objID": "864c8908-e32c-4730-eee1-722fa84b6716",
+                  "type": "TextDashboardWidget",
+                  "left": 458,
+                  "top": 6,
+                  "width": 381,
+                  "height": 86,
+                  "customInputs": [],
+                  "customOutputs": [],
+                  "data": "Math.round(temp, 1) + \" C\"",
+                  "style": {
+                    "objID": "92194354-4c72-442d-e44c-23cfbe40e5b4",
+                    "useStyle": "default",
+                    "conditionalStyles": [],
+                    "childStyles": [],
+                    "fontSize": "64",
+                    "fontWeight": "bold",
+                    "alignHorizontal": "center",
+                    "alignVertical": "center",
+                    "color": "#ff0000"
+                  },
+                  "timeline": [],
+                  "eventHandlers": []
+                },
+                {
+                  "objID": "7329e1f1-4b04-423f-fe32-3963889a4bff",
+                  "type": "TextDashboardWidget",
+                  "left": 860,
+                  "top": 6,
+                  "width": 381,
+                  "height": 86,
+                  "customInputs": [],
+                  "customOutputs": [],
+                  "data": "Math.round(fan_rpm, 0) + \"rpm\"",
+                  "style": {
+                    "objID": "8913bd0e-4577-4e1b-e430-012796076543",
+                    "useStyle": "default",
+                    "conditionalStyles": [],
+                    "childStyles": [],
+                    "fontSize": "64",
+                    "fontWeight": "bold",
+                    "alignHorizontal": "center",
+                    "alignVertical": "center",
+                    "color": "#0000ff"
+                  },
+                  "timeline": [],
+                  "eventHandlers": []
+                },
+                {
+                  "objID": "5db03b28-bf83-47eb-e6f8-bb5a43f1c6b1",
+                  "type": "ButtonDashboardWidget",
+                  "left": 89,
+                  "top": 719,
+                  "width": 80,
+                  "height": 40,
+                  "customInputs": [],
+                  "customOutputs": [],
+                  "data": "\"K/W loop\"",
+                  "style": {
+                    "objID": "8da8a06c-6b42-4541-b9ba-575d89e2900d",
+                    "useStyle": "default",
+                    "conditionalStyles": [],
+                    "childStyles": []
+                  },
+                  "timeline": [],
+                  "eventHandlers": [
+                    {
+                      "objID": "89ece4da-f430-418c-a409-5c4c2d070c84",
+                      "eventName": "CLICKED",
+                      "handlerType": "action",
+                      "action": "thermal_run1"
+                    }
+                  ],
+                  "disabledStyle": {
+                    "objID": "54f0d87d-3aba-4d8f-c492-76feadb0c4cc",
+                    "useStyle": "default",
+                    "conditionalStyles": [],
+                    "childStyles": []
+                  }
+                }
+              ],
               "layout": "static"
             }
           ]
@@ -2434,7 +3823,7 @@
           "type": "SetVariableActionComponent",
           "left": 224,
           "top": -224,
-          "width": 195,
+          "width": 196,
           "height": 55,
           "customInputs": [],
           "customOutputs": [],
@@ -2508,7 +3897,7 @@
           "left": 1237,
           "top": 1364,
           "width": 87,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "milliseconds": "2500"
@@ -2572,7 +3961,7 @@
           "left": 140,
           "top": 1447,
           "width": 182,
-          "height": 69,
+          "height": 70,
           "customInputs": [
             {
               "objID": "038f485a-b1af-49b0-8022-7eea35f64ef2",
@@ -2639,7 +4028,7 @@
           "left": 584,
           "top": 1428,
           "width": 113,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [
             {
@@ -2706,13 +4095,13 @@
         {
           "objID": "247496c8-b919-4053-e0aa-842d7015713d",
           "type": "TextDashboardWidget",
-          "left": 1070,
+          "left": 1002,
           "top": 7,
-          "width": 152,
+          "width": 220,
           "height": 32,
           "customInputs": [],
           "customOutputs": [],
-          "data": "modeStrings[state_mode] + \" \" + (state_Ilow ? \"1A\" : \"10A\") + \" \" + (state_Ulow ? \"9V\" : \"80V\") + \" \" + nplc*20 + \"ms\"",
+          "data": "modeStrings[state_mode] + \"  \" + (state_Ilow == \"L\" ? \"1A\" : \"10A\") + \"  \" + (state_Ulow == \"L\" ? \"9V\" : \"80V\") + \"  \" + nplc*20 + \"ms  \" + fan_rpm + \"rpm\"",
           "style": {
             "objID": "141d9722-e52a-45b7-95ec-5a4556f552d8",
             "useStyle": "pagebg",
@@ -2722,6 +4111,204 @@
           },
           "timeline": [],
           "eventHandlers": []
+        },
+        {
+          "objID": "1ed2d358-530e-4688-d187-fad86ca2393b",
+          "type": "StartActionComponent",
+          "left": -363,
+          "top": 434,
+          "width": 87,
+          "height": 24,
+          "customInputs": [],
+          "customOutputs": []
+        },
+        {
+          "objID": "f1964de3-8e61-459c-b856-f5328071e2b9",
+          "type": "WatchVariableActionComponent",
+          "left": -343,
+          "top": 1027,
+          "width": 99,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "variable": "umon"
+        },
+        {
+          "objID": "15b305ac-288d-4a84-9cd0-09b599e3476f",
+          "type": "WatchVariableActionComponent",
+          "left": -343,
+          "top": 949,
+          "width": 99,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "variable": "imon"
+        },
+        {
+          "objID": "924a96c9-2d13-4da2-ced4-6ed6893874dd",
+          "type": "DelayActionComponent",
+          "left": -197,
+          "top": 432,
+          "width": 87,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "milliseconds": "1000"
+        },
+        {
+          "objID": "c1eb3f4d-6078-4f17-898b-e03929e58b5a",
+          "type": "WatchVariableActionComponent",
+          "left": -344,
+          "top": 478,
+          "width": 99,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "variable": "pmon"
+        },
+        {
+          "objID": "1ae340dd-7f5d-4423-819e-1ff6319493e6",
+          "type": "WatchVariableActionComponent",
+          "left": -344,
+          "top": 553,
+          "width": 99,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "variable": "temp"
+        },
+        {
+          "objID": "8538f22e-7d25-418a-ec7d-40c038fde098",
+          "type": "WatchVariableActionComponent",
+          "left": -344,
+          "top": 620,
+          "width": 117,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "variable": "fan_rpm"
+        },
+        {
+          "objID": "e536fb5c-0f08-4c7f-ca38-3daddc12b8c9",
+          "type": "EvalExprActionComponent",
+          "left": -211,
+          "top": 712,
+          "width": 126,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "expression": "fan_rpm/120"
+        },
+        {
+          "objID": "248e9f4b-6d4a-4519-fa09-da4d1e08ce8f",
+          "type": "TextDashboardWidget",
+          "left": 255,
+          "top": 769,
+          "width": 155,
+          "height": 32,
+          "customInputs": [],
+          "customOutputs": [],
+          "data": "\"Last K/W:\" + kw + \" K/W\"",
+          "style": {
+            "objID": "72eb3abd-3a6f-45e0-980e-8f50fe95885a",
+            "useStyle": "default",
+            "conditionalStyles": [],
+            "childStyles": []
+          },
+          "timeline": [],
+          "eventHandlers": []
+        },
+        {
+          "objID": "736b7fcb-4fc0-4f20-d2eb-401c27e26790",
+          "type": "WatchVariableActionComponent",
+          "left": -654,
+          "top": 1582,
+          "width": 222,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "variable": "thermal_power_temp_steps"
+        },
+        {
+          "objID": "74aa40b6-7b51-4d89-ed12-3fe608602d08",
+          "type": "SetVariableActionComponent",
+          "left": 198,
+          "top": 1636,
+          "width": 1080,
+          "height": 55,
+          "customInputs": [],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "964eb415-75c0-461b-e7ae-eaac242896c5",
+              "variable": "kw",
+              "value": "(thermal_power_temp[thermal_power_temp_steps-1].temp-thermal_power_temp[0].temp)/(thermal_power_temp[thermal_power_temp_steps-1].power-thermal_power_temp[0].power)"
+            }
+          ]
+        },
+        {
+          "objID": "10cb4d5a-52fa-415d-8848-3104ca5d5661",
+          "type": "IsTrueActionComponent",
+          "left": -144,
+          "top": 1628,
+          "width": 221,
+          "height": 70,
+          "customInputs": [],
+          "customOutputs": [],
+          "value": "thermal_power_temp_steps >=2"
+        },
+        {
+          "objID": "effd3b43-41b3-4da7-dbd0-7a0197585044",
+          "type": "SetVariableActionComponent",
+          "left": 198,
+          "top": 1715,
+          "width": 99,
+          "height": 55,
+          "customInputs": [],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "7ab943af-24e4-4618-c907-5ba4d32c604f",
+              "variable": "kw",
+              "value": "0"
+            }
+          ]
+        },
+        {
+          "objID": "de670739-f564-48c6-c479-a95dbf632ea5",
+          "type": "IsTrueActionComponent",
+          "left": -419,
+          "top": 1601,
+          "width": 208,
+          "height": 70,
+          "customInputs": [],
+          "customOutputs": [],
+          "value": "thermal_power_temp != null"
+        },
+        {
+          "objID": "778ebf48-5fb7-40c8-a242-5580a30c2659",
+          "type": "ButtonDashboardWidget",
+          "left": 61,
+          "top": 919,
+          "width": 226,
+          "height": 32,
+          "customInputs": [],
+          "customOutputs": [],
+          "data": "sdm.isConnected ? \"SDM Connected\" : \"SDM No Connection\"",
+          "style": {
+            "objID": "c582336b-fa15-4d84-a2e1-3a7339db8da4",
+            "useStyle": "default",
+            "conditionalStyles": [],
+            "childStyles": []
+          },
+          "timeline": [],
+          "eventHandlers": [],
+          "disabledStyle": {
+            "objID": "e4b68ca1-781a-4adf-fdef-c10e191004b9",
+            "useStyle": "default",
+            "conditionalStyles": [],
+            "childStyles": []
+          }
         }
       ],
       "connectionLines": [
@@ -2822,6 +4409,97 @@
           "output": "True",
           "target": "3493654e-67ca-45e1-daa5-4db846e9bb00",
           "input": "@seqin"
+        },
+        {
+          "objID": "2b17fe7b-aee4-4c4a-ee31-e30df545565b",
+          "source": "1ed2d358-530e-4688-d187-fad86ca2393b",
+          "output": "@seqout",
+          "target": "924a96c9-2d13-4da2-ced4-6ed6893874dd",
+          "input": "@seqin"
+        },
+        {
+          "objID": "0c6c364b-238f-4048-d285-2872f98c20db",
+          "source": "924a96c9-2d13-4da2-ced4-6ed6893874dd",
+          "output": "@seqout",
+          "target": "52d7f05e-f39d-4fbc-f178-571168b48c60",
+          "input": "reset"
+        },
+        {
+          "objID": "c7316166-db3b-4d39-c347-059618c76e3d",
+          "source": "15b305ac-288d-4a84-9cd0-09b599e3476f",
+          "output": "variable",
+          "target": "52d7f05e-f39d-4fbc-f178-571168b48c60",
+          "input": "value"
+        },
+        {
+          "objID": "c7310e04-2a94-4880-ea33-8b0ba36d9436",
+          "source": "f1964de3-8e61-459c-b856-f5328071e2b9",
+          "output": "variable",
+          "target": "52d7f05e-f39d-4fbc-f178-571168b48c60",
+          "input": "uIn"
+        },
+        {
+          "objID": "28c3cfca-aa38-46a9-b6c1-731d72faa05b",
+          "source": "924a96c9-2d13-4da2-ced4-6ed6893874dd",
+          "output": "@seqout",
+          "target": "599add48-e373-42f0-9ac7-b480e55d146b",
+          "input": "reset"
+        },
+        {
+          "objID": "998d4348-29bc-41c9-d29c-e0e721296e2b",
+          "source": "c1eb3f4d-6078-4f17-898b-e03929e58b5a",
+          "output": "variable",
+          "target": "599add48-e373-42f0-9ac7-b480e55d146b",
+          "input": "power"
+        },
+        {
+          "objID": "08f24b93-7823-4c6a-cc42-36c7495bf7b3",
+          "source": "1ae340dd-7f5d-4423-819e-1ff6319493e6",
+          "output": "variable",
+          "target": "599add48-e373-42f0-9ac7-b480e55d146b",
+          "input": "temp"
+        },
+        {
+          "objID": "c3629782-3811-4f24-f856-257697740bd0",
+          "source": "8538f22e-7d25-418a-ec7d-40c038fde098",
+          "output": "variable",
+          "target": "e536fb5c-0f08-4c7f-ca38-3daddc12b8c9",
+          "input": "@seqin"
+        },
+        {
+          "objID": "3158f93e-c516-4c8e-a9a2-87d622c81f9a",
+          "source": "e536fb5c-0f08-4c7f-ca38-3daddc12b8c9",
+          "output": "result",
+          "target": "599add48-e373-42f0-9ac7-b480e55d146b",
+          "input": "fan"
+        },
+        {
+          "objID": "75e9e952-db60-4700-eced-0515aa18c623",
+          "source": "10cb4d5a-52fa-415d-8848-3104ca5d5661",
+          "output": "True",
+          "target": "74aa40b6-7b51-4d89-ed12-3fe608602d08",
+          "input": "@seqin"
+        },
+        {
+          "objID": "d1309f4b-1fb6-47f4-fa33-3f1bdbb69c50",
+          "source": "10cb4d5a-52fa-415d-8848-3104ca5d5661",
+          "output": "False",
+          "target": "effd3b43-41b3-4da7-dbd0-7a0197585044",
+          "input": "@seqin"
+        },
+        {
+          "objID": "e5dbc4b9-470e-4f1f-a156-0c389a42b16e",
+          "source": "de670739-f564-48c6-c479-a95dbf632ea5",
+          "output": "True",
+          "target": "10cb4d5a-52fa-415d-8848-3104ca5d5661",
+          "input": "@seqin"
+        },
+        {
+          "objID": "fb7e9bc2-ea63-4e69-c42b-d7a310f77ea5",
+          "source": "736b7fcb-4fc0-4f20-d2eb-401c27e26790",
+          "output": "variable",
+          "target": "de670739-f564-48c6-c479-a95dbf632ea5",
+          "input": "@seqin"
         }
       ],
       "localVariables": [
@@ -2838,6 +4516,22 @@
           "name": "err_time",
           "type": "string",
           "defaultValue": "\"\"",
+          "persistent": false,
+          "native": false
+        },
+        {
+          "objID": "bee950ff-a6b3-428a-b812-7f072a558f24",
+          "name": "graph_x",
+          "type": "double",
+          "defaultValue": "-1",
+          "persistent": false,
+          "native": false
+        },
+        {
+          "objID": "b50c0425-41df-42c9-9042-e6041e953aa2",
+          "name": "kw",
+          "type": "double",
+          "defaultValue": "0",
           "persistent": false,
           "native": false
         }
@@ -2886,9 +4580,9 @@
         {
           "objID": "63ebe5a1-6047-40b9-a218-a3743d842c24",
           "type": "TextDashboardWidget",
-          "left": 585,
+          "left": 823,
           "top": 14,
-          "width": 347,
+          "width": 109,
           "height": 32,
           "customInputs": [],
           "customOutputs": [],
@@ -2908,7 +4602,7 @@
           "left": 759,
           "top": -260,
           "width": 271,
-          "height": 65,
+          "height": 67,
           "customInputs": [
             {
               "objID": "5b06ac8f-836d-4096-ddb7-bd7c3e09cb2e",
@@ -3016,7 +4710,7 @@
                 "type": "ButtonDashboardWidget",
                 "left": 0,
                 "top": 4,
-                "width": 80,
+                "width": 65,
                 "height": 32,
                 "customInputs": [],
                 "customOutputs": [],
@@ -3027,7 +4721,7 @@
                   "conditionalStyles": [
                     {
                       "objID": "5f483206-3ccc-4637-b433-dda29afa6d6e",
-                      "style": "default_1",
+                      "style": "bg_marked",
                       "condition": "cal_type == $index"
                     }
                   ],
@@ -3041,6 +4735,7 @@
                     "handlerType": "flow"
                   }
                 ],
+                "enabled": "cal_mode == 1 ",
                 "disabledStyle": {
                   "objID": "485f51e0-e80f-4b32-b3cb-d1b97d86cc50",
                   "useStyle": "default",
@@ -3051,9 +4746,9 @@
               {
                 "objID": "9f58b4b3-1497-4437-db34-1d91f6fec890",
                 "type": "TextDashboardWidget",
-                "left": 89,
+                "left": 75,
                 "top": 4,
-                "width": 75,
+                "width": 70,
                 "height": 32,
                 "customInputs": [],
                 "customOutputs": [],
@@ -3070,9 +4765,9 @@
               {
                 "objID": "81d02bf1-8db3-4d09-a478-fe5a707fdbe6",
                 "type": "TextDashboardWidget",
-                "left": 164,
+                "left": 145,
                 "top": 4,
-                "width": 75,
+                "width": 70,
                 "height": 32,
                 "customInputs": [],
                 "customOutputs": [],
@@ -3089,9 +4784,9 @@
               {
                 "objID": "341e8f8e-d2a8-4cad-8108-7f2746bbd188",
                 "type": "TextDashboardWidget",
-                "left": 243,
+                "left": 227,
                 "top": 4,
-                "width": 75,
+                "width": 70,
                 "height": 32,
                 "customInputs": [],
                 "customOutputs": [],
@@ -3108,9 +4803,9 @@
               {
                 "objID": "699d4f20-6f12-4400-adf7-ab52e3888b34",
                 "type": "TextDashboardWidget",
-                "left": 328,
+                "left": 297,
                 "top": 4,
-                "width": 75,
+                "width": 70,
                 "height": 32,
                 "customInputs": [],
                 "customOutputs": [],
@@ -3127,7 +4822,7 @@
               {
                 "objID": "eb9466f1-4389-4712-efb7-26cf904ed61b",
                 "type": "TextDashboardWidget",
-                "left": 424,
+                "left": 441,
                 "top": 4,
                 "width": 64,
                 "height": 32,
@@ -3139,6 +4834,7 @@
                   "useStyle": "default",
                   "conditionalStyles": [],
                   "childStyles": [],
+                  "fontSize": "10",
                   "alignHorizontal": "center"
                 },
                 "timeline": [],
@@ -3147,7 +4843,7 @@
               {
                 "objID": "041f2de0-33fb-40b3-9c95-4604ddad932d",
                 "type": "ButtonDashboardWidget",
-                "left": 1053,
+                "left": 1009,
                 "top": 4,
                 "width": 92,
                 "height": 32,
@@ -3160,8 +4856,8 @@
                   "conditionalStyles": [
                     {
                       "objID": "a7bfbd37-6fbf-4ee9-cdd2-56324c48d27d",
-                      "style": "default_1",
-                      "condition": "cal_type == $index"
+                      "style": "bg_marked",
+                      "condition": "cal_type == $index && cal_measure_done"
                     }
                   ],
                   "childStyles": []
@@ -3175,7 +4871,7 @@
                     "action": "cal_measure"
                   }
                 ],
-                "enabled": "cal_type == $index && cal_mode == 1 && !opc",
+                "enabled": "cal_type == $index && cal_mode == 1 && cal_psu_setup_done",
                 "disabledStyle": {
                   "objID": "1a9c10d3-d302-457b-e87d-446ae1731068",
                   "useStyle": "default",
@@ -3186,9 +4882,9 @@
               {
                 "objID": "898c2538-dffd-434a-cd63-ba802bd5fe9e",
                 "type": "ButtonDashboardWidget",
-                "left": 1167,
+                "left": 1109,
                 "top": 4,
-                "width": 92,
+                "width": 75,
                 "height": 32,
                 "customInputs": [],
                 "customOutputs": [],
@@ -3199,7 +4895,7 @@
                   "conditionalStyles": [
                     {
                       "objID": "a338fcf7-8e94-408e-b01b-65ba17dbc7b4",
-                      "style": "default_1",
+                      "style": "bg_marked",
                       "condition": "cal_type == $index"
                     }
                   ],
@@ -3213,7 +4909,7 @@
                     "handlerType": "flow"
                   }
                 ],
-                "enabled": "cal_type == $index && cal_mode == 1 && !opc",
+                "enabled": "cal_type == $index && cal_mode == 1 && cal_valuesChanged",
                 "disabledStyle": {
                   "objID": "dff23870-8eef-4eb5-9788-2b223f8953b8",
                   "useStyle": "default",
@@ -3224,7 +4920,7 @@
               {
                 "objID": "d6937c04-7157-4e5b-b09d-728be9e10689",
                 "type": "ButtonDashboardWidget",
-                "left": 929,
+                "left": 908,
                 "top": 4,
                 "width": 92,
                 "height": 32,
@@ -3237,8 +4933,8 @@
                   "conditionalStyles": [
                     {
                       "objID": "611e97ed-0d2f-4e95-a421-0b16a6941d3f",
-                      "style": "default_1",
-                      "condition": "cal_type == $index"
+                      "style": "bg_marked",
+                      "condition": "cal_type == $index && cal_psu_setup_done"
                     }
                   ],
                   "childStyles": []
@@ -3252,7 +4948,7 @@
                     "action": "cal_set_psu"
                   }
                 ],
-                "enabled": "cal_type == $index && cal_mode == 1",
+                "enabled": "cal_type == $index && cal_mode == 1 && cal_dcl_setup_done",
                 "disabledStyle": {
                   "objID": "e3acc363-db00-482b-d5be-9b6237ae2494",
                   "useStyle": "default",
@@ -3356,7 +5052,7 @@
                   "conditionalStyles": [
                     {
                       "objID": "d3c16a2f-4b53-4472-961f-a6a81b96ced2",
-                      "style": "default_1",
+                      "style": "bg_marked",
                       "condition": "cal_type == $index && cal_dcl_setup_done"
                     }
                   ],
@@ -3378,6 +5074,64 @@
                   "conditionalStyles": [],
                   "childStyles": []
                 }
+              },
+              {
+                "objID": "443143b9-b86f-4048-8df2-b5a905ebbaa2",
+                "type": "ButtonDashboardWidget",
+                "left": 1193,
+                "top": 4,
+                "width": 75,
+                "height": 32,
+                "customInputs": [],
+                "customOutputs": [],
+                "data": "\"Reset \" + calTypeNames[$index]",
+                "style": {
+                  "objID": "2fbcbd29-d98d-4abd-b786-33132c4bd4db",
+                  "useStyle": "default",
+                  "conditionalStyles": [
+                    {
+                      "objID": "a12f1e0f-87a8-4a03-88b3-eaa6fe6320da",
+                      "style": "bg_marked",
+                      "condition": "cal_type == $index"
+                    }
+                  ],
+                  "childStyles": []
+                },
+                "timeline": [],
+                "eventHandlers": [
+                  {
+                    "objID": "a5aef9c6-d6ea-4ed2-eb73-54b391489b0d",
+                    "eventName": "CLICKED",
+                    "handlerType": "flow"
+                  }
+                ],
+                "enabled": "cal_type == $index && cal_mode == 1 && cal_valuesChanged",
+                "disabledStyle": {
+                  "objID": "00ea24a7-262e-4384-91db-bc32f3721bbf",
+                  "useStyle": "default",
+                  "conditionalStyles": [],
+                  "childStyles": []
+                }
+              },
+              {
+                "objID": "8f52e916-4e6e-4653-8d3a-911560237c03",
+                "type": "TextDashboardWidget",
+                "left": 370,
+                "top": 4,
+                "width": 64,
+                "height": 32,
+                "customInputs": [],
+                "customOutputs": [],
+                "data": "Math.round(100*calData[$index].dac1/calData[$index].adcMax,0)",
+                "style": {
+                  "objID": "8d9d75a4-8a82-4632-e476-1ee5d25246cd",
+                  "useStyle": "default",
+                  "conditionalStyles": [],
+                  "childStyles": [],
+                  "alignHorizontal": "center"
+                },
+                "timeline": [],
+                "eventHandlers": []
               }
             ],
             "layout": "static"
@@ -3391,7 +5145,7 @@
           "left": 343,
           "top": -580,
           "width": 98,
-          "height": 69,
+          "height": 70,
           "customInputs": [],
           "customOutputs": [],
           "value": "cal_mode"
@@ -3402,7 +5156,7 @@
           "left": 505,
           "top": -580,
           "width": 212,
-          "height": 69,
+          "height": 70,
           "customInputs": [],
           "customOutputs": [],
           "variable": "i",
@@ -3417,7 +5171,7 @@
           "left": 1053,
           "top": -441,
           "width": 87,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "milliseconds": "100"
@@ -3428,7 +5182,7 @@
           "left": -5,
           "top": -580,
           "width": 139,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "instrument": "dcl",
@@ -3442,7 +5196,7 @@
           "left": -151,
           "top": -580,
           "width": 100,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "scpi_sem"
@@ -3470,7 +5224,7 @@
           "left": 585,
           "top": -260,
           "width": 100,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "scpi_sem"
@@ -3512,9 +5266,9 @@
         {
           "objID": "e8d16c4d-7185-4637-c5c8-8bb6405b28dd",
           "type": "ButtonDashboardWidget",
-          "left": 89,
+          "left": 73,
           "top": 64,
-          "width": 154,
+          "width": 140,
           "height": 22,
           "customInputs": [],
           "customOutputs": [],
@@ -3525,7 +5279,7 @@
             "conditionalStyles": [
               {
                 "objID": "3d384839-c487-4fad-c426-eb441445e80c",
-                "style": "default_1",
+                "style": "bg_marked",
                 "condition": "cal_point == 1"
               }
             ],
@@ -3564,7 +5318,7 @@
           "left": 736,
           "top": -441,
           "width": 87,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "expression": "i"
@@ -3572,9 +5326,9 @@
         {
           "objID": "aa27ed9f-064e-4bc8-8f19-a2b2ce08a824",
           "type": "ButtonDashboardWidget",
-          "left": 243,
+          "left": 226,
           "top": 64,
-          "width": 160,
+          "width": 140,
           "height": 22,
           "customInputs": [],
           "customOutputs": [],
@@ -3585,7 +5339,7 @@
             "conditionalStyles": [
               {
                 "objID": "e326a4e6-c427-4ddc-9bfc-d323ac7df397",
-                "style": "default_1",
+                "style": "bg_marked",
                 "condition": "cal_point == 2"
               }
             ],
@@ -3610,13 +5364,13 @@
         {
           "objID": "7e55bb0d-aba5-4854-9d35-fa505746a6c6",
           "type": "TextDashboardWidget",
-          "left": 424,
-          "top": 58,
+          "left": 441,
+          "top": 60,
           "width": 64,
           "height": 32,
           "customInputs": [],
           "customOutputs": [],
-          "data": "\"ON/Mode/I/V:\"",
+          "data": "\"ON/M/I/V:\"",
           "style": {
             "objID": "359b4643-ba94-4f9e-c09b-dcc4f31d325f",
             "useStyle": "default",
@@ -3633,7 +5387,7 @@
           "left": 456,
           "top": -356,
           "width": 100,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "scpi_sem"
@@ -3644,7 +5398,7 @@
           "left": 590,
           "top": -356,
           "width": 151,
-          "height": 65,
+          "height": 67,
           "customInputs": [],
           "customOutputs": [],
           "catchError": false,
@@ -3676,7 +5430,7 @@
           "left": 742,
           "top": -176,
           "width": 100,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "scpi_sem"
@@ -3687,7 +5441,7 @@
           "left": 876,
           "top": -176,
           "width": 151,
-          "height": 65,
+          "height": 67,
           "customInputs": [],
           "customOutputs": [],
           "catchError": false,
@@ -3716,10 +5470,10 @@
         {
           "objID": "1f801c83-a935-4464-b308-b386c3b8c212",
           "type": "TestAndSetActionComponent",
-          "left": 1394,
-          "top": 108,
+          "left": 1382,
+          "top": 174,
           "width": 100,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "scpi_sem"
@@ -3727,23 +5481,23 @@
         {
           "objID": "51fc4f0c-33c1-42c6-b4fa-25bb4a8c5ac4",
           "type": "SCPIActionComponent",
-          "left": 1517,
-          "top": 108,
-          "width": 87,
-          "height": 53,
+          "left": 1505,
+          "top": 174,
+          "width": 96,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "catchError": false,
           "instrument": "dcl",
-          "scpi": "cal:store",
+          "scpi": "cal:type:save",
           "timeout": "null",
           "delay": "null"
         },
         {
           "objID": "16199248-34e4-4389-dd58-6bf760f758cc",
           "type": "SetVariableActionComponent",
-          "left": 1682,
-          "top": 108,
+          "left": 1670,
+          "top": 174,
           "width": 146,
           "height": 55,
           "customInputs": [],
@@ -3874,7 +5628,7 @@
           "left": -131,
           "top": -817,
           "width": 123,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "cal_type"
@@ -3885,7 +5639,7 @@
           "left": -131,
           "top": -746,
           "width": 129,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "cal_point"
@@ -3896,7 +5650,7 @@
           "left": 134,
           "top": 149,
           "width": 168,
-          "height": 53,
+          "height": 54,
           "customInputs": [
             {
               "objID": "29714be1-d764-496e-8e4c-82fec3a401d2",
@@ -3921,8 +5675,8 @@
         {
           "objID": "384f4b1b-b9d1-4736-89c5-7247611deba1",
           "type": "ButtonDashboardWidget",
-          "left": 315,
-          "top": 14,
+          "left": 699,
+          "top": 16,
           "width": 101,
           "height": 32,
           "customInputs": [],
@@ -3950,6 +5704,150 @@
             "conditionalStyles": [],
             "childStyles": []
           }
+        },
+        {
+          "objID": "1e1adcf7-d63a-4d15-f495-e748b9738f57",
+          "type": "TestAndSetActionComponent",
+          "left": 1382,
+          "top": 48,
+          "width": 100,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "variable": "scpi_sem"
+        },
+        {
+          "objID": "162516c3-feab-4c42-aabb-cf5d007b252c",
+          "type": "SCPIActionComponent",
+          "left": 1505,
+          "top": 48,
+          "width": 102,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "catchError": false,
+          "instrument": "dcl",
+          "scpi": "cal:type:reset",
+          "timeout": "null",
+          "delay": "null"
+        },
+        {
+          "objID": "8ea76dfa-2fe9-4fb4-b51f-1fb278bf0445",
+          "type": "SetVariableActionComponent",
+          "left": 1670,
+          "top": 48,
+          "width": 146,
+          "height": 55,
+          "customInputs": [],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "09943945-7db3-45e9-867c-a324b7cbc36d",
+              "variable": "scpi_sem",
+              "value": "false"
+            }
+          ]
+        },
+        {
+          "objID": "4e28264f-450a-4f3a-bcfa-73bc12c51d75",
+          "type": "DropDownListDashboardWidget",
+          "left": 332,
+          "top": 14,
+          "width": 96,
+          "height": 32,
+          "customInputs": [],
+          "customOutputs": [],
+          "data": "ref_volt",
+          "style": {
+            "objID": "4e018715-12b7-4c9e-b843-12a54359a30a",
+            "useStyle": "default",
+            "conditionalStyles": [],
+            "childStyles": []
+          },
+          "timeline": [],
+          "eventHandlers": [],
+          "options": "[ \"DCP405\", \"MIO168-AIN1\", \"SDM4045X\" ]"
+        },
+        {
+          "objID": "15290f80-6100-4cf5-9ea8-e31a60772caf",
+          "type": "DropDownListDashboardWidget",
+          "left": 507,
+          "top": 14,
+          "width": 96,
+          "height": 32,
+          "customInputs": [],
+          "customOutputs": [],
+          "data": "ref_cur",
+          "style": {
+            "objID": "963d889a-aa93-4b17-8bd1-563297a927df",
+            "useStyle": "default",
+            "conditionalStyles": [],
+            "childStyles": []
+          },
+          "timeline": [],
+          "eventHandlers": [],
+          "options": "[ \"DCP405\", \"MIO168-AIN2\", \"SDM4045X\" ]"
+        },
+        {
+          "objID": "310af41e-54e8-4c65-fafe-f6cde2cd65fa",
+          "type": "TextDashboardWidget",
+          "left": 278,
+          "top": 14,
+          "width": 54,
+          "height": 32,
+          "customInputs": [],
+          "customOutputs": [],
+          "data": "\"Volt ref:\"",
+          "style": {
+            "objID": "b796ed80-b26b-4540-9d60-6125175f3d23",
+            "useStyle": "default",
+            "conditionalStyles": [],
+            "childStyles": [],
+            "alignHorizontal": "right"
+          },
+          "timeline": [],
+          "eventHandlers": []
+        },
+        {
+          "objID": "6d364cd6-c5f8-45c9-b149-3a0bb1912286",
+          "type": "TextDashboardWidget",
+          "left": 434,
+          "top": 14,
+          "width": 71,
+          "height": 32,
+          "customInputs": [],
+          "customOutputs": [],
+          "data": "\"Current ref:\"",
+          "style": {
+            "objID": "d42728f8-2ee2-4d0d-d24e-f0e2091e235c",
+            "useStyle": "default",
+            "conditionalStyles": [],
+            "childStyles": [],
+            "alignHorizontal": "right",
+            "alignVertical": "center"
+          },
+          "timeline": [],
+          "eventHandlers": []
+        },
+        {
+          "objID": "22fac59d-0eb9-4944-8042-ebcb85a30249",
+          "type": "TextDashboardWidget",
+          "left": 370,
+          "top": 58,
+          "width": 64,
+          "height": 32,
+          "customInputs": [],
+          "customOutputs": [],
+          "data": "\"%\"",
+          "style": {
+            "objID": "8c3bbb6c-8da4-491c-aebf-5069097af464",
+            "useStyle": "default",
+            "conditionalStyles": [],
+            "childStyles": [],
+            "alignHorizontal": "center"
+          },
+          "timeline": [],
+          "eventHandlers": []
         }
       ],
       "connectionLines": [
@@ -4155,6 +6053,27 @@
           "output": "result",
           "target": "74b11176-1975-442f-cdbc-95020251776e",
           "input": "c8849b31-0808-4756-8d6b-0ed28a3378b8"
+        },
+        {
+          "objID": "cf8197ce-f277-4d2f-dbaf-aeb2b7bb1b27",
+          "source": "1e1adcf7-d63a-4d15-f495-e748b9738f57",
+          "output": "@seqout",
+          "target": "162516c3-feab-4c42-aabb-cf5d007b252c",
+          "input": "@seqin"
+        },
+        {
+          "objID": "cde06130-440f-49e0-9d08-c76fa47ef18c",
+          "source": "162516c3-feab-4c42-aabb-cf5d007b252c",
+          "output": "@seqout",
+          "target": "8ea76dfa-2fe9-4fb4-b51f-1fb278bf0445",
+          "input": "@seqin"
+        },
+        {
+          "objID": "8bdbf339-e4ac-46e8-aafa-62aa886f16d1",
+          "source": "443143b9-b86f-4048-8df2-b5a905ebbaa2",
+          "output": "CLICKED",
+          "target": "1e1adcf7-d63a-4d15-f495-e748b9738f57",
+          "input": "@seqin"
         }
       ],
       "localVariables": [
@@ -4245,10 +6164,18 @@
       "childStyles": [
         {
           "objID": "4b22f2f3-15b4-4eb7-c9db-b153fc4da76b",
-          "name": "default_1",
+          "name": "bg_marked",
           "conditionalStyles": [],
-          "childStyles": [],
-          "backgroundColor": "#00c800"
+          "childStyles": [
+            {
+              "objID": "9c53c68e-2f58-4dc3-d11e-ae6046b5f085",
+              "name": "bg_marked_disabled",
+              "conditionalStyles": [],
+              "childStyles": [],
+              "backgroundColor": "#007100"
+            }
+          ],
+          "backgroundColor": "#007100"
         },
         {
           "objID": "73040d31-7ebe-4465-84d4-3379f8dac3bb",
@@ -4268,7 +6195,7 @@
           "backgroundColor": "#323232"
         }
       ],
-      "color": "#838383",
+      "color": "#b3b3b3",
       "backgroundColor": "#323232"
     },
     {

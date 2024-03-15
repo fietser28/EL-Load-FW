@@ -971,7 +971,7 @@ scpi_result_t scpi_cmd_source_voltage(scpi_t *context)
     if (!get_value_from_param(context, scpi_number, range, value)) {
         return SCPI_RES_ERR;
     };
-    if (!state.setIset(value)) {
+    if (!state.setUset(value)) {
         SCPI_ErrorPush(context, SCPI_ERROR_DEVICE_ERROR);
         return SCPI_RES_ERR;
     };

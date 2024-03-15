@@ -3326,8 +3326,8 @@ void create_screen_calibration() {
         {
             lv_obj_t *obj = lv_btn_create(parent_obj);
             objects.obj88 = obj;
-            lv_obj_set_pos(obj, 166, 98);
-            lv_obj_set_size(obj, 97, 32);
+            lv_obj_set_pos(obj, 114, 98);
+            lv_obj_set_size(obj, 190, 32);
             lv_obj_add_event_cb(obj, event_handler_cb_calibration_obj88, LV_EVENT_ALL, flowState);
             lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);

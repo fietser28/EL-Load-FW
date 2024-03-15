@@ -44,6 +44,7 @@ namespace dcl
                 _setState.sampleRate = ((float)F_CPU)/((float)CLOCK_DIVIDER_ADC * 2.0f * (float)ADC_OSR);
                 _setState.PLFreq = DEFAULT_PL_FREQ;
                 _setState.on = false;
+                _setState.mode = ELmode::CC;
                 _setState.CalibrationMode = false;
                 _setState.NLPC = DEFAULT_AVG_SAMPLES_NPLC;
                 _setState.OPPset = ranges[ranges_e_OPP_Delay].defValue;

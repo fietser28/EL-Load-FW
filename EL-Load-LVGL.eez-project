@@ -11893,9 +11893,9 @@
         {
           "objID": "959a460e-c949-4268-d897-becbc8f13858",
           "type": "LVGLButtonWidget",
-          "left": 166,
+          "left": 114,
           "top": 98,
-          "width": 97,
+          "width": 190,
           "height": 32,
           "customInputs": [],
           "customOutputs": [],
