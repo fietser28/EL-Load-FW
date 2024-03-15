@@ -21,7 +21,9 @@ pio run
 
 The firmware is designed for the following hardware:
 -  [Raspberry Pi Pico RP2040 MCU](https://www.raspberrypi.com/documentation/microcontrollers/rp2040.html) (the standard [Raspberry Pi Pico](https://www.raspberrypi.com/documentation/microcontrollers/raspberry-pi-pico.html) board will work)
--  [Waveshare 2.8 inch IPS-TFT-LCD Display 320*240 pixels - with Touchscreen - for Raspberry Pi Pico](https://www.waveshare.com/wiki/Pico-ResTouch-LCD-2.8)
+-  Screen. Either one of (choose an environment in from platformio.ini): 
+  -  [Waveshare 2.8 inch IPS-TFT-LCD Display 320*240 pixels - with Touchscreen - for Raspberry Pi Pico](https://www.waveshare.com/wiki/Pico-ResTouch-LCD-2.8)
+  -  Generic 320*240 TFT Display with touch interface based on il9341 chipset.
 -  24C64 eepromm (using I2C) for storage of calibration data
 -  Rotary encoder with push button and a seperate push button connected to an MCP23008 (using I2C)
 -  ADS131M02 ADC for reading analog voltage and current measurements
@@ -45,9 +47,10 @@ The firmware is using:
 - [LVGL](https://lvgl.io) - Light and Versatile Graphics Library
 - [EEZ framework](https://github.com/eez-open/eez-framework)
 - [Rotary](https://github.com/brianlow/Rotary.git) modified and included locally.
+- [SCPI Parser](https://github.com/j123b567/scpi-parser). Note: The depencency is not correct yet, I'm using a locally modified version to make it platformio compatible.
 
 Due to the fact most arduino libraries are not thread safe, they are exclusivly used in a single thread.
-For the chipsets local implementation are made. The I2C chips share the bus and run in different tasks, they are made thread safe.
+For the chipsets local implementation are made. The I2C chips share the bus and run in different tasks, they are made thread safe with a mutex.
 
 ## Design
 
@@ -86,3 +89,7 @@ The ui_glue.cpp file has a function to map certain types of widgets (sliders and
 Changing numbers with the encoder is pretty rudimentairy but it works now.
 
 You can manually calibrate the load using the UI, a configurable CV/CC power supply and a voltage and current DMM: You first need to calibrate the voltage and current measurements (calibrating the ADC). After that the Iset and Vset (using the DAC's) are done using the ADC measurements. Next, the Von, OCP and OVP calibrations can not be measured using single measurements but are iteratively calibrated by iterating each bit of precision. This iteration is done in a flow action.
+
+### SCPI
+
+SCPI commands are not documented yet. For a list of SCPI commands look in [src/scpi/scpi-commands.h](src/scpi/scpi-commands.h)
