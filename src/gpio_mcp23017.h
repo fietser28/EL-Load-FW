@@ -52,7 +52,8 @@ class gpio_mcp23017
         SemaphoreHandle_t _sem;
 
         // chip registers 
-        uint8_t _regs[2][MCP23X17_ADDR_LAST];
+        uint8_t _regsA[MCP23X17_ADDR_LAST];
+        uint8_t _regsB[MCP23X17_ADDR_LAST];
 
         uint8_t readI2C(uint8_t opcode);
         uint8_t writeI2C(uint8_t opcode, uint8_t data);

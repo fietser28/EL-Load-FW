@@ -817,10 +817,12 @@ scpi_result_t scpi_cmd_source_cap_timestop(scpi_t *context) {
     SCPI_ErrorPushEx(context, SCPI_ERROR_COMMAND, error_not_implemented, sizeof(error_not_implemented));
     return SCPI_RES_ERR;
 };
+
 scpi_result_t scpi_cmd_source_cap_timestopQ(scpi_t *context) {
     SCPI_ErrorPushEx(context, SCPI_ERROR_COMMAND, error_not_implemented, sizeof(error_not_implemented));
     return SCPI_RES_ERR;
 };
+
 scpi_result_t scpi_cmd_source_cap_voltstop(scpi_t *context) {
     SCPI_ErrorPushEx(context, SCPI_ERROR_COMMAND, error_not_implemented, sizeof(error_not_implemented));
     return SCPI_RES_ERR;

@@ -74,15 +74,16 @@ namespace dcl
                 _setState.rangeVoltageLow = false;
                 _setState.senseVoltRemote = false;
                 xSemaphoreGive(_setStateMutex);
-                updateAverageTask();
+                updateMeasureTask();
+                updateAverageTask(true);
                 updateHWIOTask();
                 updateKeysTask(); // For led
                 // Needed to get relay & sw in defined state.
                 state.setVoltSense(true);
                 state.setVoltSense(false);
-                state.setRangeCurrent(true);
+                //state.setRangeCurrent(true);
                 state.setRangeCurrent(false);
-                state.setRangeVoltage(true);
+                //state.setRangeVoltage(true);
                 state.setRangeVoltage(false);
                 scpi_busy_dec();
                 return true;
@@ -446,6 +447,14 @@ namespace dcl
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 _setState.rangeCurrentLow = lowOn;
+                // Limit current to max if switching to low range.
+                if (lowOn && _setState.mode == ELmode::CC && _setState.Iset > ranges[ranges_e_Curr_Low].maxValue) {
+                    _setState.Iset = ranges[ranges_e_Curr_Low].maxValue;
+                }
+                // Limit OCP to max if switching to low range.
+                if (lowOn && _setState.OCPset > ranges[ranges_e_OCP_Low].maxValue) {
+                    _setState.OCPset = ranges[ranges_e_OCP_Low].maxValue;
+                }
                 xSemaphoreGive(_setStateMutex);
                 updateHWIOTask();
                 updateMeasureTask();
@@ -469,6 +478,14 @@ namespace dcl
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 _setState.rangeVoltageLow = lowOn;
+                // Limit voltage to max if switching to low range.
+                if (lowOn && _setState.mode == ELmode::CV && _setState.Uset > ranges[ranges_e_Volt_Low].maxValue) {
+                    _setState.Uset = ranges[ranges_e_Volt_Low].maxValue;
+                }
+                // Limit OVP voltage to max if switching to low range.
+                if (lowOn && _setState.OVPset > ranges[ranges_e_OVP_Low].maxValue) {
+                    _setState.OVPset = ranges[ranges_e_OVP_Low].maxValue;
+                }
                 xSemaphoreGive(_setStateMutex);
                 updateHWIOTask();
                 updateMeasureTask();
@@ -672,6 +689,7 @@ namespace dcl
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 // TODO: Check for limits.
+                // Note: setRangeCurrent swith might also change iset.
                 _setState.CalibrationIset = rawDACvalue; 
                 _setState.Iset = newIset;
                 xSemaphoreGive(_setStateMutex);
@@ -688,6 +706,7 @@ namespace dcl
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 // TODO: Check for limits.
+                // Note: setRangeVoltage swith might also change iset.
                 _setState.CalibrationUset = rawDACvalue; 
                 _setState.Uset = newUset;
                 xSemaphoreGive(_setStateMutex);
@@ -704,6 +723,7 @@ namespace dcl
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 // TODO: Check for limits.
+                // Note: setRangeCurrent might also change OCPset.
                 _setState.CalibrationOCPset = rawDACvalue; 
                 _setState.OCPset = newOCP;
                 xSemaphoreGive(_setStateMutex);
@@ -722,6 +742,7 @@ namespace dcl
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 // TODO: Check for limits.
+                // Note: setRangeVoltage might also change OVPset.
                 _setState.CalibrationOVPset = rawDACvalue; 
                 _setState.OVPset = newOVP;
                 xSemaphoreGive(_setStateMutex);
