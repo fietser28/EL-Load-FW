@@ -528,7 +528,8 @@ void set_var_cap_limit_triggered(bool value) {}; // Read only.
 bool get_var_cap_wh_stop_triggered() { return localstatecopy.CapWhStopTriggered; };
 void set_var_cap_wh_stop_triggered(bool value) {}; // Read only.
 bool get_var_cap_limit_enabled() { return localsetcopy.capacityLimitEnabled; };
-void set_var_cap_limit_enabled(bool value) {
-    state.setCapacityLimitEnabled(value);
-};
-
+void set_var_cap_limit_enabled(bool value) { state.setCapacityLimitEnabled(value); };
+bool get_var_sense_error() { return localstatecopy.SenseError; };
+void set_var_sense_error(bool value) {}; // Read only.
+bool get_var_polarity_error() { return localstatecopy.PolarityError; };
+void set_var_polarity_error(bool value) {}; // Read only.

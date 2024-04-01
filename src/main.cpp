@@ -570,6 +570,8 @@ void taskProtHWFunction(void *pvParameters)
   uint8_t  gpiopinstate, gpiointerruptflagged;
   bool ocptrig, ocptrig_prev = false;
   bool ovptrig, ovptrig_prev = false;
+  bool sense_error, sense_error_prev = false;
+  bool polarity_error, polarity_error_prev = false;
   bool protection, protection_prev = false, protection_prev2 = false;
   bool HWprotenable_prev = false;
   bool von, von_prev = false;
@@ -674,7 +676,7 @@ void taskProtHWFunction(void *pvParameters)
   hwio.pinModes(0x10, (uint8_t)((~(1 << HWIO_PIN_VOLTSENSECLR | 1 << HWIO_PIN_CURRRANGELOW |1 << HWIO_PIN_VOLTRANGELOW | 1 << HWIO_PIN_VOLTSENSESET)) >> 8)) ; // Set output pins bank1
   vTaskDelay(500); //TODO: remove?
   hwio.pinInterrupts  (0,  // Bank 
-                          1 << HWIO_PIN_OCPTRIG | 1 << HWIO_PIN_OVPTRIG | 1 << HWIO_PIN_VON, // Only relevant input pins
+                          1 << HWIO_PIN_OCPTRIG | 1 << HWIO_PIN_OVPTRIG | 1 << HWIO_PIN_VON | 1 << HWIO_PIN_SENSE_ERROR, // Only relevant input pins
                           0x00,  // Compare against 0
                           1 << HWIO_PIN_OCPTRIG | 1 << HWIO_PIN_OVPTRIG); // Only these are compared, other on any change
   vTaskDelay(100); //TODO: remove?
@@ -693,19 +695,23 @@ void taskProtHWFunction(void *pvParameters)
 
     ocptrig = (gpiopinstate & 1 << HWIO_PIN_OCPTRIG) || (gpiointerruptflagged & 1 << HWIO_PIN_OCPTRIG); 
     ovptrig = (gpiopinstate & 1 << HWIO_PIN_OVPTRIG) || (gpiointerruptflagged & 1 << HWIO_PIN_OVPTRIG);
+    sense_error = (gpiopinstate & 1 << HWIO_PIN_SENSE_ERROR) || (gpiointerruptflagged & 1 << HWIO_PIN_SENSE_ERROR);
+    polarity_error = false; // TODO: HW pin not implemented yet. 
     von = gpiopinstate & 1 << HWIO_PIN_VON;
 
     // Something has changed
-    if (ocptrig != ocptrig_prev || ovptrig != ovptrig_prev || von != von_prev || localSetState.protection != protection_prev) 
+    if (ocptrig != ocptrig_prev || ovptrig != ovptrig_prev || von != von_prev || localSetState.protection != protection_prev ||
+        sense_error != sense_error_prev) 
     {
 
       // State has changed, update it.
       // All necessary changed are handled in state functions (protection/off/...)
-      state.setHWstate(ocptrig, ovptrig, von);
+      state.setHWstate(ocptrig, ovptrig, von, sense_error, polarity_error);
 
       ocptrig_prev = ocptrig;
       ovptrig_prev = ovptrig;
       von_prev = von;
+      sense_error_prev = sense_error;
       protection_prev = localSetState.protection;
 
     }

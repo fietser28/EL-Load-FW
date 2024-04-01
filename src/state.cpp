@@ -270,10 +270,10 @@ namespace dcl
     }
 
     // Called from HW Task.
-    bool stateManager::setHWstate(bool ocptrig, bool ovptrig, bool von)
+    bool stateManager::setHWstate(bool ocptrig, bool ovptrig, bool von, bool sense_error, bool polarity_error)
     {
     // Protection kicked in.
-    if (!_setState.CalibrationMode && (ocptrig || ovptrig)) 
+    if (!_setState.CalibrationMode && (ocptrig || ovptrig || sense_error || polarity_error)) 
     {
         state.setProtection();
     };
@@ -296,6 +296,8 @@ namespace dcl
                 _measuredState.OVPstate = _setState.CalibrationOVPset ? ovptrig : _measuredState.OVPstate || ovptrig; 
 
                 _measuredState.VonState = von;
+                _measuredState.SenseError = sense_error || _measuredState.SenseError;
+                _measuredState.PolarityError = polarity_error || _measuredState.PolarityError;
                 xSemaphoreGive(_measuredStateMutex);
 
                 return true;
@@ -531,6 +533,8 @@ namespace dcl
                 _measuredState.OVPstate = false;
                 _measuredState.OTPstate = false;
                 _measuredState.OPPstate = false;
+                _measuredState.SenseError = false;
+                _measuredState.PolarityError = false;
                 xSemaphoreGive(_measuredStateMutex);
             }
         }

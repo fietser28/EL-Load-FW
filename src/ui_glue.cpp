@@ -58,7 +58,7 @@ static lv_obj_tree_walk_res_t walk_cb(lv_obj_t *obj, void *) {
 
 static lv_obj_tree_walk_res_t walk_cb_on_off(lv_obj_t *obj, void *) {
     // TODO: Make more generic, hardcoded name
-    if (obj == objects.on_of_f_button) {
+    if (obj == objects.on_off_button) {
         lv_group_add_obj(onoff_group, obj);
         if (lv_group_get_focused(onoff_group) == 0) {
             lv_group_focus_obj(obj);

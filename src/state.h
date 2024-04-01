@@ -29,6 +29,8 @@ namespace dcl
         bool VonState;
         bool OCPstate;
         bool OVPstate;
+        bool SenseError;
+        bool PolarityError;
         bool OPPstate;
         bool OTPstate;
         bool CapVoltStopTriggered;
@@ -147,7 +149,7 @@ public:
 
     bool setCapacityTriggers(bool VoltStop, bool AhStop, bool WhStop, bool TimeStop);
 
-    bool setHWstate(bool ocptrig, bool ovptrig, bool von);
+    bool setHWstate(bool ocptrig, bool ovptrig, bool von, bool sense_error, bool polarity_error);
     bool OTPtriggered();
     bool OPPtriggered();
     bool setTemp1(float temp);
