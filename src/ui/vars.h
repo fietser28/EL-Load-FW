@@ -242,6 +242,10 @@ extern bool get_var_cal_values_changed();
 extern void set_var_cal_values_changed(bool value);
 extern bool get_var_cap_limit_enabled();
 extern void set_var_cap_limit_enabled(bool value);
+extern bool get_var_sense_error();
+extern void set_var_sense_error(bool value);
+extern bool get_var_polarity_error();
+extern void set_var_polarity_error(bool value);
 
 
 #ifdef __cplusplus
