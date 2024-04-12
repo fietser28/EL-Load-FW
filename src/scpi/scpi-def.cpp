@@ -767,11 +767,26 @@ scpi_result_t scpi_cmd_source_capQ(scpi_t *context) {
     return SCPI_RES_OK;
 };
 
-scpi_result_t scpi_cmd_source_cap_clear(scpi_t *context) {
+scpi_result_t scpi_cmd_source_cap_zero(scpi_t *context) {
     if (!state.clearPower()) {
         SCPI_ErrorPush(context, SCPI_ERROR_EXECUTION_ERROR);
         return SCPI_RES_ERR;
     };
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_source_cap_limit_clear(scpi_t *context) {
+    if (!state.clearCapacityLimit()) {
+        SCPI_ErrorPush(context, SCPI_ERROR_EXECUTION_ERROR);
+        return SCPI_RES_ERR;
+    };
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_source_cap_limit_tripQ(scpi_t *context) {
+    setStateStruct localSetState; 
+    state.getSetStateCopy(&localSetState, 1000);
+    SCPI_ResultBool(context, localSetState.capacityLimit);
     return SCPI_RES_OK;
 };
 
@@ -799,8 +814,28 @@ scpi_result_t scpi_cmd_source_cap_limitQ(scpi_t *context) {
 char error_not_implemented[] = { "Command not implemented" };
 
 scpi_result_t scpi_cmd_source_cap_ahstop(scpi_t *context) {
-    SCPI_ErrorPushEx(context, SCPI_ERROR_COMMAND, error_not_implemented, sizeof(error_not_implemented));
-    return SCPI_RES_ERR;
+    scpi_parameter_t param;
+    scpi_number_t    scpi_number;
+    scpi_special_number_t scpi_special;
+    float value;
+    ranges_e range = ranges_e::ranges_e_AHStop;
+
+    // Parse command to number type
+    if (!SCPI_ParamNumber(context, number_specials, &scpi_number, TRUE)) {
+        return SCPI_RES_ERR;
+    }
+
+    // translate number type to real value depending on range definition
+    if (!get_value_from_param(context, scpi_number, range, value)) {
+        return SCPI_RES_ERR;
+    };
+
+    if (!state.setCapAhStop(value)) {
+        SCPI_ErrorPush(context, SCPI_ERROR_DEVICE_ERROR);
+        return SCPI_RES_ERR;
+    };
+
+    return SCPI_RES_OK;
 };
 
 scpi_result_t scpi_cmd_source_cap_ahstopQ(scpi_t *context) {
@@ -813,23 +848,104 @@ scpi_result_t scpi_cmd_source_cap_ahstopQ(scpi_t *context) {
     return SCPI_RES_OK;
 };
 
+scpi_result_t scpi_cmd_source_cap_whstop(scpi_t *context) {
+    scpi_parameter_t param;
+    scpi_number_t    scpi_number;
+    scpi_special_number_t scpi_special;
+    float value;
+    ranges_e range = ranges_e::ranges_e_WHStop;
+
+    // Parse command to number type
+    if (!SCPI_ParamNumber(context, number_specials, &scpi_number, TRUE)) {
+        return SCPI_RES_ERR;
+    }
+
+    // translate number type to real value depending on range definition
+    if (!get_value_from_param(context, scpi_number, range, value)) {
+        return SCPI_RES_ERR;
+    };
+
+    if (!state.setCapWhStop(value)) {
+        SCPI_ErrorPush(context, SCPI_ERROR_DEVICE_ERROR);
+        return SCPI_RES_ERR;
+    };
+
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_source_cap_whstopQ(scpi_t *context) {
+    char buffer[64] = { 0 };
+    setStateStruct localSetState; 
+    state.getSetStateCopy(&localSetState, 1000);
+
+    SCPI_FloatToStr(localSetState.CapWhStop,buffer,sizeof(buffer));
+    SCPI_ResultCharacters(context, buffer, strlen(buffer));
+    return SCPI_RES_OK;
+};
+
+
 scpi_result_t scpi_cmd_source_cap_timestop(scpi_t *context) {
-    SCPI_ErrorPushEx(context, SCPI_ERROR_COMMAND, error_not_implemented, sizeof(error_not_implemented));
-    return SCPI_RES_ERR;
+    scpi_parameter_t param;
+    scpi_number_t    scpi_number;
+    scpi_special_number_t scpi_special;
+    float value;
+    ranges_e range = ranges_e::ranges_e_TimeStop;
+
+    // Parse command to number type
+    if (!SCPI_ParamNumber(context, number_specials, &scpi_number, TRUE)) {
+        return SCPI_RES_ERR;
+    }
+
+    // translate number type to real value depending on range definition
+    if (!get_value_from_param(context, scpi_number, range, value)) {
+        return SCPI_RES_ERR;
+    };
+
+    if (!state.setCapTimeStop(value)) {
+        SCPI_ErrorPush(context, SCPI_ERROR_DEVICE_ERROR);
+        return SCPI_RES_ERR;
+    };
+
+    return SCPI_RES_OK;
 };
 
 scpi_result_t scpi_cmd_source_cap_timestopQ(scpi_t *context) {
-    SCPI_ErrorPushEx(context, SCPI_ERROR_COMMAND, error_not_implemented, sizeof(error_not_implemented));
-    return SCPI_RES_ERR;
+    setStateStruct localSetState; 
+    state.getSetStateCopy(&localSetState, 1000);
+    SCPI_ResultFloat(context, localSetState.CapTimeStop);
+    return SCPI_RES_OK;
 };
 
 scpi_result_t scpi_cmd_source_cap_voltstop(scpi_t *context) {
-    SCPI_ErrorPushEx(context, SCPI_ERROR_COMMAND, error_not_implemented, sizeof(error_not_implemented));
-    return SCPI_RES_ERR;
+    scpi_parameter_t param;
+    scpi_number_t    scpi_number;
+    scpi_special_number_t scpi_special;
+    float value;
+    ranges_e range = ranges_e::ranges_e_VoltStop;
+
+    // Parse command to number type
+    if (!SCPI_ParamNumber(context, number_specials, &scpi_number, TRUE)) {
+        return SCPI_RES_ERR;
+    }
+
+    // translate number type to real value depending on range definition
+    if (!get_value_from_param(context, scpi_number, range, value)) {
+        return SCPI_RES_ERR;
+    };
+
+    if (!state.setCapVoltStop(value)) {
+        SCPI_ErrorPush(context, SCPI_ERROR_DEVICE_ERROR);
+        return SCPI_RES_ERR;
+    };
+
+    return SCPI_RES_OK;
 };
+
 scpi_result_t scpi_cmd_source_cap_voltstopQ(scpi_t *context) {
-    SCPI_ErrorPushEx(context, SCPI_ERROR_COMMAND, error_not_implemented, sizeof(error_not_implemented));
-    return SCPI_RES_ERR;
+    setStateStruct localSetState; 
+    state.getSetStateCopy(&localSetState, 1000);
+    SCPI_ResultFloat(context, localSetState.CapVoltStop);
+    return SCPI_RES_OK;
 };
 
 scpi_result_t scpi_cmd_source_current(scpi_t *context)

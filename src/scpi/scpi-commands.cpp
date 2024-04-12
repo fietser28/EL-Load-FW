@@ -1,4 +1,6 @@
-
+// SPDX-FileCopyrightText: 2024 Jan Nieuwstad <jan.sources@nieuwstad.net>
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "scpi/scpi.h"
 
@@ -10,7 +12,9 @@ using namespace dcl;
 namespace dcl::scpi {
 
 const scpi_command_t scpi_commands[] = {
-    /* IEEE Mandated Commands (SCPI std V1999.0 4.1.1) */
+    /* IEEE Mandatory Commands (SCPI std V1999.0 4.1.1) */
+    /* ================================================*/
+    // TODO: Not all these are properly done yet.
     {"*CLS", SCPI_CoreCls, 0},
     {"*ESE", SCPI_CoreEse, 0},
     {"*ESE?", SCPI_CoreEseQ, 0},
@@ -43,119 +47,135 @@ const scpi_command_t scpi_commands[] = {
 
     {"STATus:PRESet", SCPI_StatusPreset, 0}, //TODO: Reset to defaults?
 
+    // === End of mandatory SCPI sections
+
     /* Calibration */
-    {"CALibration[:MODE]", scpi_cmd_cal, 0},
+    // Enter/exit/query calibration mode
+    {"CALibration[:MODE]", scpi_cmd_cal, 0},        // ON/OFF/1/0
     {"CALibration[:MODE]?", scpi_cmd_calQ, 0},
 
-    {"CALibration:TYPe", scpi_cmd_cal_type, 0},
+    // Select what value to calibrate
+    {"CALibration:TYPe", scpi_cmd_cal_type, 0},     // IMONHigh|IMONLow|UMONHigh|... see cal_type_list in scpi-def.cpp
     {"CALibration:TYPe?", scpi_cmd_cal_typeQ, 0},
 
-    {"CALibration:POInt", scpi_cmd_cal_point, 0},
+    // Select calibration point
+    {"CALibration:POInt", scpi_cmd_cal_point, 0},   // Number
     {"CALibration:POInt?", scpi_cmd_cal_pointQ, 0},
     {"CALibration:POInt:MAX?", scpi_cmd_cal_point_maxQ, 0},
 
-    {"CALibration:SET", scpi_cmd_cal_set, 0},
+    // Setpoint for this calibration point
+    {"CALibration:SET", scpi_cmd_cal_set, 0},       // Float
     {"CALibration:SET?", scpi_cmd_cal_setQ, 0},
 
+    // Query adc value for this calibration point
     {"CALibration:ADC?", scpi_cmd_cal_adcQ, 0},
 
+    // Perform calibration measurement
+    {"CALibration:MEASure", scpi_cmd_cal_meas, 0},
+    // Get calibration measured result
     {"CALibration:MEASure?", scpi_cmd_cal_measQ, 0},
 
-//    {"CALibration:CURRent[:DATA]", scpi_cmd_cal_curr, 0},
-//    {"CALibration:CLEar", scpi_cmd_cal_cle, 0},
-
-    {"CALibration:MEASure", scpi_cmd_cal_meas, 0},
-
-    //{"CALibration:STATe", scpi_cmd_cal_stat, 0},
+    // Save this calibration TYPE to EEPROM, not just a single point.
     {"CALibration[:TYPe]:SAVE", scpi_cmd_cal_type_save, 0},
+
+    // Reset calibration points to running values when entered calibration
     {"CALibration[:TYPe]:RESET", scpi_cmd_cal_type_reset, 0},
-//    {"CALibration:TYPE", scpi_cmd_cal_type, 0},
 
-//    {"CALibration:VOLTage[:DATA]", scpi_cmd_cal_volt, 0},
-
-
-    /* Fetch */
+    /* Fetch. This reads the last measured value, doesn't trigger and wait like measure */
     {"FETCh[:SCALar]:CURRent[:DC]?", scpi_cmd_fetch_current, 0},
     {"FETCh[:SCALar]:VOLTage[:DC]?", scpi_cmd_fetch_voltage, 0},
     {"FETCh[:SCALar]:POWer[:DC]?", scpi_cmd_fetch_power, 0},
     {"FETCh:CAPacity?", scpi_cmd_fetch_cap, 0},
 
-    // Averaging functions
-    {"[SENSe]:NPLCycles", scpi_cmd_sense_nplc, 0},
+    // Averaging functions for measurements
+    {"[SENSe]:NPLCycles", scpi_cmd_sense_nplc, 0},  // integer: 1-100
     {"[SENSe]:NPLCycles?", scpi_cmd_sense_nplcQ, 0},
-    {"[SENSe]:PLFreq", scpi_cmd_sense_plfreq, 0},
+    {"[SENSe]:PLFreq", scpi_cmd_sense_plfreq, 0},   // 50|60
     {"[SENSe]:PLFreq?", scpi_cmd_sense_plfreqQ, 0},
 
     // Remote voltage sensing
-    {"[SENSe]:VOLTage:REMote", scpi_cmd_sense_volt_remote, 0},
+    {"[SENSe]:VOLTage:REMote", scpi_cmd_sense_volt_remote, 0},   // ON|OFF|1|0
     {"[SENSe]:VOLTage:REMote?", scpi_cmd_sense_volt_remoteQ, 0},
     
     // ON/OFF state
-    {"[SOURce]:INPut[:STATe]", scpi_cmd_source_input_state, 0},
+    {"[SOURce]:INPut[:STATe]", scpi_cmd_source_input_state, 0},  // ON|OFF|1|0
     {"[Source]:INPut[:STATe]?", scpi_cmd_source_input_stateQ, 0},
 
     // Main mode
-    {"[SOURce]:INPut:MODE", scpi_cmd_source_mode, 0},
+    {"[SOURce]:INPut:MODE", scpi_cmd_source_mode, 0},   // CC|CV|CR|CP
     {"[SOURce]:INPut:MODE?", scpi_cmd_source_modeQ, 0},
     
     // Global protection
-    {"[SOURce]:INPut:PROTection:CLEar", scpi_cmd_source_input_prot_clear, 0},
+    {"[SOURce]:INPut:PROTection:CLEar", scpi_cmd_source_input_prot_clear, 0},  // no arguments
     {"[SOURce]:INPut:PROTection:TRIPped?", scpi_cmd_source_input_prot_tripQ, 0},
 
-    // Capacity set commands
+    // Capacity set.query commands
     {"[SOURce]:CAPacity[:STATe]", scpi_cmd_source_cap, 0},  // ON|OFF|1|0
     {"[SOURce]:CAPacity[:STATe]?", scpi_cmd_source_capQ, 0},
+
+    // The limit setion disables the load if a limit is reached.
+    {"[SOURce]:CAPacity:LIMit:CLEar", scpi_cmd_source_cap_limit_clear, 0},  // ON|OFF|1|0
+    {"[SOURce]:CAPacity:LIMit:TRIPped?", scpi_cmd_source_cap_limit_tripQ, 0},
     {"[SOURce]:CAPacity:LIMit[:ENable]", scpi_cmd_source_cap_limit, 0}, // 1/0  Enable/disable capacity limits
     {"[SOURce]:CAPacity:LIMit[:ENable]?", scpi_cmd_source_cap_limitQ, 0},
     {"[SOURce]:CAPacity:LIMit:AH[:STOP]", scpi_cmd_source_cap_ahstop, 0},  // float,  Ah limit
     {"[SOURce]:CAPacity:LIMit:AH[:STOP]?", scpi_cmd_source_cap_ahstopQ, 0},
     {"[SOURce]:CAPacity:LIMit:TIMe[:STOP]", scpi_cmd_source_cap_timestop, 0}, // // float,  max. time limit in seconds
-    {"[SOURce]:CAPacity:LIMit:TIMe[:STOP]?", scpi_cmd_source_cap_timestop, 0},
+    {"[SOURce]:CAPacity:LIMit:TIMe[:STOP]?", scpi_cmd_source_cap_timestopQ, 0},
     {"[SOURce]:CAPacity:LIMit:VOLTage[:STOP]", scpi_cmd_source_cap_voltstop, 0},   // float, min. Volt limit 
-    {"[SOURce]:CAPacity:LIMit:VOLTAge[:STOP]?", scpi_cmd_source_cap_voltstopQ, 0},
-    {"[SOURce]:CAPacity:ZERO", scpi_cmd_source_cap_clear, 0}, // Reset capacity values to zero
+    {"[SOURce]:CAPacity:LIMit:VOLTage[:STOP]?", scpi_cmd_source_cap_voltstopQ, 0},
+    {"[SOURce]:CAPacity:LIMit:WH[:STOP]", scpi_cmd_source_cap_whstop, 0},  // float,  Wh limit
+    {"[SOURce]:CAPacity:LIMit:WH[:STOP]?", scpi_cmd_source_cap_whstopQ, 0},
+    {"[SOURce]:CAPacity:ZERO", scpi_cmd_source_cap_zero, 0}, // Reset capacity values to zero
     
     // Current set commands
-    {"[SOURce]:CURRent[:LEVel][:IMMediate][:AMPLitude]", scpi_cmd_source_current,0},    // float | min|max|default
+    // Set/query current set
+    {"[SOURce]:CURRent[:LEVel][:IMMediate][:AMPLitude]", scpi_cmd_source_current,0},    // float | min|max|default in Amps
     {"[SOURce]:CURRent[:LEVel][:IMMediate][:AMPLitude]?", scpi_cmd_source_currentQ,0},  
     
-    {"[SOURce]:CURRent:PROTection[:LEVel]", scpi_cmd_source_current_prot_level,0},
+    // Set/query over current protection level
+    {"[SOURce]:CURRent:PROTection[:LEVel]", scpi_cmd_source_current_prot_level,0},  // float|MIN|MAX|DEFault in Amps
     {"[SOURce]:CURRent:PROTection[:LEVel]?", scpi_cmd_source_current_prot_levelQ,0},
     
-    {"[SOURce]:CURRent:RANGe", scpi_cmd_source_current_range,0},
+    // Set/query current range
+    {"[SOURce]:CURRent:RANGe", scpi_cmd_source_current_range,0},    // L|H|float. float= determines range based on given value
     {"[SOURce]:CURRent:RANGe?", scpi_cmd_source_current_rangeQ,0},
     
     // Power set commands
-    {"[SOURce]:POWer[:LEVel][:IMMediate][:AMPLitude]", scpi_cmd_source_pow,0},
+    // Set/query power set level
+    {"[SOURce]:POWer[:LEVel][:IMMediate][:AMPLitude]", scpi_cmd_source_pow,0},    // float|MIN|MAX|DEFault in Watt
     {"[SOURce]:POWer[:LEVel][:IMMediate][:AMPLitude]?", scpi_cmd_source_powQ,0},
     
-    {"[SOURce]:POWer:PROTection[:LEVel]", scpi_cmd_source_pow_prot_level,0},
+    // Set/query power protection level and delay
+    {"[SOURce]:POWer:PROTection[:LEVel]", scpi_cmd_source_pow_prot_level,0},  // float|MIN|MAX|DEFault in Watt
     {"[SOURce]:POWer:PROTection[:LEVel]?", scpi_cmd_source_pow_prot_levelQ,0},
-
-    {"[SOURce]:POWer:PROTection:DELay[:TIMe]", scpi_cmd_source_pow_prot_delay,0},
+    {"[SOURce]:POWer:PROTection:DELay[:TIMe]", scpi_cmd_source_pow_prot_delay,0}, // float|MIN|MAX|DEFault in seconds
     {"[SOURce]:POWer:PROTection:DELay[:TIMe]?", scpi_cmd_source_pow_prot_delayQ,0},
 
-    // Resistance set commands
-    {"[SOURce]:RESistance[:LEVel][:IMMediate][:AMPLitude]", scpi_cmd_source_res,0},
+    // Resistance set/query commands
+    {"[SOURce]:RESistance[:LEVel][:IMMediate][:AMPLitude]", scpi_cmd_source_res,0},  // float|MIN|MAX|DEFault in Ohm
     {"[SOURce]:RESistance[:LEVel][:IMMediate][:AMPLitude]?", scpi_cmd_source_resQ,0},
 
-    // Voltage set commands
-    {"[SOURce]:VOLTage[:LEVel][:IMMediate][:AMPLitude]", scpi_cmd_source_voltage,0},
+    // Voltage set/query commands
+    {"[SOURce]:VOLTage[:LEVel][:IMMediate][:AMPLitude]", scpi_cmd_source_voltage,0}, // float|MIN|MAX|DEFault in Volt
     {"[SOURce]:VOLTage[:LEVel][:IMMediate][:AMPLitude]?", scpi_cmd_source_voltageQ,0},
     
-    {"[SOURce]:VOLTage:PROTection[:LEVel]", scpi_cmd_source_voltage_prot_level,0},
+    // Over voltage protection set/query commands
+    {"[SOURce]:VOLTage:PROTection[:LEVel]", scpi_cmd_source_voltage_prot_level,0}, // float|MIN|MAX|DEFault Volt
     {"[SOURce]:VOLTage:PROTection[:LEVel]?", scpi_cmd_source_voltage_prot_levelQ,0},
     
-    {"[SOURce]:VOLTage:RANGe", scpi_cmd_source_voltage_range,0},
+    // Set/query voltage range 
+    {"[SOURce]:VOLTage:RANGe", scpi_cmd_source_voltage_range,0}, // L|H|float = determines smalles range for given voltage level
     {"[SOURce]:VOLTage:RANGe?", scpi_cmd_source_voltage_rangeQ,0},
     
-    // Von set sommands
-    {"[SOURce]:VOLTage[:LEVel]:ON[:IMMediate][:AMPLitude]", scpi_cmd_source_voltage_on,0},
+    // Von set/query sommands
+    {"[SOURce]:VOLTage[:LEVel]:ON[:IMMediate][:AMPLitude]", scpi_cmd_source_voltage_on,0}, // float|MIN|MAX|DEFault in Volt
     {"[SOURce]:VOLTage[:LEVel]:ON[:IMMediate][:AMPLitude]?", scpi_cmd_source_voltage_onQ,0},
-    {"[SOURce]:VOLTage:ON:LATCh", scpi_cmd_source_voltage_on_latch,0},
+    // Set/query Von mode
+    {"[SOURce]:VOLTage:ON:LATCh", scpi_cmd_source_voltage_on_latch,0},  // OFF|ON|INhibit
     {"[SOURce]:VOLTage:ON:LATCh?", scpi_cmd_source_voltage_on_latchQ,0},
 
-    // System (in BB3 this section is module specific, not system: SYST:MODULE#:....?)
+    // System commands (in BB3 this section is module specific, not system e.g.: MODULE#:SYS:....?)
     {"SYSTem:FAN:MODE", scpi_cmd_syst_fan_mode,0},  // AUTO | MANual
     {"SYSTem:FAN:MODE?", scpi_cmd_syst_fan_modeQ,0},  // AUTO | MANual
     {"SYSTem:FAN:RPM?", scpi_cmd_syst_fan_rpmQ,0},  
@@ -163,13 +183,12 @@ const scpi_command_t scpi_commands[] = {
     {"SYSTem:FAN:SPEED?", scpi_cmd_syst_fan_speedQ,0},  
  
     {"SYSTem:TEMPerature?", scpi_cmd_syst_tempQ,0},  
-    {"SYSTem:TEMPerature:PROTextion[:LEVel]", scpi_cmd_syst_temp_prot,0},
+    {"SYSTem:TEMPerature:PROTextion[:LEVel]", scpi_cmd_syst_temp_prot,0}, // float|MIN|MAX|DEFault in degrees Celsius 
     {"SYSTem:TEMPerature:PROTextion[:LEVel]?", scpi_cmd_syst_temp_protQ,0},
-    {"SYSTem:TEMPerature:PROTextion:DELay[:TIMe]", scpi_cmd_syst_temp_prot_del,0},
+    {"SYSTem:TEMPerature:PROTextion:DELay[:TIMe]", scpi_cmd_syst_temp_prot_del,0}, // float|MIN|MAX|DEFault in seconds
     {"SYSTem:TEMPerature:PROTextion:DELay[:TIMe]?", scpi_cmd_syst_temp_prot_delQ,0},
 
     SCPI_CMD_LIST_END
 };
-
 
 }

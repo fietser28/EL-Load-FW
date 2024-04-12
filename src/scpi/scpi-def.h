@@ -82,11 +82,15 @@ extern scpi_result_t scpi_cmd_source_input_prot_tripQ(scpi_t *context);
 
 extern scpi_result_t scpi_cmd_source_cap(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_capQ(scpi_t *context);
-extern scpi_result_t scpi_cmd_source_cap_clear(scpi_t *context);
+extern scpi_result_t scpi_cmd_source_cap_zero(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_cap_limit(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_cap_limitQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_source_cap_limit_clear(scpi_t *context);
+extern scpi_result_t scpi_cmd_source_cap_limit_tripQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_cap_ahstop(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_cap_ahstopQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_source_cap_whstop(scpi_t *context);
+extern scpi_result_t scpi_cmd_source_cap_whstopQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_cap_timestop(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_cap_timestopQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_cap_voltstop(scpi_t *context);
