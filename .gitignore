@@ -10,6 +10,9 @@
 .vscode/settings.json
 .DS_Store
 tools
+*.eez-dashboard
 *.eez-project-ui-state
+*.eez-project-build
+*.eez-project-runtime-settings
 .vscode/.cortex-debug.peripherals.state.json
 .vscode/.cortex-debug.registers.state.json
