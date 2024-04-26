@@ -92,4 +92,4 @@ You can manually calibrate the load using the UI, a configurable CV/CC power sup
 
 ### SCPI
 
-SCPI commands are not documented yet. For a list of SCPI commands look in [src/scpi/scpi-commands.h](src/scpi/scpi-commands.h)
+SCPI commands are not documented yet. For a list of SCPI commands look in [src/scpi/scpi-commands.cpp](src/scpi/scpi-commands.cpp)
