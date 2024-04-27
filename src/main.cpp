@@ -695,7 +695,8 @@ void taskProtHWFunction(void *pvParameters)
 
     ocptrig = (gpiopinstate & 1 << HWIO_PIN_OCPTRIG) || (gpiointerruptflagged & 1 << HWIO_PIN_OCPTRIG); 
     ovptrig = (gpiopinstate & 1 << HWIO_PIN_OVPTRIG) || (gpiointerruptflagged & 1 << HWIO_PIN_OVPTRIG);
-    sense_error = (gpiopinstate & 1 << HWIO_PIN_SENSE_ERROR) || (gpiointerruptflagged & 1 << HWIO_PIN_SENSE_ERROR);
+    sense_error =  not ((gpiopinstate & 1 << HWIO_PIN_SENSE_ERROR) || (gpiointerruptflagged & 1 << HWIO_PIN_SENSE_ERROR));
+    sense_error = sense_error && localSetState.senseVoltRemote && localSetState.on; // Sense error only matters if we use it and load is on.
     polarity_error = false; // TODO: HW pin not implemented yet. 
     von = gpiopinstate & 1 << HWIO_PIN_VON;
 

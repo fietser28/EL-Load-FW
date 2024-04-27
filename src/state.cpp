@@ -296,7 +296,9 @@ namespace dcl
                 _measuredState.OVPstate = _setState.CalibrationOVPset ? ovptrig : _measuredState.OVPstate || ovptrig; 
 
                 _measuredState.VonState = von;
-                _measuredState.SenseError = sense_error || _measuredState.SenseError;
+
+                // Only set and keep if remote sensing is active otherwise clear.
+                _measuredState.SenseError = _setState.senseVoltRemote?  sense_error || _measuredState.SenseError : false;
                 _measuredState.PolarityError = polarity_error || _measuredState.PolarityError;
                 xSemaphoreGive(_measuredStateMutex);
 
@@ -424,16 +426,19 @@ namespace dcl
 
     bool stateManager::setVoltSense(bool senseOn)
     {
+
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 _setState.senseVoltRemote = senseOn;
                 xSemaphoreGive(_setStateMutex);
-                    updateHWIOTask();
-                    return true;
-                }
+                updateHWIOTask();
+                // If remote sensing is turned off the error condition is meaningless and should be cleared.
+                // This it not done here but in the processing of the message coming from HW task.
+                return true;
             }
+        }
         return false;
     };
 

@@ -10248,6 +10248,7 @@
           "scrollbarMode": "auto",
           "scrollDirection": "all",
           "checkedStateType": "literal",
+          "disabledState": false,
           "disabledStateType": "literal",
           "states": "",
           "useStyle": "selectbutton",
@@ -10268,7 +10269,7 @@
           "left": 489,
           "top": 350,
           "width": 268,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -10669,7 +10670,7 @@
           "left": -222,
           "top": 135,
           "width": 129,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "toKBvalue"
@@ -10697,7 +10698,7 @@
           "left": 796,
           "top": 80,
           "width": 364,
-          "height": 167,
+          "height": 175,
           "customInputs": [
             {
               "objID": "4bbe2526-f601-4a74-e0cc-67795cea3fdc",
@@ -10801,7 +10802,7 @@
           "left": -222,
           "top": 22,
           "width": 129,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "rangeType"
@@ -11079,7 +11080,7 @@
               "recolor": false
             }
           ],
-          "flags": "PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLL_ELASTIC|SCROLL_ON_FOCUS|SCROLL_MOMENTUM|SCROLL_CHAIN",
+          "flags": "PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_CHAIN|SCROLL_ON_FOCUS",
           "hiddenFlag": false,
           "hiddenFlagType": "literal",
           "clickableFlag": true,
@@ -11096,7 +11097,8 @@
             "definition": {
               "MAIN": {
                 "DEFAULT": {
-                  "text_align": "CENTER"
+                  "text_align": "CENTER",
+                  "bg_color": "#ca0202"
                 }
               }
             }
@@ -11366,23 +11368,23 @@
                   }
                 }
               },
-              "text": "\"Sense Fault\"",
+              "text": "!remoteSenseVoltage ? \"Sense Off\" : (!senseError ? \"Sense OK\" : \"Sense Fault\")",
               "textType": "expression",
               "longMode": "CLIP",
               "recolor": false
             }
           ],
           "flags": "PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLL_ELASTIC|SCROLL_ON_FOCUS|SCROLL_MOMENTUM|SCROLL_CHAIN",
-          "hiddenFlag": "!senseError",
-          "hiddenFlagType": "expression",
+          "hiddenFlag": "",
+          "hiddenFlagType": "literal",
           "clickableFlag": false,
           "clickableFlagType": "literal",
           "scrollbarMode": "auto",
           "scrollDirection": "all",
-          "checkedState": true,
-          "checkedStateType": "literal",
-          "disabledState": false,
-          "disabledStateType": "literal",
+          "checkedState": "senseError",
+          "checkedStateType": "expression",
+          "disabledState": "!remoteSenseVoltage",
+          "disabledStateType": "expression",
           "states": "",
           "useStyle": "selectButtonRedGreen",
           "localStyles": {
@@ -11392,9 +11394,6 @@
                 "DEFAULT": {
                   "text_align": "CENTER",
                   "text_font": "MONTSERRAT_20"
-                },
-                "DISABLED": {
-                  "bg_color": "#ff0000"
                 }
               }
             }
@@ -11805,6 +11804,34 @@
               "value": "new"
             }
           ]
+        },
+        {
+          "objID": "9e306235-270d-4c96-dc9d-262a6bdec64d",
+          "type": "WatchVariableActionComponent",
+          "left": 1,
+          "top": 323,
+          "width": 136,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "variable": "senseError"
+        },
+        {
+          "objID": "cd9acfe7-b930-45b9-9899-9a65b43b3b87",
+          "type": "SetVariableActionComponent",
+          "left": 182,
+          "top": 323,
+          "width": 214,
+          "height": 55,
+          "customInputs": [],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "2be03ac4-d432-4879-c4f7-b5730cbc29f1",
+              "variable": "notSenseError",
+              "value": "!senseError"
+            }
+          ]
         }
       ],
       "connectionLines": [
@@ -11940,6 +11967,13 @@
           "output": "PRESSED",
           "target": "c56b4760-cccd-4e94-cfc2-86cdb41f21f8",
           "input": "@seqin"
+        },
+        {
+          "objID": "c037965f-78be-433d-c24d-3633e716d60b",
+          "source": "9e306235-270d-4c96-dc9d-262a6bdec64d",
+          "output": "variable",
+          "target": "cd9acfe7-b930-45b9-9899-9a65b43b3b87",
+          "input": "@seqin"
         }
       ],
       "localVariables": [
@@ -11956,6 +11990,14 @@
           "type": "float",
           "defaultValue": "0",
           "persistent": false
+        },
+        {
+          "objID": "c1d00569-5413-4ab0-f412-ce0ec2b06975",
+          "name": "notSenseError",
+          "type": "boolean",
+          "defaultValue": "false",
+          "persistent": false,
+          "native": false
         }
       ],
       "name": "protections",
