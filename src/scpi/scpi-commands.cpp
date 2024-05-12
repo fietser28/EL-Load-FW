@@ -96,6 +96,7 @@ const scpi_command_t scpi_commands[] = {
     // Remote voltage sensing
     {"[SENSe]:VOLTage:REMote", scpi_cmd_sense_volt_remote, 0},   // ON|OFF|1|0
     {"[SENSe]:VOLTage:REMote?", scpi_cmd_sense_volt_remoteQ, 0},
+    {"[SENSe]:VOLTage:REMote:ERRor[:TRIPped]?", scpi_cmd_sense_volt_remote_errorQ, 0}, // Sense error tripped?
     
     // ON/OFF state
     {"[SOURce]:INPut[:STATe]", scpi_cmd_source_input_state, 0},  // ON|OFF|1|0

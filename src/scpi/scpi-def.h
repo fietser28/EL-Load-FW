@@ -72,6 +72,7 @@ extern scpi_result_t scpi_cmd_sense_plfreqQ(scpi_t *context);
 
 extern scpi_result_t scpi_cmd_sense_volt_remote(scpi_t *context);
 extern scpi_result_t scpi_cmd_sense_volt_remoteQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_sense_volt_remote_errorQ(scpi_t *context);
 
 extern scpi_result_t scpi_cmd_source_input_state(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_input_stateQ(scpi_t *context);

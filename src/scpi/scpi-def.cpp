@@ -640,7 +640,14 @@ scpi_result_t scpi_cmd_sense_volt_remoteQ(scpi_t *context)
     return SCPI_RES_OK;
 }
 
+scpi_result_t scpi_cmd_sense_volt_remote_errorQ(scpi_t *context)
+{
+    measuredStateStruct localMeasuredState; 
+    state.getMeasuredStateCopy(&localMeasuredState, 1000);
 
+    SCPI_ResultBool(context, localMeasuredState.SenseError);
+    return SCPI_RES_OK;
+}
 
  // SOURCE commands
 

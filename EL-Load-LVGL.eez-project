@@ -3735,9 +3735,9 @@
             {
               "objID": "6684ade4-891f-4f0b-90e5-c20018914d7c",
               "type": "LVGLPanelWidget",
-              "left": 171,
+              "left": 163,
               "top": 18,
-              "width": 105,
+              "width": 120,
               "height": 4,
               "customInputs": [],
               "customOutputs": [],
@@ -3780,6 +3780,60 @@
                   }
                 }
               }
+            },
+            {
+              "objID": "2617c1e5-0f86-4f1a-d3ee-26eab22b3095",
+              "type": "LVGLLabelWidget",
+              "left": 28,
+              "top": -2,
+              "width": 64,
+              "height": 64,
+              "customInputs": [],
+              "customOutputs": [],
+              "style": {
+                "objID": "1e8dd203-1c44-4e33-e56b-3efafccfe613",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": []
+              },
+              "locked": false,
+              "timeline": [],
+              "eventHandlers": [],
+              "leftUnit": "px",
+              "topUnit": "px",
+              "widthUnit": "px",
+              "heightUnit": "px",
+              "children": [],
+              "flags": "PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLLABLE|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_CHAIN",
+              "hiddenFlag": "!remoteSenseVoltage",
+              "hiddenFlagType": "expression",
+              "clickableFlag": false,
+              "clickableFlagType": "literal",
+              "scrollbarMode": "auto",
+              "scrollDirection": "all",
+              "checkedStateType": "literal",
+              "disabledState": false,
+              "disabledStateType": "literal",
+              "states": "",
+              "useStyle": "buttonText90deg",
+              "localStyles": {
+                "objID": "5694af17-aa48-4fe7-aded-370e8f285101",
+                "definition": {
+                  "MAIN": {
+                    "DEFAULT": {
+                      "text_color": "#00ff00",
+                      "text_align": "CENTER",
+                      "text_decor": "NONE",
+                      "transform_pivot_y": 32,
+                      "transform_pivot_x": 32
+                    }
+                  }
+                }
+              },
+              "text": "Sense",
+              "textType": "literal",
+              "longMode": "CLIP",
+              "recolor": false
             },
             {
               "objID": "4929d9a7-bc8f-4794-90d0-62c995da3884",
@@ -3866,7 +3920,7 @@
               "type": "LVGLLabelWidget",
               "left": 147,
               "top": 24,
-              "width": 160,
+              "width": 136,
               "height": 36,
               "customInputs": [],
               "customOutputs": [],
