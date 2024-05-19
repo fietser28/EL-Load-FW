@@ -24,6 +24,7 @@ gpio_mcp23008 gpiokeys = gpio_mcp23008();
 static void encTask(void *pvParameter);
 TaskHandle_t encTaskHandle;
 bool encTaskInitiated = false;
+volatile uint8_t watchdogEncTask;
 
 void keys_task_init(void)
 {
@@ -88,7 +89,7 @@ static void encTask(void *pvParameter)
 
     while (1)
     {
-        ulTaskNotifyTake(pdTRUE, portMAX_DELAY); 
+        ulTaskNotifyTake(pdTRUE, 100 / portTICK_PERIOD_MS); 
 
         //digitalWrite(PIN_TEST, HIGH);
         //gpioval = readI2C(KEYS_CHIP_ADDRESS, MCP23X08_ADDR_GPIO);
@@ -153,5 +154,6 @@ static void encTask(void *pvParameter)
             printlogval(pin1count, pin2count, enccount / 2, keystate.encoderbutton);
         }
         //vTaskDelay(4); // Debounce margin. - not needed with interrupts
+    watchdogEncTask = 0;
     }
 }

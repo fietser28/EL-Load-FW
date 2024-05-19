@@ -252,7 +252,7 @@ struct changeScreen_s
 #define TASK_PRIORITY_AVERAGE   5
 #define TASK_PRIORITY_UI        3
 #define TASK_PRIORITY_KEYS      4 
-//#define TASK_PRIORITY_UI_TICK   5
+#define TASK_PRIORITY_WATCHDOG  7
 
 
 #define TASK_AFFINITY_MEASURE   1 << 1    // Core1
@@ -260,10 +260,11 @@ struct changeScreen_s
 #define TASK_AFFINITY_UI        1 << 0    // Core0
 //#define TASK_AFFINITY_UI_TICK   1 << 0    // Core0
 
-// Highest prio HW protection trigger task, rarely called.
+// Highest prio HW IO task, triggered by intererupt and runs frequently (every 0.1s)
 extern TaskHandle_t taskProtHW; // Prio 6: Hardware triggered OCP/OVP
 extern void taskProtHWFunction(void * pvParameters);
 extern QueueHandle_t changeHWIOSettings;      // Queue/stream from state class to HWIO task.
+extern volatile uint8_t watchdogProtHW;
 
 // Main ADC read and CP/CR calculation and DAC writing, fast and high priority. TODO: pin to RAM.
 // Gets triggered by ADC interrupt@ 1kHz
@@ -271,12 +272,14 @@ extern TaskHandle_t taskMeasureAndOutput;  // Prio 5@core1: Fast ADC measure, ca
 extern SemaphoreHandle_t adcReady;       // Task notification via ISR didn't work. TODO: Why? 
 extern QueueHandle_t changeMeasureTaskSettings;      // Queue/stream from state class to measure task.
 extern void taskMeasureAndOutputFunction(void * pvParameters);
+extern volatile uint8_t watchdogMeasureAndOutput;
 
 // Task receiving ADC readouts and putting it into moving averaging values for other outputs. This task writes to measuredStateStruct
 extern QueueHandle_t changeAverageSettings; // Queue/stream from functions to change/clear the averaging settings (many-to-1)
 extern MessageBufferHandle_t newMeasurements;      // Queue/stream from measurementandoutput to Averaging task (1-on-1)
 extern TaskHandle_t taskAveraging;         // Prio 4: moving average of raw measurement values in NPLC cycles AND Wh/Ah keeping.
 extern void taskAveragingFunction(void * pvParameters);
+extern volatile uint8_t watchdogAveraging;
 
 //extern void taskMeasureAndOutputFunction();
 extern TaskHandle_t taskOutput;            // Prio 4: output set values
@@ -289,7 +292,6 @@ extern TaskHandle_t taskDisplay;           // Prio 1@core0: Update display
  * you should lock on the very same semaphore! */
 // extern SemaphoreHandle_t xGuiSemaphore; // TODO: Unused?
 extern QueueHandle_t changeScreen;
-
 
 // functions in main.cpp
 extern uint8_t readInputs();

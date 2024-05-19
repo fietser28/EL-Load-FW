@@ -50,19 +50,25 @@ SemaphoreHandle_t Wire1Sem;      // Manage sharing between tasks
 // HW protection task
 TaskHandle_t taskProtHW;
 QueueHandle_t changeHWIOSettings;
+volatile uint8_t watchdogProtHW;
 
 // Measurement and Ouput Task
 TaskHandle_t taskMeasureAndOutput;
 SemaphoreHandle_t adcReady;
 QueueHandle_t changeMeasureTaskSettings;
+volatile uint8_t watchdogMeasureAndOutput;
 
 // Averaging and power calculation task 
 TaskHandle_t taskAveraging;
 MessageBufferHandle_t newMeasurements;
 QueueHandle_t changeAverageSettings;
+volatile uint8_t watchdogAveraging;
+
+// Loop task
+volatile uint8_t watchdogLoop;
 
 // Blink task
-TaskHandle_t taskBlink; 
+TaskHandle_t taskWatchdog; 
 
 // UI task
 // Task definition is in display.cpp
@@ -111,16 +117,36 @@ volatile uint32_t i = -10;
 
 bool ledstate;
 
-// TODO Change this to a watchdog (including checking other tasks?)
-void blinkloop1(void *pvParameters)
+void watchdog(void *pvParameters)
 {
+  // Start watchdog timer
+  rp2040.wdt_begin(3000); // ms
   for (;;)
   {
     digitalWrite(LED_BUILTIN, HIGH);
     ledstate = true;
+    watchdogAveraging++;
+    watchdogEncTask++;
+    watchdogGuiTask++;
+    watchdogGuiTimerFunction++;
+    watchdogLoop++;
+    watchdogProtHW++;
+    watchdogMeasureAndOutput++;
     vTaskDelay(500);
+
     digitalWrite(LED_BUILTIN, LOW);
     ledstate = false;
+    if (watchdogAveraging < 3 &&        // Normal: 1kHz
+        watchdogEncTask < 3 &&          // Normal: 10Hz
+        watchdogGuiTask < 3 &&          // Normal: 10Hz
+        watchdogGuiTimerFunction < 3 && // Normal: 50Hz
+        watchdogLoop < 3 &&             // Normal: busy, SCPI can take long?
+        watchdogProtHW < 3  &&          // Normal: 10Hz
+        watchdogMeasureAndOutput <3)    // Normal: 1kHz
+      {
+        // Reset watchdog if all tasks reset there watchdog to zero in last 2 seconds
+        rp2040.wdt_reset();
+      } 
     vTaskDelay(500);
   }
 }
@@ -414,6 +440,7 @@ void setup()
   gui_task_init(); // Takes lot of memory?
 
   state.setDefaults();
+  state.clearProtection(); // Reset power-on OCP/OVP latches.
   state.record(true);
   state.setOff();
   state.clearPower();
@@ -464,20 +491,11 @@ void setup()
   }
 #endif
 
-
-  xTaskRet = xTaskCreate(blinkloop1, "", 200, (void *)1, 1, &taskBlink);
-  if (xTaskRet != pdPASS)
-  { // TODO: reset, something is really wrong;
-    SERIALDEBUG.println("ERROR: Error starting blink task.");
-  }
-  //vTaskCoreAffinitySet(taskBlink, 1 << 0);
-
   heaptotal = rp2040.getTotalHeap();
   heapused = rp2040.getUsedHeap();
   heapfree = rp2040.getFreeHeap();
-  SERIALDEBUG.printf("Heap total: %d, used: %d, free:  %d\n", heaptotal, heapused, heapfree);
+  SERIALDEBUG.printf("Heap total beofre SCPI init: %d, used: %d, free:  %d\n", heaptotal, heapused, heapfree);
   
-
   SCPI_Init(&scpi_context,
             scpi_commands,
             &scpi_interface,
@@ -485,6 +503,12 @@ void setup()
             SCPI_IDN1, SCPI_IDN2, SCPI_IDN3, SCPI_IDN4,
             scpi_input_buffer, SCPI_INPUT_BUFFER_LENGTH,
             scpi_error_queue_data, SCPI_ERROR_QUEUE_SIZE);
+
+  xTaskRet = xTaskCreate(watchdog, "", 200, (void *)1, TASK_PRIORITY_WATCHDOG, &taskWatchdog);
+  if (xTaskRet != pdPASS)
+  { // TODO: reset, something is really wrong;
+    SERIALDEBUG.println("ERROR: Error starting blink task.");
+  }
 
   heaptotal = rp2040.getTotalHeap();
   heapused = rp2040.getUsedHeap();
@@ -504,7 +528,6 @@ int cyclecount = 0;
 // TODO remove, just for testing.
 uint8_t fanstatus = 0;
 
-
 void loop()
 {
   // TODO: Replace with SCPI reading class/task?
@@ -512,11 +535,12 @@ void loop()
   {
     //SERIALDEBUG.write(SERIALDEBUG.read());
     char ch = SERIALDEBUG.read();
-    if (ch == '\r') {
+    if (ch == '\n') {
         heaptotal = rp2040.getTotalHeap();
         heapused = rp2040.getUsedHeap();
         heapfree = rp2040.getFreeHeap();
         SERIALDEBUG.printf("\nHeap total: %d, used: %d, free:  %d, scpi busy: %d\n", heaptotal, heapused, heapfree,scpi_busy);
+        SERIALDEBUG.printf("%d, %d, %d, %d, %d, %d, %d",watchdogAveraging, watchdogEncTask, watchdogGuiTask, watchdogGuiTimerFunction, watchdogLoop, watchdogProtHW, watchdogMeasureAndOutput);
     } else {
     //    SERIALDEBUG.write(ch); // TODO: Keep echo back or make it an option?
     }
@@ -538,7 +562,7 @@ void loop()
   //printlogstr(logtxt, 120, "Heap total: %d\nHeap used: %d\nHeap free:  %d\nADC0: %d\n", heaptotal, heapused, heapfree, loopmystate.avgCurrentRaw);
   //if (fanstatus == 1) {fancontrol.clearFanFail(); };
   //vTaskDelay(ondelay);
-
+  watchdogLoop = 0;
 }
 
 // HW Protection interrupt & task
@@ -629,18 +653,18 @@ void taskProtHWFunction(void *pvParameters)
     // LUT0 - LUT10  <= 40C  = off
     if (i <= 10) {
       fancontrol.setLUT(i,0); // Value = 30 for voltage controlled.
-      SERIALDEBUG.printf(" LUT: %2d  = %d\n", i, 0);
+      //SERIALDEBUG.printf(" LUT: %2d  = %d\n", i, 0);
     } 
     // LUT11 - LUT26 (42 - )= PWM 10% - 95%  => increment of 5 per LUT.
     if (i > 10 && i <= 26) {
       uint8_t dc = 25 + (i-10)*10;
       fancontrol.setLUT(i,dc);
-      SERIALDEBUG.printf(" LUT: %2d  = %d\n", i, dc);
+      //SERIALDEBUG.printf(" LUT: %2d  = %d\n", i, dc);
     } 
     // LUT27 - LUT 47 >= 70C = 100%
     if (i >26) {
       fancontrol.setLUT(i, 255);
-      SERIALDEBUG.printf(" LUT: %2d  = %d\n", i, 255);
+      //SERIALDEBUG.printf(" LUT: %2d  = %d\n", i, 255);
     } 
   }
     
@@ -870,6 +894,7 @@ void taskProtHWFunction(void *pvParameters)
 
       
     }
+  watchdogProtHW = 0;
   }
 };
 
@@ -1108,6 +1133,7 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
       localSetState = changeMsg;
       stateReceived = true;
     }
+  watchdogMeasureAndOutput = 0;
   }
 }
 
@@ -1257,6 +1283,7 @@ void taskAveragingFunction(void *pvParameters)
       localVoltStop = settingsMsg.CapTimeStop;
     }
     //digitalWrite(PIN_TEST, LOW);
+    watchdogAveraging = 0;
   }
 }
 

@@ -8,3 +8,5 @@
 
 extern void gui_task_init(void);
 
+extern volatile uint8_t watchdogGuiTask;
+extern volatile uint8_t watchdogGuiTimerFunction;

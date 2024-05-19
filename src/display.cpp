@@ -18,15 +18,17 @@
 #include "ui_glue.h"
 #include "keys.h"
 
-#define MY_LV_TICK_TIME 20
-#define MY_LV_UPDATE_TIME 100
+#define MY_LV_TICK_TIME 20     // ms
+#define MY_LV_UPDATE_TIME 100  // ms
 
 TFT_eSPI tft = TFT_eSPI(); /* TFT instance */
 
 static void guiTask(void *pvParameter);
 TaskHandle_t guiTaskHandle;
+volatile uint8_t watchdogGuiTask;
 
 static TimerHandle_t guiTimerHandle;
+volatile uint8_t watchdogGuiTimerFunction;
 
 static const uint32_t screenWidth = EEZ_WIDTH;
 static const uint32_t screenHeight = EEZ_HEIGHT;
@@ -50,6 +52,7 @@ void my_log_cb(const char* logline)
 static void guiTimerFunction(TimerHandle_t tm)
 {
   lv_tick_inc(MY_LV_TICK_TIME);
+  watchdogGuiTimerFunction = 0;
 }
 
 
@@ -333,6 +336,7 @@ static void __not_in_flash_func(guiTask(void *pvParameter))
         }
       }
     }
+    watchdogGuiTask = 0;
     unsigned long loopend = millis();
     TickType_t loopdelay = pdMS_TO_TICKS(MY_LV_UPDATE_TIME);
     if (loopend > loopstart) // No millis overflow.
