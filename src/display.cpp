@@ -26,6 +26,7 @@ TFT_eSPI tft = TFT_eSPI(); /* TFT instance */
 static void guiTask(void *pvParameter);
 TaskHandle_t guiTaskHandle;
 volatile uint8_t watchdogGuiTask;
+volatile bool guiTaskReady = false;
 
 static TimerHandle_t guiTimerHandle;
 volatile uint8_t watchdogGuiTimerFunction;
@@ -317,7 +318,7 @@ static void __not_in_flash_func(guiTask(void *pvParameter))
   //digitalWrite(TFT_BL, HIGH);
 
   xTimerStart(guiTimerHandle, 10);
-
+  guiTaskReady = true;
   while (1)
   {
     unsigned long loopstart = millis();

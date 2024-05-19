@@ -237,7 +237,6 @@ enum ScreensEnum {
     SCREEN_ID_DISPLAY = 10,
     SCREEN_ID_QUESTION_YN = 11,
     SCREEN_ID_KEYBOARD = 12,
-    SCREEN_ID_KEYBOARD_OLD2 = 13,
 };
 
 void create_screen_startup();
@@ -275,9 +274,6 @@ void tick_user_widget_question_yn(void *flowState, int startWidgetIndex);
 
 void create_user_widget_keyboard(lv_obj_t *parent_obj, void *flowState, int startWidgetIndex);
 void tick_user_widget_keyboard(void *flowState, int startWidgetIndex);
-
-void create_user_widget_keyboard_old2(lv_obj_t *parent_obj, void *flowState, int startWidgetIndex);
-void tick_user_widget_keyboard_old2(void *flowState, int startWidgetIndex);
 
 void create_screens();
 void tick_screen(int screen_index);

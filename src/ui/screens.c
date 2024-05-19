@@ -849,45 +849,6 @@ static void event_handler_cb_keyboard_min_button(lv_event_t *e) {
     }
 }
 
-static void event_handler_cb_keyboard_old2_kbtext2_1(lv_event_t *e) {
-    lv_event_code_t event = lv_event_get_code(e);
-    void *flowState = e->user_data;
-    if (event == LV_EVENT_VALUE_CHANGED) {
-        lv_obj_t *ta = lv_event_get_target(e);
-        const char *value = lv_textarea_get_text(ta);
-        if (tick_value_change_obj != ta) {
-            assignStringProperty(flowState, 2, 3, value, "Failed to assign Text in Textarea widget");
-        }
-    }
-}
-
-static void event_handler_cb_keyboard_old2_obj144(lv_event_t *e) {
-    lv_event_code_t event = lv_event_get_code(e);
-    void *flowState = e->user_data;
-    if (event == LV_EVENT_READY) {
-        flowPropagateValue(flowState, 3, 0);
-    }
-    if (event == LV_EVENT_CANCEL) {
-        flowPropagateValue(flowState, 3, 1);
-    }
-}
-
-static void event_handler_cb_keyboard_old2_max_button_1(lv_event_t *e) {
-    lv_event_code_t event = lv_event_get_code(e);
-    void *flowState = e->user_data;
-    if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 16, 0);
-    }
-}
-
-static void event_handler_cb_keyboard_old2_min_button_1(lv_event_t *e) {
-    lv_event_code_t event = lv_event_get_code(e);
-    void *flowState = e->user_data;
-    if (event == LV_EVENT_PRESSED) {
-        flowPropagateValue(flowState, 18, 0);
-    }
-}
-
 void create_screen_startup() {
     void *flowState = getFlowState(0, 0);
     lv_obj_t *obj = lv_obj_create(0);
@@ -5163,127 +5124,6 @@ void tick_screen_calibration() {
         }
     }
     
-    void create_user_widget_keyboard_old2(lv_obj_t *parent_obj, void *flowState, int startWidgetIndex) {
-        lv_obj_t *obj = parent_obj;
-        {
-            lv_obj_t *parent_obj = obj;
-            {
-                lv_obj_t *obj = lv_obj_create(parent_obj);
-                lv_obj_set_pos(obj, 0, 0);
-                lv_obj_set_size(obj, 320, 240);
-                lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
-                lv_obj_set_style_bg_color(obj, lv_color_hex(0xff000000), LV_PART_MAIN | LV_STATE_DEFAULT);
-                lv_obj_set_style_bg_opa(obj, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-                lv_obj_set_style_border_width(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-            }
-            {
-                lv_obj_t *obj = lv_label_create(parent_obj);
-                ((lv_obj_t **)&objects)[startWidgetIndex + 3] = obj;
-                lv_obj_set_pos(obj, 0, 0);
-                lv_obj_set_size(obj, 320, 25);
-                lv_label_set_long_mode(obj, LV_LABEL_LONG_SCROLL);
-                lv_label_set_text(obj, "");
-                apply_style_small_header(obj);
-            }
-            {
-                // kbtext2_1
-                lv_obj_t *obj = lv_textarea_create(parent_obj);
-                ((lv_obj_t **)&objects)[startWidgetIndex + 0] = obj;
-                lv_obj_set_pos(obj, 58, 26);
-                lv_obj_set_size(obj, 204, 43);
-                lv_textarea_set_max_length(obj, 128);
-                lv_textarea_set_one_line(obj, true);
-                lv_textarea_set_password_mode(obj, false);
-                lv_obj_add_event_cb(obj, event_handler_cb_keyboard_old2_kbtext2_1, LV_EVENT_ALL, flowState);
-                lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
-                lv_obj_set_style_text_font(obj, &lv_font_montserrat_24, LV_PART_MAIN | LV_STATE_DEFAULT);
-                lv_obj_set_style_border_width(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-                lv_obj_set_style_border_color(obj, lv_color_hex(0xffffff00), LV_PART_CURSOR | LV_STATE_DEFAULT);
-                lv_obj_set_style_border_opa(obj, 255, LV_PART_CURSOR | LV_STATE_DEFAULT);
-                lv_obj_set_style_bg_color(obj, lv_color_hex(0xffffff00), LV_PART_CURSOR | LV_STATE_DEFAULT);
-                lv_obj_set_style_bg_opa(obj, 255, LV_PART_CURSOR | LV_STATE_DEFAULT);
-            }
-            {
-                lv_obj_t *obj = lv_keyboard_create(parent_obj);
-                ((lv_obj_t **)&objects)[startWidgetIndex + 4] = obj;
-                lv_obj_set_pos(obj, 0, 70);
-                lv_obj_set_size(obj, 320, 170);
-                lv_keyboard_set_mode(obj, LV_KEYBOARD_MODE_NUMBER);
-                lv_obj_add_event_cb(obj, event_handler_cb_keyboard_old2_obj144, LV_EVENT_ALL, flowState);
-                lv_obj_set_style_align(obj, LV_ALIGN_TOP_LEFT, LV_PART_MAIN | LV_STATE_DEFAULT);
-                lv_obj_set_style_text_font(obj, &lv_font_montserrat_20, LV_PART_MAIN | LV_STATE_DEFAULT);
-            }
-            {
-                // max-button_1
-                lv_obj_t *obj = lv_btn_create(parent_obj);
-                ((lv_obj_t **)&objects)[startWidgetIndex + 1] = obj;
-                lv_obj_set_pos(obj, 263, 26);
-                lv_obj_set_size(obj, 56, 43);
-                lv_obj_add_event_cb(obj, event_handler_cb_keyboard_old2_max_button_1, LV_EVENT_ALL, flowState);
-                lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
-                lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
-                apply_style_selectbutton(obj);
-                lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
-                {
-                    lv_obj_t *parent_obj = obj;
-                    {
-                        lv_obj_t *obj = lv_label_create(parent_obj);
-                        lv_obj_set_pos(obj, 0, 0);
-                        lv_obj_set_size(obj, 56, 28);
-                        lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
-                        lv_label_set_text(obj, "Max");
-                        lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
-                    }
-                }
-            }
-            {
-                // min-button_1
-                lv_obj_t *obj = lv_btn_create(parent_obj);
-                ((lv_obj_t **)&objects)[startWidgetIndex + 2] = obj;
-                lv_obj_set_pos(obj, 1, 26);
-                lv_obj_set_size(obj, 56, 43);
-                lv_obj_add_event_cb(obj, event_handler_cb_keyboard_old2_min_button_1, LV_EVENT_ALL, flowState);
-                lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
-                lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
-                apply_style_selectbutton(obj);
-                lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
-                {
-                    lv_obj_t *parent_obj = obj;
-                    {
-                        lv_obj_t *obj = lv_label_create(parent_obj);
-                        lv_obj_set_pos(obj, 0, 0);
-                        lv_obj_set_size(obj, 56, 28);
-                        lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
-                        lv_label_set_text(obj, "Min");
-                        lv_obj_set_style_align(obj, LV_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
-                    }
-                }
-            }
-        }
-        lv_keyboard_set_textarea(((lv_obj_t **)&objects)[startWidgetIndex + 4], ((lv_obj_t **)&objects)[startWidgetIndex + 0]);
-    }
-    
-    void tick_user_widget_keyboard_old2(void *flowState, int startWidgetIndex) {
-        {
-            const char *new_val = evalTextProperty(flowState, 0, 3, "Failed to evaluate Text in Label widget");
-            const char *cur_val = lv_label_get_text(((lv_obj_t **)&objects)[startWidgetIndex + 3]);
-            if (strcmp(new_val, cur_val) != 0) {
-                tick_value_change_obj = ((lv_obj_t **)&objects)[startWidgetIndex + 3];
-                lv_label_set_text(((lv_obj_t **)&objects)[startWidgetIndex + 3], new_val);
-                tick_value_change_obj = NULL;
-            }
-        }
-        {
-            const char *new_val = evalTextProperty(flowState, 2, 3, "Failed to evaluate Text in Textarea widget");
-            const char *cur_val = lv_textarea_get_text(((lv_obj_t **)&objects)[startWidgetIndex + 0]);
-            if (strcmp(new_val, cur_val) != 0) {
-                tick_value_change_obj = ((lv_obj_t **)&objects)[startWidgetIndex + 0];
-                lv_textarea_set_text(((lv_obj_t **)&objects)[startWidgetIndex + 0], new_val);
-                tick_value_change_obj = NULL;
-            }
-        }
-    }
-    
 
 void create_screens() {
     lv_disp_t *dispp = lv_disp_get_default();
@@ -5315,7 +5155,6 @@ tick_screen_func_t tick_screen_funcs[] = {
     tick_screen_nplc,
     tick_screen_fan,
     tick_screen_display,
-    0,
     0,
     0,
 };

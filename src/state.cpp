@@ -96,16 +96,31 @@ namespace dcl
 
     void stateManager::startupDone() 
     {
+        if (_measuredStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_measuredStateMutex, portMAX_DELAY) == pdTRUE)
+            {
+                // Clear HW state memories
+                _measuredState.OCPstate = false; 
+                _measuredState.OVPstate = false;
+                _measuredState.OTPstate = false;
+                _measuredState.OPPstate = false;
+                _measuredState.SenseError = false;
+                _measuredState.PolarityError = false;
+                xSemaphoreGive(_measuredStateMutex);
+            }
+        }
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 _setState.startupDone = true;
                 _setState.mode = ELmode::CC;
+                _setState.protection = false;
                 xSemaphoreGive(_setStateMutex);
-                updateMeasureTask();
             }
         }
+        updateMeasureTask();
     }
 
     bool stateManager::CalibrationMode(bool on) 
@@ -544,6 +559,7 @@ namespace dcl
             }
         }
         updateHWIOTask();
+        updateMeasureTask();
         return updateAverageTask();
     };
 

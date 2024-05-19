@@ -51,18 +51,21 @@ SemaphoreHandle_t Wire1Sem;      // Manage sharing between tasks
 TaskHandle_t taskProtHW;
 QueueHandle_t changeHWIOSettings;
 volatile uint8_t watchdogProtHW;
+volatile bool taskProtHWReady = false;
 
 // Measurement and Ouput Task
 TaskHandle_t taskMeasureAndOutput;
 SemaphoreHandle_t adcReady;
 QueueHandle_t changeMeasureTaskSettings;
 volatile uint8_t watchdogMeasureAndOutput;
+volatile bool taskMeasureAndOutputReady = false;
 
 // Averaging and power calculation task 
 TaskHandle_t taskAveraging;
 MessageBufferHandle_t newMeasurements;
 QueueHandle_t changeAverageSettings;
 volatile uint8_t watchdogAveraging;
+volatile bool taskAveragingReady = false;
 
 // Loop task
 volatile uint8_t watchdogLoop;
@@ -178,7 +181,7 @@ void setup()
   SERIALDEBUG.setPollingMode(true);
   SERIALDEBUG.begin(115200);
 
-  sleep_ms(4000); // Wait for serial to connect
+  sleep_ms(2000); // Wait for serial to connect
   // Flush serial
   while (SERIALDEBUG.available())
   {
@@ -439,17 +442,16 @@ void setup()
 
   gui_task_init(); // Takes lot of memory?
 
-  state.setDefaults();
-  state.clearProtection(); // Reset power-on OCP/OVP latches.
-  state.record(true);
-  state.setOff();
-  state.clearPower();
+  //state.setDefaults();
+  //state.record(true);
+  //state.setOff();
+  //state.clearPower();
 
   //vTaskDelay(400);
 
   keys_task_init();
 
-  vTaskDelay(2000);
+  //vTaskDelay(2000);
 
   //gui_task_init();
 
@@ -462,7 +464,7 @@ void setup()
      SERIALDEBUG.println("ERROR: Error starting ProtHW task.");
   }
   // vTaskCoreAffinitySet(taskProtHW, 0x03); // Can run on both cores.
-  vTaskDelay(3000);
+  //vTaskDelay(3000);
 
   xTaskRet = xTaskCreate(taskAveragingFunction, "", 1024, (void *)1, TASK_PRIORITY_MEASURE, &taskAveraging);
   if (xTaskRet != pdPASS)
@@ -491,6 +493,19 @@ void setup()
   }
 #endif
 
+  // Wait for all tasks to have started into their normal run loops.
+  while(guiTaskReady == false || taskProtHWReady == false || 
+        taskAveragingReady == false || taskMeasureAndOutputReady == false)
+  {
+    vTaskDelay(5);
+  }
+
+  state.setDefaults();
+  state.record(true);
+  state.setOff();
+  state.clearPower();
+  state.clearProtection(); // Reset power-on OCP/OVP latches.
+
   heaptotal = rp2040.getTotalHeap();
   heapused = rp2040.getUsedHeap();
   heapfree = rp2040.getFreeHeap();
@@ -507,7 +522,7 @@ void setup()
   xTaskRet = xTaskCreate(watchdog, "", 200, (void *)1, TASK_PRIORITY_WATCHDOG, &taskWatchdog);
   if (xTaskRet != pdPASS)
   { // TODO: reset, something is really wrong;
-    SERIALDEBUG.println("ERROR: Error starting blink task.");
+    SERIALDEBUG.println("ERROR: Error starting watchdog task.");
   }
 
   heaptotal = rp2040.getTotalHeap();
@@ -515,7 +530,10 @@ void setup()
   heapfree = rp2040.getFreeHeap();
   SERIALDEBUG.printf("Heap total: %d, used: %d, free:  %d\n", heaptotal, heapused, heapfree);
 
+    //vTaskDelay(250 / portTICK_PERIOD_MS); // Wait for actual HW to clear.
   state.startupDone();
+  //vTaskDelay(1000 / portTICK_PERIOD_MS); // Wait for actual HW to clear.
+  //state.clearProtection(); // Reset power-on OCP/OVP latches.
   SERIALDEBUG.println("INFO: Setup done.");  
 }
 
@@ -693,12 +711,12 @@ void taskProtHWFunction(void *pvParameters)
   // Setup HW GPIO extender (MCP23017)
   pinMode(PIN_HWGPIO_INT, INPUT);
   hwio.begin(&I2C_KEYS, I2C_KEYS_SEM, HWIO_CHIP_ADDRES);
-  vTaskDelay(500); //TODO: remove?
+  vTaskDelay(100); //TODO: remove?
   hwio.pinModes(0, ~(1 << HWIO_PIN_VONLATCH | 1 << HWIO_PIN_resetProt | 1 << HWIO_PIN_HWProtEnable)); // Set output pins bank0
-  vTaskDelay(500); //TODO: remove?
+  vTaskDelay(100); //TODO: remove?
   // TODO: Cleaner implementation, not hardcoded like this.
   hwio.pinModes(0x10, (uint8_t)((~(1 << HWIO_PIN_VOLTSENSECLR | 1 << HWIO_PIN_CURRRANGELOW |1 << HWIO_PIN_VOLTRANGELOW | 1 << HWIO_PIN_VOLTSENSESET)) >> 8)) ; // Set output pins bank1
-  vTaskDelay(500); //TODO: remove?
+  vTaskDelay(100); //TODO: remove?
   hwio.pinInterrupts  (0,  // Bank 
                           1 << HWIO_PIN_OCPTRIG | 1 << HWIO_PIN_OVPTRIG | 1 << HWIO_PIN_VON | 1 << HWIO_PIN_SENSE_ERROR, // Only relevant input pins
                           0x00,  // Compare against 0
@@ -709,10 +727,11 @@ void taskProtHWFunction(void *pvParameters)
   ::attachInterrupt(digitalPinToInterrupt(PIN_HWGPIO_INT), ISR_ProtHW, FALLING);
   gpiopinstate = hwio.digitalRead(0); //Clear interrupt pin status. Only needed for bank0
 
+  taskProtHWReady = true;
   for (;;)
   {
     // Notified by interrupt or wait 100ms.
-    ulTaskNotifyTake(pdTRUE, (TickType_t)100); 
+    ulTaskNotifyTake(pdTRUE, (TickType_t)100 / portTICK_PERIOD_MS); 
 
     gpiointerruptflagged = hwio.interruptFlagged(0);
     gpiopinstate = hwio.digitalRead(0); // Inputs are on bank0, therefor we only need to read bank0
@@ -924,7 +943,7 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
   uint32_t ocpsetRaw, ocpsetRawPrev = 0;
   uint32_t ovpsetRaw, ovpsetRawPrev = 0;
 
-  vTaskDelay(200); // Wait for affinity.
+  //vTaskDelay(200); // Wait for affinity.
 
 #ifndef FAKE_HARDWARE
   // Setup all hardware. First set SPI CS correct before starting interrupt 
@@ -943,6 +962,7 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
   currentADC.attachInterrupt();
 #endif
 
+  taskMeasureAndOutputReady = true;
   for (;;)
   {
     // Notify is set by interrupt to trigger this task (takes around 20-30us)
@@ -1179,8 +1199,8 @@ void taskAveragingFunction(void *pvParameters)
   float localTimeStop = 0, prevTimeStop = 0;
 
   //SERIALDEBUG.println("INFO: Going into average loop.");
-  state.updateAverageTask(); // Prepare message for myself to load defaults.
-
+  // state.updateAverageTask(); // Prepare message for myself to load defaults.
+  taskAveragingReady = true;
   for (;;)
   {
     xMessageBufferReceive(newMeasurements, &newMsg, sizeof(newMsg), portMAX_DELAY);
