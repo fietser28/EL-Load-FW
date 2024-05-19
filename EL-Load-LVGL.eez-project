@@ -2093,7 +2093,7 @@
           "left": 269,
           "top": 314,
           "width": 231,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -2113,7 +2113,7 @@
           "left": -45,
           "top": 314,
           "width": 116,
-          "height": 69,
+          "height": 70,
           "customInputs": [],
           "customOutputs": [],
           "value": "startupDone"
@@ -2124,10 +2124,10 @@
           "left": 131,
           "top": 314,
           "width": 87,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
-          "milliseconds": "2500"
+          "milliseconds": "500"
         },
         {
           "objID": "12f6e8c8-aed3-47d5-e8d8-cd7ca620754b",
@@ -2135,7 +2135,7 @@
           "left": -251,
           "top": 314,
           "width": 142,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "startupDone"
@@ -4245,7 +4245,7 @@
           "left": 585,
           "top": -542,
           "width": 208,
-          "height": 125,
+          "height": 130,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -4511,7 +4511,7 @@
           "left": 472,
           "top": -143,
           "width": 256,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -4531,7 +4531,7 @@
           "left": 392,
           "top": 237,
           "width": 274,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -4551,7 +4551,7 @@
           "left": 194,
           "top": 1067,
           "width": 168,
-          "height": 107,
+          "height": 111,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -4652,7 +4652,7 @@
           "type": "SetVariableActionComponent",
           "left": 525,
           "top": 1313,
-          "width": 195,
+          "width": 196,
           "height": 75,
           "customInputs": [],
           "customOutputs": [],
@@ -4713,7 +4713,7 @@
           "left": -393,
           "top": 45,
           "width": 129,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "rangeType"
@@ -4724,7 +4724,7 @@
           "left": -436,
           "top": 162,
           "width": 160,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "setValueString"
@@ -4769,7 +4769,7 @@
           "left": 784,
           "top": 128,
           "width": 360,
-          "height": 161,
+          "height": 169,
           "customInputs": [
             {
               "objID": "94cd8ee1-5719-4df6-944b-2d3a0e561bee",
@@ -4840,7 +4840,7 @@
           "left": 289,
           "top": 588,
           "width": 303,
-          "height": 89,
+          "height": 92,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -4892,7 +4892,7 @@
           "type": "SetVariableActionComponent",
           "left": 277,
           "top": 705,
-          "width": 195,
+          "width": 196,
           "height": 55,
           "customInputs": [],
           "customOutputs": [],
@@ -5012,7 +5012,7 @@
           "left": 689,
           "top": -323,
           "width": 87,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "description": "BUG or strange race condition?",
@@ -5070,7 +5070,7 @@
           "left": 172,
           "top": -387,
           "width": 99,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "mode"
@@ -5104,7 +5104,7 @@
           "left": 172,
           "top": -646,
           "width": 99,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "iset"
@@ -5115,7 +5115,7 @@
           "left": 172,
           "top": -581,
           "width": 99,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "uset\n"
@@ -5126,7 +5126,7 @@
           "left": 172,
           "top": -520,
           "width": 99,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "pset"
@@ -5137,7 +5137,7 @@
           "left": 172,
           "top": -451,
           "width": 99,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "rset"
@@ -5148,7 +5148,7 @@
           "left": 392,
           "top": 173,
           "width": 256,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -5201,7 +5201,7 @@
           "left": 480,
           "top": 784,
           "width": 168,
-          "height": 107,
+          "height": 111,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -5287,7 +5287,7 @@
           "type": "SetVariableActionComponent",
           "left": 726,
           "top": 934,
-          "width": 195,
+          "width": 196,
           "height": 55,
           "customInputs": [],
           "customOutputs": [],
