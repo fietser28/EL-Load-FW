@@ -13,9 +13,10 @@ typedef struct _objects_t {
     lv_obj_t *capacity;
     lv_obj_t *settings;
     lv_obj_t *events;
+    lv_obj_t *ranges;
+    lv_obj_t *nplc;
     lv_obj_t *protections;
     lv_obj_t *calibration;
-    lv_obj_t *nplc;
     lv_obj_t *fan;
     lv_obj_t *display;
     lv_obj_t *ah;
@@ -35,12 +36,15 @@ typedef struct _objects_t {
     lv_obj_t *nlpc_home;
     lv_obj_t *nlpc_home_1;
     lv_obj_t *nlpc_home_2;
+    lv_obj_t *nlpc_home_3;
     lv_obj_t *nlpc_home_cancel;
     lv_obj_t *nlpc_home_cancel_1;
     lv_obj_t *nlpc_home_cancel_2;
     lv_obj_t *nlpc_home_cancel_3;
     lv_obj_t *nlpc_home_cancel_4;
     lv_obj_t *nlpc_home_cancel_5;
+    lv_obj_t *nlpc_home_cancel_6;
+    lv_obj_t *nlpc_home_cancel_7;
     lv_obj_t *obj0;
     lv_obj_t *obj1;
     lv_obj_t *obj10;
@@ -69,10 +73,10 @@ typedef struct _objects_t {
     lv_obj_t *obj116;
     lv_obj_t *obj117;
     lv_obj_t *obj118;
-    lv_obj_t *obj118__obj119;
-    lv_obj_t *obj118__obj120;
-    lv_obj_t *obj118__obj121;
+    lv_obj_t *obj119;
     lv_obj_t *obj12;
+    lv_obj_t *obj120;
+    lv_obj_t *obj121;
     lv_obj_t *obj122;
     lv_obj_t *obj123;
     lv_obj_t *obj124;
@@ -80,28 +84,38 @@ typedef struct _objects_t {
     lv_obj_t *obj126;
     lv_obj_t *obj127;
     lv_obj_t *obj128;
+    lv_obj_t *obj128__kbtext2;
+    lv_obj_t *obj128__max_button;
+    lv_obj_t *obj128__min_button;
+    lv_obj_t *obj128__obj24;
+    lv_obj_t *obj128__obj25;
     lv_obj_t *obj129;
     lv_obj_t *obj13;
     lv_obj_t *obj130;
     lv_obj_t *obj131;
     lv_obj_t *obj132;
-    lv_obj_t *obj132__obj119;
-    lv_obj_t *obj132__obj120;
-    lv_obj_t *obj132__obj121;
     lv_obj_t *obj133;
     lv_obj_t *obj134;
     lv_obj_t *obj135;
     lv_obj_t *obj136;
     lv_obj_t *obj137;
     lv_obj_t *obj138;
+    lv_obj_t *obj138__obj77;
+    lv_obj_t *obj138__obj78;
+    lv_obj_t *obj138__obj79;
     lv_obj_t *obj139;
     lv_obj_t *obj14;
     lv_obj_t *obj140;
     lv_obj_t *obj141;
     lv_obj_t *obj142;
-    lv_obj_t *obj142__obj119;
-    lv_obj_t *obj142__obj120;
-    lv_obj_t *obj142__obj121;
+    lv_obj_t *obj143;
+    lv_obj_t *obj144;
+    lv_obj_t *obj145;
+    lv_obj_t *obj146;
+    lv_obj_t *obj147;
+    lv_obj_t *obj147__obj77;
+    lv_obj_t *obj147__obj78;
+    lv_obj_t *obj147__obj79;
     lv_obj_t *obj15;
     lv_obj_t *obj16;
     lv_obj_t *obj17;
@@ -178,9 +192,9 @@ typedef struct _objects_t {
     lv_obj_t *obj74;
     lv_obj_t *obj75;
     lv_obj_t *obj76;
-    lv_obj_t *obj77;
-    lv_obj_t *obj78;
-    lv_obj_t *obj79;
+    lv_obj_t *obj76__obj77;
+    lv_obj_t *obj76__obj78;
+    lv_obj_t *obj76__obj79;
     lv_obj_t *obj8;
     lv_obj_t *obj80;
     lv_obj_t *obj81;
@@ -191,14 +205,12 @@ typedef struct _objects_t {
     lv_obj_t *obj86;
     lv_obj_t *obj87;
     lv_obj_t *obj88;
+    lv_obj_t *obj88__obj77;
+    lv_obj_t *obj88__obj78;
+    lv_obj_t *obj88__obj79;
     lv_obj_t *obj89;
     lv_obj_t *obj9;
     lv_obj_t *obj90;
-    lv_obj_t *obj90__kbtext2;
-    lv_obj_t *obj90__max_button;
-    lv_obj_t *obj90__min_button;
-    lv_obj_t *obj90__obj24;
-    lv_obj_t *obj90__obj25;
     lv_obj_t *obj91;
     lv_obj_t *obj92;
     lv_obj_t *obj93;
@@ -230,13 +242,14 @@ enum ScreensEnum {
     SCREEN_ID_CAPACITY = 3,
     SCREEN_ID_SETTINGS = 4,
     SCREEN_ID_EVENTS = 5,
-    SCREEN_ID_PROTECTIONS = 6,
-    SCREEN_ID_CALIBRATION = 7,
-    SCREEN_ID_NPLC = 8,
-    SCREEN_ID_FAN = 9,
-    SCREEN_ID_DISPLAY = 10,
-    SCREEN_ID_QUESTION_YN = 11,
-    SCREEN_ID_KEYBOARD = 12,
+    SCREEN_ID_RANGES = 6,
+    SCREEN_ID_NPLC = 7,
+    SCREEN_ID_PROTECTIONS = 8,
+    SCREEN_ID_CALIBRATION = 9,
+    SCREEN_ID_FAN = 10,
+    SCREEN_ID_DISPLAY = 11,
+    SCREEN_ID_QUESTION_YN = 12,
+    SCREEN_ID_KEYBOARD = 13,
 };
 
 void create_screen_startup();
@@ -254,14 +267,17 @@ void tick_screen_settings();
 void create_screen_events();
 void tick_screen_events();
 
+void create_screen_ranges();
+void tick_screen_ranges();
+
+void create_screen_nplc();
+void tick_screen_nplc();
+
 void create_screen_protections();
 void tick_screen_protections();
 
 void create_screen_calibration();
 void tick_screen_calibration();
-
-void create_screen_nplc();
-void tick_screen_nplc();
 
 void create_screen_fan();
 void tick_screen_fan();

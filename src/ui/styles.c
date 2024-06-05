@@ -83,6 +83,7 @@ void apply_style_selector_small(lv_obj_t *obj) {
     lv_obj_set_style_bg_color(obj, lv_color_hex(0xff818181), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(obj, lv_color_hex(0xffffff00), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(obj, lv_color_hex(0xffcccccc), LV_PART_MAIN | LV_STATE_DISABLED);
+    lv_obj_set_style_bg_color(obj, lv_color_hex(0xff111111), LV_PART_MAIN | LV_STATE_DISABLED);
 };
 void apply_style_slider(lv_obj_t *obj) {
     lv_obj_set_style_bg_color(obj, lv_color_hex(0xff818181), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -128,5 +129,24 @@ void apply_style_checkbox_default(lv_obj_t *obj) {
     lv_obj_set_style_bg_color(obj, lv_color_hex(0xff818181), LV_PART_INDICATOR | LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(obj, lv_color_hex(0xffffff00), LV_PART_INDICATOR | LV_STATE_CHECKED);
     lv_obj_set_style_bg_color(obj, lv_color_hex(0xff818181), LV_PART_INDICATOR | LV_STATE_CHECKED);
+};
+void apply_style_screen_background(lv_obj_t *obj) {
+    lv_obj_set_style_bg_color(obj, lv_color_hex(0xff000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+};
+void apply_style_transparant_overlay(lv_obj_t *obj) {
+    lv_obj_set_style_bg_opa(obj, 64, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_side(obj, LV_BORDER_SIDE_NONE, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+};
+void apply_style_selector_with_disable(lv_obj_t *obj) {
+    lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(obj, lv_color_hex(0xffffff00), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(obj, lv_color_hex(0xff818181), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(obj, &lv_font_montserrat_18, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(obj, lv_color_hex(0xff111111), LV_PART_MAIN | LV_STATE_DISABLED);
+    lv_obj_set_style_text_color(obj, lv_color_hex(0xffcccccc), LV_PART_MAIN | LV_STATE_DISABLED);
+    lv_obj_set_style_bg_color(obj, lv_color_hex(0xff404040), LV_PART_SELECTED | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(obj, 0, LV_PART_SELECTED | LV_STATE_DEFAULT);
 };
 

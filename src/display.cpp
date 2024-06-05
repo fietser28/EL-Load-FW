@@ -21,6 +21,10 @@
 #define MY_LV_TICK_TIME 20     // ms
 #define MY_LV_UPDATE_TIME 100  // ms
 
+#ifndef TFT_BUFFERLINES
+#define TFT_BUFFERLINES 10
+#endif
+
 TFT_eSPI tft = TFT_eSPI(); /* TFT instance */
 
 static void guiTask(void *pvParameter);
@@ -35,7 +39,7 @@ static const uint32_t screenWidth = EEZ_WIDTH;
 static const uint32_t screenHeight = EEZ_HEIGHT;
 
 static lv_disp_draw_buf_t draw_buf;
-static lv_color_t buf[screenWidth * 10];
+static lv_color_t buf[TFT_BUFFERLINES * screenWidth];
 
 static lv_disp_drv_t disp_drv;
 static lv_indev_drv_t indev_drv;     // Touchscreen
@@ -266,7 +270,7 @@ static void __not_in_flash_func(guiTask(void *pvParameter))
   //  uint16_t calData[5] = { 275, 3620, 264, 3532, 1 };
   //  tft.setTouch( calData );
 
-  lv_disp_draw_buf_init(&draw_buf, buf, NULL, screenWidth * 10);
+  lv_disp_draw_buf_init(&draw_buf, buf, NULL, TFT_BUFFERLINES * screenWidth);
 
   /*Initialize the display*/
   lv_disp_drv_init(&disp_drv);
