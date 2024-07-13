@@ -87,6 +87,7 @@ scpi_result_t SCPI_Flush(scpi_t * context) {
      {"CR", mode_e_CR},
      {"CP", mode_e_CP},
      {"SHORT", mode_e_SHORT},
+     {"DVM", mode_e_DVM},
      SCPI_CHOICE_LIST_END /* termination of option list */
 };
 
@@ -721,6 +722,10 @@ scpi_result_t scpi_cmd_source_modeQ(scpi_t *context)
             break;
         case ELmode::SHORT:
             mode = mode_e_SHORT;
+            break;
+        case ELmode::DVM:
+            mode = mode_e_DVM;
+            break;
         default:
             mode = mode_e_CC;
             break;

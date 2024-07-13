@@ -13,6 +13,8 @@
 #include "message_buffer.h"
 #include "SPI.h"
 
+#include <eez/flow/queue.h>
+
 #include "main.h"
 #include "state.h"
 #include "util.h"
@@ -546,6 +548,8 @@ int cyclecount = 0;
 // TODO remove, just for testing.
 uint8_t fanstatus = 0;
 
+lv_mem_monitor_t lv_mem_stats;
+
 void loop()
 {
   // TODO: Replace with SCPI reading class/task?
@@ -554,11 +558,18 @@ void loop()
     //SERIALDEBUG.write(SERIALDEBUG.read());
     char ch = SERIALDEBUG.read();
     if (ch == '\n') {
+      /*
         heaptotal = rp2040.getTotalHeap();
         heapused = rp2040.getUsedHeap();
         heapfree = rp2040.getFreeHeap();
-        SERIALDEBUG.printf("\nHeap total: %d, used: %d, free:  %d, scpi busy: %d\n", heaptotal, heapused, heapfree,scpi_busy);
-        SERIALDEBUG.printf("%d, %d, %d, %d, %d, %d, %d",watchdogAveraging, watchdogEncTask, watchdogGuiTask, watchdogGuiTimerFunction, watchdogLoop, watchdogProtHW, watchdogMeasureAndOutput);
+        SERIALDEBUG.printf("\nHeap total: %d, used: %d, free:  %d\n", heaptotal, heapused, heapfree);
+        //SERIALDEBUG.printf("%d, %d, %d, %d, %d, %d, %d\n",watchdogAveraging, watchdogEncTask, watchdogGuiTask, watchdogGuiTimerFunction, watchdogLoop, watchdogProtHW, watchdogMeasureAndOutput);
+        lv_mem_monitor(&lv_mem_stats);
+        SERIALDEBUG.printf("LV mem: total: %d, used: %d, free:%d, free biggest: %d, used %%: %d%%, max used: %d, count used/free: %d/%d \n", 
+                             lv_mem_stats.total_size, lv_mem_stats.total_size-lv_mem_stats.free_size, lv_mem_stats.free_size, lv_mem_stats.free_biggest_size, 
+                             lv_mem_stats.used_pct, lv_mem_stats.max_used, lv_mem_stats.used_cnt, lv_mem_stats.free_cnt);
+        SERIALDEBUG.printf("Flow Queue: current: %d, max used: %d\n", eez::flow::getQueueSize(), eez::flow::getMaxQueueSize() );
+      */
     } else {
     //    SERIALDEBUG.write(ch); // TODO: Keep echo back or make it an option?
     }

@@ -49,7 +49,8 @@ namespace dcl
         CC,
         CV,
         CR,
-        CP
+        CP,
+        DVM
     };
 
     struct calibrationRawData

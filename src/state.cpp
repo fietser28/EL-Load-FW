@@ -162,6 +162,10 @@ namespace dcl
         if (_setState.protection == true || ( _setState.capacityLimit == true && _setState.record == true)) {
             return false;
         }
+        // Don't enable in DVM mode.
+        if (_setState.mode == ELmode::DVM) {
+            return false;
+        }
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
@@ -678,6 +682,9 @@ namespace dcl
                     break;
                 case mode_e_SHORT:
                     _setState.mode = ELmode::SHORT;
+                    break;
+                case mode_e_DVM:
+                    _setState.mode = ELmode::DVM;
                     break;
                 default:
                     _setState.mode = ELmode::CC;
