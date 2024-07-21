@@ -83,6 +83,16 @@ extern scpi_result_t scpi_cmd_source_modeQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_input_prot_clear(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_input_prot_tripQ(scpi_t *context);
 
+extern scpi_result_t scpi_cmd_source_input_prot_wdog(scpi_t *context);
+extern scpi_result_t scpi_cmd_source_input_prot_wdogQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_source_input_prot_wdog_clear(scpi_t *context);
+extern scpi_result_t scpi_cmd_source_input_prot_wdog_del(scpi_t *context);
+extern scpi_result_t scpi_cmd_source_input_prot_wdog_delQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_source_input_prot_wdog_pet(scpi_t *context);
+extern scpi_result_t scpi_cmd_source_input_prot_wdog_type(scpi_t *context);
+extern scpi_result_t scpi_cmd_source_input_prot_wdog_typeQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_source_input_prot_wdog_tripQ(scpi_t *context);
+
 extern scpi_result_t scpi_cmd_source_cap(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_capQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_cap_zero(scpi_t *context);

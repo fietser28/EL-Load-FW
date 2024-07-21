@@ -74,6 +74,9 @@ namespace dcl
                 _setState.rangeCurrentLow = false;
                 _setState.rangeVoltageLow = false;
                 _setState.senseVoltRemote = false;
+                _setState.scpiWdogEnabled = false;
+                _setState.scpiWdogDelay = 10;
+                _setState.scpiWdogType = WDogType::ACTIVITY;
                 xSemaphoreGive(_setStateMutex);
                 updateMeasureTask();
                 updateAverageTask(true);
@@ -1031,6 +1034,175 @@ namespace dcl
         }
         return false;
     }
+
+    bool stateManager::setSCPIWdog(bool enable) 
+    {
+        SCPIWdogPet(); // Clear timer
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
+            {
+                _setState.scpiWdogEnabled = enable;
+                xSemaphoreGive(_setStateMutex);
+                return true;
+            }
+        }
+        return false;
+    };
+
+    bool stateManager::getSCPIWdog() 
+    {
+        bool enabled;
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
+            {
+                enabled = _setState.scpiWdogEnabled;
+                xSemaphoreGive(_setStateMutex);
+                return enabled;
+            };
+        };
+        return 0;
+    };
+
+    bool stateManager::SCPIWdogClear() 
+    {
+        if (_measuredStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_measuredStateMutex, (TickType_t)100) == pdTRUE)
+            {
+                _measuredState.scpiWdogLastPet = millis();
+                _measuredState.scpiWdogTriggered = false;
+                xSemaphoreGive(_measuredStateMutex);
+                return true;
+            }
+        }
+        return false;
+    };
+
+    bool stateManager::setSCPIWdogDelay(uint32_t delay)
+    {
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
+            {
+                _setState.scpiWdogDelay = delay;
+                xSemaphoreGive(_setStateMutex);
+                return true;
+            }
+        }
+        return false;
+    };
+
+    uint32_t stateManager::getSCPIWdogDelay()
+    {
+        uint32_t delay;
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
+            {
+                delay = _setState.scpiWdogDelay;
+                xSemaphoreGive(_setStateMutex);
+                return delay;
+            };
+        };
+        return 0;
+    };
+
+    bool stateManager::setSCPIWdogType(WDogType wdtype)
+        {
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
+            {
+                _setState.scpiWdogType = wdtype;
+                xSemaphoreGive(_setStateMutex);
+                return true;
+            };
+        };
+        return false;
+    };
+
+    WDogType stateManager::getSCPIWdogType()
+    {
+        WDogType type;
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
+            {
+                type = _setState.scpiWdogType;
+                xSemaphoreGive(_setStateMutex);
+                return type;
+            };
+        };
+        return WDogType::ACTIVITY; // TODO: Fix to an error state.
+    };
+
+    bool stateManager::SCPIWdogPet()
+    {
+        if (_measuredStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_measuredStateMutex, (TickType_t)100) == pdTRUE)
+            {
+                _measuredState.scpiWdogLastPet = millis();
+                xSemaphoreGive(_measuredStateMutex);
+                return true;
+            }
+        }
+        return false;
+    };
+
+    bool stateManager::SCPIWdogCheck()
+    {
+        uint32_t lastPet = 0;
+        bool wdogEnabled;
+        uint32_t wdogDelay;
+        if (_measuredStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_measuredStateMutex, (TickType_t)100) == pdTRUE)
+            {
+                lastPet = _measuredState.scpiWdogLastPet;
+                xSemaphoreGive(_measuredStateMutex);
+            }
+        }
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
+            {
+                wdogEnabled = _setState.scpiWdogEnabled;
+                wdogDelay   = _setState.scpiWdogDelay;
+                xSemaphoreGive(_setStateMutex);
+            };
+        };
+        if (wdogEnabled && (lastPet+ wdogDelay*1000 < millis())) {
+            // Trigger watchdog
+            setProtection();
+            if (_measuredStateMutex != NULL)
+            {
+                if (xSemaphoreTake(_measuredStateMutex, (TickType_t)100) == pdTRUE)
+                {
+                    _measuredState.scpiWdogTriggered = true;
+                    xSemaphoreGive(_measuredStateMutex);
+                }
+            }
+            return false;      
+        }
+        return true;
+    };
+
+    bool stateManager::getSCPIWdogTripped()
+    {
+        bool tripped = false;
+        if (_measuredStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_measuredStateMutex, (TickType_t)100) == pdTRUE)
+            {
+                tripped = _measuredState.scpiWdogTriggered;
+                xSemaphoreGive(_measuredStateMutex);
+            }
+        }
+        return tripped;
+    };
 
     bool stateManager::updateAverageTask(bool clearPower)
     {

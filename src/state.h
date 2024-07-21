@@ -37,6 +37,8 @@ namespace dcl
         bool CapAhStopTriggered;
         bool CapWhStopTriggered;
         bool CapTimeStopTriggered;
+        bool scpiWdogTriggered;
+        uint32_t scpiWdogLastPet;
         float Temp1;
         float Temp2;
         uint32_t FanRPM;
@@ -53,6 +55,11 @@ namespace dcl
         DVM
     };
 
+    enum WDogType
+    {
+        ACTIVITY,
+        PET
+    };
     struct calibrationRawData
     {
         int32_t    avgCurrentRaw; // TODO: 2's complement because of ADS131M02
@@ -98,6 +105,9 @@ namespace dcl
         bool rangeCurrentLow;
         bool rangeVoltageLow;
         bool senseVoltRemote;
+        bool scpiWdogEnabled;
+        uint32_t scpiWdogDelay;
+        WDogType scpiWdogType;
     };
 
 #ifdef __cplusplus
@@ -193,6 +203,18 @@ public:
     uint32_t getPLFreq();
     bool record(bool setrecord);
     bool toggleRecord();
+    bool setSCPIWdog(bool enable);
+    bool getSCPIWdog();
+    bool SCPIWdogClear();
+    bool setSCPIWdogDelay(uint32_t delay);
+    uint32_t getSCPIWdogDelay();
+    bool setSCPIWdogType(WDogType wdtype);
+    WDogType getSCPIWdogType();
+    bool SCPIWdogPet();
+    bool SCPIWdogCheck();
+    bool getSCPIWdogTripped();
+
+// TODO: Move to private?
     bool updateHWIOTask();
     bool updateMeasureTask();
     bool updateAverageTask(bool clearPower = false);

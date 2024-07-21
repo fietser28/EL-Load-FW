@@ -15,7 +15,8 @@ typedef enum {
     mode_e_CV = 1,
     mode_e_CP = 2,
     mode_e_CR = 3,
-    mode_e_SHORT = 4
+    mode_e_SHORT = 4,
+    mode_e_DVM = 5
 } mode_e;
 
 typedef enum {
@@ -80,7 +81,8 @@ typedef enum {
     ranges_e_TimeStop = 20,
     ranges_e_VoltStop = 21,
     ranges_e_WHStop = 22,
-    ranges_e_FanSpeed = 23
+    ranges_e_FanSpeed = 23,
+    ranges_e_WatchdogDelay = 24
 } ranges_e;
 
 // For calibration actions

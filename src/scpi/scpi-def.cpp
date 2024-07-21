@@ -193,6 +193,12 @@ bool get_range_from_param(scpi_t *context, const scpi_number_t &param, ranges_e 
     return true;
 };
 
+// Helper list for SCPI watchdog type.
+scpi_choice_def_t scpi_wdog_list[] = {
+    {"ACTivity", dcl::WDogType::ACTIVITY},
+    {"PET", dcl::WDogType::PET}
+};
+
 // Helper list for power line frequency parsing.
 scpi_choice_def_t sense_plfreq_list[] = {
      {"50", 50},
@@ -758,6 +764,85 @@ scpi_result_t scpi_cmd_source_input_prot_tripQ(scpi_t *context)
     bool res = localSetState.protection || localMeasureState.OCPstate || localMeasureState.OVPstate || localMeasureState.OPPstate || localMeasureState.OTPstate;
     SCPI_ResultBool(context, res);
     return SCPI_RES_OK;    
+};
+
+scpi_result_t scpi_cmd_source_input_prot_wdog(scpi_t *context) {
+    scpi_bool_t param1;
+    if (!SCPI_ParamBool(context, &param1, TRUE)) {
+         return SCPI_RES_ERR;
+    }
+    if (!state.setSCPIWdog(param1)) {
+        SCPI_ErrorPush(context, SCPI_ERROR_EXECUTION_ERROR);
+        return SCPI_RES_ERR;
+    };
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_source_input_prot_wdogQ(scpi_t *context) {
+    SCPI_ResultBool(context, state.getSCPIWdog());
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_source_input_prot_wdog_clear(scpi_t *context) {
+    if (!state.SCPIWdogClear()) {
+        return SCPI_RES_ERR;
+    };
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_source_input_prot_wdog_del(scpi_t *context) {
+    scpi_parameter_t param;
+    scpi_number_t    scpi_number;
+    scpi_special_number_t scpi_special;
+    float value;
+    ranges_e range;
+
+    // Parse command to number type
+    if (!SCPI_ParamNumber(context, number_specials, &scpi_number, TRUE)) {
+        return SCPI_RES_ERR;
+    }
+
+    // translate number type to real value depending on range definition
+    if (!get_value_from_param(context, scpi_number, ranges_e_WatchdogDelay, value)) {
+        return SCPI_RES_ERR;
+    };
+
+    state.setSCPIWdogDelay((int32_t)value);
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_source_input_prot_wdog_delQ(scpi_t *context) {
+    SCPI_ResultUInt32(context, state.getSCPIWdogDelay());
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_source_input_prot_wdog_pet(scpi_t *context) {
+    if (!state.SCPIWdogPet()) {
+        SCPI_ErrorPush(context, SCPI_ERROR_DEVICE_ERROR);
+        return SCPI_RES_ERR;
+    };
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_source_input_prot_wdog_type(scpi_t *context) {
+    int32_t param;
+    if (!SCPI_ParamChoice(context, scpi_wdog_list, &param, TRUE)) {
+        return SCPI_RES_ERR;
+    }
+    if (!state.setSCPIWdogType((WDogType)param)) {
+        SCPI_ErrorPush(context, SCPI_ERROR_DEVICE_ERROR);
+        return SCPI_RES_ERR;
+    };
+    return SCPI_RES_OK;
+};
+scpi_result_t scpi_cmd_source_input_prot_wdog_typeQ(scpi_t *context) {
+    SCPI_ResultUInt8(context, state.getSCPIWdogType());
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_source_input_prot_wdog_tripQ(scpi_t *context) {
+    SCPI_ResultBool(context, state.getSCPIWdogTripped());
+    return SCPI_RES_OK;
 };
 
 scpi_result_t scpi_cmd_source_cap(scpi_t *context) {

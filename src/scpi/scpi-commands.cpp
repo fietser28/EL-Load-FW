@@ -81,6 +81,17 @@ const scpi_command_t scpi_commands[] = {
     // Reset calibration points to running values when entered calibration
     {"CALibration[:TYPe]:RESET", scpi_cmd_cal_type_reset, 0},
 
+    // Debug commands
+    /*
+    {"DEBug:FLOW:QUEue:SIZe?"}
+    {"DEBug:FLOW:QUEue:HIGHest?"}
+    {"DEBug:FLOW:QUEue[:CURRent]?"}
+    {"DEBug:LVGL:MEMory:TOTal?"}
+    {"DEBug:LVGL:MEMory:FREE?"}
+    {"DEBug:LVGL:MEMory:FREE:BIGgest?"}
+    */
+
+
     /* Fetch. This reads the last measured value, doesn't trigger and wait like measure */
     {"FETCh[:SCALar]:CURRent[:DC]?", scpi_cmd_fetch_current, 0},
     {"FETCh[:SCALar]:VOLTage[:DC]?", scpi_cmd_fetch_voltage, 0},
@@ -110,6 +121,17 @@ const scpi_command_t scpi_commands[] = {
     {"[SOURce]:INPut:PROTection:CLEar", scpi_cmd_source_input_prot_clear, 0},  // no arguments
     {"[SOURce]:INPut:PROTection:TRIPped?", scpi_cmd_source_input_prot_tripQ, 0},
 
+    // SCPI watchdog protection. Enter protection state if SCPI communication stops.
+    {"[SOURce]:INPut:PROTection:WDOG", scpi_cmd_source_input_prot_wdog, 0},  // ON|OFF|1|0
+    {"[SOURce]:INPut:PROTection:WDOG?", scpi_cmd_source_input_prot_wdogQ, 0},
+    {"[SOURce]:INPut:PROTection:WDOG:CLEar", scpi_cmd_source_input_prot_wdog_clear, 0}, 
+    {"[SOURce]:INPut:PROTection:WDOG:DELay", scpi_cmd_source_input_prot_wdog_del, 0},  // 1-3600
+    {"[SOURce]:INPut:PROTection:WDOG:DELay?", scpi_cmd_source_input_prot_wdog_delQ, 0},
+    {"[SOURce]:INPut:PROTection:WDOG:PET", scpi_cmd_source_input_prot_wdog_pet, 0},  
+    {"[SOURce]:INPut:PROTection:WDOG:TYPe", scpi_cmd_source_input_prot_wdog_type, 0},  // ACTivity|PET (ACT=default)
+    {"[SOURce]:INPut:PROTection:WDOG:TYPe?", scpi_cmd_source_input_prot_wdog_typeQ, 0},
+    {"[SOURce]:INPut:PROTection:WDOG:TRIPped?", scpi_cmd_source_input_prot_wdog_tripQ, 0},
+    
     // Capacity set.query commands
     {"[SOURce]:CAPacity[:STATe]", scpi_cmd_source_cap, 0},  // ON|OFF|1|0
     {"[SOURce]:CAPacity[:STATe]?", scpi_cmd_source_capQ, 0},

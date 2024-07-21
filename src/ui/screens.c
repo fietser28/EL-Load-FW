@@ -1634,12 +1634,14 @@ void tick_screen_main() {
         }
     }
     {
-        int32_t new_val = evalIntegerProperty(flowState, 49, 4, "Failed to evaluate Selected in Dropdown widget");
-        int32_t cur_val = lv_dropdown_get_selected(objects.mode_selector);
-        if (new_val != cur_val) {
-            tick_value_change_obj = objects.mode_selector;
-            lv_dropdown_set_selected(objects.mode_selector, new_val);
-            tick_value_change_obj = NULL;
+        if (!(lv_obj_get_state(objects.mode_selector) & LV_STATE_EDITED)) {
+            int32_t new_val = evalIntegerProperty(flowState, 49, 4, "Failed to evaluate Selected in Dropdown widget");
+            int32_t cur_val = lv_dropdown_get_selected(objects.mode_selector);
+            if (new_val != cur_val) {
+                tick_value_change_obj = objects.mode_selector;
+                lv_dropdown_set_selected(objects.mode_selector, new_val);
+                tick_value_change_obj = NULL;
+            }
         }
     }
     {
@@ -3294,12 +3296,14 @@ void tick_screen_ranges() {
         }
     }
     {
-        int32_t new_val = evalIntegerProperty(flowState, 19, 4, "Failed to evaluate Selected in Dropdown widget");
-        int32_t cur_val = lv_dropdown_get_selected(objects.obj79);
-        if (new_val != cur_val) {
-            tick_value_change_obj = objects.obj79;
-            lv_dropdown_set_selected(objects.obj79, new_val);
-            tick_value_change_obj = NULL;
+        if (!(lv_obj_get_state(objects.obj79) & LV_STATE_EDITED)) {
+            int32_t new_val = evalIntegerProperty(flowState, 19, 4, "Failed to evaluate Selected in Dropdown widget");
+            int32_t cur_val = lv_dropdown_get_selected(objects.obj79);
+            if (new_val != cur_val) {
+                tick_value_change_obj = objects.obj79;
+                lv_dropdown_set_selected(objects.obj79, new_val);
+                tick_value_change_obj = NULL;
+            }
         }
     }
     {
@@ -3313,12 +3317,14 @@ void tick_screen_ranges() {
         }
     }
     {
-        int32_t new_val = evalIntegerProperty(flowState, 20, 4, "Failed to evaluate Selected in Dropdown widget");
-        int32_t cur_val = lv_dropdown_get_selected(objects.obj80);
-        if (new_val != cur_val) {
-            tick_value_change_obj = objects.obj80;
-            lv_dropdown_set_selected(objects.obj80, new_val);
-            tick_value_change_obj = NULL;
+        if (!(lv_obj_get_state(objects.obj80) & LV_STATE_EDITED)) {
+            int32_t new_val = evalIntegerProperty(flowState, 20, 4, "Failed to evaluate Selected in Dropdown widget");
+            int32_t cur_val = lv_dropdown_get_selected(objects.obj80);
+            if (new_val != cur_val) {
+                tick_value_change_obj = objects.obj80;
+                lv_dropdown_set_selected(objects.obj80, new_val);
+                tick_value_change_obj = NULL;
+            }
         }
     }
     {
@@ -3606,12 +3612,14 @@ void tick_screen_nplc() {
         }
     }
     {
-        int32_t new_val = evalIntegerProperty(flowState, 29, 3, "Failed to evaluate Selected in Dropdown widget");
-        int32_t cur_val = lv_dropdown_get_selected(objects.obj92);
-        if (new_val != cur_val) {
-            tick_value_change_obj = objects.obj92;
-            lv_dropdown_set_selected(objects.obj92, new_val);
-            tick_value_change_obj = NULL;
+        if (!(lv_obj_get_state(objects.obj92) & LV_STATE_EDITED)) {
+            int32_t new_val = evalIntegerProperty(flowState, 29, 3, "Failed to evaluate Selected in Dropdown widget");
+            int32_t cur_val = lv_dropdown_get_selected(objects.obj92);
+            if (new_val != cur_val) {
+                tick_value_change_obj = objects.obj92;
+                lv_dropdown_set_selected(objects.obj92, new_val);
+                tick_value_change_obj = NULL;
+            }
         }
     }
     {
@@ -4443,12 +4451,14 @@ void tick_screen_calibration() {
         }
     }
     {
-        int32_t new_val = evalIntegerProperty(flowState, 32, 4, "Failed to evaluate Selected in Dropdown widget");
-        int32_t cur_val = lv_dropdown_get_selected(objects.obj117);
-        if (new_val != cur_val) {
-            tick_value_change_obj = objects.obj117;
-            lv_dropdown_set_selected(objects.obj117, new_val);
-            tick_value_change_obj = NULL;
+        if (!(lv_obj_get_state(objects.obj117) & LV_STATE_EDITED)) {
+            int32_t new_val = evalIntegerProperty(flowState, 32, 4, "Failed to evaluate Selected in Dropdown widget");
+            int32_t cur_val = lv_dropdown_get_selected(objects.obj117);
+            if (new_val != cur_val) {
+                tick_value_change_obj = objects.obj117;
+                lv_dropdown_set_selected(objects.obj117, new_val);
+                tick_value_change_obj = NULL;
+            }
         }
     }
     {
@@ -4972,12 +4982,14 @@ void tick_screen_calibration() {
             }
         }
         {
-            int32_t new_val = evalIntegerProperty(flowState, 29, 3, "Failed to evaluate Selected in Dropdown widget");
-            int32_t cur_val = lv_dropdown_get_selected(objects.obj142);
-            if (new_val != cur_val) {
-                tick_value_change_obj = objects.obj142;
-                lv_dropdown_set_selected(objects.obj142, new_val);
-                tick_value_change_obj = NULL;
+            if (!(lv_obj_get_state(objects.obj142) & LV_STATE_EDITED)) {
+                int32_t new_val = evalIntegerProperty(flowState, 29, 3, "Failed to evaluate Selected in Dropdown widget");
+                int32_t cur_val = lv_dropdown_get_selected(objects.obj142);
+                if (new_val != cur_val) {
+                    tick_value_change_obj = objects.obj142;
+                    lv_dropdown_set_selected(objects.obj142, new_val);
+                    tick_value_change_obj = NULL;
+                }
             }
         }
         {
@@ -5264,12 +5276,14 @@ void tick_screen_calibration() {
             }
         }
         {
-            int32_t new_val = evalIntegerProperty(flowState, 29, 3, "Failed to evaluate Selected in Dropdown widget");
-            int32_t cur_val = lv_dropdown_get_selected(objects.obj150);
-            if (new_val != cur_val) {
-                tick_value_change_obj = objects.obj150;
-                lv_dropdown_set_selected(objects.obj150, new_val);
-                tick_value_change_obj = NULL;
+            if (!(lv_obj_get_state(objects.obj150) & LV_STATE_EDITED)) {
+                int32_t new_val = evalIntegerProperty(flowState, 29, 3, "Failed to evaluate Selected in Dropdown widget");
+                int32_t cur_val = lv_dropdown_get_selected(objects.obj150);
+                if (new_val != cur_val) {
+                    tick_value_change_obj = objects.obj150;
+                    lv_dropdown_set_selected(objects.obj150, new_val);
+                    tick_value_change_obj = NULL;
+                }
             }
         }
         {

@@ -558,6 +558,9 @@ void loop()
     //SERIALDEBUG.write(SERIALDEBUG.read());
     char ch = SERIALDEBUG.read();
     if (ch == '\n') {
+      if (state.getSCPIWdogType() == WDogType::ACTIVITY) {
+        state.SCPIWdogPet();
+      }
       /*
         heaptotal = rp2040.getTotalHeap();
         heapused = rp2040.getUsedHeap();
@@ -591,6 +594,7 @@ void loop()
   //printlogstr(logtxt, 120, "Heap total: %d\nHeap used: %d\nHeap free:  %d\nADC0: %d\n", heaptotal, heapused, heapfree, loopmystate.avgCurrentRaw);
   //if (fanstatus == 1) {fancontrol.clearFanFail(); };
   //vTaskDelay(ondelay);
+  state.SCPIWdogCheck();
   watchdogLoop = 0;
 }
 

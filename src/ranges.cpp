@@ -34,6 +34,7 @@ const _range ranges[] = {
     { "Cap Volt Stop",  "V",      SCPI_UNIT_VOLT,    0.5, 80,       3.0},   // VoltStop  = 21
     { "Cap Wh Stop",    "Wh",     SCPI_UNIT_JOULE,0.001, 3600,       10},   // WHStop    = 22
     { "Fan Speed (%)",    "%",    SCPI_UNIT_NONE ,    0,  100,       50},   // FanSpeed  = 23
+    { "Watchdog Delay",  "s",     SCPI_UNIT_SECOND,   0, 3600,       10},   // WatchdogDelay = 24
 };
 
 
