@@ -211,6 +211,9 @@ mode_e get_var_mode() {
             break;
         case ELmode::SHORT:
             mode = mode_e_SHORT;
+        case ELmode::DVM:
+            mode = mode_e_DVM;
+            break;
         default:
             mode = mode_e_CC;
             break;
