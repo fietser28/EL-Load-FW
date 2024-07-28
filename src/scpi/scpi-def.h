@@ -60,6 +60,9 @@ extern scpi_result_t scpi_cmd_cal_meas(scpi_t *context);
 extern scpi_result_t scpi_cmd_cal_type_save(scpi_t *context);
 extern scpi_result_t scpi_cmd_cal_type_reset(scpi_t *context);
 
+extern scpi_result_t scpi_cmd_deb_mem_heapQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_deb_wdog_thres_maxQ(scpi_t *context);
+
 extern scpi_result_t scpi_cmd_fetch_current(scpi_t *context);
 extern scpi_result_t scpi_cmd_fetch_voltage(scpi_t *context);
 extern scpi_result_t scpi_cmd_fetch_power(scpi_t *context);

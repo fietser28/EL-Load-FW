@@ -508,6 +508,23 @@ scpi_result_t scpi_cmd_cal_type_reset(scpi_t *context) {
     return SCPI_RES_OK;
 }
 
+scpi_result_t scpi_cmd_deb_mem_heapQ(scpi_t *context)
+{
+    uint32_t mem[] = { 0, 0, 0, 0};
+    mem[0] = rp2040.getTotalHeap();
+    mem[1] = rp2040.getUsedHeap();
+    mem[2] = rp2040.getFreeHeap();
+    SCPI_ResultArrayUInt32(context, mem, 3, SCPI_FORMAT_ASCII );
+    return SCPI_RES_OK;
+}
+
+scpi_result_t scpi_cmd_deb_wdog_thres_maxQ(scpi_t *context) {
+    const uint32_t thres_array[] = { watchdogAveragingMax, watchdogEncTaskMax, watchdogGuiTaskMax, 
+                                     watchdogGuiTimerFunctionMax, watchdogLoopMax, watchdogProtHWMax, watchdogMeasureAndOutputMax};
+    SCPI_ResultArrayUInt32(context, thres_array, 7, SCPI_FORMAT_ASCII );
+    return SCPI_RES_OK;
+}
+
 // FETCH commands
 
 scpi_result_t scpi_cmd_fetch_current(scpi_t *context) {

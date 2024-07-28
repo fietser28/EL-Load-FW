@@ -90,7 +90,8 @@ const scpi_command_t scpi_commands[] = {
     {"DEBug:LVGL:MEMory:FREE?"}
     {"DEBug:LVGL:MEMory:FREE:BIGgest?"}
     */
-
+    {"DEBug:MEM:HEAP?", scpi_cmd_deb_mem_heapQ, 0},
+    {"DEBug:WDOG:THRESholds:MAX?", scpi_cmd_deb_wdog_thres_maxQ, 0},
 
     /* Fetch. This reads the last measured value, doesn't trigger and wait like measure */
     {"FETCh[:SCALar]:CURRent[:DC]?", scpi_cmd_fetch_current, 0},
