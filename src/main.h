@@ -319,3 +319,11 @@ extern float vonSetMaxVal;
 extern CalibrationValueConfiguration OCPSetCal;
 extern CalibrationValueConfiguration OVPSetCal;
 
+// Debug information
+extern volatile uint32_t watchdogAveragingMax;
+extern volatile uint32_t watchdogEncTaskMax;
+extern volatile uint32_t watchdogGuiTaskMax;
+extern volatile uint32_t watchdogGuiTimerFunctionMax;
+extern volatile uint32_t watchdogLoopMax;
+extern volatile uint32_t watchdogProtHWMax;
+extern volatile uint32_t watchdogMeasureAndOutputMax;

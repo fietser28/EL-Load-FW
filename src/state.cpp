@@ -1055,7 +1055,7 @@ namespace dcl
         bool enabled;
         if (_setStateMutex != NULL)
         {
-            if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
+            if (xSemaphoreTake(_setStateMutex, (TickType_t)100) == pdTRUE)
             {
                 enabled = _setState.scpiWdogEnabled;
                 xSemaphoreGive(_setStateMutex);
@@ -1084,7 +1084,7 @@ namespace dcl
     {
         if (_setStateMutex != NULL)
         {
-            if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
+            if (xSemaphoreTake(_setStateMutex, (TickType_t)100) == pdTRUE)
             {
                 _setState.scpiWdogDelay = delay;
                 xSemaphoreGive(_setStateMutex);
@@ -1099,7 +1099,7 @@ namespace dcl
         uint32_t delay;
         if (_setStateMutex != NULL)
         {
-            if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
+            if (xSemaphoreTake(_setStateMutex, (TickType_t)100) == pdTRUE)
             {
                 delay = _setState.scpiWdogDelay;
                 xSemaphoreGive(_setStateMutex);
@@ -1113,7 +1113,7 @@ namespace dcl
         {
         if (_setStateMutex != NULL)
         {
-            if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
+            if (xSemaphoreTake(_setStateMutex, (TickType_t)100) == pdTRUE)
             {
                 _setState.scpiWdogType = wdtype;
                 xSemaphoreGive(_setStateMutex);
@@ -1155,26 +1155,28 @@ namespace dcl
     bool stateManager::SCPIWdogCheck()
     {
         uint32_t lastPet = 0;
-        bool wdogEnabled;
+        bool wdogTriggered = false;
+        bool wdogEnabled = false;
         uint32_t wdogDelay;
         if (_measuredStateMutex != NULL)
         {
             if (xSemaphoreTake(_measuredStateMutex, (TickType_t)100) == pdTRUE)
             {
                 lastPet = _measuredState.scpiWdogLastPet;
+                wdogTriggered = _measuredState.scpiWdogTriggered;
                 xSemaphoreGive(_measuredStateMutex);
             }
         }
         if (_setStateMutex != NULL)
         {
-            if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
+            if (xSemaphoreTake(_setStateMutex, (TickType_t)100) == pdTRUE)
             {
                 wdogEnabled = _setState.scpiWdogEnabled;
                 wdogDelay   = _setState.scpiWdogDelay;
                 xSemaphoreGive(_setStateMutex);
             };
         };
-        if (wdogEnabled && (lastPet+ wdogDelay*1000 < millis())) {
+        if (wdogEnabled && wdogTriggered && (lastPet+ wdogDelay*1000 < millis())) {
             // Trigger watchdog
             setProtection();
             if (_measuredStateMutex != NULL)

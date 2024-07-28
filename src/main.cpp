@@ -120,6 +120,15 @@ CalibrationValueConfiguration OVPSetCalLow;
 // TODO for debug/test
 volatile uint32_t i = -10;
 
+// Debug information
+volatile uint32_t watchdogAveragingMax = 0;
+volatile uint32_t watchdogEncTaskMax = 0;
+volatile uint32_t watchdogGuiTaskMax = 0;
+volatile uint32_t watchdogGuiTimerFunctionMax = 0;
+volatile uint32_t watchdogLoopMax = 0;
+volatile uint32_t watchdogProtHWMax = 0;
+volatile uint32_t watchdogMeasureAndOutputMax =0;
+
 bool ledstate;
 
 void watchdog(void *pvParameters)
@@ -137,19 +146,28 @@ void watchdog(void *pvParameters)
     watchdogLoop++;
     watchdogProtHW++;
     watchdogMeasureAndOutput++;
+
+    watchdogAveragingMax = max(watchdogAveraging, watchdogAveragingMax);
+    watchdogEncTaskMax   = max(watchdogEncTask, watchdogEncTaskMax);
+    watchdogGuiTask      = max(watchdogGuiTask, watchdogGuiTaskMax);
+    watchdogGuiTimerFunction = max(watchdogGuiTimerFunction, watchdogGuiTimerFunctionMax);
+    watchdogLoop         = max(watchdogLoop, watchdogLoopMax);
+    watchdogProtHW       = max(watchdogProtHW, watchdogProtHWMax);
+    watchdogMeasureAndOutput = max(watchdogMeasureAndOutput, watchdogMeasureAndOutputMax);
+
     vTaskDelay(500);
 
     digitalWrite(LED_BUILTIN, LOW);
     ledstate = false;
-    if (watchdogAveraging < 3 &&        // Normal: 1kHz
-        watchdogEncTask < 3 &&          // Normal: 10Hz
-        watchdogGuiTask < 3 &&          // Normal: 10Hz
-        watchdogGuiTimerFunction < 3 && // Normal: 50Hz
-        watchdogLoop < 3 &&             // Normal: busy, SCPI can take long?
-        watchdogProtHW < 3  &&          // Normal: 10Hz
-        watchdogMeasureAndOutput <3)    // Normal: 1kHz
+    if (watchdogAveraging < 5 &&        // Normal: 1kHz
+        watchdogEncTask < 5 &&          // Normal: 10Hz
+        watchdogGuiTask < 5 &&          // Normal: 10Hz
+        watchdogGuiTimerFunction < 5 && // Normal: 50Hz
+        watchdogLoop < 5 &&             // Normal: busy, SCPI can take long?
+        watchdogProtHW < 5  &&          // Normal: 10Hz
+        watchdogMeasureAndOutput <5)    // Normal: 1kHz
       {
-        // Reset watchdog if all tasks reset there watchdog to zero in last 2 seconds
+        // Reset watchdog if all tasks reset there watchdog to zero in last x seconds
         rp2040.wdt_reset();
       } 
     vTaskDelay(500);
@@ -521,21 +539,22 @@ void setup()
             scpi_input_buffer, SCPI_INPUT_BUFFER_LENGTH,
             scpi_error_queue_data, SCPI_ERROR_QUEUE_SIZE);
 
+  heaptotal = rp2040.getTotalHeap();
+  heapused = rp2040.getUsedHeap();
+  heapfree = rp2040.getFreeHeap();
+  SERIALDEBUG.printf("Heap total: %d, used: %d, free:  %d\n", heaptotal, heapused, heapfree);
+
+  //vTaskDelay(250 / portTICK_PERIOD_MS); // Wait for actual HW to clear.
+  state.startupDone();
+
   xTaskRet = xTaskCreate(watchdog, "", 200, (void *)1, TASK_PRIORITY_WATCHDOG, &taskWatchdog);
   if (xTaskRet != pdPASS)
   { // TODO: reset, something is really wrong;
     SERIALDEBUG.println("ERROR: Error starting watchdog task.");
   }
 
-  heaptotal = rp2040.getTotalHeap();
-  heapused = rp2040.getUsedHeap();
-  heapfree = rp2040.getFreeHeap();
-  SERIALDEBUG.printf("Heap total: %d, used: %d, free:  %d\n", heaptotal, heapused, heapfree);
-
-    //vTaskDelay(250 / portTICK_PERIOD_MS); // Wait for actual HW to clear.
-  state.startupDone();
-  //vTaskDelay(1000 / portTICK_PERIOD_MS); // Wait for actual HW to clear.
-  //state.clearProtection(); // Reset power-on OCP/OVP latches.
+  vTaskDelay(1000 / portTICK_PERIOD_MS); // Wait for actual HW to clear.
+  state.clearProtection(); // Reset power-on OCP/OVP latches.
   SERIALDEBUG.println("INFO: Setup done.");  
 }
 
@@ -549,6 +568,8 @@ int cyclecount = 0;
 uint8_t fanstatus = 0;
 
 lv_mem_monitor_t lv_mem_stats;
+
+unsigned long lastSCPIWatchdogCheck = 0;
 
 void loop()
 {
@@ -594,9 +615,14 @@ void loop()
   //printlogstr(logtxt, 120, "Heap total: %d\nHeap used: %d\nHeap free:  %d\nADC0: %d\n", heaptotal, heapused, heapfree, loopmystate.avgCurrentRaw);
   //if (fanstatus == 1) {fancontrol.clearFanFail(); };
   //vTaskDelay(ondelay);
-  state.SCPIWdogCheck();
+  if ((lastSCPIWatchdogCheck + 250) < millis()) 
+  {
+    // Check 4x per second. Watchdog has 1 sec resolution.
+    state.SCPIWdogCheck();
+    lastSCPIWatchdogCheck = millis();
+  }
   watchdogLoop = 0;
-}
+};
 
 // HW Protection interrupt & task
 /////////////////////////////////
