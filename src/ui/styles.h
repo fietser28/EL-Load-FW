@@ -16,7 +16,6 @@ extern void apply_style_bigfont_label(lv_obj_t *obj);
 extern void apply_style_bigfont_normal(lv_obj_t *obj);
 extern void apply_style_warning(lv_obj_t *obj);
 extern void apply_style_title_(lv_obj_t *obj);
-extern void apply_style_selector_small(lv_obj_t *obj);
 extern void apply_style_slider(lv_obj_t *obj);
 extern void apply_style_small_label(lv_obj_t *obj);
 extern void apply_style_small_label_symbol(lv_obj_t *obj);
@@ -27,7 +26,9 @@ extern void apply_style_button_text90deg(lv_obj_t *obj);
 extern void apply_style_checkbox_default(lv_obj_t *obj);
 extern void apply_style_screen_background(lv_obj_t *obj);
 extern void apply_style_transparant_overlay(lv_obj_t *obj);
+extern void apply_style_selector_small(lv_obj_t *obj);
 extern void apply_style_selector_with_disable(lv_obj_t *obj);
+extern void apply_style_spinbox_default(lv_obj_t *obj);
 
 
 #ifdef __cplusplus

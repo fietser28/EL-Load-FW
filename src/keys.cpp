@@ -112,9 +112,9 @@ static void encTask(void *pvParameter)
         keystate.encodercount = enccount;
         keystate.encoderbutton = gpioval & (1 << KEYS_PIN_ENCBUT) ? false : true ;
 
-        keystate.button0 = gpioval & (1 << KEYS_PIN_BUT0) ? false : true ;
-        keystate.button1 = gpioval & (1 << KEYS_PIN_BUT1) ? false : true ;
-        keystate.button2 = gpioval & (1 << KEYS_PIN_BUT2) ? false : true ;
+        //keystate.button0 = gpioval & (1 << KEYS_PIN_BUT0) ? false : true ;
+        //keystate.button1 = gpioval & (1 << KEYS_PIN_BUT1) ? false : true ;
+        //keystate.button2 = gpioval & (1 << KEYS_PIN_BUT2) ? false : true ;
         keystate.button3 = gpioval & (1 << KEYS_PIN_BUT0) ? false : true ; // TODO: Fix button assignment for different setups.
 
         if( keystate.button3 != button3prev)   // Button state changed 

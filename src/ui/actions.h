@@ -23,6 +23,8 @@ extern void action_get_type_data(lv_event_t * e);
 extern void action_clear_capacity_limits(lv_event_t * e);
 extern void action_scpi_busy_incr(lv_event_t * e);
 extern void action_scpi_busy_decr(lv_event_t * e);
+extern void action_set_value_update(lv_event_t * e);
+extern void action_set_value_pre_update(lv_event_t * e);
 
 
 #ifdef __cplusplus

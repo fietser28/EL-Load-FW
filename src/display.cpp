@@ -13,6 +13,7 @@
 
 #include "ui/ui.h"
 #include "ui/screens.h"
+#include "ui/vars.h"
 #include "main.h"
 #include "state.h"
 #include "ui_glue.h"
@@ -124,6 +125,7 @@ static void my_touchpad_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data
 // Encoder vars
 static int encoderLastState = 0;
 static bool encoderButLastState = false;
+static bool encoderEventHandled = false;
 static char newtext[40];
 
 // Read the encoder
@@ -131,93 +133,78 @@ static void my_encoder_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data)
 {
   // Get the current focussed object
   lv_obj_t *obj = lv_group_get_focused(encoder_group);
+  encoderEventHandled = false;
 
-  // Move cursus out of 
-
-  // Encoder stuff
   if (obj == 0)
   {
     return;
   } // No focus = no action.
-  // if (lv_obj_get_state(obj) != LV_STATE_EDITED) { return; } // no edit = no action
-  if (obj->class_p != &lv_textarea_class && obj->class_p != &lv_slider_class)
-  {
-    return;
-  } // just to be sure....
 
   // Current active object is textarea
-  if (obj->class_p == &lv_textarea_class) {
-  const char *text = lv_textarea_get_text(obj);
-  uint32_t pos = lv_textarea_get_cursor_pos(obj);
-  uint32_t textsize = strlen(text);
-
-
-  // Encoder Button pressed
-  if (keystate.encoderbutton && encoderButLastState == false)
+  // For textarea send key events based on encoder actions.
+  if (obj->class_p == &lv_textarea_class || obj->class_p == &lv_spinbox_class)
   {
-    int newpos = pos - 1; // -1 scrolls left, +1 scrolls right
-    if (text[newpos] == '.')
+    //const char *text = lv_textarea_get_text(obj);
+    //uint32_t pos = lv_textarea_get_cursor_pos(obj);
+    //uint32_t textsize = strlen(text);
+
+    // Encoder Button pressed
+    if (keystate.encoderbutton && encoderButLastState == false)
     {
-      newpos--;
-    } // Skip .
-    // if (newpos >= textsize) { newpos = 0; }
-    if (newpos < 0)
-    {
-      newpos = textsize - 1;
+      uint32_t t = LV_KEY_LEFT;
+      lv_event_send(obj,LV_EVENT_KEY, &t);
+      encoderButLastState = true;
+      encoderEventHandled = true;
     }
-    lv_textarea_set_cursor_pos(obj, newpos);
-    encoderButLastState = true;
-  }
-
-  // Encoder Button released
-  if (!keystate.encoderbutton && encoderButLastState == true)
-  {
-    encoderButLastState = false;
-  }
-
-  // Encoder movement
-  // TODO: Increment >9.
-  // TODO: Clean number implementation not just string manipulation
-  int enccount = keystate.encodercount / 2; // 2 changes per dent (on current combination HW/SW)
-  if (encoderLastState != enccount)
-  {
-    strcpy(newtext, text);
-    bool textchanged = false;
-    if (encoderLastState < enccount)
+    // Encoder Button released
+    if (!keystate.encoderbutton && encoderButLastState == true)
     {
-      // Up
-      if (newtext[pos] != '9')
+      encoderButLastState = false;
+    }
+
+    // Encoder movement
+    int enccount = keystate.encodercount / 2; // 2 changes per dent (on current combination HW/SW)
+    if (encoderLastState != enccount)
+    {
+      if (encoderLastState < enccount)
       {
-        newtext[pos] = newtext[pos] + 1;
-        textchanged = true;
+        uint32_t t = LV_KEY_UP;
+        lv_event_send(obj,LV_EVENT_KEY, &t);
+        encoderEventHandled = true;
+      } else {
+        uint32_t t = LV_KEY_DOWN;
+        lv_event_send(obj,LV_EVENT_KEY, &t);
+        encoderEventHandled = true;
       }
+      encoderLastState = enccount;
     }
-    else
-    {
-      // Down
-      if (newtext[pos] != '0')
-      {
-        newtext[pos] = newtext[pos] - 1;
-        textchanged = true;
-      }
-    }
-    if (textchanged)
-    {
-      lv_textarea_set_text(obj, newtext);
-      lv_textarea_set_cursor_pos(obj, pos);
-      // lv_event_send(obj, LV_EVENT_VALUE_CHANGED, NULL); // TODO: Needed?
-    }
-    encoderLastState = enccount;
-  }
   }
 
   // Current active object is slider
-  if (obj->class_p == &lv_slider_class) {
+  if (obj->class_p == &lv_slider_class) 
+  {
     int32_t sliderpos = lv_slider_get_value(obj);
     int32_t slidermin = lv_slider_get_min_value(obj);
     int32_t slidermax = lv_slider_get_max_value(obj);
     int32_t newsliderpos = sliderpos;
-    
+        
+    // Encoder Button pressed
+    if (keystate.encoderbutton && encoderButLastState == false)
+    {
+      //uint32_t t = LV_KEY_LEFT;
+      //lv_event_send(obj,LV_EVENT_KEY, &t);
+      lv_group_focus_next(encoder_group);
+      lv_group_set_editing(encoder_group, false);
+      encoderButLastState = true;
+      encoderEventHandled = true;
+    }
+
+    // Encoder Button released
+    if (!keystate.encoderbutton && encoderButLastState == true)
+    {
+      encoderButLastState = false;
+    }
+
     // Encoder movement
     int enccount = keystate.encodercount / 2; // 2 changes per dent (on current combination HW/SW)
     if (encoderLastState != enccount)
@@ -247,9 +234,117 @@ static void my_encoder_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data)
       lv_event_send(obj, LV_EVENT_VALUE_CHANGED, NULL);
     }
     encoderLastState = enccount;
+    }  
   }
 
+  if (obj->class_p == &lv_dropdown_class)
+  {
+    int32_t dropdownpos = lv_dropdown_get_selected(obj); 
+    int32_t dropdownmin = 0;
+    int32_t dropdownmax = lv_dropdown_get_option_cnt(obj) - 1;  
+    int32_t newdropdownpos = dropdownpos;
+
+    // Encoder Button pressed
+    if (keystate.encoderbutton && encoderButLastState == false)
+    {
+      //uint32_t t = LV_KEY_LEFT;
+      //lv_event_send(obj,LV_EVENT_KEY, &t);
+      lv_group_focus_next(encoder_group);
+      lv_group_set_editing(encoder_group, false);
+      encoderButLastState = true;
+      encoderEventHandled = true;        
+    }
+
+    // Encoder Button released
+    if (!keystate.encoderbutton && encoderButLastState == true)
+    {
+      encoderButLastState = false;
+    }
+
+    // Encoder movement
+    int enccount = keystate.encodercount / 2; // 2 changes per dent (on current combination HW/SW)
+    if (encoderLastState != enccount)
+    {
+    bool dropdownchanged = false;
+    if (encoderLastState < enccount)
+    {
+      // Increase
+      if (dropdownpos < dropdownmax)
+      {
+        newdropdownpos = dropdownpos + 1;
+        dropdownchanged = true;
+      }
+    }
+    else
+    {
+      // Decrease
+      if (dropdownpos > dropdownmin)
+      {
+        newdropdownpos = dropdownpos - 1;
+        dropdownchanged = true;
+      }
+    }
+    if (dropdownchanged)
+    {
+      lv_dropdown_set_selected(obj,newdropdownpos);
+      lv_event_send(obj, LV_EVENT_VALUE_CHANGED, NULL);
+      encoderEventHandled = true;        
+
+    }
+    encoderLastState = enccount;
+    }
   }
+
+ if (obj->class_p == &lv_checkbox_class || obj->class_p == &lv_switch_class)
+  {
+
+    // Encoder Button pressed
+    if (keystate.encoderbutton && encoderButLastState == false)
+    {
+      //uint32_t t = LV_KEY_LEFT;
+      //lv_event_send(obj,LV_EVENT_KEY, &t);
+      lv_group_focus_next(encoder_group);
+      lv_group_set_editing(encoder_group, false);
+      encoderButLastState = true;
+      encoderEventHandled = true;        
+    }
+
+    // Encoder Button released
+    if (!keystate.encoderbutton && encoderButLastState == true)
+    {
+      encoderButLastState = false;
+      encoderEventHandled = true;
+    }
+
+    // Encoder movement
+    int enccount = keystate.encodercount / 2; // 2 changes per dent (on current combination HW/SW)
+    if (encoderLastState != enccount)
+    {
+    bool dropdownchanged = false;
+    if (encoderLastState < enccount)
+    {
+      // Increase = on
+      if (!lv_obj_has_state(obj, LV_STATE_CHECKED)) {
+        //uint32_t t = LV_KEY_UP;
+        //lv_event_send(obj,LV_EVENT_KEY, &t);
+        lv_obj_add_state(obj, LV_STATE_CHECKED); 
+        encoderEventHandled = true;
+      }
+    }
+    else
+    {
+      // Decrease = off
+      if (lv_obj_has_state(obj, LV_STATE_CHECKED)) {
+        //uint32_t t = LV_KEY_DOWN;
+        //lv_event_send(obj,LV_EVENT_KEY, &t);
+        lv_obj_clear_state(obj, LV_STATE_CHECKED); 
+        encoderEventHandled = true;
+      }
+    }
+    encoderLastState = enccount;
+    }
+  }
+
   // Already handled....
   data->enc_diff = 0;
   data->state = LV_INDEV_STATE_REL;

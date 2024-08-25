@@ -47,15 +47,17 @@ lv_group_t *onoff_group;
 
 static lv_obj_tree_walk_res_t walk_cb(lv_obj_t *obj, void *) {
     // TODO: Make more generic, currently all textarea's are encoder selectable...
-    if (obj->class_p == &lv_textarea_class || obj->class_p == &lv_slider_class) {
+    if (obj->class_p == &lv_textarea_class || obj->class_p == &lv_slider_class || obj->class_p == &lv_dropdown_class ||
+        obj->class_p == &lv_switch_class   || obj->class_p == &lv_checkbox_class || obj->class_p == &lv_spinbox_class) {
         lv_group_add_obj(encoder_group, obj);
-        if (lv_group_get_focused(encoder_group) == 0) {
+        // Always focus on first widget (so we have a focus) AND prefer spinbox focus
+        if (lv_group_get_focused(encoder_group) == 0 || obj->class_p == &lv_spinbox_class) {
             lv_group_focus_obj(obj);
         }
     }
     return LV_OBJ_TREE_WALK_NEXT;
 }
-
+/*
 static lv_obj_tree_walk_res_t walk_cb_on_off(lv_obj_t *obj, void *) {
     // TODO: Make more generic, hardcoded name
     if (obj == objects.on_off_button) {
@@ -66,19 +68,18 @@ static lv_obj_tree_walk_res_t walk_cb_on_off(lv_obj_t *obj, void *) {
     }
     return LV_OBJ_TREE_WALK_NEXT;
 }
-
+*/
 static void update_groups(lv_obj_t *obj) {
     lv_group_remove_all_objs(encoder_group);
     lv_obj_tree_walk(obj, walk_cb, 0);
 
-    lv_group_remove_all_objs(onoff_group);
-    lv_obj_tree_walk(obj, walk_cb_on_off, 0);
+    //lv_group_remove_all_objs(onoff_group);
+    //lv_obj_tree_walk(obj, walk_cb_on_off, 0);
 }
 
 static void on_screen_loaded_cb(lv_obj_t *screen_obj) {
     update_groups(screen_obj);
-    lv_group_set_editing(encoder_group, true);
-    lv_group_set_editing(onoff_group, true);
+    lv_group_set_editing(encoder_group, false);
 }
 
 static void on_screen_loaded_cb(lv_event_t *e) {
@@ -88,7 +89,7 @@ static void on_screen_loaded_cb(lv_event_t *e) {
 static void on_screen_unload_cb(lv_event_t *e) 
 {
     lv_group_remove_all_objs(encoder_group);
-    lv_group_remove_all_objs(onoff_group);
+//    lv_group_remove_all_objs(onoff_group);
 }
 
 //static void on_encoder_apply(lv_event_t *e) {
@@ -98,6 +99,7 @@ static void on_screen_unload_cb(lv_event_t *e)
 void ui_init_encoder_group() {
     encoder_group = lv_group_create();
     onoff_group = lv_group_create();
+    lv_group_set_wrap(encoder_group, true);
     lv_group_set_default(encoder_group);
 
     for (size_t screen_index = 0; screen_index < get_num_screens(); screen_index++) 

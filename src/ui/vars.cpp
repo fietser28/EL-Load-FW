@@ -192,6 +192,17 @@ bool get_var_on()
   return localsetcopy.on;
 };
 
+int32_t get_var_set_value_cursor_pos() {
+     lv_obj_t *obj = objects.set_value_area;
+     return lv_textarea_get_cursor_pos(obj); 
+};
+
+void set_var_set_value_cursor_pos(int32_t value)
+{
+    lv_obj_t *obj = objects.set_value_area;
+    lv_textarea_set_cursor_pos(obj, value);
+};
+
 mode_e get_var_mode() { 
   mode_e mode;
   // this maps the state modes to the UI modes.

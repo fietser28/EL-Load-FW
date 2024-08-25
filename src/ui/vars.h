@@ -94,6 +94,11 @@ extern CalibrationValueConfiguration cal_values;
 
 extern bool cal_valuesChanged;
 
+// For encoder 
+//extern float setValue;
+//extern float setValueNew;
+
+
 // Flow global variables
 
 enum FlowGlobalVariables {
@@ -107,7 +112,12 @@ enum FlowGlobalVariables {
     FLOW_GLOBAL_VARIABLE_VON_LATCHED_TEXT = 7,
     FLOW_GLOBAL_VARIABLE_DISPLAY_BACKLIGHT = 8,
     FLOW_GLOBAL_VARIABLE_RANGE_PROPERTIES = 9,
-    FLOW_GLOBAL_VARIABLE_RANGE_TYPE = 10
+    FLOW_GLOBAL_VARIABLE_RANGE_TYPE = 10,
+    FLOW_GLOBAL_VARIABLE_SET_VALUE_STR_FORMATTED = 11,
+    FLOW_GLOBAL_VARIABLE_SET_VALUE_NEW = 12,
+    FLOW_GLOBAL_VARIABLE_SET_VALUE_POINT_POS = 13,
+    FLOW_GLOBAL_VARIABLE_SET_VALUE_STR_FORMATTED_LENGTH = 14,
+    FLOW_GLOBAL_VARIABLE_SET_VALUE_INT = 15
 };
 
 // Native global variables
@@ -248,6 +258,8 @@ extern bool get_var_sense_error();
 extern void set_var_sense_error(bool value);
 extern bool get_var_polarity_error();
 extern void set_var_polarity_error(bool value);
+extern int32_t get_var_set_value_cursor_pos();
+extern void set_var_set_value_cursor_pos(int32_t value);
 
 
 #ifdef __cplusplus
