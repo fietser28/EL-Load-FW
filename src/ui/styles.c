@@ -114,6 +114,7 @@ void apply_style_button_text90deg(lv_obj_t *obj) {
     lv_obj_set_style_transform_pivot_y(obj, 16, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_transform_rotation(obj, 2700, LV_PART_MAIN | LV_STATE_DEFAULT);
 };
 void apply_style_checkbox_default(lv_obj_t *obj) {
     lv_obj_set_style_text_color(obj, lv_color_hex(0xffcccccc), LV_PART_MAIN | LV_STATE_DEFAULT);

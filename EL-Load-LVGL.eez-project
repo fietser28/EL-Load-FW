@@ -318,7 +318,8 @@
                     "transform_pivot_x": 12,
                     "transform_pivot_y": 16,
                     "text_align": "CENTER",
-                    "bg_opa": 0
+                    "bg_opa": 0,
+                    "transform_rotation": 2700
                   }
                 }
               }
@@ -2594,7 +2595,7 @@
           "type": "SetVariableActionComponent",
           "left": 939,
           "top": -464,
-          "width": 195,
+          "width": 196,
           "height": 79,
           "customInputs": [],
           "customOutputs": [],
