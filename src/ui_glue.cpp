@@ -69,21 +69,21 @@ static lv_obj_tree_walk_res_t walk_cb_on_off(lv_obj_t *obj, void *) {
     return LV_OBJ_TREE_WALK_NEXT;
 }
 */
-static void update_groups(lv_obj_t *obj) {
+static void update_groups(void *obj) {
     lv_group_remove_all_objs(encoder_group);
-    lv_obj_tree_walk(obj, walk_cb, 0);
+    lv_obj_tree_walk((lv_obj_t *)obj, walk_cb, 0);
 
     //lv_group_remove_all_objs(onoff_group);
     //lv_obj_tree_walk(obj, walk_cb_on_off, 0);
 }
 
-static void on_screen_loaded_cb(lv_obj_t *screen_obj) {
+static void on_screen_loaded_cb(void *screen_obj) {
     update_groups(screen_obj);
     lv_group_set_editing(encoder_group, false);
 }
 
 static void on_screen_loaded_cb(lv_event_t *e) {
-    on_screen_loaded_cb(e->target);
+    on_screen_loaded_cb(e->current_target);
 }
 
 static void on_screen_unload_cb(lv_event_t *e) 

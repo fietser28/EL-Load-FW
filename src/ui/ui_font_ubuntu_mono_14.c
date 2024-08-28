@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Size: 14 px
  * Bpp: 8
- * Opts: --user-data-dir=/Users/jan/Library/Application Support/eezstudio --app-path=/Users/jan/sw/studio --no-sandbox --no-zygote --node-integration-in-worker --lang=en-GB --num-raster-threads=4 --enable-zero-copy --enable-gpu-memory-buffer-compositor-resources --enable-main-frame-before-activation --renderer-client-id=5 --time-ticks-at-unix-epoch=-1707694406874392 --launch-time-ticks=1013664045474 --shared-files --field-trial-handle=1718379636,r,16081719756190153640,14397719846029793618,262144 --enable-features=kWebSQLAccess --disable-features=SpareRendererForSitePerProcess --variations-seed-version
+ * Opts: --user-data-dir=/Users/jan/Library/Application Support/eezstudio --app-path=/Users/jan/sw/studio --no-sandbox --no-zygote --node-integration-in-worker --lang=en-GB --num-raster-threads=4 --enable-zero-copy --enable-gpu-memory-buffer-compositor-resources --enable-main-frame-before-activation --renderer-client-id=5 --time-ticks-at-unix-epoch=-1724418632024695 --launch-time-ticks=182447009102 --shared-files --field-trial-handle=1718379636,r,7922367175176002077,1616810313655200451,262144 --enable-features=kWebSQLAccess --disable-features=SpareRendererForSitePerProcess --variations-seed-version
  ******************************************************************************/
 
 #ifdef LV_LVGL_H_INCLUDE_SIMPLE

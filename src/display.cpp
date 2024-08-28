@@ -20,7 +20,7 @@
 #include "keys.h"
 
 #define MY_LV_TICK_TIME 20     // ms
-#define MY_LV_UPDATE_TIME 100  // ms
+#define MY_LV_UPDATE_TIME 50  // ms
 
 #ifndef TFT_BUFFERLINES
 #define TFT_BUFFERLINES 10
@@ -39,17 +39,15 @@ volatile uint8_t watchdogGuiTimerFunction;
 static const uint32_t screenWidth = EEZ_WIDTH;
 static const uint32_t screenHeight = EEZ_HEIGHT;
 
-static lv_disp_draw_buf_t draw_buf;
-static lv_color_t buf[TFT_BUFFERLINES * screenWidth];
-
-static lv_disp_drv_t disp_drv;
-static lv_indev_drv_t indev_drv;     // Touchscreen
-static lv_indev_drv_t indev_enc_drv; // Encoder
+static lv_draw_buf_t *draw_buf;  // LVGL Draw buffer
+static lv_display_t  *disp_drv;  // LVGL Display
+static lv_indev_t    *indev_drv; // Touchscreen
+static lv_indev_t    *indev_enc; // Encoder
 
 changeScreen_s newScreenMsg; // new Flow screen ID msg.
 size_t screenMsgBytes;       // queue messages size
 
-void my_log_cb(const char* logline) 
+void my_log_cb(lv_log_level_t level, const char* logline) 
 {
   SERIALDEBUG.println(logline);
 }
@@ -80,14 +78,14 @@ void __not_in_flash_func(gui_task_init(void))
  **********************/
 
 /* Display flushing */
-static void my_disp_flush(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color_p)
+void my_disp_flush(lv_display_t *disp, const lv_area_t *area, unsigned char *color_p)
 {
   uint32_t w = (area->x2 - area->x1 + 1);
   uint32_t h = (area->y2 - area->y1 + 1);
 
   tft.startWrite();
   tft.setAddrWindow(area->x1, area->y1, w, h);
-  tft.pushColors((uint16_t *)&color_p->full, w * h, true);
+  tft.pushColors((uint16_t *)color_p, w * h, true);
   tft.endWrite();
 
   lv_disp_flush_ready(disp);
@@ -95,7 +93,7 @@ static void my_disp_flush(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t
 
 /*Read the touchpad*/
 // TODO: Add calibration
-static void my_touchpad_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data)
+static void my_touchpad_read(lv_indev_t *indev_driver, lv_indev_data_t *data)
 {
   // data->state = LV_INDEV_STATE_REL;
 
@@ -129,7 +127,7 @@ static bool encoderEventHandled = false;
 static char newtext[40];
 
 // Read the encoder
-static void my_encoder_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data)
+static void my_encoder_read(lv_indev_t *indev_driver, lv_indev_data_t *data)
 {
   // Get the current focussed object
   lv_obj_t *obj = lv_group_get_focused(encoder_group);
@@ -152,7 +150,8 @@ static void my_encoder_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data)
     if (keystate.encoderbutton && encoderButLastState == false)
     {
       uint32_t t = LV_KEY_LEFT;
-      lv_event_send(obj,LV_EVENT_KEY, &t);
+      lv_obj_send_event(obj,LV_EVENT_KEY, &t);
+      
       encoderButLastState = true;
       encoderEventHandled = true;
     }
@@ -169,11 +168,11 @@ static void my_encoder_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data)
       if (encoderLastState < enccount)
       {
         uint32_t t = LV_KEY_UP;
-        lv_event_send(obj,LV_EVENT_KEY, &t);
+        lv_obj_send_event(obj,LV_EVENT_KEY, &t);
         encoderEventHandled = true;
       } else {
         uint32_t t = LV_KEY_DOWN;
-        lv_event_send(obj,LV_EVENT_KEY, &t);
+        lv_obj_send_event(obj,LV_EVENT_KEY, &t);
         encoderEventHandled = true;
       }
       encoderLastState = enccount;
@@ -192,7 +191,7 @@ static void my_encoder_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data)
     if (keystate.encoderbutton && encoderButLastState == false)
     {
       //uint32_t t = LV_KEY_LEFT;
-      //lv_event_send(obj,LV_EVENT_KEY, &t);
+      //lv_obj_send_event(obj,LV_EVENT_KEY, &t);
       lv_group_focus_next(encoder_group);
       lv_group_set_editing(encoder_group, false);
       encoderButLastState = true;
@@ -231,7 +230,7 @@ static void my_encoder_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data)
     if (sliderchanged)
     {
       lv_slider_set_value(obj,newsliderpos, LV_ANIM_OFF);
-      lv_event_send(obj, LV_EVENT_VALUE_CHANGED, NULL);
+      lv_obj_send_event(obj, LV_EVENT_VALUE_CHANGED, NULL);
     }
     encoderLastState = enccount;
     }  
@@ -248,7 +247,7 @@ static void my_encoder_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data)
     if (keystate.encoderbutton && encoderButLastState == false)
     {
       //uint32_t t = LV_KEY_LEFT;
-      //lv_event_send(obj,LV_EVENT_KEY, &t);
+      //lv_obj_send_event(obj,LV_EVENT_KEY, &t);
       lv_group_focus_next(encoder_group);
       lv_group_set_editing(encoder_group, false);
       encoderButLastState = true;
@@ -287,7 +286,7 @@ static void my_encoder_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data)
     if (dropdownchanged)
     {
       lv_dropdown_set_selected(obj,newdropdownpos);
-      lv_event_send(obj, LV_EVENT_VALUE_CHANGED, NULL);
+      lv_obj_send_event(obj, LV_EVENT_VALUE_CHANGED, NULL);
       encoderEventHandled = true;        
 
     }
@@ -302,7 +301,7 @@ static void my_encoder_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data)
     if (keystate.encoderbutton && encoderButLastState == false)
     {
       //uint32_t t = LV_KEY_LEFT;
-      //lv_event_send(obj,LV_EVENT_KEY, &t);
+      //lv_obj_send_event(obj,LV_EVENT_KEY, &t);
       lv_group_focus_next(encoder_group);
       lv_group_set_editing(encoder_group, false);
       encoderButLastState = true;
@@ -326,7 +325,7 @@ static void my_encoder_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data)
       // Increase = on
       if (!lv_obj_has_state(obj, LV_STATE_CHECKED)) {
         //uint32_t t = LV_KEY_UP;
-        //lv_event_send(obj,LV_EVENT_KEY, &t);
+        //lv_obj_send_event(obj,LV_EVENT_KEY, &t);
         lv_obj_add_state(obj, LV_STATE_CHECKED); 
         encoderEventHandled = true;
       }
@@ -336,7 +335,7 @@ static void my_encoder_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data)
       // Decrease = off
       if (lv_obj_has_state(obj, LV_STATE_CHECKED)) {
         //uint32_t t = LV_KEY_DOWN;
-        //lv_event_send(obj,LV_EVENT_KEY, &t);
+        //lv_obj_send_event(obj,LV_EVENT_KEY, &t);
         lv_obj_clear_state(obj, LV_STATE_CHECKED); 
         encoderEventHandled = true;
       }
@@ -365,21 +364,18 @@ static void __not_in_flash_func(guiTask(void *pvParameter))
   //  uint16_t calData[5] = { 275, 3620, 264, 3532, 1 };
   //  tft.setTouch( calData );
 
-  lv_disp_draw_buf_init(&draw_buf, buf, NULL, TFT_BUFFERLINES * screenWidth);
-
-  /*Initialize the display*/
-  lv_disp_drv_init(&disp_drv);
-  disp_drv.hor_res = screenWidth;
-  disp_drv.ver_res = screenHeight;
-  disp_drv.flush_cb = my_disp_flush;
-  disp_drv.draw_buf = &draw_buf;
-  lv_disp_drv_register(&disp_drv);
+  /*Initialize the LVGL display*/
+  disp_drv = lv_display_create(screenWidth, screenHeight);
+  lv_display_set_flush_cb(disp_drv, my_disp_flush);
+  draw_buf = lv_draw_buf_create(screenHeight, TFT_BUFFERLINES, LV_COLOR_FORMAT_RGB565, LV_STRIDE_AUTO);
+  lv_display_set_draw_buffers(disp_drv, draw_buf, NULL);
+  lv_display_set_color_format(disp_drv, LV_COLOR_FORMAT_RGB565);
+  lv_display_set_flush_cb(disp_drv, my_disp_flush);
 
   /*Initialize the input device driver for touchpad*/
-  lv_indev_drv_init(&indev_drv);
-  indev_drv.type = LV_INDEV_TYPE_POINTER;
-  indev_drv.read_cb = my_touchpad_read;
-  lv_indev_drv_register(&indev_drv);
+  indev_drv = lv_indev_create();
+  lv_indev_set_type(indev_drv, LV_INDEV_TYPE_POINTER);
+  lv_indev_set_read_cb(indev_drv, my_touchpad_read);
 
   lv_log_register_print_cb(&my_log_cb);
 
@@ -393,9 +389,14 @@ static void __not_in_flash_func(guiTask(void *pvParameter))
    lv_obj_t *label2 = lv_label_create( lv_scr_act() );
    lv_label_set_text( label2, "Hello world!" );
    lv_obj_align( label2, LV_ALIGN_TOP_MID, 0, 0 );
-   // vTaskDelay(2000);
-   //lv_task_handler();
-
+    digitalWrite(TFT_BL, HIGH);
+    lv_tick_inc(MY_LV_TICK_TIME);
+    lv_timer_handler();
+    vTaskDelay(5000);
+    lv_tick_inc(5000);
+    lv_task_handler();
+    vTaskDelay(5000);
+    SERIALDEBUG.println("printed Hello, world!");
 #else
   // EEZ GUI init
   ui_init();
@@ -404,11 +405,14 @@ static void __not_in_flash_func(guiTask(void *pvParameter))
   // and assign the encoder to the encoder group
   ui_init_encoder_group();
 
-  lv_indev_drv_init(&indev_enc_drv);
-  indev_enc_drv.type = LV_INDEV_TYPE_ENCODER;
-  indev_enc_drv.read_cb = my_encoder_read;
-  lv_indev_t *encoder_indev = lv_indev_drv_register(&indev_enc_drv);
-  lv_indev_set_group(encoder_indev, encoder_group);
+  //lv_indev_drv_init(&indev_enc_drv);
+  //indev_enc_drv.type = LV_INDEV_TYPE_ENCODER;
+  //indev_enc_drv.read_cb = my_encoder_read;
+  //lv_indev_t *encoder_indev = lv_indev_drv_register(&indev_enc_drv);
+  indev_enc = lv_indev_create();
+  lv_indev_set_type(indev_enc, LV_INDEV_TYPE_ENCODER);
+  lv_indev_set_read_cb(indev_enc, my_encoder_read);
+  lv_indev_set_group(indev_enc, encoder_group);
 
 #endif
 

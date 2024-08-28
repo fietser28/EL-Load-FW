@@ -1,7 +1,10 @@
+#include <string.h>
+
 #include "screens.h"
 #include "images.h"
 #include "fonts.h"
 #include "actions.h"
+#include "vars.h"
 #include "styles.h"
 #include "ui.h"
 
@@ -1338,7 +1341,7 @@ void create_screen_main() {
                             lv_textarea_set_one_line(obj, true);
                             lv_textarea_set_password_mode(obj, false);
                             lv_obj_add_event_cb(obj, event_handler_cb_main_set_value_area, LV_EVENT_ALL, flowState);
-                            lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE|LV_OBJ_FLAG_SCROLL_CHAIN_HOR|LV_OBJ_FLAG_SCROLL_CHAIN_VER|LV_OBJ_FLAG_SCROLL_ELASTIC|LV_OBJ_FLAG_SCROLL_MOMENTUM|LV_OBJ_FLAG_SCROLL_ON_FOCUS|LV_OBJ_FLAG_SCROLL_WITH_ARROW);
+                            lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLLABLE|LV_OBJ_FLAG_SCROLL_CHAIN_HOR|LV_OBJ_FLAG_SCROLL_CHAIN_VER|LV_OBJ_FLAG_SCROLL_ELASTIC|LV_OBJ_FLAG_SCROLL_MOMENTUM|LV_OBJ_FLAG_SCROLL_ON_FOCUS);
                             apply_style_bigfont_normal(obj);
                             lv_obj_set_style_text_color(obj, lv_color_hex(0xffffff00), LV_PART_MAIN | LV_STATE_DEFAULT);
                             lv_obj_set_style_text_font(obj, &ui_font_ubunto_mono_30, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -1397,6 +1400,7 @@ void create_screen_main() {
                             lv_spinbox_set_rollover(obj, false);
                             lv_spinbox_set_step(obj, 1);
                             lv_obj_add_event_cb(obj, event_handler_cb_main_obj14, LV_EVENT_ALL, flowState);
+                            lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_WITH_ARROW);
                             apply_style_spinbox_default(obj);
                         }
                         {
@@ -1649,7 +1653,6 @@ void create_screen_main() {
                     lv_obj_set_style_text_decor(obj, LV_TEXT_DECOR_NONE, LV_PART_MAIN | LV_STATE_DEFAULT);
                     lv_obj_set_style_transform_pivot_y(obj, 32, LV_PART_MAIN | LV_STATE_DEFAULT);
                     lv_obj_set_style_transform_pivot_x(obj, 32, LV_PART_MAIN | LV_STATE_DEFAULT);
-                    lv_obj_set_style_transform_angle(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
                 }
                 {
                     lv_obj_t *obj = lv_label_create(parent_obj);
@@ -2565,6 +2568,7 @@ void create_screen_capacity() {
             lv_obj_set_size(obj, 187, 28);
             lv_checkbox_set_text(obj, "    Volt stop:");
             lv_obj_add_event_cb(obj, event_handler_cb_capacity_obj53, LV_EVENT_ALL, flowState);
+            lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
             apply_style_checkbox_default(obj);
             lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_RIGHT, LV_PART_MAIN | LV_STATE_DEFAULT);
         }
@@ -3216,6 +3220,7 @@ void create_screen_events() {
             lv_textarea_set_one_line(obj, false);
             lv_textarea_set_password_mode(obj, false);
             lv_obj_add_event_cb(obj, event_handler_cb_events_obj77, LV_EVENT_ALL, flowState);
+            lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_WITH_ARROW);
             lv_obj_set_style_bg_color(obj, lv_color_hex(0xff444444), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_color(obj, lv_color_hex(0xff00ffff), LV_PART_MAIN | LV_STATE_DEFAULT);
         }
@@ -3644,6 +3649,7 @@ void create_screen_nplc() {
             lv_obj_set_size(obj, 166, 10);
             lv_slider_set_range(obj, 1, 100);
             lv_obj_add_event_cb(obj, event_handler_cb_nplc_obj93, LV_EVENT_ALL, flowState);
+            lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLL_CHAIN_VER|LV_OBJ_FLAG_SCROLL_ON_FOCUS);
             apply_style_slider(obj);
         }
         {
@@ -4837,7 +4843,7 @@ void tick_screen_calibration() {
         
         if (anim_state.last_timeline_position == -1) {
             anim_state.last_timeline_position = 0;
-            anim_state.obj_obj134_rotate_init_value = lv_obj_get_style_prop(objects.obj134, LV_PART_MAIN, LV_STYLE_TRANSFORM_ANGLE).num;
+            anim_state.obj_obj134_rotate_init_value = lv_obj_get_style_prop(objects.obj134, LV_PART_MAIN, LV_STYLE_TRANSFORM_ROTATION).num;
         }
         
         if (timeline_position != anim_state.last_timeline_position) {
@@ -4867,7 +4873,7 @@ void tick_screen_calibration() {
                 lv_style_value_t value;
                 
                 value.num = (int32_t)roundf(rotate_value);
-                lv_obj_set_local_style_prop(obj, LV_STYLE_TRANSFORM_ANGLE, value, LV_PART_MAIN);
+                lv_obj_set_local_style_prop(obj, LV_STYLE_TRANSFORM_ROTATION, value, LV_PART_MAIN);
             }
         }
     }
@@ -4993,6 +4999,7 @@ void create_screen_fan() {
             lv_obj_set_pos(obj, 127, 117);
             lv_obj_set_size(obj, 180, 10);
             lv_obj_add_event_cb(obj, event_handler_cb_fan_obj142, LV_EVENT_ALL, flowState);
+            lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLL_CHAIN_VER|LV_OBJ_FLAG_SCROLL_ON_FOCUS);
             apply_style_slider(obj);
         }
         {
@@ -5295,6 +5302,7 @@ void create_screen_display() {
             lv_obj_set_pos(obj, 131, 80);
             lv_obj_set_size(obj, 180, 10);
             lv_obj_add_event_cb(obj, event_handler_cb_display_obj150, LV_EVENT_ALL, flowState);
+            lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLL_CHAIN_VER|LV_OBJ_FLAG_SCROLL_ON_FOCUS);
             apply_style_slider(obj);
         }
         {
@@ -5628,6 +5636,7 @@ void create_user_widget_keyboard(lv_obj_t *parent_obj, void *flowState, int star
             lv_textarea_set_one_line(obj, true);
             lv_textarea_set_password_mode(obj, false);
             lv_obj_add_event_cb(obj, event_handler_cb_keyboard_kbtext2, LV_EVENT_ALL, flowState);
+            lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_WITH_ARROW);
             lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_text_font(obj, &lv_font_montserrat_24, LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_obj_set_style_border_width(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);

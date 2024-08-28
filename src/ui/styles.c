@@ -112,7 +112,6 @@ void apply_style_button_text90deg(lv_obj_t *obj) {
     lv_obj_set_style_text_font(obj, &ui_font_ubuntu_mono_20, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_transform_pivot_x(obj, 12, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_transform_pivot_y(obj, 16, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_transform_angle(obj, -900, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 };
