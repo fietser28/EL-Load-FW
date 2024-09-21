@@ -258,8 +258,22 @@ extern bool get_var_sense_error();
 extern void set_var_sense_error(bool value);
 extern bool get_var_polarity_error();
 extern void set_var_polarity_error(bool value);
-extern int32_t get_var_set_value_cursor_pos();
-extern void set_var_set_value_cursor_pos(int32_t value);
+extern const char *get_var_version_lvgl();
+extern void set_var_version_lvgl(const char *value);
+extern const char *get_var_version_arduino_pico();
+extern void set_var_version_arduino_pico(const char *value);
+extern const char *get_var_version_tft_espi();
+extern void set_var_version_tft_espi(const char *value);
+extern const char *get_var_version_freertos();
+extern void set_var_version_freertos(const char *value);
+extern const char *get_var_version_dcl();
+extern void set_var_version_dcl(const char *value);
+extern int32_t get_var_version_cpu_freq();
+extern void set_var_version_cpu_freq(int32_t value);
+extern const char *get_var_version_cpu_type();
+extern void set_var_version_cpu_type(const char *value);
+extern int32_t get_var_version_hw_version();
+extern void set_var_version_hw_version(int32_t value);
 
 
 #ifdef __cplusplus

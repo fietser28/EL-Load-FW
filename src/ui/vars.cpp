@@ -11,6 +11,12 @@
 
 #include "FreeRTOS.h"
 #include "semphr.h"
+#include <TFT_eSPI.h>
+
+#include "pico.h"
+#include "hardware/address_mapped.h"
+#include "hardware/regs/tbman.h"
+#include "hardware/regs/sysinfo.h"
 
 #include "main.h"
 #include "ui_glue.h"
@@ -190,17 +196,6 @@ void set_var_on(bool value)
 bool get_var_on()
 {
   return localsetcopy.on;
-};
-
-int32_t get_var_set_value_cursor_pos() {
-     lv_obj_t *obj = objects.set_value_area;
-     return lv_textarea_get_cursor_pos(obj); 
-};
-
-void set_var_set_value_cursor_pos(int32_t value)
-{
-    lv_obj_t *obj = objects.set_value_area;
-    lv_textarea_set_cursor_pos(obj, value);
 };
 
 mode_e get_var_mode() { 
@@ -547,3 +542,52 @@ bool get_var_sense_error() { return localstatecopy.SenseError; };
 void set_var_sense_error(bool value) {}; // Read only.
 bool get_var_polarity_error() { return localstatecopy.PolarityError; };
 void set_var_polarity_error(bool value) {}; // Read only.
+
+// (static) Version variables
+char version_lvgl[20] = "";
+const char *get_var_version_lvgl() {
+  snprintf(version_lvgl, 20, "%d.%d.%d%s", LVGL_VERSION_MAJOR, LVGL_VERSION_MINOR, LVGL_VERSION_PATCH, LVGL_VERSION_INFO); 
+  return version_lvgl; };
+void set_var_version_lvgl(const char *value) {}; // Read only.
+
+const char *version_arduino_pico = ARDUINO_PICO_VERSION_STR;
+const char *get_var_version_arduino_pico() { return version_arduino_pico; };
+void set_var_version_arduino_pico(const char *value) {};  // Read only.
+
+const char *version_tft_espi = TFT_ESPI_VERSION;
+const char *get_var_version_tft_espi() { return version_tft_espi; };
+void set_var_version_tft_espi(const char *value) {};  // Read only.
+
+const char *version_freertos = tskKERNEL_VERSION_NUMBER;
+const char *get_var_version_freertos() { return version_freertos; };
+void set_var_version_freertos(const char *value) {};  // Read only.
+
+const char *version_dcl = __DATE__ " " __TIME__;
+const char *get_var_version_dcl() { return version_dcl; };
+void set_var_version_dcl(const char *value) {};  // Read only.
+
+int32_t get_var_version_cpu_freq() { return rp2040.f_cpu(); };
+void set_var_version_cpu_freq(int32_t value) {};  // Read only.
+
+#define RP2040_ID 0x02
+#define RP2350_ID 0x04
+
+char cpu_type[20] = "";
+const char *get_var_version_cpu_type() {
+    // First register of sysinfo is chip id
+    uint32_t chip_id = *((io_ro_32*)(SYSINFO_BASE + SYSINFO_CHIP_ID_OFFSET));
+    //uint32_t __unused manufacturer = chip_id & SYSINFO_CHIP_ID_MANUFACTURER_BITS;
+    uint32_t part = (chip_id & SYSINFO_CHIP_ID_PART_BITS) >> SYSINFO_CHIP_ID_PART_LSB;
+    if (part == RP2040_ID) {
+      snprintf(cpu_type, 20, "RP2040");
+    } else if (part == RP2350_ID) {
+      snprintf(cpu_type, 20, "RP2350");
+    } else {
+      snprintf(cpu_type, 20, "Unkown CPU");
+    }
+    return cpu_type;
+}
+void set_var_version_cpu_type(const char* value) {}; // Read-only.
+
+int32_t get_var_version_hw_version() { return HARDWARE_VERSION; }
+void set_var_version_hw_version(int32_t value) {}; // Read only.

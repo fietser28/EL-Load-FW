@@ -7,6 +7,7 @@
 #include <semphr.h>
 #include <task.h>
 #include <lvgl.h>
+#include <lvgl_private.h>
 #include <TFT_eSPI.h>
 
 #include "math.h" 
@@ -133,10 +134,10 @@ static void my_encoder_read(lv_indev_t *indev_driver, lv_indev_data_t *data)
   lv_obj_t *obj = lv_group_get_focused(encoder_group);
   encoderEventHandled = false;
 
-  if (obj == 0)
+  if (obj == 0 || (keystate.encoderbutton == encoderButLastState && keystate.encodercount == encoderButLastState))
   {
     return;
-  } // No focus = no action.
+  } // No focus and/or no action.
 
   // Current active object is textarea
   // For textarea send key events based on encoder actions.
@@ -145,12 +146,18 @@ static void my_encoder_read(lv_indev_t *indev_driver, lv_indev_data_t *data)
     //const char *text = lv_textarea_get_text(obj);
     //uint32_t pos = lv_textarea_get_cursor_pos(obj);
     //uint32_t textsize = strlen(text);
+    lv_group_set_editing(encoder_group, true);
 
     // Encoder Button pressed
     if (keystate.encoderbutton && encoderButLastState == false)
     {
-      uint32_t t = LV_KEY_LEFT;
-      lv_obj_send_event(obj,LV_EVENT_KEY, &t);
+      //uint32_t t = LV_KEY_ENTER;
+      //lv_obj_send_event(obj,LV_EVENT_KEY, &t);
+      //int32_t curstep = lv_spinbox_get_step(obj);
+      //int32_t maxdigits = (lv_spinbox_t *)obj->digit_count;
+      //int32_t newstep = min(curstep * 10, pow(10,maxdigits));
+      data->state = LV_INDEV_STATE_PRESSED;
+      data->enc_diff = 0;
       
       encoderButLastState = true;
       encoderEventHandled = true;
@@ -238,6 +245,7 @@ static void my_encoder_read(lv_indev_t *indev_driver, lv_indev_data_t *data)
 
   if (obj->class_p == &lv_dropdown_class)
   {
+
     int32_t dropdownpos = lv_dropdown_get_selected(obj); 
     int32_t dropdownmin = 0;
     int32_t dropdownmax = lv_dropdown_get_option_cnt(obj) - 1;  
@@ -246,10 +254,20 @@ static void my_encoder_read(lv_indev_t *indev_driver, lv_indev_data_t *data)
     // Encoder Button pressed
     if (keystate.encoderbutton && encoderButLastState == false)
     {
-      //uint32_t t = LV_KEY_LEFT;
-      //lv_obj_send_event(obj,LV_EVENT_KEY, &t);
-      lv_group_focus_next(encoder_group);
-      lv_group_set_editing(encoder_group, false);
+      if (lv_group_get_editing(encoder_group) == true) {
+        // Edit mode
+        lv_obj_send_event(obj,LV_EVENT_VALUE_CHANGED, NULL);
+        //uint32_t t = LV_KEY_ENTER;
+        //lv_obj_send_event(obj,LV_EVENT_KEY, &t); 
+        lv_group_set_editing(encoder_group, false);        
+      } else {
+        // Navigation mode.
+        //uint32_t t = LV_KEY_LEFT;
+        //lv_obj_send_event(obj,LV_EVENT_KEY, &t);
+        lv_group_focus_next(encoder_group);
+        lv_group_set_editing(encoder_group, false);
+      }
+
       encoderButLastState = true;
       encoderEventHandled = true;        
     }
@@ -271,6 +289,8 @@ static void my_encoder_read(lv_indev_t *indev_driver, lv_indev_data_t *data)
       if (dropdownpos < dropdownmax)
       {
         newdropdownpos = dropdownpos + 1;
+        lv_group_set_editing(encoder_group, true);
+        data->enc_diff = + 1;
         dropdownchanged = true;
       }
     }
@@ -280,13 +300,15 @@ static void my_encoder_read(lv_indev_t *indev_driver, lv_indev_data_t *data)
       if (dropdownpos > dropdownmin)
       {
         newdropdownpos = dropdownpos - 1;
+        lv_group_set_editing(encoder_group, true);
+        data->enc_diff = -1;
         dropdownchanged = true;
       }
     }
     if (dropdownchanged)
     {
       lv_dropdown_set_selected(obj,newdropdownpos);
-      lv_obj_send_event(obj, LV_EVENT_VALUE_CHANGED, NULL);
+      //lv_obj_send_event(obj, LV_EVENT_VALUE_CHANGED, NULL);
       encoderEventHandled = true;        
 
     }
@@ -296,6 +318,7 @@ static void my_encoder_read(lv_indev_t *indev_driver, lv_indev_data_t *data)
 
  if (obj->class_p == &lv_checkbox_class || obj->class_p == &lv_switch_class)
   {
+    lv_group_set_editing(encoder_group, true);
 
     // Encoder Button pressed
     if (keystate.encoderbutton && encoderButLastState == false)
@@ -326,7 +349,8 @@ static void my_encoder_read(lv_indev_t *indev_driver, lv_indev_data_t *data)
       if (!lv_obj_has_state(obj, LV_STATE_CHECKED)) {
         //uint32_t t = LV_KEY_UP;
         //lv_obj_send_event(obj,LV_EVENT_KEY, &t);
-        lv_obj_add_state(obj, LV_STATE_CHECKED); 
+        //lv_obj_add_state(obj, LV_STATE_CHECKED); 
+        data->enc_diff = 1;
         encoderEventHandled = true;
       }
     }
@@ -336,7 +360,8 @@ static void my_encoder_read(lv_indev_t *indev_driver, lv_indev_data_t *data)
       if (lv_obj_has_state(obj, LV_STATE_CHECKED)) {
         //uint32_t t = LV_KEY_DOWN;
         //lv_obj_send_event(obj,LV_EVENT_KEY, &t);
-        lv_obj_clear_state(obj, LV_STATE_CHECKED); 
+        //lv_obj_clear_state(obj, LV_STATE_CHECKED); 
+        data->enc_diff = -1;
         encoderEventHandled = true;
       }
     }
@@ -345,8 +370,10 @@ static void my_encoder_read(lv_indev_t *indev_driver, lv_indev_data_t *data)
   }
 
   // Already handled....
-  data->enc_diff = 0;
-  data->state = LV_INDEV_STATE_REL;
+  //data->enc_diff = 0;
+  if (encoderEventHandled == false) {
+    data->state = LV_INDEV_STATE_RELEASED;
+  }
 }
 
 static void __not_in_flash_func(guiTask(void *pvParameter))
@@ -404,11 +431,6 @@ static void __not_in_flash_func(guiTask(void *pvParameter))
   // Initialize the input device driver for the encoder
   // and assign the encoder to the encoder group
   ui_init_encoder_group();
-
-  //lv_indev_drv_init(&indev_enc_drv);
-  //indev_enc_drv.type = LV_INDEV_TYPE_ENCODER;
-  //indev_enc_drv.read_cb = my_encoder_read;
-  //lv_indev_t *encoder_indev = lv_indev_drv_register(&indev_enc_drv);
   indev_enc = lv_indev_create();
   lv_indev_set_type(indev_enc, LV_INDEV_TYPE_ENCODER);
   lv_indev_set_read_cb(indev_enc, my_encoder_read);
