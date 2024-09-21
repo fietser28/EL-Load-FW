@@ -39,11 +39,10 @@ void clearlog() {
     logtxt[0] = '\x00';
 }
 
-///// Encoder / key functions.
+///// Encoder functions.
 ///// Waiting for studio/EEZ flow support for this.
 
 lv_group_t *encoder_group;
-lv_group_t *onoff_group;
 
 static lv_obj_tree_walk_res_t walk_cb(lv_obj_t *obj, void *) {
     // TODO: Make more generic, currently all textarea's are encoder selectable...
@@ -57,24 +56,10 @@ static lv_obj_tree_walk_res_t walk_cb(lv_obj_t *obj, void *) {
     }
     return LV_OBJ_TREE_WALK_NEXT;
 }
-/*
-static lv_obj_tree_walk_res_t walk_cb_on_off(lv_obj_t *obj, void *) {
-    // TODO: Make more generic, hardcoded name
-    if (obj == objects.on_off_button) {
-        lv_group_add_obj(onoff_group, obj);
-        if (lv_group_get_focused(onoff_group) == 0) {
-            lv_group_focus_obj(obj);
-        }
-    }
-    return LV_OBJ_TREE_WALK_NEXT;
-}
-*/
+
 static void update_groups(void *obj) {
     lv_group_remove_all_objs(encoder_group);
     lv_obj_tree_walk((lv_obj_t *)obj, walk_cb, 0);
-
-    //lv_group_remove_all_objs(onoff_group);
-    //lv_obj_tree_walk(obj, walk_cb_on_off, 0);
 }
 
 static void on_screen_loaded_cb(void *screen_obj) {
@@ -89,16 +74,10 @@ static void on_screen_loaded_cb(lv_event_t *e) {
 static void on_screen_unload_cb(lv_event_t *e) 
 {
     lv_group_remove_all_objs(encoder_group);
-//    lv_group_remove_all_objs(onoff_group);
 }
-
-//static void on_encoder_apply(lv_event_t *e) {
-//    lv_group_focus_next(encoder_group);
-//}
 
 void ui_init_encoder_group() {
     encoder_group = lv_group_create();
-    onoff_group = lv_group_create();
     lv_group_set_wrap(encoder_group, true);
     lv_group_set_default(encoder_group);
 
