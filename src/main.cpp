@@ -753,15 +753,17 @@ void taskProtHWFunction(void *pvParameters)
   pinMode(PIN_HWGPIO_INT, INPUT);
   hwio.begin(&I2C_KEYS, I2C_KEYS_SEM, HWIO_CHIP_ADDRES);
   vTaskDelay(100); //TODO: remove?
-  hwio.pinModes(0, ~(1 << HWIO_PIN_VONLATCH | 1 << HWIO_PIN_resetProt | 1 << HWIO_PIN_HWProtEnable)); // Set output pins bank0
+  hwio.pinModes(0, (uint8_t)(~(HWIO_DIR & 0xff )));
+  //hwio.pinModes(0, ~(1 << HWIO_PIN_VONLATCH | 1 << HWIO_PIN_resetProt | 1 << HWIO_PIN_HWProtEnable)); // Set output pins bank0
   vTaskDelay(100); //TODO: remove?
   // TODO: Cleaner implementation, not hardcoded like this.
-  hwio.pinModes(0x10, (uint8_t)((~(1 << HWIO_PIN_VOLTSENSECLR | 1 << HWIO_PIN_CURRRANGELOW |1 << HWIO_PIN_VOLTRANGELOW | 1 << HWIO_PIN_VOLTSENSESET)) >> 8)) ; // Set output pins bank1
+  hwio.pinModes(0x10, (uint8_t)~(HWIO_DIR >> 8));
+  //hwio.pinModes(0x10, (uint8_t)((~(1 << HWIO_PIN_VOLTSENSECLR | 1 << HWIO_PIN_CURRRANGELOW |1 << HWIO_PIN_VOLTRANGELOW | 1 << HWIO_PIN_VOLTSENSESET)) >> 8)) ; // Set output pins bank1
   vTaskDelay(100); //TODO: remove?
-  hwio.pinInterrupts  (0,  // Bank 
-                          1 << HWIO_PIN_OCPTRIG | 1 << HWIO_PIN_OVPTRIG | 1 << HWIO_PIN_VON | 1 << HWIO_PIN_SENSE_ERROR, // Only relevant input pins
-                          0x00,  // Compare against 0
-                          1 << HWIO_PIN_OCPTRIG | 1 << HWIO_PIN_OVPTRIG); // Only these are compared, other on any change
+  hwio.pinInterrupts  (0,  // Bank A
+                       (uint8_t)HWIO_INT, // Only relevant input pins
+                       0x00,  // Compare against 0
+                       (uint8_t)HWIO_INT_COMP0); // Only these are compared, other on any change
   vTaskDelay(100); //TODO: remove?
   hwio.digitalWrite(HWIO_PIN_HWProtEnable, false); //TODO: Implement functionality, for now keep pin low.
 

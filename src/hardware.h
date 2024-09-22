@@ -7,6 +7,10 @@
 ///////////////////////
 //#define FAKE_HARDWARE   1
 
+#ifndef HARDWARE_VERSION
+#define HARDWARE_VERSION 3
+#endif
+
 #if HARDWARE_VERSION == 3
 
 #define PIN_UART_TX     0           // GPIO 0 - debug/scpi
@@ -111,18 +115,25 @@
 
 // GPIO extender (MCP23008) for hardware signals
 #define HWIO_CHIP_ADDRES      0x27
-#define HWIO_PIN_VONLATCH     0   // GPA0 =output ///TODO: VON and VONLATCH are swapped in MCU PCB v4
-#define HWIO_PIN_resetProt    1   // GPA1 =output
-#define HWIO_PIN_HWProtEnable 2   // GPA2 =output
-#define HWIO_PIN_SENSE_ERROR  3   // GPA3 =input
-#define HWIO_CLAMPOFF         4   // GPA4 =input
-#define HWIO_PIN_OVPTRIG      5   // GPA5 =input
-#define HWIO_PIN_OCPTRIG      6   // GPA6 =input
-#define HWIO_PIN_VON          7   // GPA7 =input   ///TODO: VON and VONLATCH are swapped in MCU PCB v4
-#define HWIO_PIN_VOLTSENSECLR 12  // GPB4 =output  (12-8=4)
-#define HWIO_PIN_CURRRANGELOW 13  // GPB5 =output
-#define HWIO_PIN_VOLTRANGELOW 14  // GPB6 =output
-#define HWIO_PIN_VOLTSENSESET 15  // GPB7 =output
+#define HWIO_PIN_VONLATCH     0u   // GPA0 =output ///TODO: VON and VONLATCH are swapped in MCU PCB v4
+#define HWIO_PIN_resetProt    1u   // GPA1 =output
+#define HWIO_PIN_HWProtEnable 2u   // GPA2 =output
+#define HWIO_PIN_SENSE_ERROR  3u   // GPA3 =input
+#define HWIO_CLAMPOFF         4u   // GPA4 =input
+#define HWIO_PIN_OVPTRIG      5u   // GPA5 =input
+#define HWIO_PIN_OCPTRIG      6u   // GPA6 =input
+#define HWIO_PIN_VON          7u   // GPA7 =input   ///TODO: VON and VONLATCH are swapped in MCU PCB v4
+#define HWIO_PIN_REVERSEPOL   11u  // GPB3 =input   DFake, does not exist in V3!
+#define HWIO_PIN_VOLTSENSECLR 12u  // GPB4 =output  (12-8=4)
+#define HWIO_PIN_CURRRANGELOW 13u  // GPB5 =output
+#define HWIO_PIN_VOLTRANGELOW 14u  // GPB6 =output
+#define HWIO_PIN_VOLTSENSESET 15u  // GPB7 =output
+// Set pins to output direction:
+#define HWIO_DIR (1<<HWIO_PIN_VONLATCH|1<<HWIO_PIN_resetProt|1<<HWIO_PIN_HWProtEnable|1<<HWIO_PIN_VOLTSENSECLR|1<<HWIO_PIN_CURRRANGELOW|1<<HWIO_PIN_VOLTRANGELOW|1<<HWIO_PIN_VOLTSENSESET)
+// Set pins to interrrupt (bank A only)
+#define HWIO_INT (1<<HWIO_PIN_OCPTRIG|1<<HWIO_PIN_OVPTRIG|1<<HWIO_PIN_VON|1<<HWIO_PIN_SENSE_ERROR|1<<HWIO_PIN_REVERSEPOL)
+// Set pins to compare to 0 instead of each change
+#define HWIO_INT_COMP0 (uint8_t)(1<<HWIO_PIN_OCPTRIG|1<<HWIO_PIN_OVPTRIG)
 
 #define TEMPADC_ADDRESS    0x48
 #define NTC_T0              25+273.15
@@ -217,15 +228,12 @@
 #define SPI_DAC2       SPI
 #define SPI_LCD        SPI1               // Wiring setup by display task
 #define SPI_TP         SPI1
-//#define SPI_KEYS       SPI1
 #define I2C_KEYS       Wire              // Setup done in main (shared bus)
 #define I2C_KEYS_SEM   WireSem
 #define I2C_HWGPIO     Wire1
 #define I2C_HWGPIO_SEM Wire1Sem
 #define I2C_EEPROM     Wire1
 #define I2C_EEPROM_SEM Wire1Sem
-//#define I2C_TEMPADC     Wire1
-//#define I2C_TEMPADC_SEM Wire1Sem
 #define I2C_FANCTRL     Wire1
 #define I2C_FANCTRL_SEM Wire1Sem
 #define SERIALDEBUG      Serial1
@@ -246,36 +254,25 @@
 
 // GPIO extender (MCP23008) for hardware signals
 #define HWIO_CHIP_ADDRES      0x27
-#define HWIO_PIN_VON          0   // GPA0 =output ///TODO: VON and VONLATCH are swapped in MCU PCB v4
-#define HWIO_PIN_resetProt    1   // GPA1 =output
-#define HWIO_PIN_HWProtEnable 2   // GPA2 =output
-#define HWIO_PIN_SENSE_ERROR  3   // GPA3 =input
-#define HWIO_CLAMPOFF         4   // GPA4 =input
-#define HWIO_PIN_OVPTRIG      5   // GPA5 =input
-#define HWIO_PIN_OCPTRIG      6   // GPA6 =input
-#define HWIO_PIN_VONLATCH     7   // GPA7 =input   ///TODO: VON and VONLATCH are swapped in MCU PCB v4
-#define HWIO_PIN_VOLTSENSECLR 12  // GPB4 =output  (12-8=4)
-#define HWIO_PIN_CURRRANGELOW 13  // GPB5 =output
-#define HWIO_PIN_VOLTRANGELOW 14  // GPB6 =output
-#define HWIO_PIN_VOLTSENSESET 15  // GPB7 =output
-
-#define TEMPADC_ADDRESS    0x48
-#define NTC_T0              25+273.15
-#define NTC_R0              10000
-#define NTC_BETA            3435
-#define TEMP1_CHANNEL       ADC_ADS1X1X_MUX_0_3
-#define TEMP2_CHANNEL       ADC_ADS1X1X_MUX_1_3
-
-#define NTC_R1              3300.0f
-#define NTC_R2              6800.0f
-#define NTC_VDD             3.3f
-
-// TODO: Find new pins and rewire
-//#define PIN_OVPTRIGGERED 20         // GPIO 20  - pin 26
-//#define PIN_OCPTRIGGERED 20         // GPIO 19  - pin 25
-//#define PIN_VONLATCHSET  0
-//#define PIN_VON          0
-//#define PIN_RESETPROT    0
+#define HWIO_PIN_VON          0u   // GPA0 =input, int, 
+#define HWIO_PIN_resetProt    1u   // GPA1 =output
+#define HWIO_PIN_HWProtEnable 2u   // GPA2 =output
+#define HWIO_PIN_SENSE_ERROR  3u   // GPA3 =input, int
+#define HWIO_CLAMPOFF         4u   // GPA4 =input
+#define HWIO_PIN_OVPTRIG      5u   // GPA5 =input, int, comp0
+#define HWIO_PIN_OCPTRIG      6u   // GPA6 =input, int, comp0
+#define HWIO_PIN_REVERSEPOL   7u   // GPA7 =input, int  
+#define HWIO_PIN_VOLTSENSECLR 11u  // GPB3 =output
+#define HWIO_PIN_VONLATCH     12u  // GPB4 =output   
+#define HWIO_PIN_CURRRANGELOW 13u  // GPB5 =output
+#define HWIO_PIN_VOLTRANGELOW 14u  // GPB6 =output
+#define HWIO_PIN_VOLTSENSESET 15u  // GPB7 =output
+// Set pins to output direction:
+#define HWIO_DIR (1<<HWIO_PIN_resetProt|1<<HWIO_PIN_HWProtEnable|1<<HWIO_PIN_VONLATCH|1<<HWIO_PIN_VOLTSENSECLR|1<<HWIO_PIN_CURRRANGELOW|1<<HWIO_PIN_VOLTRANGELOW|1<<HWIO_PIN_VOLTSENSESET)
+// Set pins to interrrupt (bank A only)
+#define HWIO_INT (1<<HWIO_PIN_OCPTRIG|1<<HWIO_PIN_OVPTRIG|1<<HWIO_PIN_VON|1<<HWIO_PIN_SENSE_ERROR|1<<HWIO_PIN_REVERSEPOL)
+// Set pins to compare to 0 instead of each change
+#define HWIO_INT_COMP0 (1<<HWIO_PIN_OCPTRIG|1<<HWIO_PIN_OVPTRIG)
 
 #endif // HARDWARE_VERSION == 4
 /////////////////////////////
