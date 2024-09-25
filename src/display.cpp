@@ -430,7 +430,6 @@ static void __not_in_flash_func(guiTask(void *pvParameter))
 
   // Initialize the input device driver for the encoder
   // and assign the encoder to the encoder group
-  ui_init_encoder_group();
   indev_enc = lv_indev_create();
   lv_indev_set_type(indev_enc, LV_INDEV_TYPE_ENCODER);
   lv_indev_set_read_cb(indev_enc, my_encoder_read);

@@ -39,57 +39,6 @@ void clearlog() {
     logtxt[0] = '\x00';
 }
 
-///// Encoder functions.
-///// Waiting for studio/EEZ flow support for this.
-
-lv_group_t *encoder_group;
-
-static lv_obj_tree_walk_res_t walk_cb(lv_obj_t *obj, void *) {
-    // TODO: Make more generic, currently all textarea's are encoder selectable...
-    if (obj->class_p == &lv_textarea_class || obj->class_p == &lv_slider_class || obj->class_p == &lv_dropdown_class ||
-        obj->class_p == &lv_switch_class   || obj->class_p == &lv_checkbox_class || obj->class_p == &lv_spinbox_class) {
-        lv_group_add_obj(encoder_group, obj);
-        // Always focus on first widget (so we have a focus) AND prefer spinbox focus
-        if (lv_group_get_focused(encoder_group) == 0 || obj->class_p == &lv_spinbox_class) {
-            lv_group_focus_obj(obj);
-        }
-    }
-    return LV_OBJ_TREE_WALK_NEXT;
-}
-
-static void update_groups(void *obj) {
-    lv_group_remove_all_objs(encoder_group);
-    lv_obj_tree_walk((lv_obj_t *)obj, walk_cb, 0);
-}
-
-static void on_screen_loaded_cb(void *screen_obj) {
-    update_groups(screen_obj);
-    lv_group_set_editing(encoder_group, false);
-}
-
-static void on_screen_loaded_cb(lv_event_t *e) {
-    on_screen_loaded_cb(e->current_target);
-}
-
-static void on_screen_unload_cb(lv_event_t *e) 
-{
-    lv_group_remove_all_objs(encoder_group);
-}
-
-void ui_init_encoder_group() {
-    encoder_group = lv_group_create();
-    lv_group_set_wrap(encoder_group, true);
-    lv_group_set_default(encoder_group);
-
-    for (size_t screen_index = 0; screen_index < get_num_screens(); screen_index++) 
-    {
-        lv_obj_add_event_cb(get_screen_obj(screen_index), on_screen_loaded_cb, LV_EVENT_SCREEN_LOADED, 0);
-        lv_obj_add_event_cb(get_screen_obj(screen_index), on_screen_unload_cb, LV_EVENT_SCREEN_UNLOAD_START, 0);
-    }
-
-    on_screen_loaded_cb(get_screen_obj(0));
-}
-
 // Calibration glue
 void copy_cal_values_from_state(CalibrationValueConfiguration *cal_values, calType_e caltype)
 {
