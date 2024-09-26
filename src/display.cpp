@@ -131,10 +131,10 @@ static char newtext[40];
 static void my_encoder_read(lv_indev_t *indev_driver, lv_indev_data_t *data)
 {
   // Get the current focussed object
-  lv_obj_t *obj = lv_group_get_focused(encoder_group);
+  lv_obj_t *obj = lv_group_get_focused(groups.encoder_group);
   encoderEventHandled = false;
 
-  if (obj == 0 || (keystate.encoderbutton == encoderButLastState && keystate.encodercount == encoderButLastState))
+  if (obj == 0 || (keystate.encoderbutton == encoderButLastState && keystate.encodercount == encoderLastState))
   {
     return;
   } // No focus and/or no action.
@@ -146,7 +146,7 @@ static void my_encoder_read(lv_indev_t *indev_driver, lv_indev_data_t *data)
     //const char *text = lv_textarea_get_text(obj);
     //uint32_t pos = lv_textarea_get_cursor_pos(obj);
     //uint32_t textsize = strlen(text);
-    lv_group_set_editing(encoder_group, true);
+    lv_group_set_editing(groups.encoder_group, true);
 
     // Encoder Button pressed
     if (keystate.encoderbutton && encoderButLastState == false)
@@ -169,7 +169,7 @@ static void my_encoder_read(lv_indev_t *indev_driver, lv_indev_data_t *data)
     }
 
     // Encoder movement
-    int enccount = keystate.encodercount / 2; // 2 changes per dent (on current combination HW/SW)
+    int enccount = keystate.encodercount; // 2; // 2 changes per dent (on current combination HW/SW)
     if (encoderLastState != enccount)
     {
       if (encoderLastState < enccount)
@@ -177,12 +177,14 @@ static void my_encoder_read(lv_indev_t *indev_driver, lv_indev_data_t *data)
         uint32_t t = LV_KEY_UP;
         lv_obj_send_event(obj,LV_EVENT_KEY, &t);
         encoderEventHandled = true;
+        encoderLastState++; // We only processed 1 event now.
       } else {
         uint32_t t = LV_KEY_DOWN;
         lv_obj_send_event(obj,LV_EVENT_KEY, &t);
         encoderEventHandled = true;
+        encoderLastState--; //We only processed 1 event now.
       }
-      encoderLastState = enccount;
+      if (encoderLastState != enccount) data->continue_reading = true;
     }
   }
 
@@ -199,8 +201,8 @@ static void my_encoder_read(lv_indev_t *indev_driver, lv_indev_data_t *data)
     {
       //uint32_t t = LV_KEY_LEFT;
       //lv_obj_send_event(obj,LV_EVENT_KEY, &t);
-      lv_group_focus_next(encoder_group);
-      lv_group_set_editing(encoder_group, false);
+      lv_group_focus_next(groups.encoder_group);
+      lv_group_set_editing(groups.encoder_group, false);
       encoderButLastState = true;
       encoderEventHandled = true;
     }
@@ -212,7 +214,7 @@ static void my_encoder_read(lv_indev_t *indev_driver, lv_indev_data_t *data)
     }
 
     // Encoder movement
-    int enccount = keystate.encodercount / 2; // 2 changes per dent (on current combination HW/SW)
+    int enccount = keystate.encodercount; // 2; // 2 changes per dent (on current combination HW/SW)
     if (encoderLastState != enccount)
     {
     bool sliderchanged = false;
@@ -223,6 +225,7 @@ static void my_encoder_read(lv_indev_t *indev_driver, lv_indev_data_t *data)
       {
         newsliderpos = sliderpos + 1;
         sliderchanged = true;
+        encoderLastState++; 
       }
     }
     else
@@ -232,6 +235,7 @@ static void my_encoder_read(lv_indev_t *indev_driver, lv_indev_data_t *data)
       {
         newsliderpos = sliderpos - 1;
         sliderchanged = true;
+        encoderLastState--; 
       }
     }
     if (sliderchanged)
@@ -239,7 +243,7 @@ static void my_encoder_read(lv_indev_t *indev_driver, lv_indev_data_t *data)
       lv_slider_set_value(obj,newsliderpos, LV_ANIM_OFF);
       lv_obj_send_event(obj, LV_EVENT_VALUE_CHANGED, NULL);
     }
-    encoderLastState = enccount;
+    if (encoderLastState != enccount) data->continue_reading = true;
     }  
   }
 
@@ -254,18 +258,18 @@ static void my_encoder_read(lv_indev_t *indev_driver, lv_indev_data_t *data)
     // Encoder Button pressed
     if (keystate.encoderbutton && encoderButLastState == false)
     {
-      if (lv_group_get_editing(encoder_group) == true) {
+      if (lv_group_get_editing(groups.encoder_group) == true) {
         // Edit mode
         lv_obj_send_event(obj,LV_EVENT_VALUE_CHANGED, NULL);
         //uint32_t t = LV_KEY_ENTER;
         //lv_obj_send_event(obj,LV_EVENT_KEY, &t); 
-        lv_group_set_editing(encoder_group, false);        
+        lv_group_set_editing(groups.encoder_group, false);        
       } else {
         // Navigation mode.
         //uint32_t t = LV_KEY_LEFT;
         //lv_obj_send_event(obj,LV_EVENT_KEY, &t);
-        lv_group_focus_next(encoder_group);
-        lv_group_set_editing(encoder_group, false);
+        lv_group_focus_next(groups.encoder_group);
+        lv_group_set_editing(groups.encoder_group, false);
       }
 
       encoderButLastState = true;
@@ -279,7 +283,7 @@ static void my_encoder_read(lv_indev_t *indev_driver, lv_indev_data_t *data)
     }
 
     // Encoder movement
-    int enccount = keystate.encodercount / 2; // 2 changes per dent (on current combination HW/SW)
+    int enccount = keystate.encodercount; // 2; // 2 changes per dent (on current combination HW/SW)
     if (encoderLastState != enccount)
     {
     bool dropdownchanged = false;
@@ -289,8 +293,8 @@ static void my_encoder_read(lv_indev_t *indev_driver, lv_indev_data_t *data)
       if (dropdownpos < dropdownmax)
       {
         newdropdownpos = dropdownpos + 1;
-        lv_group_set_editing(encoder_group, true);
-        data->enc_diff = + 1;
+        lv_group_set_editing(groups.encoder_group, true);
+        //data->enc_diff = + 1;
         dropdownchanged = true;
       }
     }
@@ -300,8 +304,8 @@ static void my_encoder_read(lv_indev_t *indev_driver, lv_indev_data_t *data)
       if (dropdownpos > dropdownmin)
       {
         newdropdownpos = dropdownpos - 1;
-        lv_group_set_editing(encoder_group, true);
-        data->enc_diff = -1;
+        lv_group_set_editing(groups.encoder_group, true);
+        //data->enc_diff = -1;
         dropdownchanged = true;
       }
     }
@@ -318,15 +322,15 @@ static void my_encoder_read(lv_indev_t *indev_driver, lv_indev_data_t *data)
 
  if (obj->class_p == &lv_checkbox_class || obj->class_p == &lv_switch_class)
   {
-    lv_group_set_editing(encoder_group, true);
+    lv_group_set_editing(groups.encoder_group, true);
 
     // Encoder Button pressed
     if (keystate.encoderbutton && encoderButLastState == false)
     {
       //uint32_t t = LV_KEY_LEFT;
       //lv_obj_send_event(obj,LV_EVENT_KEY, &t);
-      lv_group_focus_next(encoder_group);
-      lv_group_set_editing(encoder_group, false);
+      lv_group_focus_next(groups.encoder_group);
+      lv_group_set_editing(groups.encoder_group, false);
       encoderButLastState = true;
       encoderEventHandled = true;        
     }
@@ -339,7 +343,7 @@ static void my_encoder_read(lv_indev_t *indev_driver, lv_indev_data_t *data)
     }
 
     // Encoder movement
-    int enccount = keystate.encodercount / 2; // 2 changes per dent (on current combination HW/SW)
+    int enccount = keystate.encodercount; // 2; // 2 changes per dent (on current combination HW/SW)
     if (encoderLastState != enccount)
     {
     bool dropdownchanged = false;
@@ -364,6 +368,45 @@ static void my_encoder_read(lv_indev_t *indev_driver, lv_indev_data_t *data)
         data->enc_diff = -1;
         encoderEventHandled = true;
       }
+    }
+    encoderLastState = enccount;
+    }
+  }
+
+ if (obj->class_p == &lv_button_class )
+  { 
+    // Encoder Button pressed
+    if (keystate.encoderbutton && encoderButLastState == false)
+    {
+      uint32_t t = LV_EVENT_PRESSED;
+      lv_obj_send_event(obj,LV_EVENT_KEY, &t);
+      encoderButLastState = true;
+      encoderEventHandled = true;        
+    }
+
+    // Encoder Button released
+    if (!keystate.encoderbutton && encoderButLastState == true)
+    {
+      uint32_t t = LV_EVENT_RELEASED;
+      lv_obj_send_event(obj,LV_EVENT_KEY, &t);
+      encoderButLastState = false;
+      encoderEventHandled = true;
+    }
+
+    // Encoder movement
+    int enccount = keystate.encodercount; // 2; // 2 changes per dent (on current combination HW/SW)
+    if (encoderLastState != enccount)
+    {
+    bool dropdownchanged = false;
+    if (encoderLastState < enccount)
+    {
+      lv_group_focus_next(groups.encoder_group);
+      lv_group_set_editing(groups.encoder_group, false);
+    }
+    else
+    {
+      lv_group_focus_prev(groups.encoder_group);
+      lv_group_set_editing(groups.encoder_group, false);
     }
     encoderLastState = enccount;
     }
@@ -433,7 +476,7 @@ static void __not_in_flash_func(guiTask(void *pvParameter))
   indev_enc = lv_indev_create();
   lv_indev_set_type(indev_enc, LV_INDEV_TYPE_ENCODER);
   lv_indev_set_read_cb(indev_enc, my_encoder_read);
-  lv_indev_set_group(indev_enc, encoder_group);
+  lv_indev_set_group(indev_enc, groups.encoder_group);
 
 #endif
 

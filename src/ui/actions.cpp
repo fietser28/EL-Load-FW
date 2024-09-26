@@ -44,16 +44,6 @@ void action_text_area_disable_blink(lv_event_t * e) {
     }
 };
 
-
-void action_grab_encoder(lv_event_t * e) {
-    lv_group_remove_all_objs(encoder_group);
-    lv_obj_t *obj = (lv_obj_t *)lv_event_get_target(e);
-    if (obj->class_p == &lv_button_class || obj->class_p == &lv_keyboard_class || obj->class_p == &lv_textarea_class) {
-        lv_group_add_obj(encoder_group, obj);
-        lv_group_focus_obj(obj);
-    }
-}
-
 // Calibration page
 
 void action_cal_refresh_measured(lv_event_t *e) 

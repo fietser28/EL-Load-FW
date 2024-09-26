@@ -67,7 +67,7 @@ static void encTask(void *pvParameter)
 
     int slowtick = 0;
     uint8_t iodir, ipol, gppu, gpioval;
-    int8_t encdir;
+    int8_t encdir, encdirPrev;
     int enccount = 0;
     int pin1count = 0;
     int pin2count = 0;
@@ -86,6 +86,7 @@ static void encTask(void *pvParameter)
     gpiokeys.digitalRead(); //Clear interrupt pin status.
  
     encTaskInitiated = true; 
+    encdirPrev = DIR_NONE;
 
     while (1)
     {
@@ -97,14 +98,21 @@ static void encTask(void *pvParameter)
         encpin1 = gpioval & (1 << KEYS_PIN_ENC0) ? 1 : 0;
         encpin2 = gpioval & (1 << KEYS_PIN_ENC1) ? 1 : 0;
         encdir = encoder.process(encpin1, encpin2);
-        if (encdir == DIR_CCW)
+        if (encdir == DIR_CCW && encdirPrev == DIR_CCW)
         {
             enccount--;
+            encdir = DIR_NONE;
+            encdirPrev = DIR_NONE;
         }
-        if (encdir == DIR_CW)
+        if (encdir == DIR_CW && encdirPrev == DIR_CW)
         {
             enccount++;
+            encdir = DIR_NONE;
+            encdirPrev = DIR_NONE;
         }
+        if (encdir != DIR_NONE) {
+            encdirPrev = encdir;
+        }      
         encpin1prev = encpin1;
         encpin2prev = encpin2;
 
@@ -122,7 +130,7 @@ static void encTask(void *pvParameter)
             button3prev = keystate.button3;
             if (keystate.button3 == true)       // Button pressed (not released)
             {
-                state.getSetStateCopy(&localsetcopy, 25);
+                state.getSetStateCopy(&localsetcopy, 25); //TODO: Can be faster with an atomic state.getOn() call. 
                 if (localsetcopy.on) {
                     state.setOff();
                 } else {

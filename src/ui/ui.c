@@ -9,7 +9,6 @@ ActionExecFunc actions[] = {
     action_getdropdownindex,
     action_toggle_record,
     action_text_area_disable_blink,
-    action_grab_encoder,
     action_cal_refresh_measured,
     action_cal_reset_values,
     action_cal_store_values,
