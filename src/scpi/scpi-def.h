@@ -142,6 +142,7 @@ extern scpi_result_t scpi_cmd_source_pow_prot_levelQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_pow_prot_delay(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_pow_prot_delayQ(scpi_t *context);
 
+extern scpi_result_t scpi_cmd_syst_beep(scpi_t *context);
 extern scpi_result_t scpi_cmd_syst_fan_mode(scpi_t *context);
 extern scpi_result_t scpi_cmd_syst_fan_modeQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_syst_fan_speed(scpi_t *context);

@@ -127,12 +127,12 @@ typedef struct _objects_t {
     lv_obj_t *obj146;
     lv_obj_t *obj147;
     lv_obj_t *obj148;
-    lv_obj_t *obj148__obj82;
-    lv_obj_t *obj148__sure_but_no;
-    lv_obj_t *obj148__sure_but_yes;
-    lv_obj_t *obj148__sure_label_no;
-    lv_obj_t *obj148__sure_label_yes;
     lv_obj_t *obj149;
+    lv_obj_t *obj149__obj82;
+    lv_obj_t *obj149__sure_but_no;
+    lv_obj_t *obj149__sure_but_yes;
+    lv_obj_t *obj149__sure_label_no;
+    lv_obj_t *obj149__sure_label_yes;
     lv_obj_t *obj15;
     lv_obj_t *obj150;
     lv_obj_t *obj151;
@@ -141,6 +141,7 @@ typedef struct _objects_t {
     lv_obj_t *obj154;
     lv_obj_t *obj155;
     lv_obj_t *obj156;
+    lv_obj_t *obj157;
     lv_obj_t *obj16;
     lv_obj_t *obj17;
     lv_obj_t *obj18;

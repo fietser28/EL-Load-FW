@@ -441,7 +441,7 @@ void set_var_cal_values_changed(bool value) {
 bool get_var_von_state() { return localstatecopy.VonState; };
 void set_var_von_state(bool value) {}; // Read only.
 
-float get_var_temperature() { return max(localstatecopy.Temp1, localstatecopy.Temp2); };
+float get_var_temperature() { return localstatecopy.Temp1; };
 void set_var_temperature(float value) {}; // Read only.
 
 bool get_var_oc_pstate() { return localstatecopy.OCPstate; };
@@ -482,6 +482,9 @@ void set_var_fan_set_speed(int32_t value)
 
 int32_t get_var_fan_read_speed() { return localstatecopy.FanRPM; };
 void set_var_fan_read_speed(int32_t value) {}; // Read only.
+
+int32_t get_var_fan_read_speed2() { return localstatecopy.FanRPM2; };
+void set_var_fan_read_speed2(int32_t value) {}; // Read only.
 
 bool get_var_range_current_low() 
 {

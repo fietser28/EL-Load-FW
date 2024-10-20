@@ -3,6 +3,6 @@
 
 #include <stdint.h>
 
-extern const uint8_t assets[51980];
+extern const uint8_t assets[52196];
 
 #endif /*EEZ_LVGL_UI_FLOW_DEF_H*/
