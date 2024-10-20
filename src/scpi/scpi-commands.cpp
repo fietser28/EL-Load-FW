@@ -200,6 +200,8 @@ const scpi_command_t scpi_commands[] = {
     {"[SOURce]:VOLTage:ON:LATCh?", scpi_cmd_source_voltage_on_latchQ,0},
 
     // System commands (in BB3 this section is module specific, not system e.g.: MODULE#:SYS:....?)
+    {"SYSTem:BEEP", scpi_cmd_syst_beep,0},  // 0-2500ms, 
+    
     {"SYSTem:FAN:MODE", scpi_cmd_syst_fan_mode,0},  // AUTO | MANual
     {"SYSTem:FAN:MODE?", scpi_cmd_syst_fan_modeQ,0},  // AUTO | MANual
     {"SYSTem:FAN:RPM?", scpi_cmd_syst_fan_rpmQ,0},  

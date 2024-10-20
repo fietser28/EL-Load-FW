@@ -386,13 +386,17 @@ namespace dcl
         return false;
     };
 
-    bool stateManager::setFanRPMread(uint32_t rpm)
+    bool stateManager::setFanRPMread(uint32_t rpm, uint8_t fan)
     {
         if (_measuredStateMutex != NULL)
         {
             if (xSemaphoreTake(_measuredStateMutex, (TickType_t)100) == pdTRUE)
             {
-                _measuredState.FanRPM = rpm;
+                if (fan == 1) {
+                    _measuredState.FanRPM2 = rpm;
+                } else {
+                    _measuredState.FanRPM = rpm;
+                }
                 xSemaphoreGive(_measuredStateMutex);
                 return true;
             }
@@ -419,6 +423,7 @@ namespace dcl
             // Manual
             fancontrol.setPWMDCRamp(fan_max31760::PWM_DC_RAMP_FAST);    
         }
+        fancontrol.clearFanFail();
         fancontrol.setDirectFanControl(!fanauto);
         if (!fanauto) {
             fancontrol.setPWM(currentPWM);

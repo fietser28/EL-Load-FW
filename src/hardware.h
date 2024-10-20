@@ -101,6 +101,7 @@
 
 #define EEPROM_ADDR     0x50
 #define FANCTRL_ADDRESS 0x51
+#define FANCTRL_DUAlFAN 1
 
 // GPIO extender (MCP23x08) for keys
 #define KEYS_CHIP_ADDRESS   0x20
@@ -240,6 +241,7 @@
 
 #define EEPROM_ADDR     0x50
 #define FANCTRL_ADDRESS 0x51
+#define FANCTRL_DUAlFAN 1
 
 // GPIO extender (MCP23x08) for keys
 #define KEYS_CHIP_ADDRESS   0x20
@@ -262,13 +264,14 @@
 #define HWIO_PIN_OVPTRIG      5u   // GPA5 =input, int, comp0
 #define HWIO_PIN_OCPTRIG      6u   // GPA6 =input, int, comp0
 #define HWIO_PIN_REVERSEPOL   7u   // GPA7 =input, int  
+#define HWIO_PIN_BUZZER       10u  // GPB2 =output
 #define HWIO_PIN_VOLTSENSECLR 11u  // GPB3 =output
 #define HWIO_PIN_VONLATCH     12u  // GPB4 =output   
 #define HWIO_PIN_CURRRANGELOW 13u  // GPB5 =output
 #define HWIO_PIN_VOLTRANGELOW 14u  // GPB6 =output
 #define HWIO_PIN_VOLTSENSESET 15u  // GPB7 =output
 // Set pins to output direction:
-#define HWIO_DIR (1<<HWIO_PIN_resetProt|1<<HWIO_PIN_HWProtEnable|1<<HWIO_PIN_VONLATCH|1<<HWIO_PIN_VOLTSENSECLR|1<<HWIO_PIN_CURRRANGELOW|1<<HWIO_PIN_VOLTRANGELOW|1<<HWIO_PIN_VOLTSENSESET)
+#define HWIO_DIR (1<<HWIO_PIN_resetProt|1<<HWIO_PIN_HWProtEnable|1<<HWIO_PIN_VONLATCH|1<<HWIO_PIN_BUZZER|1<<HWIO_PIN_VOLTSENSECLR|1<<HWIO_PIN_CURRRANGELOW|1<<HWIO_PIN_VOLTRANGELOW|1<<HWIO_PIN_VOLTSENSESET)
 // Set pins to interrrupt (bank A only)
 #define HWIO_INT (1<<HWIO_PIN_OCPTRIG|1<<HWIO_PIN_OVPTRIG|1<<HWIO_PIN_VON|1<<HWIO_PIN_SENSE_ERROR|1<<HWIO_PIN_REVERSEPOL)
 // Set pins to compare to 0 instead of each change

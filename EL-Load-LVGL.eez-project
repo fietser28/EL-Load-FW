@@ -831,6 +831,14 @@
         "type": "integer",
         "defaultValue": "0",
         "persistent": false
+      },
+      {
+        "objID": "59c6b7c5-aa05-4da9-f99e-290d8a3c95a1",
+        "name": "fanReadSpeed2",
+        "type": "integer",
+        "defaultValue": "0",
+        "persistent": false,
+        "native": true
       }
     ],
     "structures": [
@@ -1253,6 +1261,11 @@
             "objID": "40c0742a-2549-470d-d005-1aa498f7cc45",
             "name": "WatchdogDelay",
             "value": 24
+          },
+          {
+            "objID": "0700bb4e-22bc-406c-a523-d8f2e55f3070",
+            "name": "beepDuration",
+            "value": 25
           }
         ]
       }
@@ -1349,7 +1362,7 @@
           "left": -1382,
           "top": -97,
           "width": 214,
-          "height": 75,
+          "height": 79,
           "customInputs": [],
           "customOutputs": [],
           "description": "local",
@@ -1382,7 +1395,7 @@
           "left": -330.5,
           "top": -97.5,
           "width": 87,
-          "height": 54,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "milliseconds": "2500"
@@ -1393,7 +1406,7 @@
           "left": 794,
           "top": -122,
           "width": 245,
-          "height": 95,
+          "height": 101,
           "customInputs": [],
           "customOutputs": [],
           "description": "go up",
@@ -1436,7 +1449,7 @@
           "left": 794,
           "top": 23,
           "width": 245,
-          "height": 95,
+          "height": 101,
           "customInputs": [],
           "customOutputs": [],
           "description": "go down",
@@ -1464,7 +1477,7 @@
           "left": 1236,
           "top": -112,
           "width": 168,
-          "height": 70,
+          "height": 69,
           "customInputs": [],
           "customOutputs": [],
           "A": "cal_set_step",
@@ -1487,7 +1500,7 @@
           "left": -1134,
           "top": -98,
           "width": 220,
-          "height": 75,
+          "height": 79,
           "customInputs": [],
           "customOutputs": [],
           "description": "native for DAC & clear protections",
@@ -1510,7 +1523,7 @@
           "left": -734,
           "top": -97,
           "width": 87,
-          "height": 54,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "description": "wait for dac to settle before clearing protection",
@@ -1522,7 +1535,7 @@
           "left": -179,
           "top": -98,
           "width": 693,
-          "height": 111,
+          "height": 107,
           "customInputs": [],
           "customOutputs": [],
           "description": "Depending on calType and state of HW pin determine if we must go up or down.",
@@ -1559,7 +1572,7 @@
           "left": -598,
           "top": -97,
           "width": 220,
-          "height": 55,
+          "height": 57,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -2127,7 +2140,7 @@
           "left": 269,
           "top": 314,
           "width": 231,
-          "height": 53,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -2158,7 +2171,7 @@
           "left": 131,
           "top": 314,
           "width": 87,
-          "height": 53,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "milliseconds": "500"
@@ -2169,7 +2182,7 @@
           "left": -251,
           "top": 314,
           "width": 141,
-          "height": 53,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "variable": "startupDone"
@@ -2426,7 +2439,7 @@
           "left": 585,
           "top": -542,
           "width": 207,
-          "height": 124,
+          "height": 122,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -2595,7 +2608,7 @@
           "left": 472,
           "top": -143,
           "width": 255,
-          "height": 53,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -2615,7 +2628,7 @@
           "left": 392,
           "top": 237,
           "width": 274,
-          "height": 53,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -2634,8 +2647,8 @@
           "type": "SwitchActionComponent",
           "left": 803,
           "top": 1122,
-          "width": 168,
-          "height": 106,
+          "width": 167,
+          "height": 105,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -2759,7 +2772,7 @@
           "left": -393,
           "top": 45,
           "width": 129,
-          "height": 53,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "variable": "rangeType"
@@ -2770,7 +2783,7 @@
           "left": -436,
           "top": 162,
           "width": 160,
-          "height": 53,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "variable": "setValueString"
@@ -2815,7 +2828,7 @@
           "left": 784,
           "top": 128,
           "width": 359,
-          "height": 161,
+          "height": 157,
           "customInputs": [
             {
               "objID": "94cd8ee1-5719-4df6-944b-2d3a0e561bee",
@@ -2886,7 +2899,7 @@
           "left": 289,
           "top": 588,
           "width": 302,
-          "height": 89,
+          "height": 87,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -2955,7 +2968,7 @@
           "type": "SetVariableActionComponent",
           "left": 1252,
           "top": 86,
-          "width": 204,
+          "width": 203,
           "height": 57,
           "customInputs": [
             {
@@ -2988,7 +3001,7 @@
           "type": "SetVariableActionComponent",
           "left": 1252,
           "top": 162,
-          "width": 204,
+          "width": 203,
           "height": 57,
           "customInputs": [
             {
@@ -3011,7 +3024,7 @@
           "type": "SetVariableActionComponent",
           "left": 1252,
           "top": 241,
-          "width": 204,
+          "width": 203,
           "height": 57,
           "customInputs": [
             {
@@ -3034,7 +3047,7 @@
           "type": "SetVariableActionComponent",
           "left": 1252,
           "top": 319,
-          "width": 204,
+          "width": 203,
           "height": 57,
           "customInputs": [
             {
@@ -3058,7 +3071,7 @@
           "left": 689,
           "top": -323,
           "width": 87,
-          "height": 53,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "description": "BUG or strange race condition?",
@@ -3070,7 +3083,7 @@
           "left": 751,
           "top": -210,
           "width": 435,
-          "height": 81,
+          "height": 80,
           "customInputs": [],
           "customOutputs": [],
           "description": "",
@@ -3081,7 +3094,7 @@
           "type": "SetVariableActionComponent",
           "left": -107,
           "top": -76,
-          "width": 257,
+          "width": 256,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -3098,7 +3111,7 @@
           "type": "SetVariableActionComponent",
           "left": 890,
           "top": 37,
-          "width": 257,
+          "width": 256,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -3116,7 +3129,7 @@
           "left": 172,
           "top": -387,
           "width": 98,
-          "height": 53,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "variable": "mode"
@@ -3150,7 +3163,7 @@
           "left": 172,
           "top": -646,
           "width": 98,
-          "height": 53,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "variable": "iset"
@@ -3161,7 +3174,7 @@
           "left": 172,
           "top": -581,
           "width": 98,
-          "height": 53,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "variable": "uset\n"
@@ -3172,7 +3185,7 @@
           "left": 172,
           "top": -520,
           "width": 98,
-          "height": 53,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "variable": "pset"
@@ -3183,7 +3196,7 @@
           "left": 172,
           "top": -451,
           "width": 98,
-          "height": 53,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "variable": "rset"
@@ -3194,7 +3207,7 @@
           "left": 392,
           "top": 173,
           "width": 255,
-          "height": 53,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -3228,7 +3241,7 @@
           "type": "SetVariableActionComponent",
           "left": 1745,
           "top": -553,
-          "width": 250,
+          "width": 410,
           "height": 100,
           "customInputs": [],
           "customOutputs": [],
@@ -3246,7 +3259,7 @@
             {
               "objID": "744127ee-db33-467d-e2d2-63289f5bf9c1",
               "variable": "svSep",
-              "value": "mode != mode_e.CR ? 2 : 4"
+              "value": "mode == mode_e.CP ? 3 : (mode != mode_e.CR ? 2 : 4)"
             }
           ]
         },
@@ -3255,8 +3268,8 @@
           "type": "SwitchActionComponent",
           "left": 480,
           "top": 784,
-          "width": 168,
-          "height": 106,
+          "width": 167,
+          "height": 105,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -4574,9 +4587,9 @@
                       "digitCountType": "literal",
                       "separatorPosition": "svSep",
                       "separatorPositionType": "expression",
-                      "min": "rangeProperties.setValueMin*Math.pow(10,5-(mode != mode_e.CR ? 2 : 4))",
+                      "min": "rangeProperties.setValueMin*Math.pow(10,5-svSep)",
                       "minType": "expression",
-                      "max": "rangeProperties.setValueMax*Math.pow(10,5-(mode != mode_e.CR ? 2 : 4))",
+                      "max": "rangeProperties.setValueMax*Math.pow(10,5-svSep)",
                       "maxType": "expression",
                       "rollover": false,
                       "stepDirection": "left",
@@ -5799,7 +5812,7 @@
           "left": 392,
           "top": 319,
           "width": 231,
-          "height": 53,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -5817,9 +5830,9 @@
           "objID": "db1fb66b-6841-4ac3-e1d4-14574ca0677b",
           "type": "WatchVariableActionComponent",
           "left": -798,
-          "top": 294,
+          "top": 227,
           "width": 123,
-          "height": 53,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "variable": "setValue"
@@ -5829,7 +5842,7 @@
           "type": "SetVariableActionComponent",
           "left": -622,
           "top": 307,
-          "width": 533,
+          "width": 398,
           "height": 78,
           "customInputs": [],
           "customOutputs": [],
@@ -5837,7 +5850,7 @@
             {
               "objID": "048ed466-5bb3-46bb-fd0f-e82011722fab",
               "variable": "setValueInt",
-              "value": "Math.round(setValue*Math.pow(10,5-(mode != mode_e.CR ? 2 : 4)),3)"
+              "value": "Math.round(setValue*Math.pow(10,5-svSep),3)"
             },
             {
               "objID": "efcde45d-1246-40c8-95b2-1db8ffe46f66",
@@ -5851,7 +5864,7 @@
           "type": "SetVariableActionComponent",
           "left": 191,
           "top": 1121,
-          "width": 551,
+          "width": 428,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -5859,7 +5872,7 @@
             {
               "objID": "dd0a9236-202c-469a-c332-eea45382f0b2",
               "variable": "setValueNew",
-              "value": "Math.round(setValueInt/Math.pow(10,5-(mode != mode_e.CR ? 2 : 4)),3)"
+              "value": "Math.round(setValueInt/(Math.pow(10,5-svSep)),3)"
             }
           ]
         },
@@ -5873,6 +5886,17 @@
           "customInputs": [],
           "customOutputs": [],
           "value": "setValueInt != setValueIntIn"
+        },
+        {
+          "objID": "b3989bf1-0134-4e66-e538-dd63c8953850",
+          "type": "WatchVariableActionComponent",
+          "left": -798,
+          "top": 307,
+          "width": 104,
+          "height": 52,
+          "customInputs": [],
+          "customOutputs": [],
+          "variable": "svSep"
         }
       ],
       "connectionLines": [
@@ -6358,6 +6382,13 @@
           "output": "@seqout",
           "target": "9687f3c0-f3b3-4da2-b1c6-d7258f97ee4b",
           "input": "@seqin"
+        },
+        {
+          "objID": "e2f70491-20c1-4cce-a6da-bd96e951cc83",
+          "source": "b3989bf1-0134-4e66-e538-dd63c8953850",
+          "output": "variable",
+          "target": "85b7ae6d-d8a9-414f-ba17-4334a88538d1",
+          "input": "@seqin"
         }
       ],
       "localVariables": [
@@ -6471,7 +6502,7 @@
           "left": 431,
           "top": 448,
           "width": 268,
-          "height": 54,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -6509,7 +6540,7 @@
           "left": 202,
           "top": 540,
           "width": 274,
-          "height": 54,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -6529,7 +6560,7 @@
           "left": -213,
           "top": 91,
           "width": 166,
-          "height": 54,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "valueToKeyboard"
@@ -6540,7 +6571,7 @@
           "left": -213,
           "top": 25,
           "width": 148,
-          "height": 54,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "capRangeType"
@@ -6653,7 +6684,7 @@
           "left": 681,
           "top": 73,
           "width": 364,
-          "height": 111,
+          "height": 107,
           "customInputs": [
             {
               "objID": "7efc2463-57f3-4ae6-f1c9-9e672d7ea549",
@@ -8275,47 +8306,6 @@
               "text": "    Volt stop:"
             },
             {
-              "objID": "1eed89a0-281d-4373-cbeb-b4dda97478c3",
-              "type": "LVGLUserWidgetWidget",
-              "left": 0,
-              "top": 0,
-              "width": 320,
-              "height": 240,
-              "customInputs": [],
-              "customOutputs": [],
-              "style": {
-                "objID": "e1333c14-49f2-4c10-816e-eeab60631b91",
-                "useStyle": "default",
-                "conditionalStyles": [],
-                "childStyles": []
-              },
-              "hiddenInEditor": true,
-              "timeline": [],
-              "eventHandlers": [],
-              "leftUnit": "px",
-              "topUnit": "px",
-              "widthUnit": "px",
-              "heightUnit": "px",
-              "children": [],
-              "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
-              "hiddenFlag": "hideKb",
-              "hiddenFlagType": "expression",
-              "clickableFlag": true,
-              "clickableFlagType": "literal",
-              "checkedStateType": "literal",
-              "disabledStateType": "literal",
-              "states": "",
-              "localStyles": {
-                "objID": "dca02a34-bf7a-4a5f-d62a-84a8d6829910"
-              },
-              "groupIndex": 0,
-              "userWidgetPageName": "keyboard",
-              "userPropertyValues": {
-                "objID": "01d278fe-1d21-a067-df84-8413f73729dd",
-                "values": {}
-              }
-            },
-            {
               "objID": "ba564b69-9778-47eb-a409-f7bbeeaae0a3",
               "type": "LVGLPanelWidget",
               "left": 0,
@@ -8357,6 +8347,47 @@
                 }
               },
               "groupIndex": 0
+            },
+            {
+              "objID": "1eed89a0-281d-4373-cbeb-b4dda97478c3",
+              "type": "LVGLUserWidgetWidget",
+              "left": 0,
+              "top": 0,
+              "width": 320,
+              "height": 240,
+              "customInputs": [],
+              "customOutputs": [],
+              "style": {
+                "objID": "e1333c14-49f2-4c10-816e-eeab60631b91",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": []
+              },
+              "hiddenInEditor": true,
+              "timeline": [],
+              "eventHandlers": [],
+              "leftUnit": "px",
+              "topUnit": "px",
+              "widthUnit": "px",
+              "heightUnit": "px",
+              "children": [],
+              "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+              "hiddenFlag": "hideKb",
+              "hiddenFlagType": "expression",
+              "clickableFlag": true,
+              "clickableFlagType": "literal",
+              "checkedStateType": "literal",
+              "disabledStateType": "literal",
+              "states": "",
+              "localStyles": {
+                "objID": "dca02a34-bf7a-4a5f-d62a-84a8d6829910"
+              },
+              "groupIndex": 0,
+              "userWidgetPageName": "keyboard",
+              "userPropertyValues": {
+                "objID": "01d278fe-1d21-a067-df84-8413f73729dd",
+                "values": {}
+              }
             }
           ],
           "widgetFlags": "PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER",
@@ -12126,7 +12157,7 @@
                 "conditionalStyles": [],
                 "childStyles": []
               },
-              "hiddenInEditor": true,
+              "hiddenInEditor": false,
               "timeline": [],
               "eventHandlers": [],
               "leftUnit": "px",
@@ -16246,8 +16277,8 @@
           "type": "LVGLActionComponent",
           "left": 1138,
           "top": 210,
-          "width": 256,
-          "height": 54,
+          "width": 255,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -16277,7 +16308,7 @@
           "left": 398,
           "top": -184,
           "width": 189,
-          "height": 145,
+          "height": 144,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -16314,7 +16345,7 @@
           "left": 362,
           "top": 511,
           "width": 189,
-          "height": 101,
+          "height": 100,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -16357,8 +16388,8 @@
           "type": "CompareActionComponent",
           "left": 362,
           "top": 184,
-          "width": 193,
-          "height": 70,
+          "width": 192,
+          "height": 69,
           "customInputs": [],
           "customOutputs": [],
           "A": "unsavedChanges",
@@ -16370,7 +16401,7 @@
           "type": "SetVariableActionComponent",
           "left": 978,
           "top": 209,
-          "width": 128,
+          "width": 127,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -16405,7 +16436,7 @@
           "left": -282,
           "top": 83,
           "width": 137,
-          "height": 52,
+          "height": 51,
           "customInputs": [],
           "customOutputs": [],
           "value": "\"All changes will be lost\""
@@ -16416,7 +16447,7 @@
           "left": 835,
           "top": -184,
           "width": 87,
-          "height": 70,
+          "height": 69,
           "customInputs": [],
           "customOutputs": [],
           "value": "hideYN"
@@ -16437,7 +16468,7 @@
           "type": "SetVariableActionComponent",
           "left": 457,
           "top": 82,
-          "width": 128,
+          "width": 127,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -16645,8 +16676,8 @@
               "objID": "bcf1eaa4-3717-494f-9144-c2d85f227158",
               "type": "LVGLLabelWidget",
               "left": 127,
-              "top": 144,
-              "width": 204,
+              "top": 159,
+              "width": 193,
               "height": 24,
               "customInputs": [],
               "customOutputs": [],
@@ -16687,7 +16718,7 @@
                 }
               },
               "groupIndex": 0,
-              "text": "Math.round(Temperature, 0)+ \"\\u00B0C\"",
+              "text": "Math.round(Temperature, 0)+ \"\\u00B0C  @\" + pmon",
               "textType": "expression",
               "longMode": "CLIP",
               "recolor": false
@@ -16743,7 +16774,7 @@
               "type": "LVGLLabelWidget",
               "left": 127,
               "top": 73,
-              "width": 193,
+              "width": 98,
               "height": 24,
               "customInputs": [],
               "customOutputs": [],
@@ -16772,7 +16803,7 @@
                 "definition": {
                   "MAIN": {
                     "DEFAULT": {
-                      "text_align": "LEFT",
+                      "text_align": "RIGHT",
                       "text_color": "#00ffff"
                     }
                   }
@@ -16972,7 +17003,7 @@
               "objID": "40852e71-1485-47f8-8ab9-f4ca45674b44",
               "type": "LVGLSliderWidget",
               "left": 127,
-              "top": 117,
+              "top": 137,
               "width": 180,
               "height": 10,
               "customInputs": [],
@@ -17009,6 +17040,7 @@
               "localStyles": {
                 "objID": "b4572af2-3978-469b-dd09-e2aa603f46b8"
               },
+              "group": "encoder_group",
               "groupIndex": 0,
               "min": 0,
               "max": 100,
@@ -17058,7 +17090,7 @@
                 }
               },
               "groupIndex": 0,
-              "text": "Speed:",
+              "text": "Speed HS:",
               "textType": "literal",
               "longMode": "CLIP",
               "recolor": false
@@ -17067,7 +17099,7 @@
               "objID": "6498943b-6e57-41c5-bca8-994a50d37712",
               "type": "LVGLLabelWidget",
               "left": 1,
-              "top": 110,
+              "top": 130,
               "width": 114,
               "height": 24,
               "customInputs": [],
@@ -17113,7 +17145,7 @@
               "objID": "1ea22396-c14b-4499-8cef-113b2d2b7d06",
               "type": "LVGLLabelWidget",
               "left": 1,
-              "top": 144,
+              "top": 159,
               "width": 114,
               "height": 24,
               "customInputs": [],
@@ -17195,6 +17227,7 @@
               "localStyles": {
                 "objID": "72a5b1a1-f047-4521-d7f0-688d000e8369"
               },
+              "group": "encoder_group",
               "groupIndex": 0,
               "options": "Auto\nManual",
               "optionsType": "literal",
@@ -17206,7 +17239,7 @@
               "objID": "ba535f4d-cfa2-4361-e9fe-6ce4b269220c",
               "type": "LVGLLabelWidget",
               "left": 189,
-              "top": 110,
+              "top": 130,
               "width": 32,
               "height": 24,
               "customInputs": [],
@@ -17289,6 +17322,97 @@
                 "objID": "6ee3e96e-b642-06d8-95d1-afdb95b3189c",
                 "values": {}
               }
+            },
+            {
+              "objID": "a0a6cded-af44-4ee0-d025-c318dd3339e0",
+              "type": "LVGLLabelWidget",
+              "left": 1,
+              "top": 102,
+              "width": 114,
+              "height": 24,
+              "customInputs": [],
+              "customOutputs": [],
+              "style": {
+                "objID": "cede3c57-586b-4e36-f4e1-40da363d7f4c",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": []
+              },
+              "timeline": [],
+              "eventHandlers": [],
+              "leftUnit": "px",
+              "topUnit": "px",
+              "widthUnit": "px",
+              "heightUnit": "content",
+              "children": [],
+              "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+              "hiddenFlagType": "literal",
+              "clickableFlagType": "literal",
+              "checkedStateType": "literal",
+              "disabledStateType": "literal",
+              "states": "",
+              "useStyle": "small label",
+              "localStyles": {
+                "objID": "52c58896-cc04-4a67-e25b-439136cfcfb9",
+                "definition": {
+                  "MAIN": {
+                    "DEFAULT": {
+                      "text_align": "RIGHT"
+                    }
+                  }
+                }
+              },
+              "groupIndex": 0,
+              "text": "Speed CS:",
+              "textType": "literal",
+              "longMode": "CLIP",
+              "recolor": false
+            },
+            {
+              "objID": "0d53a7fc-8759-4425-d0ac-4162fab8089c",
+              "type": "LVGLLabelWidget",
+              "left": 127,
+              "top": 102,
+              "width": 98,
+              "height": 24,
+              "customInputs": [],
+              "customOutputs": [],
+              "style": {
+                "objID": "32c8b1d9-d363-409a-b9d2-dc3069b4539c",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": []
+              },
+              "timeline": [],
+              "eventHandlers": [],
+              "leftUnit": "px",
+              "topUnit": "px",
+              "widthUnit": "px",
+              "heightUnit": "content",
+              "children": [],
+              "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+              "hiddenFlagType": "literal",
+              "clickableFlagType": "literal",
+              "checkedStateType": "literal",
+              "disabledStateType": "literal",
+              "states": "",
+              "useStyle": "small label",
+              "localStyles": {
+                "objID": "55f768b5-dd9b-4c87-bc62-9aaa338595f0",
+                "definition": {
+                  "MAIN": {
+                    "DEFAULT": {
+                      "text_align": "RIGHT",
+                      "text_color": "#00ffff"
+                    }
+                  }
+                }
+              },
+              "groupIndex": 0,
+              "text": "fanReadSpeed2 + \" rpm\"",
+              "textType": "expression",
+              "longMode": "CLIP",
+              "recolor": false
             }
           ],
           "widgetFlags": "PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER",
@@ -17492,8 +17616,8 @@
           "type": "LVGLActionComponent",
           "left": 1298,
           "top": 216,
-          "width": 256,
-          "height": 54,
+          "width": 255,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -17523,7 +17647,7 @@
           "left": 428,
           "top": -208,
           "width": 189,
-          "height": 145,
+          "height": 144,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -17560,7 +17684,7 @@
           "left": 362,
           "top": 511,
           "width": 189,
-          "height": 101,
+          "height": 100,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -17603,8 +17727,8 @@
           "type": "CompareActionComponent",
           "left": 362,
           "top": 224,
-          "width": 193,
-          "height": 70,
+          "width": 192,
+          "height": 69,
           "customInputs": [],
           "customOutputs": [],
           "A": "unsavedChanges",
@@ -17616,7 +17740,7 @@
           "type": "SetVariableActionComponent",
           "left": 1138,
           "top": 215,
-          "width": 128,
+          "width": 127,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -17651,7 +17775,7 @@
           "left": -282,
           "top": 83,
           "width": 137,
-          "height": 52,
+          "height": 51,
           "customInputs": [],
           "customOutputs": [],
           "value": "\"All changes will be lost\""
@@ -17662,7 +17786,7 @@
           "left": 835,
           "top": -184,
           "width": 87,
-          "height": 70,
+          "height": 69,
           "customInputs": [],
           "customOutputs": [],
           "value": "hideYN"
@@ -17683,7 +17807,7 @@
           "type": "SetVariableActionComponent",
           "left": 365,
           "top": 154,
-          "width": 128,
+          "width": 127,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -17781,7 +17905,7 @@
           "type": "SetVariableActionComponent",
           "left": 422,
           "top": 446,
-          "width": 196,
+          "width": 195,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -19289,8 +19413,8 @@
           "type": "LVGLActionComponent",
           "left": 384,
           "top": 196,
-          "width": 256,
-          "height": 54,
+          "width": 255,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "actions": [

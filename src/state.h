@@ -42,6 +42,7 @@ namespace dcl
         float Temp1;
         float Temp2;
         uint32_t FanRPM;
+        uint32_t FanRPM2;
     };
 
     enum ELmode
@@ -165,7 +166,7 @@ public:
     bool OPPtriggered();
     bool setTemp1(float temp);
     bool setTemp2(float temp);
-    bool setFanRPMread(uint32_t rpm);
+    bool setFanRPMread(uint32_t rpm, uint8_t fan = 0);
     bool setFanAuto(bool fanauto);
     bool setFanPWM(uint8_t rpm);
     bool setVoltSense(bool senseOn);

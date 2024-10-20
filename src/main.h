@@ -115,6 +115,7 @@ struct changeScreen_s
 #define TASK_PRIORITY_UI        3
 #define TASK_PRIORITY_KEYS      4 
 #define TASK_PRIORITY_WATCHDOG  7
+#define TASK_PRIORITY_BEEP      4
 
 
 #define TASK_AFFINITY_MEASURE   1 << 1    // Core1
@@ -159,7 +160,7 @@ extern QueueHandle_t changeScreen;
 extern uint8_t readInputs();
 extern void setOutputs(setStateStruct &newState);
 extern void timerFakeADCInterruptFunction(TimerHandle_t taskFakeADCInterrupt);
-
+extern bool beep(float length);
 
 // TODO: put this in a class somewhere
 

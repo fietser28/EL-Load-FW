@@ -11,11 +11,13 @@
 #include "semphr.h"
 #include "timers.h"
 #include "message_buffer.h"
+#include "queue.h"
 #include "SPI.h"
 
 #include <eez/flow/queue.h>
 
 #include "main.h"
+#include "hardware.h"
 #include "state.h"
 #include "util.h"
 #include "ranges.h"
@@ -48,7 +50,9 @@ TimerHandle_t timerFakeADCInterrupt;
 SemaphoreHandle_t WireSem;       // Manage sharing between tasks 
 SemaphoreHandle_t Wire1Sem;      // Manage sharing between tasks
 
-// Tasks and buffer allocations
+// Tasks and buffer allocations for task communications
+///////////////////////////////////////////////////////
+
 // HW protection task
 TaskHandle_t taskProtHW;
 QueueHandle_t changeHWIOSettings;
@@ -69,7 +73,7 @@ QueueHandle_t changeAverageSettings;
 volatile uint8_t watchdogAveraging;
 volatile bool taskAveragingReady = false;
 
-// Loop task
+// Watchdog task
 volatile uint8_t watchdogLoop;
 
 // Blink task
@@ -78,6 +82,11 @@ TaskHandle_t taskWatchdog;
 // UI task
 // Task definition is in display.cpp
 QueueHandle_t changeScreen;
+
+// Beep task
+TaskHandle_t taskBeep;
+QueueHandle_t beepQueue;
+#define BEEPBUFFERSIZE 10
 
 // adc_MCP3202 currentADC = adc_MCP3202(SPI_ADC, PIN_SPI0_SS, 0);
 // adc_MCP3202 voltADC = adc_MCP3202(SPI_ADC, PIN_SPI0_SS, 1);
@@ -95,6 +104,7 @@ dac_dac8555 uSetDAC = dac_dac8555(SPI_DAC2, PIN_DAC2_CS, 0);
 
 dcl::eeprom::eeprom myeeprom = dcl::eeprom::eeprom();
 
+gpio_mcp23017 hwio = gpio_mcp23017(); 
 fan_max31760 fancontrol = fan_max31760();
 
 // Global state manager
@@ -174,6 +184,50 @@ void watchdog(void *pvParameters)
   }
 }
 
+void beepTaskFunction(void *pvParameters)
+{
+  uint32_t       newBeepDuration;
+  bool           beeperOn = false;
+  unsigned long  beeperTurnedOnTime;
+  TickType_t     queueWaitTime = portMAX_DELAY;
+
+  // Hardware setup (pin = output) is handles in HWProtTask setup.
+
+  while (1)
+  {
+    if (xQueueReceive(beepQueue, &newBeepDuration, queueWaitTime) == pdTRUE) 
+    {
+      if (newBeepDuration > 0 && !beeperOn) {
+        //Turn beeper on
+        hwio.digitalWrite(HWIO_PIN_BUZZER, true); 
+        beeperOn = true;
+        SERIALDEBUG.println("beep on");
+        beeperTurnedOnTime = millis();
+        queueWaitTime = newBeepDuration / portTICK_PERIOD_MS; 
+      } else {
+        unsigned long now = millis();
+        unsigned long passed = beeperTurnedOnTime - now;
+        if (newBeepDuration > (queueWaitTime - now)) {
+          queueWaitTime = newBeepDuration / portTICK_PERIOD_MS;
+        } else {
+          queueWaitTime = queueWaitTime - (TickType_t)passed;
+        }
+      }
+    } else {
+      // Turn beeper off
+      hwio.digitalWrite(HWIO_PIN_BUZZER, false); 
+      beeperOn = false;
+      SERIALDEBUG.println("beep off");
+      queueWaitTime = portMAX_DELAY;
+    }
+  }
+}
+
+bool beep(float length) {
+  uint32_t lengthms = (uint32_t)(length*1000.0f);
+  return xQueueSend(beepQueue, &lengthms,( TickType_t ) 0);
+}
+
 /*
 void corerunningtest(void *pvParameters)
 {
@@ -201,21 +255,27 @@ void setup()
   SERIALDEBUG.setPollingMode(true);
   SERIALDEBUG.begin(115200);
 
-  sleep_ms(2000); // Wait for serial to connect
+  sleep_ms(4000); // Wait for serial to connect
   // Flush serial
   while (SERIALDEBUG.available())
   {
     SERIALDEBUG.read();
   }
+  SERIALDEBUG.println("INFO: Startup.");
 
   I2C_KEYS.setSCL(PIN_KEYS_SCL);
   I2C_KEYS.setSDA(PIN_KEYS_SDA);
   //I2C_KEYS.setClock(400000);
   I2C_KEYS.begin();
 
-  state.begin(); // Setup memory, mutexes and queues.
-  printlogstr("INFO: Startup.");
+#if HARDWARE_VERSION != 3 
+  I2C_HWGPIO.setSCL(PIN_HWGPIO_SCL);
+  I2C_HWGPIO.setSDA(PIN_HWGPIO_SDA);
+  I2C_HWGPIO.begin();
+#endif 
 
+  state.begin(); // Setup memory, mutexes and queues.
+  
   // TODO: Hardcoded calibration values for now
   currentCal.numPoints = 2;
   currentCal.points[0].value = 0.1; //0.0; // 0.1V  => 1.0A
@@ -402,6 +462,9 @@ void setup()
   { // TODO: reset, something is really wrong....
   }
 
+  // Queue for beeper
+  beepQueue = xQueueCreate(10, sizeof( uint32_t ));
+
   myeeprom.begin(&I2C_EEPROM, I2C_EEPROM_SEM, EEPROM_ADDR, 64, 32);
 
   // Wait for serial....
@@ -412,9 +475,9 @@ void setup()
 
   SERIALDEBUG.printf("EEPROM detect magic: %d\n", eepromMagicFound);
   if (eepromMagicFound) {
-    printlogstr("OK: EEPROM magic found.");
+    SERIALDEBUG.println("OK: EEPROM magic found.");
   } else {
-    printlogstr("ERROR: No EEPROM with magic found.");
+    SERIALDEBUG.println("ERROR: No EEPROM with magic found.");
   }
 
 /*
@@ -500,6 +563,12 @@ void setup()
     SERIALDEBUG.println("ERROR: Error starting MeasureAndOutput task.");
   }
   //vTaskCoreAffinitySet(taskMeasureAndOutput, TASK_AFFINITY_MEASURE); 
+
+  xTaskRet = xTaskCreate(beepTaskFunction, "", 512, (void *)0, TASK_PRIORITY_BEEP, &taskBeep);
+  if (xTaskRet != pdPASS)
+  { // TODO: reset, something is really wrong;
+    SERIALDEBUG.println("ERROR: Error starting beeper task.");
+  }
 
 #ifdef FAKE_HARDWARE
   vTaskDelay(500); // Wait for tasks to start 
@@ -647,7 +716,6 @@ void taskProtHWFunction(void *pvParameters)
 {
   uint32_t ulNotifiedValue;
   //gpio_mcp23008 gpiokeys = gpio_mcp23008();
-  gpio_mcp23017 hwio = gpio_mcp23017(); 
   //adc_ads1x1x  tempadc = adc_ads1x1x();
 
   uint8_t  gpiopinstate, gpiointerruptflagged;
@@ -685,7 +753,11 @@ void taskProtHWFunction(void *pvParameters)
   // Setup fan controller (and temp measurement)
   fancontrol.begin(&I2C_FANCTRL, I2C_FANCTRL_SEM, FANCTRL_ADDRESS);
   vTaskDelay(3); // Wait for chip reset.??? TODO
-  fancontrol.enableTach2(false);
+//#ifdef FANCTRL_DUALFAN
+  fancontrol.enableTach2(true);
+//#else
+//  fancontrol.enableTach2(false);
+//#endif
   vTaskDelay(3); // Wait for chip reset.??? TODO
   fancontrol.enableTach1(true); 
   vTaskDelay(3); // Wait for chip reset.??? TODO
@@ -693,7 +765,7 @@ void taskProtHWFunction(void *pvParameters)
   fancontrol.setFanSpinUpEnable(false);
   vTaskDelay(3); // Wait for chip reset.??? TODO
 //  fancontrol.setTachFull(true);
-  fancontrol.setTachFull(false);
+  fancontrol.setTachFull(true); //TODO: disables tacho alarm except for 100% PWM
   vTaskDelay(3); // Wait for chip reset.??? TODO
   fancontrol.setPulseStretch(false);
 //  fancontrol.setPWMDCRamp(fan_max31760::PWM_DC_RAMP_SLOW_MEDIUM);
@@ -705,7 +777,7 @@ void taskProtHWFunction(void *pvParameters)
   vTaskDelay(3); // Wait for chip reset.??? TODO
   fancontrol.setPWMDCRamp(fan_max31760::PWM_DC_RAMP_SLOW_MEDIUM);
   vTaskDelay(3); // Wait for chip reset.??? TODO
-  fancontrol.setFFDC(30); // TODO: safe?
+  fancontrol.setFFDC(100); // TODO: safe?
   //fancontrol.setTransistorIFR(0x17); // TODO: hardcoded but Depends on transistor (type), something to calibrate?
 
   for (int i = 0; i<= 47; i++) {
@@ -751,7 +823,7 @@ void taskProtHWFunction(void *pvParameters)
 */
   // Setup HW GPIO extender (MCP23017)
   pinMode(PIN_HWGPIO_INT, INPUT);
-  hwio.begin(&I2C_KEYS, I2C_KEYS_SEM, HWIO_CHIP_ADDRES);
+  hwio.begin(&I2C_HWGPIO, I2C_HWGPIO_SEM, HWIO_CHIP_ADDRES);
   vTaskDelay(100); //TODO: remove?
   hwio.pinModes(0, (uint8_t)(~(HWIO_DIR & 0xff )));
   //hwio.pinModes(0, ~(1 << HWIO_PIN_VONLATCH | 1 << HWIO_PIN_resetProt | 1 << HWIO_PIN_HWProtEnable)); // Set output pins bank0
@@ -844,8 +916,12 @@ void taskProtHWFunction(void *pvParameters)
 
     // Fan controll
     fanstatus = fancontrol.getStatus();
-    uint32_t rpm = fancontrol.readRPM();
+    uint32_t rpm = fancontrol.readRPM(0);
     state.setFanRPMread(rpm);
+//#ifdef FANCTRL_DUALFAN
+    rpm = fancontrol.readRPM(1);
+    state.setFanRPMread(rpm, 1);
+//#endif
     temp1 = fancontrol.readTempRemote();
     state.setTemp1(temp1);
     temp2 = fancontrol.readTempLocal();
@@ -1012,7 +1088,7 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
     ulTaskNotifyTake(pdTRUE, pdMS_TO_TICKS(2)); // Last argument was portMAX_DELAY
 
 #ifdef FAKE_HARDWARE
-    measured.ImonRaw = 700000;
+    measured.ImonRaw = 1000000;
     measured.UmonRaw = 700000;
 #else
     measured.ImonRaw = currentADC.readRaw();

@@ -37,7 +37,8 @@ class fan_max31760
         void reset();
         float readTempLocal();
         float readTempRemote();
-        uint32_t readRPM();
+//        uint32_t readRPM();
+        uint32_t readRPM(uint8_t fan);
         uint8_t getStatus();
         uint8_t setPWMFreq(PWMFreq freq);
         uint8_t setPWMPolarity(PWMPolarity setPWMPolarity);

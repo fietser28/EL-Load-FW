@@ -130,10 +130,22 @@ float fan_max31760::readTempRemote()
     return tempRaw2Float(temp_msb, temp_lsb);
 };
 
-uint32_t fan_max31760::readRPM()
+/*uint32_t fan_max31760::readRPM() {
+    return readRPM(0);
+}
+*/
+
+uint32_t fan_max31760::readRPM(uint8_t fan)
 {
-    uint8_t tch = readI2C(MAX31760_ADDR_TC1H);
-    uint8_t tcl = readI2C(MAX31760_ADDR_TC1L);
+    uint8_t tch;
+    uint8_t tcl;
+    if (fan == 1) {
+        tch = readI2C(MAX31760_ADDR_TC2H);
+        tcl = readI2C(MAX31760_ADDR_TC2L);
+    } else {
+        tch = readI2C(MAX31760_ADDR_TC1H);
+        tcl = readI2C(MAX31760_ADDR_TC1L);
+    }
     uint8_t curpwm = readI2C(MAX31760_ADDR_PWMV);
     
     // Sanity check
@@ -202,13 +214,13 @@ uint8_t fan_max31760::setPulseStretch(bool enable)
 uint8_t fan_max31760::enableTach1(bool enable)
 {
     uint8_t cr3 = readI2C(MAX31760_ADDR_CR3);
-    return writeI2C(MAX31760_ADDR_CR3, (cr3 & 0b11111101) | ((uint8_t)enable << MAX31760_BIT_TACH1E) );
+    return writeI2C(MAX31760_ADDR_CR3, (cr3 & 0b11111110) | ((uint8_t)enable << MAX31760_BIT_TACH1E) );
 };
 
 uint8_t fan_max31760::enableTach2(bool enable)
 {
     uint8_t cr3 = readI2C(MAX31760_ADDR_CR3);
-    return writeI2C(MAX31760_ADDR_CR3, (cr3 & 0b11111110) | ((uint8_t)enable << MAX31760_BIT_TACH2E) );
+    return writeI2C(MAX31760_ADDR_CR3, (cr3 & 0b11111101) | ((uint8_t)enable << MAX31760_BIT_TACH2E) );
 };
 
 uint8_t fan_max31760::setPWM(uint8_t dutycycle)
