@@ -594,3 +594,14 @@ void set_var_version_cpu_type(const char* value) {}; // Read-only.
 
 int32_t get_var_version_hw_version() { return HARDWARE_VERSION; }
 void set_var_version_hw_version(int32_t value) {}; // Read only.
+
+bool get_var_beep_on_protect() { return localsetcopy.beepOnProtect; };
+void set_var_beep_on_protect(bool value) { state.setBeepProt(value); };
+bool get_var_beep_on_capacity() { return localsetcopy.beepOnCapacity; };
+void set_var_beep_on_capacity(bool value) { state.setBeepCap(value); };
+bool get_var_beep_on_reverse() { return localsetcopy.beepOnReverse; };
+void set_var_beep_on_reverse(bool value) { state.setBeepReverse(value); };
+bool get_var_beep_on_encoder() { return localsetcopy.beepOnEncoder; };
+void set_var_beep_on_encoder(bool value) { state.setBeepEncoder(value); };
+float get_var_beep_default_duration() { return localsetcopy.beepDefaultDuration; };
+void set_var_beep_default_duration(float value) { state.setBeepDefaultDuration(value); };

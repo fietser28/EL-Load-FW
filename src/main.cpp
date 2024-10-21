@@ -201,13 +201,13 @@ void beepTaskFunction(void *pvParameters)
         //Turn beeper on
         hwio.digitalWrite(HWIO_PIN_BUZZER, true); 
         beeperOn = true;
-        SERIALDEBUG.println("beep on");
         beeperTurnedOnTime = millis();
         queueWaitTime = newBeepDuration / portTICK_PERIOD_MS; 
       } else {
         unsigned long now = millis();
-        unsigned long passed = beeperTurnedOnTime - now;
-        if (newBeepDuration > (queueWaitTime - now)) {
+        unsigned long passed = now - beeperTurnedOnTime;
+        if (newBeepDuration > (beeperTurnedOnTime + queueWaitTime - now)) {
+          beeperTurnedOnTime = now;
           queueWaitTime = newBeepDuration / portTICK_PERIOD_MS;
         } else {
           queueWaitTime = queueWaitTime - (TickType_t)passed;
@@ -217,7 +217,6 @@ void beepTaskFunction(void *pvParameters)
       // Turn beeper off
       hwio.digitalWrite(HWIO_PIN_BUZZER, false); 
       beeperOn = false;
-      SERIALDEBUG.println("beep off");
       queueWaitTime = portMAX_DELAY;
     }
   }
@@ -225,6 +224,9 @@ void beepTaskFunction(void *pvParameters)
 
 bool beep(float length) {
   uint32_t lengthms = (uint32_t)(length*1000.0f);
+  if (length == 0) {
+    lengthms = (uint32_t)(state.getBeepDefaultDuration()*1000.0f);
+  }
   return xQueueSend(beepQueue, &lengthms,( TickType_t ) 0);
 }
 

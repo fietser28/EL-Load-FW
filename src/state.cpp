@@ -77,6 +77,11 @@ namespace dcl
                 _setState.scpiWdogEnabled = false;
                 _setState.scpiWdogDelay = 10;
                 _setState.scpiWdogType = WDogType::ACTIVITY;
+                _setState.beepOnProtect = true;
+                _setState.beepOnCapacity = true;
+                _setState.beepOnReverse = true;
+                _setState.beepOnEncoder = true;
+                _setState.beepDefaultDuration = ranges[ranges_e_beepDuration].defValue;
                 xSemaphoreGive(_setStateMutex);
                 updateMeasureTask();
                 updateAverageTask(true);
@@ -596,6 +601,7 @@ namespace dcl
                 //return true;
             }
         }
+        if (getBeepProt()) beep(0);
         updateHWIOTask();
         return updateAverageTask();
     };
@@ -644,6 +650,7 @@ namespace dcl
                 xSemaphoreGive(_setStateMutex);
             }
         }
+        if (getBeepCap()) beep(0);
         updateHWIOTask();
         return updateAverageTask();
     };
@@ -1210,6 +1217,23 @@ namespace dcl
         }
         return tripped;
     };
+
+    void stateManager::setBeepProt(bool on)      { _setState.beepOnProtect = on; };
+    bool stateManager::getBeepProt()             { return _setState.beepOnProtect; };
+    void stateManager::setBeepCap(bool on)       { _setState.beepOnCapacity = on; };
+    bool stateManager::getBeepCap()              { return _setState.beepOnCapacity; };
+    void stateManager::setBeepReverse(bool on)   { _setState.beepOnReverse = on; }
+    bool stateManager::getBeepReverse()          { return _setState.beepOnReverse; };
+    void stateManager::setBeepEncoder(bool on)   { _setState.beepOnEncoder = on; }
+    bool stateManager::getBeepEncoder()          { return _setState.beepOnEncoder; };
+    void stateManager::setBeepDefaultDuration(float duration) 
+    {
+        if ( duration > ranges[ranges_e_beepDuration].minValue && duration < ranges[ranges_e_beepDuration].maxValue)
+        {
+            _setState.beepDefaultDuration = duration;
+        }
+    };
+    float stateManager::getBeepDefaultDuration() { return _setState.beepDefaultDuration; };
 
     bool stateManager::updateAverageTask(bool clearPower)
     {

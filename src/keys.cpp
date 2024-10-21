@@ -103,12 +103,14 @@ static void encTask(void *pvParameter)
             enccount--;
             encdir = DIR_NONE;
             encdirPrev = DIR_NONE;
+            if (state.getBeepEncoder()) { beep(0.005);}
         }
         if (encdir == DIR_CW && encdirPrev == DIR_CW)
         {
             enccount++;
             encdir = DIR_NONE;
             encdirPrev = DIR_NONE;
+            if (state.getBeepEncoder()) { beep(0.005);}
         }
         if (encdir != DIR_NONE) {
             encdirPrev = encdir;

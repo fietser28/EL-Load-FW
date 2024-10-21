@@ -1471,17 +1471,21 @@ scpi_result_t scpi_cmd_syst_beep(scpi_t *context)
     scpi_parameter_t param;
     scpi_number_t    scpi_number;
     scpi_special_number_t scpi_special;
-    float value;
+    float value=0;
     ranges_e range = ranges_e::ranges_e_beepDuration;
 
+    
     // Parse command to number type
-    if (!SCPI_ParamNumber(context, number_specials, &scpi_number, TRUE)) {
-        return SCPI_RES_ERR;
-    }
-    // translate number type to real value depending on range definition
-    if (!get_value_from_param(context, scpi_number, range, value)) {
-        return SCPI_RES_ERR;
-    };
+    if (!SCPI_ParamNumber(context, number_specials, &scpi_number, FALSE)) {
+        // No parameter given or not a number.
+        value = state.getBeepDefaultDuration();
+        // TODO: Give error if parameter is not a number.
+    } else {
+        // translate number type to real value depending on range definition
+        if (!get_value_from_param(context, scpi_number, range, value)) {
+            return SCPI_RES_ERR;
+        };
+    } 
     if (!beep(value)) {
         SCPI_ErrorPush(context, SCPI_ERROR_DEVICE_ERROR);
         return SCPI_RES_ERR;

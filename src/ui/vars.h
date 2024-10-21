@@ -82,7 +82,8 @@ typedef enum {
     ranges_e_VoltStop = 21,
     ranges_e_WHStop = 22,
     ranges_e_FanSpeed = 23,
-    ranges_e_WatchdogDelay = 24
+    ranges_e_WatchdogDelay = 24,
+    ranges_e_beepDuration = 25
 } ranges_e;
 
 // For calibration actions
@@ -276,6 +277,18 @@ extern const char *get_var_version_cpu_type();
 extern void set_var_version_cpu_type(const char *value);
 extern int32_t get_var_version_hw_version();
 extern void set_var_version_hw_version(int32_t value);
+extern int32_t get_var_fan_read_speed2();
+extern void set_var_fan_read_speed2(int32_t value);
+extern bool get_var_beep_on_protect();
+extern void set_var_beep_on_protect(bool value);
+extern bool get_var_beep_on_capacity();
+extern void set_var_beep_on_capacity(bool value);
+extern bool get_var_beep_on_reverse();
+extern void set_var_beep_on_reverse(bool value);
+extern bool get_var_beep_on_encoder();
+extern void set_var_beep_on_encoder(bool value);
+extern float get_var_beep_default_duration();
+extern void set_var_beep_default_duration(float value);
 
 
 #ifdef __cplusplus

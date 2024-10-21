@@ -109,6 +109,11 @@ namespace dcl
         bool scpiWdogEnabled;
         uint32_t scpiWdogDelay;
         WDogType scpiWdogType;
+        bool beepOnProtect;
+        bool beepOnCapacity;
+        bool beepOnReverse;
+        bool beepOnEncoder;
+        float beepDefaultDuration;
     };
 
 #ifdef __cplusplus
@@ -214,6 +219,17 @@ public:
     bool SCPIWdogPet();
     bool SCPIWdogCheck();
     bool getSCPIWdogTripped();
+
+    void setBeepProt(bool on);
+    bool getBeepProt();
+    void setBeepCap(bool on);
+    bool getBeepCap();
+    void setBeepReverse(bool on);
+    bool getBeepReverse();
+    void setBeepEncoder(bool on);
+    bool getBeepEncoder();
+    void setBeepDefaultDuration(float duration);
+    float getBeepDefaultDuration();
 
 // TODO: Move to private?
     bool updateHWIOTask();
