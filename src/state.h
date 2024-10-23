@@ -113,6 +113,7 @@ namespace dcl
         bool beepOnCapacity;
         bool beepOnReverse;
         bool beepOnEncoder;
+        bool beepOnSense;
         float beepDefaultDuration;
     };
 
@@ -228,6 +229,8 @@ public:
     bool getBeepReverse();
     void setBeepEncoder(bool on);
     bool getBeepEncoder();
+    void setBeepSense(bool on);
+    bool getBeepSense();
     void setBeepDefaultDuration(float duration);
     float getBeepDefaultDuration();
 

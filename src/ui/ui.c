@@ -20,6 +20,7 @@ ActionExecFunc actions[] = {
     action_clear_capacity_limits,
     action_scpi_busy_incr,
     action_scpi_busy_decr,
+    action_beep,
 };
 
 

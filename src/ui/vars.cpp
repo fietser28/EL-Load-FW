@@ -605,3 +605,5 @@ bool get_var_beep_on_encoder() { return localsetcopy.beepOnEncoder; };
 void set_var_beep_on_encoder(bool value) { state.setBeepEncoder(value); };
 float get_var_beep_default_duration() { return localsetcopy.beepDefaultDuration; };
 void set_var_beep_default_duration(float value) { state.setBeepDefaultDuration(value); };
+bool get_var_beep_on_sense() { return localsetcopy.beepOnSense; };
+void set_var_beep_on_sense(bool value) { state.setBeepSense(value); };

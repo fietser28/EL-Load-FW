@@ -200,7 +200,19 @@ const scpi_command_t scpi_commands[] = {
     {"[SOURce]:VOLTage:ON:LATCh?", scpi_cmd_source_voltage_on_latchQ,0},
 
     // System commands (in BB3 this section is module specific, not system e.g.: MODULE#:SYS:....?)
-    {"SYSTem:BEEP", scpi_cmd_syst_beep,0},  // 0-2500ms, 
+    {"SYSTem:BEEP", scpi_cmd_syst_beep,0},  // 0-2500ms
+    {"SYSTem:BEEP:DURation", scpi_cmd_syst_beep_dur,0},  // 0-2500ms
+    {"SYSTem:BEEP:DURation?", scpi_cmd_syst_beep_durQ,0},  
+    {"SYSTem:BEEP:ON:PROTection", scpi_cmd_syst_beep_on_prot,0},  // ON/OFF/1/0
+    {"SYSTem:BEEP:ON:PROTection?", scpi_cmd_syst_beep_on_protQ,0}, 
+    {"SYSTem:BEEP:ON:CAPacity", scpi_cmd_syst_beep_on_cap,0},  // ON/OFF/1/0
+    {"SYSTem:BEEP:ON:CAPacity?", scpi_cmd_syst_beep_on_capQ,0},  
+    {"SYSTem:BEEP:ON:POLarity", scpi_cmd_syst_beep_on_pol,0},  // ON/OFF/1/0
+    {"SYSTem:BEEP:ON:POLarity?", scpi_cmd_syst_beep_on_polQ,0},  
+    {"SYSTem:BEEP:ON:SENSE", scpi_cmd_syst_beep_on_sense,0},  // ON/OFF/1/0
+    {"SYSTem:BEEP:ON:SENSE?", scpi_cmd_syst_beep_on_senseQ,0},  
+    {"SYSTem:BEEP:ON:ENCoder", scpi_cmd_syst_beep_on_enc,0},  // ON/OFF/1/0
+    {"SYSTem:BEEP:ON:ENCoder?", scpi_cmd_syst_beep_on_encQ,0},  
     
     {"SYSTem:FAN:MODE", scpi_cmd_syst_fan_mode,0},  // AUTO | MANual
     {"SYSTem:FAN:MODE?", scpi_cmd_syst_fan_modeQ,0},  // AUTO | MANual

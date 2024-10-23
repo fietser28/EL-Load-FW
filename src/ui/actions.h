@@ -23,6 +23,12 @@ extern void action_clear_capacity_limits(lv_event_t * e);
 extern void action_scpi_busy_incr(lv_event_t * e);
 extern void action_scpi_busy_decr(lv_event_t * e);
 
+enum {
+    ACTION_BEEP_PROPERTY_DURATION,
+};
+extern void action_beep(lv_event_t * e);
+
+
 
 #ifdef __cplusplus
 }

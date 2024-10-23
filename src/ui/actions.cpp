@@ -176,4 +176,13 @@ void action_clear_capacity_limits(lv_event_t * e) {
 void action_scpi_busy_incr(lv_event_t * e) { dcl::scpi::scpi_busy_inc(); };
 void action_scpi_busy_decr(lv_event_t * e) { dcl::scpi::scpi_busy_dec(); };
 
+extern void action_beep(lv_event_t * e) 
+{
+    using namespace eez;
+    using namespace eez::flow;
+
+    Value duration = getUserProperty(ACTION_BEEP_PROPERTY_DURATION);
+    beep(duration.getFloat() == 0 ? state.getBeepDefaultDuration() : duration.getFloat());
+};
+
 } // extern "C"

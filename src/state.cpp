@@ -81,6 +81,7 @@ namespace dcl
                 _setState.beepOnCapacity = true;
                 _setState.beepOnReverse = true;
                 _setState.beepOnEncoder = true;
+                _setState.beepOnSense   = true;
                 _setState.beepDefaultDuration = ranges[ranges_e_beepDuration].defValue;
                 xSemaphoreGive(_setStateMutex);
                 updateMeasureTask();
@@ -299,10 +300,14 @@ namespace dcl
     // Called from HW Task.
     bool stateManager::setHWstate(bool ocptrig, bool ovptrig, bool von, bool sense_error, bool polarity_error)
     {
-    // Protection kicked in.
+    // Protection kicked in from HW signal
     if (!_setState.CalibrationMode && (ocptrig || ovptrig || sense_error || polarity_error)) 
     {
         state.setProtection();
+        if (( (ocptrig || ovptrig) && getBeepProt()) ||
+              (polarity_error      && getBeepReverse()) ||
+              (sense_error         && getBeepSense())
+        ) { beep(0); }
     };
 
     // Von kicks in when on and inhibit mode => Turn load of.
@@ -346,6 +351,7 @@ namespace dcl
                 return true;
             }
         }
+        if (getBeepProt() == true) { beep(0); }
         return false;
     };
 
@@ -360,6 +366,7 @@ namespace dcl
                 return true;
             }
         }
+        if (getBeepProt() == true) { beep(0); }
         return false;
     };
 
@@ -601,7 +608,6 @@ namespace dcl
                 //return true;
             }
         }
-        if (getBeepProt()) beep(0);
         updateHWIOTask();
         return updateAverageTask();
     };
@@ -1218,6 +1224,7 @@ namespace dcl
         return tripped;
     };
 
+    // Beep states are not protected by semaphores, all are atomic read/writes and not order critical.
     void stateManager::setBeepProt(bool on)      { _setState.beepOnProtect = on; };
     bool stateManager::getBeepProt()             { return _setState.beepOnProtect; };
     void stateManager::setBeepCap(bool on)       { _setState.beepOnCapacity = on; };
@@ -1226,6 +1233,8 @@ namespace dcl
     bool stateManager::getBeepReverse()          { return _setState.beepOnReverse; };
     void stateManager::setBeepEncoder(bool on)   { _setState.beepOnEncoder = on; }
     bool stateManager::getBeepEncoder()          { return _setState.beepOnEncoder; };
+    void stateManager::setBeepSense(bool on)     { _setState.beepOnSense = on; }
+    bool stateManager::getBeepSense()            { return _setState.beepOnSense; };
     void stateManager::setBeepDefaultDuration(float duration) 
     {
         if ( duration > ranges[ranges_e_beepDuration].minValue && duration < ranges[ranges_e_beepDuration].maxValue)

@@ -143,6 +143,19 @@ extern scpi_result_t scpi_cmd_source_pow_prot_delay(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_pow_prot_delayQ(scpi_t *context);
 
 extern scpi_result_t scpi_cmd_syst_beep(scpi_t *context);
+extern scpi_result_t scpi_cmd_syst_beep_dur(scpi_t *context);
+extern scpi_result_t scpi_cmd_syst_beep_durQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_syst_beep_on_prot(scpi_t *context);
+extern scpi_result_t scpi_cmd_syst_beep_on_protQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_syst_beep_on_cap(scpi_t *context);
+extern scpi_result_t scpi_cmd_syst_beep_on_capQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_syst_beep_on_pol(scpi_t *context);
+extern scpi_result_t scpi_cmd_syst_beep_on_polQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_syst_beep_on_sense(scpi_t *context);
+extern scpi_result_t scpi_cmd_syst_beep_on_senseQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_syst_beep_on_enc(scpi_t *context);
+extern scpi_result_t scpi_cmd_syst_beep_on_encQ(scpi_t *context);
+
 extern scpi_result_t scpi_cmd_syst_fan_mode(scpi_t *context);
 extern scpi_result_t scpi_cmd_syst_fan_modeQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_syst_fan_speed(scpi_t *context);

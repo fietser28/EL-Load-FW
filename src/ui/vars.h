@@ -289,6 +289,8 @@ extern bool get_var_beep_on_encoder();
 extern void set_var_beep_on_encoder(bool value);
 extern float get_var_beep_default_duration();
 extern void set_var_beep_default_duration(float value);
+extern bool get_var_beep_on_sense();
+extern void set_var_beep_on_sense(bool value);
 
 
 #ifdef __cplusplus

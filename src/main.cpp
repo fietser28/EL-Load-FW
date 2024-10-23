@@ -199,6 +199,7 @@ void beepTaskFunction(void *pvParameters)
     {
       if (newBeepDuration > 0 && !beeperOn) {
         //Turn beeper on
+        SERIALDEBUG.printf("Beep %d\n", newBeepDuration);
         hwio.digitalWrite(HWIO_PIN_BUZZER, true); 
         beeperOn = true;
         beeperTurnedOnTime = millis();

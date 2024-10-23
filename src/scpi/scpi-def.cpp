@@ -1493,6 +1493,102 @@ scpi_result_t scpi_cmd_syst_beep(scpi_t *context)
     return SCPI_RES_OK;
 };
 
+scpi_result_t scpi_cmd_syst_beep_dur(scpi_t *context)
+{
+    scpi_parameter_t param;
+    scpi_number_t    scpi_number;
+    scpi_special_number_t scpi_special;
+    float value;
+    ranges_e range = ranges_e::ranges_e_beepDuration;
+
+    // Parse command to number type
+    if (!SCPI_ParamNumber(context, number_specials, &scpi_number, TRUE)) {
+        return SCPI_RES_ERR;
+    }
+    // translate number type to real value depending on range definition
+    if (!get_value_from_param(context, scpi_number, range, value)) {
+        return SCPI_RES_ERR;
+    };
+    state.setBeepDefaultDuration(value);
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_syst_beep_durQ(scpi_t *context)
+{
+    SCPI_ResultFloat(context, state.getBeepDefaultDuration());
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_syst_beep_on_prot(scpi_t *context) {
+    scpi_bool_t param1;
+    if (!SCPI_ParamBool(context, &param1, TRUE)) {
+         return SCPI_RES_ERR;
+    }
+    state.setBeepProt(param1);
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_syst_beep_on_protQ(scpi_t *context) {
+    SCPI_ResultBool(context, state.getBeepProt());
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_syst_beep_on_cap(scpi_t *context) {
+    scpi_bool_t param1;
+    if (!SCPI_ParamBool(context, &param1, TRUE)) {
+         return SCPI_RES_ERR;
+    }
+    state.setBeepCap(param1);
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_syst_beep_on_capQ(scpi_t *context) {
+    SCPI_ResultBool(context, state.getBeepCap());
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_syst_beep_on_pol(scpi_t *context) {
+    scpi_bool_t param1;
+    if (!SCPI_ParamBool(context, &param1, TRUE)) {
+         return SCPI_RES_ERR;
+    }
+    state.setBeepReverse(param1);
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_syst_beep_on_polQ(scpi_t *context) {
+    SCPI_ResultBool(context, state.getBeepReverse());
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_syst_beep_on_sense(scpi_t *context) {
+    scpi_bool_t param1;
+    if (!SCPI_ParamBool(context, &param1, TRUE)) {
+         return SCPI_RES_ERR;
+    }
+    state.setBeepSense(param1);
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_syst_beep_on_senseQ(scpi_t *context) {
+    SCPI_ResultBool(context, state.getBeepSense());
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_syst_beep_on_enc(scpi_t *context) {
+    scpi_bool_t param1;
+    if (!SCPI_ParamBool(context, &param1, TRUE)) {
+         return SCPI_RES_ERR;
+    }
+    state.setBeepEncoder(param1);
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_syst_beep_on_encQ(scpi_t *context) {
+    SCPI_ResultBool(context, state.getBeepEncoder());
+    return SCPI_RES_OK;
+};
+
 scpi_result_t scpi_cmd_syst_fan_mode(scpi_t *context) {
     int32_t param;
     if (!SCPI_ParamChoice(context, fan_mode_list, &param, TRUE)) {

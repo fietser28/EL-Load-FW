@@ -186,9 +186,11 @@ typedef struct _objects_t {
     lv_obj_t *obj69;
     lv_obj_t *obj70;
     lv_obj_t *obj71;
+    lv_obj_t *obj72;
+    lv_obj_t *obj73;
     lv_obj_t *main_measure;
     lv_obj_t *sense_indicator;
-    lv_obj_t *obj72;
+    lv_obj_t *obj74;
     lv_obj_t *power_panel;
     lv_obj_t *ah;
     lv_obj_t *montime;
@@ -200,8 +202,6 @@ typedef struct _objects_t {
     lv_obj_t *protection_and_temp;
     lv_obj_t *wheel;
     lv_obj_t *main_dvm;
-    lv_obj_t *obj73;
-    lv_obj_t *obj74;
     lv_obj_t *obj75;
     lv_obj_t *obj76;
     lv_obj_t *obj77;
@@ -218,14 +218,14 @@ typedef struct _objects_t {
     lv_obj_t *obj88;
     lv_obj_t *obj89;
     lv_obj_t *obj90;
+    lv_obj_t *obj91;
+    lv_obj_t *obj92;
     lv_obj_t *ah_2;
     lv_obj_t *ah_3;
     lv_obj_t *ah_4;
     lv_obj_t *ah_5;
     lv_obj_t *ah_6;
     lv_obj_t *ah_7;
-    lv_obj_t *obj91;
-    lv_obj_t *obj92;
     lv_obj_t *obj93;
     lv_obj_t *obj94;
     lv_obj_t *obj95;
@@ -306,6 +306,9 @@ typedef struct _objects_t {
     lv_obj_t *obj170;
     lv_obj_t *obj171;
     lv_obj_t *obj172;
+    lv_obj_t *obj173;
+    lv_obj_t *obj174;
+    lv_obj_t *obj175;
 } objects_t;
 
 extern objects_t objects;
