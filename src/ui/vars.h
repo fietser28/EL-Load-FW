@@ -86,6 +86,12 @@ typedef enum {
     ranges_e_beepDuration = 25
 } ranges_e;
 
+typedef enum {
+    statsType_e_I = 0,
+    statsType_e_U = 1,
+    statsType_e_P = 2
+} statsType_e;
+
 // For calibration actions
 extern calType_e cal_calType;
 extern int32_t cal_curpoint;
@@ -291,6 +297,16 @@ extern float get_var_beep_default_duration();
 extern void set_var_beep_default_duration(float value);
 extern bool get_var_beep_on_sense();
 extern void set_var_beep_on_sense(bool value);
+extern const char *get_var_stat_min();
+extern void set_var_stat_min(const char *value);
+extern const char *get_var_stat_avg();
+extern void set_var_stat_avg(const char *value);
+extern const char *get_var_stat_max();
+extern void set_var_stat_max(const char *value);
+extern statsType_e get_var_stat_type();
+extern void set_var_stat_type(statsType_e value);
+extern const char *get_var_stat_counts();
+extern void set_var_stat_counts(const char *value);
 
 
 #ifdef __cplusplus

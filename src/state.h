@@ -15,11 +15,24 @@ namespace dcl
 {
 #endif
 
+    struct measureStat
+    {
+        float min;
+        float max;
+        float avg;
+        uint32_t count;
+    };
+
+    extern void clearMeasureStat(measureStat *s);
+   
     // all (calculated) measurements
     struct measuredStateStruct
     {
         float Imon;
+        measureStat ImonStats;
         float Umon;
+        measureStat UmonStats;
+        measureStat PmonStats;
         double Ws;
         double As;
         double Ptime;
@@ -71,6 +84,9 @@ namespace dcl
         bool on;
         bool protection;
         bool record;
+        bool ImonStat;
+        bool UmonStat;
+        bool PmonStat;
         bool CalibrationMode;
         bool startupDone;
         uint32_t PLFreq;
@@ -163,7 +179,8 @@ public:
     bool getSetStateCopy(setStateStruct *mystate, TickType_t waitTicks);
 
     bool setAvgMeasurements(float imon, float umon, double As,
-                            double Ws, double time, uint32_t avgCurrentRaw, uint32_t avgVoltRaw);
+                            double Ws, double time, uint32_t avgCurrentRaw, uint32_t avgVoltRaw,
+                            measureStat ImonStat, measureStat UmonStat, measureStat PmonStat);
 
     bool setCapacityTriggers(bool VoltStop, bool AhStop, bool WhStop, bool TimeStop);
 
@@ -234,10 +251,21 @@ public:
     void setBeepDefaultDuration(float duration);
     float getBeepDefaultDuration();
 
+    bool getImonStat();
+    bool setImonStat(bool on);
+    bool clearImonStat();
+    bool getUmonStat();
+    bool setUmonStat(bool on);
+    bool clearUmonStat();
+    bool getPmonStat();
+    bool setPmonStat(bool on);
+    bool clearPmonStat();
+
 // TODO: Move to private?
     bool updateHWIOTask();
     bool updateMeasureTask();
-    bool updateAverageTask(bool clearPower = false);
+    bool updateAverageTask(bool clearPower = false, bool clearImonStat = false, 
+                           bool clearUmonStat = false, bool clearPmonStat = false);
     bool updateKeysTask();
     bool pushState();
     calibration cal;

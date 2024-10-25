@@ -95,20 +95,39 @@ const scpi_command_t scpi_commands[] = {
 
     /* Fetch. This reads the last measured value, doesn't trigger and wait like measure */
     {"FETCh[:SCALar]:CURRent[:DC]?", scpi_cmd_fetch_current, 0},
+    {"FETCh[:SCALar]:CURRent[:DC]:STATistics?", scpi_cmd_fetch_curr_statQ, 0}, // <empty>|MIN|MAX|AVG|COUNT
     {"FETCh[:SCALar]:VOLTage[:DC]?", scpi_cmd_fetch_voltage, 0},
+    {"FETCh[:SCALar]:VOLTage[:DC]:STATistics?", scpi_cmd_fetch_volt_statQ, 0}, // <empty>|MIN|MAX|AVG|COUNT
     {"FETCh[:SCALar]:POWer[:DC]?", scpi_cmd_fetch_power, 0},
+    {"FETCh[:SCALar]:POWer[:DC]:STATistics?", scpi_cmd_fetch_pow_statQ, 0},    // <empty>|MIN|MAX|AVG|COUNT
     {"FETCh:CAPacity?", scpi_cmd_fetch_cap, 0},
 
+    // Current measurement stats
+    {"[SENSe]:CURRent:STATistics[:ON]", scpi_cmd_sense_curr_stat,0}, // ON|OFF|1|0
+    {"[SENSe]:CURRent:STATistics[:ON]?", scpi_cmd_sense_curr_statQ,0},
+    {"[SENSe]:CURRent:STATistics:CLEar", scpi_cmd_sense_curr_stat_clear,0},
+
+    
     // Averaging functions for measurements
     {"[SENSe]:NPLCycles", scpi_cmd_sense_nplc, 0},  // integer: 1-100
     {"[SENSe]:NPLCycles?", scpi_cmd_sense_nplcQ, 0},
     {"[SENSe]:PLFreq", scpi_cmd_sense_plfreq, 0},   // 50|60
     {"[SENSe]:PLFreq?", scpi_cmd_sense_plfreqQ, 0},
+    
+    // Power measurement stats
+    {"[SENSe]:POWer:STATistics[:ON]", scpi_cmd_sense_pow_stat,0}, // ON|OFF|1|0
+    {"[SENSe]:POWer:STATistics[:ON]?", scpi_cmd_sense_pow_statQ,0},
+    {"[SENSe]:POWer:STATistics:CLEar", scpi_cmd_sense_pow_stat_clear,0},
 
     // Remote voltage sensing
     {"[SENSe]:VOLTage:REMote", scpi_cmd_sense_volt_remote, 0},   // ON|OFF|1|0
     {"[SENSe]:VOLTage:REMote?", scpi_cmd_sense_volt_remoteQ, 0},
     {"[SENSe]:VOLTage:REMote:ERRor[:TRIPped]?", scpi_cmd_sense_volt_remote_errorQ, 0}, // Sense error tripped?
+
+    // Voltage measurement stats
+    {"[SENSe]:VOLTage:STATistics[:ON]", scpi_cmd_sense_volt_stat,0}, // ON|OFF|1|0
+    {"[SENSe]:VOLTage:STATistics[:ON]?", scpi_cmd_sense_volt_statQ,0},
+    {"[SENSe]:VOLTage:STATistics:CLEar", scpi_cmd_sense_volt_stat_clear,0},
     
     // ON/OFF state
     {"[SOURce]:INPut[:STATe]", scpi_cmd_source_input_state, 0},  // ON|OFF|1|0

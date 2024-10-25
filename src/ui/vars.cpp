@@ -607,3 +607,117 @@ float get_var_beep_default_duration() { return localsetcopy.beepDefaultDuration;
 void set_var_beep_default_duration(float value) { state.setBeepDefaultDuration(value); };
 bool get_var_beep_on_sense() { return localsetcopy.beepOnSense; };
 void set_var_beep_on_sense(bool value) { state.setBeepSense(value); };
+
+statsType_e statsTypeCurrent;
+measureStat *statsCurrent;
+
+statsType_e get_var_stat_type() { return statsTypeCurrent; };
+void set_var_stat_type(statsType_e value) 
+{
+  statsTypeCurrent = value;
+  switch(statsTypeCurrent) 
+  {
+    case statsType_e::statsType_e_I:
+      statsCurrent = &localstatecopy.ImonStats;
+      break;
+    case statsType_e::statsType_e_U:
+      statsCurrent = &localstatecopy.UmonStats;
+      break;
+    case statsType_e::statsType_e_P:
+      statsCurrent = &localstatecopy.PmonStats;
+      break;
+    default:
+      statsCurrent = &localstatecopy.ImonStats;   
+  }
+};
+
+void formatStatValue(char* str, statsType_e type, float value)
+{
+  if(statsCurrent->count == 0)
+  {
+    sprintf(str,"-");
+    return;
+  }
+  if(type == statsType_e_I) 
+  {
+    if (localsetcopy.rangeCurrentLow == true) {
+      //TODO: fix hardcoding of settings
+      value2str(str, value, -4, 5, 3, true, "A");
+    } else {
+      value2str(str, value, -3, 5, 3, true, "A");
+    }
+  }
+  if(type == statsType_e_U) 
+  {
+    if (localsetcopy.rangeVoltageLow == true) {
+      //TODO: fix hardcoding of settings
+      value2str(str, value, -4, 5, 4, true, "V");
+    } else {
+      //TODO: fix hardcoding of settings
+      value2str(str, value, -3, 5, 3, true, "V");
+    }
+  }
+  if(type == statsType_e_P) 
+  {
+    value2str(str, value, -3, 4, 3, true, "W");
+  }
+}
+
+char statminstring[16];
+float laststatmin = -1;
+statsType_e laststatmintype = statsType_e_I;
+
+void set_var_stat_min(const char *value) {}; // Read only
+const char *get_var_stat_min()
+{
+  if (statsTypeCurrent != laststatmintype || statsCurrent->min != laststatmin) {
+    laststatmin = statsCurrent->min;
+    laststatmintype = statsTypeCurrent;
+    formatStatValue(statminstring, statsTypeCurrent, statsCurrent->min);
+  }
+  return statminstring;
+}
+
+char statavgstring[16];
+float laststatavg = -1;
+statsType_e laststatavgtype = statsType_e_I;
+
+void set_var_stat_avg(const char *value) {}; // Read only
+const char *get_var_stat_avg()
+{
+  if (statsTypeCurrent != laststatavgtype || statsCurrent->avg != laststatavg) {
+    laststatavg = statsCurrent->avg;
+    laststatavgtype = statsTypeCurrent;
+    formatStatValue(statavgstring, statsTypeCurrent, statsCurrent->avg);
+  }
+  return statavgstring;
+}
+
+char statmaxstring[16];
+float laststatmax = -1;
+statsType_e laststatmaxtype = statsType_e_I;
+
+void set_var_stat_max(const char *value) {}; // Read only
+const char *get_var_stat_max()
+{
+  if (statsTypeCurrent != laststatmaxtype || statsCurrent->max != laststatmax) {
+    laststatmax = statsCurrent->max;
+    laststatmaxtype = statsTypeCurrent;
+    formatStatValue(statmaxstring, statsTypeCurrent, statsCurrent->max);
+  }
+  return statmaxstring;
+}
+
+char statcntstring[16];
+float laststatcnt = -1;
+
+void set_var_stat_counts(const char *value) {}; // Read only
+const char *get_var_stat_counts()
+{
+  if (statsCurrent->count != laststatcnt) {
+    laststatcnt = statsCurrent->count;
+    //formatStatValue(statmaxstring, statsTypeCurrent, statsCurrent->max);
+    value2str(statcntstring, statsCurrent->count, 0, 5, 6, true, "");
+  }
+  return statcntstring;
+}

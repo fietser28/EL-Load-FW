@@ -199,7 +199,6 @@ void beepTaskFunction(void *pvParameters)
     {
       if (newBeepDuration > 0 && !beeperOn) {
         //Turn beeper on
-        SERIALDEBUG.printf("Beep %d\n", newBeepDuration);
         hwio.digitalWrite(HWIO_PIN_BUZZER, true); 
         beeperOn = true;
         beeperTurnedOnTime = millis();
@@ -524,7 +523,9 @@ void setup()
 
   SERIALDEBUG.printf("EEPROM Version read: %x\n", eepromVersionRead);
 
-  SERIALDEBUG.printf("Single calibration size: %d\n", sizeof(CalibrationValueConfiguration));
+  SERIALDEBUG.printf("INFO: measuredStateStruct struct size: %d\n", sizeof(measuredStateStruct));
+  SERIALDEBUG.printf("INFO: setStateStruct struct size: %d\n", sizeof(setStateStruct));
+  SERIALDEBUG.printf("INFO: Single calibration size: %d\n", sizeof(CalibrationValueConfiguration));
 
   gui_task_init(); // Takes lot of memory?
 
@@ -1091,8 +1092,8 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
     ulTaskNotifyTake(pdTRUE, pdMS_TO_TICKS(2)); // Last argument was portMAX_DELAY
 
 #ifdef FAKE_HARDWARE
-    measured.ImonRaw = 1000000;
-    measured.UmonRaw = 700000;
+    measured.ImonRaw = 1000000 + rp2040.hwrand32()/100000;
+    measured.UmonRaw = 700000 + + rp2040.hwrand32()/100000;;
 #else
     measured.ImonRaw = currentADC.readRaw();
     measured.UmonRaw = voltADC.readRaw(); // TODO: ADS131: always call secondary after primary.....
@@ -1311,14 +1312,17 @@ void taskAveragingFunction(void *pvParameters)
   unsigned long OPPTriggerStart = 0;
   bool OPPStarted = false;
 
-  // Ragne settings
+  // Range settings
   bool localRangeCurrentLow = false;
   bool localRangeVoltageLow = false;
 
-  // Capacity limits
-  float localVoltStop = 0, prevVoltStop = 0;
-  float localAsStop   = 0, prevAsStop = 0;
-  float localTimeStop = 0, prevTimeStop = 0;
+  // Stats structures
+  bool localIstatRun = false, localUstatRun = false, localPstatRun = false;
+  measureStat localIstat, localUstat, localPstat;
+  double IstatAvgSum, UstatAvgSum, PstatAvgSum;
+  clearMeasureStat(&localIstat);
+  clearMeasureStat(&localUstat);
+  clearMeasureStat(&localPstat);
 
   //SERIALDEBUG.println("INFO: Going into average loop.");
   // state.updateAverageTask(); // Prepare message for myself to load defaults.
@@ -1334,26 +1338,17 @@ void taskAveragingFunction(void *pvParameters)
     if (avgRawCount >= avgSampleWindow)
     {
       avgCurrentRaw = avgCurrentRawSum / avgRawCount;
-      avgCurrentRawSum = 0;
       avgVoltRaw = avgVoltRawSum / avgRawCount;
-      avgVoltRawSum = 0;
-      avgRawCount = 0;
-      update = true;
-    }
 
-    if (update)
-    {
       //digitalWrite(PIN_TEST, HIGH);
       imon = localRangeCurrentLow ?  state.cal.ImonLow->remapADC(avgCurrentRaw) : state.cal.Imon->remapADC(avgCurrentRaw);
       umon = localRangeVoltageLow ?  state.cal.UmonLow->remapADC(avgVoltRaw) :  state.cal.Umon->remapADC(avgVoltRaw);
-      //imon = remap((float)avgCurrentRaw, (float)currentADC.ADC_MIN, currentMinVal, (float)currentADC.ADC_MAX, currentMaxVal);
-      //umon = remap((float)avgVoltRaw, (float)voltADC.ADC_MIN, voltMinVal, (float)voltADC.ADC_MAX, voltMaxVal);
       imon = max(imon, 0); // Avoid negative values (around 0mA)
       umon = max(umon, 0); // Avoid negative values (around 0V)
 
       if (record && on)
       {
-        interval = (double)(avgSampleWindow * (float)CLOCK_DIVIDER_ADC * 2.0f * (float)ADC_OSR / ((float)F_CPU)); // TODO: Use variables/constants. 15 = clock divider, 2 = ADC fmod, 4096 = ADC OSR.
+        interval = (double)(avgRawCount * (float)CLOCK_DIVIDER_ADC * 2.0f * (float)ADC_OSR / ((float)F_CPU)); // TODO: Use variables/constants. 15 = clock divider, 2 = ADC fmod, 4096 = ADC OSR.
         // TODO: ? Power is calcuated based on average Volt and Current, this is ok for DC but for AC this results in AV and not W... Change this (more realtime processing...)?
         time += interval;
         As += (double)imon * interval;
@@ -1382,18 +1377,41 @@ void taskAveragingFunction(void *pvParameters)
         OPPStarted = false;
       }
 
-/*
-      // Perform Capacity limit checks.
-      if (on && record && (localVoltStop >= umon || localAsStop >= As || localTimeStop != time))
+      // Statistics
+      if (on && localIstatRun) 
       {
-        state.setCapacityTriggers(localVoltStop, localAsStop, localTimeStop);
-        prevVoltStop = localVoltStop;
-        prevAsStop = localAsStop;
-        prevTimeStop = localTimeStop;
+        localIstat.count++;
+        IstatAvgSum += imon;
+        localIstat.min = localIstat.count == 1 ? imon : min(localIstat.min, imon);
+        localIstat.max = max(localIstat.max, imon);
+        localIstat.avg = localIstat.count == 0 ? 0.0f : (double)IstatAvgSum / (double)localIstat.count;
       }
-*/
-      // Notify main task.
-      state.setAvgMeasurements(imon, umon, As, Ws, time, avgCurrentRaw, avgVoltRaw);
+
+      if (on && localUstatRun) 
+      {
+        localUstat.count++;
+        UstatAvgSum += umon;
+        localUstat.min = localUstat.count == 1 ? umon : min(localUstat.min, umon);
+        localUstat.max = max(localUstat.max, umon);
+        localUstat.avg = localUstat.count == 0 ? 0.0f : (double)UstatAvgSum / (double)localUstat.count;
+      }
+
+      if (on && localPstatRun) 
+      {
+        float pmon = imon * umon;
+        localPstat.count++;
+        PstatAvgSum += pmon;
+        localPstat.min = localPstat.count == 1 ? pmon :min(localPstat.min, pmon);
+        localPstat.max = max(localPstat.max, pmon);
+        localPstat.avg = localPstat.count == 0 ? 0.0f : (double)PstatAvgSum / (double)localPstat.count;
+      }
+
+      // Update main state
+      state.setAvgMeasurements(imon, umon, As, Ws, time, avgCurrentRaw, avgVoltRaw, 
+                               localIstat, localUstat, localPstat);
+      avgRawCount = 0;
+      avgCurrentRawSum = 0;
+      avgVoltRawSum = 0;
       update = false;
     }
 
@@ -1413,6 +1431,12 @@ void taskAveragingFunction(void *pvParameters)
         As = 0.0f;
         Ws = 0.0f;
       }
+      if (settingsMsg.ImonStatClear == true) { clearMeasureStat(&localIstat); IstatAvgSum = 0.0f; };
+      if (settingsMsg.UmonStatClear == true) { clearMeasureStat(&localUstat); UstatAvgSum = 0.0f; };
+      if (settingsMsg.PmonStatClear == true) { 
+        SERIALDEBUG.println("pow clear");
+        clearMeasureStat(&localPstat); PstatAvgSum = 0.0f; };
+      
       record = settingsMsg.record;
       on = settingsMsg.on;
       sendCalData = settingsMsg.sendCalData; // obsolete?
@@ -1420,9 +1444,9 @@ void taskAveragingFunction(void *pvParameters)
       localOPPdelay = settingsMsg.OPPdelay;
       localRangeCurrentLow = settingsMsg.rangeCurrentLow;
       localRangeVoltageLow = settingsMsg.rangeVoltageLow;
-      localAsStop = settingsMsg.CapAhStop * 3600.0f; // As is in Amp * seconds not Amp * hours.
-      localVoltStop = settingsMsg.CapVoltStop;
-      localVoltStop = settingsMsg.CapTimeStop;
+      localIstatRun = settingsMsg.ImonStatRun;
+      localUstatRun = settingsMsg.UmonStatRun;
+      localPstatRun = settingsMsg.PmonStatRun;
     }
     //digitalWrite(PIN_TEST, LOW);
     watchdogAveraging = 0;

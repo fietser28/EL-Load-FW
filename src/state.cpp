@@ -17,6 +17,14 @@ using namespace dcl::scpi;
 
 namespace dcl
 {
+    void clearMeasureStat(measureStat *s)
+    {
+        s->min = INFINITY;
+        s->max = 0.0f;
+        s->avg = 0.0f;
+        s->count = 0;
+    };
+
 
     void stateManager::begin()
     {
@@ -45,6 +53,9 @@ namespace dcl
                 _setState.PLFreq = DEFAULT_PL_FREQ;
                 _setState.on = false;
                 _setState.mode = ELmode::CC;
+                _setState.ImonStat = false;
+                _setState.UmonStat = false;
+                _setState.PmonStat = false;
                 _setState.CalibrationMode = false;
                 _setState.NLPC = DEFAULT_AVG_SAMPLES_NPLC;
                 _setState.OPPset = ranges[ranges_e_OPP_Delay].defValue;
@@ -236,7 +247,8 @@ namespace dcl
 
     // Called from Avg Task, keep latency low.
     bool stateManager::setAvgMeasurements(float imon, float umon, double As,
-                                          double Ws, double time, uint32_t avgCurrentRaw, uint32_t avgVoltRaw)
+                                          double Ws, double time, uint32_t avgCurrentRaw, uint32_t avgVoltRaw,
+                                          measureStat Istat, measureStat Ustat, measureStat Pstat)
     {
         if (_measuredStateMutex != NULL)
         {
@@ -250,6 +262,10 @@ namespace dcl
                 _measuredState.Ptime = time;
                 _measuredState.avgCurrentRaw = avgCurrentRaw;
                 _measuredState.avgVoltRaw = avgVoltRaw;
+                _measuredState.ImonStats = Istat;
+                _measuredState.UmonStats = Ustat;
+                _measuredState.PmonStats = Pstat;
+                
                 if (_setState.record && _setState.capacityLimitEnabled) { // TODO: Lazy on lock
                     _measuredState.CapVoltStopTriggered = _measuredState.CapVoltStopTriggered || ( _setState.CapVoltStop >= umon); // TODO?: Lazy on lock
                     _measuredState.CapAhStopTriggered   = _measuredState.CapAhStopTriggered   || ( _setState.CapAhStop   <= ((float)As / 3600.0f)); // TODO?: Lazy on lock
@@ -1244,17 +1260,117 @@ namespace dcl
     };
     float stateManager::getBeepDefaultDuration() { return _setState.beepDefaultDuration; };
 
-    bool stateManager::updateAverageTask(bool clearPower)
+    bool stateManager::getImonStat()
     {
-        changeAverageSettingsMsg msg;
-        //msg.avgSamplesCurrent = 0; // Don't set new window sizes
-        //msg.avgSamplesVoltage = 0;
-        msg.clear = clearPower;  // Don't clear (default if parameter is not given)
+        bool on;
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
             {
-                
+                on = _setState.ImonStat;
+                xSemaphoreGive(_setStateMutex);
+                return on;
+            };
+        };
+        return 1;
+    };
+
+    bool stateManager::setImonStat(bool on)
+    {
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
+            {
+                _setState.ImonStat = on;
+                xSemaphoreGive(_setStateMutex);
+            };
+        };
+        return updateAverageTask();
+    };
+
+    bool stateManager::clearImonStat()
+    {
+        return updateAverageTask(false,true,false,false);
+    }
+
+    bool stateManager::getUmonStat()
+    {
+        bool on;
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
+            {
+                on = _setState.UmonStat;
+                xSemaphoreGive(_setStateMutex);
+                return on;
+            };
+        };
+        return 1;
+    };
+
+    bool stateManager::setUmonStat(bool on)
+    {
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
+            {
+                _setState.UmonStat = on;
+                xSemaphoreGive(_setStateMutex);
+            };
+        };
+        return updateAverageTask();
+    };
+
+    bool stateManager::clearUmonStat()
+    {
+        return updateAverageTask(false,false,true,false);
+    }
+
+    bool stateManager::getPmonStat()
+    {
+        bool on;
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
+            {
+                on = _setState.ImonStat;
+                xSemaphoreGive(_setStateMutex);
+                return on;
+            };
+        };
+        return 1;
+    };
+
+    bool stateManager::setPmonStat(bool on)
+    {
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
+            {
+                _setState.PmonStat = on;
+                xSemaphoreGive(_setStateMutex);
+            };
+        };
+        return updateAverageTask();
+    };
+
+    bool stateManager::clearPmonStat()
+    {
+        SERIALDEBUG.println("clearPmonStat");
+        return updateAverageTask(false,false,false,true);
+    }
+
+    bool stateManager::updateAverageTask(bool clearPower, bool clearImonStat, bool clearUmonStat, bool clearPmonStat)
+    {
+        changeAverageSettingsMsg msg;
+        msg.clear = clearPower;  // Don't clear (default if parameter is not given)
+        msg.ImonStatClear = clearImonStat;
+        msg.UmonStatClear = clearUmonStat;
+        msg.PmonStatClear = clearPmonStat;
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
+            {                
                 msg.record = _setState.record;
                 msg.on     = _setState.on;
                 msg.avgSamples = (_setState.NLPC * _setState.sampleRate) / _setState.PLFreq;
@@ -1262,6 +1378,9 @@ namespace dcl
                 msg.OPPdelay = _setState.OPPdelay;
                 msg.rangeCurrentLow = _setState.rangeCurrentLow;
                 msg.rangeVoltageLow = _setState.rangeVoltageLow;
+                msg.ImonStatRun = _setState.ImonStat;
+                msg.UmonStatRun = _setState.UmonStat;
+                msg.PmonStatRun = _setState.PmonStat;
                 xSemaphoreGive(_setStateMutex);
                 xQueueSend(changeAverageSettings, &msg, 10);
                 return true;

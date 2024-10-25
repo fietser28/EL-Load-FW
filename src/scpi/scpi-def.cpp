@@ -245,6 +245,15 @@ scpi_choice_def_t fan_mode_list[] = {
      SCPI_CHOICE_LIST_END /* termination of option list */
 };
 
+// Helper list for statistics queries parsing
+scpi_choice_def_t stat_type_list[] = {
+    {"MIN", 1},
+    {"MAX", 2},
+    {"AVG", 3},
+    {"COUNT", 4},
+    {"", 0},  // empty = default
+    SCPI_CHOICE_LIST_END
+};
 
 //// SCPI COMMANDS
 //////////////////
@@ -526,7 +535,6 @@ scpi_result_t scpi_cmd_deb_wdog_thres_maxQ(scpi_t *context) {
 }
 
 // FETCH commands
-
 scpi_result_t scpi_cmd_fetch_current(scpi_t *context) {
     char buffer[64] = { 0 };
     measuredStateStruct localMeasuredState; 
@@ -536,6 +544,44 @@ scpi_result_t scpi_cmd_fetch_current(scpi_t *context) {
     SCPI_ResultCharacters(context, buffer, strlen(buffer));
     return SCPI_RES_OK;
 };
+
+
+scpi_result_t scpi_cmd_fetch_curr_statQ(scpi_t *context) {
+    int32_t param;
+    float value;
+
+    if (!SCPI_ParamChoice(context, stat_type_list, &param, TRUE)) {
+         return SCPI_RES_ERR;
+    }
+
+    measuredStateStruct mstate; 
+    state.getMeasuredStateCopy(&mstate, 1000);
+
+    const float stat_array[] = { (float)mstate.ImonStats.min, (float)mstate.ImonStats.max, 
+                                 (float)mstate.ImonStats.avg, (float)mstate.ImonStats.count};
+
+    switch(param)
+    {
+        case 0:
+            SCPI_ResultArrayFloat(context, stat_array, 4, SCPI_FORMAT_ASCII);
+            break;
+        case 1:
+            SCPI_ResultFloat(context, mstate.ImonStats.min);
+            break;
+        case 2:
+            SCPI_ResultFloat(context, mstate.ImonStats.max);
+            break;
+        case 3:
+            SCPI_ResultFloat(context, mstate.ImonStats.avg);
+            break;
+        case 4:
+            SCPI_ResultUInt32(context, mstate.ImonStats.count);
+            break;
+        default:
+            return SCPI_RES_ERR;
+    }
+    return SCPI_RES_OK;
+}
 
 scpi_result_t scpi_cmd_fetch_voltage(scpi_t *context) {
     char buffer[64] = { 0 };
@@ -547,6 +593,43 @@ scpi_result_t scpi_cmd_fetch_voltage(scpi_t *context) {
     return SCPI_RES_OK;
 };
 
+scpi_result_t scpi_cmd_fetch_volt_statQ(scpi_t *context) {
+    int32_t param;
+    float value;
+
+    if (!SCPI_ParamChoice(context, stat_type_list, &param, TRUE)) {
+         return SCPI_RES_ERR;
+    }
+
+    measuredStateStruct mstate; 
+    state.getMeasuredStateCopy(&mstate, 1000);
+
+    const float stat_array[] = { (float)mstate.UmonStats.min, (float)mstate.UmonStats.max, 
+                                 (float)mstate.UmonStats.avg, (float)mstate.UmonStats.count};
+
+    switch(param)
+    {
+        case 0:
+            SCPI_ResultArrayFloat(context, stat_array, 4, SCPI_FORMAT_ASCII);
+            break;
+        case 1:
+            SCPI_ResultFloat(context, mstate.UmonStats.min);
+            break;
+        case 2:
+            SCPI_ResultFloat(context, mstate.UmonStats.max);
+            break;
+        case 3:
+            SCPI_ResultFloat(context, mstate.UmonStats.avg);
+            break;
+        case 4:
+            SCPI_ResultUInt32(context, mstate.UmonStats.count);
+            break;
+        default:
+            return SCPI_RES_ERR;
+    }
+    return SCPI_RES_OK;
+}
+
 scpi_result_t scpi_cmd_fetch_power(scpi_t *context) {
     char buffer[64] = { 0 };
     measuredStateStruct localMeasuredState; 
@@ -557,6 +640,43 @@ scpi_result_t scpi_cmd_fetch_power(scpi_t *context) {
     return SCPI_RES_OK;
 };
 
+scpi_result_t scpi_cmd_fetch_pow_statQ(scpi_t *context) {
+    int32_t param;
+    float value;
+
+    if (!SCPI_ParamChoice(context, stat_type_list, &param, TRUE)) {
+         return SCPI_RES_ERR;
+    }
+
+    measuredStateStruct mstate; 
+    state.getMeasuredStateCopy(&mstate, 1000);
+
+    const float stat_array[] = { (float)mstate.PmonStats.min, (float)mstate.PmonStats.max, 
+                                 (float)mstate.PmonStats.avg, (float)mstate.PmonStats.count};
+
+    switch(param)
+    {
+        case 0:
+            SCPI_ResultArrayFloat(context, stat_array, 4, SCPI_FORMAT_ASCII);
+            break;
+        case 1:
+            SCPI_ResultFloat(context, mstate.PmonStats.min);
+            break;
+        case 2:
+            SCPI_ResultFloat(context, mstate.PmonStats.max);
+            break;
+        case 3:
+            SCPI_ResultFloat(context, mstate.PmonStats.avg);
+            break;
+        case 4:
+            SCPI_ResultUInt32(context, mstate.PmonStats.count);
+            break;
+        default:
+            return SCPI_RES_ERR;
+    }
+    return SCPI_RES_OK;
+}
+
 scpi_result_t scpi_cmd_fetch_cap(scpi_t *context) {
     measuredStateStruct localMeasuredState; 
     state.getMeasuredStateCopy(&localMeasuredState, 1000);
@@ -564,6 +684,37 @@ scpi_result_t scpi_cmd_fetch_cap(scpi_t *context) {
     SCPI_ResultArrayFloat(context, cap_array, 3, SCPI_FORMAT_ASCII );
     return SCPI_RES_OK;
 };
+
+scpi_result_t scpi_cmd_sense_curr_stat(scpi_t *context)
+{
+    scpi_bool_t param1;
+
+    if (!SCPI_ParamBool(context, &param1, TRUE)) {
+         return SCPI_RES_ERR;
+    }
+   
+    if (state.setImonStat(param1)) {
+        return SCPI_RES_OK;
+    } else {
+        return SCPI_RES_ERR;
+    };
+};
+
+scpi_result_t scpi_cmd_sense_curr_statQ(scpi_t *context)
+{
+    SCPI_ResultBool(context, state.getImonStat());
+    return SCPI_RES_OK;
+}
+
+scpi_result_t scpi_cmd_sense_curr_stat_clear(scpi_t *context) 
+{
+    if (state.clearImonStat()) {
+        return SCPI_RES_OK;
+    }
+
+    SCPI_ErrorPush(context, SCPI_ERROR_DEVICE_ERROR);
+    return SCPI_RES_ERR;
+}
 
 scpi_result_t scpi_cmd_sense_nplc(scpi_t *context)
 {
@@ -642,6 +793,67 @@ scpi_result_t scpi_cmd_sense_plfreqQ(scpi_t *context)
     return SCPI_RES_OK;
 };
 
+scpi_result_t scpi_cmd_sense_volt_stat(scpi_t *context)
+{
+    scpi_bool_t param1;
+
+    if (!SCPI_ParamBool(context, &param1, TRUE)) {
+         return SCPI_RES_ERR;
+    }
+   
+    if (state.setUmonStat(param1)) {
+        return SCPI_RES_OK;
+    } else {
+        return SCPI_RES_ERR;
+    };
+};
+
+scpi_result_t scpi_cmd_sense_volt_statQ(scpi_t *context)
+{
+    SCPI_ResultBool(context, state.getUmonStat());
+    return SCPI_RES_OK;
+}
+
+scpi_result_t scpi_cmd_sense_volt_stat_clear(scpi_t *context) 
+{
+    if (state.clearUmonStat()) {
+        return SCPI_RES_OK;
+    }
+
+    SCPI_ErrorPush(context, SCPI_ERROR_DEVICE_ERROR);
+    return SCPI_RES_ERR;
+}
+
+scpi_result_t scpi_cmd_sense_pow_stat(scpi_t *context)
+{
+    scpi_bool_t param1;
+
+    if (!SCPI_ParamBool(context, &param1, TRUE)) {
+         return SCPI_RES_ERR;
+    }
+   
+    if (state.setPmonStat(param1)) {
+        return SCPI_RES_OK;
+    } else {
+        return SCPI_RES_ERR;
+    };
+};
+
+scpi_result_t scpi_cmd_sense_pow_statQ(scpi_t *context)
+{
+    SCPI_ResultBool(context, state.getPmonStat());
+    return SCPI_RES_OK;
+}
+
+scpi_result_t scpi_cmd_sense_pow_stat_clear(scpi_t *context) 
+{
+    if (state.clearPmonStat()) {
+        return SCPI_RES_OK;
+    }
+
+    SCPI_ErrorPush(context, SCPI_ERROR_DEVICE_ERROR);
+    return SCPI_RES_ERR;
+}
 
 scpi_result_t scpi_cmd_sense_volt_remote(scpi_t *context)
 {

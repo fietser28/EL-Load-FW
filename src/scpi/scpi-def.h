@@ -64,14 +64,26 @@ extern scpi_result_t scpi_cmd_deb_mem_heapQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_deb_wdog_thres_maxQ(scpi_t *context);
 
 extern scpi_result_t scpi_cmd_fetch_current(scpi_t *context);
+extern scpi_result_t scpi_cmd_fetch_curr_statQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_fetch_voltage(scpi_t *context);
+extern scpi_result_t scpi_cmd_fetch_volt_statQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_fetch_power(scpi_t *context);
+extern scpi_result_t scpi_cmd_fetch_pow_statQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_fetch_cap(scpi_t *context);
 
+extern scpi_result_t scpi_cmd_sense_curr_stat(scpi_t *context);
+extern scpi_result_t scpi_cmd_sense_curr_statQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_sense_curr_stat_clear(scpi_t *context);
 extern scpi_result_t scpi_cmd_sense_nplc(scpi_t *context);
 extern scpi_result_t scpi_cmd_sense_nplcQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_sense_plfreq(scpi_t *context);
 extern scpi_result_t scpi_cmd_sense_plfreqQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_sense_pow_stat(scpi_t *context);
+extern scpi_result_t scpi_cmd_sense_pow_statQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_sense_pow_stat_clear(scpi_t *context);
+extern scpi_result_t scpi_cmd_sense_volt_stat(scpi_t *context);
+extern scpi_result_t scpi_cmd_sense_volt_statQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_sense_volt_stat_clear(scpi_t *context);
 
 extern scpi_result_t scpi_cmd_sense_volt_remote(scpi_t *context);
 extern scpi_result_t scpi_cmd_sense_volt_remoteQ(scpi_t *context);

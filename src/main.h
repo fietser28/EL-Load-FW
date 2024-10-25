@@ -84,9 +84,15 @@ struct changeAverageSettingsMsg {
     float OPPset;
     float OPPdelay;
     float CapVoltStop;
-    float CapAhStop; //TODO: Remove?
-    float CapWhStop; //TODO: Remove?
-    float CapTimeStop; // TODO: Remove?
+    bool ImonStatRun;
+    bool ImonStatClear;
+    bool UmonStatRun;
+    bool UmonStatClear;
+    bool PmonStatRun;
+    bool PmonStatClear;
+    //float CapAhStop; //TODO: Remove?
+    //float CapWhStop; //TODO: Remove?
+    //float CapTimeStop; // TODO: Remove?
 };
 
 // Message from averaging task to state manager
