@@ -57,6 +57,7 @@ extern scpi_result_t scpi_cmd_cal_adcQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_cal_measQ(scpi_t *context);
 
 extern scpi_result_t scpi_cmd_cal_meas(scpi_t *context);
+extern scpi_result_t scpi_cmd_cal_meas_runQ(scpi_t *context); 
 extern scpi_result_t scpi_cmd_cal_type_save(scpi_t *context);
 extern scpi_result_t scpi_cmd_cal_type_reset(scpi_t *context);
 

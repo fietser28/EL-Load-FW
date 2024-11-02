@@ -29,6 +29,18 @@ enum {
 extern void action_beep(lv_event_t * e);
 
 
+enum {
+    ACTION_CLEAR_STAT_PROPERTY_TYPE,
+};
+extern void action_clear_stat(lv_event_t * e);
+
+
+enum {
+    ACTION_FORMAT_STAT_PROPERTY_TYPE,
+};
+extern void action_format_stat(lv_event_t * e);
+
+
 
 #ifdef __cplusplus
 }

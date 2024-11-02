@@ -15,13 +15,14 @@
 #include "ui/ui.h"
 #include "ui/screens.h"
 #include "ui/vars.h"
+#include "ui/vars.h"
 #include "main.h"
 #include "state.h"
 #include "ui_glue.h"
 #include "keys.h"
 
 #define MY_LV_TICK_TIME 20     // ms
-#define MY_LV_UPDATE_TIME 50  // ms
+#define MY_LV_UPDATE_TIME 25  // ms
 
 #ifndef TFT_BUFFERLINES
 #define TFT_BUFFERLINES 10
@@ -489,6 +490,7 @@ static void __not_in_flash_func(guiTask(void *pvParameter))
   while (1)
   {
     unsigned long loopstart = millis();
+    // Create stable local data structures used in ui_tick()
     state.getMeasuredStateCopy(&localstatecopy, 0);
     state.getSetStateCopy(&localsetcopy, 0);
     lv_task_handler();

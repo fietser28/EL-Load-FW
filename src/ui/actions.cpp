@@ -10,6 +10,7 @@
 #include "ui_glue.h"
 #include "ranges.h"
 #include "scpi-def.h"
+#include "eeprom.h"
 
 /*
 void action_getrollerindex(lv_event_t * e) {
@@ -126,6 +127,7 @@ void action_cal_set_dac(lv_event_t *e)
 void action_cal_store_defaults(lv_event_t * e)
 {
     if (myeeprom.magicWrite()) {
+        calSetDefaults();
         printlogstr("INFO: EEPROM magic written.");
         write_cal_to_eeprom(calType_e::calType_e_Imon_High);
         write_cal_to_eeprom(calType_e::calType_e_Imon_Low);
@@ -141,6 +143,7 @@ void action_cal_store_defaults(lv_event_t * e)
         write_cal_to_eeprom(calType_e::calType_e_OCPset_Low);
         write_cal_to_eeprom(calType_e::calType_e_OVPset_High);
         write_cal_to_eeprom(calType_e::calType_e_OVPset_Low);
+        myeeprom.write(EEPROM_ADDR_VERSION, dcl::eeprom::eeprom_version);  
         printlogstr("INFO: Default cal values stored.");
     } else {
         printlogstr("ERROR: Unable to write EEPROM magic.");        
@@ -184,5 +187,62 @@ extern void action_beep(lv_event_t * e)
     Value duration = getUserProperty(ACTION_BEEP_PROPERTY_DURATION);
     beep(duration.getFloat() == 0 ? state.getBeepDefaultDuration() : duration.getFloat());
 };
+
+void action_clear_stat(lv_event_t * e) 
+{
+  using namespace eez;
+  using namespace eez::flow;
+
+  statsType_e type = (statsType_e)getUserProperty(ACTION_CLEAR_STAT_PROPERTY_TYPE).getInt();
+  switch(type) 
+  {
+    case statsType_e::statsType_e_I:
+      state.clearImonStat();
+      break;
+    case statsType_e::statsType_e_U:
+      state.clearUmonStat();
+      break;
+    case statsType_e::statsType_e_P:
+      state.clearPmonStat();
+      break;
+  }
+};
+
+void action_format_stat(lv_event_t * e)
+{
+    using namespace eez;
+    using namespace eez::flow;
+
+    char str[20];
+    statsType_e type = (statsType_e)getUserProperty(ACTION_FORMAT_STAT_PROPERTY_TYPE).getInt();
+    measureStat fromstat;
+    ArrayOfstatsValue statsAll = flow::getGlobalVariable(FLOW_GLOBAL_VARIABLE_STATS_ALL);
+    statsValue tostat;
+    uint32_t tostatIndex;
+    switch(type)
+    {
+        case statsType_e::statsType_e_I:
+        fromstat = localstatecopy.ImonStats;
+        tostatIndex = statsType_e::statsType_e_I;
+        break;
+        case statsType_e::statsType_e_U:
+        fromstat = localstatecopy.UmonStats;
+        tostatIndex = statsType_e::statsType_e_U;
+        break;
+        case statsType_e::statsType_e_P:
+        fromstat = localstatecopy.PmonStats;
+        tostatIndex = statsType_e::statsType_e_P;
+        break;
+    }
+
+    formatStatValue(str,  type, fromstat.min == INFINITY ? 0 :fromstat.min);
+    statsAll.at(tostatIndex).min(str);    
+    formatStatValue(str,  type, fromstat.avg);
+    statsAll.at(tostatIndex).avg(str);    
+    formatStatValue(str,  type, fromstat.max);
+    statsAll.at(tostatIndex).max(str);    
+    value2str(str, fromstat.count, 0, 6, 6, true, "");
+    statsAll.at(tostatIndex).count(str);    
+}
 
 } // extern "C"

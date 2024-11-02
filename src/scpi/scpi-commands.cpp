@@ -74,6 +74,8 @@ const scpi_command_t scpi_commands[] = {
     {"CALibration:MEASure", scpi_cmd_cal_meas, 0},
     // Get calibration measured result
     {"CALibration:MEASure?", scpi_cmd_cal_measQ, 0},
+    // Calibration routine running?
+    {"CALibration:MEASure:RUNning?", scpi_cmd_cal_meas_runQ, 0},
 
     // Save this calibration TYPE to EEPROM, not just a single point.
     {"CALibration[:TYPe]:SAVE", scpi_cmd_cal_type_save, 0},

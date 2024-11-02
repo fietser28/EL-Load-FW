@@ -40,7 +40,7 @@ namespace dcl
         _spi.setSCK(SPI_ADC_SCK);
         //SERIALDEBUG.println("INFO: ADC SPI.begin... done");
 
-        _spi.begin();
+        _spi.begin(false);
         //SERIALDEBUG.println("INFO: ADC SPI done");
         }
 
@@ -64,10 +64,10 @@ namespace dcl
         {
             //Send reset
             bool crcok = spiCommFrame(&responseArr[0], ADC_ADS131XXX_CMD_RESET );
-            delay(5);
+            sleep_us(10);
             // Read response
             crcok = spiCommFrame(&responseArr[0], ADC_ADS131XXX_CMD_NULL);
-            delay(5);
+            sleep_us(10);
             resetAttempts++;
             if (crcok && responseArr[0] == 0xff220000)
             {
@@ -137,6 +137,7 @@ namespace dcl
         // Enable channels....  
         regclk.ch0_en = true;
         regclk.ch1_en = true;
+        //SERIALDEBUG.printf("Write clock: %x\n", regclk.raw);
         _writereg(ADC_ADS131XXX_ADR_CLOCK, regclk.raw);
         //SERIALDEBUG.printf("Read  cfg: %x\n", _readreg(ADC_ADS131XXX_ADR_CFG));
         //SERIALDEBUG.printf("Read  clock: %x\n", _readreg(ADC_ADS131XXX_ADR_CLOCK));
@@ -150,7 +151,7 @@ namespace dcl
         uint32_t responseArr[6];
 
         ::attachInterrupt(digitalPinToInterrupt(_pinRDY), ISR_ADC, FALLING);
-        //SERIALDEBUG.println("INFO: ADS131xxx Interrrupt attached.");
+        //SERIALDEBUG.printf("INFO: ADS131xxx Interrrupt attached to %d (%d).\n", _pinRDY, digitalPinToInterrupt(_pinRDY));
         // Flush data
         spiCommFrame(&responseArr[0], ADC_ADS131XXX_CMD_NULL);
         spiCommFrame(&responseArr[0], ADC_ADS131XXX_CMD_NULL);
@@ -173,6 +174,7 @@ namespace dcl
         //}
     };
 
+/*
     uint8_t ads131xxx::_transfer(uint8_t *data, uint8_t addr, size_t size)
     {
         uint8_t result;
@@ -184,6 +186,7 @@ namespace dcl
         _spi.endTransaction();
         return result;
     }
+*/
 
     uint16_t ads131xxx::_readreg(uint16_t reg)
     { // Assuming 24bits words (default)
@@ -198,7 +201,7 @@ namespace dcl
         spiCommFrame(&responseArr[0], commandWord);
 
         //while(digitalRead(_pinRDY) == HIGH) {}; // Wait for ADC to become ready
-        sleep_us(5);
+        sleep_us(6);
 
         // Read response
         spiCommFrame(&responseArr[0], ADC_ADS131XXX_CMD_NULL);
@@ -230,7 +233,7 @@ namespace dcl
         digitalWrite(_pinCS, HIGH);
 
         //while(digitalRead(_pinRDY) == HIGH) {}; // Wait for ADC to become ready
-        sleep_us(5);
+        sleep_us(6);
 
         // Read response
         //uint32_t responseArr[6];
@@ -259,7 +262,7 @@ namespace dcl
         uint32_t *outPtrStart = outPtr;
 
         digitalWrite(_pinCS, LOW);
-        //sleep_us(5);
+        sleep_us(5);
         _spi.beginTransaction(SPISettings(ADC_ADS131XXX_SPI_SPEED, ADC_ADS131XXX_SPI_ORDER, ADC_ADS131XXX_SPI_MODE));
         // spi->beginTransaction(SPISettings(SCLK_SPD, MSBFIRST, SPI_MODE1));
 

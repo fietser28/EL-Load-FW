@@ -57,6 +57,7 @@ namespace dcl
     };
 #endif
 
+extern void calSetDefaults();
 
 #ifdef __cplusplus
 } // end of namespace

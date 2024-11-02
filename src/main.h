@@ -171,22 +171,29 @@ extern bool beep(float length);
 // TODO: put this in a class somewhere
 
 extern CalibrationValueConfiguration currentCal;
+extern CalibrationValueConfiguration currentCalLow;
 extern float currentMinVal;
 extern float currentMaxVal;
 extern CalibrationValueConfiguration voltCal;
+extern CalibrationValueConfiguration voltCalLow;
 extern float voltMinVal;
 extern float voltMaxVal;
 extern CalibrationValueConfiguration iSetCal;
+extern CalibrationValueConfiguration iSetCalLow;
 extern float iSetMinVal;
 extern float iSetMaxVal;
 extern CalibrationValueConfiguration uSetCal;
+extern CalibrationValueConfiguration uSetCalLow;
 extern float uSetMinVal;
 extern float uSetMaxVal;
 extern CalibrationValueConfiguration vonSetCal;
+extern CalibrationValueConfiguration vonSetCalLow;
 extern float vonSetMinVal;
 extern float vonSetMaxVal;
 extern CalibrationValueConfiguration OCPSetCal;
+extern CalibrationValueConfiguration OCPSetCalLow;
 extern CalibrationValueConfiguration OVPSetCal;
+extern CalibrationValueConfiguration OVPSetCalLow;
 
 // Debug information
 extern volatile uint32_t watchdogAveragingMax;

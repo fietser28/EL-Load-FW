@@ -364,10 +364,10 @@ namespace dcl
             {
                 _measuredState.OTPstate = true;
                 xSemaphoreGive(_measuredStateMutex);
+                if (getBeepProt() == true) { beep(0); }
                 return true;
             }
         }
-        if (getBeepProt() == true) { beep(0); }
         return false;
     };
 
@@ -379,10 +379,10 @@ namespace dcl
             {
                 _measuredState.OPPstate = true;
                 xSemaphoreGive(_measuredStateMutex);
+                if (getBeepProt() == true) { beep(0); }
                 return true;
             }
         }
-        if (getBeepProt() == true) { beep(0); }
         return false;
     };
 
@@ -625,6 +625,7 @@ namespace dcl
             }
         }
         updateHWIOTask();
+        updateKeysTask();
         return updateAverageTask();
     };
 
@@ -1356,7 +1357,6 @@ namespace dcl
 
     bool stateManager::clearPmonStat()
     {
-        SERIALDEBUG.println("clearPmonStat");
         return updateAverageTask(false,false,false,true);
     }
 

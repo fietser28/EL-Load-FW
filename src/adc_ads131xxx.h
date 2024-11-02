@@ -343,7 +343,7 @@ class ads131xxx {
         
 
     private:
-        uint8_t _transfer(uint8_t *data, uint8_t addr, size_t size);
+        //uint8_t _transfer(uint8_t *data, uint8_t addr, size_t size);
         uint16_t _readreg(uint16_t reg);
         void _writereg(uint16_t reg, uint16_t data);
 

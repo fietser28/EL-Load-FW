@@ -211,7 +211,7 @@
 
 
 #define PIN_ADC_CLK      21          // GPIO 21 - HW clock pin
-#define SPI_ADC_CS      22          // GPIO 20  - measure task 
+#define SPI_ADC_CS      22          // GPIO 22  - measure task 
 
 // GPIO 23 = TP4 & controls DC convertor efficiency mode    
 // GPIO 25 = LED & TP5 (GPIO 25 -> 470R -> TP5 -> LED -> GND)
