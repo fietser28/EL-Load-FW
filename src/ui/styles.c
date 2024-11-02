@@ -664,6 +664,68 @@ void remove_style_checkbox_default(lv_obj_t *obj) {
 };
 
 //
+// Style: checkbox_small
+//
+
+void init_style_checkbox_small_MAIN_DEFAULT(lv_style_t *style) {
+    init_style_checkbox_default_MAIN_DEFAULT(style);
+    
+    lv_style_set_text_font(style, &ui_font_ubuntu_mono_16);
+};
+
+lv_style_t *get_style_checkbox_small_MAIN_DEFAULT() {
+    static lv_style_t *style;
+    if (!style) {
+        style = lv_malloc(sizeof(lv_style_t));
+        lv_style_init(style);
+        init_style_checkbox_small_MAIN_DEFAULT(style);
+    }
+    return style;
+};
+
+void init_style_checkbox_small_INDICATOR_DEFAULT(lv_style_t *style) {
+    init_style_checkbox_default_INDICATOR_DEFAULT(style);
+    
+};
+
+lv_style_t *get_style_checkbox_small_INDICATOR_DEFAULT() {
+    static lv_style_t *style;
+    if (!style) {
+        style = lv_malloc(sizeof(lv_style_t));
+        lv_style_init(style);
+        init_style_checkbox_small_INDICATOR_DEFAULT(style);
+    }
+    return style;
+};
+
+void init_style_checkbox_small_INDICATOR_CHECKED(lv_style_t *style) {
+    init_style_checkbox_default_INDICATOR_CHECKED(style);
+    
+};
+
+lv_style_t *get_style_checkbox_small_INDICATOR_CHECKED() {
+    static lv_style_t *style;
+    if (!style) {
+        style = lv_malloc(sizeof(lv_style_t));
+        lv_style_init(style);
+        init_style_checkbox_small_INDICATOR_CHECKED(style);
+    }
+    return style;
+};
+
+void add_style_checkbox_small(lv_obj_t *obj) {
+    lv_obj_add_style(obj, get_style_checkbox_small_MAIN_DEFAULT(), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_add_style(obj, get_style_checkbox_small_INDICATOR_DEFAULT(), LV_PART_INDICATOR | LV_STATE_DEFAULT);
+    lv_obj_add_style(obj, get_style_checkbox_small_INDICATOR_CHECKED(), LV_PART_INDICATOR | LV_STATE_CHECKED);
+};
+
+void remove_style_checkbox_small(lv_obj_t *obj) {
+    lv_obj_remove_style(obj, get_style_checkbox_small_MAIN_DEFAULT(), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_remove_style(obj, get_style_checkbox_small_INDICATOR_DEFAULT(), LV_PART_INDICATOR | LV_STATE_DEFAULT);
+    lv_obj_remove_style(obj, get_style_checkbox_small_INDICATOR_CHECKED(), LV_PART_INDICATOR | LV_STATE_CHECKED);
+};
+
+//
 // Style: screen_background
 //
 
@@ -969,6 +1031,7 @@ void add_style(lv_obj_t *obj, int32_t styleIndex) {
         add_style_button_text,
         add_style_button_text90deg,
         add_style_checkbox_default,
+        add_style_checkbox_small,
         add_style_screen_background,
         add_style_transparant_overlay,
         add_style_selector_small,
@@ -998,6 +1061,7 @@ void remove_style(lv_obj_t *obj, int32_t styleIndex) {
         remove_style_button_text,
         remove_style_button_text90deg,
         remove_style_checkbox_default,
+        remove_style_checkbox_small,
         remove_style_screen_background,
         remove_style_transparant_overlay,
         remove_style_selector_small,

@@ -717,7 +717,24 @@ const char *get_var_stat_counts()
   if (statsCurrent->count != laststatcnt) {
     laststatcnt = statsCurrent->count;
     //formatStatValue(statmaxstring, statsTypeCurrent, statsCurrent->max);
-    value2str(statcntstring, statsCurrent->count, 0, 5, 6, true, "");
+    value2str(statcntstring, statsCurrent->count, 0, 6, 6, true, "");
   }
   return statcntstring;
 }
+
+bool get_var_stat_irun() { return localsetcopy.ImonStat; };
+void set_var_stat_irun(bool value) { state.setImonStat(value); };
+bool get_var_stat_urun() { return localsetcopy.UmonStat; };
+void set_var_stat_urun(bool value) { state.setUmonStat(value); };
+bool get_var_stat_prun() { return localsetcopy.PmonStat; };
+void set_var_stat_prun(bool value)  { state.setPmonStat(value); };
+
+int32_t get_var_stat_icount() { return localstatecopy.ImonStats.count; };
+void set_var_stat_icount(int32_t value) {}; // Read only
+int32_t get_var_stat_ucount() { return localstatecopy.UmonStats.count; };
+void set_var_stat_ucount(int32_t value) {}; // Read only
+int32_t get_var_stat_pcount() { return localstatecopy.PmonStats.count; };
+void set_var_stat_pcount(int32_t value) {}; // Read only
+
+extern bool get_var_scpi_wdog_tripped() { return state.getSCPIWdogTripped(); };
+extern void set_var_scpi_wdog_tripped(bool value) {}; //Read only

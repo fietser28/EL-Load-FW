@@ -29,6 +29,7 @@ typedef struct _objects_t {
     lv_obj_t *display;
     lv_obj_t *info;
     lv_obj_t *sound;
+    lv_obj_t *stats;
     lv_obj_t *obj0;
     lv_obj_t *obj0__kbtext2;
     lv_obj_t *obj0__obj0;
@@ -92,36 +93,60 @@ typedef struct _objects_t {
     lv_obj_t *obj8__sure_label_no;
     lv_obj_t *obj8__obj0;
     lv_obj_t *obj8__obj1;
+    lv_obj_t *obj9;
+    lv_obj_t *obj9__obj0;
+    lv_obj_t *obj9__obj1;
+    lv_obj_t *obj9__stat_min_17;
+    lv_obj_t *obj9__stat_min_18;
+    lv_obj_t *obj9__stat_min_19;
+    lv_obj_t *obj9__stat_min_20;
+    lv_obj_t *obj9__stat_min_21;
+    lv_obj_t *obj9__stat_min_22;
+    lv_obj_t *obj10;
+    lv_obj_t *obj10__obj0;
+    lv_obj_t *obj10__obj1;
+    lv_obj_t *obj10__stat_min_17;
+    lv_obj_t *obj10__stat_min_18;
+    lv_obj_t *obj10__stat_min_19;
+    lv_obj_t *obj10__stat_min_20;
+    lv_obj_t *obj10__stat_min_21;
+    lv_obj_t *obj10__stat_min_22;
+    lv_obj_t *obj11;
+    lv_obj_t *obj11__obj0;
+    lv_obj_t *obj11__obj1;
+    lv_obj_t *obj11__stat_min_17;
+    lv_obj_t *obj11__stat_min_18;
+    lv_obj_t *obj11__stat_min_19;
+    lv_obj_t *obj11__stat_min_20;
+    lv_obj_t *obj11__stat_min_21;
+    lv_obj_t *obj11__stat_min_22;
     lv_obj_t *myspinbox;
     lv_obj_t *mode_selector;
     lv_obj_t *on_off_button;
     lv_obj_t *range_current;
-    lv_obj_t *obj9;
-    lv_obj_t *obj10;
-    lv_obj_t *range_volt;
-    lv_obj_t *obj11;
     lv_obj_t *obj12;
     lv_obj_t *obj13;
+    lv_obj_t *range_volt;
     lv_obj_t *obj14;
-    lv_obj_t *wh;
     lv_obj_t *obj15;
     lv_obj_t *obj16;
     lv_obj_t *obj17;
+    lv_obj_t *wh;
     lv_obj_t *obj18;
     lv_obj_t *obj19;
     lv_obj_t *obj20;
     lv_obj_t *obj21;
-    lv_obj_t *range_volt_1;
     lv_obj_t *obj22;
     lv_obj_t *obj23;
     lv_obj_t *obj24;
+    lv_obj_t *range_volt_1;
     lv_obj_t *obj25;
     lv_obj_t *obj26;
     lv_obj_t *obj27;
-    lv_obj_t *on_off_button_1;
     lv_obj_t *obj28;
     lv_obj_t *obj29;
     lv_obj_t *obj30;
+    lv_obj_t *on_off_button_1;
     lv_obj_t *obj31;
     lv_obj_t *obj32;
     lv_obj_t *obj33;
@@ -137,6 +162,9 @@ typedef struct _objects_t {
     lv_obj_t *obj43;
     lv_obj_t *obj44;
     lv_obj_t *obj45;
+    lv_obj_t *obj46;
+    lv_obj_t *obj47;
+    lv_obj_t *obj48;
     lv_obj_t *current_range;
     lv_obj_t *volt_range;
     lv_obj_t *sense;
@@ -148,9 +176,6 @@ typedef struct _objects_t {
     lv_obj_t *nlpc_home;
     lv_obj_t *nlpc_home_cancel;
     lv_obj_t *nlpc_home_cancel_1;
-    lv_obj_t *obj46;
-    lv_obj_t *obj47;
-    lv_obj_t *obj48;
     lv_obj_t *obj49;
     lv_obj_t *obj50;
     lv_obj_t *obj51;
@@ -171,31 +196,35 @@ typedef struct _objects_t {
     lv_obj_t *obj66;
     lv_obj_t *obj67;
     lv_obj_t *obj68;
+    lv_obj_t *obj69;
+    lv_obj_t *obj70;
+    lv_obj_t *obj71;
     lv_obj_t *nlpc_home_1;
     lv_obj_t *nlpc_home_cancel_2;
     lv_obj_t *nlpc_home_cancel_3;
     lv_obj_t *nlpc_home_2;
     lv_obj_t *nlpc_home_cancel_4;
     lv_obj_t *nlpc_home_cancel_5;
-    lv_obj_t *obj69;
-    lv_obj_t *obj70;
-    lv_obj_t *obj71;
+    lv_obj_t *obj72;
+    lv_obj_t *obj73;
+    lv_obj_t *obj74;
     lv_obj_t *display_off;
     lv_obj_t *nlpc_home_4;
     lv_obj_t *nplc_nplc_1;
     lv_obj_t *nlpc_home_3;
     lv_obj_t *nlpc_home_cancel_6;
     lv_obj_t *nlpc_home_cancel_7;
-    lv_obj_t *obj72;
-    lv_obj_t *obj73;
-    lv_obj_t *obj74;
     lv_obj_t *obj75;
     lv_obj_t *obj76;
     lv_obj_t *obj77;
     lv_obj_t *obj78;
+    lv_obj_t *obj79;
+    lv_obj_t *obj80;
+    lv_obj_t *stats_back;
+    lv_obj_t *obj81;
     lv_obj_t *main_measure;
     lv_obj_t *sense_indicator;
-    lv_obj_t *obj79;
+    lv_obj_t *obj82;
     lv_obj_t *flex_panel;
     lv_obj_t *capacity_panel;
     lv_obj_t *ah;
@@ -215,9 +244,6 @@ typedef struct _objects_t {
     lv_obj_t *protection_and_temp;
     lv_obj_t *wheel;
     lv_obj_t *main_dvm;
-    lv_obj_t *obj80;
-    lv_obj_t *obj81;
-    lv_obj_t *obj82;
     lv_obj_t *obj83;
     lv_obj_t *obj84;
     lv_obj_t *obj85;
@@ -232,15 +258,15 @@ typedef struct _objects_t {
     lv_obj_t *obj94;
     lv_obj_t *obj95;
     lv_obj_t *obj96;
+    lv_obj_t *obj97;
+    lv_obj_t *obj98;
+    lv_obj_t *obj99;
     lv_obj_t *ah_2;
     lv_obj_t *ah_3;
     lv_obj_t *ah_4;
     lv_obj_t *ah_5;
     lv_obj_t *ah_6;
     lv_obj_t *ah_7;
-    lv_obj_t *obj97;
-    lv_obj_t *obj98;
-    lv_obj_t *obj99;
     lv_obj_t *obj100;
     lv_obj_t *obj101;
     lv_obj_t *obj102;
@@ -321,6 +347,18 @@ typedef struct _objects_t {
     lv_obj_t *obj177;
     lv_obj_t *obj178;
     lv_obj_t *obj179;
+    lv_obj_t *obj180;
+    lv_obj_t *obj181;
+    lv_obj_t *obj182;
+    lv_obj_t *obj183;
+    lv_obj_t *obj184;
+    lv_obj_t *obj185;
+    lv_obj_t *stat_min_8;
+    lv_obj_t *stat_min_9;
+    lv_obj_t *stat_min_10;
+    lv_obj_t *stat_min_11;
+    lv_obj_t *stat_min_12;
+    lv_obj_t *obj186;
 } objects_t;
 
 extern objects_t objects;
@@ -339,8 +377,10 @@ enum ScreensEnum {
     SCREEN_ID_DISPLAY = 11,
     SCREEN_ID_INFO = 12,
     SCREEN_ID_SOUND = 13,
-    SCREEN_ID_QUESTION_YN = 14,
-    SCREEN_ID_KEYBOARD = 15,
+    SCREEN_ID_STATS = 14,
+    SCREEN_ID_QUESTION_YN = 15,
+    SCREEN_ID_KEYBOARD = 16,
+    SCREEN_ID_STATS_TABLE = 17,
 };
 
 void create_screen_startup();
@@ -382,11 +422,17 @@ void tick_screen_info();
 void create_screen_sound();
 void tick_screen_sound();
 
+void create_screen_stats();
+void tick_screen_stats();
+
 void create_user_widget_question_yn(lv_obj_t *parent_obj, void *flowState, int startWidgetIndex);
 void tick_user_widget_question_yn(void *flowState, int startWidgetIndex);
 
 void create_user_widget_keyboard(lv_obj_t *parent_obj, void *flowState, int startWidgetIndex);
 void tick_user_widget_keyboard(void *flowState, int startWidgetIndex);
+
+void create_user_widget_stats_table(lv_obj_t *parent_obj, void *flowState, int startWidgetIndex);
+void tick_user_widget_stats_table(void *flowState, int startWidgetIndex);
 
 void create_screens();
 void tick_screen(int screen_index);

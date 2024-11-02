@@ -584,6 +584,7 @@ namespace dcl
                 //return true;
             }
         }
+        SCPIWdogPet();
         if (!_setState.CalibrationMode && _measuredStateMutex != NULL)
         {
             if (xSemaphoreTake(_measuredStateMutex, (TickType_t)100) == pdTRUE)
@@ -595,6 +596,7 @@ namespace dcl
                 _measuredState.OPPstate = false;
                 _measuredState.SenseError = false;
                 _measuredState.PolarityError = false;
+                _measuredState.scpiWdogTriggered = false;
                 xSemaphoreGive(_measuredStateMutex);
             }
         }
@@ -1211,7 +1213,7 @@ namespace dcl
                 xSemaphoreGive(_setStateMutex);
             };
         };
-        if (wdogEnabled && wdogTriggered && (lastPet+ wdogDelay*1000 < millis())) {
+        if (wdogEnabled && !wdogTriggered && (lastPet+ wdogDelay*1000 < millis())) {
             // Trigger watchdog
             setProtection();
             if (_measuredStateMutex != NULL)

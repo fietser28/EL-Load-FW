@@ -101,13 +101,8 @@ extern CalibrationValueConfiguration cal_values;
 
 extern bool cal_valuesChanged;
 
-// For encoder 
-//extern float setValue;
-//extern float setValueNew;
-
-
+extern void formatStatValue(char* str, statsType_e type, float value);
 // Flow global variables
-
 enum FlowGlobalVariables {
     FLOW_GLOBAL_VARIABLE_DROPDOWNMODEINDEX = 0,
     FLOW_GLOBAL_VARIABLE_SET_VALUE = 1,
@@ -126,15 +121,15 @@ enum FlowGlobalVariables {
     FLOW_GLOBAL_VARIABLE_SET_VALUE_STR_FORMATTED_LENGTH = 14,
     FLOW_GLOBAL_VARIABLE_SET_VALUE_INT = 15,
     FLOW_GLOBAL_VARIABLE_SET_VALUE_INT_IN = 16,
-    FLOW_GLOBAL_VARIABLE_SET_VALUE_INT_DIR = 17
+    FLOW_GLOBAL_VARIABLE_SET_VALUE_INT_DIR = 17,
+    FLOW_GLOBAL_VARIABLE_STATS_ALL = 18
 };
-
-// Native global variables
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+// Native global variables
 extern bool get_var_startup_done();
 extern void set_var_startup_done(bool value);
 extern const char *get_var_imon();
@@ -307,11 +302,24 @@ extern statsType_e get_var_stat_type();
 extern void set_var_stat_type(statsType_e value);
 extern const char *get_var_stat_counts();
 extern void set_var_stat_counts(const char *value);
+extern bool get_var_stat_irun();
+extern void set_var_stat_irun(bool value);
+extern bool get_var_stat_urun();
+extern void set_var_stat_urun(bool value);
+extern bool get_var_stat_prun();
+extern void set_var_stat_prun(bool value);
+extern int32_t get_var_stat_icount();
+extern void set_var_stat_icount(int32_t value);
+extern int32_t get_var_stat_ucount();
+extern void set_var_stat_ucount(int32_t value);
+extern int32_t get_var_stat_pcount();
+extern void set_var_stat_pcount(int32_t value);
+extern bool get_var_scpi_wdog_tripped();
+extern void set_var_scpi_wdog_tripped(bool value);
 
 
 #ifdef __cplusplus
 }
 #endif
-
 
 #endif /*EEZ_LVGL_UI_VARS_H*/

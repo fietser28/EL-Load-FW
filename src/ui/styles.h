@@ -101,6 +101,13 @@ lv_style_t *get_style_checkbox_default_INDICATOR_CHECKED();
 void add_style_checkbox_default(lv_obj_t *obj);
 void remove_style_checkbox_default(lv_obj_t *obj);
 
+// Style: checkbox_small
+lv_style_t *get_style_checkbox_small_MAIN_DEFAULT();
+lv_style_t *get_style_checkbox_small_INDICATOR_DEFAULT();
+lv_style_t *get_style_checkbox_small_INDICATOR_CHECKED();
+void add_style_checkbox_small(lv_obj_t *obj);
+void remove_style_checkbox_small(lv_obj_t *obj);
+
 // Style: screen_background
 lv_style_t *get_style_screen_background_MAIN_DEFAULT();
 void add_style_screen_background(lv_obj_t *obj);

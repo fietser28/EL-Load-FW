@@ -1,6 +1,12 @@
 #ifndef EEZ_LVGL_UI_STRUCTS_H
 #define EEZ_LVGL_UI_STRUCTS_H
 
+#if !defined(EEZ_FOR_LVGL)
+#warning "EEZ_FOR_LVGL is not enabled"
+#define EEZ_FOR_LVGL
+#endif
+
+
 #include <eez/flow/flow.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -13,14 +19,16 @@ enum FlowStructures {
     FLOW_STRUCTURE_SET_PROPERTIES = 16384,
     FLOW_STRUCTURE_CAL_POINT = 16385,
     FLOW_STRUCTURE_CAL_CONFIG = 16386,
-    FLOW_STRUCTURE_KEYBOARD_INPUT = 16387
+    FLOW_STRUCTURE_KEYBOARD_INPUT = 16387,
+    FLOW_STRUCTURE_STATS = 16388
 };
 
 enum FlowArrayOfStructures {
     FLOW_ARRAY_OF_STRUCTURE_SET_PROPERTIES = 81920,
     FLOW_ARRAY_OF_STRUCTURE_CAL_POINT = 81921,
     FLOW_ARRAY_OF_STRUCTURE_CAL_CONFIG = 81922,
-    FLOW_ARRAY_OF_STRUCTURE_KEYBOARD_INPUT = 81923
+    FLOW_ARRAY_OF_STRUCTURE_KEYBOARD_INPUT = 81923,
+    FLOW_ARRAY_OF_STRUCTURE_STATS = 81924
 };
 
 enum setPropertiesFlowStructureFields {
@@ -52,6 +60,14 @@ enum keyboardInputFlowStructureFields {
     FLOW_STRUCTURE_KEYBOARD_INPUT_FIELD_MAX = 2,
     FLOW_STRUCTURE_KEYBOARD_INPUT_FIELD_UNIT = 3,
     FLOW_STRUCTURE_KEYBOARD_INPUT_NUM_FIELDS
+};
+
+enum statsFlowStructureFields {
+    FLOW_STRUCTURE_STATS_FIELD_MIN = 0,
+    FLOW_STRUCTURE_STATS_FIELD_COUNT = 1,
+    FLOW_STRUCTURE_STATS_FIELD_MAX = 2,
+    FLOW_STRUCTURE_STATS_FIELD_AVG = 3,
+    FLOW_STRUCTURE_STATS_NUM_FIELDS
 };
 
 struct setPropertiesValue {
@@ -219,6 +235,49 @@ struct keyboardInputValue {
 };
 
 typedef ArrayOf<keyboardInputValue, FLOW_ARRAY_OF_STRUCTURE_KEYBOARD_INPUT> ArrayOfkeyboardInputValue;
+struct statsValue {
+    Value value;
+    
+    statsValue() {
+        value = Value::makeArrayRef(FLOW_STRUCTURE_STATS_NUM_FIELDS, FLOW_STRUCTURE_STATS, 0);
+    }
+    
+    statsValue(Value value) : value(value) {}
+    
+    operator Value() const { return value; }
+    
+    operator bool() const { return value.isArray(); }
+    
+    const char *min() {
+        return value.getArray()->values[FLOW_STRUCTURE_STATS_FIELD_MIN].getString();
+    }
+    void min(const char *min) {
+        value.getArray()->values[FLOW_STRUCTURE_STATS_FIELD_MIN] = StringValue(min);
+    }
+    
+    const char *count() {
+        return value.getArray()->values[FLOW_STRUCTURE_STATS_FIELD_COUNT].getString();
+    }
+    void count(const char *count) {
+        value.getArray()->values[FLOW_STRUCTURE_STATS_FIELD_COUNT] = StringValue(count);
+    }
+    
+    const char *max() {
+        return value.getArray()->values[FLOW_STRUCTURE_STATS_FIELD_MAX].getString();
+    }
+    void max(const char *max) {
+        value.getArray()->values[FLOW_STRUCTURE_STATS_FIELD_MAX] = StringValue(max);
+    }
+    
+    const char *avg() {
+        return value.getArray()->values[FLOW_STRUCTURE_STATS_FIELD_AVG].getString();
+    }
+    void avg(const char *avg) {
+        value.getArray()->values[FLOW_STRUCTURE_STATS_FIELD_AVG] = StringValue(avg);
+    }
+};
+
+typedef ArrayOf<statsValue, FLOW_ARRAY_OF_STRUCTURE_STATS> ArrayOfstatsValue;
 
 
 #endif /*EEZ_LVGL_UI_STRUCTS_H*/
