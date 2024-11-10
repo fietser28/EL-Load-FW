@@ -8,8 +8,6 @@
 #include "scpi/scpi.h"
 
 #include "main.h"
-#include "../ui/vars.h"     // TODO: Remove this dependancy  
-#include "../ui/actions.h"  // TODO: Remove this dependancy
 #include "scpi-def.h"
 
 using namespace dcl;
@@ -315,7 +313,7 @@ scpi_result_t scpi_cmd_cal_type(scpi_t *context) {
         return SCPI_RES_ERR;
     }
 
-    set_var_cal_cal_type((calType_e)param);
+    calActions.setCalType((calType_e)param);
     return SCPI_RES_OK;
 }
 
@@ -326,7 +324,7 @@ scpi_result_t scpi_cmd_cal_typeQ(scpi_t *context)
         return SCPI_RES_ERR;
     }
 
-    SCPI_ResultUInt32(context, get_var_cal_cal_type());
+    SCPI_ResultUInt32(context, calActions.getCalType());
     return SCPI_RES_OK;
 };
 
@@ -350,8 +348,8 @@ scpi_result_t scpi_cmd_cal_point(scpi_t *context) {
 
             value = value - 1; // In UI and SCPI 1 based, in code 0 based.
 
-            if (value >= 0 && value <= get_var_cal_numpoints()) { //TODO: replace numpoints with proper function from cal.c
-                set_var_cal_curpoint(value);
+            if (value >= 0 && value <= calActions.getNumPoints()) { 
+                calActions.setCurPoint(value);
                 return SCPI_RES_OK;
             } else {
                 //SCPI_ErrorPushEx(context, SCPI_ERROR_ILLEGAL_PARAMETER_VALUE, " valid range: 1-100", 0);
@@ -377,7 +375,7 @@ scpi_result_t scpi_cmd_cal_pointQ(scpi_t *context) {
         return SCPI_RES_ERR;
     }
 
-    SCPI_ResultUInt32(context, get_var_cal_curpoint() + 1);
+    SCPI_ResultUInt32(context, calActions.getCurPoint() + 1);
     return SCPI_RES_OK;
 };
 
@@ -386,7 +384,7 @@ scpi_result_t scpi_cmd_cal_point_maxQ(scpi_t *context) {
         SCPI_ErrorPush(context, SCPI_ERROR_CALIBRATION_FAILED);
         return SCPI_RES_ERR;
     }
-    SCPI_ResultInt32(context, get_var_cal_numpoints());    
+    SCPI_ResultInt32(context, calActions.getNumPoints() );    
     return SCPI_RES_OK;
 };
 
@@ -409,9 +407,9 @@ scpi_result_t scpi_cmd_cal_set(scpi_t *context) {
             SCPI_ParamToFloat(context, &param1, &value);
 
             
-            if (value >= ranges[caldefaults[cal_calType].keyBoard].minValue && 
-                value <= ranges[caldefaults[cal_calType].keyBoard].maxValue ) { 
-                set_var_cal_set(value);
+            if (value >= ranges[caldefaults[calActions.getCalType()].keyBoard].minValue && 
+                value <= ranges[caldefaults[calActions.getCalType()].keyBoard].maxValue ) { 
+                calActions.setSet(value);
                 return SCPI_RES_OK;
             } else {
                 //SCPI_ErrorPushEx(context, SCPI_ERROR_ILLEGAL_PARAMETER_VALUE, " valid range: 1-100", 0);
@@ -436,7 +434,7 @@ scpi_result_t scpi_cmd_cal_setQ(scpi_t *context) {
         SCPI_ErrorPush(context, SCPI_ERROR_CALIBRATION_FAILED);
         return SCPI_RES_ERR;
     }
-    SCPI_ResultFloat(context, get_var_cal_set());    
+    SCPI_ResultFloat(context, calActions.getSet());    
     return SCPI_RES_OK;
 };
 
@@ -445,7 +443,7 @@ scpi_result_t scpi_cmd_cal_measQ(scpi_t *context) {
         SCPI_ErrorPush(context, SCPI_ERROR_CALIBRATION_FAILED);
         return SCPI_RES_ERR;
     }
-    SCPI_ResultFloat(context, get_var_cal_measured());    
+    SCPI_ResultFloat(context, calActions.getMeasured());    
     return SCPI_RES_OK;
 };
 
@@ -461,37 +459,41 @@ scpi_result_t scpi_cmd_cal_adcQ(scpi_t *context) {
     }
 
     if (param == 0) {
-        SCPI_ResultInt32(context, caldefaults[cal_calType].adcMin);
+        SCPI_ResultInt32(context, caldefaults[calActions.getCalType()].adcMin);
     } else {
-        SCPI_ResultInt32(context, caldefaults[cal_calType].adcMax);     
+        SCPI_ResultInt32(context, caldefaults[calActions.getCalType()].adcMax);     
     }
     return SCPI_RES_OK;
 };
 
 scpi_result_t scpi_cmd_cal_meas(scpi_t *context) {
+    // In calibration mode?
     if (!state.getCalibrationMode()) {
         SCPI_ErrorPush(context, SCPI_ERROR_CALIBRATION_FAILED);
         return SCPI_RES_ERR;
     }
-    if (get_var_cal_trigger_measure()) {
+
+    // Not already/still running?
+    if (calActions.getTriggeredCalibration()) {
         return SCPI_RES_ERR;
     }
 
     // TODO replace with more advanced flow action call
     //scpi_busy_inc(); //Done in flow for now
 
-    if (caldefaults[cal_calType].type == calCalType_e_DAC) {
-        action_cal_set_dac((lv_event_t *)NULL);
+    // Set DAC if DAC type.
+    if (caldefaults[calActions.getCalType()].type == calCalType_e_DAC) {
+        calActions.setDAC();
         vTaskDelay(1000);
     }
 
-    set_var_cal_trigger_measure(true);
+    calActions.setTriggeredCalibration(true);
 
     return SCPI_RES_OK;
 };
 
 scpi_result_t scpi_cmd_cal_meas_runQ(scpi_t *context) {
-    SCPI_ResultBool(context, get_var_cal_trigger_measure());
+    SCPI_ResultBool(context, calActions.getTriggeredCalibration());
     return SCPI_RES_OK;
 }
 
@@ -500,12 +502,11 @@ scpi_result_t scpi_cmd_cal_type_save(scpi_t *context) {
         SCPI_ErrorPush(context, SCPI_ERROR_CALIBRATION_FAILED);
         return SCPI_RES_ERR;
     }
-    if (!cal_valuesChanged) {
+    if (!calActions.getValuesChanged()) {
         SCPI_ErrorPush(context, SCPI_ERROR_CALIBRATION_FAILED);
         return SCPI_RES_ERR;
     }
-    action_cal_store_values(NULL);
-    set_var_cal_values_changed(false);
+    calActions.storeValues();
     return SCPI_RES_OK;
 }
 
@@ -514,11 +515,11 @@ scpi_result_t scpi_cmd_cal_type_reset(scpi_t *context) {
         SCPI_ErrorPush(context, SCPI_ERROR_CALIBRATION_FAILED);
         return SCPI_RES_ERR;
     }
-    if (!cal_valuesChanged) {
+    if (!calActions.getValuesChanged()) {
         SCPI_ErrorPush(context, SCPI_ERROR_CALIBRATION_FAILED);
         return SCPI_RES_ERR;
     }
-    action_cal_reset_values(NULL);
+    calActions.resetValues();
     return SCPI_RES_OK;
 }
 

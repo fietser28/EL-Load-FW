@@ -110,22 +110,8 @@ fan_max31760 fancontrol = fan_max31760();
 // Global state manager
 stateManager state;
 
-// TODO: put this in a class somewhere
-
-CalibrationValueConfiguration currentCal;
-CalibrationValueConfiguration currentCalLow;
-CalibrationValueConfiguration voltCal;
-CalibrationValueConfiguration voltCalLow;
-CalibrationValueConfiguration iSetCal;
-CalibrationValueConfiguration iSetCalLow;
-CalibrationValueConfiguration uSetCal;
-CalibrationValueConfiguration uSetCalLow;
-CalibrationValueConfiguration vonSetCal;
-CalibrationValueConfiguration vonSetCalLow;
-CalibrationValueConfiguration OCPSetCal;
-CalibrationValueConfiguration OCPSetCalLow;
-CalibrationValueConfiguration OVPSetCal;
-CalibrationValueConfiguration OVPSetCalLow;
+// Global calibration actions
+cal::calAction calActions;
 
 // TODO for debug/test
 volatile uint32_t i = -10;

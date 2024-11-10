@@ -26,7 +26,7 @@ struct _caldef {
     uint32_t adcMax;
     ranges_e keyBoard;
     calCalType_e type;
-    cal* stateRef;
+    calData* stateRef;
     uint16_t eepromAddress;
 };
 

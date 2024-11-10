@@ -4,18 +4,22 @@
 
 #pragma once
 #include "Arduino.h"
+#include "FreeRTOS.h"
+#include "semphr.h"
 #include "util.h"
+#include "ui/vars.h"
 
 #ifdef __cplusplus
-namespace dcl
+using namespace dcl;
+namespace dcl::cal
 {
 #endif
 
 #ifndef __cplusplus
 //    typedef struct cal cal;
 #else
-    // Abstract calibration class
-    class cal {
+    // Abstract calibration data class
+    class calData {
         public:
             virtual bool setCalConfig(CalibrationValueConfiguration newconfig) = 0;
             virtual CalibrationValueConfiguration getCalConfig();
@@ -30,8 +34,8 @@ namespace dcl
             virtual float remapDAC(float input);
     };
 
-    // Simple 2 point linear calibration 
-    class calLinear2P : public cal {
+    // Simple 2 point linear calibration data
+    class calDataLinear2P : public calData {
         public:
             bool setCalConfig(CalibrationValueConfiguration newconfig);
             CalibrationValueConfiguration getCalConfig();
@@ -58,6 +62,48 @@ namespace dcl
 #endif
 
 extern void calSetDefaults();
+
+class calAction {
+    public:
+        calType_e   getCalType();
+        void        setCalType(calType_e value);
+        int32_t     getCurPoint();
+        void        setCurPoint(int32_t point);
+        float       getSet();
+        void        setSet(float set);
+        float       getMeasured();
+        void        setMeasured(float measured);
+        int32_t     getNumPoints();
+        const char* getUnit();
+        ranges_e    getKeyboard();
+        bool        getRunning();
+        void        setRunning(bool running);  // Flow is doing actual calibration routine
+        bool        getTriggeredCalibration();
+        void        setTriggeredCalibration(bool trigger); // Bool to trigger calibration start in Flow
+        bool        getValuesChanged();
+        void        setValuesChanged(bool changed);
+        void        setDAC();
+        void        fetchMeasured();
+        void        storeValues();
+        void        resetValues();
+        bool        storeDefaults(); // Init EEPROM
+
+    private:
+        SemaphoreHandle_t _sem;
+
+        void      copy_cal_values_from_state(CalibrationValueConfiguration *cal_values, calType_e caltype);
+        void      copy_cal_values_to_state(CalibrationValueConfiguration *cal_values, calType_e caltype);
+        void      write_cal_to_eeprom(calType_e caltype);
+
+        calType_e _calType = calType_e::calType_e_Undefined; // Force init and copy!
+        int32_t   _curpoint = 0; 
+        float     _set = 0.0f;                       // This is the changed/temp value.
+        float     _measured = 0.0f;                   // This is the changed/temp value.
+        CalibrationValueConfiguration _values;   // This is the changed/temp configuration.
+        bool      _running = false;
+        bool      _triggerMeasure = false;
+        bool      _valuesChanged = false;
+};
 
 #ifdef __cplusplus
 } // end of namespace

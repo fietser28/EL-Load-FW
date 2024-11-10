@@ -335,108 +335,50 @@ int32_t get_var_adc_osr()
 
 }
 
-//// Calibration variables & some logic.
+//// Calibration variables
+calType_e get_var_cal_cal_type() { return calActions.getCalType(); };
+void set_var_cal_cal_type(calType_e value) { calActions.setCalType(value); };
 
-// Also used by SCPI command/query functions TODO: move to cal.h and make seperate function
-calType_e cal_calType = calType_e::calType_e_Undefined; // Force init and copy!
-int32_t cal_curpoint = 0; 
-float cal_set = 0.0f;                       // This is the changed/temp value.
-float cal_measured = 0.0f;                   // This is the changed/temp value.
-CalibrationValueConfiguration cal_values;   // This is the changed/temp configuration.
+int32_t get_var_cal_curpoint() { return calActions.getCurPoint(); };
+void set_var_cal_curpoint(int32_t value) { calActions.setCurPoint(value); };
 
-// USED BY SCPI!
-calType_e get_var_cal_cal_type() { return cal_calType; };
-void set_var_cal_cal_type(calType_e value) { 
-  // calType changes to different value, update everything.
-  if (value != cal_calType){
-    cal_calType = value; 
-    copy_cal_values_from_state(&cal_values, cal_calType);
-    set_var_cal_curpoint(0);
-  }
-};
+float get_var_cal_set() { return calActions.getSet(); };
+void set_var_cal_set(float value) { calActions.setSet(value); };
 
-// USED BY SCPI! TODO: move to cal.h/cpp and make seperate function
-int32_t get_var_cal_curpoint() { return cal_curpoint; };
-void set_var_cal_curpoint(int32_t value) { 
-  if (value >= 0 && value < cal_values.numPoints)
-  {
-    cal_curpoint = value; 
-    if (cal_calType == calType_e::calType_e_Imon_High || cal_calType == calType_e::calType_e_Imon_Low || 
-        cal_calType == calType_e::calType_e_Umon_High || cal_calType == calType_e::calType_e_Umon_Low) 
-    {
-      // ADC
-      cal_set = cal_values.points[value].value;
-      cal_measured = cal_values.points[value].adc;
-    } else {
-      // DAC
-      cal_set = cal_values.points[value].dac;
-      cal_measured = cal_values.points[value].value;
-    } 
-  }
-};
+float get_var_cal_measured() { return calActions.getMeasured(); };
+void set_var_cal_measured(float value) { calActions.setMeasured(value); };
 
-// Used by SCPI. TODO: move to cal.h/cpp and make seperate function
-float get_var_cal_set() { return cal_set; };
-void set_var_cal_set(float value) { 
-  cal_set = value; 
-  if (cal_calType == calType_e::calType_e_Imon_High || cal_calType == calType_e::calType_e_Imon_Low || 
-      cal_calType == calType_e::calType_e_Umon_High || cal_calType == calType_e::calType_e_Umon_Low) 
-  {
-    cal_values.points[cal_curpoint].value = value;
-  } else {
-    cal_values.points[cal_curpoint].dac = (int32_t)value;
-  }
-};
+int32_t get_var_cal_numpoints() { return calActions.getNumPoints(); };
+void set_var_cal_numpoints(int32_t value) {}; // Read only.
 
-float get_var_cal_measured() { return cal_measured; };
-void set_var_cal_measured(float value) { 
-  cal_measured = value;
-  if (cal_calType == calType_e::calType_e_Imon_High || cal_calType == calType_e::calType_e_Imon_Low || 
-      cal_calType == calType_e::calType_e_Umon_High || cal_calType == calType_e::calType_e_Umon_Low) 
-  {
-    // ADC
-    cal_values.points[cal_curpoint].adc = (int32_t)value; 
-  } else {
-    // DAC
-    cal_values.points[cal_curpoint].value = value; 
- }
-};
-
-// Used by SCPI TODO: move to cal.h/cpp and make seperate function
-int32_t get_var_cal_numpoints() { return cal_values.numPoints; };
-void set_var_cal_numpoints(int32_t value) {} ; // TODO: Needed?
-
-const char *get_var_cal_unit() { return ranges[caldefaults[cal_calType].keyBoard].unitName; };
+const char *get_var_cal_unit() { return ranges[caldefaults[calActions.getCalType()].keyBoard].unitName; };
 void set_var_cal_unit(const char *value) {}; // Read only.
 
-ranges_e get_var_cal_keyboard() { return caldefaults[cal_calType].keyBoard; };
+ranges_e get_var_cal_keyboard() { return caldefaults[calActions.getCalType()].keyBoard; };
 void set_var_cal_keyboard(ranges_e value) {}; // Read only.
 
-// Used by SCPI TODO: move to cal.h/cpp and make seperate function
 bool get_var_calibration_mode() { return localsetcopy.CalibrationMode; };
 void set_var_calibration_mode(bool value) {
   state.CalibrationMode(value);
 };
 
-// Used by SCPI TODO: move to cal.h/cpp and make seperate function
-bool cal_animate = false;
-bool get_var_cal_animate() { return cal_animate; };
+bool get_var_cal_animate() { return calActions.getRunning(); };
 void set_var_cal_animate(bool value) {
-  cal_animate = value;
+  calActions.setRunning(value);
 };
 
-bool cal_triggerMeasure = false;
-bool get_var_cal_trigger_measure() { return cal_triggerMeasure; };
+bool get_var_cal_trigger_measure() { return calActions.getTriggeredCalibration(); };
 void set_var_cal_trigger_measure(bool value) {
-  cal_triggerMeasure = value;
+  calActions.setTriggeredCalibration(value);
 };
 
-// Used by SCPI. TODO: move to cal.cpp/h
-bool cal_valuesChanged = false;
-bool get_var_cal_values_changed() { return cal_valuesChanged; };
+bool get_var_cal_values_changed() { return calActions.getValuesChanged(); };
 void set_var_cal_values_changed(bool value) {
-  cal_valuesChanged = value;
+  calActions.setValuesChanged(value);
 };
+
+// End of calibration variables
+
 
 bool get_var_von_state() { return localstatecopy.VonState; };
 void set_var_von_state(bool value) {}; // Read only.

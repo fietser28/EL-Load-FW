@@ -11,6 +11,8 @@
 #include "ui/vars.h"
 
 #ifdef __cplusplus
+
+using namespace dcl::cal;
 namespace dcl
 {
 #endif
@@ -136,23 +138,20 @@ namespace dcl
 #ifdef __cplusplus
     struct calibration
     {
-        cal *Imon;
-        cal *ImonLow;
-        cal *Umon;
-        cal *UmonLow;
-        cal *Iset;
-        cal *IsetLow;
-        cal *Uset;
-        cal *UsetLow;
-        cal *Von;
-        cal *VonLow;
-        cal *OCPset;
-        cal *OCPsetLow;
-        cal *OVPset;
-        cal *OVPsetLow;
-//        cal *OTPset;
-//        cal *Temp1;
-//        cal *Temp2;
+        calData *Imon;
+        calData *ImonLow;
+        calData *Umon;
+        calData *UmonLow;
+        calData *Iset;
+        calData *IsetLow;
+        calData *Uset;
+        calData *UsetLow;
+        calData *Von;
+        calData *VonLow;
+        calData *OCPset;
+        calData *OCPsetLow;
+        calData *OVPset;
+        calData *OVPsetLow;
     };
 #endif 
 

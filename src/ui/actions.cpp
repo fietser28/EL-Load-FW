@@ -46,109 +46,12 @@ void action_text_area_disable_blink(lv_event_t * e) {
 };
 
 // Calibration page
+void action_cal_refresh_measured(lv_event_t *e) { calActions.fetchMeasured(); };
+void action_cal_reset_values(lv_event_t *e)    { calActions.resetValues(); };
+void action_cal_store_values(lv_event_t *e)    { calActions.storeValues(); };
+void action_cal_set_dac(lv_event_t *e)         { calActions.setDAC(); };
+void action_cal_store_defaults(lv_event_t * e) { calActions.storeDefaults(); };
 
-void action_cal_refresh_measured(lv_event_t *e) 
-{
-    if (cal_calType == calType_e::calType_e_Imon_High || cal_calType == calType_e::calType_e_Imon_Low) {
-        cal_measured = localstatecopy.avgCurrentRaw;
-        cal_values.points[cal_curpoint].adc = (int32_t)cal_measured;
-    }
-    if (cal_calType == calType_e::calType_e_Umon_High || cal_calType == calType_e::calType_e_Umon_Low) {
-        cal_measured = localstatecopy.avgVoltRaw;
-        cal_values.points[cal_curpoint].adc = (int32_t)cal_measured;
-    }
-    if (cal_calType == calType_e::calType_e_Iset_High || cal_calType == calType_e::calType_e_Iset_Low) { // Iset
-        cal_measured = localstatecopy.Imon;
-        cal_values.points[cal_curpoint].value = cal_measured;
-    }
-    if (cal_calType == calType_e::calType_e_Von_High || cal_calType == calType_e::calType_e_Von_Low) { // VonSet, after do_search action.
-        cal_measured = localstatecopy.Umon;
-        cal_values.points[cal_curpoint].value = cal_measured;
-        cal_values.points[cal_curpoint].dac = (int32_t)cal_set;
-    }
-    if (cal_calType == calType_e::calType_e_Uset_High || cal_calType == calType_e::calType_e_Uset_Low) { // Uset
-        cal_measured = localstatecopy.Umon;
-        cal_values.points[cal_curpoint].value = cal_measured;
-    }
-    if (cal_calType == calType_e::calType_e_OCPset_High || cal_calType == calType_e::calType_e_OCPset_Low) { // OCPSet, after do_search action.
-        cal_measured = localstatecopy.Imon;
-        cal_values.points[cal_curpoint].value = cal_measured;
-        cal_values.points[cal_curpoint].dac = (int32_t)cal_set;
-    }
-    if (cal_calType == calType_e::calType_e_OVPset_High || cal_calType == calType_e::calType_e_OVPset_Low) { // VonSet, after do_search action.
-        cal_measured = localstatecopy.Umon;
-        cal_values.points[cal_curpoint].value = cal_measured;
-        cal_values.points[cal_curpoint].dac = (int32_t)cal_set;
-    }
-}
-
-// Used by SCPI. TODO: rearrange to move to cal.cpp
-void action_cal_reset_values(lv_event_t *e)
-{
-    copy_cal_values_from_state(&cal_values, cal_calType);
-    if (cal_curpoint > cal_values.numPoints -1) {
-        set_var_cal_curpoint(0);
-    } else {
-        set_var_cal_curpoint(cal_curpoint);
-    }
-}
-
-// Used by SCPI. TODO: rearrange to move to cal.cpp
-void action_cal_store_values(lv_event_t *e)
-{
-    copy_cal_values_to_state(&cal_values, cal_calType);
-    write_cal_to_eeprom(cal_calType);
-}
-
-// Used by SCPI. TODO: rearrange to move to cal.cpp
-void action_cal_set_dac(lv_event_t *e) 
-{
-    if (cal_calType == calType_e_Iset_High || cal_calType == calType_e_Iset_Low) { // Iset
-        state.setIset(cal_set, true);
-    }
-    
-    if (cal_calType == calType_e_Von_High || cal_calType == calType_e_Von_Low) { // VonSet
-        state.setVonset(cal_set, true);
-    }
-
-    if (cal_calType == calType_e_Uset_High || cal_calType == calType_e_Uset_Low) { // Uset
-        state.setUset(cal_set, true);
-    }
-
-    if (cal_calType == calType_e_OCPset_High || cal_calType == calType_e_OCPset_Low) {
-        state.setOCP(cal_set, true);
-    }
-
-    if (cal_calType == calType_e_OVPset_High || cal_calType == calType_e_OVPset_Low) {
-        state.setOVP(cal_set, true);
-    }
-}
-
-void action_cal_store_defaults(lv_event_t * e)
-{
-    if (myeeprom.magicWrite()) {
-        calSetDefaults();
-        printlogstr("INFO: EEPROM magic written.");
-        write_cal_to_eeprom(calType_e::calType_e_Imon_High);
-        write_cal_to_eeprom(calType_e::calType_e_Imon_Low);
-        write_cal_to_eeprom(calType_e::calType_e_Umon_High);
-        write_cal_to_eeprom(calType_e::calType_e_Umon_Low);
-        write_cal_to_eeprom(calType_e::calType_e_Iset_High);
-        write_cal_to_eeprom(calType_e::calType_e_Iset_Low);
-        write_cal_to_eeprom(calType_e::calType_e_Uset_High);
-        write_cal_to_eeprom(calType_e::calType_e_Uset_Low);
-        write_cal_to_eeprom(calType_e::calType_e_Von_High);
-        write_cal_to_eeprom(calType_e::calType_e_Von_Low);
-        write_cal_to_eeprom(calType_e::calType_e_OCPset_High);
-        write_cal_to_eeprom(calType_e::calType_e_OCPset_Low);
-        write_cal_to_eeprom(calType_e::calType_e_OVPset_High);
-        write_cal_to_eeprom(calType_e::calType_e_OVPset_Low);
-        myeeprom.write(EEPROM_ADDR_VERSION, dcl::eeprom::eeprom_version);  
-        printlogstr("INFO: Default cal values stored.");
-    } else {
-        printlogstr("ERROR: Unable to write EEPROM magic.");        
-    }
-}
 
 void action_display_off(lv_event_t * e) {
     digitalWrite(TFT_BL, LOW);
