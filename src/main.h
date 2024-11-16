@@ -121,7 +121,7 @@ struct changeScreen_s
 #define TASK_PRIORITY_MEASURE   6
 #define TASK_PRIORITY_AVERAGE   5
 #define TASK_PRIORITY_UI        3
-#define TASK_PRIORITY_KEYS      4 
+#define TASK_PRIORITY_KEYS      5 
 #define TASK_PRIORITY_WATCHDOG  7
 #define TASK_PRIORITY_BEEP      4
 #define TASK_PRIORITY_EEPROM    4
