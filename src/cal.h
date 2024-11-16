@@ -21,12 +21,13 @@ namespace dcl::cal
     // Abstract calibration data class
     class calData {
         public:
-            virtual bool setCalConfig(CalibrationValueConfiguration newconfig) = 0;
-            virtual CalibrationValueConfiguration getCalConfig();
+            calData() {};
+            virtual bool setCalConfigRef(CalibrationValueConfiguration* newconfig) ;
+
             virtual CalibrationValueConfiguration *getCalConfigRef();
 
-            virtual bool setADCConfig(int32_t min, int32_t max);
-            virtual bool setDACConfig(int32_t min, int32_t max);
+            virtual bool setADCConfig(int32_t min, int32_t max) ;
+            virtual bool setDACConfig(int32_t min, int32_t max) ;
 
             virtual bool configured();
 
@@ -37,8 +38,9 @@ namespace dcl::cal
     // Simple 2 point linear calibration data
     class calDataLinear2P : public calData {
         public:
-            bool setCalConfig(CalibrationValueConfiguration newconfig);
-            CalibrationValueConfiguration getCalConfig();
+            calDataLinear2P() : calData() { _conf = new CalibrationValueConfiguration; };
+            bool setCalConfigRef(CalibrationValueConfiguration* newconfig);
+
             CalibrationValueConfiguration *getCalConfigRef();
             bool setADCConfig(int32_t min, int32_t max);
             bool setDACConfig(int32_t min, int32_t max);
@@ -53,7 +55,7 @@ namespace dcl::cal
             bool  _configured;
             bool  _gotConf = false;
             bool  _gotADC  = false;
-            CalibrationValueConfiguration _conf;
+            CalibrationValueConfiguration *_conf;
             float _minADC = 0;
             float _maxADC = 0;
             float _multiply, _offset; 
@@ -86,7 +88,8 @@ class calAction {
         void        fetchMeasured();
         void        storeValues();
         void        resetValues();
-        bool        storeDefaults(); // Init EEPROM
+        bool        storeDefaults(); // load Default values and store in eeprom
+        bool        storeAllValues(); // store all current values to eeprom
 
     private:
         SemaphoreHandle_t _sem;

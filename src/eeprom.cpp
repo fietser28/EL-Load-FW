@@ -7,7 +7,9 @@
 #include <Wire.h>
 #include <semphr.h>
 
-#include "eeprom.h"
+#include "main.h"
+#include "scpi-def.h"
+//#include "eeprom.h"
 #include "util.h"
 
 // Only does 100kHz at 3.3V.
@@ -24,6 +26,11 @@ namespace dcl::eeprom
         _wire = Wire;
         _sem = WireSemaphore;
         _addr = Address;
+        _magicFound = false;
+
+        xTaskEepromFullWrite = NULL;
+        xSemEepromTask = xSemaphoreCreateBinary();
+        xSemaphoreGive(xSemEepromTask);
     };
 
     uint8_t eeprom::write(uint32_t addr, uint8_t value)
@@ -77,6 +84,7 @@ namespace dcl::eeprom
                 break;
             }
         }
+        _magicFound = magicok;
         return magicok;
     }
 
@@ -87,11 +95,68 @@ namespace dcl::eeprom
             write(EEPROM_ADDR_MAGIC + i, eeprom_magic[i]);
             vTaskDelay(20 / portTICK_PERIOD_MS);
         }
+
+        write(EEPROM_ADDR_VERSION, dcl::eeprom::eeprom_version);
+        vTaskDelay(5 / portTICK_PERIOD_MS);
+
         // And try to read it back as a test....
         return magicDetect();
     };
 
-CalibrationValueConfiguration testdata;
+    bool eeprom::magicFound() { return _magicFound; };
+
+    bool eeprom::fullWrite(uint8_t data) 
+    {
+        if (xSemEepromTask != NULL) 
+        {
+            if (xSemaphoreTake(xSemEepromTask, 500 / portTICK_PERIOD_MS)) 
+            //if (xTaskEepromFullWrite != NULL)
+            {
+                BaseType_t xTaskRet;
+                xTaskRet = xTaskCreate(this->startFullWriteTask, "", 1024, this, TASK_PRIORITY_EEPROM, &xTaskEepromFullWrite);
+                //xSemaphoreGive(xSemEepromTask);
+                if (xTaskRet != pdPASS) 
+                { // TODO: reset, something is really wrong;
+                    SERIALDEBUG.println("ERROR: Error starting EEPROM task.");
+                    return false;
+                }
+                SERIALDEBUG.print("3");
+                return true;
+            } else {
+                SERIALDEBUG.println("ERROR: EEprom task already/still running.....");
+                return false;
+            }
+            //}
+        }
+        return false;
+    };
+
+    void eeprom::startFullWriteTask(void *pvParameters)
+    {
+        SERIALDEBUG.print("1");
+        ((eeprom*)pvParameters)->fullWriteTask(pvParameters);
+    };
+
+    void eeprom::fullWriteTask(void *pvParameters) {
+        dcl::scpi::scpi_busy_inc();
+        SERIALDEBUG.print("2");
+        for (int i = 0; i < EEPROM_SIZE; i++)
+        {
+            write(i, 0xff);
+            vTaskDelay(5 / portTICK_PERIOD_MS);
+            if (read(i) != 0xff) {
+                SERIALDEBUG.printf("ERROR: eeprom full write failed at %x.\n",i);
+                //return;
+            }
+        }
+        SERIALDEBUG.print("done");
+        dcl::scpi::scpi_busy_dec(); 
+        xSemaphoreGive(xSemEepromTask);            
+        vTaskDelete(xTaskEepromFullWrite);
+        while (true) { vTaskDelay(1000); };
+    };
+
+    CalibrationValueConfiguration testdata;
 
     uint8_t eeprom::calibrationValuesWrite(CalibrationValueConfiguration *caldata, uint32_t startaddress)
     {

@@ -54,6 +54,9 @@ const scpi_command_t scpi_commands[] = {
     {"CALibration[:MODE]", scpi_cmd_cal, 0},        // ON/OFF/1/0
     {"CALibration[:MODE]?", scpi_cmd_calQ, 0},
 
+    {"CALibration:INIT:EEPROM", scpi_cmd_cal_init_eeprom, 0},
+    {"CALibration:INIT[:EEPROM]?", scpi_cmd_cal_init_eepromQ, 0},
+
     // Select what value to calibrate
     {"CALibration:TYPe", scpi_cmd_cal_type, 0},     // IMONHigh|IMONLow|UMONHigh|... see cal_type_list in scpi-def.cpp
     {"CALibration:TYPe?", scpi_cmd_cal_typeQ, 0},
@@ -92,7 +95,9 @@ const scpi_command_t scpi_commands[] = {
     {"DEBug:LVGL:MEMory:FREE?"}
     {"DEBug:LVGL:MEMory:FREE:BIGgest?"}
     */
+    {"DEBug:EEPROM:CLEAR", scpi_cmd_deb_eeprom_clear, 0},
     {"DEBug:MEM:HEAP?", scpi_cmd_deb_mem_heapQ, 0},
+    {"DEBug:REBOOT", scpi_cmd_deb_reboot, 0},
     {"DEBug:WDOG:THRESholds:MAX?", scpi_cmd_deb_wdog_thres_maxQ, 0},
 
     /* Fetch. This reads the last measured value, doesn't trigger and wait like measure */

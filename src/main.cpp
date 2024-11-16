@@ -160,7 +160,7 @@ void watchdog(void *pvParameters)
         watchdogEncTask < 5 &&          // Normal: 10Hz
         watchdogGuiTask < 5 &&          // Normal: 10Hz
         watchdogGuiTimerFunction < 5 && // Normal: 50Hz
-        watchdogLoop < 5 &&             // Normal: busy, SCPI can take long?
+        watchdogLoop < 10 &&             // Normal: busy, SCPI can take long?
         watchdogProtHW < 5  &&          // Normal: 10Hz
         watchdogMeasureAndOutput <5)    // Normal: 1kHz
       {

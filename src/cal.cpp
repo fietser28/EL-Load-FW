@@ -4,12 +4,14 @@
 
 #include "main.h"
 #include "cal.h"
+#include "ranges.h"
 #include "util.h"
 
 using namespace dcl;
 namespace dcl::cal
 {
 
+/*
     CalibrationValueConfiguration currentCal;
     CalibrationValueConfiguration currentCalLow;
     CalibrationValueConfiguration voltCal;
@@ -24,10 +26,11 @@ namespace dcl::cal
     CalibrationValueConfiguration OCPSetCalLow;
     CalibrationValueConfiguration OVPSetCal;
     CalibrationValueConfiguration OVPSetCalLow;
+*/
 
-    bool calDataLinear2P::setCalConfig(CalibrationValueConfiguration newconfig)
+    bool calDataLinear2P::setCalConfigRef(CalibrationValueConfiguration* newconfig)
     {
-        if (newconfig.numPoints != 2)
+        if (newconfig->numPoints != 2)
         {
             _gotConf = false;
             _configured = false;
@@ -40,14 +43,9 @@ namespace dcl::cal
         return _configure();
     };
 
-    CalibrationValueConfiguration calDataLinear2P::getCalConfig()
-    {
-        return _conf;
-    };
-
     CalibrationValueConfiguration *calDataLinear2P::getCalConfigRef()
     {
-        return &_conf;
+        return _conf;
     }
 
     bool calDataLinear2P::setADCConfig(int32_t min, int32_t max)
@@ -68,8 +66,8 @@ namespace dcl::cal
     {
         if (_gotConf && _gotADC)
         {
-            _multiply = (_conf.points[1].value - _conf.points[0].value) / (_conf.points[1].adc - _conf.points[0].adc);
-            _offset = _conf.points[0].value - _conf.points[0].adc * _multiply;
+            _multiply = (_conf->points[1].value - _conf->points[0].value) / (_conf->points[1].adc - _conf->points[0].adc);
+            _offset = _conf->points[0].value - _conf->points[0].adc * _multiply;
             _minVal = _offset; // TODO: support negative values?
             _maxVal = _maxADC * _multiply;
             _configured = true;
@@ -90,7 +88,7 @@ namespace dcl::cal
             return 0;
         }
 //        return ::remap((float)input, (float)_minADC, _minVal, (float)_maxADC, _maxVal);
-        return ::remap((float)input, (float)_conf.points[0].adc, _conf.points[0].value, (float)_conf.points[1].adc, _conf.points[1].value);
+        return ::remap((float)input, (float)_conf->points[0].adc, _conf->points[0].value, (float)_conf->points[1].adc, _conf->points[1].value);
     }
 
     float calDataLinear2P::remapDAC(float input)
@@ -100,12 +98,12 @@ namespace dcl::cal
             return 0;
         }
 //        return ::remap((float)input, (float)_minADC, _minVal, (float)_maxADC, _maxVal);
-        return ::remap((float)input, (float)_conf.points[0].value, _conf.points[0].dac, (float)_conf.points[1].value, _conf.points[1].dac);
+        return ::remap((float)input, (float)_conf->points[0].value, _conf->points[0].dac, (float)_conf->points[1].value, _conf->points[1].dac);
     }
-
 
     void calSetDefaults() 
     {
+        /*
         // TODO: Hardcoded calibration values for now
         currentCal.numPoints = 2;
         currentCal.points[0].value = 0.1;  // 0.0; // 0.1V  => 1.0A
@@ -114,8 +112,8 @@ namespace dcl::cal
         currentCal.points[1].adc = 6963036;
 
         state.cal.Imon = new calDataLinear2P();
-        state.cal.Imon->setCalConfig(currentCal);
-        state.cal.Imon->setADCConfig(currentADC.ADC_MIN, currentADC.ADC_MAX);
+        //state.cal.Imon->setCalConfigRef(&currentCal);
+        //state.cal.Imon->setADCConfig(currentADC.ADC_MIN, currentADC.ADC_MAX);
 
         currentCalLow.numPoints = 2;
         currentCalLow.points[0].value = 0.05; // 0.0; // 0.1V  => 1.0A
@@ -124,19 +122,19 @@ namespace dcl::cal
         currentCalLow.points[1].adc = 6963036;
 
         state.cal.ImonLow = new calDataLinear2P();
-        state.cal.ImonLow->setCalConfig(currentCalLow);
-        state.cal.ImonLow->setADCConfig(currentADC.ADC_MIN, currentADC.ADC_MAX);
+        //state.cal.ImonLow->setCalConfigRef(&currentCalLow);
+        //state.cal.ImonLow->setADCConfig(currentADC.ADC_MIN, currentADC.ADC_MAX);
 
-        //  CalibrationValueConfiguration voltCal;
+        //CalibrationValueConfiguration voltCal;
         voltCal.numPoints = 2;
         voltCal.points[0].value = 0.0; // 50mV
         voltCal.points[0].adc = 2059;
         voltCal.points[1].value = 100.0; // 1.000V => 100V //1.100 * 34 * 2.1; // 1.100V => >80V
         voltCal.points[1].adc = 6970322;
 
-        state.cal.Umon = new calDataLinear2P();
-        state.cal.Umon->setCalConfig(voltCal);
-        state.cal.Umon->setADCConfig(voltADC.ADC_MIN, voltADC.ADC_MAX);
+        //state.cal.Umon = new calDataLinear2P();
+        //state.cal.Umon->setCalConfigRef(&voltCal);
+        //state.cal.Umon->setADCConfig(voltADC.ADC_MIN, voltADC.ADC_MAX);
 
         voltCalLow.numPoints = 2;
         voltCalLow.points[0].value = 0.0; // 50mV
@@ -145,8 +143,8 @@ namespace dcl::cal
         voltCalLow.points[1].adc = 6970322;
 
         state.cal.UmonLow = new calDataLinear2P();
-        state.cal.UmonLow->setCalConfig(voltCalLow);
-        state.cal.UmonLow->setADCConfig(voltADC.ADC_MIN, voltADC.ADC_MAX);
+        //state.cal.UmonLow->setCalConfigRef(&voltCalLow);
+        //state.cal.UmonLow->setADCConfig(voltADC.ADC_MIN, voltADC.ADC_MAX);
 
         iSetCal.numPoints = 2;
         iSetCal.points[0].value = 0.00299; // @3.3Vinput (AMS1117)
@@ -155,7 +153,7 @@ namespace dcl::cal
         iSetCal.points[1].dac = 64000;
 
         state.cal.Iset = new calDataLinear2P();
-        state.cal.Iset->setCalConfig(iSetCal);
+        state.cal.Iset->setCalConfigRef(&iSetCal);
         state.cal.Iset->setDACConfig(iSetDAC.DAC_MIN, iSetDAC.DAC_MAX);
 
         iSetCalLow.numPoints = 2;
@@ -165,7 +163,7 @@ namespace dcl::cal
         iSetCalLow.points[1].dac = 64000;
 
         state.cal.IsetLow = new calDataLinear2P();
-        state.cal.IsetLow->setCalConfig(iSetCalLow);
+        state.cal.IsetLow->setCalConfigRef(&iSetCalLow);
         state.cal.IsetLow->setDACConfig(iSetDAC.DAC_MIN, iSetDAC.DAC_MAX);
 
         uSetCal.numPoints = 2;
@@ -175,7 +173,7 @@ namespace dcl::cal
         uSetCal.points[1].dac = 64000;
 
         state.cal.Uset = new calDataLinear2P();
-        state.cal.Uset->setCalConfig(uSetCal);
+        state.cal.Uset->setCalConfigRef(&uSetCal);
         state.cal.Uset->setDACConfig(uSetDAC.DAC_MIN, uSetDAC.DAC_MAX);
 
         uSetCalLow.numPoints = 2;
@@ -185,7 +183,7 @@ namespace dcl::cal
         uSetCalLow.points[1].dac = 64000;
 
         state.cal.UsetLow = new calDataLinear2P();
-        state.cal.UsetLow->setCalConfig(uSetCalLow);
+        state.cal.UsetLow->setCalConfigRef(&uSetCalLow);
         state.cal.UsetLow->setDACConfig(uSetDAC.DAC_MIN, uSetDAC.DAC_MAX);
 
         vonSetCal.numPoints = 2;
@@ -195,7 +193,7 @@ namespace dcl::cal
         vonSetCal.points[1].dac = 64000;
 
         state.cal.Von = new calDataLinear2P();
-        state.cal.Von->setCalConfig(vonSetCal);
+        state.cal.Von->setCalConfigRef(&vonSetCal);
         state.cal.Von->setDACConfig(vonSetDAC.DAC_MIN, vonSetDAC.DAC_MAX);
 
         vonSetCalLow.numPoints = 2;
@@ -205,7 +203,7 @@ namespace dcl::cal
         vonSetCalLow.points[1].dac = 64000;
 
         state.cal.VonLow = new calDataLinear2P();
-        state.cal.VonLow->setCalConfig(vonSetCalLow);
+        state.cal.VonLow->setCalConfigRef(&vonSetCalLow);
         state.cal.VonLow->setDACConfig(vonSetDAC.DAC_MIN, vonSetDAC.DAC_MAX);
 
         OCPSetCal.numPoints = 2;
@@ -215,7 +213,7 @@ namespace dcl::cal
         OCPSetCal.points[1].dac = 64000;
 
         state.cal.OCPset = new calDataLinear2P();
-        state.cal.OCPset->setCalConfig(OCPSetCal);
+        state.cal.OCPset->setCalConfigRef(&OCPSetCal);
         state.cal.OCPset->setDACConfig(OCPSetDAC.DAC_MIN, OCPSetDAC.DAC_MAX);
 
         OCPSetCalLow.numPoints = 2;
@@ -225,7 +223,7 @@ namespace dcl::cal
         OCPSetCalLow.points[1].dac = 64000;
 
         state.cal.OCPsetLow = new calDataLinear2P();
-        state.cal.OCPsetLow->setCalConfig(OCPSetCalLow);
+        state.cal.OCPsetLow->setCalConfigRef(&OCPSetCalLow);
         state.cal.OCPsetLow->setDACConfig(OCPSetDAC.DAC_MIN, OCPSetDAC.DAC_MAX);
 
         OVPSetCal.numPoints = 2;
@@ -235,7 +233,7 @@ namespace dcl::cal
         OVPSetCal.points[1].dac = 64000;
 
         state.cal.OVPset = new calDataLinear2P();
-        state.cal.OVPset->setCalConfig(OVPSetCal);
+        state.cal.OVPset->setCalConfigRef(&OVPSetCal);
         state.cal.OVPset->setDACConfig(OVPSetDAC.DAC_MIN, OVPSetDAC.DAC_MAX);
 
         OVPSetCalLow.numPoints = 2;
@@ -245,8 +243,31 @@ namespace dcl::cal
         OVPSetCalLow.points[1].dac = 64000;
 
         state.cal.OVPsetLow = new calDataLinear2P();
-        state.cal.OVPsetLow->setCalConfig(OVPSetCalLow);
+        state.cal.OVPsetLow->setCalConfigRef(&OVPSetCalLow);
         state.cal.OVPsetLow->setDACConfig(OVPSetDAC.DAC_MIN, OVPSetDAC.DAC_MAX);
+        */
+
+        for (int i = 0; i< caldefaultsLength; i++)
+        {
+            calData *c =  new calDataLinear2P();      
+            *caldefaults[i].stateRef = c;
+
+            CalibrationValueConfiguration *p = c->getCalConfigRef(); 
+            p->numPoints = 2;
+            p->points[0].value = caldefaults[i].value0;
+            p->points[1].value = caldefaults[i].value1;
+            if (caldefaults[i].type == calCalType_e::calCalType_e_ADC) {
+                p->points[0].adc   = caldefaults[i].adc0;
+                p->points[1].adc   = caldefaults[i].value1;
+                c->setADCConfig(caldefaults[i].adcMin, caldefaults[i].adcMax);
+            }
+            if (caldefaults[i].type == calCalType_e::calCalType_e_DAC || caldefaults[i].type == calCalType_e::calCalType_e_LEVEL ) {
+                p->points[0].dac   = caldefaults[i].adc0;
+                p->points[1].dac   = caldefaults[i].value1;
+                c->setDACConfig(caldefaults[i].adcMin, caldefaults[i].adcMax);
+            }
+            c->setCalConfigRef(p);    
+        } 
     };
 
     calType_e calAction::getCalType() { return _calType; };
@@ -414,57 +435,57 @@ namespace dcl::cal
 
     void calAction::copy_cal_values_from_state(CalibrationValueConfiguration *cal_values, calType_e caltype)
     {
-        CalibrationValueConfiguration calconfig = state.cal.Imon->getCalConfig();
+        CalibrationValueConfiguration *calconfig = state.cal.Imon->getCalConfigRef();
         switch (caltype)
         {
         case calType_e::calType_e_Imon_High:
-            calconfig = state.cal.Imon->getCalConfig();
+            calconfig = state.cal.Imon->getCalConfigRef();
             break;
         case calType_e::calType_e_Imon_Low:
-            calconfig = state.cal.ImonLow->getCalConfig();
+            calconfig = state.cal.ImonLow->getCalConfigRef();
             break;
         case calType_e::calType_e_Umon_High:
-            calconfig = state.cal.Umon->getCalConfig();
+            calconfig = state.cal.Umon->getCalConfigRef();
             break;
         case calType_e::calType_e_Umon_Low:
-            calconfig = state.cal.UmonLow->getCalConfig();
+            calconfig = state.cal.UmonLow->getCalConfigRef();
             break;
         case calType_e::calType_e_Iset_High:
-            calconfig = state.cal.Iset->getCalConfig();
+            calconfig = state.cal.Iset->getCalConfigRef();
             break;
         case calType_e::calType_e_Iset_Low:
-            calconfig = state.cal.IsetLow->getCalConfig();
+            calconfig = state.cal.IsetLow->getCalConfigRef();
             break;
         case calType_e::calType_e_Von_High:
-            calconfig = state.cal.Von->getCalConfig();
+            calconfig = state.cal.Von->getCalConfigRef();
             break;
         case calType_e::calType_e_Von_Low:
-            calconfig = state.cal.VonLow->getCalConfig();
+            calconfig = state.cal.VonLow->getCalConfigRef();
             break;
         case calType_e::calType_e_Uset_High:
-            calconfig = state.cal.Uset->getCalConfig();
+            calconfig = state.cal.Uset->getCalConfigRef();
             break;
         case calType_e::calType_e_Uset_Low:
-            calconfig = state.cal.Uset->getCalConfig();
+            calconfig = state.cal.Uset->getCalConfigRef();
             break;
         case calType_e::calType_e_OCPset_High:
-            calconfig = state.cal.OCPset->getCalConfig();
+            calconfig = state.cal.OCPset->getCalConfigRef();
             break;
         case calType_e::calType_e_OCPset_Low:
-            calconfig = state.cal.OCPsetLow->getCalConfig();
+            calconfig = state.cal.OCPsetLow->getCalConfigRef();
             break;
         case calType_e::calType_e_OVPset_High:
-            calconfig = state.cal.OVPset->getCalConfig();
+            calconfig = state.cal.OVPset->getCalConfigRef();
             break;
         case calType_e::calType_e_OVPset_Low:
-            calconfig = state.cal.OVPsetLow->getCalConfig();
+            calconfig = state.cal.OVPsetLow->getCalConfigRef();
             break;
         default:
             // Should not happen. Avoid uncontrolled memcpy
             // TODO: Add some kind of assert.
             return;
         }
-        memcpy(cal_values, &calconfig, sizeof(CalibrationValueConfiguration));
+        memcpy(cal_values, calconfig, sizeof(CalibrationValueConfiguration));
     };
 
     void calAction::copy_cal_values_to_state(CalibrationValueConfiguration *cal_values, calType_e caltype)
@@ -595,9 +616,14 @@ namespace dcl::cal
 
     bool calAction::storeDefaults()
     {
-        if (myeeprom.magicWrite())
+        calSetDefaults();
+        return storeAllValues();
+    }
+
+    bool calAction::storeAllValues()
+    {
+        if (myeeprom.magicWrite()) //Also tests if writing works.
         {
-            calSetDefaults();
             //printlogstr("INFO: EEPROM magic written.");
             write_cal_to_eeprom(calType_e::calType_e_Imon_High);
             write_cal_to_eeprom(calType_e::calType_e_Imon_Low);
@@ -613,7 +639,7 @@ namespace dcl::cal
             write_cal_to_eeprom(calType_e::calType_e_OCPset_Low);
             write_cal_to_eeprom(calType_e::calType_e_OVPset_High);
             write_cal_to_eeprom(calType_e::calType_e_OVPset_Low);
-            return myeeprom.write(EEPROM_ADDR_VERSION, dcl::eeprom::eeprom_version);
+            return true;
             //printlogstr("INFO: Default cal values stored.");
         }
         else

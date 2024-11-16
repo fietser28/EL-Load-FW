@@ -43,18 +43,20 @@ const _range ranges[] = {
 
 _caldef caldefaults[] = {
     //  val0      adc0      val1           adc1          adcMin                adcMax            keyboard             type                                     callback         eepromAddress
-    {   0.1,    700000,     10.0,       6963036,    currentADC.ADC_MIN,     currentADC.ADC_MAX,  ranges_e_Curr_Cal,   calCalType_e::calCalType_e_ADC,        state.cal.Imon,      0x100 }, // Imon_High = 0
-    {   0.1,     70000,     0.95,       6900000,    currentADC.ADC_MIN ,    currentADC.ADC_MAX,  ranges_e_Curr_Cal,   calCalType_e::calCalType_e_ADC,        state.cal.ImonLow,   0x200 }, // Imon_Low  = 1
-    {   0.5,      2059,    35.0,        3200000,    voltADC.ADC_MIN,        voltADC.ADC_MAX,     ranges_e_Volt_Cal,   calCalType_e::calCalType_e_ADC,        state.cal.Umon,      0x300 }, // Umon_High = 2
-    {   0.5,      2000,     9.5,        6900000,    voltADC.ADC_MIN,        voltADC.ADC_MAX,     ranges_e_Volt_Cal,   calCalType_e::calCalType_e_ADC,        state.cal.UmonLow,   0x400 }, // Umon_Low  = 3
-    { 0.00299,    3500,      9.5,        640000,      iSetDAC.DAC_MIN,        iSetDAC.DAC_MAX,     ranges_e_DAC16b,   calCalType_e::calCalType_e_DAC,        state.cal.Iset,      0x500 }, // Iset_High = 4
-    { 0.00299,    1500,      0.95,         7000,      iSetDAC.DAC_MIN,        iSetDAC.DAC_MAX,     ranges_e_DAC16b,   calCalType_e::calCalType_e_DAC,        state.cal.IsetLow,   0x600 }, // Iset_Low  = 5
-    {   0.6,      2000,      30,        250000,      uSetDAC.DAC_MIN,        uSetDAC.DAC_MAX,     ranges_e_DAC16b,   calCalType_e::calCalType_e_DAC,        state.cal.Uset,      0x700 }, // Uset_High = 6
-    {   0.6,      2000,      30,        250000,      uSetDAC.DAC_MIN,        uSetDAC.DAC_MAX,     ranges_e_DAC16b,   calCalType_e::calCalType_e_DAC,        state.cal.UsetLow,   0x800 }, // Uset_Low  = 7
-    {   1.0,      7000,      20,        240000,    vonSetDAC.DAC_MIN,      vonSetDAC.DAC_MAX,     ranges_e_Volt_Cal,   calCalType_e::calCalType_e_DAC,        state.cal.Von,       0x900 }, // Von_High = 8
-    {   0.2,      100,      8.5,        640000,    vonSetDAC.DAC_MIN,      vonSetDAC.DAC_MAX,     ranges_e_Volt_Cal,   calCalType_e::calCalType_e_DAC,        state.cal.VonLow,    0xA00 }, // Von_Low  = 9
-    {   0.5,      100,      9.5,        640000,    OCPSetDAC.DAC_MIN,      OCPSetDAC.DAC_MAX,     ranges_e_Curr_Cal,   calCalType_e::calCalType_e_LEVEL,      state.cal.OCPset,    0xB00 }, // OCPset_High = 10
-    {   0.05,   18000,      0.95,       470000,    OCPSetDAC.DAC_MIN,      OCPSetDAC.DAC_MAX,     ranges_e_Curr_Cal,   calCalType_e::calCalType_e_LEVEL,      state.cal.OCPsetLow, 0xC00 }, // OCPset_Low = 11
-    {   0.5,      100,      35,         280000,    OVPSetDAC.DAC_MIN,      OVPSetDAC.DAC_MAX,     ranges_e_Volt_Cal,   calCalType_e::calCalType_e_LEVEL,      state.cal.OVPset,    0xD00 }, // OVPset_High = 12
-    {   0.5,     5000,      8.5,        570000,    OVPSetDAC.DAC_MIN,      OVPSetDAC.DAC_MAX,     ranges_e_Volt_Cal,   calCalType_e::calCalType_e_LEVEL,      state.cal.OVPsetLow, 0xE00 }, // OVPset_Low = 13
+    {   0.1,    700000,     10.0,       6963036,    currentADC.ADC_MIN,     currentADC.ADC_MAX,  ranges_e_Curr_Cal,   calCalType_e::calCalType_e_ADC,        &state.cal.Imon,      0x100 }, // Imon_High = 0
+    {   0.1,     70000,     0.95,       6900000,    currentADC.ADC_MIN ,    currentADC.ADC_MAX,  ranges_e_Curr_Cal,   calCalType_e::calCalType_e_ADC,        &state.cal.ImonLow,   0x200 }, // Imon_Low  = 1
+    {   0.5,      2059,    35.0,        3200000,    voltADC.ADC_MIN,        voltADC.ADC_MAX,     ranges_e_Volt_Cal,   calCalType_e::calCalType_e_ADC,        &state.cal.Umon,      0x300 }, // Umon_High = 2
+    {   0.5,      2000,     9.5,        6900000,    voltADC.ADC_MIN,        voltADC.ADC_MAX,     ranges_e_Volt_Cal,   calCalType_e::calCalType_e_ADC,        &state.cal.UmonLow,   0x400 }, // Umon_Low  = 3
+    { 0.00299,    3500,      9.5,        640000,      iSetDAC.DAC_MIN,        iSetDAC.DAC_MAX,     ranges_e_DAC16b,   calCalType_e::calCalType_e_DAC,        &state.cal.Iset,      0x500 }, // Iset_High = 4
+    { 0.00299,    1500,      0.95,         7000,      iSetDAC.DAC_MIN,        iSetDAC.DAC_MAX,     ranges_e_DAC16b,   calCalType_e::calCalType_e_DAC,        &state.cal.IsetLow,   0x600 }, // Iset_Low  = 5
+    {   0.6,      2000,      30,        250000,      uSetDAC.DAC_MIN,        uSetDAC.DAC_MAX,     ranges_e_DAC16b,   calCalType_e::calCalType_e_DAC,         &state.cal.Uset,      0x700 }, // Uset_High = 6
+    {   0.6,      2000,      30,        250000,      uSetDAC.DAC_MIN,        uSetDAC.DAC_MAX,     ranges_e_DAC16b,   calCalType_e::calCalType_e_DAC,         &state.cal.UsetLow,   0x800 }, // Uset_Low  = 7
+    {   1.0,      7000,      20,        240000,    vonSetDAC.DAC_MIN,      vonSetDAC.DAC_MAX,     ranges_e_Volt_Cal,   calCalType_e::calCalType_e_DAC,        &state.cal.Von,       0x900 }, // Von_High = 8
+    {   0.2,      100,      8.5,        640000,    vonSetDAC.DAC_MIN,      vonSetDAC.DAC_MAX,     ranges_e_Volt_Cal,   calCalType_e::calCalType_e_DAC,        &state.cal.VonLow,    0xA00 }, // Von_Low  = 9
+    {   0.5,      100,      9.5,        640000,    OCPSetDAC.DAC_MIN,      OCPSetDAC.DAC_MAX,     ranges_e_Curr_Cal,   calCalType_e::calCalType_e_LEVEL,      &state.cal.OCPset,    0xB00 }, // OCPset_High = 10
+    {   0.05,   18000,      0.95,       470000,    OCPSetDAC.DAC_MIN,      OCPSetDAC.DAC_MAX,     ranges_e_Curr_Cal,   calCalType_e::calCalType_e_LEVEL,      &state.cal.OCPsetLow, 0xC00 }, // OCPset_Low = 11
+    {   0.5,      100,      35,         280000,    OVPSetDAC.DAC_MIN,      OVPSetDAC.DAC_MAX,     ranges_e_Volt_Cal,   calCalType_e::calCalType_e_LEVEL,      &state.cal.OVPset,    0xD00 }, // OVPset_High = 12
+    {   0.5,     5000,      8.5,        570000,    OVPSetDAC.DAC_MIN,      OVPSetDAC.DAC_MAX,     ranges_e_Volt_Cal,   calCalType_e::calCalType_e_LEVEL,      &state.cal.OVPsetLow, 0xE00 }, // OVPset_Low = 13
 };
+
+uint_fast32_t caldefaultsLength = sizeof(caldefaults)/sizeof(caldefaults[0]);

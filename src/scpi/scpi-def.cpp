@@ -8,6 +8,7 @@
 #include "scpi/scpi.h"
 
 #include "main.h"
+#include "eeprom.h"
 #include "scpi-def.h"
 
 using namespace dcl;
@@ -253,6 +254,13 @@ scpi_choice_def_t stat_type_list[] = {
     SCPI_CHOICE_LIST_END
 };
 
+// Helper list for eeprom init
+scpi_choice_def_t cal_init_list[] = {
+    {"CURRent", 0},
+    {"DEFault", 1},
+    SCPI_CHOICE_LIST_END
+};
+
 //// SCPI COMMANDS
 //////////////////
 
@@ -298,6 +306,42 @@ scpi_result_t scpi_cmd_cal(scpi_t *context) {
 scpi_result_t scpi_cmd_calQ(scpi_t *context)
 {
     SCPI_ResultBool(context, state.getCalibrationMode());
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_cal_init_eeprom(scpi_t *context)
+{
+    if (!state.getCalibrationMode()) {
+        SCPI_ErrorPush(context, SCPI_ERROR_CALIBRATION_FAILED);
+    return SCPI_RES_ERR;
+    }
+
+    int32_t param;
+    if (!SCPI_ParamChoice(context, cal_init_list, &param, TRUE)) {
+        return SCPI_RES_ERR;
+    }
+
+    if (!myeeprom.magicWrite()) {
+        return SCPI_RES_ERR;
+    }
+
+    bool res;
+    scpi_busy_inc();
+
+    if (param == 0) {
+        res = calActions.storeAllValues();
+    } else {
+        res = calActions.storeDefaults();
+    }
+    scpi_busy_dec();
+    if (res) { return SCPI_RES_OK; } 
+
+    return SCPI_RES_ERR;
+}
+
+scpi_result_t scpi_cmd_cal_init_eepromQ(scpi_t *context)
+{
+    SCPI_ResultBool(context, myeeprom.magicFound());
     return SCPI_RES_OK;
 };
 
@@ -523,6 +567,17 @@ scpi_result_t scpi_cmd_cal_type_reset(scpi_t *context) {
     return SCPI_RES_OK;
 }
 
+extern scpi_result_t scpi_cmd_deb_eeprom_clear(scpi_t *context) {
+    scpi_busy_inc();
+    if (myeeprom.fullWrite(0xff)) {
+        scpi_busy_dec();
+        return SCPI_RES_OK;
+    } else {
+        scpi_busy_dec();
+        return SCPI_RES_ERR;
+    }
+};
+
 scpi_result_t scpi_cmd_deb_mem_heapQ(scpi_t *context)
 {
     uint32_t mem[] = { 0, 0, 0, 0};
@@ -530,6 +585,12 @@ scpi_result_t scpi_cmd_deb_mem_heapQ(scpi_t *context)
     mem[1] = rp2040.getUsedHeap();
     mem[2] = rp2040.getFreeHeap();
     SCPI_ResultArrayUInt32(context, mem, 3, SCPI_FORMAT_ASCII );
+    return SCPI_RES_OK;
+}
+
+scpi_result_t scpi_cmd_deb_reboot(scpi_t *context) {
+    state.setOff();
+    rp2040.reboot();
     return SCPI_RES_OK;
 }
 

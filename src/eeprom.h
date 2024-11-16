@@ -9,6 +9,7 @@
 #include <FreeRTOS.h>
 #include <semphr.h>
 
+#include "main.h"
 #include "util.h"
 
 // In bytes, not words.
@@ -51,6 +52,10 @@ public:
 
     bool magicDetect();
     bool magicWrite();
+    bool magicFound();
+    bool fullWrite(uint8_t data);
+    static void startFullWriteTask(void *pvParameters);
+    void fullWriteTask(void *pvParameters);
     uint8_t calibrationValuesWrite(CalibrationValueConfiguration *caldata, uint32_t startaddress);
     uint8_t calibrationValuesRead(CalibrationValueConfiguration *caldata, uint32_t startaddress);
 
@@ -61,6 +66,12 @@ private:
 
     uint16_t _capacity;
     uint16_t _pagesize;
+
+    bool _magicFound;
+
+    SemaphoreHandle_t xSemEepromTask;
+    TaskHandle_t xTaskEepromFullWrite;
+
 };
 
 }

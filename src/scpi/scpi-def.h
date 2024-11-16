@@ -46,6 +46,8 @@ extern scpi_result_t scpi_opcQ(scpi_t *context);
 // EL-Load
 extern scpi_result_t scpi_cmd_cal(scpi_t *context);
 extern scpi_result_t scpi_cmd_calQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_cal_init_eeprom(scpi_t *context);
+extern scpi_result_t scpi_cmd_cal_init_eepromQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_cal_type(scpi_t *context);
 extern scpi_result_t scpi_cmd_cal_typeQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_cal_point(scpi_t *context);
@@ -61,7 +63,9 @@ extern scpi_result_t scpi_cmd_cal_meas_runQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_cal_type_save(scpi_t *context);
 extern scpi_result_t scpi_cmd_cal_type_reset(scpi_t *context);
 
+extern scpi_result_t scpi_cmd_deb_eeprom_clear(scpi_t *context);
 extern scpi_result_t scpi_cmd_deb_mem_heapQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_deb_reboot(scpi_t *context);
 extern scpi_result_t scpi_cmd_deb_wdog_thres_maxQ(scpi_t *context);
 
 extern scpi_result_t scpi_cmd_fetch_current(scpi_t *context);

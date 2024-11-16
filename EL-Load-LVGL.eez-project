@@ -2387,7 +2387,7 @@
           "left": 269,
           "top": 314,
           "width": 255,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -2422,7 +2422,7 @@
           "left": 131,
           "top": 314,
           "width": 87,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "milliseconds": "500"
@@ -2433,7 +2433,7 @@
           "left": -251,
           "top": 314,
           "width": 141,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "startupDone"
@@ -2695,7 +2695,7 @@
           "left": 585,
           "top": -542,
           "width": 207,
-          "height": 122,
+          "height": 124,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -2864,7 +2864,7 @@
           "left": 472,
           "top": -143,
           "width": 280,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -2888,7 +2888,7 @@
           "left": 397,
           "top": 333,
           "width": 298,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -2911,8 +2911,8 @@
           "type": "SwitchActionComponent",
           "left": 803,
           "top": 1122,
-          "width": 167,
-          "height": 105,
+          "width": 168,
+          "height": 106,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -3036,7 +3036,7 @@
           "left": -393,
           "top": 45,
           "width": 129,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "rangeType"
@@ -3047,7 +3047,7 @@
           "left": -436,
           "top": 162,
           "width": 160,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "setValueString"
@@ -3092,7 +3092,7 @@
           "left": 947,
           "top": 127,
           "width": 359,
-          "height": 157,
+          "height": 161,
           "customInputs": [
             {
               "objID": "94cd8ee1-5719-4df6-944b-2d3a0e561bee",
@@ -3163,7 +3163,7 @@
           "left": 289,
           "top": 588,
           "width": 302,
-          "height": 87,
+          "height": 89,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -3232,7 +3232,7 @@
           "type": "SetVariableActionComponent",
           "left": 1415,
           "top": 85,
-          "width": 203,
+          "width": 204,
           "height": 57,
           "customInputs": [
             {
@@ -3265,7 +3265,7 @@
           "type": "SetVariableActionComponent",
           "left": 1415,
           "top": 161,
-          "width": 203,
+          "width": 204,
           "height": 57,
           "customInputs": [
             {
@@ -3288,7 +3288,7 @@
           "type": "SetVariableActionComponent",
           "left": 1415,
           "top": 240,
-          "width": 203,
+          "width": 204,
           "height": 57,
           "customInputs": [
             {
@@ -3311,7 +3311,7 @@
           "type": "SetVariableActionComponent",
           "left": 1415,
           "top": 318,
-          "width": 203,
+          "width": 204,
           "height": 57,
           "customInputs": [
             {
@@ -3335,7 +3335,7 @@
           "left": 689,
           "top": -323,
           "width": 87,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "description": "BUG or strange race condition?",
@@ -3347,7 +3347,7 @@
           "left": 751,
           "top": -210,
           "width": 435,
-          "height": 80,
+          "height": 81,
           "customInputs": [],
           "customOutputs": [],
           "description": "",
@@ -3360,7 +3360,7 @@
           "type": "SetVariableActionComponent",
           "left": -94,
           "top": -253,
-          "width": 256,
+          "width": 257,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -3377,7 +3377,7 @@
           "type": "SetVariableActionComponent",
           "left": 1053,
           "top": 36,
-          "width": 256,
+          "width": 257,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -3395,7 +3395,7 @@
           "left": 172,
           "top": -387,
           "width": 98,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "mode"
@@ -3429,7 +3429,7 @@
           "left": 172,
           "top": -646,
           "width": 98,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "iset"
@@ -3440,7 +3440,7 @@
           "left": 172,
           "top": -581,
           "width": 98,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "uset\n"
@@ -3451,7 +3451,7 @@
           "left": 172,
           "top": -520,
           "width": 98,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "pset"
@@ -3462,7 +3462,7 @@
           "left": 172,
           "top": -451,
           "width": 98,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "rset"
@@ -3473,7 +3473,7 @@
           "left": 397,
           "top": 271,
           "width": 280,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -3538,8 +3538,8 @@
           "type": "SwitchActionComponent",
           "left": 480,
           "top": 784,
-          "width": 167,
-          "height": 105,
+          "width": 168,
+          "height": 106,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -6790,7 +6790,7 @@
           "left": 397,
           "top": 398,
           "width": 255,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -6814,7 +6814,7 @@
           "left": -798,
           "top": 227,
           "width": 123,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "setValue"
@@ -6846,7 +6846,7 @@
           "type": "SetVariableActionComponent",
           "left": 191,
           "top": 1121,
-          "width": 428,
+          "width": 429,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -6875,7 +6875,7 @@
           "left": -798,
           "top": 307,
           "width": 104,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "svSep"
@@ -6886,7 +6886,7 @@
           "left": 938,
           "top": 389,
           "width": 470,
-          "height": 122,
+          "height": 124,
           "customInputs": [
             {
               "objID": "f4d2f758-95da-4f2e-8a21-d67b761ba5ff",
@@ -7008,7 +7008,7 @@
           "left": 397,
           "top": 206,
           "width": 261,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -13792,8 +13792,8 @@
           "type": "LVGLActionComponent",
           "left": 489,
           "top": 350,
-          "width": 310,
-          "height": 52,
+          "width": 311,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -13815,7 +13815,7 @@
           "left": -222,
           "top": 135,
           "width": 129,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "toKBvalue"
@@ -13843,7 +13843,7 @@
           "left": 796,
           "top": 80,
           "width": 364,
-          "height": 163,
+          "height": 166,
           "customInputs": [
             {
               "objID": "4bbe2526-f601-4a74-e0cc-67795cea3fdc",
@@ -13947,7 +13947,7 @@
           "left": -222,
           "top": 22,
           "width": 129,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "rangeType"
@@ -14225,7 +14225,7 @@
           "left": 1,
           "top": 323,
           "width": 135,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "senseError"
@@ -14235,7 +14235,7 @@
           "type": "SetVariableActionComponent",
           "left": 182,
           "top": 323,
-          "width": 213,
+          "width": 214,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -15842,7 +15842,7 @@
           "left": -502,
           "top": 272,
           "width": 141,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "cal_calType"
@@ -15921,7 +15921,7 @@
           "left": -170,
           "top": 15,
           "width": 111,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "kbType"
@@ -15932,7 +15932,7 @@
           "left": -170,
           "top": 85,
           "width": 117,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "cal_set"
@@ -16093,7 +16093,7 @@
           "left": 98,
           "top": 670,
           "width": 126,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "from": "0",
@@ -16105,7 +16105,7 @@
           "type": "CompareActionComponent",
           "left": 288,
           "top": 675,
-          "width": 167,
+          "width": 168,
           "height": 69,
           "customInputs": [],
           "customOutputs": [],
@@ -16147,7 +16147,7 @@
           "left": 1447,
           "top": 127,
           "width": 788,
-          "height": 87,
+          "height": 89,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -16192,7 +16192,7 @@
           "left": -258,
           "top": 643,
           "width": 141,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "cal_animate"
@@ -16253,7 +16253,7 @@
           "left": 845,
           "top": 4,
           "width": 184,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "description": "trigger from SCPI (temporary)",

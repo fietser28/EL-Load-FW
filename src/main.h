@@ -124,6 +124,7 @@ struct changeScreen_s
 #define TASK_PRIORITY_KEYS      4 
 #define TASK_PRIORITY_WATCHDOG  7
 #define TASK_PRIORITY_BEEP      4
+#define TASK_PRIORITY_EEPROM    4
 
 
 #define TASK_AFFINITY_MEASURE   1 << 1    // Core1
