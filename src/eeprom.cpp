@@ -31,6 +31,7 @@ namespace dcl::eeprom
         xTaskEepromFullWrite = NULL;
         xSemEepromTask = xSemaphoreCreateBinary();
         xSemaphoreGive(xSemEepromTask);
+        crc.generateTable(crcPoly);
     };
 
     uint8_t eeprom::write(uint32_t addr, uint8_t value)
@@ -161,28 +162,68 @@ namespace dcl::eeprom
     uint8_t eeprom::calibrationValuesWrite(CalibrationValueConfiguration *caldata, uint32_t startaddress)
     {
         uint8_t *src = (uint8_t *)caldata;
-        for (int i = 0; i < sizeof(CalibrationValueConfiguration); i++)
+        const size_t calsize = sizeof(CalibrationValueConfiguration);
+        for (int i = 0; i < calsize; i++)
         {
             write(startaddress + i, *(src++));
             vTaskDelay(20/ portTICK_PERIOD_MS);
         }
-
-        // TODO: Remove this test.
-        vTaskDelay(50);
-        calibrationValuesRead(&testdata, startaddress);
-        // TODO: Implement validation run (read and compare)
-        return 0;
+        // Append CRC value        
+        uint16_t c = crc.compute((uint8_t *)caldata, sizeof(CalibrationValueConfiguration), crcInitial); 
+        uint8_t c1 = (uint8_t)(c);
+        uint8_t c2 = (uint8_t)(c >> 8);
+        write(startaddress + calsize, c1);
+        vTaskDelay(10);
+        write(startaddress + calsize + 1, c2);
+        vTaskDelay(10);
+        //SERIALDEBUG.printf("CRC write: %x, %x, %x\n",c, c1, c2);
+        return calibrationValuesRead(&testdata, startaddress);
     };
 
     uint8_t eeprom::calibrationValuesRead(CalibrationValueConfiguration *caldata, uint32_t startaddress)
     {
         uint8_t *dst = (uint8_t *)caldata;
-        for (int i = 0; i < sizeof(CalibrationValueConfiguration); i++)
+        const size_t calsize = sizeof(CalibrationValueConfiguration);
+        for (int i = 0; i < calsize; i++)
         {
             *(dst++) = read(startaddress + i);
         }
-        // TODO: Implement validation run (=read twice and compare)
-        return 0;
+        uint16_t c = crc.compute((uint8_t *)caldata, sizeof(CalibrationValueConfiguration), crcInitial);        
+        uint16_t c1 = read(startaddress + calsize);
+        uint16_t c2 = read(startaddress + calsize + 1);
+        
+        if ((c1 + (c2 << 8)) != c) {
+            return false;
+        } 
+        return true;
     };
 
+    void CRC32::generateTable(uint32_t polynomial)
+    {
+        for (uint32_t i = 0; i < 256; i++) 
+        {
+        uint32_t crc = i;
+        for (uint8_t j = 0; j < 8; j++) {
+            if (crc & 1)
+                crc = (crc >> 1) ^ polynomial;
+            else
+                crc >>= 1;
+        }
+        table[i] = crc;
+        };
+        tableGenerated = true;
+    }
+
+    uint32_t CRC32::compute(const uint8_t *data, size_t size, uint32_t initial)
+    {
+        if (!tableGenerated) { return 0; }
+
+        uint32_t crc = initial;
+        for (uint8_t i = 0; i < size ; i++) 
+        {
+            uint8_t index = (crc ^ data[i]) & 0xFF;
+            crc = (crc >> 8) ^ table[index];
+        }
+    return crc ^ 0xFFFFFFFF; // Final XOR
+    };
 }

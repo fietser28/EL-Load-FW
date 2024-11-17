@@ -131,7 +131,7 @@ void watchdog(void *pvParameters)
 {
   // Start watchdog timer
   // TODO watchdog is disabled
-  rp2040.wdt_begin(3000); // ms
+  rp2040.wdt_begin(10000); // ms
   for (;;)
   {
     digitalWrite(LED_BUILTIN, HIGH);
@@ -167,6 +167,13 @@ void watchdog(void *pvParameters)
         // Reset watchdog if all tasks reset there watchdog to zero in last x seconds
         rp2040.wdt_reset();
       } 
+      if (watchdogAveraging >= 3) { SERIALDEBUG.println("WARNING: Watchdog not seeing Averaging task."); };
+      if (watchdogEncTask   >= 3) { SERIALDEBUG.println("WARNING: Watchdog not seeing Keys/encoder task."); };
+      if (watchdogGuiTask   >= 3) { SERIALDEBUG.println("WARNING: Watchdog not seeing GUI task."); };
+      if (watchdogGuiTimerFunction >= 3) { SERIALDEBUG.println("WARNING: Watchdog not seeing GUI Timer task."); };
+      if (watchdogLoop >= 7)      { SERIALDEBUG.println("WARNING: Watchdog not seeing (SCPI) Loop task."); };
+      if (watchdogProtHW >= 3)    { SERIALDEBUG.println("WARNING: Watchdog not seeing ProtHW task."); };
+      if (watchdogMeasureAndOutput >= 3) { SERIALDEBUG.println("WARNING: Watchdog not seeing Measure task."); };
     vTaskDelay(500);
   }
 }
@@ -217,23 +224,11 @@ bool beep(float length) {
   return xQueueSend(beepQueue, &lengthms,( TickType_t ) 0);
 }
 
-/*
-void corerunningtest(void *pvParameters)
-{
-  for (;;)
-  {
-    if (get_core_num() == 1)
-    {
-      xQueueSend(bootbugtestQueue, (uint8_t *)1, 10);
-      vTaskSuspend(taskBootBug);
-    }
-    vTaskDelay(10);
-  }
-}
-*/
-
 int heaptotal, heapused, heapfree; 
 
+// For SCPI hardware version reporting in *idn?.
+#define IDN4SIZE 32
+char idn4[IDN4SIZE];
 
 void setup()
 {
@@ -244,13 +239,12 @@ void setup()
   SERIALDEBUG.setPollingMode(true);
   SERIALDEBUG.begin(115200);
 
-  sleep_ms(4000); // Wait for serial to connect
+  sleep_ms(2000); // Wait for serial to connect
   // Flush serial
   while (SERIALDEBUG.available())
   {
     SERIALDEBUG.read();
   }
-  SERIALDEBUG.println("INFO: Startup.");
 
   I2C_KEYS.setSCL(PIN_KEYS_SCL);
   I2C_KEYS.setSDA(PIN_KEYS_SDA);
@@ -272,6 +266,10 @@ void setup()
 #endif 
 
   state.begin(); // Setup memory, mutexes and queues.
+
+  // Store resetReason
+  state.hw.resetReason = rp2040.getResetReason();
+  SERIALDEBUG.printf("INFO: Startup reason: %d.\n", state.hw.resetReason);
   calSetDefaults(); // Load default calibration data as a starting point.
 
   //// FreeRTOS setup.
@@ -324,41 +322,44 @@ void setup()
   myeeprom.begin(&I2C_EEPROM, I2C_EEPROM_SEM, EEPROM_ADDR, 64, 32);
 
   // Detect and read/write eeprom config data
-  bool eepromMagicFound = myeeprom.magicDetect();
-
-  SERIALDEBUG.printf("EEPROM detect magic: %d\n", eepromMagicFound);
-  if (eepromMagicFound) {
+  state.hw.eepromMagicDetected = myeeprom.magicDetect();
+  
+  if (state.hw.eepromMagicDetected) {
     SERIALDEBUG.println("OK: EEPROM magic found.");
   } else {
     SERIALDEBUG.println("ERROR: No EEPROM with magic found.");
   }
 
-  if (eepromMagicFound) {
-    myeeprom.calibrationValuesRead(state.cal.Imon->getCalConfigRef(), EEPROM_ADDR_CAL_IMON_H);
-    myeeprom.calibrationValuesRead(state.cal.ImonLow->getCalConfigRef(), EEPROM_ADDR_CAL_IMON_L);
-    myeeprom.calibrationValuesRead(state.cal.Umon->getCalConfigRef(), EEPROM_ADDR_CAL_UMON_H);
-    myeeprom.calibrationValuesRead(state.cal.UmonLow->getCalConfigRef(), EEPROM_ADDR_CAL_UMON_L);
-    myeeprom.calibrationValuesRead(state.cal.Iset->getCalConfigRef(), EEPROM_ADDR_CAL_ISET_H);
-    myeeprom.calibrationValuesRead(state.cal.IsetLow->getCalConfigRef(), EEPROM_ADDR_CAL_ISET_L);
-    myeeprom.calibrationValuesRead(state.cal.Von->getCalConfigRef(),  EEPROM_ADDR_CAL_VON_H);
-    myeeprom.calibrationValuesRead(state.cal.VonLow->getCalConfigRef(),  EEPROM_ADDR_CAL_VON_L);
-    myeeprom.calibrationValuesRead(state.cal.OCPset->getCalConfigRef(), EEPROM_ADDR_CAL_OCP_H);
-    myeeprom.calibrationValuesRead(state.cal.OCPsetLow->getCalConfigRef(), EEPROM_ADDR_CAL_OCP_L);
-    myeeprom.calibrationValuesRead(state.cal.OVPset->getCalConfigRef(), EEPROM_ADDR_CAL_OVP_H);
-    myeeprom.calibrationValuesRead(state.cal.OVPsetLow->getCalConfigRef(), EEPROM_ADDR_CAL_OVP_L);
+  state.hw.calibrationCRCOK = false;
+  if (state.hw.eepromMagicDetected) {
+    bool r;
+    r = myeeprom.calibrationValuesRead(state.cal.Imon->getCalConfigRef(), EEPROM_ADDR_CAL_IMON_H);
+    r = r && myeeprom.calibrationValuesRead(state.cal.ImonLow->getCalConfigRef(), EEPROM_ADDR_CAL_IMON_L);
+    r = r && myeeprom.calibrationValuesRead(state.cal.Umon->getCalConfigRef(), EEPROM_ADDR_CAL_UMON_H);
+    r = r && myeeprom.calibrationValuesRead(state.cal.UmonLow->getCalConfigRef(), EEPROM_ADDR_CAL_UMON_L);
+    r = r && myeeprom.calibrationValuesRead(state.cal.Iset->getCalConfigRef(), EEPROM_ADDR_CAL_ISET_H);
+    r = r && myeeprom.calibrationValuesRead(state.cal.IsetLow->getCalConfigRef(), EEPROM_ADDR_CAL_ISET_L);
+    r = r && myeeprom.calibrationValuesRead(state.cal.Von->getCalConfigRef(),  EEPROM_ADDR_CAL_VON_H);
+    r = r && myeeprom.calibrationValuesRead(state.cal.VonLow->getCalConfigRef(),  EEPROM_ADDR_CAL_VON_L);
+    r = r && myeeprom.calibrationValuesRead(state.cal.OCPset->getCalConfigRef(), EEPROM_ADDR_CAL_OCP_H);
+    r = r && myeeprom.calibrationValuesRead(state.cal.OCPsetLow->getCalConfigRef(), EEPROM_ADDR_CAL_OCP_L);
+    r = r && myeeprom.calibrationValuesRead(state.cal.OVPset->getCalConfigRef(), EEPROM_ADDR_CAL_OVP_H);
+    r = r && myeeprom.calibrationValuesRead(state.cal.OVPsetLow->getCalConfigRef(), EEPROM_ADDR_CAL_OVP_L);
+    state.hw.calibrationCRCOK = true; //TODO: Activate this
+    if (r == true) {
+      SERIALDEBUG.println("INFO: Calibration data CRC OK.");
+    } else {
+      SERIALDEBUG.println("ERROR: Calibartion data CRC NOT OK.");
+    }
   }
 
   uint8_t eepromVersionRead = myeeprom.read(EEPROM_ADDR_VERSION);
 
   SERIALDEBUG.printf("EEPROM Version read: %x\n", eepromVersionRead);
-
   SERIALDEBUG.printf("INFO: measuredStateStruct struct size: %d\n", sizeof(measuredStateStruct));
   SERIALDEBUG.printf("INFO: setStateStruct struct size: %d\n", sizeof(setStateStruct));
   SERIALDEBUG.printf("INFO: Single calibration size: %d\n", sizeof(CalibrationValueConfiguration));
 
-  gui_task_init(); 
-
-  keys_task_init();
 
   // Next create the protection tasks.
   BaseType_t xTaskRet;
@@ -401,6 +402,17 @@ void setup()
   }
 #endif
 
+  // Wait for all HW tasks to have started into their normal run loops before starting UI
+  while(taskProtHWReady == false || 
+        taskAveragingReady == false || taskMeasureAndOutputReady == false)
+  {
+    vTaskDelay(5);
+  }
+
+  gui_task_init(); 
+
+  keys_task_init();
+
   // Wait for all tasks to have started into their normal run loops.
   while(guiTaskReady == false || taskProtHWReady == false || 
         taskAveragingReady == false || taskMeasureAndOutputReady == false)
@@ -419,18 +431,20 @@ void setup()
   heapfree = rp2040.getFreeHeap();
   SERIALDEBUG.printf("Heap total beofre SCPI init: %d, used: %d, free:  %d\n", heaptotal, heapused, heapfree);
   
+  snprintf(idn4, IDN4SIZE, "%d", HARDWARE_VERSION);
+
   SCPI_Init(&scpi_context,
             scpi_commands,
             &scpi_interface,
             scpi_units_def,
-            SCPI_IDN1, SCPI_IDN2, SCPI_IDN3, SCPI_IDN4,
+            SCPI_IDN1, SCPI_IDN2, SCPI_IDN3, idn4,
             scpi_input_buffer, SCPI_INPUT_BUFFER_LENGTH,
             scpi_error_queue_data, SCPI_ERROR_QUEUE_SIZE);
 
   heaptotal = rp2040.getTotalHeap();
   heapused = rp2040.getUsedHeap();
   heapfree = rp2040.getFreeHeap();
-  SERIALDEBUG.printf("Heap total: %d, used: %d, free:  %d\n", heaptotal, heapused, heapfree);
+  SERIALDEBUG.printf("HW: %s\n Heap total: %d, used: %d, free:  %d\n", idn4, heaptotal, heapused, heapfree);
 
   //vTaskDelay(250 / portTICK_PERIOD_MS); // Wait for actual HW to clear.
   state.startupDone();
@@ -530,6 +544,7 @@ enum tempReadState {
   chan2ready = 3
 };
 
+uint8_t gpiopinstate;
 
 void taskProtHWFunction(void *pvParameters)
 {
@@ -537,7 +552,8 @@ void taskProtHWFunction(void *pvParameters)
   //gpio_mcp23008 gpiokeys = gpio_mcp23008();
   //adc_ads1x1x  tempadc = adc_ads1x1x();
 
-  uint8_t  gpiopinstate, gpiointerruptflagged;
+  //uint8_t  gpiopinstate; // For easy debug purposes this is now global
+  uint8_t gpiointerruptflagged; 
   bool ocptrig, ocptrig_prev = false;
   bool ovptrig, ovptrig_prev = false;
   bool sense_error, sense_error_prev = false;
@@ -672,8 +688,10 @@ void taskProtHWFunction(void *pvParameters)
 
     ocptrig = (gpiopinstate & 1 << HWIO_PIN_OCPTRIG) || (gpiointerruptflagged & 1 << HWIO_PIN_OCPTRIG); 
     ovptrig = (gpiopinstate & 1 << HWIO_PIN_OVPTRIG) || (gpiointerruptflagged & 1 << HWIO_PIN_OVPTRIG);
-    sense_error =  not ((gpiopinstate & 1 << HWIO_PIN_SENSE_ERROR) || (gpiointerruptflagged & 1 << HWIO_PIN_SENSE_ERROR));
+    sense_error =  not (gpiopinstate & 1 << HWIO_PIN_SENSE_ERROR); // || (gpiointerruptflagged & 1 << HWIO_PIN_SENSE_ERROR));
+    //if (!sense_error) { SERIALDEBUG.println("x"); };
     sense_error = sense_error && localSetState.senseVoltRemote && localSetState.on; // Sense error only matters if we use it and load is on.
+    sense_error = false; // TODO: Disabled for now...
     polarity_error = false; // TODO: HW pin not implemented yet. 
     von = gpiopinstate & 1 << HWIO_PIN_VON;
 
@@ -886,12 +904,15 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
 #ifndef FAKE_HARDWARE
   // Setup all hardware. First set SPI CS correct before starting interrupt 
   //SERIALDEBUG.println("INFO: Initializing ADC & DAC.");
-  currentADC.begin(true); // Also start ADC clock abd interrupt... (ads131m02)
+  currentADC.begin(true); // Also start ADC clock and interrupt... (in case of ads131m02)
   voltADC.begin(false);
   //SERIALDEBUG.println("INFO: ADC done.");
   iSetDAC.begin(false);
   uSetDAC.begin(false);
   vonSetDAC.begin(false);
+
+  // Turn off. Needed in case of unclear restart.
+  iSetDAC.write(iSetDAC.DAC_MIN);
 #endif
 
   //SERIALDEBUG.println("INFO: Going into measure loop.");

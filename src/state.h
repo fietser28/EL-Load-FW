@@ -155,6 +155,13 @@ namespace dcl
     };
 #endif 
 
+    struct hardwareState
+    {
+        RP2040::resetReason_t resetReason;
+        bool eepromMagicDetected;
+        bool calibrationCRCOK;
+    };
+
 #ifndef __cplusplus
 //    typedef struct stateManager stateManager;
 #else
@@ -268,6 +275,7 @@ public:
     bool updateKeysTask();
     bool pushState();
     calibration cal;
+    hardwareState hw;
 
 private:
     bool sendWindowSizes();

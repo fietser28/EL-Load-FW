@@ -678,5 +678,14 @@ void set_var_stat_ucount(int32_t value) {}; // Read only
 int32_t get_var_stat_pcount() { return localstatecopy.PmonStats.count; };
 void set_var_stat_pcount(int32_t value) {}; // Read only
 
-extern bool get_var_scpi_wdog_tripped() { return state.getSCPIWdogTripped(); };
-extern void set_var_scpi_wdog_tripped(bool value) {}; //Read only
+bool get_var_scpi_wdog_tripped() { return state.getSCPIWdogTripped(); };
+void set_var_scpi_wdog_tripped(bool value) {}; //Read only
+
+int32_t get_var_start_r() { return state.hw.resetReason; };
+void set_var_start_r(int32_t value) {}; // Read only
+
+bool get_var_start_eeprom() { return state.hw.eepromMagicDetected; };
+void set_var_start_eeprom(bool value) {}; //Read only
+
+bool get_var_start_cal_ok() { return state.hw.calibrationCRCOK; };
+void set_var_start_cal_ok(bool value) {}; // Read only

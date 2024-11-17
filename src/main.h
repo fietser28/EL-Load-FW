@@ -179,3 +179,6 @@ extern volatile uint32_t watchdogGuiTimerFunctionMax;
 extern volatile uint32_t watchdogLoopMax;
 extern volatile uint32_t watchdogProtHWMax;
 extern volatile uint32_t watchdogMeasureAndOutputMax;
+
+// Debugging incomming IO from hardware board
+extern uint8_t gpiopinstate;

@@ -256,7 +256,7 @@
 #define KEYS_PIN_BUT3       0   // GP0
 #define KEYS_PIN_LED0       5   // GP5 
 
-// GPIO extender (MCP23008) for hardware signals
+// GPIO extender (MCP23017) for hardware signals
 #define HWIO_CHIP_ADDRES      0x27
 #define HWIO_PIN_VON          0u   // GPA0 =input, int, 
 #define HWIO_PIN_resetProt    1u   // GPA1 =output

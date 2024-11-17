@@ -35,8 +35,19 @@ namespace dcl::eeprom
 
 const uint8_t eeprom_magic[] = {0x70, 0x61, 0x52, 0x43, 0x34, 0x25, 0x16, 0x07};
 const uint8_t eeprom_version = 0x01;
+const uint32_t crcPoly = 0xEDB88320; // IEEE 802.3 CRC-32
+const uint32_t crcInitial = 0xFFFFFFFF;
 
+class CRC32
+{
+public:
+    void generateTable(uint32_t polynomial);
+    uint32_t compute(const uint8_t *data, size_t size, uint32_t initial = 0xFFFFFFFF);
 
+private:
+    uint32_t table[256];
+    bool tableGenerated = false;
+};
 
 class eeprom
 {
@@ -71,7 +82,8 @@ private:
 
     SemaphoreHandle_t xSemEepromTask;
     TaskHandle_t xTaskEepromFullWrite;
-
+    CRC32 crc;
 };
+
 
 }

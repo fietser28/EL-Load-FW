@@ -141,6 +141,11 @@ lv_style_t *get_style_spinbox_default_CURSOR_DEFAULT();
 void add_style_spinbox_default(lv_obj_t *obj);
 void remove_style_spinbox_default(lv_obj_t *obj);
 
+// Style: label_red
+lv_style_t *get_style_label_red_MAIN_DEFAULT();
+void add_style_label_red(lv_obj_t *obj);
+void remove_style_label_red(lv_obj_t *obj);
+
 
 
 #ifdef __cplusplus

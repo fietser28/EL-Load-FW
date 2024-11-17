@@ -316,6 +316,12 @@ extern int32_t get_var_stat_pcount();
 extern void set_var_stat_pcount(int32_t value);
 extern bool get_var_scpi_wdog_tripped();
 extern void set_var_scpi_wdog_tripped(bool value);
+extern int32_t get_var_start_r();
+extern void set_var_start_r(int32_t value);
+extern bool get_var_start_eeprom();
+extern void set_var_start_eeprom(bool value);
+extern bool get_var_start_cal_ok();
+extern void set_var_start_cal_ok(bool value);
 
 
 #ifdef __cplusplus

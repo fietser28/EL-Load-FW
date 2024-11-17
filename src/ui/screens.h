@@ -120,6 +120,7 @@ typedef struct _objects_t {
     lv_obj_t *obj11__stat_min_20;
     lv_obj_t *obj11__stat_min_21;
     lv_obj_t *obj11__stat_min_22;
+    lv_obj_t *startup_ok;
     lv_obj_t *myspinbox;
     lv_obj_t *mode_selector;
     lv_obj_t *on_off_button;
@@ -221,6 +222,9 @@ typedef struct _objects_t {
     lv_obj_t *obj79;
     lv_obj_t *obj80;
     lv_obj_t *stats_back;
+    lv_obj_t *startup_start_status;
+    lv_obj_t *startup_eeprom;
+    lv_obj_t *startup_calibration;
     lv_obj_t *obj81;
     lv_obj_t *main_measure;
     lv_obj_t *sense_indicator;
@@ -378,9 +382,6 @@ enum ScreensEnum {
     SCREEN_ID_INFO = 12,
     SCREEN_ID_SOUND = 13,
     SCREEN_ID_STATS = 14,
-    SCREEN_ID_QUESTION_YN = 15,
-    SCREEN_ID_KEYBOARD = 16,
-    SCREEN_ID_STATS_TABLE = 17,
 };
 
 void create_screen_startup();

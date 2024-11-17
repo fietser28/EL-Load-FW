@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Size: 22 px
  * Bpp: 4
- * Opts: --user-data-dir=/Users/jan/Library/Application Support/eezstudio --app-path=/Users/jan/sw/studio --no-sandbox --no-zygote --node-integration-in-worker --lang=en-GB --num-raster-threads=4 --enable-zero-copy --enable-gpu-memory-buffer-compositor-resources --enable-main-frame-before-activation --renderer-client-id=5 --time-ticks-at-unix-epoch=-1727123313010868 --launch-time-ticks=4637260284132 --shared-files --field-trial-handle=1718379636,r,6368267420487166239,12218000717312514110,262144 --enable-features=ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=MacWebContentsOcclusion,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts --variations-seed-version
+ * Opts: --user-data-dir=/Users/jan/Library/Application Support/eezstudio --app-path=/Users/jan/sw/studio --no-sandbox --no-zygote --node-integration-in-worker --lang=en-GB --num-raster-threads=4 --enable-zero-copy --enable-gpu-memory-buffer-compositor-resources --enable-main-frame-before-activation --renderer-client-id=5 --time-ticks-at-unix-epoch=-1727133598258128 --launch-time-ticks=4714625098389 --shared-files --field-trial-handle=1718379636,r,11682469098251868792,17469323402068252768,262144 --enable-features=ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=MacWebContentsOcclusion,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts --variations-seed-version
  ******************************************************************************/
 
 #ifdef LV_LVGL_H_INCLUDE_SIMPLE

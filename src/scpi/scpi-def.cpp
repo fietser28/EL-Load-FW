@@ -546,10 +546,10 @@ scpi_result_t scpi_cmd_cal_type_save(scpi_t *context) {
         SCPI_ErrorPush(context, SCPI_ERROR_CALIBRATION_FAILED);
         return SCPI_RES_ERR;
     }
-    if (!calActions.getValuesChanged()) {
+/*    if (!calActions.getValuesChanged()) {
         SCPI_ErrorPush(context, SCPI_ERROR_CALIBRATION_FAILED);
         return SCPI_RES_ERR;
-    }
+    }*/ //TODO: Remove? (removing allows for rewrite including CRC)
     calActions.storeValues();
     return SCPI_RES_OK;
 }
@@ -590,9 +590,15 @@ scpi_result_t scpi_cmd_deb_mem_heapQ(scpi_t *context)
 
 scpi_result_t scpi_cmd_deb_reboot(scpi_t *context) {
     state.setOff();
-    rp2040.reboot();
+    rp2040.restart();
     return SCPI_RES_OK;
 }
+
+ scpi_result_t scpi_cmd_deb_iolinesQ(scpi_t *context) 
+ {
+    SCPI_ResultInt32(context, gpiopinstate);
+    return SCPI_RES_OK;
+ }
 
 scpi_result_t scpi_cmd_deb_wdog_thres_maxQ(scpi_t *context) {
     const uint32_t thres_array[] = { watchdogAveragingMax, watchdogEncTaskMax, watchdogGuiTaskMax, 

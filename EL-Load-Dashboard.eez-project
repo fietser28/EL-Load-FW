@@ -419,6 +419,22 @@
         "defaultValue": "false",
         "persistent": false,
         "native": false
+      },
+      {
+        "objID": "24b605b5-f7d0-4e4c-8274-5a5ae26722c6",
+        "name": "remoteSense",
+        "type": "boolean",
+        "defaultValue": "false",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "637f769a-f863-4ddc-f83e-94126df895fb",
+        "name": "remoteSenseNew",
+        "type": "boolean",
+        "defaultValue": "false",
+        "persistent": false,
+        "native": false
       }
     ],
     "structures": [
@@ -864,8 +880,8 @@
           "type": "SCPIActionComponent",
           "left": -279,
           "top": -17,
-          "width": 225,
-          "height": 210,
+          "width": 238,
+          "height": 236,
           "customInputs": [],
           "customOutputs": [
             {
@@ -881,7 +897,7 @@
           ],
           "catchError": true,
           "instrument": "dcl",
-          "scpi": "inp:prot:wdog:pet\nopc = *OPC?\ndcl_on = inp?\ncal_mode = cal:mode?\nmoderaw = inp:mode?\nimon = fetch:curr?\numon = fetch:volt?\npmon = fetch:power?\ncapstr = fetch:cap?\nnplc = sense:nplc?\nstate_Ilow = curr:range?\nstate_Ulow = volt:range?\nfan_rpm = syst:fan:rpm?\ntemp = syst:temp?",
+          "scpi": "inp:prot:wdog:pet\nopc = *OPC?\ndcl_on = inp?\ncal_mode = cal:mode?\nmoderaw = inp:mode?\nimon = fetch:curr?\numon = fetch:volt?\npmon = fetch:power?\ncapstr = fetch:cap?\nremoteSense = volt:remote?\nnplc = sense:nplc?\nstate_Ilow = curr:range?\nstate_Ulow = volt:range?\nfan_rpm = syst:fan:rpm?\ntemp = syst:temp?",
           "timeout": "null",
           "delay": "125"
         },
@@ -900,7 +916,7 @@
           "type": "SetVariableActionComponent",
           "left": 24,
           "top": -72,
-          "width": 315,
+          "width": 316,
           "height": 57,
           "customInputs": [
             {
@@ -924,7 +940,7 @@
           "left": -420,
           "top": -17,
           "width": 100,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "scpi_sem"
@@ -935,7 +951,7 @@
           "left": 620,
           "top": -124,
           "width": 194,
-          "height": 77,
+          "height": 80,
           "customInputs": [],
           "customOutputs": [],
           "instrument": "dcl",
@@ -948,8 +964,8 @@
           "type": "IsTrueActionComponent",
           "left": 480,
           "top": 25,
-          "width": 97,
-          "height": 69,
+          "width": 98,
+          "height": 70,
           "customInputs": [],
           "customOutputs": [],
           "value": "cal_mode"
@@ -960,7 +976,7 @@
           "left": 882,
           "top": 70,
           "width": 183,
-          "height": 78,
+          "height": 79,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -982,7 +998,7 @@
           "left": -649,
           "top": -198,
           "width": 179,
-          "height": 71,
+          "height": 73,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -4598,6 +4614,146 @@
       "userProperties": [],
       "name": "mode_string2enum",
       "implementationType": "flow"
+    },
+    {
+      "objID": "3eece3a5-a388-40de-98b7-56bcc7d28a17",
+      "components": [
+        {
+          "objID": "3d71a9be-9c5f-42c0-b4d6-5e14271ed285",
+          "type": "StartActionComponent",
+          "left": -641,
+          "top": 62,
+          "width": 87,
+          "height": 24,
+          "customInputs": [],
+          "customOutputs": []
+        },
+        {
+          "objID": "2d01f1a8-5473-4876-bc95-82be99c41813",
+          "type": "TestAndSetActionComponent",
+          "left": -185,
+          "top": 28,
+          "width": 100,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "variable": "scpi_sem"
+        },
+        {
+          "objID": "5de5905a-972e-425f-accb-0fcecff99fb4",
+          "type": "SCPIActionComponent",
+          "left": -51,
+          "top": 28,
+          "width": 237,
+          "height": 67,
+          "customInputs": [],
+          "customOutputs": [],
+          "catchError": false,
+          "instrument": "dcl",
+          "scpi": "volt:remote {remoteSenseNew ? 1 : 0}\nremoteSense = volt:remote?",
+          "timeout": "null",
+          "delay": "null"
+        },
+        {
+          "objID": "154dcc06-2e40-4c95-a6ee-10d78c2013e9",
+          "type": "SetVariableActionComponent",
+          "left": 227,
+          "top": 28,
+          "width": 146,
+          "height": 57,
+          "customInputs": [],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "7e608794-abfc-4063-a6a1-2196ee644707",
+              "variable": "scpi_sem",
+              "value": "false"
+            }
+          ]
+        },
+        {
+          "objID": "54f172c2-4e15-4502-ffcd-c7794d8332f0",
+          "type": "SwitchActionComponent",
+          "left": -500,
+          "top": 62,
+          "width": 264,
+          "height": 73,
+          "customInputs": [],
+          "customOutputs": [],
+          "tests": [
+            {
+              "objID": "ae274676-2c32-49cf-b367-85dff17abdf4",
+              "condition": "remoteSenseNew != remoteSense",
+              "outputName": "change",
+              "outputValue": "true"
+            },
+            {
+              "objID": "c901ac2d-976d-4812-d402-52633eb6bd13",
+              "condition": "true",
+              "outputName": "skip",
+              "outputValue": "true"
+            }
+          ]
+        },
+        {
+          "objID": "a06d2025-e963-4ffa-9683-663d990a966e",
+          "type": "EndActionComponent",
+          "left": 493,
+          "top": 105,
+          "width": 87,
+          "height": 24,
+          "customInputs": [],
+          "customOutputs": []
+        }
+      ],
+      "connectionLines": [
+        {
+          "objID": "3f4bf1da-9505-4eb4-8c41-e037ded1baa5",
+          "source": "2d01f1a8-5473-4876-bc95-82be99c41813",
+          "output": "@seqout",
+          "target": "5de5905a-972e-425f-accb-0fcecff99fb4",
+          "input": "@seqin"
+        },
+        {
+          "objID": "275a0ca2-ee1e-4e1e-a26f-ce2556f3c978",
+          "source": "5de5905a-972e-425f-accb-0fcecff99fb4",
+          "output": "@seqout",
+          "target": "154dcc06-2e40-4c95-a6ee-10d78c2013e9",
+          "input": "@seqin"
+        },
+        {
+          "objID": "3e384b44-b944-4fcc-f742-7893de3cbba4",
+          "source": "3d71a9be-9c5f-42c0-b4d6-5e14271ed285",
+          "output": "@seqout",
+          "target": "54f172c2-4e15-4502-ffcd-c7794d8332f0",
+          "input": "@seqin"
+        },
+        {
+          "objID": "c97ceae2-ad7f-499a-a6aa-21b158a25cef",
+          "source": "54f172c2-4e15-4502-ffcd-c7794d8332f0",
+          "output": "change",
+          "target": "2d01f1a8-5473-4876-bc95-82be99c41813",
+          "input": "@seqin"
+        },
+        {
+          "objID": "9db037e9-a7ec-4b5d-9268-a83b592a9207",
+          "source": "154dcc06-2e40-4c95-a6ee-10d78c2013e9",
+          "output": "@seqout",
+          "target": "a06d2025-e963-4ffa-9683-663d990a966e",
+          "input": "@seqin"
+        },
+        {
+          "objID": "e480a23a-ba41-4e8e-8259-35deaad00ff4",
+          "source": "54f172c2-4e15-4502-ffcd-c7794d8332f0",
+          "output": "skip",
+          "target": "a06d2025-e963-4ffa-9683-663d990a966e",
+          "input": "@seqin"
+        }
+      ],
+      "localVariables": [],
+      "userProperties": [],
+      "name": "remoteSenseChange",
+      "implementationType": "flow"
     }
   ],
   "userPages": [
@@ -4727,8 +4883,8 @@
           "type": "IsTrueActionComponent",
           "left": 140,
           "top": 1294,
-          "width": 181,
-          "height": 69,
+          "width": 182,
+          "height": 70,
           "customInputs": [
             {
               "objID": "f704db21-4708-4417-e1e2-8156728364ab",
@@ -4860,6 +5016,7 @@
                   "style": {
                     "objID": "a1d34ba4-96b0-46a6-b818-113ecd586568",
                     "useStyle": "big number",
+                    "conditionalStyles": [],
                     "childStyles": [],
                     "fontSize": "64",
                     "alignHorizontal": "right",
@@ -5550,7 +5707,7 @@
           "type": "SetVariableActionComponent",
           "left": 224,
           "top": -224,
-          "width": 195,
+          "width": 196,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -5567,7 +5724,7 @@
           "type": "SetVariableActionComponent",
           "left": 488,
           "top": -224,
-          "width": 164,
+          "width": 165,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -5584,7 +5741,7 @@
           "type": "SetVariableActionComponent",
           "left": 699,
           "top": -224,
-          "width": 164,
+          "width": 165,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -5632,7 +5789,7 @@
           "left": 1237,
           "top": 1364,
           "width": 87,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "milliseconds": "1000"
@@ -5699,8 +5856,8 @@
           "type": "IsTrueActionComponent",
           "left": 140,
           "top": 1447,
-          "width": 181,
-          "height": 69,
+          "width": 182,
+          "height": 70,
           "customInputs": [
             {
               "objID": "038f485a-b1af-49b0-8022-7eea35f64ef2",
@@ -5740,7 +5897,7 @@
           "objID": "29a14ec2-3ba9-4d02-9529-f141ec774a70",
           "type": "ButtonDashboardWidget",
           "left": 61,
-          "top": 887,
+          "top": 885,
           "width": 226,
           "height": 32,
           "customInputs": [],
@@ -5767,7 +5924,7 @@
           "left": 584,
           "top": 1428,
           "width": 113,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [
             {
@@ -5804,7 +5961,7 @@
           "objID": "45b56942-5689-4088-e1cf-673a5077e36b",
           "type": "TextDashboardWidget",
           "left": 890,
-          "top": 887,
+          "top": 885,
           "width": 342,
           "height": 32,
           "customInputs": [
@@ -5860,8 +6017,8 @@
           "type": "WatchVariableActionComponent",
           "left": -334,
           "top": 1206,
-          "width": 98,
-          "height": 52,
+          "width": 99,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "umon"
@@ -5871,8 +6028,8 @@
           "type": "WatchVariableActionComponent",
           "left": -334,
           "top": 1128,
-          "width": 98,
-          "height": 52,
+          "width": 99,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "imon"
@@ -5883,7 +6040,7 @@
           "left": -329,
           "top": 417,
           "width": 87,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "milliseconds": "2500"
@@ -5893,8 +6050,8 @@
           "type": "WatchVariableActionComponent",
           "left": -735,
           "top": 444,
-          "width": 98,
-          "height": 52,
+          "width": 99,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "pmon"
@@ -5904,8 +6061,8 @@
           "type": "WatchVariableActionComponent",
           "left": -734,
           "top": 522,
-          "width": 98,
-          "height": 52,
+          "width": 99,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "temp"
@@ -5916,7 +6073,7 @@
           "left": -753,
           "top": 600,
           "width": 117,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "fan_rpm"
@@ -5927,7 +6084,7 @@
           "left": -329,
           "top": 654,
           "width": 126,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "expression": "fan_rpm/120"
@@ -5937,8 +6094,8 @@
           "type": "WatchVariableActionComponent",
           "left": -654,
           "top": 1582,
-          "width": 221,
-          "height": 52,
+          "width": 222,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "thermal_power_temp_steps"
@@ -5948,7 +6105,7 @@
           "type": "SetVariableActionComponent",
           "left": 198,
           "top": 1636,
-          "width": 1079,
+          "width": 1080,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -5965,8 +6122,8 @@
           "type": "IsTrueActionComponent",
           "left": -144,
           "top": 1628,
-          "width": 220,
-          "height": 69,
+          "width": 221,
+          "height": 70,
           "customInputs": [],
           "customOutputs": [],
           "value": "thermal_power_temp_steps >=2"
@@ -5994,7 +6151,7 @@
           "left": -419,
           "top": 1601,
           "width": 208,
-          "height": 69,
+          "height": 70,
           "customInputs": [],
           "customOutputs": [],
           "value": "thermal_power_temp != null"
@@ -6003,7 +6160,7 @@
           "objID": "778ebf48-5fb7-40c8-a242-5580a30c2659",
           "type": "ButtonDashboardWidget",
           "left": 61,
-          "top": 919,
+          "top": 920,
           "width": 226,
           "height": 32,
           "customInputs": [],
@@ -6048,8 +6205,8 @@
           "type": "IsTrueActionComponent",
           "left": -579,
           "top": 470,
-          "width": 189,
-          "height": 69,
+          "width": 190,
+          "height": 70,
           "customInputs": [],
           "customOutputs": [],
           "value": "thermal_running == true"
@@ -6060,7 +6217,7 @@
           "left": -332,
           "top": 496,
           "width": 87,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "expression": "pmon"
@@ -6070,8 +6227,8 @@
           "type": "IsTrueActionComponent",
           "left": -579,
           "top": 548,
-          "width": 189,
-          "height": 69,
+          "width": 190,
+          "height": 70,
           "customInputs": [],
           "customOutputs": [],
           "value": "thermal_running == true"
@@ -6082,7 +6239,7 @@
           "left": -332,
           "top": 574,
           "width": 87,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "expression": "temp"
@@ -6092,8 +6249,8 @@
           "type": "IsTrueActionComponent",
           "left": -579,
           "top": 626,
-          "width": 189,
-          "height": 69,
+          "width": 190,
+          "height": 70,
           "customInputs": [],
           "customOutputs": [],
           "value": "thermal_running == true"
@@ -6104,7 +6261,7 @@
           "left": -802,
           "top": 313,
           "width": 166,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "thermal_running"
@@ -6114,8 +6271,8 @@
           "type": "IsTrueActionComponent",
           "left": -579,
           "top": 313,
-          "width": 140,
-          "height": 69,
+          "width": 141,
+          "height": 70,
           "customInputs": [],
           "customOutputs": [],
           "value": "thermal_running"
@@ -6159,7 +6316,7 @@
           "left": -346,
           "top": 1870,
           "width": 212,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "expression": "{ layout : graph_layout }"
@@ -6169,8 +6326,8 @@
           "type": "EvalExprActionComponent",
           "left": -315,
           "top": 1941,
-          "width": 181,
-          "height": 52,
+          "width": 182,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "expression": "{ name : \"Current\" }"
@@ -6180,8 +6337,8 @@
           "type": "EvalExprActionComponent",
           "left": -315,
           "top": 2005,
-          "width": 181,
-          "height": 52,
+          "width": 182,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "expression": "{ name : \"Voltage\" }"
@@ -6191,8 +6348,8 @@
           "type": "EvalExprActionComponent",
           "left": -358,
           "top": 2072,
-          "width": 224,
-          "height": 52,
+          "width": 225,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "expression": "{ x : 2.0, y: 3.0, line:0 }"
@@ -6202,8 +6359,8 @@
           "type": "EvalExprActionComponent",
           "left": -358,
           "top": 2137,
-          "width": 224,
-          "height": 52,
+          "width": 225,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "expression": "{ x : 2.0, y: 4.0, line:1 }"
@@ -6214,7 +6371,7 @@
           "left": -502,
           "top": 2072,
           "width": 87,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "milliseconds": "10000"
@@ -6225,7 +6382,7 @@
           "left": -502,
           "top": 1941,
           "width": 87,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "milliseconds": "10000"
@@ -6236,7 +6393,7 @@
           "left": -502,
           "top": 2005,
           "width": 87,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "milliseconds": "10000"
@@ -6247,7 +6404,7 @@
           "left": -502,
           "top": 2137,
           "width": 87,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "milliseconds": "10000"
@@ -6255,8 +6412,8 @@
         {
           "objID": "833440ec-b20d-4dfe-9871-fc87da94bdc3",
           "type": "LabelOutActionComponent",
-          "left": 899,
-          "top": -224,
+          "left": 699,
+          "top": -332,
           "width": 87,
           "height": 24,
           "customInputs": [],
@@ -6273,6 +6430,68 @@
           "customInputs": [],
           "customOutputs": [],
           "label": "start_cal"
+        },
+        {
+          "objID": "38b7834c-2a81-418b-bfd2-9a9c9628d857",
+          "type": "TextDashboardWidget",
+          "left": 890,
+          "top": 920,
+          "width": 342,
+          "height": 32,
+          "customInputs": [
+            {
+              "objID": "58d7568b-2c6c-45a5-9036-236caac569fd",
+              "name": "in",
+              "type": "string"
+            }
+          ],
+          "customOutputs": [],
+          "data": "in",
+          "style": {
+            "objID": "334de00e-9c78-45cb-94d8-6dd75f2e2710",
+            "useStyle": "default",
+            "conditionalStyles": [],
+            "childStyles": []
+          },
+          "timeline": [],
+          "eventHandlers": []
+        },
+        {
+          "objID": "f4283fdf-9217-4cf5-f960-da7c51589d64",
+          "type": "IsTrueActionComponent",
+          "left": 140,
+          "top": 1539,
+          "width": 182,
+          "height": 70,
+          "customInputs": [
+            {
+              "objID": "d6458905-94a3-42d9-d592-1fedaafe8d45",
+              "name": "value",
+              "type": "any"
+            }
+          ],
+          "customOutputs": [],
+          "value": "psu.isConnected"
+        },
+        {
+          "objID": "4a84f9f5-4bb7-4e42-f5ec-c4d2bb55b771",
+          "type": "SCPIActionComponent",
+          "left": 584,
+          "top": 1528,
+          "width": 113,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [
+            {
+              "objID": "d51ca6fa-5eb8-4c85-a11e-4cb3e697d3fb",
+              "name": "idn",
+              "type": "string"
+            }
+          ],
+          "instrument": "sdm",
+          "scpi": "idn = *IDN?",
+          "timeout": "null",
+          "delay": "null"
         }
       ],
       "connectionLines": [
@@ -6599,18 +6818,39 @@
           "input": "@seqin"
         },
         {
-          "objID": "1925482d-9286-44dd-c0d3-bd7fb411e168",
-          "source": "f7bf7d73-a692-4ac1-b036-5ba4e5752324",
-          "output": "@seqout",
-          "target": "833440ec-b20d-4dfe-9871-fc87da94bdc3",
-          "input": "@seqin"
-        },
-        {
           "objID": "0c3ff5f9-da0e-47f0-a301-39f13c22da45",
           "source": "d5e3a41a-fe53-436f-8c6a-774427dd586b",
           "output": "@seqout",
           "target": "16468bd2-3543-4ba8-c41c-9912735a5c49",
           "input": "@seqin"
+        },
+        {
+          "objID": "36d922d1-e4d3-46e9-a88d-a8f36ecaa8eb",
+          "source": "1d180e94-3c83-4b0d-be5f-18deca0b1508",
+          "output": "@seqout",
+          "target": "833440ec-b20d-4dfe-9871-fc87da94bdc3",
+          "input": "@seqin"
+        },
+        {
+          "objID": "77122ff2-903d-4ca2-b940-40838f444495",
+          "source": "19f5c4d7-1ae1-4cb6-a0b7-5700cb9f0058",
+          "output": "@seqout",
+          "target": "f4283fdf-9217-4cf5-f960-da7c51589d64",
+          "input": "value"
+        },
+        {
+          "objID": "2688f3fb-efd0-44da-978a-bc879533543a",
+          "source": "f4283fdf-9217-4cf5-f960-da7c51589d64",
+          "output": "True",
+          "target": "4a84f9f5-4bb7-4e42-f5ec-c4d2bb55b771",
+          "input": "@seqin"
+        },
+        {
+          "objID": "b4c30f7f-6744-4ce8-981e-6d86057b3b27",
+          "source": "4a84f9f5-4bb7-4e42-f5ec-c4d2bb55b771",
+          "output": "idn",
+          "target": "38b7834c-2a81-418b-bfd2-9a9c9628d857",
+          "input": "in"
         }
       ],
       "localVariables": [
@@ -6756,10 +6996,10 @@
         {
           "objID": "de4b6325-59c0-4b9a-8930-1fa31829410d",
           "type": "SCPIActionComponent",
-          "left": 759,
-          "top": -260,
+          "left": 865,
+          "top": -763,
           "width": 271,
-          "height": 64,
+          "height": 67,
           "customInputs": [
             {
               "objID": "5b06ac8f-836d-4096-ddb7-bd7c3e09cb2e",
@@ -6830,7 +7070,7 @@
           "objID": "d6c3f41a-8a3e-4310-cb73-b71547e90830",
           "type": "ListWidget",
           "left": 0,
-          "top": 90,
+          "top": 130,
           "width": 1280,
           "height": 748,
           "customInputs": [],
@@ -7354,10 +7594,10 @@
         {
           "objID": "17337f50-1b18-489a-b7ab-cf748e8cd44e",
           "type": "IsTrueActionComponent",
-          "left": 343,
-          "top": -580,
-          "width": 97,
-          "height": 69,
+          "left": 1227,
+          "top": -584,
+          "width": 98,
+          "height": 70,
           "customInputs": [],
           "customOutputs": [],
           "value": "cal_mode"
@@ -7365,10 +7605,10 @@
         {
           "objID": "b0043613-3718-40c7-f33c-f5285fb46286",
           "type": "LoopActionComponent",
-          "left": 505,
-          "top": -580,
-          "width": 211,
-          "height": 69,
+          "left": 1383,
+          "top": -495,
+          "width": 212,
+          "height": 70,
           "customInputs": [],
           "customOutputs": [],
           "variable": "i",
@@ -7380,10 +7620,10 @@
         {
           "objID": "4fa99a36-0418-405d-9c5e-4fa86019b2e2",
           "type": "DelayActionComponent",
-          "left": 1053,
-          "top": -441,
+          "left": 1931,
+          "top": -356,
           "width": 87,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "milliseconds": "200"
@@ -7391,10 +7631,10 @@
         {
           "objID": "24ee14c1-b66d-4f54-ae69-96f1b94e22df",
           "type": "SCPIActionComponent",
-          "left": -5,
-          "top": -580,
-          "width": 138,
-          "height": 52,
+          "left": 873,
+          "top": -495,
+          "width": 139,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "instrument": "dcl",
@@ -7405,10 +7645,10 @@
         {
           "objID": "05369a89-b805-4cbd-9188-e100d1d239ce",
           "type": "TestAndSetActionComponent",
-          "left": -151,
-          "top": -580,
+          "left": 727,
+          "top": -495,
           "width": 100,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "scpi_sem"
@@ -7416,8 +7656,8 @@
         {
           "objID": "15438906-9c4e-4f83-9b4d-c6117933571c",
           "type": "SetVariableActionComponent",
-          "left": 875,
-          "top": -553,
+          "left": 1658,
+          "top": -542,
           "width": 146,
           "height": 57,
           "customInputs": [],
@@ -7433,10 +7673,10 @@
         {
           "objID": "b741f660-1188-42bb-c597-a845d263ee40",
           "type": "TestAndSetActionComponent",
-          "left": 585,
-          "top": -260,
+          "left": 712,
+          "top": -763,
           "width": 100,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "scpi_sem"
@@ -7444,8 +7684,8 @@
         {
           "objID": "c67792e7-38c9-42eb-8f29-cb7d7dabca6d",
           "type": "SetVariableActionComponent",
-          "left": 1067,
-          "top": -260,
+          "left": 1198,
+          "top": -763,
           "width": 146,
           "height": 57,
           "customInputs": [],
@@ -7461,8 +7701,8 @@
         {
           "objID": "3f808ee7-cd99-481a-c4e4-09a28d2726a2",
           "type": "SetVariableActionComponent",
-          "left": 170,
-          "top": -580,
+          "left": 1048,
+          "top": -495,
           "width": 146,
           "height": 57,
           "customInputs": [],
@@ -7479,7 +7719,7 @@
           "objID": "e8d16c4d-7185-4637-c5c8-8bb6405b28dd",
           "type": "ButtonDashboardWidget",
           "left": 73,
-          "top": 64,
+          "top": 102,
           "width": 140,
           "height": 22,
           "customInputs": [],
@@ -7517,10 +7757,10 @@
         {
           "objID": "fa1083ea-c151-43e2-e9fe-f35432db883f",
           "type": "CallActionActionComponent",
-          "left": 864,
-          "top": -439,
+          "left": 1742,
+          "top": -354,
           "width": 136,
-          "height": 51,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "action": "get_cal_type_data",
@@ -7532,10 +7772,10 @@
         {
           "objID": "c4790377-0816-48a6-8c93-61dfde69626f",
           "type": "EvalExprActionComponent",
-          "left": 736,
-          "top": -441,
+          "left": 1614,
+          "top": -356,
           "width": 87,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "expression": "i"
@@ -7544,7 +7784,7 @@
           "objID": "aa27ed9f-064e-4bc8-8f19-a2b2ce08a824",
           "type": "ButtonDashboardWidget",
           "left": 226,
-          "top": 64,
+          "top": 102,
           "width": 140,
           "height": 22,
           "customInputs": [],
@@ -7583,7 +7823,7 @@
           "objID": "7e55bb0d-aba5-4854-9d35-fa505746a6c6",
           "type": "TextDashboardWidget",
           "left": 441,
-          "top": 60,
+          "top": 98,
           "width": 64,
           "height": 32,
           "customInputs": [],
@@ -7602,10 +7842,10 @@
         {
           "objID": "801a25b0-c5ca-4f7b-9a29-46db7441d94b",
           "type": "TestAndSetActionComponent",
-          "left": 456,
-          "top": -356,
+          "left": 742,
+          "top": -271,
           "width": 100,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "scpi_sem"
@@ -7613,10 +7853,10 @@
         {
           "objID": "f295bc58-eaae-4a5d-9bec-6bee11785819",
           "type": "SCPIActionComponent",
-          "left": 590,
-          "top": -356,
+          "left": 876,
+          "top": -271,
           "width": 151,
-          "height": 64,
+          "height": 67,
           "customInputs": [],
           "customOutputs": [],
           "catchError": false,
@@ -7628,8 +7868,8 @@
         {
           "objID": "bfb26b0e-81c1-4374-d063-409a3ecc6b2e",
           "type": "SetVariableActionComponent",
-          "left": 769,
-          "top": -356,
+          "left": 1055,
+          "top": -271,
           "width": 146,
           "height": 57,
           "customInputs": [],
@@ -7645,10 +7885,10 @@
         {
           "objID": "d9174bbb-8c62-4f16-817c-590d84c927ff",
           "type": "TestAndSetActionComponent",
-          "left": 742,
-          "top": -176,
+          "left": 739,
+          "top": -204,
           "width": 100,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "scpi_sem"
@@ -7656,10 +7896,10 @@
         {
           "objID": "d49bb4cb-2bc3-4dea-d462-37154de8d3c1",
           "type": "SCPIActionComponent",
-          "left": 876,
-          "top": -176,
+          "left": 873,
+          "top": -204,
           "width": 151,
-          "height": 64,
+          "height": 67,
           "customInputs": [],
           "customOutputs": [],
           "catchError": false,
@@ -7671,8 +7911,8 @@
         {
           "objID": "7495ff4e-1ed0-46e1-bb26-5bdbc313e3c7",
           "type": "SetVariableActionComponent",
-          "left": 1055,
-          "top": -176,
+          "left": 1052,
+          "top": -204,
           "width": 146,
           "height": 57,
           "customInputs": [],
@@ -7688,10 +7928,10 @@
         {
           "objID": "1f801c83-a935-4464-b308-b386c3b8c212",
           "type": "TestAndSetActionComponent",
-          "left": 1382,
-          "top": 174,
+          "left": 1344,
+          "top": 276,
           "width": 100,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "scpi_sem"
@@ -7699,25 +7939,25 @@
         {
           "objID": "51fc4f0c-33c1-42c6-b4fa-25bb4a8c5ac4",
           "type": "SCPIActionComponent",
-          "left": 1505,
-          "top": 174,
-          "width": 95,
-          "height": 52,
+          "left": 1614,
+          "top": 276,
+          "width": 96,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "catchError": false,
           "instrument": "dcl",
           "scpi": "cal:type:save",
           "timeout": "null",
-          "delay": "null"
+          "delay": "200"
         },
         {
           "objID": "16199248-34e4-4389-dd58-6bf760f758cc",
           "type": "SetVariableActionComponent",
-          "left": 1670,
-          "top": 174,
-          "width": 273,
-          "height": 78,
+          "left": 1779,
+          "top": 276,
+          "width": 274,
+          "height": 79,
           "customInputs": [
             {
               "objID": "2500e34b-fb3a-4ec4-d0f2-761dc6c2795b",
@@ -7743,7 +7983,7 @@
           "objID": "384c5f4e-4d0d-41e0-b107-16f5a804a7d3",
           "type": "TextDashboardWidget",
           "left": 505,
-          "top": 59,
+          "top": 97,
           "width": 64,
           "height": 32,
           "customInputs": [],
@@ -7763,7 +8003,7 @@
           "objID": "abf3609f-799d-437f-dfc1-e3c40ed06875",
           "type": "TextDashboardWidget",
           "left": 569,
-          "top": 59,
+          "top": 97,
           "width": 64,
           "height": 32,
           "customInputs": [],
@@ -7783,7 +8023,7 @@
           "objID": "36d7bd6d-3a13-4b55-c4fc-0cfb76abc71d",
           "type": "TextDashboardWidget",
           "left": 633,
-          "top": 59,
+          "top": 97,
           "width": 64,
           "height": 32,
           "customInputs": [],
@@ -7803,7 +8043,7 @@
           "objID": "d42d5761-b596-4b68-9a7c-34c273dcfc0a",
           "type": "TextDashboardWidget",
           "left": 699,
-          "top": 58,
+          "top": 96,
           "width": 64,
           "height": 32,
           "customInputs": [],
@@ -7834,8 +8074,8 @@
           "type": "SetVariableActionComponent",
           "left": 84,
           "top": -868,
-          "width": 207,
-          "height": 78,
+          "width": 208,
+          "height": 79,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -7857,7 +8097,7 @@
           "left": -131,
           "top": -817,
           "width": 123,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "cal_type"
@@ -7868,7 +8108,7 @@
           "left": -131,
           "top": -746,
           "width": 129,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "cal_point"
@@ -7876,10 +8116,10 @@
         {
           "objID": "193a4cb6-1344-4b35-d320-d9a56545191f",
           "type": "EvalExprActionComponent",
-          "left": 134,
-          "top": 149,
+          "left": 131,
+          "top": 185,
           "width": 168,
-          "height": 52,
+          "height": 54,
           "customInputs": [
             {
               "objID": "29714be1-d764-496e-8e4c-82fec3a401d2",
@@ -7893,10 +8133,10 @@
         {
           "objID": "74b11176-1975-442f-cdbc-95020251776e",
           "type": "CallActionActionComponent",
-          "left": 343,
-          "top": 149,
+          "left": 337,
+          "top": 185,
           "width": 104,
-          "height": 51,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "action": "cal_set_type",
@@ -7942,10 +8182,10 @@
         {
           "objID": "1e1adcf7-d63a-4d15-f495-e748b9738f57",
           "type": "TestAndSetActionComponent",
-          "left": 1382,
-          "top": 48,
+          "left": 1344,
+          "top": 150,
           "width": 100,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "scpi_sem"
@@ -7953,10 +8193,10 @@
         {
           "objID": "162516c3-feab-4c42-aabb-cf5d007b252c",
           "type": "SCPIActionComponent",
-          "left": 1505,
-          "top": 48,
+          "left": 1467,
+          "top": 150,
           "width": 102,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "catchError": false,
@@ -7968,8 +8208,8 @@
         {
           "objID": "8ea76dfa-2fe9-4fb4-b51f-1fb278bf0445",
           "type": "SetVariableActionComponent",
-          "left": 1670,
-          "top": 48,
+          "left": 1632,
+          "top": 150,
           "width": 146,
           "height": 57,
           "customInputs": [],
@@ -8067,7 +8307,7 @@
           "objID": "22fac59d-0eb9-4944-8042-ebcb85a30249",
           "type": "TextDashboardWidget",
           "left": 370,
-          "top": 58,
+          "top": 96,
           "width": 64,
           "height": 32,
           "customInputs": [],
@@ -8086,10 +8326,10 @@
         {
           "objID": "982db0b6-0ea2-4268-ff2b-5b132a6168b8",
           "type": "EvalExprActionComponent",
-          "left": 1382,
-          "top": 239,
+          "left": 1344,
+          "top": 341,
           "width": 168,
-          "height": 52,
+          "height": 54,
           "customInputs": [
             {
               "objID": "fbdcc2fe-493c-4b2c-f5c4-7ea899556686",
@@ -8103,10 +8343,10 @@
         {
           "objID": "b62f4c92-eead-4957-c326-f42076239c13",
           "type": "SwitchActionComponent",
-          "left": 2018,
-          "top": 175,
+          "left": 2127,
+          "top": 277,
           "width": 141,
-          "height": 70,
+          "height": 73,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -8125,9 +8365,9 @@
         {
           "objID": "2df81c68-ba20-42fd-bd5b-8f8b53b2ca68",
           "type": "SetVariableActionComponent",
-          "left": 2229,
-          "top": 245,
-          "width": 279,
+          "left": 2338,
+          "top": 347,
+          "width": 280,
           "height": 57,
           "customInputs": [
             {
@@ -8148,9 +8388,9 @@
         {
           "objID": "4a14ef70-b231-4734-96ca-70902af7c3aa",
           "type": "SetVariableActionComponent",
-          "left": 2229,
-          "top": 328,
-          "width": 279,
+          "left": 2338,
+          "top": 430,
+          "width": 280,
           "height": 57,
           "customInputs": [
             {
@@ -8174,7 +8414,7 @@
           "left": -403,
           "top": -19,
           "width": 123,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "cal_mode"
@@ -8184,7 +8424,7 @@
           "type": "SetVariableActionComponent",
           "left": -234,
           "top": 7,
-          "width": 207,
+          "width": 208,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -8199,10 +8439,10 @@
         {
           "objID": "b37c9c6f-0688-4e11-d786-578b6fcdcd9a",
           "type": "CompareActionComponent",
-          "left": 452,
-          "top": -260,
+          "left": 711,
+          "top": -868,
           "width": 223,
-          "height": 69,
+          "height": 70,
           "customInputs": [],
           "customOutputs": [],
           "A": "cal_mode_wanted",
@@ -8212,13 +8452,239 @@
         {
           "objID": "876c6b10-cf2d-4f3c-e115-43cfd3216ad1",
           "type": "WatchVariableActionComponent",
-          "left": 599,
+          "left": 682,
           "top": -83,
           "width": 160,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "calAllProgress"
+        },
+        {
+          "objID": "e51812d6-91a4-4bb3-fc18-ad90057b9183",
+          "type": "SwitchDashboardWidget",
+          "left": 718,
+          "top": 64,
+          "width": 64,
+          "height": 32,
+          "customInputs": [],
+          "customOutputs": [],
+          "data": "remoteSenseNew",
+          "style": {
+            "objID": "d5d51696-f340-4aa9-b0a7-095ab0f9d071",
+            "useStyle": "default",
+            "conditionalStyles": [],
+            "childStyles": []
+          },
+          "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "41c07a86-e0eb-4ce7-e0b9-307e38a002b8",
+              "eventName": "ON_CHANGE",
+              "handlerType": "action",
+              "action": "remoteSenseChange",
+              "userData": 0
+            }
+          ],
+          "enabled": "!dcl_on "
+        },
+        {
+          "objID": "d332db84-1473-46dd-a888-1e4b8dbac8ba",
+          "type": "WatchVariableActionComponent",
+          "left": -403,
+          "top": 83,
+          "width": 142,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "variable": "remoteSense"
+        },
+        {
+          "objID": "0b295450-b282-48cc-ee46-d78e136e0c2f",
+          "type": "SetVariableActionComponent",
+          "left": -234,
+          "top": 109,
+          "width": 220,
+          "height": 57,
+          "customInputs": [],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "c18556d1-4279-4a3f-cf15-f7916054d563",
+              "variable": "remoteSenseNew",
+              "value": "remoteSense"
+            }
+          ]
+        },
+        {
+          "objID": "95e161f1-dc41-4643-9bf1-bd894c8fdd46",
+          "type": "TextDashboardWidget",
+          "left": 571,
+          "top": 66,
+          "width": 143,
+          "height": 32,
+          "customInputs": [],
+          "customOutputs": [],
+          "data": "\"remote sense:\"",
+          "style": {
+            "objID": "bdbd25a0-3630-462f-dd21-c3e22152427f",
+            "useStyle": "default",
+            "conditionalStyles": [],
+            "childStyles": [],
+            "alignHorizontal": "right"
+          },
+          "timeline": [],
+          "eventHandlers": []
+        },
+        {
+          "objID": "0aa9d778-7b58-4a60-e2b4-05be955569f4",
+          "type": "ButtonDashboardWidget",
+          "left": 1167,
+          "top": 14,
+          "width": 101,
+          "height": 32,
+          "customInputs": [],
+          "customOutputs": [],
+          "data": "\"ERASE EEPROM\"",
+          "style": {
+            "objID": "2aada8d3-bb0d-4b77-dc97-a02e49cd2fd4",
+            "useStyle": "red_white",
+            "conditionalStyles": [],
+            "childStyles": []
+          },
+          "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "bbee60e2-96fa-4b66-84b8-21c7361b75eb",
+              "eventName": "CLICKED",
+              "handlerType": "flow",
+              "action": "cal_all",
+              "userData": 0
+            }
+          ],
+          "enabled": "cal_mode",
+          "disabledStyle": {
+            "objID": "d1aea5b2-cf51-4030-8e8d-0cf95eabff45",
+            "useStyle": "default",
+            "conditionalStyles": [],
+            "childStyles": []
+          }
+        },
+        {
+          "objID": "65391b03-5092-4dfe-b270-f0c55b02941b",
+          "type": "TestAndSetActionComponent",
+          "left": 1366,
+          "top": 7,
+          "width": 100,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "variable": "scpi_sem"
+        },
+        {
+          "objID": "d89107fb-9277-4b6e-b4f3-52116f8e16fd",
+          "type": "SCPIActionComponent",
+          "left": 1500,
+          "top": 7,
+          "width": 127,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "catchError": false,
+          "instrument": "dcl",
+          "scpi": "debug:eeprom:clear",
+          "timeout": "null",
+          "delay": "null"
+        },
+        {
+          "objID": "6a558377-8dda-4007-f4c6-af2c6610120e",
+          "type": "SetVariableActionComponent",
+          "left": 2108,
+          "top": 71,
+          "width": 146,
+          "height": 57,
+          "customInputs": [],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "2e3a56d7-a504-4f69-c9d6-c79e8cc26c58",
+              "variable": "scpi_sem",
+              "value": "false"
+            }
+          ]
+        },
+        {
+          "objID": "f56c156d-1084-4dea-e125-24e065dc3c08",
+          "type": "SCPIActionComponent",
+          "left": 1705,
+          "top": 28,
+          "width": 99,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [
+            {
+              "objID": "7047fc5d-1b8c-40f9-d37a-8aabaf6848a2",
+              "name": "running",
+              "type": "boolean"
+            }
+          ],
+          "catchError": false,
+          "instrument": "dcl",
+          "scpi": "*opc?",
+          "timeout": "null",
+          "delay": "null"
+        },
+        {
+          "objID": "1aaa395f-c1ff-4618-ecce-a8dc513d4b7b",
+          "type": "DelayActionComponent",
+          "left": 1711,
+          "top": -83,
+          "width": 87,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "milliseconds": "1000"
+        },
+        {
+          "objID": "62a7ce0f-5a2f-4ee6-979c-1f9430a4f422",
+          "type": "SwitchActionComponent",
+          "left": 1874,
+          "top": 28,
+          "width": 159,
+          "height": 73,
+          "customInputs": [
+            {
+              "objID": "7dda9b77-54fc-456b-ea2f-e90c38bc2373",
+              "name": "in",
+              "type": "boolean"
+            }
+          ],
+          "customOutputs": [],
+          "tests": [
+            {
+              "objID": "a647f89d-6202-41fc-94ee-6af904aec4e1",
+              "condition": "in == true",
+              "outputName": "wait",
+              "outputValue": "true"
+            },
+            {
+              "objID": "5e05feb7-7ada-4336-b4e9-9bd060eb176e",
+              "condition": "true",
+              "outputName": "done",
+              "outputValue": "true"
+            }
+          ]
+        },
+        {
+          "objID": "795922ae-cdc3-44e1-c0ff-b69cd87fed84",
+          "type": "DelayActionComponent",
+          "left": 1489,
+          "top": 276,
+          "width": 87,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "milliseconds": "250"
         }
       ],
       "connectionLines": [
@@ -8363,13 +8829,6 @@
           "input": "@seqin"
         },
         {
-          "objID": "33bcb42c-1504-4942-c925-e8cf766cd2f5",
-          "source": "1f801c83-a935-4464-b308-b386c3b8c212",
-          "output": "@seqout",
-          "target": "51fc4f0c-33c1-42c6-b4fa-25bb4a8c5ac4",
-          "input": "@seqin"
-        },
-        {
           "objID": "eb5000a4-b78f-4894-bd1c-afc74690129d",
           "source": "51fc4f0c-33c1-42c6-b4fa-25bb4a8c5ac4",
           "output": "@seqout",
@@ -8508,6 +8967,90 @@
           "output": "variable",
           "target": "63ebe5a1-6047-40b9-a218-a3743d842c24",
           "input": "done"
+        },
+        {
+          "objID": "49850708-1fed-49d8-b7cb-122ee69e964f",
+          "source": "17337f50-1b18-489a-b7ab-cf748e8cd44e",
+          "output": "False",
+          "target": "15438906-9c4e-4f83-9b4d-c6117933571c",
+          "input": "@seqin"
+        },
+        {
+          "objID": "6c0757ec-c5ba-4106-9fae-795885c25735",
+          "source": "b37c9c6f-0688-4e11-d786-578b6fcdcd9a",
+          "output": "True",
+          "target": "b741f660-1188-42bb-c597-a845d263ee40",
+          "input": "@seqin"
+        },
+        {
+          "objID": "203063bf-92e0-467e-a032-338f93637162",
+          "source": "d332db84-1473-46dd-a888-1e4b8dbac8ba",
+          "output": "variable",
+          "target": "0b295450-b282-48cc-ee46-d78e136e0c2f",
+          "input": "@seqin"
+        },
+        {
+          "objID": "5f64e38c-f795-4c21-debc-f5e29a0fa7d0",
+          "source": "65391b03-5092-4dfe-b270-f0c55b02941b",
+          "output": "@seqout",
+          "target": "d89107fb-9277-4b6e-b4f3-52116f8e16fd",
+          "input": "@seqin"
+        },
+        {
+          "objID": "fd8b1245-96f6-4fa5-8c20-169b57a303c9",
+          "source": "0aa9d778-7b58-4a60-e2b4-05be955569f4",
+          "output": "CLICKED",
+          "target": "65391b03-5092-4dfe-b270-f0c55b02941b",
+          "input": "@seqin"
+        },
+        {
+          "objID": "9eb7b054-c061-4f77-fb25-2b0eeeb2c4f7",
+          "source": "d89107fb-9277-4b6e-b4f3-52116f8e16fd",
+          "output": "@seqout",
+          "target": "1aaa395f-c1ff-4618-ecce-a8dc513d4b7b",
+          "input": "@seqin"
+        },
+        {
+          "objID": "2f6a8867-6c52-453e-9dd2-cbc67f1a17fe",
+          "source": "1aaa395f-c1ff-4618-ecce-a8dc513d4b7b",
+          "output": "@seqout",
+          "target": "f56c156d-1084-4dea-e125-24e065dc3c08",
+          "input": "@seqin"
+        },
+        {
+          "objID": "74e3943f-21fc-4aa9-9fc3-61fd3a6bf1a1",
+          "source": "f56c156d-1084-4dea-e125-24e065dc3c08",
+          "output": "running",
+          "target": "62a7ce0f-5a2f-4ee6-979c-1f9430a4f422",
+          "input": "in"
+        },
+        {
+          "objID": "eafeeadd-5637-468d-c668-c02aab518938",
+          "source": "62a7ce0f-5a2f-4ee6-979c-1f9430a4f422",
+          "output": "wait",
+          "target": "1aaa395f-c1ff-4618-ecce-a8dc513d4b7b",
+          "input": "@seqin"
+        },
+        {
+          "objID": "6ae1237f-b05f-4255-f2d0-81970bbb56b9",
+          "source": "62a7ce0f-5a2f-4ee6-979c-1f9430a4f422",
+          "output": "done",
+          "target": "6a558377-8dda-4007-f4c6-af2c6610120e",
+          "input": "@seqin"
+        },
+        {
+          "objID": "97397dde-e8cb-4ada-f5a3-10e216b9fc40",
+          "source": "1f801c83-a935-4464-b308-b386c3b8c212",
+          "output": "@seqout",
+          "target": "795922ae-cdc3-44e1-c0ff-b69cd87fed84",
+          "input": "@seqin"
+        },
+        {
+          "objID": "14d2272d-ab20-4cdf-8baa-1cfe35a5600a",
+          "source": "795922ae-cdc3-44e1-c0ff-b69cd87fed84",
+          "output": "@seqout",
+          "target": "51fc4f0c-33c1-42c6-b4fa-25bb4a8c5ac4",
+          "input": "@seqin"
         }
       ],
       "localVariables": [
@@ -8645,8 +9188,8 @@
           "type": "SetVariableActionComponent",
           "left": -394,
           "top": -147,
-          "width": 348,
-          "height": 166,
+          "width": 349,
+          "height": 167,
           "customInputs": [
             {
               "objID": "ce6aec8c-0b5c-409d-b583-87337a16ab26",
@@ -8694,7 +9237,7 @@
           "left": -157,
           "top": 242,
           "width": 111,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "traces"
@@ -8704,8 +9247,8 @@
           "type": "SwitchActionComponent",
           "left": -826,
           "top": -364,
-          "width": 213,
-          "height": 70,
+          "width": 214,
+          "height": 73,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -8727,7 +9270,7 @@
           "left": -832,
           "top": -240,
           "width": 275,
-          "height": 122,
+          "height": 123,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -8759,7 +9302,7 @@
           "left": -838,
           "top": 269,
           "width": 357,
-          "height": 70,
+          "height": 73,
           "customInputs": [
             {
               "objID": "be532c0b-1fe2-4a73-a0f2-5f6df1defac2",
@@ -8788,7 +9331,7 @@
           "left": -744,
           "top": 411,
           "width": 263,
-          "height": 122,
+          "height": 123,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -8820,7 +9363,7 @@
           "left": -851,
           "top": -577,
           "width": 263,
-          "height": 144,
+          "height": 145,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -8857,7 +9400,7 @@
           "left": -410,
           "top": 242,
           "width": 222,
-          "height": 100,
+          "height": 101,
           "customInputs": [
             {
               "objID": "4fe06281-389f-4300-8fec-04f1592bd355",
@@ -8890,7 +9433,7 @@
           "left": -1327,
           "top": -147,
           "width": 387,
-          "height": 105,
+          "height": 111,
           "customInputs": [
             {
               "objID": "f8136654-ced2-4ef6-f4da-90707cbd7f7d",
@@ -8932,7 +9475,7 @@
           "left": -1498,
           "top": -200,
           "width": 100,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "running"

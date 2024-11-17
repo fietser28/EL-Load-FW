@@ -12,7 +12,6 @@
 #define SCPI_IDN1 "jan28"
 #define SCPI_IDN2 "DCL8010"
 #define SCPI_IDN3 NULL
-#define SCPI_IDN4 "01-02"
 #define SCPI_VERSION "1999.0"
 
 using namespace dcl;
@@ -66,6 +65,7 @@ extern scpi_result_t scpi_cmd_cal_type_reset(scpi_t *context);
 extern scpi_result_t scpi_cmd_deb_eeprom_clear(scpi_t *context);
 extern scpi_result_t scpi_cmd_deb_mem_heapQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_deb_reboot(scpi_t *context);
+extern scpi_result_t scpi_cmd_deb_iolinesQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_deb_wdog_thres_maxQ(scpi_t *context);
 
 extern scpi_result_t scpi_cmd_fetch_current(scpi_t *context);
