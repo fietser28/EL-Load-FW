@@ -171,7 +171,7 @@ void watchdog(void *pvParameters)
       if (watchdogEncTask   >= 3) { SERIALDEBUG.println("WARNING: Watchdog not seeing Keys/encoder task."); };
       if (watchdogGuiTask   >= 3) { SERIALDEBUG.println("WARNING: Watchdog not seeing GUI task."); };
       if (watchdogGuiTimerFunction >= 3) { SERIALDEBUG.println("WARNING: Watchdog not seeing GUI Timer task."); };
-      if (watchdogLoop >= 7)      { SERIALDEBUG.println("WARNING: Watchdog not seeing (SCPI) Loop task."); };
+      if (watchdogLoop >= 10  )      { SERIALDEBUG.println("WARNING: Watchdog not seeing (SCPI) Loop task."); };
       if (watchdogProtHW >= 3)    { SERIALDEBUG.println("WARNING: Watchdog not seeing ProtHW task."); };
       if (watchdogMeasureAndOutput >= 3) { SERIALDEBUG.println("WARNING: Watchdog not seeing Measure task."); };
     vTaskDelay(500);

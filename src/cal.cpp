@@ -258,12 +258,12 @@ namespace dcl::cal
             p->points[1].value = caldefaults[i].value1;
             if (caldefaults[i].type == calCalType_e::calCalType_e_ADC) {
                 p->points[0].adc   = caldefaults[i].adc0;
-                p->points[1].adc   = caldefaults[i].value1;
+                p->points[1].adc   = caldefaults[i].adc1;
                 c->setADCConfig(caldefaults[i].adcMin, caldefaults[i].adcMax);
             }
             if (caldefaults[i].type == calCalType_e::calCalType_e_DAC || caldefaults[i].type == calCalType_e::calCalType_e_LEVEL ) {
                 p->points[0].dac   = caldefaults[i].adc0;
-                p->points[1].dac   = caldefaults[i].value1;
+                p->points[1].dac   = caldefaults[i].adc1;
                 c->setDACConfig(caldefaults[i].adcMin, caldefaults[i].adcMax);
             }
             c->setCalConfigRef(p);    
