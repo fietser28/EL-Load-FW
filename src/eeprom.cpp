@@ -121,7 +121,6 @@ namespace dcl::eeprom
                     SERIALDEBUG.println("ERROR: Error starting EEPROM task.");
                     return false;
                 }
-                SERIALDEBUG.print("3");
                 return true;
             } else {
                 SERIALDEBUG.println("ERROR: EEprom task already/still running.....");
@@ -134,13 +133,11 @@ namespace dcl::eeprom
 
     void eeprom::startFullWriteTask(void *pvParameters)
     {
-        SERIALDEBUG.print("1");
         ((eeprom*)pvParameters)->fullWriteTask(pvParameters);
     };
 
     void eeprom::fullWriteTask(void *pvParameters) {
         dcl::scpi::scpi_busy_inc();
-        SERIALDEBUG.print("2");
         for (int i = 0; i < EEPROM_SIZE; i++)
         {
             write(i, 0xff);
@@ -150,7 +147,6 @@ namespace dcl::eeprom
                 //return;
             }
         }
-        SERIALDEBUG.print("done");
         dcl::scpi::scpi_busy_dec(); 
         xSemaphoreGive(xSemEepromTask);            
         vTaskDelete(xTaskEepromFullWrite);
