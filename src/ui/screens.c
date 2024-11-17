@@ -3723,6 +3723,16 @@ void tick_screen_capacity() {
         }
     }
     {
+        bool new_val = evalBooleanProperty(flowState, 43, 3, "Failed to evaluate Hidden flag");
+        bool cur_val = lv_obj_has_flag(objects.obj34, LV_OBJ_FLAG_HIDDEN);
+        if (new_val != cur_val) {
+            tick_value_change_obj = objects.obj34;
+            if (new_val) lv_obj_add_flag(objects.obj34, LV_OBJ_FLAG_HIDDEN);
+            else lv_obj_clear_flag(objects.obj34, LV_OBJ_FLAG_HIDDEN);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
         bool new_val = evalBooleanProperty(flowState, 45, 3, "Failed to evaluate Checked state");
         bool cur_val = lv_obj_has_state(objects.obj35, LV_STATE_CHECKED);
         if (new_val != cur_val) {
@@ -5214,12 +5224,22 @@ void tick_screen_protections() {
         }
     }
     {
-        bool new_val = evalBooleanProperty(flowState, 36, 3, "Failed to evaluate Disabled state");
+        bool new_val = evalBooleanProperty(flowState, 36, 4, "Failed to evaluate Disabled state");
         bool cur_val = lv_obj_has_state(objects.obj54, LV_STATE_DISABLED);
         if (new_val != cur_val) {
             tick_value_change_obj = objects.obj54;
             if (new_val) lv_obj_add_state(objects.obj54, LV_STATE_DISABLED);
             else lv_obj_clear_state(objects.obj54, LV_STATE_DISABLED);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        bool new_val = evalBooleanProperty(flowState, 36, 3, "Failed to evaluate Hidden flag");
+        bool cur_val = lv_obj_has_flag(objects.obj54, LV_OBJ_FLAG_HIDDEN);
+        if (new_val != cur_val) {
+            tick_value_change_obj = objects.obj54;
+            if (new_val) lv_obj_add_flag(objects.obj54, LV_OBJ_FLAG_HIDDEN);
+            else lv_obj_clear_flag(objects.obj54, LV_OBJ_FLAG_HIDDEN);
             tick_value_change_obj = NULL;
         }
     }

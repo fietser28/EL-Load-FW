@@ -69,6 +69,7 @@ namespace dcl
                 _setState.Rset = ranges[ranges_e_Res].defValue;
                 _setState.Pset = ranges[ranges_e_Power].defValue;
                 _setState.VonSet = ranges[ranges_e_Von_High].defValue;
+                _setState.CalibrationVonSet = false;
                 _setState.OCPset = ranges[ranges_e_OCP_High].defValue;
                 _setState.CalibrationOCPset = false;
                 _setState.OVPset = ranges[ranges_e_OVP_High].defValue;
