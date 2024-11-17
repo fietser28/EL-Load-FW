@@ -978,6 +978,15 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
         uset = localSetState.Uset;;
         break;
 
+      case ELmode::SHORT:
+        iset = 100.0f; // No limit.
+        uset = 0.0f;   // No limit.
+        break;
+      
+      case ELmode::DVM:
+        iset = 0.0f;  // Off
+        uset = 100.0f;  // Off
+        
       //default: // CC, CV and SHORT (max/min if not needed)
       //  iset = localSetState.Iset;
       //  uset = localSetState.Uset;
