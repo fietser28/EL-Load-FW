@@ -285,6 +285,15 @@ scpi_result_t scpi_opcQ(scpi_t * context) {
     return SCPI_RES_OK;
 }
 
+scpi_result_t scpi_rst(scpi_t *context) {
+    state.resetAllStates(); 
+    changeScreen_s msg;
+    msg.newScreen = SCREEN_ID_MAIN;
+    msg.pop = false;
+    xQueueSend(changeScreen, &msg, 100);
+    return SCPI_RES_OK;
+}
+
 // Fetch current available data
 ///////////////////////////////
 

@@ -648,4 +648,38 @@ namespace dcl::cal
             return false;
         }
     }
+
+    bool calAction::readAllValues()
+    {
+        state.hw.calibrationCRCOK = false;
+        if (state.hw.eepromMagicDetected)
+        {
+            bool r;
+            r = myeeprom.calibrationValuesRead(state.cal.Imon->getCalConfigRef(), EEPROM_ADDR_CAL_IMON_H);
+            r = r && myeeprom.calibrationValuesRead(state.cal.ImonLow->getCalConfigRef(), EEPROM_ADDR_CAL_IMON_L);
+            r = r && myeeprom.calibrationValuesRead(state.cal.Umon->getCalConfigRef(), EEPROM_ADDR_CAL_UMON_H);
+            r = r && myeeprom.calibrationValuesRead(state.cal.UmonLow->getCalConfigRef(), EEPROM_ADDR_CAL_UMON_L);
+            r = r && myeeprom.calibrationValuesRead(state.cal.Iset->getCalConfigRef(), EEPROM_ADDR_CAL_ISET_H);
+            r = r && myeeprom.calibrationValuesRead(state.cal.IsetLow->getCalConfigRef(), EEPROM_ADDR_CAL_ISET_L);
+            r = r && myeeprom.calibrationValuesRead(state.cal.Von->getCalConfigRef(), EEPROM_ADDR_CAL_VON_H);
+            r = r && myeeprom.calibrationValuesRead(state.cal.VonLow->getCalConfigRef(), EEPROM_ADDR_CAL_VON_L);
+            r = r && myeeprom.calibrationValuesRead(state.cal.OCPset->getCalConfigRef(), EEPROM_ADDR_CAL_OCP_H);
+            r = r && myeeprom.calibrationValuesRead(state.cal.OCPsetLow->getCalConfigRef(), EEPROM_ADDR_CAL_OCP_L);
+            r = r && myeeprom.calibrationValuesRead(state.cal.OVPset->getCalConfigRef(), EEPROM_ADDR_CAL_OVP_H);
+            r = r && myeeprom.calibrationValuesRead(state.cal.OVPsetLow->getCalConfigRef(), EEPROM_ADDR_CAL_OVP_L);
+            state.hw.calibrationCRCOK = true; // TODO: Activate this
+            if (r == true)
+            {
+                SERIALDEBUG.println("INFO: Calibration data CRC OK.");
+            }
+            else
+            {
+                SERIALDEBUG.println("ERROR: Calibartion data CRC NOT OK.");
+            };
+            return r;
+        } else {
+            return false;
+        }
+    }
+    
 }

@@ -22,7 +22,7 @@ const scpi_command_t scpi_commands[] = {
     {"*IDN?", SCPI_CoreIdnQ, 0},
     {"*OPC", scpi_opc, 0},
     {"*OPC?", scpi_opcQ, 0},
-    {"*RST", SCPI_CoreRst, 0},  // OK? should be equal to StatusPreset?
+    {"*RST", scpi_rst, 0},  // OK? should be equal to StatusPreset?
     {"*SRE", SCPI_CoreSre, 0},
     {"*SRE?", SCPI_CoreSreQ, 0},
     {"*STB?", SCPI_CoreStbQ, 0},

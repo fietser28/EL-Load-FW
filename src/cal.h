@@ -90,6 +90,7 @@ class calAction {
         void        resetValues();
         bool        storeDefaults(); // load Default values and store in eeprom
         bool        storeAllValues(); // store all current values to eeprom
+        bool        readAllValues();  // load all calibration data from eeprom
 
     private:
         SemaphoreHandle_t _sem;

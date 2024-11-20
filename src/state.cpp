@@ -41,6 +41,11 @@ namespace dcl
         _setState.startupDone = false;
     };
 
+    bool stateManager::readCalibrationData()
+    {
+        return calActions.readAllValues();
+    }
+
     bool stateManager::setDefaults() 
     {
         scpi_busy_inc();
@@ -81,6 +86,7 @@ namespace dcl
                 _setState.CapWhStop = ranges[ranges_e_WHStop].defValue;
                 _setState.CapTimeStop = ranges[ranges_e_TimeStop].defValue;
                 _setState.capacityLimit = false;
+                _setState.capacityLimitEnabled = false;
                 _setState.FanManualSpeed = ranges[ranges_e_FanSpeed].defValue;
                 _setState.FanAuto = true;
                 _setState.rangeCurrentLow = false;
@@ -144,6 +150,20 @@ namespace dcl
         updateMeasureTask();
     }
 
+    bool stateManager::resetAllStates()
+    {
+        bool r;
+        r = setDefaults();
+        r = r && record(true);
+        r = r && setOff();
+        r = r && clearPower();
+        r = r && clearProtection();
+        r = r && clearImonStat();
+        r = r && clearUmonStat();
+        r = r && clearPmonStat();
+        return r;
+    };
+
     bool stateManager::CalibrationMode(bool on) 
     {
         changeScreen_s msg;
@@ -162,9 +182,10 @@ namespace dcl
                     msg.newScreen = SCREEN_ID_CALIBRATION;
                     msg.pop = false;
                 } else {
-                    msg.newScreen = SCREEN_ID_MAIN; // Just to be sure.
-                    msg.pop = true;
-                    state.setDefaults(); // Cleanup calibration mess.
+                    //msg.newScreen = SCREEN_ID_MAIN; // Just to be sure.
+                    //msg.pop = true;
+                    //state.setDefaults(); // Cleanup calibration mess.
+                    resetAllStates();
                 }
                 xQueueSend(changeScreen, &msg, 100);
                 return true;

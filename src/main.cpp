@@ -330,28 +330,8 @@ void setup()
     SERIALDEBUG.println("ERROR: No EEPROM with magic found.");
   }
 
-  state.hw.calibrationCRCOK = false;
-  if (state.hw.eepromMagicDetected) {
-    bool r;
-    r = myeeprom.calibrationValuesRead(state.cal.Imon->getCalConfigRef(), EEPROM_ADDR_CAL_IMON_H);
-    r = r && myeeprom.calibrationValuesRead(state.cal.ImonLow->getCalConfigRef(), EEPROM_ADDR_CAL_IMON_L);
-    r = r && myeeprom.calibrationValuesRead(state.cal.Umon->getCalConfigRef(), EEPROM_ADDR_CAL_UMON_H);
-    r = r && myeeprom.calibrationValuesRead(state.cal.UmonLow->getCalConfigRef(), EEPROM_ADDR_CAL_UMON_L);
-    r = r && myeeprom.calibrationValuesRead(state.cal.Iset->getCalConfigRef(), EEPROM_ADDR_CAL_ISET_H);
-    r = r && myeeprom.calibrationValuesRead(state.cal.IsetLow->getCalConfigRef(), EEPROM_ADDR_CAL_ISET_L);
-    r = r && myeeprom.calibrationValuesRead(state.cal.Von->getCalConfigRef(),  EEPROM_ADDR_CAL_VON_H);
-    r = r && myeeprom.calibrationValuesRead(state.cal.VonLow->getCalConfigRef(),  EEPROM_ADDR_CAL_VON_L);
-    r = r && myeeprom.calibrationValuesRead(state.cal.OCPset->getCalConfigRef(), EEPROM_ADDR_CAL_OCP_H);
-    r = r && myeeprom.calibrationValuesRead(state.cal.OCPsetLow->getCalConfigRef(), EEPROM_ADDR_CAL_OCP_L);
-    r = r && myeeprom.calibrationValuesRead(state.cal.OVPset->getCalConfigRef(), EEPROM_ADDR_CAL_OVP_H);
-    r = r && myeeprom.calibrationValuesRead(state.cal.OVPsetLow->getCalConfigRef(), EEPROM_ADDR_CAL_OVP_L);
-    state.hw.calibrationCRCOK = true; //TODO: Activate this
-    if (r == true) {
-      SERIALDEBUG.println("INFO: Calibration data CRC OK.");
-    } else {
-      SERIALDEBUG.println("ERROR: Calibartion data CRC NOT OK.");
-    }
-  }
+  state.setDefaults();
+  state.readCalibrationData();
 
   uint8_t eepromVersionRead = myeeprom.read(EEPROM_ADDR_VERSION);
 
@@ -420,11 +400,7 @@ void setup()
     vTaskDelay(5);
   }
 
-  state.setDefaults();
-  state.record(true);
-  state.setOff();
-  state.clearPower();
-  state.clearProtection(); // Reset power-on OCP/OVP latches.
+  state.resetAllStates();
 
   heaptotal = rp2040.getTotalHeap();
   heapused = rp2040.getUsedHeap();
@@ -986,7 +962,7 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
       case ELmode::DVM:
         iset = 0.0f;  // Off
         uset = 100.0f;  // Off
-        
+
       //default: // CC, CV and SHORT (max/min if not needed)
       //  iset = localSetState.Iset;
       //  uset = localSetState.Uset;

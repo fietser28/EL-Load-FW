@@ -40,7 +40,7 @@ scpi_result_t SCPI_Flush(scpi_t * context);
 
 extern scpi_result_t scpi_opc(scpi_t *context);
 extern scpi_result_t scpi_opcQ(scpi_t *context);
-
+extern scpi_result_t scpi_rst(scpi_t *context);
 
 // EL-Load
 extern scpi_result_t scpi_cmd_cal(scpi_t *context);

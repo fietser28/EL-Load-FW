@@ -117,7 +117,7 @@ namespace dcl
         float CapAhStop;
         float CapWhStop;
         float CapTimeStop;
-        bool capacityLimit;
+        bool capacityLimit;     // TODO: move to measured state?
         bool capacityLimitEnabled;
         bool FanAuto;
         uint8_t FanManualSpeed;
@@ -169,8 +169,12 @@ class stateManager
 {
 public:
     void begin();
+    bool readCalibrationData();
     bool setDefaults();
     void startupDone();
+
+    bool resetAllStates();
+
     bool CalibrationMode(bool on);
     bool getCalibrationMode();
 
