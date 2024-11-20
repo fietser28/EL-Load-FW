@@ -160,6 +160,7 @@ namespace dcl
         RP2040::resetReason_t resetReason;
         bool eepromMagicDetected;
         bool calibrationCRCOK;
+        bool calibrationValid;
     };
 
 #ifndef __cplusplus

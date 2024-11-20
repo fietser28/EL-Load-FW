@@ -45,6 +45,7 @@ namespace dcl
     {
         unsigned int numPoints;
         CalibrationValuePointConfiguration points[MAX_CALIBRATION_POINTS];
+        bool valid;
     };
 
 #ifndef __cplusplus

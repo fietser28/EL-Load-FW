@@ -227,6 +227,7 @@ typedef struct _objects_t {
     lv_obj_t *startup_start_status;
     lv_obj_t *startup_eeprom;
     lv_obj_t *startup_calibration;
+    lv_obj_t *startup_fans;
     lv_obj_t *obj82;
     lv_obj_t *main_measure;
     lv_obj_t *sense_indicator;

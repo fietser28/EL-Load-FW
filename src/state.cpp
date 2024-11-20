@@ -182,9 +182,6 @@ namespace dcl
                     msg.newScreen = SCREEN_ID_CALIBRATION;
                     msg.pop = false;
                 } else {
-                    //msg.newScreen = SCREEN_ID_MAIN; // Just to be sure.
-                    //msg.pop = true;
-                    //state.setDefaults(); // Cleanup calibration mess.
                     resetAllStates();
                 }
                 xQueueSend(changeScreen, &msg, 100);

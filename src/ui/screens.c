@@ -1735,6 +1735,24 @@ void create_screen_startup() {
                 }
             }
         }
+        {
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            lv_obj_set_pos(obj, 78, 114);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_label_set_text(obj, "Fans:");
+            add_style_small_label(obj);
+        }
+        {
+            // startup_fans
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            objects.startup_fans = obj;
+            lv_obj_set_pos(obj, 135, 114);
+            lv_obj_set_size(obj, 185, 24);
+            lv_label_set_long_mode(obj, LV_LABEL_LONG_CLIP);
+            lv_label_set_text(obj, "");
+            add_style_small_label(obj);
+            lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+        }
     }
 }
 
@@ -1783,6 +1801,25 @@ void tick_screen_startup() {
         if (strcmp(new_val, cur_val) != 0) {
             tick_value_change_obj = objects.obj82;
             lv_label_set_text(objects.obj82, new_val);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        bool new_val = evalBooleanProperty(flowState, 18, 3, "Failed to evaluate Hidden flag");
+        bool cur_val = lv_obj_has_flag(objects.startup_fans, LV_OBJ_FLAG_HIDDEN);
+        if (new_val != cur_val) {
+            tick_value_change_obj = objects.startup_fans;
+            if (new_val) lv_obj_add_flag(objects.startup_fans, LV_OBJ_FLAG_HIDDEN);
+            else lv_obj_clear_flag(objects.startup_fans, LV_OBJ_FLAG_HIDDEN);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        const char *new_val = evalTextProperty(flowState, 18, 4, "Failed to evaluate Text in Label widget");
+        const char *cur_val = lv_label_get_text(objects.startup_fans);
+        if (strcmp(new_val, cur_val) != 0) {
+            tick_value_change_obj = objects.startup_fans;
+            lv_label_set_text(objects.startup_fans, new_val);
             tick_value_change_obj = NULL;
         }
     }
@@ -7849,7 +7886,7 @@ void ui_create_groups() {
 }
 
 static const char *screen_names[] = { "Startup", "Main", "Capacity", "Settings", "events", "Ranges", "NPLC", "protections", "calibration", "Fan", "Display", "Info", "Sound", "Stats" };
-static const char *object_names[] = { "startup", "main", "capacity", "settings", "events", "ranges", "nplc", "protections", "calibration", "fan", "display", "info", "sound", "stats", "obj0", "obj0__kbtext2", "obj0__obj0", "obj0__max_button", "obj0__min_button", "obj0__obj1", "obj0__obj2", "obj1", "obj1__kbtext2", "obj1__obj0", "obj1__max_button", "obj1__min_button", "obj1__obj1", "obj1__obj2", "obj2", "obj2__sure_but_yes", "obj2__sure_but_no", "obj2__sure_label_yes", "obj2__sure_label_no", "obj2__obj0", "obj2__obj1", "obj3", "obj3__sure_but_yes", "obj3__sure_but_no", "obj3__sure_label_yes", "obj3__sure_label_no", "obj3__obj0", "obj3__obj1", "obj4", "obj4__kbtext2", "obj4__obj0", "obj4__max_button", "obj4__min_button", "obj4__obj1", "obj4__obj2", "obj5", "obj5__kbtext2", "obj5__obj0", "obj5__max_button", "obj5__min_button", "obj5__obj1", "obj5__obj2", "obj6", "obj6__sure_but_yes", "obj6__sure_but_no", "obj6__sure_label_yes", "obj6__sure_label_no", "obj6__obj0", "obj6__obj1", "obj7", "obj7__sure_but_yes", "obj7__sure_but_no", "obj7__sure_label_yes", "obj7__sure_label_no", "obj7__obj0", "obj7__obj1", "obj8", "obj8__sure_but_yes", "obj8__sure_but_no", "obj8__sure_label_yes", "obj8__sure_label_no", "obj8__obj0", "obj8__obj1", "obj9", "obj9__obj0", "obj9__obj1", "obj9__stat_min_17", "obj9__stat_min_18", "obj9__stat_min_19", "obj9__stat_min_20", "obj9__stat_min_21", "obj9__stat_min_22", "obj10", "obj10__obj0", "obj10__obj1", "obj10__stat_min_17", "obj10__stat_min_18", "obj10__stat_min_19", "obj10__stat_min_20", "obj10__stat_min_21", "obj10__stat_min_22", "obj11", "obj11__obj0", "obj11__obj1", "obj11__stat_min_17", "obj11__stat_min_18", "obj11__stat_min_19", "obj11__stat_min_20", "obj11__stat_min_21", "obj11__stat_min_22", "startup_ok", "myspinbox", "mode_selector", "on_off_button", "range_current", "obj12", "obj13", "range_volt", "obj14", "obj15", "obj16", "obj17", "wh", "obj18", "obj19", "obj20", "obj21", "obj22", "obj23", "obj24", "range_volt_1", "obj25", "range_curr_1", "obj26", "obj27", "obj28", "obj29", "obj30", "obj31", "on_off_button_1", "obj32", "obj33", "obj34", "obj35", "obj36", "obj37", "obj38", "obj39", "obj40", "obj41", "obj42", "obj43", "obj44", "obj45", "obj46", "obj47", "obj48", "obj49", "current_range", "volt_range", "sense", "nlpc_back", "nlpc_ok", "nlpc_cancel", "nplc_nplc", "pl_freq", "nlpc_home", "nlpc_home_cancel", "nlpc_home_cancel_1", "obj50", "obj51", "obj52", "obj53", "obj54", "obj55", "obj56", "obj57", "obj58", "obj59", "obj60", "obj61", "obj62", "obj63", "obj64", "obj65", "obj66", "obj67", "obj68", "obj69", "obj70", "obj71", "obj72", "nlpc_home_1", "nlpc_home_cancel_2", "nlpc_home_cancel_3", "nlpc_home_2", "nlpc_home_cancel_4", "nlpc_home_cancel_5", "obj73", "obj74", "obj75", "display_off", "nlpc_home_4", "nplc_nplc_1", "nlpc_home_3", "nlpc_home_cancel_6", "nlpc_home_cancel_7", "obj76", "obj77", "obj78", "obj79", "obj80", "obj81", "stats_back", "startup_start_status", "startup_eeprom", "startup_calibration", "obj82", "main_measure", "sense_indicator", "obj83", "flex_panel", "capacity_panel", "ah", "montime", "stats_panel", "stat_min", "montime_3", "ah_10", "stat_avg", "stat_max", "montime_4", "main_lower_panel", "set_value", "isetlabel_1", "von_panel", "vonlabel", "protection_and_temp", "wheel", "main_dvm", "obj84", "main_short", "obj85", "vonlabel_1", "obj86", "obj87", "obj88", "obj89", "obj90", "obj91", "obj92", "obj93", "obj94", "obj95", "obj96", "obj97", "obj98", "obj99", "obj100", "obj101", "obj102", "obj103", "obj104", "ah_2", "ah_3", "ah_4", "ah_5", "ah_6", "ah_7", "obj105", "obj106", "obj107", "obj108", "obj109", "obj110", "obj111", "obj112", "obj113", "obj114", "obj115", "obj116", "obj117", "obj118", "obj119", "obj120", "obj121", "obj122", "obj123", "obj124", "obj125", "obj126", "obj127", "obj128", "obj129", "obj130", "obj131", "obj132", "obj133", "obj134", "obj135", "obj136", "obj137", "obj138", "obj139", "obj140", "obj141", "obj142", "obj143", "obj144", "obj145", "obj146", "obj147", "obj148", "obj149", "obj150", "obj151", "obj152", "obj153", "obj154", "obj155", "obj156", "obj157", "obj158", "obj159", "obj160", "obj161", "obj162", "obj163", "obj164", "obj165", "obj166", "obj167", "obj168", "obj169", "obj170", "obj171", "obj172", "obj173", "obj174", "obj175", "obj176", "obj177", "obj178", "obj179", "obj180", "obj181", "obj182", "obj183", "obj184", "obj185", "obj186", "obj187", "obj188", "obj189", "obj190", "stat_min_8", "stat_min_9", "stat_min_10", "stat_min_11", "stat_min_12", "obj191" };
+static const char *object_names[] = { "startup", "main", "capacity", "settings", "events", "ranges", "nplc", "protections", "calibration", "fan", "display", "info", "sound", "stats", "obj0", "obj0__kbtext2", "obj0__obj0", "obj0__max_button", "obj0__min_button", "obj0__obj1", "obj0__obj2", "obj1", "obj1__kbtext2", "obj1__obj0", "obj1__max_button", "obj1__min_button", "obj1__obj1", "obj1__obj2", "obj2", "obj2__sure_but_yes", "obj2__sure_but_no", "obj2__sure_label_yes", "obj2__sure_label_no", "obj2__obj0", "obj2__obj1", "obj3", "obj3__sure_but_yes", "obj3__sure_but_no", "obj3__sure_label_yes", "obj3__sure_label_no", "obj3__obj0", "obj3__obj1", "obj4", "obj4__kbtext2", "obj4__obj0", "obj4__max_button", "obj4__min_button", "obj4__obj1", "obj4__obj2", "obj5", "obj5__kbtext2", "obj5__obj0", "obj5__max_button", "obj5__min_button", "obj5__obj1", "obj5__obj2", "obj6", "obj6__sure_but_yes", "obj6__sure_but_no", "obj6__sure_label_yes", "obj6__sure_label_no", "obj6__obj0", "obj6__obj1", "obj7", "obj7__sure_but_yes", "obj7__sure_but_no", "obj7__sure_label_yes", "obj7__sure_label_no", "obj7__obj0", "obj7__obj1", "obj8", "obj8__sure_but_yes", "obj8__sure_but_no", "obj8__sure_label_yes", "obj8__sure_label_no", "obj8__obj0", "obj8__obj1", "obj9", "obj9__obj0", "obj9__obj1", "obj9__stat_min_17", "obj9__stat_min_18", "obj9__stat_min_19", "obj9__stat_min_20", "obj9__stat_min_21", "obj9__stat_min_22", "obj10", "obj10__obj0", "obj10__obj1", "obj10__stat_min_17", "obj10__stat_min_18", "obj10__stat_min_19", "obj10__stat_min_20", "obj10__stat_min_21", "obj10__stat_min_22", "obj11", "obj11__obj0", "obj11__obj1", "obj11__stat_min_17", "obj11__stat_min_18", "obj11__stat_min_19", "obj11__stat_min_20", "obj11__stat_min_21", "obj11__stat_min_22", "startup_ok", "myspinbox", "mode_selector", "on_off_button", "range_current", "obj12", "obj13", "range_volt", "obj14", "obj15", "obj16", "obj17", "wh", "obj18", "obj19", "obj20", "obj21", "obj22", "obj23", "obj24", "range_volt_1", "obj25", "range_curr_1", "obj26", "obj27", "obj28", "obj29", "obj30", "obj31", "on_off_button_1", "obj32", "obj33", "obj34", "obj35", "obj36", "obj37", "obj38", "obj39", "obj40", "obj41", "obj42", "obj43", "obj44", "obj45", "obj46", "obj47", "obj48", "obj49", "current_range", "volt_range", "sense", "nlpc_back", "nlpc_ok", "nlpc_cancel", "nplc_nplc", "pl_freq", "nlpc_home", "nlpc_home_cancel", "nlpc_home_cancel_1", "obj50", "obj51", "obj52", "obj53", "obj54", "obj55", "obj56", "obj57", "obj58", "obj59", "obj60", "obj61", "obj62", "obj63", "obj64", "obj65", "obj66", "obj67", "obj68", "obj69", "obj70", "obj71", "obj72", "nlpc_home_1", "nlpc_home_cancel_2", "nlpc_home_cancel_3", "nlpc_home_2", "nlpc_home_cancel_4", "nlpc_home_cancel_5", "obj73", "obj74", "obj75", "display_off", "nlpc_home_4", "nplc_nplc_1", "nlpc_home_3", "nlpc_home_cancel_6", "nlpc_home_cancel_7", "obj76", "obj77", "obj78", "obj79", "obj80", "obj81", "stats_back", "startup_start_status", "startup_eeprom", "startup_calibration", "startup_fans", "obj82", "main_measure", "sense_indicator", "obj83", "flex_panel", "capacity_panel", "ah", "montime", "stats_panel", "stat_min", "montime_3", "ah_10", "stat_avg", "stat_max", "montime_4", "main_lower_panel", "set_value", "isetlabel_1", "von_panel", "vonlabel", "protection_and_temp", "wheel", "main_dvm", "obj84", "main_short", "obj85", "vonlabel_1", "obj86", "obj87", "obj88", "obj89", "obj90", "obj91", "obj92", "obj93", "obj94", "obj95", "obj96", "obj97", "obj98", "obj99", "obj100", "obj101", "obj102", "obj103", "obj104", "ah_2", "ah_3", "ah_4", "ah_5", "ah_6", "ah_7", "obj105", "obj106", "obj107", "obj108", "obj109", "obj110", "obj111", "obj112", "obj113", "obj114", "obj115", "obj116", "obj117", "obj118", "obj119", "obj120", "obj121", "obj122", "obj123", "obj124", "obj125", "obj126", "obj127", "obj128", "obj129", "obj130", "obj131", "obj132", "obj133", "obj134", "obj135", "obj136", "obj137", "obj138", "obj139", "obj140", "obj141", "obj142", "obj143", "obj144", "obj145", "obj146", "obj147", "obj148", "obj149", "obj150", "obj151", "obj152", "obj153", "obj154", "obj155", "obj156", "obj157", "obj158", "obj159", "obj160", "obj161", "obj162", "obj163", "obj164", "obj165", "obj166", "obj167", "obj168", "obj169", "obj170", "obj171", "obj172", "obj173", "obj174", "obj175", "obj176", "obj177", "obj178", "obj179", "obj180", "obj181", "obj182", "obj183", "obj184", "obj185", "obj186", "obj187", "obj188", "obj189", "obj190", "stat_min_8", "stat_min_9", "stat_min_10", "stat_min_11", "stat_min_12", "obj191" };
 static const char *group_names[] = { "encoder_group" };
 static const char *style_names[] = { "button", "selectbutton", "selectButtonRedGreen", "selectButton90deg", "blackpanel", "bigfont_label", "bigfont Normal", "warning", "Title ", "slider", "small label", "small label_symbol", "extra small label", "small header", "buttonText", "buttonText90deg", "checkbox_default", "checkbox_small", "screen_background", "transparant_overlay", "selector small", "selector_with_disable", "spinbox_default", "label_red" };
 

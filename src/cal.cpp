@@ -254,6 +254,7 @@ namespace dcl::cal
 
             CalibrationValueConfiguration *p = c->getCalConfigRef(); 
             p->numPoints = 2;
+            p->valid = false;
             p->points[0].value = caldefaults[i].value0;
             p->points[1].value = caldefaults[i].value1;
             if (caldefaults[i].type == calCalType_e::calCalType_e_ADC) {
@@ -414,6 +415,7 @@ namespace dcl::cal
             _values.points[_curpoint].value = _measured;
             _values.points[_curpoint].dac = (int32_t)_set;
         }
+        _values.valid = true; // TODO: Add more sanity checks?
     }
 
     void calAction::storeValues() 
@@ -654,20 +656,33 @@ namespace dcl::cal
         state.hw.calibrationCRCOK = false;
         if (state.hw.eepromMagicDetected)
         {
-            bool r;
+            bool r,v;
             r = myeeprom.calibrationValuesRead(state.cal.Imon->getCalConfigRef(), EEPROM_ADDR_CAL_IMON_H);
+            v = state.cal.Imon->getCalConfigRef()->valid;
             r = r && myeeprom.calibrationValuesRead(state.cal.ImonLow->getCalConfigRef(), EEPROM_ADDR_CAL_IMON_L);
+            v = v && state.cal.ImonLow->getCalConfigRef()->valid;
             r = r && myeeprom.calibrationValuesRead(state.cal.Umon->getCalConfigRef(), EEPROM_ADDR_CAL_UMON_H);
+            v = v && state.cal.Umon->getCalConfigRef()->valid;
             r = r && myeeprom.calibrationValuesRead(state.cal.UmonLow->getCalConfigRef(), EEPROM_ADDR_CAL_UMON_L);
+            v = v && state.cal.UmonLow->getCalConfigRef()->valid;
             r = r && myeeprom.calibrationValuesRead(state.cal.Iset->getCalConfigRef(), EEPROM_ADDR_CAL_ISET_H);
+            v = v && state.cal.Iset->getCalConfigRef()->valid;
             r = r && myeeprom.calibrationValuesRead(state.cal.IsetLow->getCalConfigRef(), EEPROM_ADDR_CAL_ISET_L);
+            v = v && state.cal.IsetLow->getCalConfigRef()->valid;
             r = r && myeeprom.calibrationValuesRead(state.cal.Von->getCalConfigRef(), EEPROM_ADDR_CAL_VON_H);
+            v = v && state.cal.Von->getCalConfigRef()->valid;
             r = r && myeeprom.calibrationValuesRead(state.cal.VonLow->getCalConfigRef(), EEPROM_ADDR_CAL_VON_L);
+            v = v && state.cal.VonLow->getCalConfigRef()->valid;
             r = r && myeeprom.calibrationValuesRead(state.cal.OCPset->getCalConfigRef(), EEPROM_ADDR_CAL_OCP_H);
+            v = v && state.cal.OCPset->getCalConfigRef()->valid;
             r = r && myeeprom.calibrationValuesRead(state.cal.OCPsetLow->getCalConfigRef(), EEPROM_ADDR_CAL_OCP_L);
+            v = v && state.cal.OCPsetLow->getCalConfigRef()->valid;
             r = r && myeeprom.calibrationValuesRead(state.cal.OVPset->getCalConfigRef(), EEPROM_ADDR_CAL_OVP_H);
+            v = v && state.cal.OVPset->getCalConfigRef()->valid;
             r = r && myeeprom.calibrationValuesRead(state.cal.OVPsetLow->getCalConfigRef(), EEPROM_ADDR_CAL_OVP_L);
-            state.hw.calibrationCRCOK = true; // TODO: Activate this
+            v = v && state.cal.OVPsetLow->getCalConfigRef()->valid;
+            state.hw.calibrationCRCOK = r;
+            state.hw.calibrationValid = v;
             if (r == true)
             {
                 SERIALDEBUG.println("INFO: Calibration data CRC OK.");
@@ -681,5 +696,5 @@ namespace dcl::cal
             return false;
         }
     }
-    
+
 }
