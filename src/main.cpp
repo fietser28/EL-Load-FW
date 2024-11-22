@@ -460,39 +460,12 @@ void loop()
       if (state.getSCPIWdogType() == WDogType::ACTIVITY) {
         state.SCPIWdogPet();
       }
-      /*
-        heaptotal = rp2040.getTotalHeap();
-        heapused = rp2040.getUsedHeap();
-        heapfree = rp2040.getFreeHeap();
-        SERIALDEBUG.printf("\nHeap total: %d, used: %d, free:  %d\n", heaptotal, heapused, heapfree);
-        //SERIALDEBUG.printf("%d, %d, %d, %d, %d, %d, %d\n",watchdogAveraging, watchdogEncTask, watchdogGuiTask, watchdogGuiTimerFunction, watchdogLoop, watchdogProtHW, watchdogMeasureAndOutput);
-        lv_mem_monitor(&lv_mem_stats);
-        SERIALDEBUG.printf("LV mem: total: %d, used: %d, free:%d, free biggest: %d, used %%: %d%%, max used: %d, count used/free: %d/%d \n", 
-                             lv_mem_stats.total_size, lv_mem_stats.total_size-lv_mem_stats.free_size, lv_mem_stats.free_size, lv_mem_stats.free_biggest_size, 
-                             lv_mem_stats.used_pct, lv_mem_stats.max_used, lv_mem_stats.used_cnt, lv_mem_stats.free_cnt);
-        SERIALDEBUG.printf("Flow Queue: current: %d, max used: %d\n", eez::flow::getQueueSize(), eez::flow::getMaxQueueSize() );
-      */
     } else {
     //    SERIALDEBUG.write(ch); // TODO: Keep echo back or make it an option?
     }
     SCPI_Input(&scpi_context, &ch, 1);
   }
   
-  //bool getok = state.getMeasuredStateCopy(&loopmystate, 20);
-  //getok = getok && state.getSetStateCopy(&loopmysetstate, 20);
-
-  //SERIALDEBUG.printf("%.4f (%.5f/%.5f) %d %d\n", loopmystate.Imon, loopmystate.As/3600.0f, loopmystate.Ptime, getok, loopmysetstate.startupDone);
-  //heaptotal = rp2040.getTotalHeap();
-  //heapused = rp2040.getUsedHeap();
-  //heapfree = rp2040.getFreeHeap();
-//  cyclecount = rp2040.getCycleCount64()/rp2040.f_cpu();
-  //cyclecount++;
-  //SERIALDEBUG.printf("Heap total: %d, used: %d, free:  %d, uptime: %d, ADC0: %i, ADC1: %i, %d\n", heaptotal, heapused, heapfree, cyclecount, loopmystate.avgCurrentRaw, loopmystate.avgVoltRaw, loopmystate.avgCurrentRaw < 0 ? 1 : 0);
-  //SERIALDEBUG.printf("Temp1: %f, Temp2: %f, uptime: %d, Mode: %d, VonSet: %f, RPM: %d, status: %d\n", loopmystate.Temp1, loopmystate.Temp2, cyclecount, loopmysetstate.mode, loopmysetstate.VonSet, loopmystate.FanRPM, fanstatus);
-  //snprintf(logtxt, 120, "Heap total: %d\nHeap used: %d\nHeap free:  %d\nADC0: %d\n", heaptotal, heapused, heapfree, loopmystate.avgCurrentRaw);
-  //printlogstr(logtxt, 120, "Heap total: %d\nHeap used: %d\nHeap free:  %d\nADC0: %d\n", heaptotal, heapused, heapfree, loopmystate.avgCurrentRaw);
-  //if (fanstatus == 1) {fancontrol.clearFanFail(); };
-  //vTaskDelay(ondelay);
   if ((lastSCPIWatchdogCheck + 250) < millis()) 
   {
     // Check 4x per second. Watchdog has 1 sec resolution.
@@ -618,20 +591,6 @@ void taskProtHWFunction(void *pvParameters)
   state.setFanPWM(192);
   state.setFanAuto(true);
 
-/* Old MCP23008 
-  // Setup HW GPIO extender
-  pinMode(PIN_HWGPIO_INT, INPUT);
-  gpiokeys.begin(&I2C_KEYS, I2C_KEYS_SEM, HWIO_CHIP_ADDRES);
-  vTaskDelay(3); //TODO: remove?
-  gpiokeys.pinModes(~(1 << HWIO_PIN_VONLATCH | 1 << HWIO_PIN_resetProt)); // Set output pins.
-  vTaskDelay(3); //TODO: remove?
-  gpiokeys.pinInterrupts(1 << HWIO_PIN_OCPTRIG | 1 << HWIO_PIN_OVPTRIG | 1 << HWIO_PIN_VON, // Only relevant input pins
-                          0x00,  // Compare against 0
-                          1 << HWIO_PIN_OCPTRIG | 1 << HWIO_PIN_OVPTRIG); // Only these are compared, other on any change
-
-  ::attachInterrupt(digitalPinToInterrupt(PIN_HWGPIO_INT), ISR_ProtHW, FALLING);
-  gpiopinstate = gpiokeys.digitalRead(); //Clear interrupt pin status.
-*/
   // Setup HW GPIO extender (MCP23017)
   pinMode(PIN_HWGPIO_INT, INPUT);
   hwio.begin(&I2C_HWGPIO, I2C_HWGPIO_SEM, HWIO_CHIP_ADDRES);
@@ -687,45 +646,6 @@ void taskProtHWFunction(void *pvParameters)
       protection_prev = localSetState.protection;
 
     }
-
-    // NTC temperature reading. This ADC is slow and 1 channel at a time.
-    // Using a small state machine without busy loops to check where we are.
-    /*
-    switch (tempReadState)
-    {
-    case tempReadState::chan2ready:
-      tempadc.startConversion(ADC_ADS1X1X_MUX_0_3);
-      tempReadState = tempReadState::chan1reading;
-      break;
-    case tempReadState::chan1reading:
-      if (tempadc.isReady()) 
-      {
-        temp1Raw = tempadc.getValue();
-        Rntc1 = 1.0f/(1.0f/(NTC_R1 + NTC_R2) + tempadc.toVoltage(temp1Raw)/(NTC_VDD * NTC_R1)) - NTC_R1;
-        temp1 = NTCResistanceToTemp(Rntc1, NTC_BETA, NTC_T0, NTC_R0);
-        //state.setTemp1(temp1);
-        tempReadState = tempReadState::chan1ready;
-      }
-      break;
-    case tempReadState::chan1ready:
-      tempadc.startConversion(ADC_ADS1X1X_MUX_1_3);
-      tempReadState = tempReadState::chan2reading;
-      break;
-    case tempReadState::chan2reading:
-      if (tempadc.isReady()) 
-      {
-        temp2Raw = tempadc.getValue();
-        Rntc2 = 1.0f/(1.0f/(NTC_R1 + NTC_R2) + tempadc.toVoltage(temp2Raw)/(NTC_VDD * NTC_R1)) - NTC_R1;
-        temp2 = NTCResistanceToTemp(Rntc2, NTC_BETA, NTC_T0, NTC_R0);
-        state.setTemp2(temp2);
-        tempReadState = tempReadState::chan2ready;
-      }
-      break;
-    default:
-      tempReadState = tempReadState::chan2ready;
-      break;
-    }
-    */
 
     // Fan controll
     fanstatus = fancontrol.getStatus();
@@ -910,11 +830,6 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
     measured.ImonRaw = currentADC.readRaw();
     measured.UmonRaw = voltADC.readRaw(); // TODO: ADS131: always call secondary after primary.....
 #endif
-
-    // No mutexes around calibration data! (it doesn't change while running)
-    //imon = state.cal.Imon->remapADC(measured.ImonRaw);
-    //imon = remap((float)measured.ImonRaw, (float)currentADC.ADC_MIN, currentMinVal, (float)currentADC.ADC_MAX, currentMaxVal);
-    //umon = remap((float)measured.UmonRaw, (float)voltADC.ADC_MIN, voltMinVal, (float)voltADC.ADC_MAX, voltMaxVal);
 
     if (stateReceived) {
         vonset = localSetState.VonSet;
