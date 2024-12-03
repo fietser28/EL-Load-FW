@@ -66,6 +66,7 @@ extern scpi_result_t scpi_cmd_deb_eeprom_clear(scpi_t *context);
 extern scpi_result_t scpi_cmd_deb_mem_heapQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_deb_reboot(scpi_t *context);
 extern scpi_result_t scpi_cmd_deb_iolinesQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_deb_state_countQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_deb_wdog_thres_maxQ(scpi_t *context);
 
 extern scpi_result_t scpi_cmd_fetch_current(scpi_t *context);

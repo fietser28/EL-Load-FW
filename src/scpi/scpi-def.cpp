@@ -603,11 +603,24 @@ scpi_result_t scpi_cmd_deb_reboot(scpi_t *context) {
     return SCPI_RES_OK;
 }
 
- scpi_result_t scpi_cmd_deb_iolinesQ(scpi_t *context) 
+scpi_result_t scpi_cmd_deb_iolinesQ(scpi_t *context) 
  {
     SCPI_ResultInt32(context, gpiopinstate);
     return SCPI_RES_OK;
  }
+
+scpi_result_t scpi_cmd_deb_state_countQ(scpi_t *context)
+{
+    measuredStateStruct mstate; 
+    setStateStruct sstate;
+
+    state.getMeasuredStateCopy(&mstate, 100);
+    state.getSetStateCopy(&sstate, 100);
+
+    const uint64_t count_array[] = { sstate.sCount, mstate.sCount, mstate.sCountFromAverage, mstate.sCountFromHWIO};
+    SCPI_ResultArrayUInt64(context, count_array, 4, SCPI_FORMAT_ASCII);
+    return SCPI_RES_OK;
+};
 
 scpi_result_t scpi_cmd_deb_wdog_thres_maxQ(scpi_t *context) {
     const uint32_t thres_array[] = { watchdogAveragingMax, watchdogEncTaskMax, watchdogGuiTaskMax, 
@@ -1046,7 +1059,7 @@ scpi_result_t scpi_cmd_source_input_prot_tripQ(scpi_t *context)
     state.getSetStateCopy(&localSetState, 1000);
     state.getMeasuredStateCopy(&localMeasureState, 1000);
 
-    bool res = localSetState.protection || localMeasureState.OCPstate || localMeasureState.OVPstate || localMeasureState.OPPstate || localMeasureState.OTPstate;
+    bool res = localMeasureState.protection || localMeasureState.OCPstate || localMeasureState.OVPstate || localMeasureState.OPPstate || localMeasureState.OTPstate;
     SCPI_ResultBool(context, res);
     return SCPI_RES_OK;    
 };

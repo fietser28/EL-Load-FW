@@ -39,6 +39,10 @@ namespace dcl
         }
 
         _setState.startupDone = false;
+        _setState.sCount = 0;
+        _measuredState.sCount = 0;
+        _measuredState.sCountFromAverage = 0;
+        _measuredState.sCountFromHWIO = 0;
     };
 
     bool stateManager::readCalibrationData()
@@ -46,8 +50,9 @@ namespace dcl
         return calActions.readAllValues();
     }
 
-    bool stateManager::setDefaults() 
+    uint64_t stateManager::setDefaults() 
     {
+        uint64_t r = 0;
         scpi_busy_inc();
         if (_setStateMutex != NULL)
         {
@@ -79,7 +84,7 @@ namespace dcl
                 _setState.CalibrationOCPset = false;
                 _setState.OVPset = ranges[ranges_e_OVP_High].defValue;
                 _setState.CalibrationOVPset = false;
-                _setState.protection = false;
+                //_setState.protection = false;
                 _setState.VonLatched = VonType_e_Unlatched;
                 _setState.CapVoltStop = ranges[ranges_e_VoltStop].defValue;
                 _setState.CapAhStop = ranges[ranges_e_AHStop].defValue;
@@ -101,6 +106,7 @@ namespace dcl
                 _setState.beepOnEncoder = true;
                 _setState.beepOnSense   = true;
                 _setState.beepDefaultDuration = ranges[ranges_e_beepDuration].defValue;
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
                 updateMeasureTask();
                 updateAverageTask(true);
@@ -112,17 +118,19 @@ namespace dcl
                 //state.setRangeCurrent(true);
                 state.setRangeCurrent(false);
                 //state.setRangeVoltage(true);
-                state.setRangeVoltage(false);
+                r = state.setRangeVoltage(false);
+                state.clearProtection();
                 scpi_busy_dec();
-                return true;
+                return r;
             }
         }
         scpi_busy_dec();
-        return false;
+        return 0;
     }
 
-    void stateManager::startupDone() 
+    uint64_t stateManager::startupDone() 
     {
+        uint64_t r = 0;
         if (_measuredStateMutex != NULL)
         {
             if (xSemaphoreTake(_measuredStateMutex, portMAX_DELAY) == pdTRUE)
@@ -143,14 +151,17 @@ namespace dcl
             {
                 _setState.startupDone = true;
                 _setState.mode = ELmode::CC;
-                _setState.protection = false;
+                //_setState.protection = false;
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
             }
         }
+        state.clearProtection();
         updateMeasureTask();
+        return r;
     }
 
-    bool stateManager::resetAllStates()
+    uint64_t stateManager::resetAllStates()
     {
         bool r;
         r = setDefaults();
@@ -161,12 +172,13 @@ namespace dcl
         r = r && clearImonStat();
         r = r && clearUmonStat();
         r = r && clearPmonStat();
-        return r;
+        return r ? _setState.sCount : 0;
     };
 
-    bool stateManager::CalibrationMode(bool on) 
+    uint64_t stateManager::CalibrationMode(bool on) 
     {
         changeScreen_s msg;
+        uint64_t r = 0;
 
         if (_setState.CalibrationMode == on) {
             return false; // Already in this mode.
@@ -177,18 +189,20 @@ namespace dcl
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 _setState.CalibrationMode = on;
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
                 if (on == true) {
                     msg.newScreen = SCREEN_ID_CALIBRATION;
                     msg.pop = false;
                 } else {
-                    resetAllStates();
+                    r = resetAllStates();
+                    msg.pop = true;
                 }
-                xQueueSend(changeScreen, &msg, 100);
-                return true;
+                xQueueSend(changeScreen, &msg, 100); 
+                return r;
             }
         }
-        return false;
+        return 0;
     }
 
     bool stateManager::getCalibrationMode()
@@ -196,20 +210,23 @@ namespace dcl
         return _setState.CalibrationMode; // Atomic, no locking needed.
     }
 
-    bool stateManager::setOn() {        
+    uint64_t stateManager::setOn() { 
+        uint64_t r = 0;
+
         // Don't enable if there is a protection
-        if (_setState.protection == true || ( _setState.capacityLimit == true && _setState.record == true)) {
-            return false;
+        if (_measuredState.protection == true || ( _setState.capacityLimit == true && _setState.record == true)) {
+            return 0;
         }
         // Don't enable in DVM mode.
         if (_setState.mode == ELmode::DVM) {
-            return false;
+            return 0;
         }
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 _setState.on = true;
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
                 updateHWIOTask();
                 updateMeasureTask();
@@ -218,24 +235,26 @@ namespace dcl
                 return true;
             }
         }
-        return false;
+        return 0;
     }
 
-    bool stateManager::setOff() {
+    uint64_t stateManager::setOff() {
+        uint64_t r = 0;
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 _setState.on = false;
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
                 updateHWIOTask();
                 updateMeasureTask();
                 updateAverageTask();
                 updateKeysTask();
-                return true;
+                return r;
             }
         }
-        return false;
+        return 0;
     }
 
     bool stateManager::getMeasuredStateCopy( measuredStateStruct *mystate, TickType_t waitTicks) {
@@ -243,6 +262,7 @@ namespace dcl
         {
             if (xSemaphoreTake(_measuredStateMutex, waitTicks) == pdTRUE)
             {
+                //rp2040.memcpyDMA(mystate, &_measuredState, sizeof(_measuredState));
                 memcpy(mystate, &_measuredState, sizeof(_measuredState));
                 xSemaphoreGive(_measuredStateMutex);
                 return true;
@@ -256,6 +276,7 @@ namespace dcl
         {
             if (xSemaphoreTake(_setStateMutex, waitTicks) == pdTRUE)
             {
+                rp2040.memcpyDMA(mystate, &_setState, sizeof(_setState));
                 memcpy(mystate, &_setState, sizeof(_setState));
                 xSemaphoreGive(_setStateMutex);
                 return true;
@@ -267,13 +288,15 @@ namespace dcl
     // Called from Avg Task, keep latency low.
     bool stateManager::setAvgMeasurements(float imon, float umon, double As,
                                           double Ws, double time, uint32_t avgCurrentRaw, uint32_t avgVoltRaw,
-                                          measureStat Istat, measureStat Ustat, measureStat Pstat)
+                                          measureStat Istat, measureStat Ustat, measureStat Pstat, uint64_t sCount)
     {
         if (_measuredStateMutex != NULL)
         {
             // Don't wait to long, it is nog a problem if this is skipped
             if (xSemaphoreTake(_measuredStateMutex, (TickType_t)2) == pdTRUE)
             {
+                _measuredState.sCountFromAverage = max(_measuredState.sCountFromAverage,sCount);
+                updateMeasureSCount();
                 _measuredState.Imon = imon;
                 _measuredState.Umon = umon;
                 _measuredState.As = As;
@@ -309,31 +332,8 @@ namespace dcl
         return false;
     }
 
-    // Called from Avg Task if triggered.
-    bool stateManager::setCapacityTriggers(bool VoltStop, bool AhStop, bool WhStop, bool TimeStop)
-    {
-        if (_measuredStateMutex != NULL)
-        {
-            if (xSemaphoreTake(_measuredStateMutex, (TickType_t)200) == pdTRUE)
-            {
-                _measuredState.CapVoltStopTriggered = VoltStop;
-                _measuredState.CapAhStopTriggered = AhStop;
-                _measuredState.CapWhStopTriggered = WhStop;
-                _measuredState.CapTimeStopTriggered = TimeStop;
-                xSemaphoreGive(_measuredStateMutex);
-            }
-            if (_setState.capacityLimitEnabled && ( VoltStop || AhStop || TimeStop)) {
-                state.setCapacityLimit();
-            }
-            if (!VoltStop && !AhStop && !TimeStop) {
-                state.clearCapacityLimit();
-            }
-        }
-        return false;
-    }
-
     // Called from HW Task.
-    bool stateManager::setHWstate(bool ocptrig, bool ovptrig, bool von, bool sense_error, bool polarity_error)
+    bool stateManager::setHWstate(bool ocptrig, bool ovptrig, bool von, bool sense_error, bool polarity_error, uint64_t sCount)
     {
     // Protection kicked in from HW signal
     if (!_setState.CalibrationMode && (ocptrig || ovptrig || sense_error || polarity_error)) 
@@ -451,15 +451,17 @@ namespace dcl
         return false;
     };
 
-    bool stateManager::setFanAuto(bool fanauto)
+    uint64_t stateManager::setFanAuto(bool fanauto)
     {
-       uint8_t currentPWM = 0;
-       if (_setStateMutex != NULL)
+        uint64_t r = 0;
+        uint8_t currentPWM = 0;
+        if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 _setState.FanAuto = fanauto;
                 currentPWM = _setState.FanManualSpeed; 
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
             }
         }
@@ -475,11 +477,12 @@ namespace dcl
         if (!fanauto) {
             fancontrol.setPWM(currentPWM);
         }
-        return true;
+        return r;
     };
 
-    bool stateManager::setFanPWM(uint8_t rpm)
+    uint64_t stateManager::setFanPWM(uint8_t rpm)
     {
+        uint64_t r = 0;
         bool fanAuto;
         if (_setStateMutex != NULL)
         {
@@ -487,33 +490,35 @@ namespace dcl
             {
                 _setState.FanManualSpeed = rpm;
                 fanAuto = _setState.FanAuto;
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
                 if (!fanAuto) { 
                     fancontrol.setDirectFanControl(true);
                     fancontrol.setPWM(rpm);
-                    return true;
+                    return r;
                 }
             }
         }
-        return false;
+        return r;
     };
 
-    bool stateManager::setVoltSense(bool senseOn)
+    uint64_t stateManager::setVoltSense(bool senseOn)
     {
-
+        uint64_t r = 0;
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 _setState.senseVoltRemote = senseOn;
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
                 updateHWIOTask();
                 // If remote sensing is turned off the error condition is meaningless and should be cleared.
                 // This it not done here but in the processing of the message coming from HW task.
-                return true;
+                return r;
             }
         }
-        return false;
+        return r;
     };
 
     bool stateManager::getVoltSense()
@@ -522,8 +527,9 @@ namespace dcl
         return _setState.senseVoltRemote;
     }
 
-    bool stateManager::setRangeCurrent(bool lowOn)
+    uint64_t stateManager::setRangeCurrent(bool lowOn)
     {
+        uint64_t r = 0;
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
@@ -537,14 +543,15 @@ namespace dcl
                 if (lowOn && _setState.OCPset > ranges[ranges_e_OCP_Low].maxValue) {
                     _setState.OCPset = ranges[ranges_e_OCP_Low].maxValue;
                 }
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
                 updateHWIOTask();
                 updateMeasureTask();
                 updateAverageTask();
-                return true;
+                return r;
             }
         }
-        return false;
+        return r;
     };
 
     bool stateManager::getRangeCurrentLow()
@@ -553,8 +560,9 @@ namespace dcl
         return _setState.rangeCurrentLow;
     }
 
-    bool stateManager::setRangeVoltage(bool lowOn)
+    uint64_t stateManager::setRangeVoltage(bool lowOn)
     {
+        uint64_t r = 0;
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
@@ -568,14 +576,15 @@ namespace dcl
                 if (lowOn && _setState.OVPset > ranges[ranges_e_OVP_Low].maxValue) {
                     _setState.OVPset = ranges[ranges_e_OVP_Low].maxValue;
                 }
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
                 updateHWIOTask();
                 updateMeasureTask();
                 updateAverageTask();
-                return true;
+                return r;
                 }
             }
-        return false;
+        return r;
     };
 
     bool stateManager::getRangeVoltageLow()
@@ -586,18 +595,29 @@ namespace dcl
 
     // Send message to averaging task to clear the power measurements.
     // Note: this is asynchronous!
-    bool stateManager::clearPower()
+    uint64_t stateManager::clearPower()
     {
-        return updateAverageTask(true);
+        uint64_t r = 0;
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
+            {
+                r = ++_setState.sCount;
+                xSemaphoreGive(_setStateMutex);
+            }
+        }
+        return updateAverageTask(true) ? r : 0;
     };
 
-    bool stateManager::clearProtection()
+    uint64_t stateManager::clearProtection()
     {
+        uint64_t r = 0;
        if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
-                _setState.protection = false;
+                _measuredState.protection = false;
+                r = ++_setState.sCount; // Keep this increment even if we move .protection to measured state!
                 xSemaphoreGive(_setStateMutex);
                 // TODO: test & update clear hardware;
                 //return true;
@@ -624,6 +644,11 @@ namespace dcl
         return updateAverageTask();
     };
 
+    bool stateManager::getProtection() {
+        // No need for locking. This function is uses in measurement task, so needs to be fast and without locking.
+        return _measuredState.protection;
+    }
+
     bool stateManager::setProtection()
     {
         // Avoid protection during calibration.
@@ -639,7 +664,7 @@ namespace dcl
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
-                _setState.protection = true;
+                _measuredState.protection = true;
                 xSemaphoreGive(_setStateMutex);
                 // TODO: test & update clear hardware;
                 //return true;
@@ -650,13 +675,15 @@ namespace dcl
         return updateAverageTask();
     };
 
-    bool stateManager::clearCapacityLimit()
+    uint64_t stateManager::clearCapacityLimit()
     {
+        uint64_t r = 0;
        if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 _setState.capacityLimit = false;
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
             }
         }
@@ -672,7 +699,7 @@ namespace dcl
                 return true;
             }
         }
-        return updateAverageTask();
+        return updateAverageTask() ? r : 0;
     };
 
     bool stateManager::setCapacityLimit()
@@ -699,30 +726,34 @@ namespace dcl
         return updateAverageTask();
     };
 
-    bool stateManager::setCapacityLimitEnabled(bool enable)
+    uint64_t stateManager::setCapacityLimitEnabled(bool enable)
     {
+        uint64_t r = 0;
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 _setState.capacityLimitEnabled = enable;
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
             }
         }
         updateHWIOTask();
-        return updateAverageTask();
+        return updateAverageTask() ? r : 0;
     };
 
-    bool stateManager::setMode(mode_e newMode)
+    uint64_t stateManager::setMode(mode_e newMode)
     {
-    if (_setStateMutex != NULL)
+        uint64_t r = 0;
+        if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 // Don't enable if load is on.
-                if (_setState.on == true) {
+                if (_setState.on == true)
+                {
                     xSemaphoreGive(_setStateMutex);
-                    return false;
+                    return r;
                 }
 
                 switch (newMode)
@@ -747,19 +778,21 @@ namespace dcl
                     break;
                 default:
                     _setState.mode = ELmode::CC;
-                    _setState.Iset = 0.0f; // Something is wrong.                
+                    _setState.Iset = 0.0f; // Something is wrong.
                 }
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
                 updateMeasureTask();
                 updateAverageTask();
-                return true;
+                return r;
             }
         }
-        return false;
+        return r;
     }
 
-    bool stateManager::setVonset(float newVonset, bool rawDACvalue)
+    uint64_t stateManager::setVonset(float newVonset, bool rawDACvalue)
     {
+        uint64_t r = 0;
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
@@ -767,15 +800,17 @@ namespace dcl
                 // TODO: Check for limits.
                 _setState.CalibrationVonSet = rawDACvalue;
                 _setState.VonSet = newVonset;
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
-                return updateMeasureTask();
+                return updateMeasureTask() ? r : 0;
             }
         }
-        return false;
+        return r;
     };
 
-    bool stateManager::setIset(float newIset, bool rawDACvalue)
+    uint64_t stateManager::setIset(float newIset, bool rawDACvalue)
     {
+        uint64_t r = 0;
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
@@ -784,15 +819,17 @@ namespace dcl
                 // Note: setRangeCurrent swith might also change iset.
                 _setState.CalibrationIset = rawDACvalue; 
                 _setState.Iset = newIset;
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
-                return updateMeasureTask();
+                return updateMeasureTask() ? r : 0;
             }
         }
-        return false;
+        return r;
     };
 
-    bool stateManager::setUset(float newUset, bool rawDACvalue)
+    uint64_t stateManager::setUset(float newUset, bool rawDACvalue)
     {
+        uint64_t r = 0;
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
@@ -801,15 +838,17 @@ namespace dcl
                 // Note: setRangeVoltage swith might also change iset.
                 _setState.CalibrationUset = rawDACvalue; 
                 _setState.Uset = newUset;
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
-                return updateMeasureTask();
+                return updateMeasureTask() ? r : 0;
             }
         }
-        return false;
+        return r;
     };
 
-    bool stateManager::setOCP(float newOCP, bool rawDACvalue)
+    uint64_t stateManager::setOCP(float newOCP, bool rawDACvalue)
     {
+        uint64_t r = 0;
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
@@ -818,17 +857,19 @@ namespace dcl
                 // Note: setRangeCurrent might also change OCPset.
                 _setState.CalibrationOCPset = rawDACvalue; 
                 _setState.OCPset = newOCP;
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
                 // TODO: not clean: updateMeasureTask doesn't run when updateHWIOTask fails, a problem?
                 updateHWIOTask();
-                return updateMeasureTask();
+                return updateMeasureTask() ? r : 0;
             }
         }
-        return false;
+        return r;
     };
 
-    bool stateManager::setOVP(float newOVP, bool rawDACvalue)
+    uint64_t stateManager::setOVP(float newOVP, bool rawDACvalue)
     {
+        uint64_t r = 0;
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
@@ -837,185 +878,214 @@ namespace dcl
                 // Note: setRangeVoltage might also change OVPset.
                 _setState.CalibrationOVPset = rawDACvalue; 
                 _setState.OVPset = newOVP;
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
                 // TODO: not clean: updateMeasureTask doesn't run when updateHWIOTask fails, a problem?
                 updateHWIOTask();
-                return updateMeasureTask();
+                return updateMeasureTask() ? r : 0;
             }
         }
-        return false;
+        return r;
     };
 
-
-    bool stateManager::setVonLatched(VonType_e value)
+    uint64_t stateManager::setVonLatched(VonType_e value)
     {
+        uint64_t r = 0;
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 _setState.VonLatched = value; 
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
                 // TODO: not clean: updateMeasureTask doesn't run when updateHWIOTask fails, a problem?
-                updateHWIOTask();
-                return updateMeasureTask();
+                r  = updateHWIOTask() ? r : 0;
+                return updateMeasureTask() ? r : 0;
             }
         }
-        return false;
+        return 0;
     };
 
-    bool stateManager::setRset(float newRset)
+    uint64_t stateManager::setRset(float newRset)
     {
+        uint64_t r = 0;
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 // TODO: Check for limits.
                 _setState.Rset = newRset;
+                r = _setState.sCount;
                 xSemaphoreGive(_setStateMutex);
-                return updateMeasureTask();
+                return updateMeasureTask() ? r : 0;
             }
         }
-        return false;
+        return 0;
     };
 
-    bool stateManager::setPset(float newPset)
+    uint64_t stateManager::setPset(float newPset)
     {
+        uint64_t r = 0;
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 // TODO: Check for limits.
                 _setState.Pset = newPset;
+                r = _setState.sCount;
                 xSemaphoreGive(_setStateMutex);
-                return updateMeasureTask();
+                return updateMeasureTask() ? r : 0;
             }
         }
-        return false;
+        return 0;
     };
 
-   bool stateManager::setOPPset(float OPPset)
+   uint64_t stateManager::setOPPset(float OPPset)
     {
+        uint64_t r = 0;
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 _setState.OPPset = OPPset;
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
                 // TODO: test & update clear hardware;
                 //return true;
             }
         }
-        return updateAverageTask();
+        return updateAverageTask() ? r : 0;
     };
 
-   bool stateManager::setOPPdelay(float OPPdelay)
+   uint64_t stateManager::setOPPdelay(float OPPdelay)
     {
+        uint64_t r = 0;
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 _setState.OPPdelay = OPPdelay;
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
                 // TODO: test & update clear hardware;
                 //return true;
             }
         }
-        return updateAverageTask();
+        return updateAverageTask() ? r : 0;
     };
 
-   bool stateManager::setOTPset(float OTPset)
+   uint64_t stateManager::setOTPset(float OTPset)
     {
+        uint64_t r = 0;
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 _setState.OTPset = OTPset;
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
                 // TODO: test & update clear hardware;
                 //return true;
             }
         }
-        return updateHWIOTask();
+        return updateHWIOTask() ? r : 0;
     };
 
-   bool stateManager::setOTPdelay(float OTPdelay)
+   uint64_t stateManager::setOTPdelay(float OTPdelay)
     {
+        uint64_t r = 0;
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 _setState.OTPdelay = OTPdelay;
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
                 // TODO: test & update clear hardware;
                 //return true;
             }
         }
-        return updateHWIOTask();
+        return updateHWIOTask() ? r : 0;
     };
 
-    bool stateManager::setCapVoltStop(float voltStop) {
+    uint64_t  stateManager::setCapVoltStop(float voltStop) 
+    {
+        uint64_t r = 0;
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 _setState.CapVoltStop = voltStop;
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
             }
         }
-        return updateAverageTask();
+        return updateAverageTask() ? r : 0;
     };
 
-    bool stateManager::setCapAhStop(float AhStop) {
+    uint64_t stateManager::setCapAhStop(float AhStop) 
+    {
+        uint64_t r = 0;
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 _setState.CapAhStop = AhStop;
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
             }
         }
-        return updateAverageTask();
+        return updateAverageTask() ? r : 0;
     };
 
-    bool stateManager::setCapWhStop(float WhStop) {
+    uint64_t stateManager::setCapWhStop(float WhStop) 
+    {
+        uint64_t r = 0;    
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 _setState.CapWhStop = WhStop;
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
             }
         }
-        return updateAverageTask();
+        return updateAverageTask() ? r : 0;
     };
 
-    bool stateManager::setCapTimeStop(float TimeStop) {
+    uint64_t stateManager::setCapTimeStop(float TimeStop) 
+    {
+        uint64_t r = 0;
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 _setState.CapTimeStop = TimeStop;
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
             }
         }
-        return updateAverageTask();
+        return updateAverageTask() ? r : 0;
     };
 
-    bool stateManager::setNPLC(uint32_t cycles)
+    uint64_t stateManager::setNPLC(uint32_t cycles)
     {
+        uint64_t r = 0;
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
             {
                 _setState.NLPC = cycles;
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
             };
         };
-        return updateAverageTask();
+        return updateAverageTask() ? r : 0;
     };
 
-    bool stateManager::setPLFreq(uint32_t freq)
+    uint64_t stateManager::setPLFreq(uint32_t freq)
     {
+        uint64_t r = 0;
         if (freq != 50 && freq != 60) {
             return false;
         }
@@ -1024,10 +1094,11 @@ namespace dcl
             if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
             {
                 _setState.PLFreq = freq;
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
             };
         };
-        return updateAverageTask();
+        return updateAverageTask() ? r : 0;
     };
 
     uint32_t stateManager::getNPLC()
@@ -1062,18 +1133,20 @@ namespace dcl
 
     // Send message to averaging task to clear the power measurements.
     // Note: this is asynchronous!
-    bool stateManager::record(bool setrecord)
+    uint64_t stateManager::record(bool setrecord)
     {
+        uint64_t r = 0;
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
             {
                 _setState.record = setrecord;
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
-                return updateAverageTask(false);
+                return updateAverageTask(false) ? r : 0;
             }
         }
-        return false;
+        return r;
     };
 
     bool stateManager::toggleRecord()
@@ -1090,20 +1163,22 @@ namespace dcl
         }
         return false;
     }
-
-    bool stateManager::setSCPIWdog(bool enable) 
+/* Instantaniously enables SCPI watchdog, sCount increase not really needed?*/
+    uint64_t stateManager::setSCPIWdog(bool enable) 
     {
+        uint64_t r = 0;
         SCPIWdogPet(); // Clear timer
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
             {
                 _setState.scpiWdogEnabled = enable;
+                r = ++_setState.sCount; 
                 xSemaphoreGive(_setStateMutex);
-                return true;
+                return r;
             }
         }
-        return false;
+        return r;
     };
 
     bool stateManager::getSCPIWdog() 
@@ -1121,6 +1196,7 @@ namespace dcl
         return 0;
     };
 
+/* Immediately clears the SCPIWdog state, instant command doesn't increase sCount. */
     bool stateManager::SCPIWdogClear() 
     {
         if (_measuredStateMutex != NULL)
@@ -1138,16 +1214,18 @@ namespace dcl
 
     bool stateManager::setSCPIWdogDelay(uint32_t delay)
     {
+        uint64_t r = 0;
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, (TickType_t)100) == pdTRUE)
             {
                 _setState.scpiWdogDelay = delay;
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
-                return true;
+                return r;
             }
         }
-        return false;
+        return r;
     };
 
     uint32_t stateManager::getSCPIWdogDelay()
@@ -1165,18 +1243,20 @@ namespace dcl
         return 0;
     };
 
-    bool stateManager::setSCPIWdogType(WDogType wdtype)
+    uint64_t stateManager::setSCPIWdogType(WDogType wdtype)
         {
+        uint64_t r = 0;
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, (TickType_t)100) == pdTRUE)
             {
                 _setState.scpiWdogType = wdtype;
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
-                return true;
+                return r;
             };
         };
-        return false;
+        return r;
     };
 
     WDogType stateManager::getSCPIWdogType()
@@ -1262,7 +1342,7 @@ namespace dcl
         return tripped;
     };
 
-    // Beep states are not protected by semaphores, all are atomic read/writes and not order critical.
+    // Beep states are not protected by semaphores, all are atomic read/writes and is not order critical.
     void stateManager::setBeepProt(bool on)      { _setState.beepOnProtect = on; };
     bool stateManager::getBeepProt()             { return _setState.beepOnProtect; };
     void stateManager::setBeepCap(bool on)       { _setState.beepOnCapacity = on; };
@@ -1297,22 +1377,25 @@ namespace dcl
         return 1;
     };
 
-    bool stateManager::setImonStat(bool on)
+    uint64_t stateManager::setImonStat(bool on)
     {
+        uint64_t r = 0;
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
             {
                 _setState.ImonStat = on;
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
             };
         };
-        return updateAverageTask();
+        return updateAverageTask() ? r : 0;
     };
 
-    bool stateManager::clearImonStat()
+    uint64_t stateManager::clearImonStat()
     {
-        return updateAverageTask(false,true,false,false);
+        uint64_t r = sCountIncr();
+        return updateAverageTask(false,true,false,false) ? r : 0;
     }
 
     bool stateManager::getUmonStat()
@@ -1330,22 +1413,25 @@ namespace dcl
         return 1;
     };
 
-    bool stateManager::setUmonStat(bool on)
+    uint64_t stateManager::setUmonStat(bool on)
     {
+        uint64_t r = 0;
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
             {
                 _setState.UmonStat = on;
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
             };
         };
-        return updateAverageTask();
+        return updateAverageTask() ? r : 0;
     };
 
-    bool stateManager::clearUmonStat()
+    uint64_t stateManager::clearUmonStat()
     {
-        return updateAverageTask(false,false,true,false);
+        uint64_t r = sCountIncr();
+        return updateAverageTask(false,false,true,false) ? r : 0;
     }
 
     bool stateManager::getPmonStat()
@@ -1363,23 +1449,33 @@ namespace dcl
         return 1;
     };
 
-    bool stateManager::setPmonStat(bool on)
+    uint64_t stateManager::setPmonStat(bool on)
     {
+        uint64_t r = 0;
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
             {
                 _setState.PmonStat = on;
+                r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
             };
         };
-        return updateAverageTask();
+        return updateAverageTask() ? r : 0;
     };
 
-    bool stateManager::clearPmonStat()
+    uint64_t stateManager::clearPmonStat()
     {
-        return updateAverageTask(false,false,false,true);
-    }
+        uint64_t r = sCountIncr();
+        return updateAverageTask(false,false,false,true) ? r : 0; 
+    };
+
+    void stateManager::updateMeasureSCount() {
+        _measuredState.sCount = max(_measuredState.sCount, 
+                                    min(_measuredState.sCountFromAverage,
+                                        _measuredState.sCountFromHWIO)
+                                );
+    };
 
     bool stateManager::updateAverageTask(bool clearPower, bool clearImonStat, bool clearUmonStat, bool clearPmonStat)
     {
@@ -1391,7 +1487,7 @@ namespace dcl
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
-            {                
+            {            
                 msg.record = _setState.record;
                 msg.on     = _setState.on;
                 msg.avgSamples = (_setState.NLPC * _setState.sampleRate) / _setState.PLFreq;
@@ -1402,6 +1498,7 @@ namespace dcl
                 msg.ImonStatRun = _setState.ImonStat;
                 msg.UmonStatRun = _setState.UmonStat;
                 msg.PmonStatRun = _setState.PmonStat;
+                msg.sCount = _setState.sCount;    
                 xSemaphoreGive(_setStateMutex);
                 xQueueSend(changeAverageSettings, &msg, 10);
                 return true;
@@ -1437,6 +1534,35 @@ namespace dcl
     {
         keys_update();
         return true;
+    }
+
+    uint64_t stateManager::sCountIncr() 
+    {
+        uint64_t r = 0;
+        if (_setStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
+            {            
+                 r= ++_setState.sCount;    
+                xSemaphoreGive(_setStateMutex);
+                return r;
+            }
+        }
+        return 0;
+    };
+
+    void stateManager::updateSCountHW(uint64_t sCount)
+    {
+        if (_measuredStateMutex != NULL)
+        {
+            if (xSemaphoreTake(_measuredStateMutex, (TickType_t)100) == pdTRUE)
+            {
+                _measuredState.sCountFromHWIO = max(_measuredState.sCountFromHWIO, sCount);
+                updateMeasureSCount();
+                xSemaphoreGive(_measuredStateMutex);
+            }
+        }
+
     }
 
 }

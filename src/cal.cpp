@@ -410,7 +410,7 @@ namespace dcl::cal
             _values.points[_curpoint].dac = (int32_t)_set;
         }
         if (_calType == calType_e::calType_e_OVPset_High || _calType == calType_e::calType_e_OVPset_Low)
-        { // VonSet, after do_search action.
+        { // OVPset, after do_search action.
             _measured = _measuredStateCopy.Umon;
             _values.points[_curpoint].value = _measured;
             _values.points[_curpoint].dac = (int32_t)_set;

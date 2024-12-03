@@ -330,8 +330,8 @@ void setup()
     SERIALDEBUG.println("ERROR: No EEPROM with magic found.");
   }
 
-  state.setDefaults();
   state.readCalibrationData();
+  state.setDefaults();
 
   uint8_t eepromVersionRead = myeeprom.read(EEPROM_ADDR_VERSION);
 
@@ -339,7 +339,6 @@ void setup()
   SERIALDEBUG.printf("INFO: measuredStateStruct struct size: %d\n", sizeof(measuredStateStruct));
   SERIALDEBUG.printf("INFO: setStateStruct struct size: %d\n", sizeof(setStateStruct));
   SERIALDEBUG.printf("INFO: Single calibration size: %d\n", sizeof(CalibrationValueConfiguration));
-
 
   // Next create the protection tasks.
   BaseType_t xTaskRet;
@@ -497,6 +496,8 @@ uint8_t gpiopinstate;
 
 void taskProtHWFunction(void *pvParameters)
 {
+  uint64_t sCountHW = 0;
+
   uint32_t ulNotifiedValue;
   //gpio_mcp23008 gpiokeys = gpio_mcp23008();
   //adc_ads1x1x  tempadc = adc_ads1x1x();
@@ -630,20 +631,21 @@ void taskProtHWFunction(void *pvParameters)
     polarity_error = false; // TODO: HW pin not implemented yet. 
     von = gpiopinstate & 1 << HWIO_PIN_VON;
 
+    protection = state.getProtection();
     // Something has changed
-    if (ocptrig != ocptrig_prev || ovptrig != ovptrig_prev || von != von_prev || localSetState.protection != protection_prev ||
+    if (ocptrig != ocptrig_prev || ovptrig != ovptrig_prev || von != von_prev || protection != protection_prev ||
         sense_error != sense_error_prev) 
     {
 
       // State has changed, update it.
       // All necessary changed are handled in state functions (protection/off/...)
-      state.setHWstate(ocptrig, ovptrig, von, sense_error, polarity_error);
+      state.setHWstate(ocptrig, ovptrig, von, sense_error, polarity_error, sCountHW);
 
       ocptrig_prev = ocptrig;
       ovptrig_prev = ovptrig;
       von_prev = von;
       sense_error_prev = sense_error;
-      protection_prev = localSetState.protection;
+      protection_prev = protection;
 
     }
 
@@ -720,6 +722,7 @@ void taskProtHWFunction(void *pvParameters)
     {
       localSetState = changeMsg;
       stateReceived = true;
+      sCountHW = max(sCountHW, localSetState.sCount);
      
       vonLatch = localSetState.VonLatched;
       if (vonLatch == VonType_e_Latched) {
@@ -728,13 +731,14 @@ void taskProtHWFunction(void *pvParameters)
         hwio.digitalWrite(HWIO_PIN_VONLATCH, true); // vonLatch pin is active low in hardware!
       };
 
-      if (localSetState.protection == false && protection_prev2 == true)
+      bool protection = state.getProtection();
+      if (protection == false && protection_prev2 == true)
       {
         hwio.digitalWrite(HWIO_PIN_resetProt, true);
         //vTaskDelay(1 / portTICK_PERIOD_MS);
         hwio.digitalWrite(HWIO_PIN_resetProt, false);
       }
-      protection_prev2 = localSetState.protection;
+      protection_prev2 = protection;
 
       if (localSetState.senseVoltRemote != senseVoltage) {
         if (localSetState.senseVoltRemote == true) {
@@ -772,6 +776,7 @@ void taskProtHWFunction(void *pvParameters)
 // This task exclusivlly handles ADC and DAC SPI channels.
 void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
 {
+  uint64_t sCountMeasure = 0;
   uint32_t ulNotifiedValue;
 
   newMeasurementMsg measured;
@@ -789,6 +794,7 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
   float ovpset = 80.1f, ovpsetPrev = -0.1f;
   bool  rangeCurrentLowPrev = false;
   bool  rangeVoltLowPrev = false;
+  bool  protection;
   uint32_t isetRaw, isetRawPrev = 0;
   uint32_t usetRaw, usetRawPrev = 0;
   uint32_t vonsetRaw, vonsetRawPrev = 0;
@@ -837,7 +843,8 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
         ovpset = localSetState.OVPset;
     }
 
-    if (stateReceived && localSetState.on == true && localSetState.protection == false)
+    protection = state.getProtection();
+    if (stateReceived && localSetState.on == true && protection == false)
     {
 
       switch (localSetState.mode)
@@ -994,6 +1001,7 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
       rangeVoltLowPrev = localSetState.rangeVoltageLow;
     }
 
+    measured.sCount = sCountMeasure;
     // Send measurements to avg task.
     xMessageBufferSend(newMeasurements, &measured, sizeof(measured), 0);
 
@@ -1010,6 +1018,7 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
     if (msgBytes > 0)
     {
       localSetState = changeMsg;
+      sCountMeasure = max(sCountMeasure, localSetState.sCount);
       stateReceived = true;
     }
   watchdogMeasureAndOutput = 0;
@@ -1018,6 +1027,10 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
 
 void taskAveragingFunction(void *pvParameters)
 {
+  // Config count
+  uint64_t sCountAvg = 0;
+  uint64_t sCountFromMeasure;
+  uint64_t sCountFromSettings;
   // Message buffer
   newMeasurementMsg newMsg;
   changeAverageSettingsMsg settingsMsg;
@@ -1066,6 +1079,9 @@ void taskAveragingFunction(void *pvParameters)
   for (;;)
   {
     xMessageBufferReceive(newMeasurements, &newMsg, sizeof(newMsg), portMAX_DELAY);
+    sCountFromMeasure = newMsg.sCount;
+    sCountAvg = min(sCountFromMeasure, sCountFromSettings);
+
     //digitalWrite(PIN_TEST, HIGH);
     avgCurrentRawSum = avgCurrentRawSum + newMsg.ImonRaw;
     avgRawCount++;
@@ -1142,9 +1158,10 @@ void taskAveragingFunction(void *pvParameters)
         localPstat.avg = localPstat.count == 0 ? 0.0f : (double)PstatAvgSum / (double)localPstat.count;
       }
 
+
       // Update main state
       state.setAvgMeasurements(imon, umon, As, Ws, time, avgCurrentRaw, avgVoltRaw, 
-                               localIstat, localUstat, localPstat);
+                               localIstat, localUstat, localPstat, sCountAvg);
       avgRawCount = 0;
       avgCurrentRawSum = 0;
       avgVoltRawSum = 0;
@@ -1155,6 +1172,9 @@ void taskAveragingFunction(void *pvParameters)
     msgBytes = xQueueReceive(changeAverageSettings, &settingsMsg, 0);
     if (msgBytes > 0)
     {
+      sCountFromSettings= settingsMsg.sCount;
+      sCountAvg = min(sCountFromMeasure, sCountFromSettings);
+
       if (settingsMsg.avgSamples != 0)
       {
         avgSampleWindow = settingsMsg.avgSamples;

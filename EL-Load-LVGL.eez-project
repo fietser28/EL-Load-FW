@@ -2450,7 +2450,7 @@
           "height": 53,
           "customInputs": [],
           "customOutputs": [],
-          "milliseconds": "1000"
+          "milliseconds": "1500"
         },
         {
           "objID": "c63026a0-26e2-4eef-83ab-961e0854833f",
@@ -2641,8 +2641,8 @@
         {
           "objID": "af6f3af8-9140-4539-bc17-278a05427e36",
           "type": "LVGLActionComponent",
-          "left": 961,
-          "top": 294,
+          "left": 966,
+          "top": 197,
           "width": 255,
           "height": 53,
           "customInputs": [],
@@ -2665,19 +2665,19 @@
         {
           "objID": "c539a03e-659a-459b-822e-3cce48af1e68",
           "type": "IsTrueActionComponent",
-          "left": -209,
-          "top": 292,
-          "width": 116,
+          "left": -612,
+          "top": 321,
+          "width": 220,
           "height": 69,
           "customInputs": [],
           "customOutputs": [],
-          "value": "startupDone"
+          "value": "startupDone && !startupDone2"
         },
         {
           "objID": "2770a9d0-642a-4e14-a214-832b876de1ff",
           "type": "DelayActionComponent",
-          "left": 755,
-          "top": 340,
+          "left": 820,
+          "top": 414,
           "width": 87,
           "height": 53,
           "customInputs": [],
@@ -2687,8 +2687,8 @@
         {
           "objID": "12f6e8c8-aed3-47d5-e8d8-cd7ca620754b",
           "type": "WatchVariableActionComponent",
-          "left": -414,
-          "top": 269,
+          "left": -821,
+          "top": 321,
           "width": 141,
           "height": 53,
           "customInputs": [],
@@ -3317,7 +3317,7 @@
           "objID": "3090d3f1-1a02-49c9-9660-982cf4a28240",
           "type": "SwitchActionComponent",
           "left": 133,
-          "top": 314,
+          "top": 321,
           "width": 260,
           "height": 124,
           "customInputs": [],
@@ -3412,7 +3412,7 @@
           "objID": "776fba87-0c67-4170-b423-a8cab3e26132",
           "type": "LVGLActionComponent",
           "left": 755,
-          "top": -234,
+          "top": -225,
           "width": 286,
           "height": 53,
           "customInputs": [],
@@ -3490,7 +3490,7 @@
           "objID": "97598aaf-936a-49fb-a570-14ee7586cb32",
           "type": "CallActionActionComponent",
           "left": -43,
-          "top": 316,
+          "top": 321,
           "width": 87,
           "height": 24,
           "customInputs": [],
@@ -3538,6 +3538,17 @@
               "styleType": "literal"
             }
           ]
+        },
+        {
+          "objID": "fdbbd398-4c40-403d-d00b-6717197c5ed7",
+          "type": "TestAndSetActionComponent",
+          "left": -334,
+          "top": 345,
+          "width": 100,
+          "height": 53,
+          "customInputs": [],
+          "customOutputs": [],
+          "variable": "startupDone2"
         }
       ],
       "connectionLines": [
@@ -3647,13 +3658,6 @@
           "input": "@seqin"
         },
         {
-          "objID": "f51ad3b0-a6d9-4626-f771-ed7f8344b7b7",
-          "source": "c539a03e-659a-459b-822e-3cce48af1e68",
-          "output": "True",
-          "target": "97598aaf-936a-49fb-a570-14ee7586cb32",
-          "input": "@seqin"
-        },
-        {
           "objID": "5c526ee3-0c8a-4455-f5e0-480f6b4b9472",
           "source": "97598aaf-936a-49fb-a570-14ee7586cb32",
           "output": "@seqout",
@@ -3680,6 +3684,20 @@
           "output": "@seqout",
           "target": "3dbd6b11-1524-4a0f-e567-f0358f9839b7",
           "input": "@seqin"
+        },
+        {
+          "objID": "d744ba5e-77a6-43c3-9051-5cf0be9748c1",
+          "source": "c539a03e-659a-459b-822e-3cce48af1e68",
+          "output": "True",
+          "target": "fdbbd398-4c40-403d-d00b-6717197c5ed7",
+          "input": "@seqin"
+        },
+        {
+          "objID": "e1d512ea-53e5-4f7c-f3ca-95eca9c60775",
+          "source": "fdbbd398-4c40-403d-d00b-6717197c5ed7",
+          "output": "@seqout",
+          "target": "97598aaf-936a-49fb-a570-14ee7586cb32",
+          "input": "@seqin"
         }
       ],
       "localVariables": [
@@ -3696,6 +3714,14 @@
           "name": "hideOKButton",
           "type": "boolean",
           "defaultValue": "true",
+          "persistent": false,
+          "native": false
+        },
+        {
+          "objID": "c800f2f8-b87f-4b0f-c39a-afbeeccefcc9",
+          "name": "startupDone2",
+          "type": "boolean",
+          "defaultValue": "false",
           "persistent": false,
           "native": false
         }
