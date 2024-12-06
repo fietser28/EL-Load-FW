@@ -192,6 +192,7 @@ public:
 
     bool getMeasuredStateCopy(measuredStateStruct *mystate, TickType_t waitTicks);
     bool getSetStateCopy(setStateStruct *mystate, TickType_t waitTicks);
+    uint64_t getMeasuredSCount();
 
     /* Called from HW threads 
        These functions set the measure state
@@ -280,14 +281,18 @@ public:
     uint64_t setPmonStat(bool on);
     uint64_t clearPmonStat();
 
+    uint64_t startMeasurement();
+
     calibration cal;
     hardwareState hw;
 
 private:
+    bool updateLoadTasks();
     bool updateHWIOTask();
     bool updateMeasureTask();
     bool updateAverageTask(bool clearPower = false, bool clearImonStat = false, 
-                           bool clearUmonStat = false, bool clearPmonStat = false);
+                           bool clearUmonStat = false, bool clearPmonStat = false,
+                           bool doMeasurement = false);
     bool updateKeysTask();
     void updateSCountHW(uint64_t sCount);
     bool sendWindowSizes();

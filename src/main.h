@@ -80,6 +80,7 @@ struct changeAverageSettingsMsg {
     //uint16_t avgSamples;
     uint32_t avgSamples;
     bool clear;
+    bool doMeasurement;
     bool record;
     bool on;
     bool sendCalData;

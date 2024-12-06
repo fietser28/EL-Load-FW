@@ -111,6 +111,11 @@ const scpi_command_t scpi_commands[] = {
     {"FETCh[:SCALar]:POWer[:DC]:STATistics?", scpi_cmd_fetch_pow_statQ, 0},    // <empty>|MIN|MAX|AVG|COUNT
     {"FETCh:CAPacity?", scpi_cmd_fetch_cap, 0},
 
+    /* Initiate measurement and wait for result. */
+    {"MEASure[:SCALar]:CURRent[:DC]?", scpi_cmd_meas_currQ, 0},
+    {"MEASure[:SCALar]:VOLTage[:DC]?", scpi_cmd_meas_voltQ, 0},
+    {"MEASure[:SCALar]:POWer[:DC]?", scpi_cmd_meas_powQ, 0},
+
     // Current measurement stats
     {"[SENSe]:CURRent:STATistics[:ON]", scpi_cmd_sense_curr_stat,0}, // ON|OFF|1|0
     {"[SENSe]:CURRent:STATistics[:ON]?", scpi_cmd_sense_curr_statQ,0},

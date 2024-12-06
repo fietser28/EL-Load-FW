@@ -496,7 +496,7 @@ uint8_t gpiopinstate;
 
 void taskProtHWFunction(void *pvParameters)
 {
-  uint64_t sCountHW = 0;
+  uint64_t sCountHW = 0, sCountHW_prev = 0;
 
   uint32_t ulNotifiedValue;
   //gpio_mcp23008 gpiokeys = gpio_mcp23008();
@@ -634,7 +634,7 @@ void taskProtHWFunction(void *pvParameters)
     protection = state.getProtection();
     // Something has changed
     if (ocptrig != ocptrig_prev || ovptrig != ovptrig_prev || von != von_prev || protection != protection_prev ||
-        sense_error != sense_error_prev) 
+        sense_error != sense_error_prev || sCountHW != sCountHW_prev) 
     {
 
       // State has changed, update it.
@@ -646,6 +646,7 @@ void taskProtHWFunction(void *pvParameters)
       von_prev = von;
       sense_error_prev = sense_error;
       protection_prev = protection;
+      sCountHW_prev = sCountHW;
 
     }
 
@@ -1031,6 +1032,7 @@ void taskAveragingFunction(void *pvParameters)
   uint64_t sCountAvg = 0;
   uint64_t sCountFromMeasure;
   uint64_t sCountFromSettings;
+  uint64_t oldSCountFromSettings;
   // Message buffer
   newMeasurementMsg newMsg;
   changeAverageSettingsMsg settingsMsg;
@@ -1051,6 +1053,7 @@ void taskAveragingFunction(void *pvParameters)
   double time = 0;
   bool record = true;
   bool on = true;
+  bool doMeasurement = false;
   double interval = 0;
   bool update = false;
   bool sendCalData = false;
@@ -1087,7 +1090,8 @@ void taskAveragingFunction(void *pvParameters)
     avgRawCount++;
     avgVoltRawSum = avgVoltRawSum + newMsg.UmonRaw;
 
-    if (avgRawCount >= avgSampleWindow)
+    // Condtion: We have enough samples OR there is another situation why we wrapup and store a new averaged measurement.
+    if (avgRawCount >= avgSampleWindow || doMeasurement)
     {
       avgCurrentRaw = avgCurrentRawSum / avgRawCount;
       avgVoltRaw = avgVoltRawSum / avgRawCount;
@@ -1158,7 +1162,13 @@ void taskAveragingFunction(void *pvParameters)
         localPstat.avg = localPstat.count == 0 ? 0.0f : (double)PstatAvgSum / (double)localPstat.count;
       }
 
-
+      // First run after a doMeasure report old sCount, the averages are still from old setings.
+      if (doMeasurement) {
+        sCountAvg = min(sCountFromMeasure, oldSCountFromSettings);
+        doMeasurement = false;
+      } else {
+        sCountAvg = min(sCountFromMeasure, sCountFromSettings);
+      }
       // Update main state
       state.setAvgMeasurements(imon, umon, As, Ws, time, avgCurrentRaw, avgVoltRaw, 
                                localIstat, localUstat, localPstat, sCountAvg);
@@ -1172,8 +1182,14 @@ void taskAveragingFunction(void *pvParameters)
     msgBytes = xQueueReceive(changeAverageSettings, &settingsMsg, 0);
     if (msgBytes > 0)
     {
+
+      if (settingsMsg.doMeasurement == true) 
+      {
+        oldSCountFromSettings = sCountFromSettings;
+        doMeasurement = true;
+      }
+      
       sCountFromSettings= settingsMsg.sCount;
-      sCountAvg = min(sCountFromMeasure, sCountFromSettings);
 
       if (settingsMsg.avgSamples != 0)
       {

@@ -77,6 +77,10 @@ extern scpi_result_t scpi_cmd_fetch_power(scpi_t *context);
 extern scpi_result_t scpi_cmd_fetch_pow_statQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_fetch_cap(scpi_t *context);
 
+extern scpi_result_t scpi_cmd_meas_currQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_meas_voltQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_meas_powQ(scpi_t *context);
+
 extern scpi_result_t scpi_cmd_sense_curr_stat(scpi_t *context);
 extern scpi_result_t scpi_cmd_sense_curr_statQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_sense_curr_stat_clear(scpi_t *context);

@@ -769,6 +769,49 @@ scpi_result_t scpi_cmd_sense_curr_stat(scpi_t *context)
     };
 };
 
+// MEASure commands
+scpi_result_t measurement(scpi_t *context, scpi_result_t (fetch)(scpi_t *)) 
+{
+    uint64_t s = state.startMeasurement();
+    uint32_t u = 0;
+
+    if ( s == 0) {
+        // TODO: Add specific error message (can't initiate measurment)
+        return SCPI_RES_ERR;
+    }
+    
+    while(true) 
+    {
+        if (state.getMeasuredSCount() == s)
+        {
+            // Just fetch command
+            return fetch(context);
+        }
+        vTaskDelay(5);
+        u++;
+        if (u > 1000) 
+        {
+            // TODO add specific eror messages (timeout on measurement)
+            return SCPI_RES_ERR;
+        }
+    }
+};
+
+scpi_result_t scpi_cmd_meas_currQ(scpi_t *context)
+{
+    return measurement(context, scpi_cmd_fetch_current);
+}; 
+
+scpi_result_t scpi_cmd_meas_voltQ(scpi_t *context)
+{
+    return measurement(context, scpi_cmd_fetch_voltage);
+};
+
+scpi_result_t scpi_cmd_meas_powQ(scpi_t *context)
+{
+    return measurement(context, scpi_cmd_fetch_power);
+};
+
 scpi_result_t scpi_cmd_sense_curr_statQ(scpi_t *context)
 {
     SCPI_ResultBool(context, state.getImonStat());
