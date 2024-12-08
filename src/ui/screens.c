@@ -3724,16 +3724,6 @@ void tick_screen_capacity() {
         }
     }
     {
-        bool new_val = evalBooleanProperty(flowState, 20, 4, "Failed to evaluate Disabled state");
-        bool cur_val = lv_obj_has_state(objects.obj28, LV_STATE_DISABLED);
-        if (new_val != cur_val) {
-            tick_value_change_obj = objects.obj28;
-            if (new_val) lv_obj_add_state(objects.obj28, LV_STATE_DISABLED);
-            else lv_obj_clear_state(objects.obj28, LV_STATE_DISABLED);
-            tick_value_change_obj = NULL;
-        }
-    }
-    {
         const char *new_val = evalTextProperty(flowState, 21, 3, "Failed to evaluate Text in Label widget");
         const char *cur_val = lv_label_get_text(objects.obj108);
         if (strcmp(new_val, cur_val) != 0) {
@@ -3749,16 +3739,6 @@ void tick_screen_capacity() {
             tick_value_change_obj = objects.obj29;
             if (new_val) lv_obj_add_state(objects.obj29, LV_STATE_CHECKED);
             else lv_obj_clear_state(objects.obj29, LV_STATE_CHECKED);
-            tick_value_change_obj = NULL;
-        }
-    }
-    {
-        bool new_val = evalBooleanProperty(flowState, 22, 4, "Failed to evaluate Disabled state");
-        bool cur_val = lv_obj_has_state(objects.obj29, LV_STATE_DISABLED);
-        if (new_val != cur_val) {
-            tick_value_change_obj = objects.obj29;
-            if (new_val) lv_obj_add_state(objects.obj29, LV_STATE_DISABLED);
-            else lv_obj_clear_state(objects.obj29, LV_STATE_DISABLED);
             tick_value_change_obj = NULL;
         }
     }
@@ -3782,16 +3762,6 @@ void tick_screen_capacity() {
         }
     }
     {
-        bool new_val = evalBooleanProperty(flowState, 24, 4, "Failed to evaluate Disabled state");
-        bool cur_val = lv_obj_has_state(objects.obj30, LV_STATE_DISABLED);
-        if (new_val != cur_val) {
-            tick_value_change_obj = objects.obj30;
-            if (new_val) lv_obj_add_state(objects.obj30, LV_STATE_DISABLED);
-            else lv_obj_clear_state(objects.obj30, LV_STATE_DISABLED);
-            tick_value_change_obj = NULL;
-        }
-    }
-    {
         const char *new_val = evalTextProperty(flowState, 25, 3, "Failed to evaluate Text in Label widget");
         const char *cur_val = lv_label_get_text(objects.obj110);
         if (strcmp(new_val, cur_val) != 0) {
@@ -3807,16 +3777,6 @@ void tick_screen_capacity() {
             tick_value_change_obj = objects.obj31;
             if (new_val) lv_obj_add_state(objects.obj31, LV_STATE_CHECKED);
             else lv_obj_clear_state(objects.obj31, LV_STATE_CHECKED);
-            tick_value_change_obj = NULL;
-        }
-    }
-    {
-        bool new_val = evalBooleanProperty(flowState, 26, 4, "Failed to evaluate Disabled state");
-        bool cur_val = lv_obj_has_state(objects.obj31, LV_STATE_DISABLED);
-        if (new_val != cur_val) {
-            tick_value_change_obj = objects.obj31;
-            if (new_val) lv_obj_add_state(objects.obj31, LV_STATE_DISABLED);
-            else lv_obj_clear_state(objects.obj31, LV_STATE_DISABLED);
             tick_value_change_obj = NULL;
         }
     }

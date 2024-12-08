@@ -2644,7 +2644,7 @@
           "left": 966,
           "top": 197,
           "width": 255,
-          "height": 53,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -2679,7 +2679,7 @@
           "left": 820,
           "top": 414,
           "width": 87,
-          "height": 53,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "milliseconds": "2500"
@@ -2690,7 +2690,7 @@
           "left": -821,
           "top": 321,
           "width": 141,
-          "height": 53,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "variable": "startupDone"
@@ -3319,7 +3319,7 @@
           "left": 133,
           "top": 321,
           "width": 260,
-          "height": 124,
+          "height": 122,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -3360,7 +3360,7 @@
           "type": "SetVariableActionComponent",
           "left": 475,
           "top": 292,
-          "width": 171,
+          "width": 170,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -3378,7 +3378,7 @@
           "left": 376,
           "top": -252,
           "width": 258,
-          "height": 53,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -3396,7 +3396,7 @@
           "left": 376,
           "top": -183,
           "width": 197,
-          "height": 53,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -3414,7 +3414,7 @@
           "left": 755,
           "top": -225,
           "width": 286,
-          "height": 53,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -3434,7 +3434,7 @@
           "left": 755,
           "top": -156,
           "width": 249,
-          "height": 53,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -3454,7 +3454,7 @@
           "left": 376,
           "top": -102,
           "width": 191,
-          "height": 53,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -3472,7 +3472,7 @@
           "left": 755,
           "top": -75,
           "width": 280,
-          "height": 53,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -3507,7 +3507,7 @@
           "left": 135,
           "top": 491,
           "width": 197,
-          "height": 53,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -3525,7 +3525,7 @@
           "left": 408,
           "top": 517,
           "width": 237,
-          "height": 53,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -3545,7 +3545,7 @@
           "left": -334,
           "top": 345,
           "width": 100,
-          "height": 53,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "variable": "startupDone2"
@@ -9237,8 +9237,8 @@
           "type": "LVGLActionComponent",
           "left": 431,
           "top": 448,
-          "width": 311,
-          "height": 54,
+          "width": 310,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -9276,8 +9276,8 @@
           "type": "LVGLActionComponent",
           "left": 202,
           "top": 540,
-          "width": 299,
-          "height": 54,
+          "width": 298,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -9301,7 +9301,7 @@
           "left": -213,
           "top": 91,
           "width": 166,
-          "height": 54,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "variable": "valueToKeyboard"
@@ -9311,8 +9311,8 @@
           "type": "WatchVariableActionComponent",
           "left": -213,
           "top": 25,
-          "width": 148,
-          "height": 54,
+          "width": 147,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "variable": "capRangeType"
@@ -9322,7 +9322,7 @@
           "type": "SetVariableActionComponent",
           "left": 431,
           "top": 37,
-          "width": 128,
+          "width": 127,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -9340,8 +9340,8 @@
           "type": "SetVariableActionComponent",
           "left": 431,
           "top": -82,
-          "width": 245,
-          "height": 101,
+          "width": 244,
+          "height": 100,
           "customInputs": [],
           "customOutputs": [],
           "description": "",
@@ -9369,7 +9369,7 @@
           "left": 431,
           "top": 233,
           "width": 232,
-          "height": 101,
+          "height": 100,
           "customInputs": [],
           "customOutputs": [],
           "description": "",
@@ -9396,8 +9396,8 @@
           "type": "SetVariableActionComponent",
           "left": 431,
           "top": 340,
-          "width": 245,
-          "height": 101,
+          "width": 244,
+          "height": 100,
           "customInputs": [],
           "customOutputs": [],
           "description": "",
@@ -9425,7 +9425,7 @@
           "left": 681,
           "top": 73,
           "width": 364,
-          "height": 111,
+          "height": 105,
           "customInputs": [
             {
               "objID": "7efc2463-57f3-4ae6-f1c9-9e672d7ea549",
@@ -9466,7 +9466,7 @@
           "type": "SetVariableActionComponent",
           "left": 1122,
           "top": 13,
-          "width": 188,
+          "width": 187,
           "height": 57,
           "customInputs": [
             {
@@ -9512,7 +9512,7 @@
           "type": "SetVariableActionComponent",
           "left": 1122,
           "top": 159,
-          "width": 188,
+          "width": 187,
           "height": 57,
           "customInputs": [
             {
@@ -9536,7 +9536,7 @@
           "left": 431,
           "top": 127,
           "width": 232,
-          "height": 101,
+          "height": 100,
           "customInputs": [],
           "customOutputs": [],
           "description": "",
@@ -9866,8 +9866,8 @@
               "clickableFlagType": "literal",
               "checkedState": "CapTimeStopTriggered",
               "checkedStateType": "expression",
-              "disabledState": "!CapLimitEnabled",
-              "disabledStateType": "expression",
+              "disabledState": false,
+              "disabledStateType": "literal",
               "states": "",
               "useStyle": "selectButtonRedGreen",
               "localStyles": {
@@ -9966,8 +9966,8 @@
               "clickableFlagType": "literal",
               "checkedState": "CapWhStopTriggered",
               "checkedStateType": "expression",
-              "disabledState": "!CapLimitEnabled",
-              "disabledStateType": "expression",
+              "disabledState": false,
+              "disabledStateType": "literal",
               "states": "",
               "useStyle": "selectButtonRedGreen",
               "localStyles": {
@@ -10066,8 +10066,8 @@
               "clickableFlagType": "literal",
               "checkedState": "CapAhStopTriggered",
               "checkedStateType": "expression",
-              "disabledState": "!CapLimitEnabled",
-              "disabledStateType": "expression",
+              "disabledState": false,
+              "disabledStateType": "literal",
               "states": "",
               "useStyle": "selectButtonRedGreen",
               "localStyles": {
@@ -10166,8 +10166,8 @@
               "clickableFlagType": "literal",
               "checkedState": "CapVoltStopTriggered",
               "checkedStateType": "expression",
-              "disabledState": "!CapLimitEnabled",
-              "disabledStateType": "expression",
+              "disabledState": false,
+              "disabledStateType": "literal",
               "states": "",
               "useStyle": "selectButtonRedGreen",
               "localStyles": {
