@@ -331,16 +331,23 @@ namespace dcl
     }
 
     // Called from HW Task.
-    bool stateManager::setHWstate(bool ocptrig, bool ovptrig, bool von, bool sense_error, bool polarity_error, uint64_t sCount)
+    bool stateManager::setHWstate(bool ocptrig, bool ovptrig, bool von, bool sense_error, bool polarity_error, bool hwprotection, uint64_t sCount)
     {
     // Protection kicked in from HW signal
-    if (!_setState.CalibrationMode && (ocptrig || ovptrig || sense_error || polarity_error)) 
+    if (!_setState.CalibrationMode && (ocptrig || ovptrig || sense_error || (polarity_error && _setState.on) || hwprotection)) 
     {
         state.setProtection();
         if (( (ocptrig || ovptrig) && getBeepProt()) ||
               (polarity_error      && getBeepReverse()) ||
-              (sense_error         && getBeepSense())
+              (sense_error         && getBeepSense()) ||
+              (polarity_error       && getBeepReverse())
         ) { beep(0); }
+    };
+
+    // Polarity error when load is of only beeps, doesn't trigger protection.
+    if (polarity_error && !_setState.on && getBeepReverse()) 
+    {
+        beep(0);
     };
 
     // Von kicks in when on and inhibit mode => Turn load of.
@@ -364,7 +371,12 @@ namespace dcl
 
                 // Only set and keep if remote sensing is active otherwise clear.
                 _measuredState.SenseError = _setState.senseVoltRemote?  sense_error || _measuredState.SenseError : false;
-                _measuredState.PolarityError = polarity_error || _measuredState.PolarityError;
+
+                // Only set and keep if load is on, otherwise set last measured value.
+                _measuredState.PolarityError = (_setState.on? polarity_error : false) || _measuredState.PolarityError;
+
+                _measuredState.PolarityErrorLast = polarity_error;
+
                 _measuredState.sCountFromHWIO = max(_measuredState.sCountFromHWIO,sCount);
                 updateMeasureSCount();
                 xSemaphoreGive(_measuredStateMutex);
@@ -634,6 +646,7 @@ namespace dcl
                 _measuredState.OPPstate = false;
                 _measuredState.SenseError = false;
                 _measuredState.PolarityError = false;
+                _measuredState.PolarityErrorLast = false;
                 _measuredState.scpiWdogTriggered = false;
                 xSemaphoreGive(_measuredStateMutex);
             }

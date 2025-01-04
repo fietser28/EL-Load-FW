@@ -86,7 +86,7 @@ QueueHandle_t changeScreen;
 // Beep task
 TaskHandle_t taskBeep;
 QueueHandle_t beepQueue;
-#define BEEPBUFFERSIZE 10
+#define BEEPBUFFERSIZE 5
 
 // adc_MCP3202 currentADC = adc_MCP3202(SPI_ADC, PIN_SPI0_SS, 0);
 // adc_MCP3202 voltADC = adc_MCP3202(SPI_ADC, PIN_SPI0_SS, 1);
@@ -200,11 +200,12 @@ void beepTaskFunction(void *pvParameters)
       } else {
         unsigned long now = millis();
         unsigned long passed = now - beeperTurnedOnTime;
-        if (newBeepDuration > (beeperTurnedOnTime + queueWaitTime - now)) {
+        TickType_t timeleft = queueWaitTime - (TickType_t)passed;
+        if (newBeepDuration > timeleft) {
           beeperTurnedOnTime = now;
           queueWaitTime = newBeepDuration / portTICK_PERIOD_MS;
         } else {
-          queueWaitTime = queueWaitTime - (TickType_t)passed;
+          queueWaitTime = timeleft;
         }
       }
     } else {
@@ -508,7 +509,7 @@ void taskProtHWFunction(void *pvParameters)
   bool ovptrig, ovptrig_prev = false;
   bool sense_error, sense_error_prev = false;
   bool polarity_error, polarity_error_prev = false;
-  bool protection, protection_prev = false, protection_prev2 = false;
+  bool hwprotection, hwprotection_prev = false, hwprotection_prev2 = false;
   bool HWprotenable_prev = false;
   bool von, von_prev = false;
   bool senseVoltage = false;
@@ -608,7 +609,11 @@ void taskProtHWFunction(void *pvParameters)
                        0x00,  // Compare against 0
                        (uint8_t)HWIO_INT_COMP0); // Only these are compared, other on any change
   vTaskDelay(100); //TODO: remove?
-  hwio.digitalWrite(HWIO_PIN_HWProtEnable, false); //TODO: Implement functionality, for now keep pin low.
+  hwio.digitalWrite(HWIO_PIN_HWProtEnable, true); //TODO: Implement functionality, for now keep pin high (always on).
+
+  hwio.digitalWrite(HWIO_PIN_resetProt, true); // TODO: Dirty setup.
+  vTaskDelay(1);
+  hwio.digitalWrite(HWIO_PIN_resetProt, false); // TODO: Dirty setup.
 
   ::attachInterrupt(digitalPinToInterrupt(PIN_HWGPIO_INT), ISR_ProtHW, FALLING);
   gpiopinstate = hwio.digitalRead(0); //Clear interrupt pin status. Only needed for bank0
@@ -627,28 +632,30 @@ void taskProtHWFunction(void *pvParameters)
     sense_error =  not (gpiopinstate & 1 << HWIO_PIN_SENSE_ERROR); // || (gpiointerruptflagged & 1 << HWIO_PIN_SENSE_ERROR));
     //if (!sense_error) { SERIALDEBUG.println("x"); };
     sense_error = sense_error && localSetState.senseVoltRemote && localSetState.on; // Sense error only matters if we use it and load is on.
-    sense_error = false; // TODO: Disabled for now...
-    polarity_error = false; // TODO: HW pin not implemented yet. 
+    //sense_error = false; // TODO: Disabled for now...
+    polarity_error = not ( (gpiopinstate & 1 << HWIO_PIN_REVERSEPOL) || (gpiointerruptflagged & 1 << HWIO_PIN_REVERSEPOL) );  
     von = gpiopinstate & 1 << HWIO_PIN_VON;
+    hwprotection = (gpiopinstate & 1 << HWIO_PIN_CLAMPOFF);
+    //protection = state.getProtection();
 
-    protection = state.getProtection();
-    // Something has changed
-    if (ocptrig != ocptrig_prev || ovptrig != ovptrig_prev || von != von_prev || protection != protection_prev ||
-        sense_error != sense_error_prev || sCountHW != sCountHW_prev) 
+    // Something has changed (except for polarity error, this keeps being send when positive)
+    if (ocptrig != ocptrig_prev || ovptrig != ovptrig_prev || von != von_prev || hwprotection != hwprotection_prev ||
+        sense_error != sense_error_prev || polarity_error != polarity_error_prev || polarity_error || sCountHW != sCountHW_prev) 
     {
 
       // State has changed, update it.
       // All necessary changed are handled in state functions (protection/off/...)
-      state.setHWstate(ocptrig, ovptrig, von, sense_error, polarity_error, sCountHW);
+      state.setHWstate(ocptrig, ovptrig, von, sense_error, polarity_error, hwprotection, sCountHW);
 
       ocptrig_prev = ocptrig;
       ovptrig_prev = ovptrig;
       von_prev = von;
       sense_error_prev = sense_error;
-      protection_prev = protection;
+      polarity_error_prev = polarity_error;
+      hwprotection_prev = hwprotection;
       sCountHW_prev = sCountHW;
 
-    }
+    } 
 
     // Fan controll
     fanstatus = fancontrol.getStatus();
@@ -733,13 +740,13 @@ void taskProtHWFunction(void *pvParameters)
       };
 
       bool protection = state.getProtection();
-      if (protection == false && protection_prev2 == true)
+      if (protection == false && hwprotection == true)
       {
         hwio.digitalWrite(HWIO_PIN_resetProt, true);
-        //vTaskDelay(1 / portTICK_PERIOD_MS);
+        vTaskDelay(1 / portTICK_PERIOD_MS);
         hwio.digitalWrite(HWIO_PIN_resetProt, false);
       }
-      protection_prev2 = protection;
+      hwprotection_prev2 = protection;
 
       if (localSetState.senseVoltRemote != senseVoltage) {
         if (localSetState.senseVoltRemote == true) {
@@ -1188,7 +1195,7 @@ void taskAveragingFunction(void *pvParameters)
         oldSCountFromSettings = sCountFromSettings;
         doMeasurement = true;
       }
-      
+
       sCountFromSettings= settingsMsg.sCount;
 
       if (settingsMsg.avgSamples != 0)

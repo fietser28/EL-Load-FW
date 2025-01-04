@@ -30,20 +30,21 @@ typedef struct _objects_t {
     lv_obj_t *info;
     lv_obj_t *sound;
     lv_obj_t *stats;
+    lv_obj_t *popup;
     lv_obj_t *obj0;
     lv_obj_t *obj0__kbtext2;
-    lv_obj_t *obj0__obj0;
+    lv_obj_t *obj0__obj2;
     lv_obj_t *obj0__max_button;
     lv_obj_t *obj0__min_button;
-    lv_obj_t *obj0__obj1;
-    lv_obj_t *obj0__obj2;
+    lv_obj_t *obj0__obj3;
+    lv_obj_t *obj0__obj4;
     lv_obj_t *obj1;
     lv_obj_t *obj1__kbtext2;
-    lv_obj_t *obj1__obj0;
+    lv_obj_t *obj1__obj2;
     lv_obj_t *obj1__max_button;
     lv_obj_t *obj1__min_button;
-    lv_obj_t *obj1__obj1;
-    lv_obj_t *obj1__obj2;
+    lv_obj_t *obj1__obj3;
+    lv_obj_t *obj1__obj4;
     lv_obj_t *obj2;
     lv_obj_t *obj2__sure_but_yes;
     lv_obj_t *obj2__sure_but_no;
@@ -60,18 +61,18 @@ typedef struct _objects_t {
     lv_obj_t *obj3__obj1;
     lv_obj_t *obj4;
     lv_obj_t *obj4__kbtext2;
-    lv_obj_t *obj4__obj0;
+    lv_obj_t *obj4__obj2;
     lv_obj_t *obj4__max_button;
     lv_obj_t *obj4__min_button;
-    lv_obj_t *obj4__obj1;
-    lv_obj_t *obj4__obj2;
+    lv_obj_t *obj4__obj3;
+    lv_obj_t *obj4__obj4;
     lv_obj_t *obj5;
     lv_obj_t *obj5__kbtext2;
-    lv_obj_t *obj5__obj0;
+    lv_obj_t *obj5__obj2;
     lv_obj_t *obj5__max_button;
     lv_obj_t *obj5__min_button;
-    lv_obj_t *obj5__obj1;
-    lv_obj_t *obj5__obj2;
+    lv_obj_t *obj5__obj3;
+    lv_obj_t *obj5__obj4;
     lv_obj_t *obj6;
     lv_obj_t *obj6__sure_but_yes;
     lv_obj_t *obj6__sure_but_no;
@@ -94,8 +95,8 @@ typedef struct _objects_t {
     lv_obj_t *obj8__obj0;
     lv_obj_t *obj8__obj1;
     lv_obj_t *obj9;
-    lv_obj_t *obj9__obj0;
-    lv_obj_t *obj9__obj1;
+    lv_obj_t *obj9__obj5;
+    lv_obj_t *obj9__obj6;
     lv_obj_t *obj9__stat_min_17;
     lv_obj_t *obj9__stat_min_18;
     lv_obj_t *obj9__stat_min_19;
@@ -103,8 +104,8 @@ typedef struct _objects_t {
     lv_obj_t *obj9__stat_min_21;
     lv_obj_t *obj9__stat_min_22;
     lv_obj_t *obj10;
-    lv_obj_t *obj10__obj0;
-    lv_obj_t *obj10__obj1;
+    lv_obj_t *obj10__obj5;
+    lv_obj_t *obj10__obj6;
     lv_obj_t *obj10__stat_min_17;
     lv_obj_t *obj10__stat_min_18;
     lv_obj_t *obj10__stat_min_19;
@@ -112,8 +113,8 @@ typedef struct _objects_t {
     lv_obj_t *obj10__stat_min_21;
     lv_obj_t *obj10__stat_min_22;
     lv_obj_t *obj11;
-    lv_obj_t *obj11__obj0;
-    lv_obj_t *obj11__obj1;
+    lv_obj_t *obj11__obj5;
+    lv_obj_t *obj11__obj6;
     lv_obj_t *obj11__stat_min_17;
     lv_obj_t *obj11__stat_min_18;
     lv_obj_t *obj11__stat_min_19;
@@ -372,6 +373,9 @@ typedef struct _objects_t {
     lv_obj_t *stat_min_11;
     lv_obj_t *stat_min_12;
     lv_obj_t *obj191;
+    lv_obj_t *popup_container;
+    lv_obj_t *popup_box;
+    lv_obj_t *popup_text;
 } objects_t;
 
 extern objects_t objects;
@@ -391,6 +395,7 @@ enum ScreensEnum {
     SCREEN_ID_INFO = 12,
     SCREEN_ID_SOUND = 13,
     SCREEN_ID_STATS = 14,
+    SCREEN_ID_POPUP = 15,
 };
 
 void create_screen_startup();
@@ -434,6 +439,9 @@ void tick_screen_sound();
 
 void create_screen_stats();
 void tick_screen_stats();
+
+void create_screen_popup();
+void tick_screen_popup();
 
 void create_user_widget_question_yn(lv_obj_t *parent_obj, void *flowState, int startWidgetIndex);
 void tick_user_widget_question_yn(void *flowState, int startWidgetIndex);

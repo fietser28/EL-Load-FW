@@ -479,6 +479,8 @@ static void __not_in_flash_func(guiTask(void *pvParameter))
   lv_indev_set_read_cb(indev_enc, my_encoder_read);
   lv_indev_set_group(indev_enc, groups.encoder_group);
 
+  lv_obj_set_parent(objects.popup_container, lv_layer_top());
+
 #endif
 
   // Manually turn on backlight (avoid garbage at startup)
@@ -495,6 +497,7 @@ static void __not_in_flash_func(guiTask(void *pvParameter))
     state.getSetStateCopy(&localsetcopy, 0);
     lv_task_handler();
     ui_tick();
+    tick_screen_popup();
     screenMsgBytes = xQueueReceive(changeScreen, &newScreenMsg, 0);
     if ( screenMsgBytes > 0)
     {

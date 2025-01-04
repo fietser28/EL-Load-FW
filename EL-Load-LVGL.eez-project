@@ -1021,6 +1021,14 @@
         "type": "boolean",
         "defaultValue": "false",
         "persistent": false
+      },
+      {
+        "objID": "9cb96ff2-1f58-4495-884d-010d702fa165",
+        "name": "reverse_polarity",
+        "type": "boolean",
+        "defaultValue": "false",
+        "persistent": false,
+        "native": true
       }
     ],
     "structures": [
@@ -1572,8 +1580,8 @@
           "type": "SetVariableActionComponent",
           "left": -1382,
           "top": -97,
-          "width": 213,
-          "height": 78,
+          "width": 214,
+          "height": 79,
           "customInputs": [],
           "customOutputs": [],
           "description": "local",
@@ -1606,7 +1614,7 @@
           "left": -330.5,
           "top": -97.5,
           "width": 87,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "milliseconds": "NPLC * 2"
@@ -1616,8 +1624,8 @@
           "type": "SetVariableActionComponent",
           "left": 794,
           "top": -122,
-          "width": 244,
-          "height": 100,
+          "width": 245,
+          "height": 101,
           "customInputs": [],
           "customOutputs": [],
           "description": "go up",
@@ -1659,8 +1667,8 @@
           "type": "SetVariableActionComponent",
           "left": 794,
           "top": 23,
-          "width": 244,
-          "height": 100,
+          "width": 245,
+          "height": 101,
           "customInputs": [],
           "customOutputs": [],
           "description": "go down",
@@ -1687,8 +1695,8 @@
           "type": "CompareActionComponent",
           "left": 1236,
           "top": -112,
-          "width": 167,
-          "height": 69,
+          "width": 168,
+          "height": 70,
           "customInputs": [],
           "customOutputs": [],
           "A": "cal_set_step",
@@ -1711,7 +1719,7 @@
           "left": -1134,
           "top": -98,
           "width": 220,
-          "height": 78,
+          "height": 79,
           "customInputs": [],
           "customOutputs": [],
           "description": "native for DAC & clear protections",
@@ -1734,7 +1742,7 @@
           "left": -734,
           "top": -97,
           "width": 87,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "description": "wait for dac to settle before clearing protection",
@@ -1745,8 +1753,8 @@
           "type": "SwitchActionComponent",
           "left": -179,
           "top": -98,
-          "width": 692,
-          "height": 105,
+          "width": 693,
+          "height": 111,
           "customInputs": [],
           "customOutputs": [],
           "description": "Depending on calType and state of HW pin determine if we must go up or down.",
@@ -2658,7 +2666,9 @@
               "speed": 0,
               "speedType": "literal",
               "delay": 0,
-              "delayType": "literal"
+              "delayType": "literal",
+              "useStack": true,
+              "useStackType": "literal"
             }
           ]
         },
@@ -3768,8 +3778,8 @@
           "type": "SwitchActionComponent",
           "left": 585,
           "top": -542,
-          "width": 207,
-          "height": 124,
+          "width": 208,
+          "height": 130,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -3810,8 +3820,8 @@
           "type": "SetVariableActionComponent",
           "left": 938,
           "top": -772,
-          "width": 465,
-          "height": 78,
+          "width": 466,
+          "height": 79,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -3832,8 +3842,8 @@
           "type": "SetVariableActionComponent",
           "left": 938,
           "top": -651,
-          "width": 465,
-          "height": 78,
+          "width": 466,
+          "height": 79,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -3854,8 +3864,8 @@
           "type": "SetVariableActionComponent",
           "left": 939,
           "top": -555,
-          "width": 207,
-          "height": 78,
+          "width": 208,
+          "height": 79,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -3876,8 +3886,8 @@
           "type": "SetVariableActionComponent",
           "left": 939,
           "top": -464,
-          "width": 195,
-          "height": 78,
+          "width": 196,
+          "height": 79,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -3898,7 +3908,7 @@
           "type": "SetVariableActionComponent",
           "left": 233,
           "top": 784,
-          "width": 201,
+          "width": 202,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -3915,8 +3925,8 @@
           "type": "SetVariableActionComponent",
           "left": 324,
           "top": 455,
-          "width": 453,
-          "height": 78,
+          "width": 454,
+          "height": 79,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -3938,7 +3948,7 @@
           "left": 472,
           "top": -143,
           "width": 280,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -3952,7 +3962,9 @@
               "speed": 0,
               "speedType": "literal",
               "delay": 0,
-              "delayType": "literal"
+              "delayType": "literal",
+              "useStack": true,
+              "useStackType": "literal"
             }
           ]
         },
@@ -3961,8 +3973,8 @@
           "type": "LVGLActionComponent",
           "left": 397,
           "top": 333,
-          "width": 298,
-          "height": 53,
+          "width": 299,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -3976,7 +3988,9 @@
               "speed": 0,
               "speedType": "literal",
               "delay": 0,
-              "delayType": "literal"
+              "delayType": "literal",
+              "useStack": true,
+              "useStackType": "literal"
             }
           ]
         },
@@ -3986,7 +4000,7 @@
           "left": 803,
           "top": 1122,
           "width": 168,
-          "height": 106,
+          "height": 111,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -4021,8 +4035,8 @@
           "type": "SetVariableActionComponent",
           "left": 1134,
           "top": 1102,
-          "width": 465,
-          "height": 78,
+          "width": 466,
+          "height": 79,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -4043,8 +4057,8 @@
           "type": "SetVariableActionComponent",
           "left": 1134,
           "top": 1195,
-          "width": 465,
-          "height": 78,
+          "width": 466,
+          "height": 79,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -4065,8 +4079,8 @@
           "type": "SetVariableActionComponent",
           "left": 1134,
           "top": 1282,
-          "width": 207,
-          "height": 78,
+          "width": 208,
+          "height": 79,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -4087,8 +4101,8 @@
           "type": "SetVariableActionComponent",
           "left": 1134,
           "top": 1368,
-          "width": 195,
-          "height": 78,
+          "width": 196,
+          "height": 79,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -4110,7 +4124,7 @@
           "left": -393,
           "top": 45,
           "width": 129,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "rangeType"
@@ -4121,7 +4135,7 @@
           "left": -436,
           "top": 162,
           "width": 160,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "setValueString"
@@ -4165,8 +4179,8 @@
           "type": "SwitchActionComponent",
           "left": 947,
           "top": 127,
-          "width": 359,
-          "height": 161,
+          "width": 360,
+          "height": 169,
           "customInputs": [
             {
               "objID": "94cd8ee1-5719-4df6-944b-2d3a0e561bee",
@@ -4236,8 +4250,8 @@
           "type": "SwitchActionComponent",
           "left": 289,
           "top": 588,
-          "width": 302,
-          "height": 89,
+          "width": 303,
+          "height": 92,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -4289,7 +4303,7 @@
           "type": "SetVariableActionComponent",
           "left": 277,
           "top": 705,
-          "width": 195,
+          "width": 196,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -4409,7 +4423,7 @@
           "left": 689,
           "top": -323,
           "width": 87,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "description": "BUG or strange race condition?",
@@ -4421,7 +4435,7 @@
           "left": 751,
           "top": -210,
           "width": 435,
-          "height": 81,
+          "height": 80,
           "customInputs": [],
           "customOutputs": [],
           "description": "",
@@ -4468,8 +4482,8 @@
           "type": "WatchVariableActionComponent",
           "left": 172,
           "top": -387,
-          "width": 98,
-          "height": 53,
+          "width": 99,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "mode"
@@ -4480,7 +4494,7 @@
           "left": 939,
           "top": -371,
           "width": 232,
-          "height": 78,
+          "height": 79,
           "customInputs": [],
           "customOutputs": [],
           "description": "rangeType and setValue don't matter.",
@@ -4502,8 +4516,8 @@
           "type": "WatchVariableActionComponent",
           "left": 172,
           "top": -646,
-          "width": 98,
-          "height": 53,
+          "width": 99,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "iset"
@@ -4513,8 +4527,8 @@
           "type": "WatchVariableActionComponent",
           "left": 172,
           "top": -581,
-          "width": 98,
-          "height": 53,
+          "width": 99,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "uset\n"
@@ -4524,8 +4538,8 @@
           "type": "WatchVariableActionComponent",
           "left": 172,
           "top": -520,
-          "width": 98,
-          "height": 53,
+          "width": 99,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "pset"
@@ -4535,8 +4549,8 @@
           "type": "WatchVariableActionComponent",
           "left": 172,
           "top": -451,
-          "width": 98,
-          "height": 53,
+          "width": 99,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "rset"
@@ -4547,7 +4561,7 @@
           "left": 397,
           "top": 271,
           "width": 280,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -4561,7 +4575,9 @@
               "speed": 0,
               "speedType": "literal",
               "delay": 0,
-              "delayType": "literal"
+              "delayType": "literal",
+              "useStack": true,
+              "useStackType": "literal"
             }
           ]
         },
@@ -4585,8 +4601,8 @@
           "type": "SetVariableActionComponent",
           "left": 1745,
           "top": -553,
-          "width": 410,
-          "height": 100,
+          "width": 411,
+          "height": 101,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -4613,7 +4629,7 @@
           "left": 480,
           "top": 784,
           "width": 168,
-          "height": 106,
+          "height": 111,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -4648,7 +4664,7 @@
           "type": "SetVariableActionComponent",
           "left": 726,
           "top": 733,
-          "width": 465,
+          "width": 466,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -4665,7 +4681,7 @@
           "type": "SetVariableActionComponent",
           "left": 726,
           "top": 801,
-          "width": 465,
+          "width": 466,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -4682,7 +4698,7 @@
           "type": "SetVariableActionComponent",
           "left": 726,
           "top": 867,
-          "width": 207,
+          "width": 208,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -4699,7 +4715,7 @@
           "type": "SetVariableActionComponent",
           "left": 726,
           "top": 934,
-          "width": 195,
+          "width": 196,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -8283,8 +8299,8 @@
           "type": "LVGLActionComponent",
           "left": 397,
           "top": 398,
-          "width": 255,
-          "height": 53,
+          "width": 256,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -8298,7 +8314,9 @@
               "speed": 0,
               "speedType": "literal",
               "delay": 0,
-              "delayType": "literal"
+              "delayType": "literal",
+              "useStack": true,
+              "useStackType": "literal"
             }
           ]
         },
@@ -8308,7 +8326,7 @@
           "left": -798,
           "top": 227,
           "width": 123,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "setValue"
@@ -8319,7 +8337,7 @@
           "left": -622,
           "top": 307,
           "width": 398,
-          "height": 78,
+          "height": 79,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -8357,8 +8375,8 @@
           "type": "IsTrueActionComponent",
           "left": 186,
           "top": 1022,
-          "width": 220,
-          "height": 69,
+          "width": 221,
+          "height": 70,
           "customInputs": [],
           "customOutputs": [],
           "value": "setValueInt != setValueIntIn"
@@ -8368,8 +8386,8 @@
           "type": "WatchVariableActionComponent",
           "left": -798,
           "top": 307,
-          "width": 104,
-          "height": 53,
+          "width": 105,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "svSep"
@@ -8380,7 +8398,7 @@
           "left": 938,
           "top": 389,
           "width": 470,
-          "height": 124,
+          "height": 130,
           "customInputs": [
             {
               "objID": "f4d2f758-95da-4f2e-8a21-d67b761ba5ff",
@@ -8450,7 +8468,7 @@
           "type": "SetVariableActionComponent",
           "left": 26,
           "top": -184,
-          "width": 195,
+          "width": 196,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -8467,7 +8485,7 @@
           "type": "SetVariableActionComponent",
           "left": 449,
           "top": -7,
-          "width": 195,
+          "width": 196,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -8484,7 +8502,7 @@
           "type": "SetVariableActionComponent",
           "left": 449,
           "top": 69,
-          "width": 195,
+          "width": 196,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -8501,8 +8519,8 @@
           "type": "LVGLActionComponent",
           "left": 397,
           "top": 206,
-          "width": 261,
-          "height": 53,
+          "width": 262,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -8516,7 +8534,9 @@
               "speed": 0,
               "speedType": "literal",
               "delay": 0,
-              "delayType": "literal"
+              "delayType": "literal",
+              "useStack": true,
+              "useStackType": "literal"
             }
           ]
         }
@@ -9237,8 +9257,8 @@
           "type": "LVGLActionComponent",
           "left": 431,
           "top": 448,
-          "width": 310,
-          "height": 52,
+          "width": 311,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -9276,8 +9296,8 @@
           "type": "LVGLActionComponent",
           "left": 202,
           "top": 540,
-          "width": 298,
-          "height": 52,
+          "width": 299,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -9291,7 +9311,9 @@
               "speed": 0,
               "speedType": "literal",
               "delay": 0,
-              "delayType": "literal"
+              "delayType": "literal",
+              "useStack": true,
+              "useStackType": "literal"
             }
           ]
         },
@@ -9301,7 +9323,7 @@
           "left": -213,
           "top": 91,
           "width": 166,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "valueToKeyboard"
@@ -9311,8 +9333,8 @@
           "type": "WatchVariableActionComponent",
           "left": -213,
           "top": 25,
-          "width": 147,
-          "height": 52,
+          "width": 148,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "capRangeType"
@@ -9322,7 +9344,7 @@
           "type": "SetVariableActionComponent",
           "left": 431,
           "top": 37,
-          "width": 127,
+          "width": 128,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -9340,8 +9362,8 @@
           "type": "SetVariableActionComponent",
           "left": 431,
           "top": -82,
-          "width": 244,
-          "height": 100,
+          "width": 245,
+          "height": 101,
           "customInputs": [],
           "customOutputs": [],
           "description": "",
@@ -9369,7 +9391,7 @@
           "left": 431,
           "top": 233,
           "width": 232,
-          "height": 100,
+          "height": 101,
           "customInputs": [],
           "customOutputs": [],
           "description": "",
@@ -9396,8 +9418,8 @@
           "type": "SetVariableActionComponent",
           "left": 431,
           "top": 340,
-          "width": 244,
-          "height": 100,
+          "width": 245,
+          "height": 101,
           "customInputs": [],
           "customOutputs": [],
           "description": "",
@@ -9425,7 +9447,7 @@
           "left": 681,
           "top": 73,
           "width": 364,
-          "height": 105,
+          "height": 111,
           "customInputs": [
             {
               "objID": "7efc2463-57f3-4ae6-f1c9-9e672d7ea549",
@@ -9466,7 +9488,7 @@
           "type": "SetVariableActionComponent",
           "left": 1122,
           "top": 13,
-          "width": 187,
+          "width": 188,
           "height": 57,
           "customInputs": [
             {
@@ -9512,7 +9534,7 @@
           "type": "SetVariableActionComponent",
           "left": 1122,
           "top": 159,
-          "width": 187,
+          "width": 188,
           "height": 57,
           "customInputs": [
             {
@@ -9536,7 +9558,7 @@
           "left": 431,
           "top": 127,
           "width": 232,
-          "height": 100,
+          "height": 101,
           "customInputs": [],
           "customOutputs": [],
           "description": "",
@@ -11316,7 +11338,9 @@
               "speed": 0,
               "speedType": "literal",
               "delay": 0,
-              "delayType": "literal"
+              "delayType": "literal",
+              "useStack": true,
+              "useStackType": "literal"
             }
           ]
         },
@@ -11340,7 +11364,9 @@
               "speed": 0,
               "speedType": "literal",
               "delay": 0,
-              "delayType": "literal"
+              "delayType": "literal",
+              "useStack": true,
+              "useStackType": "literal"
             }
           ]
         },
@@ -11364,7 +11390,9 @@
               "speed": 0,
               "speedType": "literal",
               "delay": 0,
-              "delayType": "literal"
+              "delayType": "literal",
+              "useStack": true,
+              "useStackType": "literal"
             }
           ]
         },
@@ -11388,7 +11416,9 @@
               "speed": 0,
               "speedType": "literal",
               "delay": 0,
-              "delayType": "literal"
+              "delayType": "literal",
+              "useStack": true,
+              "useStackType": "literal"
             }
           ]
         },
@@ -11412,7 +11442,9 @@
               "speed": 0,
               "speedType": "literal",
               "delay": 0,
-              "delayType": "literal"
+              "delayType": "literal",
+              "useStack": true,
+              "useStackType": "literal"
             }
           ]
         },
@@ -11436,7 +11468,9 @@
               "speed": 0,
               "speedType": "literal",
               "delay": 0,
-              "delayType": "literal"
+              "delayType": "literal",
+              "useStack": true,
+              "useStackType": "literal"
             }
           ]
         },
@@ -12534,7 +12568,9 @@
               "speed": 0,
               "speedType": "literal",
               "delay": 0,
-              "delayType": "literal"
+              "delayType": "literal",
+              "useStack": true,
+              "useStackType": "literal"
             }
           ]
         },
@@ -12558,7 +12594,9 @@
               "speed": 0,
               "speedType": "literal",
               "delay": 0,
-              "delayType": "literal"
+              "delayType": "literal",
+              "useStack": true,
+              "useStackType": "literal"
             }
           ]
         },
@@ -12582,7 +12620,9 @@
               "speed": 0,
               "speedType": "literal",
               "delay": 0,
-              "delayType": "literal"
+              "delayType": "literal",
+              "useStack": true,
+              "useStackType": "literal"
             }
           ]
         },
@@ -12606,7 +12646,9 @@
               "speed": 0,
               "speedType": "literal",
               "delay": 0,
-              "delayType": "literal"
+              "delayType": "literal",
+              "useStack": true,
+              "useStackType": "literal"
             }
           ]
         }
@@ -17319,8 +17361,8 @@
           "type": "SetVariableActionComponent",
           "left": 594,
           "top": -310,
-          "width": 250,
-          "height": 122,
+          "width": 251,
+          "height": 123,
           "customInputs": [],
           "customOutputs": [],
           "description": "= default values (redundant)",
@@ -17350,10 +17392,10 @@
         {
           "objID": "7999199f-0463-4d98-d46c-7498440f50b1",
           "type": "WatchVariableActionComponent",
-          "left": -502,
-          "top": 272,
-          "width": 141,
-          "height": 53,
+          "left": -519,
+          "top": 223,
+          "width": 142,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "cal_calType"
@@ -17397,7 +17439,7 @@
           "type": "SetVariableActionComponent",
           "left": 439,
           "top": 173,
-          "width": 238,
+          "width": 239,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -17414,7 +17456,7 @@
           "type": "SetVariableActionComponent",
           "left": 495,
           "top": 456,
-          "width": 201,
+          "width": 202,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -17432,7 +17474,7 @@
           "left": -170,
           "top": 15,
           "width": 111,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "kbType"
@@ -17443,7 +17485,7 @@
           "left": -170,
           "top": 85,
           "width": 117,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "cal_set"
@@ -17470,8 +17512,8 @@
           "type": "SetVariableActionComponent",
           "left": 409,
           "top": -60,
-          "width": 218,
-          "height": 78,
+          "width": 219,
+          "height": 79,
           "customInputs": [
             {
               "objID": "3b6624b5-258c-4a63-faf8-3d1b72355f77",
@@ -17530,7 +17572,7 @@
           "type": "CallActionActionComponent",
           "left": 215,
           "top": 466,
-          "width": 127,
+          "width": 128,
           "height": 24,
           "customInputs": [],
           "customOutputs": [],
@@ -17545,8 +17587,8 @@
           "type": "SetVariableActionComponent",
           "left": 2653,
           "top": 172,
-          "width": 207,
-          "height": 100,
+          "width": 208,
+          "height": 101,
           "customInputs": [],
           "customOutputs": [],
           "description": "TODO: remove triggerMeasure when native action trigger is in place.",
@@ -17603,8 +17645,8 @@
           "type": "AnimateActionComponent",
           "left": 98,
           "top": 670,
-          "width": 126,
-          "height": 53,
+          "width": 127,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "from": "0",
@@ -17617,7 +17659,7 @@
           "left": 288,
           "top": 675,
           "width": 168,
-          "height": 69,
+          "height": 70,
           "customInputs": [],
           "customOutputs": [],
           "A": "cal_animate",
@@ -17640,7 +17682,7 @@
           "type": "SetVariableActionComponent",
           "left": 1097,
           "top": 127,
-          "width": 158,
+          "width": 159,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -17657,8 +17699,8 @@
           "type": "SwitchActionComponent",
           "left": 1447,
           "top": 127,
-          "width": 788,
-          "height": 89,
+          "width": 789,
+          "height": 92,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -17702,8 +17744,8 @@
           "type": "WatchVariableActionComponent",
           "left": -258,
           "top": 643,
-          "width": 141,
-          "height": 53,
+          "width": 142,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "cal_animate"
@@ -17714,7 +17756,7 @@
           "left": -96,
           "top": 644,
           "width": 87,
-          "height": 69,
+          "height": 70,
           "customInputs": [
             {
               "objID": "7eec595c-3b18-4365-83e7-a3e7bccb099a",
@@ -17763,8 +17805,8 @@
           "type": "WatchVariableActionComponent",
           "left": 845,
           "top": 4,
-          "width": 184,
-          "height": 53,
+          "width": 185,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "description": "trigger from SCPI (temporary)",
@@ -19047,7 +19089,7 @@
           "left": 1074,
           "top": 4,
           "width": 87,
-          "height": 69,
+          "height": 70,
           "customInputs": [
             {
               "objID": "ea6883df-706e-48de-e75c-8380ed8c846d",
@@ -19057,6 +19099,17 @@
           ],
           "customOutputs": [],
           "value": "value"
+        },
+        {
+          "objID": "804cdbe0-5470-4710-e260-5c7e090c22d2",
+          "type": "WatchVariableActionComponent",
+          "left": -519,
+          "top": 301,
+          "width": 148,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "variable": "cal_curpoint"
         }
       ],
       "connectionLines": [
@@ -19297,6 +19350,13 @@
           "output": "True",
           "target": "dcbe32d2-4f12-45dd-80a3-05020257f7a5",
           "input": "@seqin"
+        },
+        {
+          "objID": "d96ad80c-36d7-4d5a-9dc3-58f79bfee3eb",
+          "source": "804cdbe0-5470-4710-e260-5c7e090c22d2",
+          "output": "variable",
+          "target": "f336978d-e1ec-4a9b-d8a2-8516a32894b9",
+          "input": "@seqin"
         }
       ],
       "localVariables": [
@@ -19366,7 +19426,9 @@
               "speed": 0,
               "speedType": "literal",
               "delay": 0,
-              "delayType": "literal"
+              "delayType": "literal",
+              "useStack": true,
+              "useStackType": "literal"
             }
           ]
         },
@@ -20709,7 +20771,9 @@
               "speed": 0,
               "speedType": "literal",
               "delay": 0,
-              "delayType": "literal"
+              "delayType": "literal",
+              "useStack": true,
+              "useStackType": "literal"
             }
           ]
         },
@@ -22510,7 +22574,9 @@
               "speed": 0,
               "speedType": "literal",
               "delay": 0,
-              "delayType": "literal"
+              "delayType": "literal",
+              "useStack": true,
+              "useStackType": "literal"
             }
           ]
         }
@@ -24265,8 +24331,8 @@
           "type": "LVGLActionComponent",
           "left": 346,
           "top": 209,
-          "width": 298,
-          "height": 52,
+          "width": 299,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -24849,8 +24915,8 @@
           "type": "WatchVariableActionComponent",
           "left": -179,
           "top": -265,
-          "width": 135,
-          "height": 52,
+          "width": 136,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "statIcount"
@@ -24860,8 +24926,8 @@
           "type": "WatchVariableActionComponent",
           "left": -179,
           "top": -200,
-          "width": 135,
-          "height": 52,
+          "width": 136,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "statUcount"
@@ -24871,8 +24937,8 @@
           "type": "WatchVariableActionComponent",
           "left": -179,
           "top": -134,
-          "width": 135,
-          "height": 52,
+          "width": 136,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "statPcount"
@@ -25049,6 +25115,200 @@
       ],
       "userProperties": [],
       "name": "Stats",
+      "left": 0,
+      "top": 0,
+      "width": 320,
+      "height": 240,
+      "isUsedAsUserWidget": false
+    },
+    {
+      "objID": "42a96064-ee79-46eb-f9a8-c0114d939e48",
+      "components": [
+        {
+          "objID": "cece2b91-92c2-4702-a664-a03bd9e7dd38",
+          "type": "LVGLScreenWidget",
+          "left": 0,
+          "top": 0,
+          "width": 320,
+          "height": 240,
+          "customInputs": [],
+          "customOutputs": [],
+          "style": {
+            "objID": "3226857c-3904-4f1b-d1eb-28f02e5db546",
+            "useStyle": "default",
+            "conditionalStyles": [],
+            "childStyles": []
+          },
+          "timeline": [],
+          "eventHandlers": [],
+          "leftUnit": "px",
+          "topUnit": "px",
+          "widthUnit": "px",
+          "heightUnit": "px",
+          "children": [
+            {
+              "objID": "410cbcb6-f11f-4f2d-f146-9848cef17fd5",
+              "type": "LVGLContainerWidget",
+              "left": 0,
+              "top": 0,
+              "width": 320,
+              "height": 240,
+              "customInputs": [],
+              "customOutputs": [],
+              "style": {
+                "objID": "70b3acf1-7e75-4a79-9dea-0e40b28fff1d",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": []
+              },
+              "timeline": [],
+              "eventHandlers": [],
+              "identifier": "popup_container",
+              "leftUnit": "px",
+              "topUnit": "px",
+              "widthUnit": "px",
+              "heightUnit": "px",
+              "children": [
+                {
+                  "objID": "7fcd1e4a-845c-4168-dadf-3dee730d1610",
+                  "type": "LVGLMessageBoxWidget",
+                  "left": 23,
+                  "top": 100,
+                  "width": 275,
+                  "height": 40,
+                  "customInputs": [],
+                  "customOutputs": [],
+                  "style": {
+                    "objID": "4a78bb6b-3ac8-486b-8ca2-5fd5083e6710",
+                    "useStyle": "default",
+                    "conditionalStyles": [],
+                    "childStyles": []
+                  },
+                  "timeline": [],
+                  "eventHandlers": [],
+                  "identifier": "popupBox",
+                  "leftUnit": "px",
+                  "topUnit": "px",
+                  "widthUnit": "px",
+                  "heightUnit": "px",
+                  "children": [
+                    {
+                      "objID": "60017a5e-a231-47b3-ed3f-3325fd291bda",
+                      "type": "LVGLLabelWidget",
+                      "left": 0,
+                      "top": 0,
+                      "width": 100,
+                      "height": 100,
+                      "customInputs": [],
+                      "customOutputs": [],
+                      "style": {
+                        "objID": "81423249-ac0e-483d-a88e-3c2e3c5164be",
+                        "useStyle": "default",
+                        "conditionalStyles": [],
+                        "childStyles": []
+                      },
+                      "timeline": [],
+                      "eventHandlers": [],
+                      "identifier": "popupText",
+                      "leftUnit": "px",
+                      "topUnit": "px",
+                      "widthUnit": "%",
+                      "heightUnit": "%",
+                      "children": [],
+                      "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+                      "hiddenFlagType": "literal",
+                      "clickableFlagType": "literal",
+                      "flagScrollbarMode": "",
+                      "flagScrollDirection": "",
+                      "scrollSnapX": "",
+                      "scrollSnapY": "",
+                      "checkedStateType": "literal",
+                      "disabledStateType": "literal",
+                      "states": "",
+                      "localStyles": {
+                        "objID": "9fa75a03-7b4a-47fa-e7b3-1203d5c6328e",
+                        "definition": {
+                          "MAIN": {
+                            "DEFAULT": {
+                              "align": "CENTER",
+                              "text_font": "MONTSERRAT_20",
+                              "text_align": "CENTER",
+                              "text_color": "#ffffff"
+                            }
+                          }
+                        }
+                      },
+                      "group": "",
+                      "groupIndex": 0,
+                      "text": "Reverse Polarity Detected",
+                      "textType": "literal",
+                      "longMode": "WRAP",
+                      "recolor": false
+                    }
+                  ],
+                  "widgetFlags": "CLICK_FOCUSABLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE|EVENT_BUBBLE",
+                  "hiddenFlag": false,
+                  "hiddenFlagType": "literal",
+                  "clickableFlag": true,
+                  "clickableFlagType": "literal",
+                  "flagScrollbarMode": "",
+                  "flagScrollDirection": "",
+                  "scrollSnapX": "",
+                  "scrollSnapY": "",
+                  "checkedStateType": "literal",
+                  "disabledStateType": "literal",
+                  "states": "",
+                  "localStyles": {
+                    "objID": "35352f30-50bf-4218-e91c-e2080b3c2b65",
+                    "definition": {
+                      "MAIN": {
+                        "DEFAULT": {
+                          "align": "DEFAULT",
+                          "bg_color": "#ff0000"
+                        }
+                      }
+                    }
+                  },
+                  "group": "",
+                  "groupIndex": 0
+                }
+              ],
+              "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+              "hiddenFlag": "reverse_polarity",
+              "hiddenFlagType": "expression",
+              "clickableFlag": true,
+              "clickableFlagType": "literal",
+              "flagScrollbarMode": "",
+              "flagScrollDirection": "",
+              "scrollSnapX": "",
+              "scrollSnapY": "",
+              "checkedStateType": "literal",
+              "disabledStateType": "literal",
+              "states": "",
+              "localStyles": {
+                "objID": "3d51900f-c94a-4bc4-da2b-1213c9a877f8"
+              },
+              "group": "",
+              "groupIndex": 0
+            }
+          ],
+          "widgetFlags": "CLICKABLE|PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLLABLE|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER",
+          "hiddenFlagType": "literal",
+          "clickableFlag": true,
+          "clickableFlagType": "literal",
+          "checkedStateType": "literal",
+          "disabledStateType": "literal",
+          "states": "",
+          "localStyles": {
+            "objID": "a36220ad-f73d-41f8-812d-8f013e7a3bf7"
+          },
+          "groupIndex": 0
+        }
+      ],
+      "connectionLines": [],
+      "localVariables": [],
+      "userProperties": [],
+      "name": "Popup",
       "left": 0,
       "top": 0,
       "width": 320,
@@ -25757,8 +26017,8 @@
           "type": "SwitchActionComponent",
           "left": 736,
           "top": 140,
-          "width": 680,
-          "height": 71,
+          "width": 681,
+          "height": 73,
           "customInputs": [],
           "customOutputs": [],
           "description": "valid range check",
@@ -25783,7 +26043,7 @@
           "left": 430,
           "top": 136,
           "width": 232,
-          "height": 78,
+          "height": 79,
           "customInputs": [],
           "customOutputs": [],
           "description": "convert string to float",
@@ -25805,8 +26065,8 @@
           "type": "SetVariableActionComponent",
           "left": 1554,
           "top": 133,
-          "width": 250,
-          "height": 78,
+          "width": 251,
+          "height": 79,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -25868,8 +26128,8 @@
           "type": "SetVariableActionComponent",
           "left": 191,
           "top": -165,
-          "width": 208,
-          "height": 100,
+          "width": 209,
+          "height": 101,
           "customInputs": [
             {
               "objID": "3c7559a7-0af5-4bd6-b893-43c2b07d559f",
@@ -25914,7 +26174,7 @@
           "left": 1853,
           "top": 133,
           "width": 178,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -25932,7 +26192,7 @@
           "left": 414,
           "top": 336,
           "width": 263,
-          "height": 100,
+          "height": 101,
           "customInputs": [],
           "customOutputs": [],
           "entries": [

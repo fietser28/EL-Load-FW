@@ -262,7 +262,7 @@
 #define HWIO_PIN_resetProt    1u   // GPA1 =output
 #define HWIO_PIN_HWProtEnable 2u   // GPA2 =output
 #define HWIO_PIN_SENSE_ERROR  3u   // GPA3 =input, int
-#define HWIO_CLAMPOFF         4u   // GPA4 =input
+#define HWIO_PIN_CLAMPOFF     4u   // GPA4 =input
 #define HWIO_PIN_OVPTRIG      5u   // GPA5 =input, int, comp0
 #define HWIO_PIN_OCPTRIG      6u   // GPA6 =input, int, comp0
 #define HWIO_PIN_REVERSEPOL   7u   // GPA7 =input, int  

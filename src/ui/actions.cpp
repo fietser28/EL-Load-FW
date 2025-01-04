@@ -44,6 +44,8 @@ void action_get_type_data(lv_event_t * e) {
 
     ranges_e range = (ranges_e)flow::getGlobalVariable(FLOW_GLOBAL_VARIABLE_RANGE_TYPE).getInt();
     
+    //SERIALDEBUG.printf("keyboard range: %d\n", range);
+
     setPropertiesValue properties = flow::getGlobalVariable(FLOW_GLOBAL_VARIABLE_RANGE_PROPERTIES);
 
     properties.setName(ranges[range].setName);

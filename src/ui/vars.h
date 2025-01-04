@@ -324,6 +324,8 @@ extern bool get_var_start_eeprom();
 extern void set_var_start_eeprom(bool value);
 extern bool get_var_start_cal_ok();
 extern void set_var_start_cal_ok(bool value);
+extern bool get_var_reverse_polarity();
+extern void set_var_reverse_polarity(bool value);
 
 
 #ifdef __cplusplus

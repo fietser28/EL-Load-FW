@@ -690,3 +690,6 @@ void set_var_start_eeprom(bool value) {}; //Read only
 
 bool get_var_start_cal_ok() { return state.hw.calibrationCRCOK && state.hw.calibrationValid; };
 void set_var_start_cal_ok(bool value) {}; // Read only
+
+bool get_var_reverse_polarity() { return !localstatecopy.PolarityErrorLast; };
+void set_var_reverse_polarity(bool value) {}; // Read only 

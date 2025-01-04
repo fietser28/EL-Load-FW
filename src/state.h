@@ -50,6 +50,7 @@ namespace dcl
         bool OVPstate;
         bool SenseError;
         bool PolarityError;
+        bool PolarityErrorLast;
         bool OPPstate;
         bool OTPstate;
         bool CapVoltStopTriggered;
@@ -201,7 +202,7 @@ public:
                             double Ws, double time, uint32_t avgCurrentRaw, uint32_t avgVoltRaw,
                             measureStat ImonStat, measureStat UmonStat, measureStat PmonStat, uint64_t sCount);
 
-    bool setHWstate(bool ocptrig, bool ovptrig, bool von, bool sense_error, bool polarity_error, uint64_t sCount);
+    bool setHWstate(bool ocptrig, bool ovptrig, bool von, bool sense_error, bool polarity_error, bool hwprotection, uint64_t sCount);
     bool OTPtriggered();
     bool OPPtriggered();
     bool setTemp1(float temp);
