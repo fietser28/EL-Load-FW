@@ -20,7 +20,7 @@ pio run
 ## Hardware requirements
 
 The firmware is designed for the following hardware:
--  [Raspberry Pi Pico RP2040 MCU](https://www.raspberrypi.com/documentation/microcontrollers/rp2040.html) (the standard [Raspberry Pi Pico](https://www.raspberrypi.com/documentation/microcontrollers/raspberry-pi-pico.html) board will work)
+-  [Raspberry Pi Pico RP2350 MCU](https://www.raspberrypi.com/products/rp2350/) (the standard [Raspberry Pi Pico 2](https://www.raspberrypi.com/products/raspberry-pi-pico-2/) board will work)
 -  Screen. Either one of (choose an environment in from platformio.ini): 
   -  [Waveshare 2.8 inch IPS-TFT-LCD Display 320*240 pixels - with Touchscreen - for Raspberry Pi Pico](https://www.waveshare.com/wiki/Pico-ResTouch-LCD-2.8)
   -  Generic 320*240 TFT Display with touch interface based on il9341 chipset.
@@ -28,7 +28,7 @@ The firmware is designed for the following hardware:
 -  Rotary encoder with push button and a seperate push button connected to an MCP23008 (using I2C)
 -  ADS131M02 ADC for reading analog voltage and current measurements
 -  2x DAC8555 DAC's for setting all the analog values 
--  MCP23008 for reading/writing the digital signals of the analog board.
+-  MCP23017 for reading/writing the digital signals of the analog board.
 -  MAX31760 for fan control and temperature measurment
 
 Most hardware and pin configurations are currently in the main.h file
