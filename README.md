@@ -55,24 +55,27 @@ For the chipsets local implementation are made. The I2C chips share the bus and 
 ## Design
 
 ### State
-The software is structured around a central state and few tasks with different priorities. Threads receive/retrieve local copies of the state to avoid blockings. The split state (hopefully) allows to change the firmware to be used as a BB3 module (reusing the SPI interface of the display for BB3 communication).
+The software is structured around a central state and few tasks with different priorities. The state actually has two main structures determining the state: 
+- The *set state* is the desired state. Changes to this state are made by UI, SCPI and (stored) startup values.
+- The *measured state* is the state as a result of the actual hardware signals etc.
+This split state (hopefully) allows to change the firmware to be used as a BB3 module (reusing the SPI interface of the display for BB3 communication).
+Threads receive/retrieve local copies of the state to avoid blockings, changes to the main copies of the state are protected with semaphores. 
 
 Note: writes to calibration structures in memory are NOT thread safe / protected for speed reasons. Calibration data is only written during startup OR calibration.
 
 
 ### (FreeRTOS)Tasks
-High prioriry task are not blocked by lower priority task by sending messages asynchronously. The messages are picked up at the end of an iteration of the task.
+High prioriry task are not blocked by lower priority tasks by sending messages asynchronously. The messages are picked up at the end of an iteration of the task. These messages are mainly used to notify of changed settings/perform changes.
 
 The task are:
 - high priority measure task. It reads the ADC and depending on the mode the DAC values are set as fast as possible. Uses a dedicated SPI bus and is triggered via an interrupt from the ADC activating the task. If the ADC is not present FAKE_HARDWARE can be set to run a timer to simulate the presence of an ADC.
-- averaging task. Calculates the averages.
+- averaging task. Calculates the averages, statistics and determines OTP and OPP. This task receives raw measurement messages from the measurement task. This taks sets most values in the measurement state struct.
 - HW IO task. Reads and set the digital IO pins of the analog board. It also manages the fan controller. All using I2C bus.
 - display task: EEZ Flow, TFT and touch task
-- keys: task reading the MCP23008 keys, using the same I2C bus as the HW IO task.
-- arduino loop: some serial output (testing) and a blink on the UI.
-- blink loop: blinks the arduino pico led.
-
-There is currently NO watchdog implemented to test if the tasks are alive.
+- keys: task reading the MCP23008 keys, using the a different I2C bus as the HW IO task in Hardware version 4 (all prior versions shared a single I2C bus).
+- arduino loop: this implements the SCPI loop to the UART pins.
+- watchdog thread: This thread check if al other threads (except beeper thread) are still runing regulary if so it pets the hardware watchdog.
+- beeper thread: schedules beeper duration.
 
 ### Flow
 
@@ -84,11 +87,15 @@ UI interactions and dynamics are mostly implemented in flow: disabling based on 
 
 The event log text area widgets are there, but is is just a string used for some debugging now.
 
-The ui_glue.cpp file has a function to map certain types of widgets (sliders and textarea's) to a buttongroup that the rotary encoder dynamically connects to. There is a feature request to have native Flow support for this.
+The ui_glue.cpp file has a function to map certain types of widgets (sliders and textarea's) to a buttongroup that the rotary encoder dynamically connects to. There is a feature request to have native Flow support for this. 
 
-Changing numbers with the encoder is pretty rudimentairy but it works now.
+Changing numbers with the encoder is done using patch to the encoder widget.
 
-You can manually calibrate the load using the UI, a configurable CV/CC power supply and a voltage and current DMM: You first need to calibrate the voltage and current measurements (calibrating the ADC). After that the Iset and Vset (using the DAC's) are done using the ADC measurements. Next, the Von, OCP and OVP calibrations can not be measured using single measurements but are iteratively calibrated by iterating each bit of precision. This iteration is done in a flow action.
+### Calibration
+
+The Dashboard project has a tab to allow for automatic calibration of all DAC and ADC ranges agains a BB3 DCP405, BB3 AIO16 with AFE3 or Siglent SDM3045X.
+
+You can also manually calibrate the load using the UI, a configurable CV/CC power supply and a voltage and current DMM: You first need to calibrate the voltage and current measurements (calibrating the ADC). After that the Iset and Vset (using the DAC's) are done using the ADC measurements. Next, the Von, OCP and OVP calibrations can not be measured using single measurements but are iteratively calibrated by iterating each bit of precision. This iteration is done in a flow action.
 
 ### SCPI
 
