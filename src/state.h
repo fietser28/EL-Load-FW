@@ -222,6 +222,8 @@ public:
     uint64_t clearPower();
     uint64_t clearProtection();
     bool getProtection();
+    bool getReversePolarityNow();
+    bool getReversePolarityTriggered();
     uint64_t clearCapacityLimit();
     bool setCapacityLimit();
     uint64_t setCapacityLimitEnabled(bool enable);
@@ -248,6 +250,7 @@ public:
     uint32_t getPLFreq();
     uint64_t record(bool setrecord);
     bool toggleRecord();
+
     uint64_t setSCPIWdog(bool enable);
     bool getSCPIWdog();
     bool SCPIWdogClear();

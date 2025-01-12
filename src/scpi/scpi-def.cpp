@@ -717,6 +717,13 @@ scpi_result_t scpi_cmd_fetch_volt_statQ(scpi_t *context) {
     return stat_param(context, param, mstate.UmonStats);
 }
 
+scpi_result_t scpi_cmd_fetch_volt_revQ(scpi_t *context)
+{
+    SCPI_ResultBool(context,state.getReversePolarityNow());
+    return SCPI_RES_OK;
+}
+
+
 scpi_result_t scpi_cmd_fetch_power(scpi_t *context) {
     char buffer[64] = { 0 };
     measuredStateStruct localMeasuredState; 
@@ -1102,10 +1109,17 @@ scpi_result_t scpi_cmd_source_input_prot_tripQ(scpi_t *context)
     state.getSetStateCopy(&localSetState, 1000);
     state.getMeasuredStateCopy(&localMeasureState, 1000);
 
-    bool res = localMeasureState.protection || localMeasureState.OCPstate || localMeasureState.OVPstate || localMeasureState.OPPstate || localMeasureState.OTPstate;
+    bool res = localMeasureState.protection || localMeasureState.OCPstate || localMeasureState.OVPstate || 
+               localMeasureState.OPPstate || localMeasureState.OTPstate || localMeasureState.PolarityError;
     SCPI_ResultBool(context, res);
     return SCPI_RES_OK;    
 };
+
+scpi_result_t scpi_cmd_source_input_prot_trip_revQ(scpi_t *context)
+{
+    SCPI_ResultBool(context,state.getReversePolarityTriggered());
+    return SCPI_RES_OK;
+}
 
 scpi_result_t scpi_cmd_source_input_prot_wdog(scpi_t *context) {
     scpi_bool_t param1;

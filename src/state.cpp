@@ -627,11 +627,8 @@ namespace dcl
         {
             if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
-                _measuredState.protection = false;
                 r = ++_setState.sCount; // Keep this increment even if we move .protection to measured state!
                 xSemaphoreGive(_setStateMutex);
-                // TODO: test & update clear hardware;
-                //return true;
             }
         }
         SCPIWdogPet();
@@ -648,6 +645,7 @@ namespace dcl
                 _measuredState.PolarityError = false;
                 _measuredState.PolarityErrorLast = false;
                 _measuredState.scpiWdogTriggered = false;
+                _measuredState.protection = false;
                 xSemaphoreGive(_measuredStateMutex);
             }
         }
@@ -682,6 +680,16 @@ namespace dcl
         }
         return updateLoadTasks();
     };
+
+    bool stateManager::getReversePolarityNow() {
+        // Atomic reads, no semaphores.
+        return _measuredState.PolarityErrorLast;
+    }
+
+    bool stateManager::getReversePolarityTriggered() {
+        // Atomic reads, no semaphores.
+        return _measuredState.PolarityError;
+    }
 
     uint64_t stateManager::clearCapacityLimit()
     {

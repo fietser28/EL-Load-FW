@@ -73,6 +73,7 @@ extern scpi_result_t scpi_cmd_fetch_current(scpi_t *context);
 extern scpi_result_t scpi_cmd_fetch_curr_statQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_fetch_voltage(scpi_t *context);
 extern scpi_result_t scpi_cmd_fetch_volt_statQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_fetch_volt_revQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_fetch_power(scpi_t *context);
 extern scpi_result_t scpi_cmd_fetch_pow_statQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_fetch_cap(scpi_t *context);
@@ -107,6 +108,7 @@ extern scpi_result_t scpi_cmd_source_modeQ(scpi_t *context);
 
 extern scpi_result_t scpi_cmd_source_input_prot_clear(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_input_prot_tripQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_source_input_prot_trip_revQ(scpi_t *context);
 
 extern scpi_result_t scpi_cmd_source_input_prot_wdog(scpi_t *context);
 extern scpi_result_t scpi_cmd_source_input_prot_wdogQ(scpi_t *context);

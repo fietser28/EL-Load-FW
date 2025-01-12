@@ -107,6 +107,8 @@ const scpi_command_t scpi_commands[] = {
     {"FETCh[:SCALar]:CURRent[:DC]:STATistics?", scpi_cmd_fetch_curr_statQ, 0}, // <empty>|MIN|MAX|AVG|COUNT
     {"FETCh[:SCALar]:VOLTage[:DC]?", scpi_cmd_fetch_voltage, 0},
     {"FETCh[:SCALar]:VOLTage[:DC]:STATistics?", scpi_cmd_fetch_volt_statQ, 0}, // <empty>|MIN|MAX|AVG|COUNT
+    {"FETCh[:SCALar]:VOLTage:REVerse[:POLarity]?", scpi_cmd_fetch_volt_revQ,0},
+
     {"FETCh[:SCALar]:POWer[:DC]?", scpi_cmd_fetch_power, 0},
     {"FETCh[:SCALar]:POWer[:DC]:STATistics?", scpi_cmd_fetch_pow_statQ, 0},    // <empty>|MIN|MAX|AVG|COUNT
     {"FETCh:CAPacity?", scpi_cmd_fetch_cap, 0},
@@ -154,6 +156,7 @@ const scpi_command_t scpi_commands[] = {
     // Global protection
     {"[SOURce]:INPut:PROTection:CLEar", scpi_cmd_source_input_prot_clear, 0},  // no arguments
     {"[SOURce]:INPut:PROTection:TRIPped?", scpi_cmd_source_input_prot_tripQ, 0},
+    {"[SOURce]:INPut:PROTection:TRIPped:REVerse[:POLarity]?", scpi_cmd_source_input_prot_trip_revQ, 0},
 
     // SCPI watchdog protection. Enter protection state if SCPI communication stops.
     {"[SOURce]:INPut:PROTection:WDOG", scpi_cmd_source_input_prot_wdog, 0},  // ON|OFF|1|0
