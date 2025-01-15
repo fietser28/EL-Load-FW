@@ -1,0 +1,2675 @@
+{
+  "objID": "6666cd76-f969-5646-9e7b-e39d750cc7d9",
+  "settings": {
+    "objID": "e007d988-9fba-797d-72e9-efc33ca6d05c",
+    "general": {
+      "objID": "fd434352-2277-c4a8-e87e-e96cfcbf2305",
+      "projectVersion": "v3",
+      "projectType": "iext",
+      "commandsDocFolder": "doc/html",
+      "extensions": [],
+      "imports": [],
+      "displayBorderRadius": 0,
+      "colorFormat": "RGB",
+      "description": "DCL8010 Electronics Load",
+      "keywords": "instrument scpi iext",
+      "targetPlatform": "DCL8010",
+      "author": "jan28",
+      "resourceFiles": [],
+      "commandsProtocol": "SCPI",
+      "hiddenWidgetLines": "dimmed",
+      "dimmedLinesOpacity": "20"
+    },
+    "build": {
+      "objID": "72794a43-a0fc-13c2-7eb5-67dd952141a4",
+      "configurations": [
+        {
+          "objID": "316a7a7b-9055-334b-a52a-a890535854f4",
+          "name": "DCL8010-Standalone",
+          "description": "",
+          "properties": "{\n  \"connection\": {\n    \"serial\": {\n      \"baudRates\": [9600, 19200, 38400, 57600]\n    }\n  },\n  \"channels\": [\n    { \"color\": \"#FBFB00\", \"colorInverse\": \"#AEAE00\" },\n    { \"color\": \"#03FFFF\", \"colorInverse\": \"#00B5B5\" }\n  ]\n}"
+        }
+      ],
+      "files": [],
+      "separateFolderForImagesAndFonts": false,
+      "lvglInclude": "lvgl/lvgl.h",
+      "generateSourceCodeForEezFramework": false,
+      "compressFlowDefinition": false,
+      "executionQueueSize": 1000,
+      "expressionEvaluatorStackSize": 20
+    }
+  },
+  "variables": {
+    "objID": "c6c71e16-53e1-217f-d03b-cef56c6b037a",
+    "globalVariables": [],
+    "structures": [],
+    "enums": []
+  },
+  "actions": [],
+  "userPages": [],
+  "userWidgets": [],
+  "styles": [],
+  "scpi": {
+    "objID": "74471993-6514-4662-eba2-abe3ef9ba3d8",
+    "subsystems": [
+      {
+        "objID": "fde39529-6d5e-4e8e-e046-7658dd9e8321",
+        "name": "3. SOURCE subsystem",
+        "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html",
+        "commands": [
+          {
+            "objID": "50e5b544-9e92-4503-c6f1-c70fdacef010",
+            "name": "[SOURce:]INPut:MODE",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#_scpi_input_mode",
+            "parameters": [
+              {
+                "objID": "34358491-312a-4892-d4b2-57aeb5f92642",
+                "name": "mode",
+                "type": [
+                  {
+                    "objID": "1369cca8-f4d1-4558-edbe-41bb21bc43c5",
+                    "type": "discrete",
+                    "enumeration": "Mode"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "4d8381f0-8971-4655-98d8-6644a212246b",
+              "type": [
+                {
+                  "objID": "134aaba0-f387-47c0-c06b-c4ec48405e66"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "1f3f5214-aae1-4465-80bb-9da923bbe3de",
+            "name": "[SOURce:]INPut:MODE?",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#_scpi_input_mode2",
+            "parameters": [],
+            "response": {
+              "objID": "20678d38-d802-4e5c-d2e5-d1f569c370b9",
+              "type": [
+                {
+                  "objID": "eeffe9bd-0645-4679-c335-534f891939b6"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "7e4dc9a4-3a08-440a-fa57-3fe071c71196",
+            "name": "[SOURce:]INPut[:STATe]",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#_scpi_input",
+            "parameters": [
+              {
+                "objID": "2af3bfbb-5b89-45c2-d4a5-a977e49d1283",
+                "name": "bool",
+                "type": [
+                  {
+                    "objID": "17d95e7d-bed9-4baa-9903-5e62daed82be",
+                    "type": "boolean"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "db6186ef-f5a7-449e-9fce-3710fd204f2d",
+              "type": [
+                {
+                  "objID": "db0cb98c-444d-4ca8-96e4-19ec989bbe62"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "7fbd0754-c214-473e-8289-07b42ca90274",
+            "name": "[SOURce:]INPut[:STATe]?",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#_scpi_input2",
+            "parameters": [],
+            "response": {
+              "objID": "0fbb0d27-351b-4c0b-b91e-160811fe3be1",
+              "type": [
+                {
+                  "objID": "287d1434-443c-46b4-b7da-2306cd4eca91"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "1a046ee5-30ed-4d73-dc4d-36be41ce2d26",
+            "name": "[SOURce:]CURRent:PROTection[:LEVel]",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#_scpi_curr_prot",
+            "parameters": [
+              {
+                "objID": "1795731f-1d38-43f8-a15e-801999f59b10",
+                "name": "current",
+                "type": [
+                  {
+                    "objID": "b5a52b97-ea81-4d15-edd1-8c2945e654ff",
+                    "type": "nr2"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "a390b1ef-de18-454b-b700-063363785cad",
+              "type": [
+                {
+                  "objID": "b5e2c03c-fa44-4f38-c36a-2c15d192cda4"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "9cbd0986-5644-4075-d708-bdb419acdfe8",
+            "name": "[SOURce:]CURRent:PROTection[:LEVel]?",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#_scpi_curr_prot2",
+            "parameters": [],
+            "response": {
+              "objID": "4312704f-6219-488c-9e88-609554e231d9",
+              "type": [
+                {
+                  "objID": "74ee8261-c564-4f76-da51-12e23a3977be"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "3dc94758-54b3-4f5d-a7fe-077374c89dff",
+            "name": "[SOURce:]CURRent:RANGe",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#_scpi_curr_prot Copy 1",
+            "parameters": [
+              {
+                "objID": "46c83971-a2dd-4476-c5da-c7409a2a891f",
+                "name": "currentRange",
+                "type": [
+                  {
+                    "objID": "82b81802-ab0c-403d-e90b-d9349f5e63e8",
+                    "type": "discrete",
+                    "enumeration": "CurrentRange"
+                  },
+                  {
+                    "objID": "eb865fa0-395b-468f-f53d-70cb953feb12",
+                    "type": "nr2"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "584c1d52-2753-4c1d-a0f9-088edb963be7",
+              "type": [
+                {
+                  "objID": "675270e6-4a15-4c19-e3c9-12ecee2d742f"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "cb879b5c-770c-4aa5-99cb-3ffadb05673e",
+            "name": "[SOURce:]CURRent:RANGe?",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#_scpi_curr_prot2 Copy 1",
+            "parameters": [],
+            "response": {
+              "objID": "a9ea2bcc-702a-4a2c-d29f-60cf15e37530",
+              "type": [
+                {
+                  "objID": "58e5f509-4c21-48ff-bee7-f113aa82ab66"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "337b8d5a-928c-4ed6-927c-88920705d42e",
+            "name": "[SOURce:]CURRent[:LEVel][:IMMediate][:AMPLitude]",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#_scpi_curr",
+            "parameters": [
+              {
+                "objID": "906aab5f-229c-4dce-b34c-405b1da5ac7a",
+                "name": "current",
+                "type": [
+                  {
+                    "objID": "ae15df45-d5f9-4ac3-bf0a-4614fc9995a4",
+                    "type": "nr2"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "61537fb0-3c5a-4b30-a1f6-663ddf260828",
+              "type": [
+                {
+                  "objID": "8c55104a-8a67-4248-e46d-21b55661692e"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "704e75a8-17d3-43a5-eae4-12aac5c89c5a",
+            "name": "[SOURce:]CURRent[:LEVel][:IMMediate][:AMPLitude]?",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#_scpi_curr2",
+            "parameters": [],
+            "response": {
+              "objID": "9095148e-0473-460f-f3f8-a82ea550ae26",
+              "type": [
+                {
+                  "objID": "1154a402-691a-4a1c-9c80-d6d5ad8c86a1"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "201e6ba6-5daa-4776-c2aa-422cbf274abd",
+            "name": "[SOURce:]INPut:PROTection:CLEar",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#_scpi_input_prot_clear",
+            "parameters": [],
+            "response": {
+              "objID": "434419ec-a302-4182-ffdd-d81cf52a6021",
+              "type": [
+                {
+                  "objID": "3ba50a06-2bbe-490f-a830-6f7af3411d0d"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "7edaff53-8647-45da-f08e-eaa4b235009c",
+            "name": "[SOURce:]INPut:PROTection:TRIPped:REVerse[:POLarity]?",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#_scpi_input_prot_trip_rev",
+            "parameters": [],
+            "response": {
+              "objID": "c4552d02-f053-45d3-84ce-06f0fb8cd013",
+              "type": [
+                {
+                  "objID": "5d7bc211-2ee8-4e68-de97-ff65b0f5f001"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "bdbd9641-f4e1-4c32-fd29-2a19697f7fb8",
+            "name": "[SOURce:]INPut:PROTection:TRIPped?",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#_scpi_input_prot_trip",
+            "parameters": [],
+            "response": {
+              "objID": "42426709-abb6-4aee-8be5-8212af02fb56",
+              "type": [
+                {
+                  "objID": "9aae15c4-1ca2-427d-9cd0-773654e56889"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "63ed3f97-7767-47b6-d42f-0f2883153fa6",
+            "name": "[SOURce:]INPut:PROTection:WDOG",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#_scpi_input_wdog",
+            "parameters": [
+              {
+                "objID": "b717d850-d2bc-414f-86de-1fac331660e8",
+                "name": "bool",
+                "type": [
+                  {
+                    "objID": "c15e0a8d-4985-4932-9760-3625d4a7d049",
+                    "type": "boolean"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "776a7e7f-f85b-4d06-a150-540c42b28060",
+              "type": [
+                {
+                  "objID": "9633a089-e832-4d0b-be40-a48ac6d754d2"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "0e9de4df-aed2-4e0f-ec55-b169eae2ea61",
+            "name": "[SOURce:]INPut:PROTection:WDOG:CLEar",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#_scpi_input_wdog_cle",
+            "parameters": [],
+            "response": {
+              "objID": "225514e6-91c4-43ab-bc41-b52d31f1e3ef",
+              "type": [
+                {
+                  "objID": "bccc6aac-1f3a-443a-d76c-da272e8630b1"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "7ddbf6d7-d724-47bf-8dfe-9dbc2990ea7f",
+            "name": "[SOURce:]INPut:PROTection:WDOG:DELay",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#_scpi_input_wdog_del",
+            "parameters": [
+              {
+                "objID": "3a90572a-83c6-4877-c8e9-04ed3ef67cef",
+                "name": "delay",
+                "type": [
+                  {
+                    "objID": "70e99db8-824d-4150-caa3-713c1301a710",
+                    "type": "nr1"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "5c111ed1-62d1-4dd4-b6f0-3894882664ad",
+              "type": [
+                {
+                  "objID": "b94a6b96-ad87-4296-f15a-c8da5f38cb46"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "e9e86782-5d45-4615-a77b-1916888f44c5",
+            "name": "[SOURce:]INPut:PROTection:WDOG:DELay?",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#_scpi_input_wdog_del2",
+            "parameters": [],
+            "response": {
+              "objID": "35616756-8b68-4ef5-f0d6-ab7491eb9f58",
+              "type": [
+                {
+                  "objID": "10deb1a8-114f-44eb-9128-0230219f7cd2"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "ce9f03f9-af74-4f0a-82e6-dab71703983b",
+            "name": "[SOURce:]INPut:PROTection:WDOG:PET",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#_scpi_input_wdog_pet",
+            "parameters": [],
+            "response": {
+              "objID": "d951f9c3-4b5a-4427-e0ab-04fefcd44a44",
+              "type": [
+                {
+                  "objID": "09f90c29-4057-4bf9-bb07-11bedbeb8258"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "c90b748f-3a2c-4738-fe27-b47a2efd1090",
+            "name": "[SOURce:]INPut:PROTection:WDOG:TRIPped?",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#_scpi_input_wdog_trip",
+            "parameters": [],
+            "response": {
+              "objID": "4ac82515-d717-4431-8849-b533a104b72c",
+              "type": [
+                {
+                  "objID": "94fd32b6-dbc7-4c4c-a2fa-e26463888250"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "52b1c0b6-dc76-42a1-906a-53cea29e893a",
+            "name": "[SOURce:]INPut:PROTection:WDOG:TYPe",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#_scpi_input_wdog_typ",
+            "parameters": [
+              {
+                "objID": "2ccb90d6-425c-4e62-8b27-82f79b237143",
+                "name": "wdogType",
+                "type": [
+                  {
+                    "objID": "b2725392-7c2e-4003-b0b4-0a7179035ee2",
+                    "type": "discrete",
+                    "enumeration": "WdogType"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "3ad163c5-7a03-421a-a3e6-74f5a820a393",
+              "type": [
+                {
+                  "objID": "ebae07a0-659b-491c-d77a-427d9cb59b11"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "7b77e6bf-2d42-40fe-b37a-ed619040ff74",
+            "name": "[SOURce:]INPut:PROTection:WDOG:TYPe?",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#_scpi_input_wdog_typ2",
+            "parameters": [],
+            "response": {
+              "objID": "699ecb90-47fd-478f-83e2-9ff5dad11125",
+              "type": [
+                {
+                  "objID": "5ba2c9f9-51fa-4302-f707-4da304a6d0d7"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "7703dc84-0a6b-4731-e1de-c0178890d025",
+            "name": "[SOURce:]INPut:PROTection:WDOG?",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#_scpi_input_wdog2",
+            "parameters": [],
+            "response": {
+              "objID": "922404ea-62dd-4759-b9b6-a6e47f7b20a3",
+              "type": [
+                {
+                  "objID": "57bb7aaf-004d-4bb4-8304-38a7362a4617"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "b424593e-666d-42d6-f566-e2715bc340bf",
+            "name": "[SOURce:]POWer:PROTection[:LEVel]",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#_scpi_pow_prot",
+            "parameters": [
+              {
+                "objID": "8be6af80-5289-49bb-dfd4-8758f4c92ef3",
+                "name": "power",
+                "type": [
+                  {
+                    "objID": "03ad48d7-8621-4b24-a804-84e5fd7b1ba7",
+                    "type": "nr2"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "7662ea2d-db00-4ac1-ec95-ec562ed51fe9",
+              "type": [
+                {
+                  "objID": "de051d43-9558-4c78-8282-e5e1390ae933"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "09b60e10-d769-486f-a903-7cf67e88c94c",
+            "name": "[SOURce:]POWer:PROTection[:LEVel]?",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#_scpi_pow_prot2",
+            "parameters": [],
+            "response": {
+              "objID": "06465658-7a28-421a-f621-80926823bc5e",
+              "type": [
+                {
+                  "objID": "f9c70c18-8e4f-4e4d-9f5c-546193c93551"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "f9965a53-dadc-45ad-c8f2-5950a5f961b3",
+            "name": "[SOURce:]POWer[:LEVel][:IMMediate][:AMPLitude]",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#_scpi_pow",
+            "parameters": [
+              {
+                "objID": "f359a730-c522-4383-8ffd-660ddbd9b852",
+                "name": "power",
+                "type": [
+                  {
+                    "objID": "a5c3a22d-d1f4-43ad-f401-3056ed7d19d9",
+                    "type": "nr2"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "05268c5f-1d08-427e-951b-85565fb05cba",
+              "type": [
+                {
+                  "objID": "50a35b47-4513-457c-dc59-647274807225"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "5a04e4d3-82f5-4d4a-fe87-2d6df05e4ab9",
+            "name": "[SOURce:]POWer[:LEVel][:IMMediate][:AMPLitude]?",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#_scpi_pow2",
+            "parameters": [],
+            "response": {
+              "objID": "4ad7db1f-496c-4413-bc23-3a499cd2dd06",
+              "type": [
+                {
+                  "objID": "c75f7c64-a203-4158-cc51-12b71f40da9d"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "212d5b92-1cce-4ff9-a927-0608a1552c8c",
+            "name": "[SOURce]:POWer:PROTection:DELay[:TIMe]",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#_scpi_pow_del",
+            "parameters": [
+              {
+                "objID": "f791eed5-56f2-471d-f208-699db52342e0",
+                "name": "delay",
+                "type": [
+                  {
+                    "objID": "9c904176-3eb1-48ec-8672-36bc64329208",
+                    "type": "nr1"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "c27ecbda-ec8b-4c14-a7ef-a273c802232e",
+              "type": [
+                {
+                  "objID": "34d50307-de18-4e2b-c517-62a6dcbfbc29"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "57c7608e-b850-4bfc-c0a0-c88679397309",
+            "name": "[SOURce]:POWer:PROTection:DELay[:TIMe]?",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#_scpi_pow_del2",
+            "parameters": [],
+            "response": {
+              "objID": "ef8c1136-69b6-4d8b-ed85-0cf4fba8cf5f",
+              "type": [
+                {
+                  "objID": "ffacdcde-d778-417b-cf50-e2275a8abf86"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "5f82c9b7-c951-415d-c01d-dbf8a52366e2",
+            "name": "[SOURce:]VOLTage:PROTection[:LEVel]",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#__RefHeading___Toc3630_1680586490 Copy 1",
+            "parameters": [
+              {
+                "objID": "c1d3fe2e-e6f6-488e-de76-7551b5ed2e7b",
+                "name": "voltage",
+                "type": [
+                  {
+                    "objID": "ef7405ca-3828-4f4a-b17a-f6c6e620fc66",
+                    "type": "nr2"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "da7c6869-0a7f-4e9b-ce82-ad3755d7ffbe",
+              "type": [
+                {
+                  "objID": "8224c958-a9bc-4499-f488-523b23a1c24d"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "6d3a37d0-6d96-4f89-efbe-c336c62e7b29",
+            "name": "[SOURce:]VOLTage:PROTection[:LEVel]?",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#__RefHeading___Toc3630_1680586490 Copy 1",
+            "parameters": [],
+            "response": {
+              "objID": "9036a718-e343-4892-9dd1-ab2c76779bf9",
+              "type": [
+                {
+                  "objID": "4dbffe6e-61ee-4565-d5ad-01753ea677d4"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "94e590c7-1537-4bf5-f8f5-7a2aafefe607",
+            "name": "[SOURce:]VOLTage:RANGe",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#__RefHeading___Toc3632_1680586490 Copy 1",
+            "parameters": [
+              {
+                "objID": "46df30ea-afec-4e1d-f3f2-e492f8ff4700",
+                "name": "voltageRange",
+                "type": [
+                  {
+                    "objID": "7ee15302-f8ab-460c-a4f9-eba4b142a08d",
+                    "type": "discrete",
+                    "enumeration": "CurrentRange"
+                  },
+                  {
+                    "objID": "ec09bc21-ab5e-4398-abb7-28f30e9c1055",
+                    "type": "nr2"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "2b9d579e-d892-4e54-ca45-5bcf67461260",
+              "type": [
+                {
+                  "objID": "c0e1a132-acc4-4346-db14-7cf98bd8343b"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "6b44a1a4-aff3-44ed-955b-6021066ce838",
+            "name": "[SOURce:]VOLTage:RANGe?",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#__RefHeading___Toc3632_1680586490 Copy 1",
+            "parameters": [],
+            "response": {
+              "objID": "da4c2c35-a2ea-4a59-cfe0-d6af2477719a",
+              "type": [
+                {
+                  "objID": "ea7d0683-4516-48f9-b0ad-548d50805921"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "6454d798-19ef-4217-a6b1-0e7427ceef71",
+            "name": "[SOURce:]VOLTage[:LEVel][:IMMediate][:AMPLitude]",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#__RefHeading___Toc3628_1680586490 Copy 1",
+            "parameters": [
+              {
+                "objID": "38436c68-c5b6-4533-8bae-31bbaae0b3f7",
+                "name": "voltage",
+                "type": [
+                  {
+                    "objID": "54e02b1a-e896-4ab8-c067-89c63199fed1",
+                    "type": "nr2"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "faea41b6-c375-4b1a-f583-328f41fe72a4",
+              "type": [
+                {
+                  "objID": "fc25346b-5f73-4dd4-a1e9-75cf52ed7322"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "bdbce620-5163-4d11-ebf4-8117749431b4",
+            "name": "[SOURce:]VOLTage[:LEVel][:IMMediate][:AMPLitude]?",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#__RefHeading___Toc3628_1680586490 Copy 1",
+            "parameters": [],
+            "response": {
+              "objID": "f2c3c544-b52b-4f96-dc00-204c25a21402",
+              "type": [
+                {
+                  "objID": "43f8b6f4-fe79-4c3b-fd65-04daec40f852"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "a94da970-2500-49a3-c382-3564b5307107",
+            "name": "[SOURce]:RESistance[:LEVel][:IMMediate][:AMPLitude]",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#__RefHeading___Toc3640_1680586490",
+            "parameters": [
+              {
+                "objID": "358efb19-64db-4c1b-9a31-210b5035c452",
+                "name": "resistance",
+                "type": [
+                  {
+                    "objID": "3ca12f55-2635-4950-873d-4526d16968ed",
+                    "type": "nr2"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "d6ac6035-97da-4283-b4e5-94a081ba9b3c",
+              "type": [
+                {
+                  "objID": "7017f840-92e9-47ba-9dd9-16deb03dda9d"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "fedeebd1-0a4b-40c4-d816-fbab89b399d3",
+            "name": "[SOURce]:RESistance[:LEVel][:IMMediate][:AMPLitude]?",
+            "helpLink": "DCL8010 SCPI reference 3 - SOURCE.html#__RefHeading___Toc3640_1680586490",
+            "parameters": [],
+            "response": {
+              "objID": "9bfdb603-af09-4814-9485-d1376b7ea099",
+              "type": [
+                {
+                  "objID": "b0f9749f-245c-4747-b7a7-65e3842570bc"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "objID": "85160b43-5fab-412e-9bbe-70ddac9195a4",
+        "name": "4. CAPACITY subsystem",
+        "helpLink": "DCL8010 SCPI reference 4 - CAPACITY.html",
+        "commands": [
+          {
+            "objID": "61b55880-f48e-402e-c2d9-b623c792b94a",
+            "name": "[SOURce]:CAPacity:LIMit:AH[:STOP]",
+            "helpLink": "DCL8010 SCPI reference 4 - CAPACITY.html#_scpi_cap_lim_ah",
+            "parameters": [
+              {
+                "objID": "6fa5cec7-acb4-4e77-f1fc-ef118813e311",
+                "name": "AhStop",
+                "type": [
+                  {
+                    "objID": "82348138-2a9d-4ece-9d34-5afc5c8161c6",
+                    "type": "nr2"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "084731f1-78b8-45c2-d96c-f7c4a3670058",
+              "type": [
+                {
+                  "objID": "721a1635-1175-4ac6-8cb0-e6945fbc791a"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "f68ce049-711d-4d5e-fee5-f493ffd10524",
+            "name": "[SOURce]:CAPacity:LIMit:AH[:STOP]?",
+            "helpLink": "DCL8010 SCPI reference 4 - CAPACITY.html#_scpi_cap_lim_ah2",
+            "parameters": [],
+            "response": {
+              "objID": "cee5b6fb-f9ba-46a3-9a92-4cef0150daad",
+              "type": [
+                {
+                  "objID": "38f8d007-959e-4bf5-9808-07a19bd71bf9"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "1e0433b0-562d-4324-ef58-50638c87dc2e",
+            "name": "[SOURce]:CAPacity:LIMit:CLEar",
+            "helpLink": "DCL8010 SCPI reference 4 - CAPACITY.html#_scpi_cap_lim_clear",
+            "parameters": [],
+            "response": {
+              "objID": "ce31b5fc-5d43-4dd5-c52a-a184b7e8fbb1",
+              "type": [
+                {
+                  "objID": "a7437a62-1f31-45a7-f2fc-6c919eb15b32"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "05cf0a4f-857d-4c1e-d448-fe3b30eef057",
+            "name": "[SOURce]:CAPacity:LIMit:TIMe[:STOP]",
+            "helpLink": "DCL8010 SCPI reference 4 - CAPACITY.html#_scpi_cap_lim_time",
+            "parameters": [
+              {
+                "objID": "08e84ccc-f1c9-4f0b-da95-cd10053bcce3",
+                "name": "TimeStop",
+                "type": [
+                  {
+                    "objID": "7e3eb025-e340-4eb2-80a1-a67ce7b6fcea",
+                    "type": "nr1"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "d9e23054-af39-4670-e14b-68b9c0f0b0f9",
+              "type": [
+                {
+                  "objID": "d369ecd8-eeaa-4ce3-fc38-2a10613e8279"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "738ca186-3d55-4f4d-c719-fcd4606a1f40",
+            "name": "[SOURce]:CAPacity:LIMit:TIMe[:STOP]?",
+            "helpLink": "DCL8010 SCPI reference 4 - CAPACITY.html#_scpi_cap_lim_time2",
+            "parameters": [],
+            "response": {
+              "objID": "e8cc0b84-9639-4d75-9ece-45cea4139ed1",
+              "type": [
+                {
+                  "objID": "fe848806-649b-4327-f773-8fe55049536b"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "ca56ca98-3b6e-420b-dfb4-058c82c6fd8a",
+            "name": "[SOURce]:CAPacity:LIMit:TRIPped?",
+            "helpLink": "DCL8010 SCPI reference 4 - CAPACITY.html#_scpi_cap_lim_trip",
+            "parameters": [],
+            "response": {
+              "objID": "d8bb7e31-4608-4663-f930-249b82d625f3",
+              "type": [
+                {
+                  "objID": "397bd993-e94a-48e3-c31a-da5d8cf95529"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "a9923b60-48b2-4d74-ed83-0b36a70d3f9f",
+            "name": "[SOURce]:CAPacity:LIMit:VOLTage[:STOP]",
+            "helpLink": "DCL8010 SCPI reference 4 - CAPACITY.html#_scpi_cap_lim_volt",
+            "parameters": [
+              {
+                "objID": "e347dd35-7bee-47d2-8ef0-ef95442ba9e1",
+                "name": "VoltStop",
+                "type": [
+                  {
+                    "objID": "59ca97d4-b3d3-447b-eaf3-204a960289f6",
+                    "type": "nr2"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "a656984f-a29f-4c40-ff0b-a049db834b03",
+              "type": [
+                {
+                  "objID": "1e75ac0d-6523-4f10-f92c-6d6f087f11da"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "26621437-cb1b-4b46-f1de-3d9ffa4cc169",
+            "name": "[SOURce]:CAPacity:LIMit:VOLTage[:STOP]?",
+            "helpLink": "DCL8010 SCPI reference 4 - CAPACITY.html#_scpi_cap_lim_volt2",
+            "parameters": [],
+            "response": {
+              "objID": "df6f3cd9-a68b-4977-fe63-e9047b329b08",
+              "type": [
+                {
+                  "objID": "ccf6f4c5-e87c-4814-9406-897c681a25dc"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "58c2e3fc-23f4-46e1-afb0-8cadd712cc1b",
+            "name": "[SOURce]:CAPacity:LIMit:WH[:STOP]",
+            "helpLink": "DCL8010 SCPI reference 4 - CAPACITY.html#_scpi_cap_lim_wh",
+            "parameters": [
+              {
+                "objID": "4b112e7f-a010-40d5-e8d2-daf0b555063a",
+                "name": "WhStop",
+                "type": [
+                  {
+                    "objID": "a6125b15-13db-407b-c81b-d6c8e1baa3c3",
+                    "type": "nr2"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "76cd582b-1498-4a33-9e11-3716dabe9ae2",
+              "type": [
+                {
+                  "objID": "13f3d720-7280-4d96-ccfd-0c001214e64a"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "89b18dbd-125c-475c-9266-6dac926cf344",
+            "name": "[SOURce]:CAPacity:LIMit:WH[:STOP]?",
+            "helpLink": "DCL8010 SCPI reference 4 - CAPACITY.html#_scpi_cap_lim_wh2",
+            "parameters": [],
+            "response": {
+              "objID": "f960c9b3-db71-4bc5-8d4e-cbdeda8c7f52",
+              "type": [
+                {
+                  "objID": "df584301-76f4-4a60-9020-5f9f9f649c84"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "49bc1e05-6aae-47b2-998a-d8a36545e84e",
+            "name": "[SOURce]:CAPacity:LIMit[:ENable]",
+            "helpLink": "DCL8010 SCPI reference 4 - CAPACITY.html#_scpi_cap_lim",
+            "parameters": [
+              {
+                "objID": "e3b26983-af93-421d-f32b-220473e3df3b",
+                "name": "bool",
+                "type": [
+                  {
+                    "objID": "411e5680-9767-4fbf-9404-699131b5d902",
+                    "type": "boolean"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "dd428c37-5a97-4874-c70c-f9884fff03c9",
+              "type": [
+                {
+                  "objID": "7ea05e6b-a513-4bb5-92dd-e59263d4266c"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "e9d433fb-be0a-47c7-a961-ba052b1ee319",
+            "name": "[SOURce]:CAPacity:LIMit[:ENable]?",
+            "helpLink": "DCL8010 SCPI reference 4 - CAPACITY.html#_scpi_cap_lim2",
+            "parameters": [],
+            "response": {
+              "objID": "17f2e4f0-2c69-48ba-d46d-0d042f34ae93",
+              "type": [
+                {
+                  "objID": "f87631f5-0686-4a9c-f6e7-2f483b70257a"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "793797bb-5ff3-4c45-d724-7f211024ed13",
+            "name": "[SOURce]:CAPacity:ZERO",
+            "helpLink": "DCL8010 SCPI reference 4 - CAPACITY.html#_scpi_cap_zero",
+            "parameters": [],
+            "response": {
+              "objID": "fafdc22f-dcd4-4a13-eff1-14b47b443438",
+              "type": [
+                {
+                  "objID": "b373dfe4-8109-4b7f-a64b-d818a7dbdb5d"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "94290d25-4700-40c5-9795-1d58c019e1d5",
+            "name": "[SOURce]:CAPacity[:STATe]",
+            "helpLink": "DCL8010 SCPI reference 4 - CAPACITY.html#_scpi_cap",
+            "parameters": [
+              {
+                "objID": "b92088f7-f2c5-427b-97d2-cf3a647220a0",
+                "name": "bool",
+                "type": [
+                  {
+                    "objID": "06faf5a1-69a5-4d00-dc52-39bdef25cbf2",
+                    "type": "boolean"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "db870937-a459-4a00-c555-45cc3348ae4f",
+              "type": [
+                {
+                  "objID": "8a58604d-16b8-43d6-d5c6-3be0fa01b59e"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "6c2c13ed-bdf4-43d7-ab2a-8f1372788366",
+            "name": "[SOURce]:CAPacity[:STATe]?",
+            "helpLink": "DCL8010 SCPI reference 4 - CAPACITY.html#_scpi_cap2",
+            "parameters": [],
+            "response": {
+              "objID": "e3b3cf28-94ed-4420-ead3-a567aca58bcc",
+              "type": [
+                {
+                  "objID": "5e075900-7c12-406e-bf21-edb77292caf1"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "objID": "5b515ad2-3f8b-486c-c540-d96b76c7bcd8",
+        "name": "5. FETCH subsystem",
+        "helpLink": "DCL8010 SCPI reference 5 - FETCH.html",
+        "commands": [
+          {
+            "objID": "687dfd74-3b13-421d-9669-331cdb88ee97",
+            "name": "FETCh:CAPacity?",
+            "helpLink": "DCL8010 SCPI reference 5 - FETCH.html#_scpi_fetch_cap",
+            "parameters": [],
+            "response": {
+              "objID": "c8319923-7dc8-4a9c-fa35-ed884c5615fe",
+              "type": [
+                {
+                  "objID": "51c8c8b6-0d9b-49c8-df98-f18f401eeef9"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "ce9c8982-a543-4b24-8c95-47a18e4a7b52",
+            "name": "FETCh[:SCALar]:CURRent[:DC]:STATistics?",
+            "helpLink": "DCL8010 SCPI reference 5 - FETCH.html#_scpi_fetch_curr_stat",
+            "parameters": [
+              {
+                "objID": "99375063-8e1b-4c5e-8e79-a78e4de29b47",
+                "name": "stat",
+                "type": [
+                  {
+                    "objID": "77e03c36-fd65-407e-c046-b40cabed7ae0",
+                    "type": "discrete",
+                    "enumeration": "Stat"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "3737db99-30ba-4a97-afd6-27966ad33fa4",
+              "type": [
+                {
+                  "objID": "deb388ac-28fe-47a6-f0b2-f135c6ac44e0"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "002ac258-8127-45c6-fc3e-5bab3386f03a",
+            "name": "FETCh[:SCALar]:CURRent[:DC]?",
+            "helpLink": "DCL8010 SCPI reference 5 - FETCH.html#_scpi_fetch_curr",
+            "parameters": [],
+            "response": {
+              "objID": "fa466969-25af-4be5-b7ea-011d3ad0e9fa",
+              "type": [
+                {
+                  "objID": "1e1b6152-74d9-419f-b612-8a7991f8ecdb"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "06c9f628-fd57-45fc-aca1-79e4a2c9c56f",
+            "name": "FETCh[:SCALar]:POWer[:DC]:STATistics?",
+            "helpLink": "DCL8010 SCPI reference 5 - FETCH.html#_scpi_fetch_power_stat",
+            "parameters": [
+              {
+                "objID": "7208a845-4ea7-49e8-f115-5ac5c69b4893",
+                "name": "stat",
+                "type": [
+                  {
+                    "objID": "b780de85-faff-405a-e88d-a520bcfce3ca",
+                    "type": "discrete",
+                    "enumeration": "Stat"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "4671cfab-f14a-4dd6-f8a3-7dc34b701072",
+              "type": [
+                {
+                  "objID": "4bfe098f-a88f-4b3c-9d43-b5d66f5e94b3"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "aa1cf12b-1ddd-4eb2-8b72-7a4acc2d9f5e",
+            "name": "FETCh[:SCALar]:POWer[:DC]?",
+            "helpLink": "DCL8010 SCPI reference 5 - FETCH.html#_scpi_fetch_pow",
+            "parameters": [],
+            "response": {
+              "objID": "6412d094-d43f-4257-8653-4af2afa4f9ee",
+              "type": [
+                {
+                  "objID": "40c5a9ae-43d2-4ed8-ffbc-7576a806cc57"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "2cd688ea-b0d4-4f49-fa91-777711671f5c",
+            "name": "FETCh[:SCALar]:VOLTage:REVerse[:POLarity]?",
+            "helpLink": "DCL8010 SCPI reference 5 - FETCH.html#_scpi_fetch_volt_rev",
+            "parameters": [],
+            "response": {
+              "objID": "7b5fd38d-6cf8-4280-e066-50c5d63dad87",
+              "type": [
+                {
+                  "objID": "5f6a39f4-b6b6-4edb-ce7d-341b0bb0c40f"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "30e9a9c7-0522-429a-f00c-640336e08aa4",
+            "name": "FETCh[:SCALar]:VOLTage[:DC]:STATistics?",
+            "helpLink": "DCL8010 SCPI reference 5 - FETCH.html#_scpi_fetch_volt_stat",
+            "parameters": [
+              {
+                "objID": "c32cb2f7-6bb4-4de9-e343-9eff3128e831",
+                "name": "stat",
+                "type": [
+                  {
+                    "objID": "46d3197e-f8f5-4890-b0ad-59b00ec6542a",
+                    "type": "discrete",
+                    "enumeration": "Stat"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "5b5b016d-7340-4087-a69d-2e4d24627200",
+              "type": [
+                {
+                  "objID": "b5a4020e-cfb3-43ad-c440-28a014d60d18"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "507378f4-fd7e-441e-9730-742db67b72c2",
+            "name": "FETCh[:SCALar]:VOLTage[:DC]?",
+            "helpLink": "DCL8010 SCPI reference 5 - FETCH.html#_scpi_fetch_volt",
+            "parameters": [],
+            "response": {
+              "objID": "39bfdd0a-0933-44ed-cbc0-06520c067f30",
+              "type": [
+                {
+                  "objID": "4707353f-b815-425f-b051-15efe392bda8"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "objID": "e4525ddc-a14a-4efe-fea2-2645fa4c4180",
+        "name": "6. MEASURE subsystem",
+        "helpLink": "DCL8010 SCPI reference 6 - MEASURE.html",
+        "commands": [
+          {
+            "objID": "36af5279-2370-4371-c118-cfc30f6f00be",
+            "name": "MEASure[:SCALar]:CURRent[:DC]?",
+            "helpLink": "DCL8010 SCPI reference 6 - MEASURE.html#_scpi_measure_curr",
+            "parameters": [],
+            "response": {
+              "objID": "2d7ffd37-3184-4cfa-c429-456ca45baee5",
+              "type": [
+                {
+                  "objID": "bac44633-1f24-4ebc-f837-3f278c6924a4"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "f0f2fc77-3a4b-429b-94be-f33b101cf41c",
+            "name": "MEASure[:SCALar]:POWer[:DC]?",
+            "helpLink": "DCL8010 SCPI reference 6 - MEASURE.html#_scpi_measure_power",
+            "parameters": [],
+            "response": {
+              "objID": "1358d10f-3b34-4401-95e2-c2293cd759c1",
+              "type": [
+                {
+                  "objID": "d4c1cb8f-cc98-499c-e951-2062730b19dd"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "6fe7b265-04cd-490e-d4ea-b9667f8d778c",
+            "name": "MEASure[:SCALar]:VOLTage[:DC]?",
+            "helpLink": "DCL8010 SCPI reference 6 - MEASURE.html#_scpi_measure_volt",
+            "parameters": [],
+            "response": {
+              "objID": "7e5c04ef-e585-4a33-a38f-2eaf7a5bbbe2",
+              "type": [
+                {
+                  "objID": "4a407540-496d-4351-cf44-0e8392d0c33b"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "objID": "9aedd686-d082-4607-ec2a-61d4f2b799af",
+        "name": "7. SENSE subsystem",
+        "helpLink": "DCL8010 SCPI reference 7 - SENSE.html",
+        "commands": [
+          {
+            "objID": "0b84689c-a0b1-4978-fd98-2f14c59ff80d",
+            "name": "[SENSe:]NPLCycles",
+            "helpLink": "DCL8010 SCPI reference 7 - SENSE.html#_scpi_nplc",
+            "parameters": [
+              {
+                "objID": "03a2fa6f-208e-4c8a-cb0a-f42c680b7c9e",
+                "name": "number",
+                "type": [
+                  {
+                    "objID": "7ea759f8-6662-4f7a-829e-7a5ce6e7de15",
+                    "type": "nr1"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "2bada51a-bada-449a-bc53-be935cf98d46",
+              "type": [
+                {
+                  "objID": "71922e90-41c2-4322-ce4a-edf09aea0d9c"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "95bb9230-3d56-4ba9-a604-632aac1a9f40",
+            "name": "[SENSe:]NPLCycles?",
+            "helpLink": "DCL8010 SCPI reference 7 - SENSE.html#_scpi_nplc2",
+            "parameters": [],
+            "response": {
+              "objID": "5bbbb343-5629-41c7-c6e4-de6106f7617b",
+              "type": [
+                {
+                  "objID": "e4c039ed-eb95-4ea2-d365-052d4192e945"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "c2e49c28-9490-4a06-e3dc-084a06d1298c",
+            "name": "[SENSe:]PLFreq",
+            "helpLink": "DCL8010 SCPI reference 7 - SENSE.html#_scpi_plf",
+            "parameters": [
+              {
+                "objID": "a6f1f547-baf6-4041-b1fd-b5619946bfa5",
+                "name": "PLFreq",
+                "type": [
+                  {
+                    "objID": "ac237f8a-def7-4a26-e75f-be1fbef03487",
+                    "type": "discrete",
+                    "enumeration": "PLFreq"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "e3820d8d-111a-4739-a573-5b22afbdc996",
+              "type": [
+                {
+                  "objID": "6b187911-f8b7-45a2-9036-5beaa15f0a4d"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "0aea725f-4243-4c94-d34f-593ae616a0f2",
+            "name": "[SENSe:]PLFreq?",
+            "helpLink": "DCL8010 SCPI reference 7 - SENSE.html#_scpi_plf2",
+            "parameters": [],
+            "response": {
+              "objID": "bdfe4b61-f848-47c6-f068-2c95d4aa78c6",
+              "type": [
+                {
+                  "objID": "0ac231fb-32d8-457b-d364-0a00bfd780e1"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "1460bcb2-1f62-4835-e82e-b2e0b7c9a6c0",
+            "name": "[SENSe]:CURRent:STATistics:CLEar",
+            "helpLink": "DCL8010 SCPI reference 7 - SENSE.html#_scpi_curr_stat_clear",
+            "parameters": [],
+            "response": {
+              "objID": "78c12d6c-4e8f-4cb6-b610-0a078c85bac8",
+              "type": [
+                {
+                  "objID": "4165c606-47a1-45cc-9deb-9b922d52e7d5"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "166a5bee-8ed0-4d8b-ec89-c8c68ae1ca07",
+            "name": "[SENSe]:CURRent:STATistics[:ON]",
+            "helpLink": "DCL8010 SCPI reference 7 - SENSE.html#_scpi_curr_stat",
+            "parameters": [
+              {
+                "objID": "b1ca8515-2f1a-45db-80f3-6598ce1bc1e6",
+                "name": "bool",
+                "type": [
+                  {
+                    "objID": "75a48bb8-575d-4f96-ce5b-b5e14a8d6a93",
+                    "type": "boolean"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "76aa3426-b4fa-4dfb-c854-638911bec357",
+              "type": [
+                {
+                  "objID": "3d037e72-6ec0-48b7-b118-4c326bec3d81"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "e1da6c92-8b49-40bd-afa9-99b627d0e1f7",
+            "name": "[SENSe]:CURRent:STATistics[:ON]?",
+            "helpLink": "DCL8010 SCPI reference 7 - SENSE.html#_scpi_curr_stat2",
+            "parameters": [],
+            "response": {
+              "objID": "78686659-9c1d-41ef-aef2-604ad445eb26",
+              "type": [
+                {
+                  "objID": "7d30b2a4-b76e-4642-84b9-1bed89036624"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "bd229c3b-3622-47a6-daeb-c6b1b5a76ed2",
+            "name": "[SENSe]:POWer:STATistics:CLEar",
+            "helpLink": "DCL8010 SCPI reference 7 - SENSE.html#_scpi_pow_sat_clear",
+            "parameters": [],
+            "response": {
+              "objID": "6a5e0d40-6337-430d-d7e7-cefb8b9de308",
+              "type": [
+                {
+                  "objID": "9f7a48bc-55f9-4ea5-f313-acd543899e93"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "423a97c4-d5ac-48f4-96df-a48ee44c85c2",
+            "name": "[SENSe]:POWer:STATistics[:ON]",
+            "helpLink": "DCL8010 SCPI reference 7 - SENSE.html#_scpi_pow_stat",
+            "parameters": [
+              {
+                "objID": "1aa89761-8a69-4143-b64b-f0c98d5bede8",
+                "name": "bool",
+                "type": [
+                  {
+                    "objID": "c5af3cca-04e5-4f74-efc1-b8b062d43912",
+                    "type": "boolean"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "cf61d54b-5a21-4ef8-f51d-32cc2306c47e",
+              "type": [
+                {
+                  "objID": "ad48b9d3-82fe-4503-bdd2-b43d5c8f94db"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "fbb6a622-ea86-41c1-8082-6f26bacdbc21",
+            "name": "[SENSe]:POWer:STATistics[:ON]?",
+            "helpLink": "DCL8010 SCPI reference 7 - SENSE.html#_scpi_pow_stat2",
+            "parameters": [],
+            "response": {
+              "objID": "549f8152-a6b5-41d0-d815-e68e20afdb3d",
+              "type": [
+                {
+                  "objID": "77fe5dcd-3ea6-4bb5-9310-27a34fd9f0cc"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "d579d076-c4d5-4f5e-f947-3f46cac90a42",
+            "name": "[SENSe]:VOLTage:REMote",
+            "helpLink": "DCL8010 SCPI reference 7 - SENSE.html#_scpi_volt_remote",
+            "parameters": [
+              {
+                "objID": "6e762111-ef5f-422e-c1c0-fa808eb19865",
+                "name": "bool",
+                "type": [
+                  {
+                    "objID": "11de5b20-c8b4-4c00-fd88-cbff252c12f4",
+                    "type": "boolean"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "6cbbb1bd-77cc-4113-e786-c20cd305521d",
+              "type": [
+                {
+                  "objID": "1f3e7675-7ea8-45a6-d7be-5e11a1a4d716"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "169faf84-93f2-4914-e5a5-3a2b89dd66ac",
+            "name": "[SENSe]:VOLTage:REMote:ERRor[:TRIPped]?",
+            "helpLink": "DCL8010 SCPI reference 7 - SENSE.html#_scpi_volt_remote_error",
+            "parameters": [],
+            "response": {
+              "objID": "346d9018-4040-45cb-a85c-e42fb7826e4b",
+              "type": [
+                {
+                  "objID": "7594390e-2360-466b-98cd-e77c0728d899"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "c1c3decb-e536-4137-de6c-dc5fd5be9d61",
+            "name": "[SENSe]:VOLTage:REMote?",
+            "helpLink": "DCL8010 SCPI reference 7 - SENSE.html#_scpi_volt_remote2",
+            "parameters": [],
+            "response": {
+              "objID": "96fe9c46-ed25-4029-bf37-b8c78dd12f25",
+              "type": [
+                {
+                  "objID": "955f706d-9ed9-4eff-ad59-25bb372c0b96"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "6f839ab4-0509-418f-be47-97496e49b8af",
+            "name": "[SENSe]:VOLTage:STATistics:CLEar",
+            "helpLink": "DCL8010 SCPI reference 7 - SENSE.html#_scpi_volt_stat_clear",
+            "parameters": [],
+            "response": {
+              "objID": "184689b2-a25b-4499-9e8b-60e60cac99a5",
+              "type": [
+                {
+                  "objID": "b75ffd86-a9b3-4fa7-ccae-3b67cee6da63"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "28802c03-9e0c-453d-e013-a2a6fb788370",
+            "name": "[SENSe]:VOLTage:STATistics[:ON]",
+            "helpLink": "DCL8010 SCPI reference 7 - SENSE.html#_scpi_volt_stat",
+            "parameters": [
+              {
+                "objID": "3883ce4e-8477-4ae8-fee4-f6d99308f27d",
+                "name": "bool",
+                "type": [
+                  {
+                    "objID": "fbdf24bd-58a3-4b22-9ef8-024725df1ea6",
+                    "type": "boolean"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "2b0b5f9b-1fc5-40c9-9519-f52a75c1abe1",
+              "type": [
+                {
+                  "objID": "6fbb61cc-7de1-44a8-94c2-feeeb7e34361"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "19c2404e-f9d7-4084-a0ec-2c3b232aa953",
+            "name": "[SENSe]:VOLTage:STATistics[:ON]?",
+            "helpLink": "DCL8010 SCPI reference 7 - SENSE.html#_scpi_volt_stat2",
+            "parameters": [],
+            "response": {
+              "objID": "4a0ab294-3e6e-4dfd-88be-e7d681efb5ca",
+              "type": [
+                {
+                  "objID": "017f8f55-4c8b-4bcb-ddf9-844cc04d5bff"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "objID": "17b397bb-ebd8-4093-c58c-e5c311a85d58",
+        "name": "8. SYSTEM subsystem",
+        "helpLink": "DCL8010 SCPI reference 8 - SYSTEM.html",
+        "commands": [
+          {
+            "objID": "2f2e3250-e5c8-4d10-da3d-d326a15050f2",
+            "name": "SYSTem:BEEP",
+            "helpLink": "DCL8010 SCPI reference 8 - SYSTEM.html#_scpi_syst_beep",
+            "parameters": [
+              {
+                "objID": "55e2cf16-90ad-4b59-95fd-bca8b42d2b84",
+                "name": "duration",
+                "type": [
+                  {
+                    "objID": "c9d180f1-cfe7-4460-c9a5-1ef54bd57c14",
+                    "type": "nr1"
+                  }
+                ],
+                "isOptional": true
+              }
+            ],
+            "response": {
+              "objID": "c8a6ef5d-01bb-46ea-b952-3f76550d8f2e",
+              "type": [
+                {
+                  "objID": "66a5020f-46f9-426f-c276-b3a187bff60c"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "d5921e55-aa62-49f5-c6b8-0734d2df4b7e",
+            "name": "SYSTem:BEEP:DURation",
+            "helpLink": "DCL8010 SCPI reference 8 - SYSTEM.html#_scpi_syst_beep_dur",
+            "parameters": [
+              {
+                "objID": "0392f5a2-b0d9-4137-e640-fb4a5147d422",
+                "name": "duration",
+                "type": [
+                  {
+                    "objID": "012d49f6-18b4-4f55-cefc-904c3b172dc2",
+                    "type": "nr1"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "e09ce320-e2d6-4953-d857-65b996366932",
+              "type": [
+                {
+                  "objID": "abf83f98-8a7b-435a-8508-7243c1581a91"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "16615101-3b7f-40dd-9aa2-86e7a42def44",
+            "name": "SYSTem:BEEP:DURation?",
+            "helpLink": "DCL8010 SCPI reference 8 - SYSTEM.html#_scpi_syst_beep_dur2",
+            "parameters": [],
+            "response": {
+              "objID": "ea9bd9c9-f1d5-49a4-88a2-498fa47da03e",
+              "type": [
+                {
+                  "objID": "1b55d5eb-1f02-4414-842c-17e39d4aabd4"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "e021e415-89a3-4243-9796-d4c4e578981f",
+            "name": "SYSTem:BEEP:ON:CAPacity",
+            "helpLink": "DCL8010 SCPI reference 8 - SYSTEM.html#_scpi_syst_beep_on_cap",
+            "parameters": [
+              {
+                "objID": "dac62d02-0ab6-4fbe-a1f1-bce97ce69d61",
+                "name": "bool",
+                "type": [
+                  {
+                    "objID": "5d7abef2-3758-421d-faa8-7a762cfe02a9",
+                    "type": "boolean"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "41e3a570-7474-4144-d3e2-5492c1967410",
+              "type": [
+                {
+                  "objID": "82bbd02e-a122-43f2-8f6b-5cf2bb8a54bc"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "cff5182d-ff0c-47b3-cc9c-ef8c9f83267d",
+            "name": "SYSTem:BEEP:ON:CAPacity?",
+            "helpLink": "DCL8010 SCPI reference 8 - SYSTEM.html#_scpi_syst_beep_on_cap2",
+            "parameters": [],
+            "response": {
+              "objID": "5dd21e59-4053-4521-8ca5-8ce118719b00",
+              "type": [
+                {
+                  "objID": "9ee046b8-ed32-4e4e-8d7d-2473978fa2c8"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "d0e48c03-bb6e-4f2e-eeac-9edfc47e8be9",
+            "name": "SYSTem:BEEP:ON:ENCoder",
+            "helpLink": "DCL8010 SCPI reference 8 - SYSTEM.html#_scpi_syst_beep_on_enc",
+            "parameters": [
+              {
+                "objID": "6d96dde9-2d00-4d81-ebc7-0a8eadd61123",
+                "name": "bool",
+                "type": [
+                  {
+                    "objID": "e08aa4db-1ecc-4100-9de0-85bfbe38221b",
+                    "type": "boolean"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "8c224df6-d075-4061-f83e-47b251ab3d86",
+              "type": [
+                {
+                  "objID": "d88a72a9-94ad-4b7b-a0b2-a3838e71bb4c"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "1b7024d9-75e1-4249-8954-0a0feba13a50",
+            "name": "SYSTem:BEEP:ON:ENCoder?",
+            "helpLink": "DCL8010 SCPI reference 8 - SYSTEM.html#_scpi_syst_beep_on_enc2",
+            "parameters": [],
+            "response": {
+              "objID": "70ec0422-c50a-457e-d483-c35bbd9d31d8",
+              "type": [
+                {
+                  "objID": "f014a8c6-e812-45b2-94a7-9acfb002fa9e"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "1bad1ffb-71e5-481c-98da-7b5341fef062",
+            "name": "SYSTem:BEEP:ON:POLarity",
+            "helpLink": "DCL8010 SCPI reference 8 - SYSTEM.html#_scpi_syst_beep_on_pol",
+            "parameters": [
+              {
+                "objID": "a402b165-b24d-44f1-b657-dea31764f896",
+                "name": "bool",
+                "type": [
+                  {
+                    "objID": "c79a9bfe-864a-4833-f014-cd37d6df3b6e",
+                    "type": "boolean"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "df74265a-0875-4de6-9ddb-6bf824e65eeb",
+              "type": [
+                {
+                  "objID": "102cabc2-f0a1-4480-bfdd-4a5ffedd3e25"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "8e73204b-5c8c-45c2-bbbf-56825dc653d5",
+            "name": "SYSTem:BEEP:ON:POLarity?",
+            "helpLink": "DCL8010 SCPI reference 8 - SYSTEM.html#_scpi_syst_beep_on_pol2",
+            "parameters": [],
+            "response": {
+              "objID": "4efcb323-55cb-4f60-cac6-55bae1f3bb73",
+              "type": [
+                {
+                  "objID": "ca4c7e48-fd65-4446-b674-3585e644284e"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "03c2797a-90e4-447b-88a9-d64d83114467",
+            "name": "SYSTem:BEEP:ON:PROTection",
+            "helpLink": "DCL8010 SCPI reference 8 - SYSTEM.html#_scpi_syst_beep_on_prot",
+            "parameters": [
+              {
+                "objID": "a484aefa-6024-40c8-9959-b5320c8077d3",
+                "name": "bool",
+                "type": [
+                  {
+                    "objID": "06c08e8b-8db4-4093-d90e-33aaf6cff6e6",
+                    "type": "boolean"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "34390254-a47a-42ae-d0e2-4b9198212d11",
+              "type": [
+                {
+                  "objID": "c953f1bd-3a27-481c-92fe-713f11955140"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "44bcae86-a974-4469-f2e4-69c6c3151828",
+            "name": "SYSTem:BEEP:ON:PROTection?",
+            "helpLink": "DCL8010 SCPI reference 8 - SYSTEM.html#_scpi_syst_beep_on_prot2",
+            "parameters": [],
+            "response": {
+              "objID": "dcb13836-eb2c-43d3-ce9d-17199e38a6f0",
+              "type": [
+                {
+                  "objID": "5f7395aa-b758-461f-a1ee-f6124568a511"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "93a97c3b-3dd5-4287-98d2-1a5d7b69bf1c",
+            "name": "SYSTem:BEEP:ON:SENSe",
+            "helpLink": "DCL8010 SCPI reference 8 - SYSTEM.html#_scpi_syst_beep_on_sense",
+            "parameters": [
+              {
+                "objID": "587c0c18-4276-4b5a-9c2e-d2ce5ca7e9c5",
+                "name": "bool",
+                "type": [
+                  {
+                    "objID": "2b66fa82-56c5-4874-ebb8-d7ab4b6af058",
+                    "type": "boolean"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "26fde149-1524-4a7e-ec30-09e7100d3dcf",
+              "type": [
+                {
+                  "objID": "b5af26e5-27f8-41d8-f077-86d26d0678ec"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "acb8c952-9648-4334-b0b1-2290a8549316",
+            "name": "SYSTem:BEEP:ON:SENSe?",
+            "helpLink": "DCL8010 SCPI reference 8 - SYSTEM.html#_scpi_syst_beep_on_sense2",
+            "parameters": [],
+            "response": {
+              "objID": "adf4560e-455b-4ae9-ca74-1af6c8388bbc",
+              "type": [
+                {
+                  "objID": "ee2a3246-8260-4e6d-c626-18d44ed94df2"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "5e2f3bea-d513-4e55-8124-0460d08c9ca8",
+            "name": "SYSTem:FAN:MODE",
+            "helpLink": "DCL8010 SCPI reference 8 - SYSTEM.html#_scpi_syst_fan_mode",
+            "parameters": [
+              {
+                "objID": "7f9f58c7-5660-49e1-c94a-0d10b4395ce4",
+                "name": "fanmode",
+                "type": [
+                  {
+                    "objID": "a5654276-5cbb-49bd-aebc-3a88a89c211b",
+                    "type": "discrete",
+                    "enumeration": "Fanmode"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "30880070-153b-4d75-d3ac-741912ea3506",
+              "type": [
+                {
+                  "objID": "9e054368-0e3f-48ac-94a0-df62c317231c"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "821fcf80-abad-4365-ae2f-e680e987e596",
+            "name": "SYSTem:FAN:MODE?",
+            "helpLink": "DCL8010 SCPI reference 8 - SYSTEM.html#_scpi_syst_fan_mode2",
+            "parameters": [],
+            "response": {
+              "objID": "f107d6f6-09e3-4f09-c5a2-61f0794976e9",
+              "type": [
+                {
+                  "objID": "6ba2984f-57d5-4395-b729-38483c4c136c"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "bcd6472e-ac8d-496d-8d7e-595400850975",
+            "name": "SYSTem:FAN:RPM?",
+            "helpLink": "DCL8010 SCPI reference 8 - SYSTEM.html#_scpi_syst_fan_rpm",
+            "parameters": [],
+            "response": {
+              "objID": "65d052d1-a866-4baa-bf77-859cfe506ece",
+              "type": [
+                {
+                  "objID": "49bd86e3-cffb-441d-c8a2-00b6e8224515"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "3bc028c2-d3a5-41e6-9e85-22d3af1c1b28",
+            "name": "SYSTem:FAN:SPEED",
+            "helpLink": "DCL8010 SCPI reference 8 - SYSTEM.html#_scpi_syst_fan_speed",
+            "parameters": [
+              {
+                "objID": "59ea3eba-56b1-4439-c2da-73e813dd77ca",
+                "name": "speed",
+                "type": [
+                  {
+                    "objID": "2f717751-b2e6-498c-ce37-88f2bbe18709",
+                    "type": "nr1"
+                  },
+                  {
+                    "objID": "8affa4f9-255f-441b-f02f-f0f7dea1f3b4",
+                    "type": "discrete",
+                    "enumeration": "Speed"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "adc61bce-5727-4bfe-ad02-90f9c61f6de7",
+              "type": [
+                {
+                  "objID": "ddf3109e-d4dd-4d37-b220-dc84a0d94625"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "02154939-0745-46ea-b9fe-9579bc4f9753",
+            "name": "SYSTem:FAN:SPEED?",
+            "helpLink": "DCL8010 SCPI reference 8 - SYSTEM.html#_scpi_syst_fan_speed2",
+            "parameters": [],
+            "response": {
+              "objID": "d269d343-6926-4c3d-c510-7c7694249e43",
+              "type": [
+                {
+                  "objID": "bb1070f5-0c93-4ec9-bb3c-c9b9af62480e"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "547d4937-618f-4aae-aa8c-93e9e67ddb86",
+            "name": "SYSTem:TEMPerature?",
+            "helpLink": "DCL8010 SCPI reference 8 - SYSTEM.html#_scpi_syst_temp",
+            "parameters": [],
+            "response": {
+              "objID": "ffcb2f87-54b5-4ae0-efc6-55d9b2bcc202",
+              "type": [
+                {
+                  "objID": "4fc8ff78-1809-4cf8-82cc-ab525e8e9037"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "df344b21-0b5e-4aa6-c819-e646a87aba7c",
+            "name": "SYSTem:TEMPerature:PROTection:DELay[:TIMe]",
+            "helpLink": "DCL8010 SCPI reference 8 - SYSTEM.html#__RefHeading___Toc3638_1680586490",
+            "parameters": [
+              {
+                "objID": "3c1d6389-3af9-47dc-a724-6ee3a476310a",
+                "name": "delay",
+                "type": [
+                  {
+                    "objID": "ccd9c07f-384b-4d91-f52d-239cfe3ec256",
+                    "type": "nr1"
+                  },
+                  {
+                    "objID": "3208d42b-fe6b-4a1d-b42c-464f293eb9f6",
+                    "type": "discrete",
+                    "enumeration": "Speed"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "e533658d-72f1-402c-f7b1-46d99eee5e7b",
+              "type": [
+                {
+                  "objID": "f91c7564-dd90-4956-aca5-5d38603e546f"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "ff28d0bd-f46f-4d98-a567-338ac02c7b02",
+            "name": "SYSTem:TEMPerature:PROTection:DELay[:TIMe]?",
+            "helpLink": "DCL8010 SCPI reference 8 - SYSTEM.html#__RefHeading___Toc3638_1680586490",
+            "parameters": [],
+            "response": {
+              "objID": "f9e056cd-2acd-4272-8c51-ee13b92fa9c3",
+              "type": [
+                {
+                  "objID": "1be1ea78-32dc-477a-f64d-2e7e9c93e5ba"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "e056e8d5-dfd9-497f-da15-6e649e914998",
+            "name": "SYSTem:TEMPerature:PROTection[:LEVel]",
+            "helpLink": "DCL8010 SCPI reference 8 - SYSTEM.html#__RefHeading___Toc3636_1680586490",
+            "parameters": [
+              {
+                "objID": "1917bc9d-00cc-4bef-ddbf-12478cbb7c5e",
+                "name": "temp",
+                "type": [
+                  {
+                    "objID": "79a96d7a-b055-4dea-8708-83e8eff266cc",
+                    "type": "nr2"
+                  },
+                  {
+                    "objID": "72d0d17e-941d-4f3c-92d0-427d7c65136a",
+                    "type": "discrete",
+                    "enumeration": "Speed"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "d50104d3-c428-4c2d-b629-6bc6df5bd1a3",
+              "type": [
+                {
+                  "objID": "7c358e2e-53fd-470d-9ca4-efa29c79adc2"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "67b79b2e-4d73-42f4-9029-abe518bd8f95",
+            "name": "SYSTem:TEMPerature:PROTection[:LEVel]?",
+            "helpLink": "DCL8010 SCPI reference 8 - SYSTEM.html#__RefHeading___Toc3636_1680586490",
+            "parameters": [],
+            "response": {
+              "objID": "1f4beb04-5f7b-44e2-d1e0-580b068e1c69",
+              "type": [
+                {
+                  "objID": "6bc6d7be-4f56-4afd-8cb2-d8d763c4e929"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "objID": "364313a9-9c2b-48ce-e2bc-60882e672b81",
+        "name": "9. CALibration subsystem",
+        "helpLink": "DCL8010 SCPI reference 9 -CALIBRATION.html",
+        "commands": [
+          {
+            "objID": "80775006-0d64-4379-d89c-dc1a83e73bfb",
+            "name": "CALibration:ADC?",
+            "helpLink": "DCL8010 SCPI reference 9 -CALIBRATION.html#__RefHeading___Toc3620_1680586490",
+            "parameters": [
+              {
+                "objID": "d4ecc52c-348d-4122-f8b5-97460498fddb",
+                "name": "ADClimit",
+                "type": [
+                  {
+                    "objID": "76c33fc7-fc15-42a8-a0e0-d0ad81b860df",
+                    "type": "discrete",
+                    "enumeration": "ADClimit"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "8cd0dc4b-c6eb-49b8-de2f-bd7b472d6ba2",
+              "type": [
+                {
+                  "objID": "7bf42688-278e-4cbe-9ac0-eb93d00fb970"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "76aceddb-333a-4b58-c6ea-2ad856562c0e",
+            "name": "CALibration:INIT:EEPROM",
+            "helpLink": "DCL8010 SCPI reference 9 -CALIBRATION.html#__RefHeading___Toc3612_1680586490",
+            "parameters": [],
+            "response": {
+              "objID": "8279217c-fee3-4511-f713-8d2e8b64b649",
+              "type": [
+                {
+                  "objID": "ad02816d-a4a0-4303-bdb4-c1c944c914cc"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "71ea3f5c-4c72-49d6-9201-b674cc21db7b",
+            "name": "CALibration:MEASure",
+            "helpLink": "DCL8010 SCPI reference 9 -CALIBRATION.html#__RefHeading___Toc3622_1680586490",
+            "parameters": [],
+            "response": {
+              "objID": "5669567f-5fe1-40a5-e61b-e8e7b2b1489d",
+              "type": [
+                {
+                  "objID": "58ddf767-8b93-4d60-da80-0038591357a3"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "ef193221-a37e-4db9-a540-a5820d89a806",
+            "name": "CALibration:MEASure:RUNning?",
+            "helpLink": "DCL8010 SCPI reference 9 -CALIBRATION.html#__RefHeading___Toc3624_1680586490",
+            "parameters": [],
+            "response": {
+              "objID": "d74608e9-c127-40eb-9d62-383031b519a3",
+              "type": [
+                {
+                  "objID": "60983adf-d49c-49c8-baa5-430635407b6d"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "cd7cc34b-9ce6-4c5f-a218-5b2684835960",
+            "name": "CALibration:MEASure?",
+            "helpLink": "DCL8010 SCPI reference 9 -CALIBRATION.html#__RefHeading___Toc3622_1680586490",
+            "parameters": [],
+            "response": {
+              "objID": "b27de6f9-c453-4d49-851d-c309a84141b0",
+              "type": [
+                {
+                  "objID": "346c636e-5113-4d76-8bcd-82cd5f90244a"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "769329c1-121f-4de8-b9fa-7b0542819cb3",
+            "name": "CALibration:POInt",
+            "helpLink": "DCL8010 SCPI reference 9 -CALIBRATION.html#__RefHeading___Toc3616_1680586490",
+            "parameters": [
+              {
+                "objID": "865ca368-d3e6-47fe-8582-e1a98d66a416",
+                "name": "calpoint",
+                "type": [],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "6ef15ba5-bb5f-4cff-c286-ec9fbfc8e43b",
+              "type": [
+                {
+                  "objID": "1df81249-512a-4aa4-99e0-2870278804ac"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "122e8b59-fd72-4d8a-bdb6-c95079b23769",
+            "name": "CALibration:POInt:MAX?",
+            "helpLink": "DCL8010 SCPI reference 9 -CALIBRATION.html#__RefHeading___Toc3616_1680586490",
+            "parameters": [],
+            "response": {
+              "objID": "61ad51b7-d5df-4bd0-b9c9-57e62425ba41",
+              "type": [
+                {
+                  "objID": "22e4684c-e333-438b-b749-bdc0d44fbc68"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "e985460e-3a5a-45de-f3db-8dd00e5df6cf",
+            "name": "CALibration:POInt?",
+            "helpLink": "DCL8010 SCPI reference 9 -CALIBRATION.html#__RefHeading___Toc3616_1680586490",
+            "parameters": [],
+            "response": {
+              "objID": "5e32f4ac-ca1f-4cd1-d1d7-63d919064973",
+              "type": [
+                {
+                  "objID": "8e4222aa-a605-47bd-b785-6f3b77aa3c76"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "8557976f-fba9-468f-cdef-8a912c66c045",
+            "name": "CALibration:SET",
+            "helpLink": "DCL8010 SCPI reference 9 -CALIBRATION.html#__RefHeading___Toc3618_1680586490",
+            "parameters": [
+              {
+                "objID": "839bb804-d17c-4ab3-e055-2993227ced6b",
+                "name": "setpoint",
+                "type": [],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "2bf1bd98-3b6d-4e7d-940d-c3a6cddc347a",
+              "type": [
+                {
+                  "objID": "4f8e9e6c-2d14-4fed-fb82-0328fb1ea5ea"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "b6bfedc5-f295-43b7-c6fd-368f595e87b8",
+            "name": "CALibration:SET?",
+            "helpLink": "DCL8010 SCPI reference 9 -CALIBRATION.html#__RefHeading___Toc3618_1680586490",
+            "parameters": [],
+            "response": {
+              "objID": "90f2f127-81db-4f9d-a84d-83dc55f50ac5",
+              "type": [
+                {
+                  "objID": "085c2734-5185-4584-d966-74063f314a99"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "59687062-558c-4309-a7a6-56c780742f47",
+            "name": "CALibration:TYPe",
+            "helpLink": "DCL8010 SCPI reference 9 -CALIBRATION.html#__RefHeading___Toc3614_1680586490",
+            "parameters": [
+              {
+                "objID": "46c31f07-8b0a-4cbf-f2e3-acb74c3c7f62",
+                "name": "caltype",
+                "type": [
+                  {
+                    "objID": "f3eef01e-71eb-4af9-a96d-89c6506d6790",
+                    "type": "discrete",
+                    "enumeration": "Caltype"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "12af494e-39cc-49d5-e4d6-bef3d6bc5781",
+              "type": [
+                {
+                  "objID": "c2f031c0-63ec-4150-9ff3-89deeeb9bf8e"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "4dcab451-5e02-471e-a5b4-e56f0140abf5",
+            "name": "CALibration:TYPe?",
+            "helpLink": "DCL8010 SCPI reference 9 -CALIBRATION.html#__RefHeading___Toc3614_1680586490",
+            "parameters": [],
+            "response": {
+              "objID": "6948ef79-7658-47cd-ca35-69ba954802f4",
+              "type": [
+                {
+                  "objID": "f8159bc2-5690-4ff1-a4a2-d55db6c9ae54"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "63ab6dd5-8525-4b02-8216-a736cd777579",
+            "name": "CALibration[:MODE]",
+            "helpLink": "DCL8010 SCPI reference 9 -CALIBRATION.html#__RefHeading___Toc3519_1680586490",
+            "parameters": [
+              {
+                "objID": "1fecad2b-05f9-46b9-b4e9-0cb420c09d08",
+                "name": "bool",
+                "type": [
+                  {
+                    "objID": "d8f946e1-6295-4e70-c1ee-54808ce41eb1",
+                    "type": "boolean"
+                  }
+                ],
+                "isOptional": false
+              }
+            ],
+            "response": {
+              "objID": "7522d615-d17f-4394-b017-d8dbcef4d1af",
+              "type": [
+                {
+                  "objID": "c9478588-4481-4f76-8811-d5b747045c9a"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "68f3065a-ae41-4b2a-de0b-507b9817f2a2",
+            "name": "CALibration[:MODE]?",
+            "helpLink": "DCL8010 SCPI reference 9 -CALIBRATION.html#__RefHeading___Toc3519_1680586490",
+            "parameters": [],
+            "response": {
+              "objID": "5b8932cc-f2ce-4928-addb-b80df5302b04",
+              "type": [
+                {
+                  "objID": "7cb7be94-14b1-461e-be35-3a1c09ba130e"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "1786f2b7-ef87-402c-dd47-65620b9ab349",
+            "name": "CALibration[:TYPe]:RESET",
+            "helpLink": "DCL8010 SCPI reference 9 -CALIBRATION.html#__RefHeading___Toc3521_1680586490",
+            "parameters": [],
+            "response": {
+              "objID": "7cbfed5c-b44e-427d-ae86-328b570c8cb2",
+              "type": [
+                {
+                  "objID": "909f1ebe-052b-4e6e-c446-cde32b66854d"
+                }
+              ]
+            }
+          },
+          {
+            "objID": "6303255b-80ac-4233-f3e0-9bcca2f97629",
+            "name": "CALibration[:TYPe]:SAVE",
+            "helpLink": "DCL8010 SCPI reference 9 -CALIBRATION.html#__RefHeading___Toc3626_1680586490",
+            "parameters": [],
+            "response": {
+              "objID": "12a992d6-b5ce-4820-8088-d5defc82f74a",
+              "type": [
+                {
+                  "objID": "9e511e64-7df9-430a-c738-ea03bd817903"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "enums": [
+      {
+        "objID": "93ebdf55-660c-45ef-85ab-070fa9f3ef0a",
+        "name": "Mode",
+        "members": [
+          {
+            "objID": "ef6fbd0a-20cd-4ff2-f12e-f97fbfc9b88e",
+            "name": "CC",
+            "value": ""
+          },
+          {
+            "objID": "f893648a-afeb-4fa8-fe56-db48a46f5ac3",
+            "name": "CV",
+            "value": ""
+          },
+          {
+            "objID": "a9019a88-3385-4c7e-d144-cd1a26d70542",
+            "name": "CR",
+            "value": ""
+          },
+          {
+            "objID": "d68c7919-0040-4f7a-f4f1-a6e56f475053",
+            "name": "CP",
+            "value": ""
+          },
+          {
+            "objID": "490f3318-4f03-4345-9e71-99e33e14eb22",
+            "name": "DVM",
+            "value": ""
+          },
+          {
+            "objID": "c1d0ed2f-c006-4aaa-d8d3-55456f52d494",
+            "name": "SHORT",
+            "value": ""
+          }
+        ]
+      },
+      {
+        "objID": "c738300d-3c23-42f4-dbf7-4f9519637e1c",
+        "name": "WdogType",
+        "members": [
+          {
+            "objID": "d9f9cdc6-7dec-4a36-826d-7075d232c681",
+            "name": "ACTivity",
+            "value": ""
+          },
+          {
+            "objID": "ae63b0f1-fcc0-40f3-f03a-2bf3050d8edc",
+            "name": "PET",
+            "value": ""
+          }
+        ]
+      },
+      {
+        "objID": "6c93318f-36b1-4556-d499-7dec4210b2b7",
+        "name": "CurrentRange",
+        "members": [
+          {
+            "objID": "10822afb-6abb-4b8e-bc7e-889b16e5d73c",
+            "name": "LOW",
+            "value": ""
+          },
+          {
+            "objID": "bc544a11-44fa-43ca-baa7-7cf5dfc78637",
+            "name": "HIGH",
+            "value": ""
+          },
+          {
+            "objID": "10e40382-fd59-449d-964b-1f84765f8416",
+            "name": "0",
+            "value": ""
+          }
+        ]
+      },
+      {
+        "objID": "74896454-37e2-4085-f1bc-60360eab24b2",
+        "name": "Stat",
+        "members": [
+          {
+            "objID": "945329e4-11d8-4e39-960c-58d20bec6fe4",
+            "name": "MIN",
+            "value": ""
+          },
+          {
+            "objID": "16967546-071a-48a3-a1d5-f3bf5ea071a7",
+            "name": "MAX",
+            "value": ""
+          },
+          {
+            "objID": "7a27eaac-d553-4166-d031-f79594ba1c26",
+            "name": "AVG",
+            "value": ""
+          },
+          {
+            "objID": "9cb60ec5-090a-4731-ee91-783f1d6faef2",
+            "name": "COUNT",
+            "value": ""
+          }
+        ]
+      },
+      {
+        "objID": "4342c5b3-75e4-46c4-885a-9b49e71a93df",
+        "name": "PLFreq",
+        "members": [
+          {
+            "objID": "f0ec472d-b98b-4ba3-8e67-6c0af294c946",
+            "name": "50",
+            "value": ""
+          },
+          {
+            "objID": "f9fd1668-7876-47e8-bccb-b3bd72b4618a",
+            "name": "60",
+            "value": ""
+          }
+        ]
+      },
+      {
+        "objID": "8d550e55-e120-4ed0-a1c3-afb05807d055",
+        "name": "Fanmode",
+        "members": [
+          {
+            "objID": "76760446-1814-4198-db39-63dccdfa68c2",
+            "name": "AUTO",
+            "value": ""
+          },
+          {
+            "objID": "bb16d9fc-ea01-4499-d5fe-4449a2f4c8cd",
+            "name": "MAN",
+            "value": ""
+          }
+        ]
+      },
+      {
+        "objID": "fc07c96a-78fe-4039-8c94-56261c86044e",
+        "name": "Speed",
+        "members": [
+          {
+            "objID": "789e5fe1-ab4e-4a69-eb97-a9b35198f3f7",
+            "name": "MIN",
+            "value": ""
+          },
+          {
+            "objID": "ae4059ff-c050-455f-c5f3-cc14ad0dd748",
+            "name": "MAX",
+            "value": ""
+          },
+          {
+            "objID": "7b2960bb-2edf-4b93-c62a-f541e69b87a6",
+            "name": "DEF",
+            "value": ""
+          }
+        ]
+      },
+      {
+        "objID": "0bd73a36-18cd-4b9f-a9e7-bf913cf87df9",
+        "name": "Caltype",
+        "members": [
+          {
+            "objID": "87b12bd4-d145-428f-d78f-571675b0bdca",
+            "name": "IMONH",
+            "value": ""
+          },
+          {
+            "objID": "ad56286a-dd61-4005-ce9e-817eb84a5395",
+            "name": "IMONL",
+            "value": ""
+          },
+          {
+            "objID": "c602c882-a22c-4120-ea97-8feb9efa7dae",
+            "name": "UMONH",
+            "value": ""
+          },
+          {
+            "objID": "0a8c7743-aad3-4eba-ad30-a70e29108be0",
+            "name": "UMONL",
+            "value": ""
+          },
+          {
+            "objID": "7b3b2eea-88a1-4ba9-dac7-1dbc2e594962",
+            "name": "ISETH",
+            "value": ""
+          },
+          {
+            "objID": "5e896a5a-9662-481d-b6b8-9181f70a1460",
+            "name": "ISETL",
+            "value": ""
+          },
+          {
+            "objID": "8c1148f4-03e7-4b1d-b37a-f4d4228b4953",
+            "name": "USETH",
+            "value": ""
+          },
+          {
+            "objID": "43cfe9f1-c829-4332-dec6-38be352e6609",
+            "name": "USETL",
+            "value": ""
+          },
+          {
+            "objID": "da3c187d-6f89-4b49-9eb8-7aba9f33cbe8",
+            "name": "VONH",
+            "value": ""
+          },
+          {
+            "objID": "79659d5b-e8c9-426e-be31-348da334f510",
+            "name": "VONL",
+            "value": ""
+          },
+          {
+            "objID": "e98d85b5-536e-4fa8-c5b7-1859a1307329",
+            "name": "OCPH",
+            "value": ""
+          },
+          {
+            "objID": "8184a6cc-a6db-46f8-b701-4bdd734a87ee",
+            "name": "OCPL",
+            "value": ""
+          },
+          {
+            "objID": "3f8c9445-2858-4544-e4f1-2cd10762cbce",
+            "name": "OVPH",
+            "value": ""
+          },
+          {
+            "objID": "8677ebac-18a4-4c7a-dd8c-e85cbe7c4cb1",
+            "name": "OVPL",
+            "value": ""
+          }
+        ]
+      },
+      {
+        "objID": "81842d9e-f124-45da-8470-29f1aa113459",
+        "name": "ADClimit",
+        "members": [
+          {
+            "objID": "1a39ea5d-d24a-4cef-ad7d-0a7fab24632b",
+            "name": "MIN",
+            "value": ""
+          },
+          {
+            "objID": "b6501478-ff43-4d9d-fca4-c3dca2b2eeb7",
+            "name": "MAX",
+            "value": ""
+          }
+        ]
+      }
+    ]
+  },
+  "shortcuts": {
+    "objID": "2ba62058-fe42-4c67-f77d-53d7a8cf201c",
+    "shortcuts": [
+      {
+        "id": "6e72f182-d9cc-43d5-c9e9-db5bf9072367",
+        "objID": "f7d9e580-1a33-423e-9551-c2efdc55e92b",
+        "name": "ON",
+        "action": {
+          "objID": "ce26ac84-9bbd-4dc0-9f58-8d09e73e140e",
+          "type": "scpi-commands",
+          "data": "INP 1"
+        },
+        "keybinding": "f1",
+        "showInToolbar": true,
+        "toolbarButtonPosition": 1,
+        "toolbarButtonColor": "#EE8C3E",
+        "requiresConfirmation": false,
+        "selected": false
+      },
+      {
+        "id": "02d8daa6-6c79-481a-fff4-8a7316553507",
+        "objID": "948192e7-eb5b-4cc5-ff04-f85a1d27d743",
+        "name": "OFF",
+        "action": {
+          "objID": "be6159d8-b1b1-4b11-ea7c-f525a314531f",
+          "type": "scpi-commands",
+          "data": "INP 0"
+        },
+        "keybinding": "f2",
+        "showInToolbar": true,
+        "toolbarButtonPosition": 2,
+        "toolbarButtonColor": "#78C36A",
+        "requiresConfirmation": false,
+        "selected": false
+      },
+      {
+        "id": "abafb8a7-4abb-422c-8931-d031009d2eec",
+        "objID": "9d9d5014-c94b-4a7a-a90d-0d4090790219",
+        "name": "Remote sense ON",
+        "action": {
+          "objID": "6669105a-4663-49d8-9ebe-dcfaf912a1ec",
+          "type": "scpi-commands",
+          "data": "VOLT:REMOTE 1"
+        },
+        "keybinding": "",
+        "showInToolbar": true,
+        "toolbarButtonPosition": 3,
+        "toolbarButtonColor": "#7BC3D4",
+        "requiresConfirmation": false,
+        "selected": false
+      },
+      {
+        "id": "9eb94c99-1d5e-4150-813b-a4f18fab0137",
+        "objID": "4ba32176-036d-44c5-8ebf-7d506899d8d5",
+        "name": "Remote sense OFF",
+        "action": {
+          "objID": "5cbf4747-33e5-455b-c6d6-b5f4873005f5",
+          "type": "scpi-commands",
+          "data": "VOLT:REMOTE 0"
+        },
+        "keybinding": "",
+        "showInToolbar": true,
+        "toolbarButtonPosition": 4,
+        "toolbarButtonColor": "#7BC3D4",
+        "requiresConfirmation": false,
+        "selected": false
+      },
+      {
+        "id": "e2863dbb-a704-4b66-ef5c-3396a64bad22",
+        "objID": "cf87313b-e6e0-438c-e41a-eca34b69cfa1",
+        "name": "Clear Protections",
+        "action": {
+          "objID": "6e6676df-2778-4441-a8e5-a8eb67e1ca1b",
+          "type": "scpi-commands",
+          "data": "INP:PROT:CLEAR"
+        },
+        "keybinding": "f3",
+        "showInToolbar": true,
+        "toolbarButtonPosition": 5,
+        "toolbarButtonColor": "#78C36A",
+        "requiresConfirmation": false
+      }
+    ]
+  },
+  "extensionDefinitions": [
+    {
+      "objID": "9204ce65-6e48-2d6e-c597-9ba420483b83",
+      "name": "DCL8010-Standalone",
+      "description": "DCL8010 Electronic Load Standalone version",
+      "buildConfiguration": "DCL8010-Standalone",
+      "buildFolder": "",
+      "image": "",
+      "extensionName": "DCL8010-Standalone",
+      "idn": "jan28,DCL8010",
+      "idfName": "DCL8010 Electronic Load",
+      "idfShortName": "DCL8010",
+      "idfFirmwareVersion": "(unknown)",
+      "idfGuid": "8e22f727-1231-485f-cbbe-59e2f27482bb",
+      "idfRevisionNumber": "0.0.1",
+      "idfDescription": "",
+      "idfSupportedModels": "",
+      "idfRevisionComments": "No comment",
+      "idfAuthor": "jan28",
+      "sdlFriendlyName": "",
+      "useDashboardProjects": []
+    }
+  ],
+  "colors": [],
+  "themes": []
+}

@@ -16,3 +16,4 @@ tools
 *.eez-project-runtime-settings
 .vscode/.cortex-debug.peripherals.state.json
 .vscode/.cortex-debug.registers.state.json
+.~lock.*
