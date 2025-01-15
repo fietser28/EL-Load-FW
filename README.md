@@ -99,5 +99,5 @@ You can also manually calibrate the load using the UI, a configurable CV/CC powe
 
 ### SCPI
 
-For documentation of SCPI commands look in [docs/SCPI/DCL8010 SCPI reference.pdf](DCL8010 SCPI reference.pdf).
-A EEZ studio IEXT instrument file is available at [docs/SCPI/DCL8010-Standalone-0.0.1.zip](DCL8010-Standalone-0.0.1.zip)
+For documentation of SCPI commands look in  [docs/SCPI/DCL8010%20SCPI%20reference.pdf](docs/SCPI/DCL8010%20SCPI%20reference.pdf).
+A EEZ studio IEXT instrument file is available at [docs/SCPI/DCL8010-Standalone-0.0.1.zip][docs/SCPI/DCL8010-Standalone-0.0.1.zip]
