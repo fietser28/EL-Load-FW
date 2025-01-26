@@ -83,7 +83,8 @@ typedef enum {
     ranges_e_WHStop = 22,
     ranges_e_FanSpeed = 23,
     ranges_e_WatchdogDelay = 24,
-    ranges_e_beepDuration = 25
+    ranges_e_beepDuration = 25,
+    ranges_e_NPLC = 26
 } ranges_e;
 
 typedef enum {

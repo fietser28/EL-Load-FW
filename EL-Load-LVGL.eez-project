@@ -1482,6 +1482,11 @@
             "objID": "0700bb4e-22bc-406c-a523-d8f2e55f3070",
             "name": "beepDuration",
             "value": 25
+          },
+          {
+            "objID": "c6d8b06e-9773-41a7-fc1c-aba3acafb2c4",
+            "name": "NPLC",
+            "value": 26
           }
         ]
       },
@@ -2652,7 +2657,7 @@
           "left": 966,
           "top": 197,
           "width": 255,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -2689,7 +2694,7 @@
           "left": 820,
           "top": 414,
           "width": 87,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "milliseconds": "2500"
@@ -2700,7 +2705,7 @@
           "left": -821,
           "top": 321,
           "width": 141,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "startupDone"
@@ -3329,7 +3334,7 @@
           "left": 133,
           "top": 321,
           "width": 260,
-          "height": 122,
+          "height": 124,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -3370,7 +3375,7 @@
           "type": "SetVariableActionComponent",
           "left": 475,
           "top": 292,
-          "width": 170,
+          "width": 171,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -3388,7 +3393,7 @@
           "left": 376,
           "top": -252,
           "width": 258,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -3406,7 +3411,7 @@
           "left": 376,
           "top": -183,
           "width": 197,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -3424,7 +3429,7 @@
           "left": 755,
           "top": -225,
           "width": 286,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -3444,7 +3449,7 @@
           "left": 755,
           "top": -156,
           "width": 249,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -3464,7 +3469,7 @@
           "left": 376,
           "top": -102,
           "width": 191,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -3482,7 +3487,7 @@
           "left": 755,
           "top": -75,
           "width": 280,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -3517,7 +3522,7 @@
           "left": 135,
           "top": 491,
           "width": 197,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -3535,7 +3540,7 @@
           "left": 408,
           "top": 517,
           "width": 237,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -3555,7 +3560,7 @@
           "left": -334,
           "top": 345,
           "width": 100,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "startupDone2"
@@ -24332,7 +24337,7 @@
           "left": 346,
           "top": 209,
           "width": 298,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -24916,7 +24921,7 @@
           "left": -179,
           "top": -265,
           "width": 135,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "statIcount"
@@ -24927,7 +24932,7 @@
           "left": -179,
           "top": -200,
           "width": 135,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "statUcount"
@@ -24938,7 +24943,7 @@
           "left": -179,
           "top": -134,
           "width": 135,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "statPcount"

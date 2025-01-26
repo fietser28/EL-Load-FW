@@ -36,6 +36,7 @@ const _range ranges[] = {
     { "Fan Speed (%)",    "%",    SCPI_UNIT_NONE ,    0,  100,       50},   // FanSpeed  = 23
     { "Watchdog Delay",  "s",     SCPI_UNIT_SECOND,   0, 3600,       10},   // WatchdogDelay = 24
     { "Beeper Duration", "s",    SCPI_UNIT_SECOND,   0, 2.5,        0.3},   // beepDuration = 25
+    { "NPLC"           , "",      SCPI_UNIT_NONE,    1, 100,         25}    // NPLC = 26
 };
 
 

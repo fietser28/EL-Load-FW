@@ -1019,37 +1019,28 @@ scpi_result_t scpi_cmd_sense_curr_stat_clear(scpi_t *context)
 
 scpi_result_t scpi_cmd_sense_nplc(scpi_t *context)
 {
-    scpi_bool_t res;
-    scpi_parameter_t param1;
-    uint32_t value = 0;
-
-    res = SCPI_Parameter(context, &param1, FALSE);
-
-    if (res) {
-        // Is parameter a number without suffix?
-        if (SCPI_ParamIsNumber(&param1, FALSE)) {
-            // Convert parameter to unsigned int. Result is in value.
-            SCPI_ParamToUInt32(context, &param1, &value);
-
-            if (value >= 1 && value <= 100) {
-                state.setNPLC(value);
-                return SCPI_RES_OK;
-            } else {
-                //SCPI_ErrorPushEx(context, SCPI_ERROR_ILLEGAL_PARAMETER_VALUE, " valid range: 1-100", 0);
-                SCPI_ErrorPush(context, SCPI_ERROR_ILLEGAL_PARAMETER_VALUE);
-                return SCPI_RES_ERR;
-            }; 
-
-        } else {
-            SCPI_ErrorPush(context, SCPI_ERROR_ILLEGAL_PARAMETER_VALUE);
-            return SCPI_RES_ERR;
-        }
-    } else {
-        SCPI_ErrorPush(context, SCPI_ERROR_ILLEGAL_PARAMETER_VALUE);
+    scpi_parameter_t param;
+    scpi_number_t    scpi_number;
+    scpi_special_number_t scpi_special;
+    float value;
+    ranges_e range = ranges_e::ranges_e_NPLC;
+    
+    // Parse command to number type
+    if (!SCPI_ParamNumber(context, number_specials, &scpi_number, TRUE)) {
         return SCPI_RES_ERR;
     }
-    SCPI_ErrorPush(context, SCPI_ERROR_PARAMETER_ERROR);
-    return SCPI_RES_ERR;
+
+    // translate number type to real value depending on range definition
+    if (!get_value_from_param(context, scpi_number, range, value)) {
+        return SCPI_RES_ERR;
+    };
+
+    if (!state.setNPLC((uint32_t)value)) {
+        SCPI_ErrorPush(context, SCPI_ERROR_DEVICE_ERROR);
+        return SCPI_RES_ERR;
+    };
+
+    return SCPI_RES_OK;
 };
 
 scpi_result_t scpi_cmd_sense_nplcQ(scpi_t *context)
