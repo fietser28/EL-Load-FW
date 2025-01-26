@@ -63,7 +63,7 @@
         "objID": "79a77c8c-7aa4-4ad7-b7e7-55d05b519070",
         "name": "psu_channel",
         "type": "integer",
-        "defaultValue": "2",
+        "defaultValue": "1",
         "persistent": false,
         "native": false
       },
@@ -208,7 +208,7 @@
         "objID": "c116f2e9-ba61-4524-df5c-e1fff963c08a",
         "name": "calSetting",
         "type": "array:struct:calTypeSettings",
-        "defaultValue": "[ \n{ n:\"imonh\", on:true, dcl_mode:mode_e.CC, I_low: false, V_low:false, iset: 0.1, psu_volt1:2.0, psu_current1: 0.2, psu_volt2: 2, psu_current2: 4.8, von: true},\n{ n:\"imonl\", on:true, dcl_mode:mode_e.CC, I_low: true,  V_low:false, iset: 1.0, psu_volt1:2.0, psu_current1: 0.1, psu_volt2: 2, psu_current2: 0.95, von: true},\n{ n:\"umonh\", on:false, dcl_mode:mode_e.CC, I_low: false, V_low:false, iset: 1.0, psu_volt1:0.5, psu_current1: 0.1, psu_volt2: 35, psu_current2: 0.1, von: false},\n{ n:\"umonl\", on:false, dcl_mode:mode_e.CC, I_low: false, V_low:true, iset: 1.0, psu_volt1:0.5, psu_current1: 0.1, psu_volt2: 8.5, psu_current2: 0.1, von: false},\n{ n:\"iseth\", on:true,  dcl_mode:mode_e.CC, I_low: false, V_low:false, iset: 1.0, psu_volt1:2.0, psu_current1: 5.0, psu_volt2: 2, psu_current2: 5.0, von: true},\n{ n:\"isetl\", on:true, dcl_mode:mode_e.CC, I_low: true, V_low:false, iset: 1.0, psu_volt1:2.0, psu_current1: 5.0, psu_volt2: 2, psu_current2: 5.0, von: true},\n{ n:\"useth\", on:true, dcl_mode:mode_e.CV, I_low: false, V_low:false, iset: 1.0, psu_volt1:1.0, psu_current1: 0.1, psu_volt2: 35, psu_current2: 4.8, von:true},\n{ n:\"usetl\", on:true, dcl_mode:mode_e.CV, I_low: false, V_low:true, iset: 1.0, psu_volt1:1.0, psu_current1: 0.1, psu_volt2: 9.5, psu_current2: 0.1, von:true},\n{ n:\"vonh\", on:false, dcl_mode:mode_e.CC, I_low: false, V_low:false, iset: 1.0, psu_volt1:1.0, psu_current1: 0.1, psu_volt2: 35.0, psu_current2: 0.1,  von:false},\n{ n:\"vonl\", on:false, dcl_mode:mode_e.CC, I_low: false, V_low:true, iset: 1.0, psu_volt1:1.0, psu_current1: 0.1, psu_volt2: 4.5, psu_current2: 4.8, von:false},\n{ n:\"ocph\", on:true, dcl_mode:mode_e.CC, I_low: false, V_low:false, iset: 10.0, psu_volt1:2.0, psu_current1: 0.1, psu_volt2: 2, psu_current2: 4.0, von: true},\n{ n:\"ocpl\", on:true, dcl_mode:mode_e.CC, I_low: true, V_low:false, iset: 10.0, psu_volt1:2.0, psu_current1: 0.05, psu_volt2: 2, psu_current2: 0.95, von:true},\n{ n:\"ovph\", on:false, dcl_mode:mode_e.CC, I_low: false, V_low:false, iset: 1.0, psu_volt1:0.5, psu_current1: 0.1, psu_volt2: 35, psu_current2: 0.1, von:true},\n{ n:\"ovpl\", on:false, dcl_mode:mode_e.CC, I_low: false, V_low:true, iset: 1.0, psu_volt1:0.5, psu_current1: 0.1, psu_volt2: 8.5, psu_current2: 0.1, von:true}\n  ]",
+        "defaultValue": "[ \n{ n:\"imonh\", on:true, dcl_mode:mode_e.CC, I_low: false, V_low:false, iset: 0.1, psu_volt1:2.0, psu_current1: 0.2, psu_volt2: 4, psu_current2: 4.8, von: true},\n{ n:\"imonl\", on:true, dcl_mode:mode_e.CC, I_low: true,  V_low:false, iset: 1.0, psu_volt1:2.0, psu_current1: 0.1, psu_volt2: 4, psu_current2: 0.95, von: true},\n{ n:\"umonh\", on:false, dcl_mode:mode_e.CC, I_low: false, V_low:false, iset: 1.0, psu_volt1:0.5, psu_current1: 0.1, psu_volt2: 35, psu_current2: 0.1, von: false},\n{ n:\"umonl\", on:false, dcl_mode:mode_e.CC, I_low: false, V_low:true, iset: 1.0, psu_volt1:0.5, psu_current1: 0.1, psu_volt2: 8.5, psu_current2: 0.1, von: false},\n{ n:\"iseth\", on:true,  dcl_mode:mode_e.CC, I_low: false, V_low:false, iset: 1.0, psu_volt1:2.0, psu_current1: 5.0, psu_volt2: 4, psu_current2: 5.0, von: true},\n{ n:\"isetl\", on:true, dcl_mode:mode_e.CC, I_low: true, V_low:false, iset: 1.0, psu_volt1:2.0, psu_current1: 5.0, psu_volt2: 4, psu_current2: 5.0, von: true},\n{ n:\"useth\", on:true, dcl_mode:mode_e.CV, I_low: false, V_low:false, iset: 1.0, psu_volt1:1.0, psu_current1: 1.0, psu_volt2: 35, psu_current2: 1.0, von:true},\n{ n:\"usetl\", on:true, dcl_mode:mode_e.CV, I_low: false, V_low:true, iset: 1.0, psu_volt1:1.0, psu_current1: 1.0, psu_volt2: 9.5, psu_current2: 1.0, von:true},\n{ n:\"vonh\", on:false, dcl_mode:mode_e.CC, I_low: false, V_low:false, iset: 1.0, psu_volt1:1.0, psu_current1: 0.1, psu_volt2: 35.0, psu_current2: 0.1,  von:false},\n{ n:\"vonl\", on:false, dcl_mode:mode_e.CC, I_low: false, V_low:true, iset: 1.0, psu_volt1:1.0, psu_current1: 0.1, psu_volt2: 4.5, psu_current2: 4.8, von:false},\n{ n:\"ocph\", on:true, dcl_mode:mode_e.CC, I_low: false, V_low:false, iset: 10.0, psu_volt1:2.0, psu_current1: 0.1, psu_volt2: 4, psu_current2: 4.0, von: true},\n{ n:\"ocpl\", on:true, dcl_mode:mode_e.CC, I_low: true, V_low:false, iset: 10.0, psu_volt1:2.0, psu_current1: 0.05, psu_volt2: 4, psu_current2: 0.95, von:true},\n{ n:\"ovph\", on:false, dcl_mode:mode_e.CC, I_low: false, V_low:false, iset: 1.0, psu_volt1:0.5, psu_current1: 0.1, psu_volt2: 35, psu_current2: 0.1, von:true},\n{ n:\"ovpl\", on:false, dcl_mode:mode_e.CC, I_low: false, V_low:true, iset: 1.0, psu_volt1:0.5, psu_current1: 0.1, psu_volt2: 8.5, psu_current2: 0.1, von:true}\n  ]",
         "persistent": false,
         "native": false
       },
@@ -435,6 +435,206 @@
         "defaultValue": "false",
         "persistent": false,
         "native": false
+      },
+      {
+        "objID": "7e465c1e-e1e2-4451-f750-c9f0ca670908",
+        "name": "debugMQMin",
+        "type": "array:integer",
+        "defaultValue": "[0,0,0,0,0,0,0]",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "9820ea6a-b377-43d0-8aa6-4199cdcf2861",
+        "name": "debugMQOverflows",
+        "type": "array:integer",
+        "defaultValue": "[0,0,0,0,0,0,0]",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "0db8e800-5e89-4e56-9a47-19e64ee65a17",
+        "name": "debugMQNames",
+        "type": "array:string",
+        "defaultValue": "[ \"newMsgBuff\", \"ChangeMeasureTaskSettings\", \"ChangeAverageSettings\", \"ChangeHWIOSettings\", \"ChangeScreen\", \"Beeper\" ]",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "52e448c8-859e-4d0e-fd1c-1a0c4afbc457",
+        "name": "debugTskNames",
+        "type": "array:string",
+        "defaultValue": "[ \"Watchdog\", \"Measure\", \"Average\" , \"HWIO\", \"Keys\", \"DisplayTimer\", \"Display\", \"SCPI loop\", \"UART/SCPI\", \"beeper\", \"Idle0\", \"Idle1\" ]",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "0786b8a2-9d9d-473a-e105-00d19ad75f79",
+        "name": "debugTskPrio",
+        "type": "array:integer",
+        "defaultValue": "[ 0,0,0,0,0,0,0,0,0,0,0,0]",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "b24f9ff3-5dac-49a4-dc33-a35d5e6e1c48",
+        "name": "debugTskStackMinFree",
+        "type": "array:integer",
+        "defaultValue": "[ 0,0,0,0,0,0,0,0,0,0]",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "21b6f14c-4d63-49c6-a581-a05c3f58aa3c",
+        "name": "debugMemHeapNames",
+        "type": "array:string",
+        "defaultValue": "[ \"Heap\", \"Used\", \"Free\" ]",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "2e886dbb-f5f6-4c20-e277-cbde6d54eb37",
+        "name": "debugMemHeap",
+        "type": "array:integer",
+        "defaultValue": "[ 0,0,0]",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "6518cb72-4af2-4daf-d23d-48e49d2476ca",
+        "name": "debugMemLVMon",
+        "type": "array:integer",
+        "defaultValue": "[ 0,0,0,0,0,0,0,0]",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "73ce1d99-edc7-4554-fe3f-babaf579d9df",
+        "name": "debugMemLVMonNames",
+        "type": "array:string",
+        "defaultValue": "[ \"Total\", \"FreeCnt\", \"FreeSize\", \"FreeBiggest\", \"UsedCnt\", \"MaxUsed\", \"Used%\", \"Frag%\" ]",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "25dc52f2-9660-4a03-ee71-0a7743871f57",
+        "name": "debugTskWDog",
+        "type": "array:integer",
+        "defaultValue": "[ 0,0,0,0,0,0,0,0,0,0,0]",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "9d4ca20a-6d32-4e97-a655-3147859ec312",
+        "name": "debugFlowQueue",
+        "type": "array:integer",
+        "defaultValue": "[ 0,0]",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "3e37580c-cd64-4c35-8c1e-61894ad398de",
+        "name": "debugFlowQueueNames",
+        "type": "array:string",
+        "defaultValue": "[ \"Current Queue\", \"Max Queue\", \"Tick Max Time Count\"]",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "b9fd7faa-9fdc-41d0-9d49-b0a04c4d5bab",
+        "name": "debugHWIONames",
+        "type": "array:string",
+        "defaultValue": "[ \"Von\", \"resetProt\", \"hwProtEnable\", \"SenseError\", \"ClampOff\", \"OVPTrig\", \"OCPTrig\", \"Rev. Polarity\", \"-\", \"-\", \"Buzzer\", \"VoltSenseClr\", \"VonLatch\", \"Curr Range Low\", \"VoltRangeLow\", \"VoltSenseSet\"]",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "eb612e8b-70ab-474b-d440-409295ff03cf",
+        "name": "debugHWIOvalues",
+        "type": "array:boolean",
+        "defaultValue": "[ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "6c92d69b-bed8-4b55-f68d-088f867f5e29",
+        "name": "debugTskRuntime",
+        "type": "array:double",
+        "defaultValue": "[ 0,0,0,0,0,0,0,0,0,0,0,0]",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "acbeda2f-b32f-471f-eb42-c87c278410b2",
+        "name": "debugTskRuntimePrev",
+        "type": "array:double",
+        "defaultValue": "[ 0,0,0,0,0,0,0,0,0,0,0,0]",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "2cfdc848-b27f-4f8b-dd50-4483121b6790",
+        "name": "debugTskRuntimeDiff",
+        "type": "array:double",
+        "defaultValue": "[ 0,0,0,0,0,0,0,0,0,0,0,0]",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "aef6e0ab-b940-49e1-afee-ad30577010b4",
+        "name": "i",
+        "type": "integer",
+        "defaultValue": "0",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "5c5ed5d8-d9dd-4959-da6f-415b1b93d60c",
+        "name": "debugTskRuntimeDiffTotal",
+        "type": "double",
+        "defaultValue": "1",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "f763e638-5887-46ce-8934-cd894492e594",
+        "name": "debugTskRuntimeDone",
+        "type": "integer",
+        "defaultValue": "0",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "6e654431-72de-4c87-d0ea-5b6057c7fc12",
+        "name": "debugTskRuntimePerc",
+        "type": "array:double",
+        "defaultValue": "[ 0,0,0,0,0,0,0,0,0,0,0,0]",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "ea1b8caf-d37a-416a-dc13-94e6c0e57fb1",
+        "name": "onlyDebugTskPerc",
+        "type": "boolean",
+        "defaultValue": "false",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "f79a2fe9-2b12-453f-c5f0-20829089d20b",
+        "name": "debugStateNames",
+        "type": "array:string",
+        "defaultValue": "[ \"Set\", \"Measured\", \"Avg\", \"HWIO\" ]",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "c85d87aa-2c76-43c4-88a1-e0486d444784",
+        "name": "debugStateCounters",
+        "type": "array:string",
+        "defaultValue": "[ \"\",\"\",\"\",\"\"]",
+        "persistent": false,
+        "native": false
       }
     ],
     "structures": [
@@ -589,12 +789,12 @@
           },
           {
             "objID": "efca17a6-023e-4475-b458-0687b37eebc9",
-            "name": "bat",
+            "name": "thermal",
             "value": 2
           },
           {
             "objID": "35825bbe-a249-4819-d82d-c052fed60637",
-            "name": "screen",
+            "name": "debug",
             "value": 3
           }
         ]
@@ -868,8 +1068,8 @@
         {
           "objID": "7669cc41-ddbf-417d-a194-88708c75791d",
           "type": "StartActionComponent",
-          "left": -789,
-          "top": -198,
+          "left": -1093,
+          "top": -407,
           "width": 87,
           "height": 24,
           "customInputs": [],
@@ -880,8 +1080,8 @@
           "type": "SCPIActionComponent",
           "left": -279,
           "top": -17,
-          "width": 238,
-          "height": 236,
+          "width": 237,
+          "height": 222,
           "customInputs": [],
           "customOutputs": [
             {
@@ -904,8 +1104,8 @@
         {
           "objID": "ad1ef487-7e9d-438c-f7fb-b432a4a11e04",
           "type": "EndActionComponent",
-          "left": 1107,
-          "top": -186,
+          "left": 2702,
+          "top": -399,
           "width": 87,
           "height": 24,
           "customInputs": [],
@@ -916,7 +1116,7 @@
           "type": "SetVariableActionComponent",
           "left": 24,
           "top": -72,
-          "width": 316,
+          "width": 315,
           "height": 57,
           "customInputs": [
             {
@@ -937,10 +1137,10 @@
         {
           "objID": "49b31ea8-cf23-44e1-ef46-be8a555a06e0",
           "type": "TestAndSetActionComponent",
-          "left": -420,
-          "top": -17,
+          "left": -724,
+          "top": -14,
           "width": 100,
-          "height": 54,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "scpi_sem"
@@ -951,7 +1151,7 @@
           "left": 620,
           "top": -124,
           "width": 194,
-          "height": 80,
+          "height": 77,
           "customInputs": [],
           "customOutputs": [],
           "instrument": "dcl",
@@ -964,8 +1164,8 @@
           "type": "IsTrueActionComponent",
           "left": 480,
           "top": 25,
-          "width": 98,
-          "height": 70,
+          "width": 97,
+          "height": 69,
           "customInputs": [],
           "customOutputs": [],
           "value": "cal_mode"
@@ -973,10 +1173,10 @@
         {
           "objID": "92fc0b12-bc60-4351-84ca-050a0114f6e5",
           "type": "SetVariableActionComponent",
-          "left": 882,
-          "top": 70,
+          "left": 2473,
+          "top": 84,
           "width": 183,
-          "height": 79,
+          "height": 78,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -995,10 +1195,10 @@
         {
           "objID": "10243b0b-9aa7-48f7-c7a4-e57628d10786",
           "type": "SwitchActionComponent",
-          "left": -649,
-          "top": -198,
+          "left": -953,
+          "top": -407,
           "width": 179,
-          "height": 73,
+          "height": 71,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -1069,6 +1269,318 @@
               "value": "in"
             }
           ]
+        },
+        {
+          "objID": "33bb7c38-5ace-478c-ae00-f7c9a4c4f322",
+          "type": "IsTrueActionComponent",
+          "left": 877,
+          "top": 19,
+          "width": 183,
+          "height": 69,
+          "customInputs": [],
+          "customOutputs": [],
+          "value": "tab == dashTab_e.debug"
+        },
+        {
+          "objID": "29a87a4b-4189-44d1-bf0f-ac00a9025484",
+          "type": "SCPIActionComponent",
+          "left": 1114,
+          "top": -358,
+          "width": 256,
+          "height": 229,
+          "customInputs": [],
+          "customOutputs": [
+            {
+              "objID": "785dd06c-99f9-4d2f-ce8a-7806d0a83cc7",
+              "name": "QM",
+              "type": "string"
+            },
+            {
+              "objID": "0e3e2b94-c748-413b-a262-be20e1dda23a",
+              "name": "QO",
+              "type": "string"
+            },
+            {
+              "objID": "da25aeb1-8365-4f3e-d4e9-f12b1ca64d43",
+              "name": "MH",
+              "type": "string"
+            },
+            {
+              "objID": "788e3980-9d90-47e3-f8ac-23f21cad4725",
+              "name": "MLV",
+              "type": "string"
+            },
+            {
+              "objID": "7be51a5e-95e5-440c-ed7b-f6d4cffc8910",
+              "name": "SHW",
+              "type": "string"
+            },
+            {
+              "objID": "598045d5-2835-4cdf-b497-34e5617c1d72",
+              "name": "TP",
+              "type": "string"
+            },
+            {
+              "objID": "4529e70b-5357-4049-d545-1d34e85c898e",
+              "name": "TWD",
+              "type": "string"
+            },
+            {
+              "objID": "ae12d9e9-dfd9-4aa5-a4bc-16b2d7a5dbb6",
+              "name": "TR",
+              "type": "string"
+            },
+            {
+              "objID": "0b72f71a-e882-4c87-c19f-8a3dcecb4c73",
+              "name": "FQ",
+              "type": "string"
+            },
+            {
+              "objID": "a841d7d8-2d7f-4040-dc5b-034f2f02320c",
+              "name": "SC",
+              "type": "string"
+            },
+            {
+              "objID": "1926b4a2-c59d-4b2b-d446-3a4088952d9a",
+              "name": "HWIO",
+              "type": "string"
+            }
+          ],
+          "instrument": "dcl",
+          "scpi": "QM = debug:mem:queues:min?\nQO = debug:mem:queues:overflows?\nMH = debug:mem:heap?\nMLV = debug:mem:lvmon?\nSHW = debug:tasks:stackhw?\nTP = debug:tasks:prio?\nTWD = debug:wdog:thresholds:max?\nTR = debug:tasks:runtime?\nFQ = debug:flow:queue?\nSC = debug:state:counters?\nHWIO = debug:iolines?",
+          "timeout": "null",
+          "delay": "null"
+        },
+        {
+          "objID": "0041ab82-4fbe-4697-84b6-8f94f134c7e1",
+          "type": "SetVariableActionComponent",
+          "left": 1521,
+          "top": -358,
+          "width": 363,
+          "height": 231,
+          "customInputs": [
+            {
+              "objID": "17436c1d-eb55-4dac-851f-0238b536763d",
+              "name": "QM",
+              "type": "string"
+            },
+            {
+              "objID": "c3d72c28-8f72-4ad0-d56d-5ec909dbbc5c",
+              "name": "QO",
+              "type": "string"
+            },
+            {
+              "objID": "47fa3939-b522-4d77-a7c6-e3fe536fa1ed",
+              "name": "MH",
+              "type": "string"
+            },
+            {
+              "objID": "b56098f4-659a-4840-95a0-cce098dc16c3",
+              "name": "MLV",
+              "type": "string"
+            },
+            {
+              "objID": "87556ad7-45c1-4f37-883c-ec6bf35ce7c0",
+              "name": "SHW",
+              "type": "string"
+            },
+            {
+              "objID": "5af807e9-b690-4399-b658-9346ad99ee82",
+              "name": "TP",
+              "type": "string"
+            },
+            {
+              "objID": "7497b425-9c0d-49dc-c436-199d3e9b05bb",
+              "name": "TWD",
+              "type": "string"
+            },
+            {
+              "objID": "f2de1c8a-1e2a-4b66-f5d4-1a57ea5d194d",
+              "name": "FQ",
+              "type": "string"
+            },
+            {
+              "objID": "9e9283de-2626-4978-81fe-dd03ef7cfa80",
+              "name": "SC",
+              "type": "string"
+            }
+          ],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "8fed10e7-ddf0-4a2d-ca61-df75b31193f0",
+              "variable": "debugMQMin",
+              "value": "String.split(QM, ',')"
+            },
+            {
+              "objID": "9938df8c-bdee-4e39-b740-cae6f335b7be",
+              "variable": "debugMQOverflows",
+              "value": "String.split(QO, ',')"
+            },
+            {
+              "objID": "39c2b540-2220-4b24-b52f-92a5e2892c4d",
+              "variable": "debugMemHeap",
+              "value": "String.split(MH, ',')"
+            },
+            {
+              "objID": "0b185aab-739d-432c-a22f-c630c492e075",
+              "variable": "debugMemLVMon",
+              "value": "String.split(MLV, ',')"
+            },
+            {
+              "objID": "f452e891-fcd4-41af-8cd6-85a57a41e886",
+              "variable": "debugTskStackMinFree",
+              "value": "String.split(SHW, ',')"
+            },
+            {
+              "objID": "82e3f1bc-8985-4be5-8660-7995fd51d9d1",
+              "variable": "debugTskPrio",
+              "value": "String.split(TP, ',')"
+            },
+            {
+              "objID": "7719b5ba-de9f-46b9-8452-e5f22df4be0c",
+              "variable": "debugTskWDog",
+              "value": "String.split(TWD, ',')"
+            },
+            {
+              "objID": "30478d3a-900f-4fc0-be89-b5bd20e722a6",
+              "variable": "debugFlowQueue",
+              "value": "String.split(FQ, ',')"
+            },
+            {
+              "objID": "cbc5d18b-f5b3-49ea-f251-145877e67504",
+              "variable": "debugStateCounters",
+              "value": "String.split(SC, ',')"
+            }
+          ]
+        },
+        {
+          "objID": "651405fd-8e0c-4006-b02e-443bbc4f7cdd",
+          "type": "CatchErrorActionComponent",
+          "left": 1727,
+          "top": 231,
+          "width": 95,
+          "height": 52,
+          "customInputs": [],
+          "customOutputs": []
+        },
+        {
+          "objID": "80c3291e-990b-422e-ac7f-c5f44d0f4fa3",
+          "type": "LoopActionComponent",
+          "left": 1639,
+          "top": -97,
+          "width": 211,
+          "height": 69,
+          "customInputs": [],
+          "customOutputs": [],
+          "variable": "i",
+          "from": "0",
+          "to": "15",
+          "step": "1",
+          "version": 1
+        },
+        {
+          "objID": "3f1f7c65-51de-4090-bc28-5275d3fcd235",
+          "type": "SetVariableActionComponent",
+          "left": 1604,
+          "top": 9,
+          "width": 280,
+          "height": 57,
+          "customInputs": [
+            {
+              "objID": "23fe83cc-008a-4776-c239-1ae81f04979c",
+              "name": "in",
+              "type": "integer"
+            }
+          ],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "ed7cf5b4-31cf-468b-9d10-3c6e2b0a76aa",
+              "variable": "debugHWIOvalues[i]",
+              "value": "in & (1 << i)"
+            }
+          ]
+        },
+        {
+          "objID": "083efa83-2f9b-4f41-a42c-0f6f4e95fbc2",
+          "type": "EvalExprActionComponent",
+          "left": 1348,
+          "top": -7,
+          "width": 211,
+          "height": 53,
+          "customInputs": [
+            {
+              "objID": "977e7324-7bba-404c-a084-b71c5784158a",
+              "name": "in",
+              "type": "string"
+            }
+          ],
+          "customOutputs": [],
+          "expression": "Flow.parseInteger(in)"
+        },
+        {
+          "objID": "570f4a7f-5579-4517-9ecc-f87db978ef37",
+          "type": "LogActionComponent",
+          "left": 1959,
+          "top": 253,
+          "width": 87,
+          "height": 52,
+          "customInputs": [
+            {
+              "objID": "47b6468d-a041-426a-f98d-4385d405b421",
+              "name": "value",
+              "type": "string"
+            }
+          ],
+          "customOutputs": [],
+          "value": "value"
+        },
+        {
+          "objID": "b3c505d4-88ae-41c2-bd56-4417c4a9e8a8",
+          "type": "CallActionActionComponent",
+          "left": 2208,
+          "top": -358,
+          "width": 143,
+          "height": 52,
+          "customInputs": [],
+          "customOutputs": [],
+          "action": "loopDebugRuntime",
+          "userPropertyValues": {
+            "objID": "dfdcb952-099c-425b-dc4d-7abecadf98b9",
+            "values": {}
+          }
+        },
+        {
+          "objID": "c4539c3f-6d7d-4ec2-89f6-92bfe21f3ccd",
+          "type": "IsTrueActionComponent",
+          "left": -553,
+          "top": -166,
+          "width": 147,
+          "height": 69,
+          "customInputs": [],
+          "customOutputs": [],
+          "value": "onlyDebugTskPerc"
+        },
+        {
+          "objID": "f8c55d06-3848-4824-bf20-2f6bec4eed76",
+          "type": "SCPIActionComponent",
+          "left": 1242,
+          "top": -601,
+          "width": 197,
+          "height": 53,
+          "customInputs": [],
+          "customOutputs": [
+            {
+              "objID": "bf7c09f6-c85a-4b89-f779-89f3e9cebfda",
+              "name": "TR",
+              "type": "string"
+            }
+          ],
+          "instrument": "dcl",
+          "scpi": "TR = debug:tasks:runtime?",
+          "timeout": "null",
+          "delay": "null"
         }
       ],
       "connectionLines": [
@@ -1080,31 +1592,10 @@
           "input": "capstr"
         },
         {
-          "objID": "0fa22761-fb9d-4d4b-ece9-1b5839ded26a",
-          "source": "49b31ea8-cf23-44e1-ef46-be8a555a06e0",
-          "output": "@seqout",
-          "target": "5c96621d-f108-45bd-83cf-d4e9fff21170",
-          "input": "@seqin"
-        },
-        {
           "objID": "27f4a13c-12f4-4c00-8708-b38c211c8bc2",
           "source": "455020a7-95fa-4e21-8fb2-f54dbcf23f45",
           "output": "True",
           "target": "3b7ab82c-414a-40f7-f47a-fee34f710017",
-          "input": "@seqin"
-        },
-        {
-          "objID": "ce361bfc-cd60-4efc-a87c-480c3101b25d",
-          "source": "455020a7-95fa-4e21-8fb2-f54dbcf23f45",
-          "output": "False",
-          "target": "92fc0b12-bc60-4351-84ca-050a0114f6e5",
-          "input": "@seqin"
-        },
-        {
-          "objID": "7e13a306-326b-4ca0-ae25-b6a55826777b",
-          "source": "3b7ab82c-414a-40f7-f47a-fee34f710017",
-          "output": "@seqout",
-          "target": "92fc0b12-bc60-4351-84ca-050a0114f6e5",
           "input": "@seqin"
         },
         {
@@ -1183,11 +1674,505 @@
           "output": "@seqout",
           "target": "a7c01e5d-e618-4970-9b11-6ab25fca6632",
           "input": "@seqin"
+        },
+        {
+          "objID": "286894c2-1150-4370-9c73-ce9a05b5232c",
+          "source": "3b7ab82c-414a-40f7-f47a-fee34f710017",
+          "output": "@seqout",
+          "target": "33bb7c38-5ace-478c-ae00-f7c9a4c4f322",
+          "input": "@seqin"
+        },
+        {
+          "objID": "ecd17c89-6238-449b-ff0b-05edd4e5a11e",
+          "source": "455020a7-95fa-4e21-8fb2-f54dbcf23f45",
+          "output": "False",
+          "target": "33bb7c38-5ace-478c-ae00-f7c9a4c4f322",
+          "input": "@seqin"
+        },
+        {
+          "objID": "b3e04f10-087f-4e9f-e01a-02e98d051c0c",
+          "source": "33bb7c38-5ace-478c-ae00-f7c9a4c4f322",
+          "output": "True",
+          "target": "29a87a4b-4189-44d1-bf0f-ac00a9025484",
+          "input": "@seqin"
+        },
+        {
+          "objID": "30369c24-7f57-4e3e-eb50-acd4c21bc06e",
+          "source": "33bb7c38-5ace-478c-ae00-f7c9a4c4f322",
+          "output": "False",
+          "target": "92fc0b12-bc60-4351-84ca-050a0114f6e5",
+          "input": "@seqin"
+        },
+        {
+          "objID": "3cb02326-6145-455c-be79-bdd863ab5bde",
+          "source": "29a87a4b-4189-44d1-bf0f-ac00a9025484",
+          "output": "@seqout",
+          "target": "0041ab82-4fbe-4697-84b6-8f94f134c7e1",
+          "input": "@seqin"
+        },
+        {
+          "objID": "f3cad1a9-8522-4608-d538-b47c7c2ba33b",
+          "source": "29a87a4b-4189-44d1-bf0f-ac00a9025484",
+          "output": "QM",
+          "target": "0041ab82-4fbe-4697-84b6-8f94f134c7e1",
+          "input": "QM"
+        },
+        {
+          "objID": "39f61890-9fd6-4794-8cec-0efc229eb0e2",
+          "source": "29a87a4b-4189-44d1-bf0f-ac00a9025484",
+          "output": "QO",
+          "target": "0041ab82-4fbe-4697-84b6-8f94f134c7e1",
+          "input": "QO"
+        },
+        {
+          "objID": "305f46cc-2997-4559-b42b-041bc74afdfc",
+          "source": "29a87a4b-4189-44d1-bf0f-ac00a9025484",
+          "output": "MH",
+          "target": "0041ab82-4fbe-4697-84b6-8f94f134c7e1",
+          "input": "MH"
+        },
+        {
+          "objID": "4edcbae7-5ded-4ac7-9571-b48fa1e1d9e5",
+          "source": "29a87a4b-4189-44d1-bf0f-ac00a9025484",
+          "output": "MLV",
+          "target": "0041ab82-4fbe-4697-84b6-8f94f134c7e1",
+          "input": "MLV"
+        },
+        {
+          "objID": "0ee702dc-5a61-4c69-8790-040a67a0858b",
+          "source": "29a87a4b-4189-44d1-bf0f-ac00a9025484",
+          "output": "SHW",
+          "target": "0041ab82-4fbe-4697-84b6-8f94f134c7e1",
+          "input": "SHW"
+        },
+        {
+          "objID": "81a51acb-4416-4824-c183-acd8788adf70",
+          "source": "29a87a4b-4189-44d1-bf0f-ac00a9025484",
+          "output": "TP",
+          "target": "0041ab82-4fbe-4697-84b6-8f94f134c7e1",
+          "input": "TP"
+        },
+        {
+          "objID": "3cd7fc7f-b4e5-4c39-82bb-4b5ccccf7a05",
+          "source": "29a87a4b-4189-44d1-bf0f-ac00a9025484",
+          "output": "TWD",
+          "target": "0041ab82-4fbe-4697-84b6-8f94f134c7e1",
+          "input": "TWD"
+        },
+        {
+          "objID": "4e2e6df5-1df6-45db-a666-a7fef125dc01",
+          "source": "651405fd-8e0c-4006-b02e-443bbc4f7cdd",
+          "output": "@seqout",
+          "target": "92fc0b12-bc60-4351-84ca-050a0114f6e5",
+          "input": "@seqin"
+        },
+        {
+          "objID": "2be4840f-46a2-4483-b2e4-576f42101e21",
+          "source": "29a87a4b-4189-44d1-bf0f-ac00a9025484",
+          "output": "FQ",
+          "target": "0041ab82-4fbe-4697-84b6-8f94f134c7e1",
+          "input": "FQ"
+        },
+        {
+          "objID": "ea62e074-9cc6-4dc3-86bf-d4d709b12a4c",
+          "source": "083efa83-2f9b-4f41-a42c-0f6f4e95fbc2",
+          "output": "result",
+          "target": "3f1f7c65-51de-4090-bc28-5275d3fcd235",
+          "input": "in"
+        },
+        {
+          "objID": "fb9b6533-63e1-4041-8c44-fec255362743",
+          "source": "29a87a4b-4189-44d1-bf0f-ac00a9025484",
+          "output": "HWIO",
+          "target": "083efa83-2f9b-4f41-a42c-0f6f4e95fbc2",
+          "input": "in"
+        },
+        {
+          "objID": "c7a8c8d8-ca23-4277-a2b9-7c230ab57b5d",
+          "source": "80c3291e-990b-422e-ac7f-c5f44d0f4fa3",
+          "output": "@seqout",
+          "target": "3f1f7c65-51de-4090-bc28-5275d3fcd235",
+          "input": "@seqin"
+        },
+        {
+          "objID": "ff04c97e-c565-4ef3-b66b-965aeb20e7e0",
+          "source": "3f1f7c65-51de-4090-bc28-5275d3fcd235",
+          "output": "@seqout",
+          "target": "80c3291e-990b-422e-ac7f-c5f44d0f4fa3",
+          "input": "next"
+        },
+        {
+          "objID": "f451d31f-8fba-4be3-a048-f6980f4e2a7b",
+          "source": "651405fd-8e0c-4006-b02e-443bbc4f7cdd",
+          "output": "Message",
+          "target": "570f4a7f-5579-4517-9ecc-f87db978ef37",
+          "input": "value"
+        },
+        {
+          "objID": "d700c18c-6f41-48a8-ba3e-8c166d2749b2",
+          "source": "29a87a4b-4189-44d1-bf0f-ac00a9025484",
+          "output": "TR",
+          "target": "b3c505d4-88ae-41c2-bd56-4417c4a9e8a8",
+          "input": "040bbebc-7a9a-4e34-b36d-d9fe8f22e2f4"
+        },
+        {
+          "objID": "e7cab038-5dfd-4c54-b5cf-d79b8020de04",
+          "source": "49b31ea8-cf23-44e1-ef46-be8a555a06e0",
+          "output": "@seqout",
+          "target": "c4539c3f-6d7d-4ec2-89f6-92bfe21f3ccd",
+          "input": "@seqin"
+        },
+        {
+          "objID": "3609d946-8d04-43d1-f8fe-ea1970866b2e",
+          "source": "c4539c3f-6d7d-4ec2-89f6-92bfe21f3ccd",
+          "output": "False",
+          "target": "5c96621d-f108-45bd-83cf-d4e9fff21170",
+          "input": "@seqin"
+        },
+        {
+          "objID": "2377d416-5ece-45fe-e4bd-71a09ffbb61e",
+          "source": "c4539c3f-6d7d-4ec2-89f6-92bfe21f3ccd",
+          "output": "True",
+          "target": "f8c55d06-3848-4824-bf20-2f6bec4eed76",
+          "input": "@seqin"
+        },
+        {
+          "objID": "45ce0e65-2cd2-4013-b45d-da928d5eb7d6",
+          "source": "0041ab82-4fbe-4697-84b6-8f94f134c7e1",
+          "output": "@seqout",
+          "target": "80c3291e-990b-422e-ac7f-c5f44d0f4fa3",
+          "input": "start"
+        },
+        {
+          "objID": "f9602ae8-2fa3-4dfe-f64d-7deb632f07f0",
+          "source": "80c3291e-990b-422e-ac7f-c5f44d0f4fa3",
+          "output": "done",
+          "target": "b3c505d4-88ae-41c2-bd56-4417c4a9e8a8",
+          "input": "@seqin"
+        },
+        {
+          "objID": "7f321686-7b38-4ea6-fd23-42aec0e1aa09",
+          "source": "f8c55d06-3848-4824-bf20-2f6bec4eed76",
+          "output": "TR",
+          "target": "b3c505d4-88ae-41c2-bd56-4417c4a9e8a8",
+          "input": "040bbebc-7a9a-4e34-b36d-d9fe8f22e2f4"
+        },
+        {
+          "objID": "277bce59-e53b-4512-81d9-52e57bd682fd",
+          "source": "f8c55d06-3848-4824-bf20-2f6bec4eed76",
+          "output": "@seqout",
+          "target": "b3c505d4-88ae-41c2-bd56-4417c4a9e8a8",
+          "input": "@seqin"
+        },
+        {
+          "objID": "8257e67d-f4af-4260-d812-a10dbdf30500",
+          "source": "b3c505d4-88ae-41c2-bd56-4417c4a9e8a8",
+          "output": "@seqout",
+          "target": "92fc0b12-bc60-4351-84ca-050a0114f6e5",
+          "input": "@seqin"
+        },
+        {
+          "objID": "4215bf60-197c-40ce-98d7-77722cd8d218",
+          "source": "29a87a4b-4189-44d1-bf0f-ac00a9025484",
+          "output": "SC",
+          "target": "0041ab82-4fbe-4697-84b6-8f94f134c7e1",
+          "input": "SC"
+        }
+      ],
+      "localVariables": [
+        {
+          "objID": "59702a25-2dd5-4096-8bc0-7540a894bd67",
+          "name": "i",
+          "type": "integer",
+          "defaultValue": "0",
+          "persistent": false,
+          "native": false
+        }
+      ],
+      "userProperties": [],
+      "name": "loop",
+      "implementationType": "flow"
+    },
+    {
+      "objID": "d6fe9369-425c-4008-c86c-7831c6b6f793",
+      "components": [
+        {
+          "objID": "2847b485-1648-4408-fbf2-ee4c2f583136",
+          "type": "LoopActionComponent",
+          "left": -213,
+          "top": -35,
+          "width": 315,
+          "height": 86,
+          "customInputs": [
+            {
+              "objID": "9d2ce384-b95e-4093-8a9b-a78d2bb5ea6e",
+              "name": "a",
+              "type": "array:string"
+            }
+          ],
+          "customOutputs": [],
+          "variable": "i",
+          "from": "0",
+          "to": "Array.length(a) - 1",
+          "step": "1",
+          "version": 1
+        },
+        {
+          "objID": "fa56c8df-3aa4-4130-de33-f7527f1c644d",
+          "type": "StartActionComponent",
+          "left": -679,
+          "top": -59,
+          "width": 87,
+          "height": 24,
+          "customInputs": [],
+          "customOutputs": []
+        },
+        {
+          "objID": "8f6a6066-c029-4028-bed4-41fef639a6d6",
+          "type": "EndActionComponent",
+          "left": 2061,
+          "top": -16,
+          "width": 87,
+          "height": 24,
+          "customInputs": [],
+          "customOutputs": []
+        },
+        {
+          "objID": "00177083-5d60-4d40-93b6-8cbc1bd0917e",
+          "type": "SetVariableActionComponent",
+          "left": -292,
+          "top": 171,
+          "width": 1227,
+          "height": 122,
+          "customInputs": [
+            {
+              "objID": "62eb2027-6bb3-4c55-a207-e94b696b06de",
+              "name": "strings",
+              "type": "array:string"
+            }
+          ],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "3cbf0bcb-fd36-4336-bd4d-56611bed6ce9",
+              "variable": "debugTskRuntimePrev[i]",
+              "value": "debugTskRuntime[i]"
+            },
+            {
+              "objID": "d8336f3b-50b9-464d-80fa-a88a9a8832e8",
+              "variable": "debugTskRuntime[i]",
+              "value": "Flow.parseDouble(strings[i])"
+            },
+            {
+              "objID": "d86ce557-db88-4c55-9321-6fed4f8590c6",
+              "variable": "debugTskRuntimeDiff[i]",
+              "value": "debugTskRuntime[i] >= debugTskRuntimePrev[i] ?debugTskRuntime[i] - debugTskRuntimePrev[i] : debugTskRuntime[i] + (Math.pow(2, 32) - 1 - debugTskRuntimePrev[i])"
+            },
+            {
+              "objID": "78d9cc1c-3db2-4b71-a9f8-725313272713",
+              "variable": "debugTskRuntimeDiffTotal",
+              "value": "debugTskRuntimeDiffTotal + debugTskRuntimeDiff[i]"
+            }
+          ]
+        },
+        {
+          "objID": "040bbebc-7a9a-4e34-b36d-d9fe8f22e2f4",
+          "type": "InputActionComponent",
+          "left": -679,
+          "top": 77,
+          "width": 87,
+          "height": 24,
+          "customInputs": [],
+          "customOutputs": [],
+          "name": "str",
+          "inputType": "string"
+        },
+        {
+          "objID": "2e6ee737-d192-4bf2-dfb8-4432d22f90f0",
+          "type": "EvalExprActionComponent",
+          "left": -529,
+          "top": 51,
+          "width": 195,
+          "height": 52,
+          "customInputs": [
+            {
+              "objID": "95364424-c578-480a-d096-bb021ea3f6ef",
+              "name": "s",
+              "type": "string"
+            }
+          ],
+          "customOutputs": [],
+          "expression": "String.split(s,',')"
+        },
+        {
+          "objID": "7d74ed58-a4bb-4e7d-e93f-697638cb8346",
+          "type": "SetVariableActionComponent",
+          "left": -541,
+          "top": -59,
+          "width": 220,
+          "height": 57,
+          "customInputs": [],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "2c410a44-c7ef-4337-f7e7-e8766b3cf23b",
+              "variable": "debugTskRuntimeDiffTotal",
+              "value": "0"
+            }
+          ]
+        },
+        {
+          "objID": "1d440f77-54fe-4afa-b4fc-0e7cf348bf60",
+          "type": "SetVariableActionComponent",
+          "left": 1678,
+          "top": -22,
+          "width": 318,
+          "height": 57,
+          "customInputs": [],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "dc3b0d8e-640f-4a8a-b44e-59524b4ccb30",
+              "variable": "debugTskRuntimeDone",
+              "value": "debugTskRuntimeDone +1"
+            }
+          ]
+        },
+        {
+          "objID": "169cded3-c2e5-44d3-c89d-d681243055bf",
+          "type": "LoopActionComponent",
+          "left": 1093,
+          "top": -37,
+          "width": 315,
+          "height": 86,
+          "customInputs": [
+            {
+              "objID": "76d73664-2fd4-4e5b-f3b7-53d4ded27ed6",
+              "name": "a",
+              "type": "array:string"
+            }
+          ],
+          "customOutputs": [],
+          "variable": "i",
+          "from": "0",
+          "to": "Array.length(a) - 1",
+          "step": "1",
+          "version": 1
+        },
+        {
+          "objID": "54606044-21be-4317-ca19-27368267869b",
+          "type": "SetVariableActionComponent",
+          "left": 1065,
+          "top": 175,
+          "width": 619,
+          "height": 57,
+          "customInputs": [],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "b9670826-c087-4514-d57b-d07bbacb6aac",
+              "variable": "debugTskRuntimePerc[i]",
+              "value": "Math.round(debugTskRuntimeDiff[i]/debugTskRuntimeDiffTotal * 100, 2)"
+            }
+          ]
+        }
+      ],
+      "connectionLines": [
+        {
+          "objID": "ec5f52dc-e81b-4b53-c5a6-eadf7f868671",
+          "source": "2847b485-1648-4408-fbf2-ee4c2f583136",
+          "output": "@seqout",
+          "target": "00177083-5d60-4d40-93b6-8cbc1bd0917e",
+          "input": "@seqin"
+        },
+        {
+          "objID": "e0cc3a1b-48be-4b69-9c1f-e97b491b20c3",
+          "source": "00177083-5d60-4d40-93b6-8cbc1bd0917e",
+          "output": "@seqout",
+          "target": "2847b485-1648-4408-fbf2-ee4c2f583136",
+          "input": "next"
+        },
+        {
+          "objID": "29d1f361-3785-4167-899c-a0e29ce4dbbd",
+          "source": "040bbebc-7a9a-4e34-b36d-d9fe8f22e2f4",
+          "output": "@seqout",
+          "target": "2e6ee737-d192-4bf2-dfb8-4432d22f90f0",
+          "input": "s"
+        },
+        {
+          "objID": "7117fb72-3de9-4d7e-b36a-35e876947ebb",
+          "source": "2e6ee737-d192-4bf2-dfb8-4432d22f90f0",
+          "output": "result",
+          "target": "00177083-5d60-4d40-93b6-8cbc1bd0917e",
+          "input": "strings"
+        },
+        {
+          "objID": "c8869298-e741-4ba2-c7cd-3d723b6fad08",
+          "source": "2e6ee737-d192-4bf2-dfb8-4432d22f90f0",
+          "output": "result",
+          "target": "2847b485-1648-4408-fbf2-ee4c2f583136",
+          "input": "a"
+        },
+        {
+          "objID": "33fb6ab1-4516-4915-8cb6-932ed98c0dcd",
+          "source": "fa56c8df-3aa4-4130-de33-f7527f1c644d",
+          "output": "@seqout",
+          "target": "7d74ed58-a4bb-4e7d-e93f-697638cb8346",
+          "input": "@seqin"
+        },
+        {
+          "objID": "8e9ee531-74d0-487b-a8bd-d2199535327f",
+          "source": "7d74ed58-a4bb-4e7d-e93f-697638cb8346",
+          "output": "@seqout",
+          "target": "2847b485-1648-4408-fbf2-ee4c2f583136",
+          "input": "start"
+        },
+        {
+          "objID": "b823f654-cb0c-422c-d8fb-42ffae80a472",
+          "source": "1d440f77-54fe-4afa-b4fc-0e7cf348bf60",
+          "output": "@seqout",
+          "target": "8f6a6066-c029-4028-bed4-41fef639a6d6",
+          "input": "@seqin"
+        },
+        {
+          "objID": "38037cc5-3229-48a3-9acb-1ffc91c422bd",
+          "source": "2847b485-1648-4408-fbf2-ee4c2f583136",
+          "output": "done",
+          "target": "169cded3-c2e5-44d3-c89d-d681243055bf",
+          "input": "start"
+        },
+        {
+          "objID": "6b22c736-c43c-4c29-94a3-41b7714f5622",
+          "source": "169cded3-c2e5-44d3-c89d-d681243055bf",
+          "output": "@seqout",
+          "target": "54606044-21be-4317-ca19-27368267869b",
+          "input": "@seqin"
+        },
+        {
+          "objID": "95c4ff08-6105-444c-a5b4-a847770d3ef9",
+          "source": "54606044-21be-4317-ca19-27368267869b",
+          "output": "@seqout",
+          "target": "169cded3-c2e5-44d3-c89d-d681243055bf",
+          "input": "next"
+        },
+        {
+          "objID": "2b6287c3-27b3-4b4a-eb03-adad75db4773",
+          "source": "2e6ee737-d192-4bf2-dfb8-4432d22f90f0",
+          "output": "result",
+          "target": "169cded3-c2e5-44d3-c89d-d681243055bf",
+          "input": "a"
+        },
+        {
+          "objID": "a2a80063-fc91-4f09-9b75-4551af41db77",
+          "source": "169cded3-c2e5-44d3-c89d-d681243055bf",
+          "output": "done",
+          "target": "1d440f77-54fe-4afa-b4fc-0e7cf348bf60",
+          "input": "@seqin"
         }
       ],
       "localVariables": [],
       "userProperties": [],
-      "name": "loop",
+      "name": "loopDebugRuntime",
       "implementationType": "flow"
     },
     {
@@ -1960,7 +2945,7 @@
           "left": -598,
           "top": -46,
           "width": 403,
-          "height": 146,
+          "height": 158,
           "customInputs": [],
           "customOutputs": [],
           "instrument": "dcl",
@@ -1984,7 +2969,7 @@
           "left": -738,
           "top": -46,
           "width": 100,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "scpi_sem"
@@ -1994,8 +2979,8 @@
           "type": "SetVariableActionComponent",
           "left": 1017,
           "top": -28,
-          "width": 201,
-          "height": 78,
+          "width": 202,
+          "height": 79,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -2016,8 +3001,8 @@
           "type": "SCPIActionComponent",
           "left": 748,
           "top": -93,
-          "width": 194,
-          "height": 52,
+          "width": 195,
+          "height": 54,
           "customInputs": [
             {
               "objID": "50ab1344-5ab7-479c-e81f-75ef9e773bbf",
@@ -2037,7 +3022,7 @@
           "left": -51,
           "top": -46,
           "width": 618,
-          "height": 122,
+          "height": 130,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -2375,10 +3360,16 @@
           "left": -1017,
           "top": -230,
           "width": 767,
-          "height": 122,
+          "height": 157,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
+            {
+              "objID": "d24be6ba-8c4e-43b2-84f4-7641f4254098",
+              "condition": "ref_cur == ref_current_e.DCP405 && (  cal_type == calType_e.Imon_High|| cal_type == calType_e.Imon_Low )",
+              "outputName": "curr_DCP",
+              "outputValue": "1"
+            },
             {
               "objID": "4e0bf97f-1166-43c7-e698-a17ba4a488eb",
               "condition": "ref_cur == ref_current_e.MIO168_AIN2 && (  cal_type == calType_e.Imon_High|| cal_type == calType_e.Imon_Low )",
@@ -2389,6 +3380,12 @@
               "objID": "371a9c0c-f1ce-4813-ea59-cf77d9359279",
               "condition": "ref_cur == ref_current_e.SDM3045X && (  cal_type == calType_e.Imon_High|| cal_type == calType_e.Imon_Low )",
               "outputName": "curr_SDM",
+              "outputValue": "1"
+            },
+            {
+              "objID": "d848e290-1b8a-499d-db56-983d0153ca6f",
+              "condition": "ref_volt == ref_volt_e.DCP405 && (  cal_type == calType_e.Umon_High|| cal_type == calType_e.Umon_Low )",
+              "outputName": "volt_DCP",
               "outputValue": "1"
             },
             {
@@ -2414,8 +3411,8 @@
         {
           "objID": "71681ac8-1feb-4334-face-f24b5b0afb71",
           "type": "DelayActionComponent",
-          "left": -162,
-          "top": -382,
+          "left": -159,
+          "top": -427,
           "width": 87,
           "height": 52,
           "customInputs": [],
@@ -2425,8 +3422,8 @@
         {
           "objID": "c60243f0-d434-4073-c4f7-04ea9023988e",
           "type": "SCPIActionComponent",
-          "left": -43,
-          "top": -382,
+          "left": 34,
+          "top": -427,
           "width": 194,
           "height": 52,
           "customInputs": [],
@@ -2439,8 +3436,8 @@
         {
           "objID": "a58803b3-2eb3-4d23-aac3-0228f9cb0eab",
           "type": "SCPIActionComponent",
-          "left": 364,
-          "top": -142,
+          "left": 487,
+          "top": -143,
           "width": 132,
           "height": 52,
           "customInputs": [],
@@ -2453,8 +3450,8 @@
         {
           "objID": "7026fbc5-3586-43b8-b884-14cf633b08eb",
           "type": "DelayActionComponent",
-          "left": -162,
-          "top": -238,
+          "left": -159,
+          "top": -212,
           "width": 87,
           "height": 52,
           "customInputs": [],
@@ -2464,8 +3461,8 @@
         {
           "objID": "b452a780-11c7-46e9-9014-5d294b23889f",
           "type": "SCPIActionComponent",
-          "left": -43,
-          "top": -238,
+          "left": 35,
+          "top": -212,
           "width": 194,
           "height": 52,
           "customInputs": [],
@@ -2478,8 +3475,8 @@
         {
           "objID": "b6643f9b-d53a-46c5-da03-6ed73284ddd3",
           "type": "DelayActionComponent",
-          "left": -162,
-          "top": -169,
+          "left": -159,
+          "top": -143,
           "width": 87,
           "height": 52,
           "customInputs": [],
@@ -2489,8 +3486,8 @@
         {
           "objID": "632496e6-3f2e-4573-9377-9e6dfc584a54",
           "type": "SCPIActionComponent",
-          "left": -43,
-          "top": -169,
+          "left": 28,
+          "top": -143,
           "width": 200,
           "height": 52,
           "customInputs": [],
@@ -2503,8 +3500,8 @@
         {
           "objID": "ec90a5b1-07bf-4943-d27e-ce45e4bf3a08",
           "type": "DelayActionComponent",
-          "left": -162,
-          "top": -316,
+          "left": -159,
+          "top": -361,
           "width": 87,
           "height": 52,
           "customInputs": [],
@@ -2514,8 +3511,8 @@
         {
           "objID": "1a6f0991-8951-4fad-f859-548b881972a1",
           "type": "SCPIActionComponent",
-          "left": -43,
-          "top": -316,
+          "left": 29,
+          "top": -361,
           "width": 200,
           "height": 52,
           "customInputs": [],
@@ -2528,8 +3525,8 @@
         {
           "objID": "ceaf8ee3-7d03-49f1-8c27-ab63ef316ed5",
           "type": "TestAndSetActionComponent",
-          "left": 239,
-          "top": -142,
+          "left": 362,
+          "top": -143,
           "width": 100,
           "height": 52,
           "customInputs": [],
@@ -2539,8 +3536,8 @@
         {
           "objID": "490b3c07-7ebe-43b9-c858-8b364ccf83fc",
           "type": "SetVariableActionComponent",
-          "left": 525,
-          "top": -142,
+          "left": 648,
+          "top": -143,
           "width": 146,
           "height": 57,
           "customInputs": [],
@@ -2618,6 +3615,56 @@
               "value": "true"
             }
           ]
+        },
+        {
+          "objID": "cc09d617-ed33-4ce2-d99b-3cd6f7f74ece",
+          "type": "DelayActionComponent",
+          "left": -162,
+          "top": -496,
+          "width": 87,
+          "height": 52,
+          "customInputs": [],
+          "customOutputs": [],
+          "milliseconds": "2500"
+        },
+        {
+          "objID": "c0272b64-e7a5-402c-c61a-a1de2e90b10b",
+          "type": "SCPIActionComponent",
+          "left": 77,
+          "top": -496,
+          "width": 151,
+          "height": 64,
+          "customInputs": [],
+          "customOutputs": [],
+          "instrument": "psu",
+          "scpi": "inst ch{psu_channel}\nref_value = meas:curr?",
+          "timeout": "null",
+          "delay": "null"
+        },
+        {
+          "objID": "cd39d4cb-522d-45c0-c290-88805191ff0c",
+          "type": "DelayActionComponent",
+          "left": -159,
+          "top": -284,
+          "width": 87,
+          "height": 52,
+          "customInputs": [],
+          "customOutputs": [],
+          "milliseconds": "2500"
+        },
+        {
+          "objID": "7c168758-ecad-44b1-e060-f24b52d30a62",
+          "type": "SCPIActionComponent",
+          "left": 78,
+          "top": -284,
+          "width": 151,
+          "height": 64,
+          "customInputs": [],
+          "customOutputs": [],
+          "instrument": "psu",
+          "scpi": "inst ch{psu_channel}\nref_value = meas:volt?",
+          "timeout": "null",
+          "delay": "null"
         }
       ],
       "connectionLines": [
@@ -2795,6 +3842,48 @@
           "output": "@seqout",
           "target": "91d02160-53a1-4e05-c115-9159bae587ce",
           "input": "@seqin"
+        },
+        {
+          "objID": "360066ca-d22e-4020-bc3f-86d4075012f7",
+          "source": "cc09d617-ed33-4ce2-d99b-3cd6f7f74ece",
+          "output": "@seqout",
+          "target": "c0272b64-e7a5-402c-c61a-a1de2e90b10b",
+          "input": "@seqin"
+        },
+        {
+          "objID": "c7379a00-c195-45a4-f118-40fd7a7fc8b8",
+          "source": "2cb0c12e-3d99-4c1a-9cf8-2849ee9a547b",
+          "output": "curr_DCP",
+          "target": "cc09d617-ed33-4ce2-d99b-3cd6f7f74ece",
+          "input": "@seqin"
+        },
+        {
+          "objID": "0a5a9c12-1542-42cc-a28d-f84d001bef07",
+          "source": "c0272b64-e7a5-402c-c61a-a1de2e90b10b",
+          "output": "@seqout",
+          "target": "ceaf8ee3-7d03-49f1-8c27-ab63ef316ed5",
+          "input": "@seqin"
+        },
+        {
+          "objID": "404eb232-d42d-4688-c274-cd17c0da5dc4",
+          "source": "cd39d4cb-522d-45c0-c290-88805191ff0c",
+          "output": "@seqout",
+          "target": "7c168758-ecad-44b1-e060-f24b52d30a62",
+          "input": "@seqin"
+        },
+        {
+          "objID": "0d35e268-2872-436b-d99d-2c5922ca0d32",
+          "source": "2cb0c12e-3d99-4c1a-9cf8-2849ee9a547b",
+          "output": "volt_DCP",
+          "target": "cd39d4cb-522d-45c0-c290-88805191ff0c",
+          "input": "@seqin"
+        },
+        {
+          "objID": "62e3c26c-b675-4f9c-a456-fd6aba2fef6c",
+          "source": "7c168758-ecad-44b1-e060-f24b52d30a62",
+          "output": "@seqout",
+          "target": "ceaf8ee3-7d03-49f1-8c27-ab63ef316ed5",
+          "input": "@seqin"
         }
       ],
       "localVariables": [
@@ -2862,7 +3951,7 @@
           "left": -413,
           "top": -301,
           "width": 104,
-          "height": 51,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "action": "cal_set_type",
@@ -2877,7 +3966,7 @@
           "left": -126,
           "top": -125,
           "width": 87,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "milliseconds": "2000"
@@ -2888,7 +3977,7 @@
           "left": 252,
           "top": -125,
           "width": 87,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "milliseconds": "2500"
@@ -2914,7 +4003,7 @@
           "left": -35,
           "top": -301,
           "width": 205,
-          "height": 69,
+          "height": 70,
           "customInputs": [],
           "customOutputs": [],
           "variable": "i",
@@ -2929,7 +4018,7 @@
           "left": -272,
           "top": -126,
           "width": 109,
-          "height": 51,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "action": "cal_set_point",
@@ -2944,7 +4033,7 @@
           "left": -385,
           "top": -127,
           "width": 87,
-          "height": 52,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "expression": "i"
@@ -2975,7 +4064,7 @@
           "left": 1282,
           "top": -123,
           "width": 136,
-          "height": 51,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "action": "get_cal_type_data",
@@ -2989,8 +4078,8 @@
           "type": "SCPIActionComponent",
           "left": 265,
           "top": -284,
-          "width": 95,
-          "height": 52,
+          "width": 96,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "catchError": false,
@@ -3004,7 +4093,7 @@
           "type": "SetVariableActionComponent",
           "left": 406,
           "top": -287,
-          "width": 250,
+          "width": 251,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -3021,7 +4110,7 @@
           "type": "SetVariableActionComponent",
           "left": -401,
           "top": 90,
-          "width": 175,
+          "width": 176,
           "height": 57,
           "customInputs": [
             {
@@ -3045,7 +4134,7 @@
           "left": 516,
           "top": -145,
           "width": 101,
-          "height": 70,
+          "height": 73,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -3066,7 +4155,7 @@
           "type": "SetVariableActionComponent",
           "left": 664,
           "top": -152,
-          "width": 256,
+          "width": 257,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -3083,7 +4172,7 @@
           "type": "SetVariableActionComponent",
           "left": 664,
           "top": -89,
-          "width": 256,
+          "width": 257,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -4955,7 +6044,8 @@
                 "condition": "tab == 0"
               }
             ],
-            "childStyles": []
+            "childStyles": [],
+            "alignHorizontal": "center"
           },
           "timeline": [],
           "eventHandlers": [
@@ -4993,7 +6083,8 @@
                 "condition": "tab == 1"
               }
             ],
-            "childStyles": []
+            "childStyles": [],
+            "alignHorizontal": "center"
           },
           "timeline": [],
           "eventHandlers": [
@@ -5024,8 +6115,15 @@
           "style": {
             "objID": "9e76f612-3d72-4e55-f9ab-3944a64e1614",
             "useStyle": "pagebg",
-            "conditionalStyles": [],
-            "childStyles": []
+            "conditionalStyles": [
+              {
+                "objID": "2f5a2882-a7e8-4da3-d408-0b0359c93922",
+                "style": "panel",
+                "condition": "tab == dashTab_e.thermal"
+              }
+            ],
+            "childStyles": [],
+            "alignHorizontal": "center"
           },
           "timeline": [],
           "eventHandlers": [
@@ -5079,7 +6177,7 @@
           "height": 800,
           "customInputs": [],
           "customOutputs": [],
-          "data": "tab == dashTab_e.overview ? 0 : tab == dashTab_e.cal ? 1 : 2",
+          "data": "tab == dashTab_e.overview ? 0 : tab == dashTab_e.cal ? 1 : \ntab == dashTab_e.thermal ? 2 : 3",
           "style": {
             "objID": "9ca26c54-ae32-420e-e7c3-841effe17d95",
             "useStyle": "default",
@@ -5104,6 +6202,7 @@
                 "conditionalStyles": [],
                 "childStyles": []
               },
+              "hiddenInEditor": false,
               "timeline": [],
               "eventHandlers": [],
               "widgets": [
@@ -5137,6 +6236,7 @@
                     "alignHorizontal": "center",
                     "alignVertical": "center"
                   },
+                  "hiddenInEditor": false,
                   "timeline": [],
                   "eventHandlers": [
                     {
@@ -5173,6 +6273,7 @@
                     "alignHorizontal": "center",
                     "alignVertical": "center"
                   },
+                  "hiddenInEditor": false,
                   "timeline": [],
                   "eventHandlers": [],
                   "options": "modeStrings",
@@ -5198,6 +6299,7 @@
                     "alignVertical": "center"
                   },
                   "locked": false,
+                  "hiddenInEditor": false,
                   "timeline": [],
                   "eventHandlers": []
                 },
@@ -5220,6 +6322,7 @@
                     "alignHorizontal": "right",
                     "alignVertical": "center"
                   },
+                  "hiddenInEditor": false,
                   "timeline": [],
                   "eventHandlers": []
                 },
@@ -5249,6 +6352,7 @@
                     "conditionalStyles": [],
                     "childStyles": []
                   },
+                  "hiddenInEditor": false,
                   "timeline": [],
                   "eventHandlers": [],
                   "xValue": "Date.now()",
@@ -5316,6 +6420,7 @@
                     "alignHorizontal": "right",
                     "alignVertical": "center"
                   },
+                  "hiddenInEditor": false,
                   "timeline": [],
                   "eventHandlers": []
                 },
@@ -5338,6 +6443,7 @@
                     "alignHorizontal": "right",
                     "alignVertical": "center"
                   },
+                  "hiddenInEditor": false,
                   "timeline": [],
                   "eventHandlers": []
                 }
@@ -5406,7 +6512,7 @@
                 "childStyles": [],
                 "color": "#cccccc"
               },
-              "hiddenInEditor": true,
+              "hiddenInEditor": false,
               "timeline": [],
               "eventHandlers": [],
               "widgets": [
@@ -5431,7 +6537,7 @@
                     "alignVertical": "center",
                     "color": "#ffff00"
                   },
-                  "hiddenInEditor": true,
+                  "hiddenInEditor": false,
                   "timeline": [],
                   "eventHandlers": []
                 },
@@ -5440,7 +6546,7 @@
                   "type": "LineChartWidget",
                   "left": 44,
                   "top": 92,
-                  "width": 1197,
+                  "width": 1038,
                   "height": 566,
                   "customInputs": [
                     {
@@ -5465,12 +6571,12 @@
                     "useStyle": "default",
                     "conditionalStyles": [],
                     "childStyles": [],
-                    "color": "#cccccc",
-                    "backgroundColor": "#222222",
-                    "activeColor": "#828282",
+                    "color": "#ffffff",
+                    "backgroundColor": "#ffffff",
+                    "activeColor": "#ffffff",
                     "focusColor": ""
                   },
-                  "hiddenInEditor": true,
+                  "hiddenInEditor": false,
                   "timeline": [],
                   "eventHandlers": [],
                   "xValue": "Date.toString(Date.now())",
@@ -5547,7 +6653,7 @@
                     "alignVertical": "center",
                     "color": "#ff0000"
                   },
-                  "hiddenInEditor": true,
+                  "hiddenInEditor": false,
                   "timeline": [],
                   "eventHandlers": []
                 },
@@ -5572,7 +6678,7 @@
                     "alignVertical": "center",
                     "color": "#00caff"
                   },
-                  "hiddenInEditor": true,
+                  "hiddenInEditor": false,
                   "timeline": [],
                   "eventHandlers": []
                 },
@@ -5596,9 +6702,10 @@
                         "condition": "thermal_running"
                       }
                     ],
-                    "childStyles": []
+                    "childStyles": [],
+                    "alignHorizontal": "center"
                   },
-                  "hiddenInEditor": true,
+                  "hiddenInEditor": false,
                   "timeline": [],
                   "eventHandlers": [
                     {
@@ -5631,9 +6738,10 @@
                     "objID": "72eb3abd-3a6f-45e0-980e-8f50fe95885a",
                     "useStyle": "default",
                     "conditionalStyles": [],
-                    "childStyles": []
+                    "childStyles": [],
+                    "color": "text_color"
                   },
-                  "hiddenInEditor": true,
+                  "hiddenInEditor": false,
                   "timeline": [],
                   "eventHandlers": []
                 },
@@ -5654,10 +6762,10 @@
                   },
                   "objID": "e5681eeb-f51f-470a-d280-647eac4b374a",
                   "type": "TabulatorWidget",
-                  "left": 865,
-                  "top": 663,
-                  "width": 270,
-                  "height": 137,
+                  "left": 1097,
+                  "top": 92,
+                  "width": 158,
+                  "height": 566,
                   "customInputs": [],
                   "customOutputs": [],
                   "data": "thermal_power_temp",
@@ -5667,7 +6775,7 @@
                     "conditionalStyles": [],
                     "childStyles": []
                   },
-                  "hiddenInEditor": true,
+                  "hiddenInEditor": false,
                   "timeline": [],
                   "eventHandlers": []
                 },
@@ -5685,9 +6793,9 @@
                     "useStyle": "default",
                     "conditionalStyles": [],
                     "childStyles": [],
-                    "alignHorizontal": "right"
+                    "alignHorizontal": "center"
                   },
-                  "hiddenInEditor": true,
+                  "hiddenInEditor": false,
                   "timeline": [],
                   "eventHandlers": [],
                   "value": "thermal_max_power",
@@ -5709,9 +6817,9 @@
                     "useStyle": "default",
                     "conditionalStyles": [],
                     "childStyles": [],
-                    "alignHorizontal": "right"
+                    "alignHorizontal": "center"
                   },
-                  "hiddenInEditor": true,
+                  "hiddenInEditor": false,
                   "timeline": [],
                   "eventHandlers": [],
                   "value": "thermal_plateau_avg_time",
@@ -5733,10 +6841,9 @@
                     "objID": "b068d2b6-3021-4614-df54-0a9fb4d623c9",
                     "useStyle": "default",
                     "conditionalStyles": [],
-                    "childStyles": [],
-                    "alignHorizontal": "right"
+                    "childStyles": []
                   },
-                  "hiddenInEditor": true,
+                  "hiddenInEditor": false,
                   "timeline": [],
                   "eventHandlers": []
                 },
@@ -5757,7 +6864,7 @@
                     "childStyles": [],
                     "alignHorizontal": "right"
                   },
-                  "hiddenInEditor": true,
+                  "hiddenInEditor": false,
                   "timeline": [],
                   "eventHandlers": []
                 },
@@ -5775,9 +6882,9 @@
                     "useStyle": "default",
                     "conditionalStyles": [],
                     "childStyles": [],
-                    "alignHorizontal": "right"
+                    "alignHorizontal": "center"
                   },
-                  "hiddenInEditor": true,
+                  "hiddenInEditor": false,
                   "timeline": [],
                   "eventHandlers": [],
                   "value": "thermal_plateau_threshold_perc",
@@ -5802,7 +6909,7 @@
                     "childStyles": [],
                     "alignHorizontal": "right"
                   },
-                  "hiddenInEditor": true,
+                  "hiddenInEditor": false,
                   "timeline": [],
                   "eventHandlers": []
                 },
@@ -5820,9 +6927,9 @@
                     "useStyle": "default",
                     "conditionalStyles": [],
                     "childStyles": [],
-                    "alignHorizontal": "right"
+                    "alignHorizontal": "center"
                   },
-                  "hiddenInEditor": true,
+                  "hiddenInEditor": false,
                   "timeline": [],
                   "eventHandlers": [],
                   "value": "thermal_max_temp",
@@ -5847,7 +6954,7 @@
                     "childStyles": [],
                     "alignHorizontal": "right"
                   },
-                  "hiddenInEditor": true,
+                  "hiddenInEditor": false,
                   "timeline": [],
                   "eventHandlers": []
                 },
@@ -5866,11 +6973,59 @@
                     "useStyle": "default",
                     "conditionalStyles": [],
                     "childStyles": [],
-                    "alignHorizontal": "right"
+                    "alignHorizontal": "right",
+                    "color": "text_color"
+                  },
+                  "hiddenInEditor": false,
+                  "timeline": [],
+                  "eventHandlers": []
+                }
+              ],
+              "layout": "static"
+            },
+            {
+              "objID": "b5aa80fc-7f7c-4b5e-fb4e-3793b4b017ef",
+              "type": "ContainerWidget",
+              "left": 0,
+              "top": 0,
+              "width": 1270,
+              "height": 800,
+              "customInputs": [],
+              "customOutputs": [],
+              "style": {
+                "objID": "60a3beff-7bf2-4ad6-c70f-cd5f6e3c8c46",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": [],
+                "color": "#cccccc"
+              },
+              "hiddenInEditor": true,
+              "timeline": [],
+              "eventHandlers": [],
+              "widgets": [
+                {
+                  "objID": "98a2363c-a821-4cf7-f5a0-e0703a1c64f8",
+                  "type": "UserWidgetWidget",
+                  "left": 0,
+                  "top": 0,
+                  "width": 1270,
+                  "height": 800,
+                  "customInputs": [],
+                  "customOutputs": [],
+                  "style": {
+                    "objID": "f379a80b-fb2e-47f1-f6d5-59354f588865",
+                    "useStyle": "default",
+                    "conditionalStyles": [],
+                    "childStyles": []
                   },
                   "hiddenInEditor": true,
                   "timeline": [],
-                  "eventHandlers": []
+                  "eventHandlers": [],
+                  "userWidgetPageName": "debuginfo",
+                  "userPropertyValues": {
+                    "objID": "e2fbd147-9cf4-4213-dc8c-cd2dd569a408",
+                    "values": {}
+                  }
                 }
               ],
               "layout": "static"
@@ -5916,7 +7071,7 @@
           "type": "SetVariableActionComponent",
           "left": 699,
           "top": -224,
-          "width": 164,
+          "width": 189,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -5924,7 +7079,7 @@
             {
               "objID": "a4846a66-67b0-4f18-d75f-e7a1275aee89",
               "variable": "tab",
-              "value": "dashTab_e.bat"
+              "value": "dashTab_e.thermal"
             }
           ]
         },
@@ -5964,7 +7119,7 @@
           "left": 1237,
           "top": 1364,
           "width": 87,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "milliseconds": "1000"
@@ -5974,7 +7129,7 @@
           "type": "TextDashboardWidget",
           "left": 303,
           "top": 850,
-          "width": 567,
+          "width": 478,
           "height": 32,
           "customInputs": [],
           "customOutputs": [],
@@ -5986,7 +7141,8 @@
             "childStyles": [],
             "fontWeight": "bold",
             "fontStyle": "normal",
-            "color": "#fe0000"
+            "alignHorizontal": "left",
+            "color": "#ff0000"
           },
           "timeline": [],
           "eventHandlers": []
@@ -6057,7 +7213,8 @@
             "objID": "17863785-d32f-47f0-f2be-48e058e02310",
             "useStyle": "default",
             "conditionalStyles": [],
-            "childStyles": []
+            "childStyles": [],
+            "alignHorizontal": "center"
           },
           "timeline": [],
           "eventHandlers": [],
@@ -6082,7 +7239,8 @@
             "objID": "ccc9410c-02d3-411d-bfec-3dc97522613d",
             "useStyle": "default",
             "conditionalStyles": [],
-            "childStyles": []
+            "childStyles": [],
+            "alignHorizontal": "center"
           },
           "timeline": [],
           "eventHandlers": [],
@@ -6099,7 +7257,7 @@
           "left": 584,
           "top": 1428,
           "width": 113,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [
             {
@@ -6116,9 +7274,9 @@
         {
           "objID": "e409517b-46aa-41f0-a222-86a43bc1fb6a",
           "type": "TextDashboardWidget",
-          "left": 890,
+          "left": 800,
           "top": 850,
-          "width": 342,
+          "width": 475,
           "height": 32,
           "customInputs": [],
           "customOutputs": [],
@@ -6127,7 +7285,8 @@
             "objID": "1efb817e-4d0a-4ed7-d85d-1dfb224e8974",
             "useStyle": "default",
             "conditionalStyles": [],
-            "childStyles": []
+            "childStyles": [],
+            "alignHorizontal": "left"
           },
           "timeline": [],
           "eventHandlers": []
@@ -6135,9 +7294,9 @@
         {
           "objID": "45b56942-5689-4088-e1cf-673a5077e36b",
           "type": "TextDashboardWidget",
-          "left": 890,
+          "left": 800,
           "top": 885,
-          "width": 342,
+          "width": 475,
           "height": 32,
           "customInputs": [
             {
@@ -6152,7 +7311,8 @@
             "objID": "5297ad59-6d82-46bf-925a-65db26891986",
             "useStyle": "default",
             "conditionalStyles": [],
-            "childStyles": []
+            "childStyles": [],
+            "alignHorizontal": "left"
           },
           "timeline": [],
           "eventHandlers": []
@@ -6160,13 +7320,13 @@
         {
           "objID": "247496c8-b919-4053-e0aa-842d7015713d",
           "type": "TextDashboardWidget",
-          "left": 1002,
+          "left": 975,
           "top": 7,
-          "width": 220,
+          "width": 247,
           "height": 32,
           "customInputs": [],
           "customOutputs": [],
-          "data": "modeStrings[state_mode] + \"  \" + (state_Ilow == \"L\" ? \"1A\" : \"10A\") + \"  \" + (state_Ulow == \"L\" ? \"9V\" : \"80V\") + \"  \" + nplc*20 + \"ms  \" + fan_rpm + \"rpm\"",
+          "data": "modeStrings[state_mode] + \"  \" + (state_Ilow == \"L\" ? \"1A\" : \"10A\") + \"  \" + (state_Ulow == \"L\" ? \"9V\" : \"80V\") + \"  \" + (remoteSense ? \" Sense \" : \"\") + nplc*20 + \"ms  \" + fan_rpm + \"rpm\"",
           "style": {
             "objID": "141d9722-e52a-45b7-95ec-5a4556f552d8",
             "useStyle": "label_bg",
@@ -6193,7 +7353,7 @@
           "left": -334,
           "top": 1206,
           "width": 98,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "umon"
@@ -6204,7 +7364,7 @@
           "left": -334,
           "top": 1128,
           "width": 98,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "imon"
@@ -6215,7 +7375,7 @@
           "left": -329,
           "top": 417,
           "width": 87,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "milliseconds": "2500"
@@ -6226,7 +7386,7 @@
           "left": -735,
           "top": 444,
           "width": 98,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "pmon"
@@ -6237,7 +7397,7 @@
           "left": -734,
           "top": 522,
           "width": 98,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "temp"
@@ -6248,7 +7408,7 @@
           "left": -753,
           "top": 600,
           "width": 117,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "fan_rpm"
@@ -6259,7 +7419,7 @@
           "left": -329,
           "top": 654,
           "width": 126,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "expression": "fan_rpm/120"
@@ -6270,7 +7430,7 @@
           "left": -654,
           "top": 1582,
           "width": 221,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "thermal_power_temp_steps"
@@ -6280,7 +7440,7 @@
           "type": "SetVariableActionComponent",
           "left": 198,
           "top": 1636,
-          "width": 1079,
+          "width": 1080,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -6345,7 +7505,8 @@
             "objID": "c582336b-fa15-4d84-a2e1-3a7339db8da4",
             "useStyle": "default",
             "conditionalStyles": [],
-            "childStyles": []
+            "childStyles": [],
+            "alignHorizontal": "center"
           },
           "timeline": [],
           "eventHandlers": [],
@@ -6370,7 +7531,8 @@
             "objID": "b7f9ef16-6e18-48cb-a39a-dd4b5b96171b",
             "useStyle": "label_bg",
             "conditionalStyles": [],
-            "childStyles": []
+            "childStyles": [],
+            "alignHorizontal": "left"
           },
           "timeline": [],
           "eventHandlers": []
@@ -6380,7 +7542,7 @@
           "type": "IsTrueActionComponent",
           "left": -579,
           "top": 470,
-          "width": 189,
+          "width": 190,
           "height": 69,
           "customInputs": [],
           "customOutputs": [],
@@ -6392,7 +7554,7 @@
           "left": -332,
           "top": 496,
           "width": 87,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "expression": "pmon"
@@ -6402,7 +7564,7 @@
           "type": "IsTrueActionComponent",
           "left": -579,
           "top": 548,
-          "width": 189,
+          "width": 190,
           "height": 69,
           "customInputs": [],
           "customOutputs": [],
@@ -6414,7 +7576,7 @@
           "left": -332,
           "top": 574,
           "width": 87,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "expression": "temp"
@@ -6424,7 +7586,7 @@
           "type": "IsTrueActionComponent",
           "left": -579,
           "top": 626,
-          "width": 189,
+          "width": 190,
           "height": 69,
           "customInputs": [],
           "customOutputs": [],
@@ -6436,7 +7598,7 @@
           "left": -802,
           "top": 313,
           "width": 166,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "thermal_running"
@@ -6491,7 +7653,7 @@
           "left": -346,
           "top": 1870,
           "width": 212,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "expression": "{ layout : graph_layout }"
@@ -6502,7 +7664,7 @@
           "left": -315,
           "top": 1941,
           "width": 181,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "expression": "{ name : \"Current\" }"
@@ -6513,7 +7675,7 @@
           "left": -315,
           "top": 2005,
           "width": 181,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "expression": "{ name : \"Voltage\" }"
@@ -6524,7 +7686,7 @@
           "left": -358,
           "top": 2072,
           "width": 224,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "expression": "{ x : 2.0, y: 3.0, line:0 }"
@@ -6535,7 +7697,7 @@
           "left": -358,
           "top": 2137,
           "width": 224,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "expression": "{ x : 2.0, y: 4.0, line:1 }"
@@ -6546,7 +7708,7 @@
           "left": -502,
           "top": 2072,
           "width": 87,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "milliseconds": "10000"
@@ -6557,7 +7719,7 @@
           "left": -502,
           "top": 1941,
           "width": 87,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "milliseconds": "10000"
@@ -6568,7 +7730,7 @@
           "left": -502,
           "top": 2005,
           "width": 87,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "milliseconds": "10000"
@@ -6579,7 +7741,7 @@
           "left": -502,
           "top": 2137,
           "width": 87,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "milliseconds": "10000"
@@ -6609,9 +7771,9 @@
         {
           "objID": "38b7834c-2a81-418b-bfd2-9a9c9628d857",
           "type": "TextDashboardWidget",
-          "left": 890,
+          "left": 800,
           "top": 920,
-          "width": 342,
+          "width": 475,
           "height": 32,
           "customInputs": [
             {
@@ -6626,7 +7788,8 @@
             "objID": "334de00e-9c78-45cb-94d8-6dd75f2e2710",
             "useStyle": "default",
             "conditionalStyles": [],
-            "childStyles": []
+            "childStyles": [],
+            "alignHorizontal": "left"
           },
           "timeline": [],
           "eventHandlers": []
@@ -6654,7 +7817,7 @@
           "left": 584,
           "top": 1528,
           "width": 113,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [
             {
@@ -6667,6 +7830,62 @@
           "scpi": "idn = *IDN?",
           "timeout": "null",
           "delay": "null"
+        },
+        {
+          "objID": "ced05bcb-a2f6-492d-fbe1-d73acb382b2d",
+          "type": "ButtonDashboardWidget",
+          "left": 654,
+          "top": 13,
+          "width": 191,
+          "height": 33,
+          "customInputs": [],
+          "customOutputs": [],
+          "data": "\"Debug\"",
+          "style": {
+            "objID": "4d9c9ff0-26ad-4f71-bd48-64b6caf03b01",
+            "useStyle": "pagebg",
+            "conditionalStyles": [
+              {
+                "objID": "e60c92ee-d583-47f5-8040-16246be7f0ce",
+                "style": "panel",
+                "condition": "tab == dashTab_e.debug"
+              }
+            ],
+            "childStyles": [],
+            "alignHorizontal": "center"
+          },
+          "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "923a558f-9465-456e-c002-2336671f77cd",
+              "eventName": "CLICKED",
+              "handlerType": "flow",
+              "userData": 0
+            }
+          ],
+          "disabledStyle": {
+            "objID": "aec98f77-c4b0-4163-bae2-aad1165d868b",
+            "useStyle": "default",
+            "conditionalStyles": [],
+            "childStyles": []
+          }
+        },
+        {
+          "objID": "dfc8121a-a7a3-41c3-8b0b-28d2c275057d",
+          "type": "SetVariableActionComponent",
+          "left": 890,
+          "top": -149,
+          "width": 177,
+          "height": 57,
+          "customInputs": [],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "a0492d35-bd5d-4daf-e8cc-ef54c2f16e84",
+              "variable": "tab",
+              "value": "dashTab_e.debug"
+            }
+          ]
         }
       ],
       "connectionLines": [
@@ -7026,6 +8245,13 @@
           "output": "idn",
           "target": "38b7834c-2a81-418b-bfd2-9a9c9628d857",
           "input": "in"
+        },
+        {
+          "objID": "9cb107e5-33f6-48e4-f836-4485cf27da3e",
+          "source": "ced05bcb-a2f6-492d-fbe1-d73acb382b2d",
+          "output": "CLICKED",
+          "target": "dfc8121a-a7a3-41c3-8b0b-28d2c275057d",
+          "input": "@seqin"
         }
       ],
       "localVariables": [
@@ -7174,7 +8400,7 @@
           "left": 865,
           "top": -763,
           "width": 271,
-          "height": 64,
+          "height": 65,
           "customInputs": [
             {
               "objID": "5b06ac8f-836d-4096-ddb7-bd7c3e09cb2e",
@@ -7808,7 +9034,7 @@
           "left": 1931,
           "top": -356,
           "width": 87,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "milliseconds": "100"
@@ -7818,8 +9044,8 @@
           "type": "SCPIActionComponent",
           "left": 873,
           "top": -495,
-          "width": 138,
-          "height": 52,
+          "width": 139,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "instrument": "dcl",
@@ -7833,7 +9059,7 @@
           "left": 727,
           "top": -495,
           "width": 100,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "scpi_sem"
@@ -7861,7 +9087,7 @@
           "left": 712,
           "top": -763,
           "width": 100,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "scpi_sem"
@@ -7945,7 +9171,7 @@
           "left": 1742,
           "top": -354,
           "width": 136,
-          "height": 51,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "action": "get_cal_type_data",
@@ -7960,7 +9186,7 @@
           "left": 1614,
           "top": -356,
           "width": 87,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "expression": "i"
@@ -8030,7 +9256,7 @@
           "left": 737,
           "top": -381,
           "width": 100,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "scpi_sem"
@@ -8041,7 +9267,7 @@
           "left": 871,
           "top": -381,
           "width": 151,
-          "height": 64,
+          "height": 65,
           "customInputs": [],
           "customOutputs": [],
           "catchError": false,
@@ -8073,7 +9299,7 @@
           "left": 734,
           "top": -314,
           "width": 100,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "scpi_sem"
@@ -8084,7 +9310,7 @@
           "left": 868,
           "top": -314,
           "width": 151,
-          "height": 64,
+          "height": 65,
           "customInputs": [],
           "customOutputs": [],
           "catchError": false,
@@ -8116,7 +9342,7 @@
           "left": 1344,
           "top": 276,
           "width": 100,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "scpi_sem"
@@ -8126,8 +9352,8 @@
           "type": "SCPIActionComponent",
           "left": 1614,
           "top": 276,
-          "width": 95,
-          "height": 52,
+          "width": 96,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "catchError": false,
@@ -8282,7 +9508,7 @@
           "left": -131,
           "top": -817,
           "width": 123,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "cal_type"
@@ -8293,7 +9519,7 @@
           "left": -131,
           "top": -746,
           "width": 129,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "cal_point"
@@ -8304,7 +9530,7 @@
           "left": 131,
           "top": 185,
           "width": 168,
-          "height": 52,
+          "height": 53,
           "customInputs": [
             {
               "objID": "29714be1-d764-496e-8e4c-82fec3a401d2",
@@ -8321,7 +9547,7 @@
           "left": 337,
           "top": 185,
           "width": 104,
-          "height": 51,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "action": "cal_set_type",
@@ -8381,7 +9607,7 @@
           "left": 1383,
           "top": 135,
           "width": 100,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "scpi_sem"
@@ -8392,7 +9618,7 @@
           "left": 1506,
           "top": 135,
           "width": 102,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "catchError": false,
@@ -8525,7 +9751,7 @@
           "left": 1344,
           "top": 341,
           "width": 168,
-          "height": 52,
+          "height": 53,
           "customInputs": [
             {
               "objID": "fbdcc2fe-493c-4b2c-f5c4-7ea899556686",
@@ -8542,7 +9768,7 @@
           "left": 2127,
           "top": 277,
           "width": 141,
-          "height": 70,
+          "height": 71,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -8610,7 +9836,7 @@
           "left": -403,
           "top": -19,
           "width": 123,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "cal_mode"
@@ -8651,7 +9877,7 @@
           "left": 690,
           "top": -190,
           "width": 160,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "calAllProgress"
@@ -8690,7 +9916,7 @@
           "left": -403,
           "top": 83,
           "width": 141,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "remoteSense"
@@ -8778,7 +10004,7 @@
           "left": 1662,
           "top": 17,
           "width": 100,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "scpi_sem"
@@ -8789,7 +10015,7 @@
           "left": 1796,
           "top": 17,
           "width": 126,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "catchError": false,
@@ -8826,7 +10052,7 @@
           "left": 2001,
           "top": 38,
           "width": 160,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [
             {
@@ -8847,7 +10073,7 @@
           "left": 2007,
           "top": -73,
           "width": 87,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "milliseconds": "1000"
@@ -8858,7 +10084,7 @@
           "left": 2201,
           "top": 37,
           "width": 140,
-          "height": 70,
+          "height": 71,
           "customInputs": [
             {
               "objID": "7dda9b77-54fc-456b-ea2f-e90c38bc2373",
@@ -8888,7 +10114,7 @@
           "left": 1489,
           "top": 276,
           "width": 87,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "milliseconds": "250"
@@ -8944,7 +10170,7 @@
           "left": 1627,
           "top": -176,
           "width": 100,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "scpi_sem"
@@ -8955,7 +10181,7 @@
           "left": 1761,
           "top": -176,
           "width": 206,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "catchError": false,
@@ -8992,7 +10218,7 @@
           "left": 2013,
           "top": -176,
           "width": 87,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "milliseconds": "10000"
@@ -9041,7 +10267,7 @@
           "left": 2204,
           "top": -240,
           "width": 87,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "milliseconds": "1000"
@@ -9052,7 +10278,7 @@
           "left": 2417,
           "top": -130,
           "width": 140,
-          "height": 70,
+          "height": 71,
           "customInputs": [
             {
               "objID": "a540f6f7-79f2-4e95-89bc-ff45a0d51715",
@@ -9099,7 +10325,7 @@
           "left": -349,
           "top": -594,
           "width": 184,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "eraseEepromRunning"
@@ -9110,7 +10336,7 @@
           "left": -344,
           "top": -521,
           "width": 160,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "fullCalRunning"
@@ -9121,7 +10347,7 @@
           "left": -341,
           "top": -452,
           "width": 184,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "initDefaultRunning"
@@ -9149,7 +10375,7 @@
           "left": 676,
           "top": -99,
           "width": 169,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "expression": "calAllProgress + 1"
@@ -9159,7 +10385,7 @@
           "type": "SetVariableActionComponent",
           "left": 1383,
           "top": -104,
-          "width": 213,
+          "width": 214,
           "height": 78,
           "customInputs": [],
           "customOutputs": [],
@@ -9220,13 +10446,7 @@
           "top": 79,
           "width": 109,
           "height": 32,
-          "customInputs": [
-            {
-              "objID": "c3b1d621-89d5-4b03-9653-64773b5424b2",
-              "name": "done",
-              "type": "integer"
-            }
-          ],
+          "customInputs": [],
           "customOutputs": [],
           "data": "calAllRunStart != null ? (fullCalRunning == true ? Date.getMinutes(Date.now() - calAllRunStart) + \":\" + Date.getSeconds(Date.now() - calAllRunStart) : Date.getMinutes(calAllRunStop - calAllRunStart) + \":\" + Date.getSeconds(calAllRunStop - calAllRunStart)) : \"-\"",
           "visible": "calAllRunStart != null",
@@ -9915,8 +11135,8 @@
           "type": "SetVariableActionComponent",
           "left": -394,
           "top": -147,
-          "width": 349,
-          "height": 167,
+          "width": 348,
+          "height": 166,
           "customInputs": [
             {
               "objID": "ce6aec8c-0b5c-409d-b583-87337a16ab26",
@@ -9964,7 +11184,7 @@
           "left": -157,
           "top": 242,
           "width": 111,
-          "height": 54,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "variable": "traces"
@@ -9974,8 +11194,8 @@
           "type": "SwitchActionComponent",
           "left": -826,
           "top": -364,
-          "width": 214,
-          "height": 73,
+          "width": 213,
+          "height": 70,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -9997,7 +11217,7 @@
           "left": -832,
           "top": -240,
           "width": 275,
-          "height": 123,
+          "height": 122,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -10029,7 +11249,7 @@
           "left": -838,
           "top": 269,
           "width": 357,
-          "height": 73,
+          "height": 70,
           "customInputs": [
             {
               "objID": "be532c0b-1fe2-4a73-a0f2-5f6df1defac2",
@@ -10058,7 +11278,7 @@
           "left": -744,
           "top": 411,
           "width": 263,
-          "height": 123,
+          "height": 122,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -10090,7 +11310,7 @@
           "left": -851,
           "top": -577,
           "width": 263,
-          "height": 145,
+          "height": 144,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -10127,7 +11347,7 @@
           "left": -410,
           "top": 242,
           "width": 222,
-          "height": 101,
+          "height": 100,
           "customInputs": [
             {
               "objID": "4fe06281-389f-4300-8fec-04f1592bd355",
@@ -10160,7 +11380,7 @@
           "left": -1327,
           "top": -147,
           "width": 387,
-          "height": 111,
+          "height": 105,
           "customInputs": [
             {
               "objID": "f8136654-ced2-4ef6-f4da-90707cbd7f7d",
@@ -10202,7 +11422,7 @@
           "left": -1498,
           "top": -200,
           "width": 100,
-          "height": 54,
+          "height": 52,
           "customInputs": [],
           "customOutputs": [],
           "variable": "running"
@@ -10424,6 +11644,1206 @@
       "width": 1150,
       "height": 250,
       "isUsedAsUserWidget": true
+    },
+    {
+      "objID": "59fe6003-57da-4d5e-aef0-8a127a9be2f5",
+      "components": [
+        {
+          "objID": "e7a3395a-39f5-4384-d4fc-ecb8dd0fb08d",
+          "type": "TextDashboardWidget",
+          "left": 513,
+          "top": 16,
+          "width": 244,
+          "height": 32,
+          "customInputs": [],
+          "customOutputs": [],
+          "data": "\"Debug Information\"",
+          "style": {
+            "objID": "b21a73dd-2dea-4159-c5bd-797846b837cd",
+            "useStyle": "default",
+            "conditionalStyles": [],
+            "childStyles": [],
+            "fontSize": "24",
+            "alignHorizontal": "center"
+          },
+          "timeline": [],
+          "eventHandlers": []
+        },
+        {
+          "objID": "73f062f3-c35e-4ecf-d446-e85238663325",
+          "type": "Container",
+          "left": 771,
+          "top": 530,
+          "width": 481,
+          "height": 270,
+          "customInputs": [],
+          "customOutputs": [],
+          "style": {
+            "objID": "2c5337ce-1162-441d-95b2-1a10d510366e",
+            "useStyle": "default",
+            "conditionalStyles": [],
+            "childStyles": []
+          },
+          "timeline": [],
+          "eventHandlers": [],
+          "name": "Queues&Buffers",
+          "widgets": [
+            {
+              "objID": "20db585b-437b-4817-f459-df4a2076c979",
+              "type": "RectangleDashboardWidget",
+              "left": 0,
+              "top": 0,
+              "width": 481,
+              "height": 270,
+              "customInputs": [],
+              "customOutputs": [],
+              "style": {
+                "objID": "245679ee-5cba-4ff2-a676-42f329041c5e",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": [],
+                "backgroundColor": "#bbbbbb"
+              },
+              "timeline": [],
+              "eventHandlers": []
+            },
+            {
+              "objID": "67eeacbe-2da1-44f9-9dd6-dbd0f4a8186b",
+              "type": "TextDashboardWidget",
+              "left": 107,
+              "top": 0,
+              "width": 254,
+              "height": 32,
+              "customInputs": [],
+              "customOutputs": [],
+              "data": "\"Queues & Buffers\"",
+              "style": {
+                "objID": "e95d9486-e982-4102-a8d4-99c43a842792",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": [],
+                "fontSize": "24",
+                "fontWeight": "normal",
+                "alignHorizontal": "center",
+                "backgroundColor": "#bbbbbb"
+              },
+              "timeline": [],
+              "eventHandlers": []
+            },
+            {
+              "objID": "a8575313-b256-4886-ce1d-1b30ef2d8623",
+              "type": "TextDashboardWidget",
+              "left": 5,
+              "top": 32,
+              "width": 157,
+              "height": 32,
+              "customInputs": [],
+              "customOutputs": [],
+              "data": "\"Queue/Buffer\"",
+              "style": {
+                "objID": "1c2d42c9-e1a9-41f5-8407-3da378828c4f",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": [],
+                "alignHorizontal": "center"
+              },
+              "timeline": [],
+              "eventHandlers": []
+            },
+            {
+              "objID": "1094a449-e0ff-4c56-dfaf-e36a62438ea5",
+              "type": "TextDashboardWidget",
+              "left": 162,
+              "top": 32,
+              "width": 157,
+              "height": 32,
+              "customInputs": [],
+              "customOutputs": [],
+              "data": "\"Min Free\"",
+              "style": {
+                "objID": "7d3f3d74-b6e1-4ccd-f099-620ee3581625",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": [],
+                "alignHorizontal": "center"
+              },
+              "timeline": [],
+              "eventHandlers": []
+            },
+            {
+              "objID": "1694b6fb-382f-46e8-98d1-2c4d0b195221",
+              "type": "TextDashboardWidget",
+              "left": 319,
+              "top": 32,
+              "width": 157,
+              "height": 32,
+              "customInputs": [],
+              "customOutputs": [],
+              "data": "\"Overflows\"",
+              "style": {
+                "objID": "b15d4005-755e-421b-ea34-4102936fb62a",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": [],
+                "alignHorizontal": "center"
+              },
+              "timeline": [],
+              "eventHandlers": []
+            },
+            {
+              "objID": "003af818-0492-4de7-efd8-d3a47e6c84fc",
+              "type": "ListWidget",
+              "left": 5,
+              "top": 64,
+              "width": 471,
+              "height": 200,
+              "customInputs": [],
+              "customOutputs": [],
+              "data": "debugMQMin",
+              "style": {
+                "objID": "ef43fed1-bfd3-455e-9acc-c6d3153aabcc",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": []
+              },
+              "timeline": [],
+              "eventHandlers": [],
+              "itemWidget": {
+                "objID": "69fea424-ba05-4fab-d5c6-9fe13637fb4e",
+                "type": "Container",
+                "left": 0,
+                "top": 0,
+                "width": 471,
+                "height": 32,
+                "customInputs": [],
+                "customOutputs": [],
+                "style": {
+                  "objID": "6f817e6c-b668-4e90-e332-1d71ca95dcd7",
+                  "useStyle": "default",
+                  "conditionalStyles": [],
+                  "childStyles": []
+                },
+                "timeline": [],
+                "eventHandlers": [],
+                "widgets": [
+                  {
+                    "objID": "bfd4a8fe-f555-4d36-8442-7ec6c1a9e692",
+                    "type": "TextDashboardWidget",
+                    "left": 0,
+                    "top": 0,
+                    "width": 157,
+                    "height": 32,
+                    "customInputs": [],
+                    "customOutputs": [],
+                    "data": "debugMQNames[$index]",
+                    "style": {
+                      "objID": "b1ef7256-276a-48dc-d212-25d5dcd370da",
+                      "useStyle": "default",
+                      "conditionalStyles": [],
+                      "childStyles": []
+                    },
+                    "timeline": [],
+                    "eventHandlers": []
+                  },
+                  {
+                    "objID": "f453c21f-b9a8-44cb-9bab-28bc159400ad",
+                    "type": "TextDashboardWidget",
+                    "left": 157,
+                    "top": 0,
+                    "width": 157,
+                    "height": 32,
+                    "customInputs": [],
+                    "customOutputs": [],
+                    "data": "debugMQMin[$index]",
+                    "style": {
+                      "objID": "7dfa0330-8e48-4987-834b-751620a86dee",
+                      "useStyle": "default",
+                      "conditionalStyles": [],
+                      "childStyles": [],
+                      "alignVertical": "center"
+                    },
+                    "timeline": [],
+                    "eventHandlers": []
+                  },
+                  {
+                    "objID": "ece24461-b302-48ab-f418-2f5795241337",
+                    "type": "TextDashboardWidget",
+                    "left": 314,
+                    "top": 0,
+                    "width": 157,
+                    "height": 32,
+                    "customInputs": [],
+                    "customOutputs": [],
+                    "data": "debugMQOverflows[$index]",
+                    "style": {
+                      "objID": "8eb750cb-532a-4231-c9f9-a1be8708e1f3",
+                      "useStyle": "default",
+                      "conditionalStyles": [],
+                      "childStyles": [],
+                      "alignVertical": "center"
+                    },
+                    "timeline": [],
+                    "eventHandlers": []
+                  }
+                ],
+                "layout": "static"
+              },
+              "listType": "vertical",
+              "gap": 0
+            }
+          ],
+          "layout": "static"
+        },
+        {
+          "objID": "b5dc3ed4-9842-47a0-bae2-8d650bd6f887",
+          "type": "Container",
+          "left": 771,
+          "top": 113,
+          "width": 481,
+          "height": 409,
+          "customInputs": [],
+          "customOutputs": [],
+          "style": {
+            "objID": "631d730e-91c8-4081-ea86-5757d0d76c01",
+            "useStyle": "default",
+            "conditionalStyles": [],
+            "childStyles": []
+          },
+          "timeline": [],
+          "eventHandlers": [],
+          "name": "Tasks",
+          "widgets": [
+            {
+              "objID": "18e7d966-3f43-4752-a79d-4fad07e41e23",
+              "type": "RectangleDashboardWidget",
+              "left": 0,
+              "top": 0,
+              "width": 481,
+              "height": 409,
+              "customInputs": [],
+              "customOutputs": [],
+              "style": {
+                "objID": "91db609f-e571-4edb-ec42-9d5fad527c49",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": [],
+                "backgroundColor": "#bbbbbb"
+              },
+              "timeline": [],
+              "eventHandlers": []
+            },
+            {
+              "objID": "1b939b25-daa9-4b60-d04a-bea0c26b5a10",
+              "type": "TextDashboardWidget",
+              "left": 107,
+              "top": 0,
+              "width": 254,
+              "height": 32,
+              "customInputs": [],
+              "customOutputs": [],
+              "data": "\"Tasks\"",
+              "style": {
+                "objID": "05298f80-24f2-4e3e-a88c-234af51b5ea8",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": [],
+                "fontSize": "24",
+                "fontWeight": "normal",
+                "alignHorizontal": "center",
+                "backgroundColor": "#bbbbbb"
+              },
+              "timeline": [],
+              "eventHandlers": []
+            },
+            {
+              "objID": "54d4bf2f-2f63-4693-bdfa-e6d50b85b543",
+              "type": "TextDashboardWidget",
+              "left": 5,
+              "top": 32,
+              "width": 125,
+              "height": 32,
+              "customInputs": [],
+              "customOutputs": [],
+              "data": "\"Task\"",
+              "style": {
+                "objID": "db8a6094-c17b-4528-f97e-1586172a7ec2",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": [],
+                "alignHorizontal": "center"
+              },
+              "timeline": [],
+              "eventHandlers": []
+            },
+            {
+              "objID": "9d3e68d0-123b-4064-c24a-e236f1d03c20",
+              "type": "TextDashboardWidget",
+              "left": 130,
+              "top": 32,
+              "width": 100,
+              "height": 32,
+              "customInputs": [],
+              "customOutputs": [],
+              "data": "\"Stack Min Free\"",
+              "style": {
+                "objID": "016a3f0c-b464-47be-ea17-9729937bb2cb",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": [],
+                "alignHorizontal": "center"
+              },
+              "timeline": [],
+              "eventHandlers": []
+            },
+            {
+              "objID": "67e94add-792c-43ce-f1f1-8f74b2738c41",
+              "type": "TextDashboardWidget",
+              "left": 230,
+              "top": 32,
+              "width": 75,
+              "height": 32,
+              "customInputs": [],
+              "customOutputs": [],
+              "data": "\"Priority\"",
+              "style": {
+                "objID": "d627f55a-53c7-4668-c203-cd89adedf250",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": [],
+                "alignHorizontal": "center"
+              },
+              "timeline": [],
+              "eventHandlers": []
+            },
+            {
+              "objID": "e636f651-6c75-432e-f430-909fc90a43eb",
+              "type": "ListWidget",
+              "left": 5,
+              "top": 64,
+              "width": 471,
+              "height": 340,
+              "customInputs": [],
+              "customOutputs": [],
+              "data": "debugTskNames",
+              "style": {
+                "objID": "488337e3-0fba-455a-ee8b-bf03b4a69daf",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": []
+              },
+              "timeline": [],
+              "eventHandlers": [],
+              "itemWidget": {
+                "objID": "d4de1b44-0fbc-46ad-d5d7-a7d5bc8d0e7f",
+                "type": "Container",
+                "left": 0,
+                "top": 0,
+                "width": 471,
+                "height": 28,
+                "customInputs": [],
+                "customOutputs": [],
+                "style": {
+                  "objID": "2294ef2c-f232-4c4e-a753-df04f3b80d51",
+                  "useStyle": "default",
+                  "conditionalStyles": [],
+                  "childStyles": []
+                },
+                "timeline": [],
+                "eventHandlers": [],
+                "widgets": [
+                  {
+                    "objID": "b18855a2-3d62-4be0-a10f-eb805c6baebe",
+                    "type": "TextDashboardWidget",
+                    "left": 0,
+                    "top": 0,
+                    "width": 125,
+                    "height": 28,
+                    "customInputs": [],
+                    "customOutputs": [],
+                    "data": "debugTskNames[$index]",
+                    "style": {
+                      "objID": "13e19744-2866-4e87-bf98-e3feed572338",
+                      "useStyle": "default",
+                      "conditionalStyles": [],
+                      "childStyles": []
+                    },
+                    "timeline": [],
+                    "eventHandlers": []
+                  },
+                  {
+                    "objID": "b05a9dc4-74e3-4c72-fb50-fac9c79286b1",
+                    "type": "TextDashboardWidget",
+                    "left": 124,
+                    "top": 0,
+                    "width": 101,
+                    "height": 28,
+                    "customInputs": [],
+                    "customOutputs": [],
+                    "data": "debugTskStackMinFree[$index]",
+                    "style": {
+                      "objID": "54f9e076-1e0b-45d6-b490-b9560f96ae4e",
+                      "useStyle": "default",
+                      "conditionalStyles": [],
+                      "childStyles": [],
+                      "alignVertical": "center"
+                    },
+                    "timeline": [],
+                    "eventHandlers": []
+                  },
+                  {
+                    "objID": "49e5c9ad-e12c-4056-cb32-3ad31dacf339",
+                    "type": "TextDashboardWidget",
+                    "left": 225,
+                    "top": 0,
+                    "width": 75,
+                    "height": 28,
+                    "customInputs": [],
+                    "customOutputs": [],
+                    "data": "debugTskPrio[$index]",
+                    "style": {
+                      "objID": "a331f982-7993-44e2-a09a-0f141a074d56",
+                      "useStyle": "default",
+                      "conditionalStyles": [],
+                      "childStyles": [],
+                      "alignVertical": "center"
+                    },
+                    "timeline": [],
+                    "eventHandlers": []
+                  },
+                  {
+                    "objID": "5d99cb72-a6c8-47b7-ded9-c72c94e0274a",
+                    "type": "TextDashboardWidget",
+                    "left": 300,
+                    "top": 0,
+                    "width": 75,
+                    "height": 28,
+                    "customInputs": [],
+                    "customOutputs": [],
+                    "data": "debugTskWDog[$index]",
+                    "style": {
+                      "objID": "5989e3f8-501f-4979-d104-86754a26f979",
+                      "useStyle": "default",
+                      "conditionalStyles": [],
+                      "childStyles": [],
+                      "alignVertical": "center"
+                    },
+                    "timeline": [],
+                    "eventHandlers": []
+                  },
+                  {
+                    "objID": "23410e52-8045-46c8-b930-056efc4c1115",
+                    "type": "TextDashboardWidget",
+                    "left": 375,
+                    "top": 0,
+                    "width": 96,
+                    "height": 28,
+                    "customInputs": [],
+                    "customOutputs": [],
+                    "data": "debugTskRuntimePerc[$index]  + \"%\"",
+                    "style": {
+                      "objID": "e237191d-3684-4797-cd63-422a47a6ac3b",
+                      "useStyle": "default",
+                      "conditionalStyles": [],
+                      "childStyles": [],
+                      "alignVertical": "center"
+                    },
+                    "timeline": [],
+                    "eventHandlers": []
+                  }
+                ],
+                "layout": "static"
+              },
+              "listType": "vertical",
+              "gap": 0
+            },
+            {
+              "objID": "df2f8376-fb28-4d79-a754-cb5185c499fa",
+              "type": "TextDashboardWidget",
+              "left": 305,
+              "top": 32,
+              "width": 75,
+              "height": 32,
+              "customInputs": [],
+              "customOutputs": [],
+              "data": "\"WDog max\"",
+              "style": {
+                "objID": "46d83789-4aa2-421d-d551-0550010ed0e3",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": [],
+                "alignHorizontal": "center"
+              },
+              "timeline": [],
+              "eventHandlers": []
+            },
+            {
+              "objID": "c487f76a-e476-4c01-a149-2cfbf4519625",
+              "type": "TextDashboardWidget",
+              "left": 380,
+              "top": 32,
+              "width": 96,
+              "height": 32,
+              "customInputs": [],
+              "customOutputs": [],
+              "data": "\"Runtime\"",
+              "style": {
+                "objID": "ff57c954-9699-4884-c796-913347347f30",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": [],
+                "alignHorizontal": "center",
+                "alignVertical": "center"
+              },
+              "timeline": [],
+              "eventHandlers": []
+            }
+          ],
+          "layout": "static"
+        },
+        {
+          "objID": "71b697f7-5609-4f0b-f905-09f4b7d6d126",
+          "type": "Container",
+          "left": 276,
+          "top": 197,
+          "width": 481,
+          "height": 204,
+          "customInputs": [],
+          "customOutputs": [],
+          "style": {
+            "objID": "3f9558a6-be6e-4b12-fd51-43d7dee81f9e",
+            "useStyle": "default",
+            "conditionalStyles": [],
+            "childStyles": []
+          },
+          "timeline": [],
+          "eventHandlers": [],
+          "name": "Memory",
+          "widgets": [
+            {
+              "objID": "313baa2d-547a-4d15-b032-9e8bbbdbfaee",
+              "type": "RectangleDashboardWidget",
+              "left": 0,
+              "top": 0,
+              "width": 481,
+              "height": 204,
+              "customInputs": [],
+              "customOutputs": [],
+              "style": {
+                "objID": "89506eaf-215c-4997-b727-400e56289a38",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": [],
+                "backgroundColor": "#bbbbbb"
+              },
+              "timeline": [],
+              "eventHandlers": []
+            },
+            {
+              "objID": "d3c51a18-ccf6-468b-c0c1-24dfa37726e9",
+              "type": "TextDashboardWidget",
+              "left": 107,
+              "top": 0,
+              "width": 254,
+              "height": 32,
+              "customInputs": [],
+              "customOutputs": [],
+              "data": "\"Memory\"",
+              "style": {
+                "objID": "83a94272-adda-4a9a-8682-77d5118abf0a",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": [],
+                "fontSize": "24",
+                "fontWeight": "normal",
+                "alignHorizontal": "center",
+                "backgroundColor": "#bbbbbb"
+              },
+              "timeline": [],
+              "eventHandlers": []
+            },
+            {
+              "objID": "701c40d7-bad3-4a54-c183-cf4e20c5ee86",
+              "type": "ListWidget",
+              "left": 5,
+              "top": 32,
+              "width": 471,
+              "height": 32,
+              "customInputs": [],
+              "customOutputs": [],
+              "data": "debugMemHeapNames",
+              "style": {
+                "objID": "1fabed84-5818-4492-8f58-855d9689fbf5",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": []
+              },
+              "timeline": [],
+              "eventHandlers": [],
+              "itemWidget": {
+                "objID": "4e28c2ee-409a-4262-ea7d-57331b05c5b7",
+                "type": "Container",
+                "left": 0,
+                "top": 0,
+                "width": 157,
+                "height": 32,
+                "customInputs": [],
+                "customOutputs": [],
+                "style": {
+                  "objID": "49d60197-4c06-4793-e77a-e594c6e07447",
+                  "useStyle": "default",
+                  "conditionalStyles": [],
+                  "childStyles": []
+                },
+                "timeline": [],
+                "eventHandlers": [],
+                "widgets": [
+                  {
+                    "objID": "cdd53943-990c-4e36-91d8-a3f44d308323",
+                    "type": "TextDashboardWidget",
+                    "left": 0,
+                    "top": 0,
+                    "width": 157,
+                    "height": 32,
+                    "customInputs": [],
+                    "customOutputs": [],
+                    "data": "debugMemHeapNames[$index] +\": \"+debugMemHeap[$index]",
+                    "style": {
+                      "objID": "5dc2faa8-8448-4d47-e600-2b713f7ce802",
+                      "useStyle": "default",
+                      "conditionalStyles": [],
+                      "childStyles": [],
+                      "alignHorizontal": "center"
+                    },
+                    "timeline": [],
+                    "eventHandlers": []
+                  }
+                ],
+                "layout": "static"
+              },
+              "listType": "horizontal",
+              "gap": 0
+            },
+            {
+              "objID": "2494bd85-fd31-4912-9813-51a7680e6ae9",
+              "type": "GridWidget",
+              "left": 5,
+              "top": 103,
+              "width": 471,
+              "height": 96,
+              "customInputs": [],
+              "customOutputs": [],
+              "data": "debugMemLVMonNames",
+              "style": {
+                "objID": "3628cdc8-a226-4582-f040-e246a9cc0e9e",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": []
+              },
+              "timeline": [],
+              "eventHandlers": [],
+              "itemWidget": {
+                "objID": "52ef63dd-e773-4368-d73b-459dc5fedef1",
+                "type": "Container",
+                "left": 0,
+                "top": 0,
+                "width": 157,
+                "height": 32,
+                "customInputs": [],
+                "customOutputs": [],
+                "style": {
+                  "objID": "5d39143e-431f-4e3a-a72c-edebfb65dc1c",
+                  "useStyle": "default",
+                  "conditionalStyles": [],
+                  "childStyles": []
+                },
+                "timeline": [],
+                "eventHandlers": [],
+                "widgets": [
+                  {
+                    "objID": "f276c473-3fb4-4f20-ffd7-2ffe3a2370e2",
+                    "type": "TextDashboardWidget",
+                    "left": 0,
+                    "top": 0,
+                    "width": 157,
+                    "height": 32,
+                    "customInputs": [],
+                    "customOutputs": [],
+                    "data": "debugMemLVMonNames[$index] +\" \"+debugMemLVMon[$index]",
+                    "style": {
+                      "objID": "11d78875-ba3a-462a-a5fe-b7b5a071ece3",
+                      "useStyle": "default",
+                      "conditionalStyles": [],
+                      "childStyles": [],
+                      "alignHorizontal": "center"
+                    },
+                    "timeline": [],
+                    "eventHandlers": []
+                  }
+                ],
+                "layout": "static"
+              },
+              "gridFlow": "row"
+            },
+            {
+              "objID": "5127b392-b51e-410f-bfc4-34b601b6956f",
+              "type": "TextDashboardWidget",
+              "left": 107,
+              "top": 71,
+              "width": 254,
+              "height": 32,
+              "customInputs": [],
+              "customOutputs": [],
+              "data": "\"LVGL Memory\"",
+              "style": {
+                "objID": "deb6322b-7b61-43b5-cee6-008ab83734d1",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": [],
+                "fontSize": "18",
+                "fontWeight": "normal",
+                "alignHorizontal": "center",
+                "backgroundColor": "#bbbbbb"
+              },
+              "timeline": [],
+              "eventHandlers": []
+            }
+          ],
+          "layout": "static"
+        },
+        {
+          "objID": "c7aef3eb-ee6d-4892-c09b-97353a66b878",
+          "type": "Container",
+          "left": 276,
+          "top": 530,
+          "width": 481,
+          "height": 69,
+          "customInputs": [],
+          "customOutputs": [],
+          "style": {
+            "objID": "f33703e9-b6ab-4021-9595-d95a39cc88cb",
+            "useStyle": "default",
+            "conditionalStyles": [],
+            "childStyles": []
+          },
+          "timeline": [],
+          "eventHandlers": [],
+          "name": "Flow",
+          "widgets": [
+            {
+              "objID": "cc00764c-1424-493f-f94c-5fb4cd713959",
+              "type": "RectangleDashboardWidget",
+              "left": 0,
+              "top": 0,
+              "width": 481,
+              "height": 69,
+              "customInputs": [],
+              "customOutputs": [],
+              "style": {
+                "objID": "412f0104-cdb4-4b7c-e99e-707175750b61",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": [],
+                "backgroundColor": "#bbbbbb"
+              },
+              "timeline": [],
+              "eventHandlers": []
+            },
+            {
+              "objID": "6bc59641-85ba-47f5-dfe0-6710cadf81e5",
+              "type": "TextDashboardWidget",
+              "left": 107,
+              "top": 0,
+              "width": 254,
+              "height": 32,
+              "customInputs": [],
+              "customOutputs": [],
+              "data": "\"Flow\"",
+              "style": {
+                "objID": "105a1237-89f7-4a8f-b93f-1416a5d89cc4",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": [],
+                "fontSize": "24",
+                "fontWeight": "normal",
+                "alignHorizontal": "center",
+                "backgroundColor": "#bbbbbb"
+              },
+              "timeline": [],
+              "eventHandlers": []
+            },
+            {
+              "objID": "08d95141-03ac-42b5-f000-dd7160b3bc1b",
+              "type": "ListWidget",
+              "left": 5,
+              "top": 32,
+              "width": 471,
+              "height": 32,
+              "customInputs": [],
+              "customOutputs": [],
+              "data": "debugFlowQueue",
+              "style": {
+                "objID": "e582f8dc-271a-4e6e-a5a4-d36e1ac0ec88",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": []
+              },
+              "timeline": [],
+              "eventHandlers": [],
+              "itemWidget": {
+                "objID": "38da40de-9af9-47e5-daab-df892ba036fa",
+                "type": "Container",
+                "left": 0,
+                "top": 0,
+                "width": 157,
+                "height": 32,
+                "customInputs": [],
+                "customOutputs": [],
+                "style": {
+                  "objID": "7ecb3866-cab3-470b-a603-f1f46bf6607e",
+                  "useStyle": "default",
+                  "conditionalStyles": [],
+                  "childStyles": []
+                },
+                "timeline": [],
+                "eventHandlers": [],
+                "widgets": [
+                  {
+                    "objID": "18c4969c-ef18-4a2a-eb88-e80bfcdc8248",
+                    "type": "TextDashboardWidget",
+                    "left": 0,
+                    "top": 0,
+                    "width": 157,
+                    "height": 32,
+                    "customInputs": [],
+                    "customOutputs": [],
+                    "data": "debugFlowQueueNames[$index] +\": \"+debugFlowQueue[$index]",
+                    "style": {
+                      "objID": "cacb6caa-d274-4ed0-de8f-3283b91cdd46",
+                      "useStyle": "default",
+                      "conditionalStyles": [],
+                      "childStyles": [],
+                      "alignHorizontal": "center"
+                    },
+                    "timeline": [],
+                    "eventHandlers": []
+                  }
+                ],
+                "layout": "static"
+              },
+              "listType": "horizontal",
+              "gap": 0
+            }
+          ],
+          "layout": "static"
+        },
+        {
+          "objID": "06e460a0-01a8-4329-b104-8c9f998905ec",
+          "type": "Container",
+          "left": 276,
+          "top": 618,
+          "width": 481,
+          "height": 69,
+          "customInputs": [],
+          "customOutputs": [],
+          "style": {
+            "objID": "0168e56a-412f-47c2-a9c3-ff65fd8db636",
+            "useStyle": "default",
+            "conditionalStyles": [],
+            "childStyles": []
+          },
+          "timeline": [],
+          "eventHandlers": [],
+          "name": "Flow",
+          "widgets": [
+            {
+              "objID": "731eb293-71f2-44f3-edc5-203a9c553d73",
+              "type": "RectangleDashboardWidget",
+              "left": 0,
+              "top": 0,
+              "width": 481,
+              "height": 69,
+              "customInputs": [],
+              "customOutputs": [],
+              "style": {
+                "objID": "8dd76cec-9952-4571-b1ee-843bc99eab0c",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": [],
+                "backgroundColor": "#bbbbbb"
+              },
+              "timeline": [],
+              "eventHandlers": []
+            },
+            {
+              "objID": "6e75abdb-a539-4b63-e1cb-4b3561eac3c4",
+              "type": "TextDashboardWidget",
+              "left": 107,
+              "top": 0,
+              "width": 254,
+              "height": 32,
+              "customInputs": [],
+              "customOutputs": [],
+              "data": "\"State\"",
+              "style": {
+                "objID": "1e3eb839-6985-41cd-9f2c-be7df2847cc2",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": [],
+                "fontSize": "24",
+                "fontWeight": "normal",
+                "alignHorizontal": "center",
+                "backgroundColor": "#bbbbbb"
+              },
+              "timeline": [],
+              "eventHandlers": []
+            },
+            {
+              "objID": "9f0f00b1-5121-4679-9f03-1470c2c01c0a",
+              "type": "ListWidget",
+              "left": 5,
+              "top": 32,
+              "width": 471,
+              "height": 32,
+              "customInputs": [],
+              "customOutputs": [],
+              "data": "debugStateNames",
+              "style": {
+                "objID": "50f9eb22-a815-4384-e194-dae4e4a4bb64",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": []
+              },
+              "timeline": [],
+              "eventHandlers": [],
+              "itemWidget": {
+                "objID": "1e99553a-73d8-49df-ffd2-5ce8be531311",
+                "type": "Container",
+                "left": 0,
+                "top": 0,
+                "width": 96,
+                "height": 32,
+                "customInputs": [],
+                "customOutputs": [],
+                "style": {
+                  "objID": "b76c7421-1236-428c-8ef4-bd8d32ca882e",
+                  "useStyle": "default",
+                  "conditionalStyles": [],
+                  "childStyles": []
+                },
+                "timeline": [],
+                "eventHandlers": [],
+                "widgets": [
+                  {
+                    "objID": "4427ad62-3ccf-4449-e79a-6a377dbbd45f",
+                    "type": "TextDashboardWidget",
+                    "left": 0,
+                    "top": 0,
+                    "width": 96,
+                    "height": 32,
+                    "customInputs": [],
+                    "customOutputs": [],
+                    "data": "debugStateNames[$index] +\": \"+debugStateCounters[$index]",
+                    "style": {
+                      "objID": "aa430bb4-3532-4133-a42e-afdbf8741ca3",
+                      "useStyle": "default",
+                      "conditionalStyles": [],
+                      "childStyles": [],
+                      "alignHorizontal": "center"
+                    },
+                    "timeline": [],
+                    "eventHandlers": []
+                  }
+                ],
+                "layout": "static"
+              },
+              "listType": "horizontal",
+              "gap": 0
+            }
+          ],
+          "layout": "static"
+        },
+        {
+          "objID": "7ed89c81-8499-479a-ab77-c1a7bc05115b",
+          "type": "Container",
+          "left": 10,
+          "top": 195,
+          "width": 250,
+          "height": 428,
+          "customInputs": [],
+          "customOutputs": [],
+          "style": {
+            "objID": "e0e1e21b-62cc-4fa4-c4c3-e0fe10fa33ea",
+            "useStyle": "default",
+            "conditionalStyles": [],
+            "childStyles": []
+          },
+          "timeline": [],
+          "eventHandlers": [],
+          "name": "HW IO",
+          "widgets": [
+            {
+              "objID": "220b6944-d7f1-4308-a4ab-c721bdbe36bf",
+              "type": "RectangleDashboardWidget",
+              "left": 0,
+              "top": 0,
+              "width": 250,
+              "height": 428,
+              "customInputs": [],
+              "customOutputs": [],
+              "style": {
+                "objID": "7313af4e-6e69-4596-d6b0-92ff8900753b",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": [],
+                "backgroundColor": "#bbbbbb"
+              },
+              "timeline": [],
+              "eventHandlers": []
+            },
+            {
+              "objID": "23036aa7-de11-427a-898d-e6a07c3bec44",
+              "type": "TextDashboardWidget",
+              "left": 0,
+              "top": 0,
+              "width": 250,
+              "height": 32,
+              "customInputs": [],
+              "customOutputs": [],
+              "data": "\"HW IO\"",
+              "style": {
+                "objID": "d60cb6f1-7173-40c4-c981-7c628fddf789",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": [],
+                "fontSize": "24",
+                "fontWeight": "normal",
+                "alignHorizontal": "center",
+                "backgroundColor": "#bbbbbb"
+              },
+              "timeline": [],
+              "eventHandlers": []
+            },
+            {
+              "objID": "3ea06022-0866-4f3e-c196-fe7e639a3b96",
+              "type": "ListWidget",
+              "left": 5,
+              "top": 32,
+              "width": 240,
+              "height": 391,
+              "customInputs": [],
+              "customOutputs": [],
+              "data": "debugHWIONames",
+              "style": {
+                "objID": "ffd0edb6-f001-4bd2-c89f-f39022313c40",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": []
+              },
+              "timeline": [],
+              "eventHandlers": [],
+              "itemWidget": {
+                "objID": "e18a0e82-cf99-4409-a55d-cb33392ca9a2",
+                "type": "Container",
+                "left": 0,
+                "top": 0,
+                "width": 240,
+                "height": 24,
+                "customInputs": [],
+                "customOutputs": [],
+                "style": {
+                  "objID": "f14c0ed9-c56a-4ec9-d816-7d1618ba91b4",
+                  "useStyle": "default",
+                  "conditionalStyles": [],
+                  "childStyles": []
+                },
+                "timeline": [],
+                "eventHandlers": [],
+                "widgets": [
+                  {
+                    "objID": "a35214fc-57a1-4797-b6d4-4776f023842d",
+                    "type": "TextDashboardWidget",
+                    "left": 0,
+                    "top": 0,
+                    "width": 173,
+                    "height": 24,
+                    "customInputs": [],
+                    "customOutputs": [],
+                    "data": "debugHWIONames[$index] +\":\"",
+                    "style": {
+                      "objID": "c47c11ab-fb9e-4891-c1c3-ffc57bcb1314",
+                      "useStyle": "default",
+                      "conditionalStyles": [],
+                      "childStyles": [],
+                      "alignHorizontal": "right"
+                    },
+                    "timeline": [],
+                    "eventHandlers": []
+                  },
+                  {
+                    "objID": "f6915731-42db-48fd-c7c3-429011c840c5",
+                    "type": "TextDashboardWidget",
+                    "left": 173,
+                    "top": 0,
+                    "width": 67,
+                    "height": 24,
+                    "customInputs": [],
+                    "customOutputs": [],
+                    "data": "debugHWIOvalues[$index] ? \"H\" : \"L\"",
+                    "style": {
+                      "objID": "ce6fc9d4-6f66-401e-b52f-2761630b7ad6",
+                      "useStyle": "default",
+                      "conditionalStyles": [
+                        {
+                          "objID": "6c5a93dc-b958-4f74-96ec-8cb95a54f241",
+                          "style": "bg_green",
+                          "condition": "debugHWIOvalues[$index] == true"
+                        }
+                      ],
+                      "childStyles": [],
+                      "fontWeight": "bold",
+                      "alignHorizontal": "center"
+                    },
+                    "timeline": [],
+                    "eventHandlers": []
+                  }
+                ],
+                "layout": "static"
+              },
+              "listType": "vertical",
+              "gap": 0
+            }
+          ],
+          "layout": "static"
+        },
+        {
+          "objID": "f1c216a1-e865-4ee6-8a73-28bbf807dcc4",
+          "type": "SwitchDashboardWidget",
+          "left": 1183,
+          "top": 75,
+          "width": 64,
+          "height": 32,
+          "customInputs": [],
+          "customOutputs": [],
+          "data": "onlyDebugTskPerc",
+          "style": {
+            "objID": "7da8fa92-79bd-4beb-ceda-ac228cce27fb",
+            "useStyle": "default",
+            "conditionalStyles": [],
+            "childStyles": []
+          },
+          "timeline": [],
+          "eventHandlers": []
+        }
+      ],
+      "connectionLines": [],
+      "localVariables": [],
+      "userProperties": [],
+      "name": "debuginfo",
+      "left": 0,
+      "top": 0,
+      "width": 1270,
+      "height": 800,
+      "isUsedAsUserWidget": true
     }
   ],
   "styles": [
@@ -10496,6 +12916,8 @@
           "backgroundColor": "graph_bg"
         }
       ],
+      "alignHorizontal": "right",
+      "color": "text_color",
       "backgroundColor": "panel_color",
       "borderRadius": "0"
     },
@@ -10572,6 +12994,10 @@
     {
       "objID": "cd9572de-258f-4aa9-87a6-6449804df4b5",
       "name": "graph_bg"
+    },
+    {
+      "objID": "f1c06427-8f5f-44e9-884c-5316f98e3f1e",
+      "name": "text_color"
     }
   ],
   "themes": [
@@ -10582,7 +13008,8 @@
         "#f0f0f0",
         "#d0d0d0",
         "#e0e0e0",
-        "#f0f0f0"
+        "#f0f0f0",
+        "#000000"
       ]
     }
   ]

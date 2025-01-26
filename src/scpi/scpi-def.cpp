@@ -5,14 +5,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <FreeRTOS.h>
+#include "task.h"
+#include "message_buffer.h"
 #include "scpi/scpi.h"
+#include "eez-framework.h"
+#include <eez/flow/queue.h>
+#include <eez/flow/flow.h>
 
 #include "main.h"
 #include "eeprom.h"
 #include "scpi-def.h"
 
-using namespace dcl;
+#include "keys.h"
+#include "display.h"
 
+using namespace dcl;
 namespace dcl::scpi {
 
 //// SCPI I/O and ERROR helper functions
@@ -23,6 +31,9 @@ scpi_interface_t scpi_interface = {
     /*.flush = */ SCPI_Flush,
     /*.reset = */ SCPI_Reset,
 };
+
+scpi_t scpi_context;
+scpi_error_t scpi_error_queue_data[SCPI_ERROR_QUEUE_SIZE];
 
 int32_t scpi_busy = 0;
 
@@ -37,43 +48,92 @@ int32_t scpi_busy_dec() {
   return --scpi_busy;
 }
 
-
+// Buffering to UART message buffer.
+////////////////////////////////////
 char scpi_input_buffer[SCPI_INPUT_BUFFER_LENGTH];
-scpi_error_t scpi_error_queue_data[SCPI_ERROR_QUEUE_SIZE];
+char scpi_output_buffer[SCPI_INPUT_BUFFER_LENGTH];
+size_t scpi_output_buffer_pos = 0;
 
-scpi_t scpi_context;
+size_t flushUART(TickType_t timeout = 10)
+{
+    size_t bytesSend = xMessageBufferSend(SCPIreturns, (void *)scpi_output_buffer, scpi_output_buffer_pos, timeout);
+    xTaskNotifyGiveIndexed(taskUART, 0);
 
+    debugMemorySCPIReturnsMinSpace = min(debugMemorySCPIReturnsMinSpace, xMessageBufferSpaceAvailable(SCPIreturns));
+    if (bytesSend == 0)
+    {
+        // TODO: Generate an error on console/events or will scpi library handle this?
+        debugMemorySCPIReturnsOverflows++;
+    }
+    else
+    {
+        // Clear buffer. FreeRTOS sends full buffer or not at all.
+        scpi_output_buffer_pos = 0;
+    }
+    return bytesSend;
+}
+
+size_t sendUART(const char * data, size_t len)
+{
+    if (len == 0) { return 0; }
+    size_t stored = 0;
+
+    // If data won't fit, try to flush first.
+    if ((scpi_output_buffer_pos + len) >= SCPI_INPUT_BUFFER_LENGTH) {
+        // First flush if it doesn't fit in buffer
+        size_t flushed = flushUART(100);
+    }
+
+    // If wew data fits in buffer then append it.
+    if ((scpi_output_buffer_pos + len) < SCPI_INPUT_BUFFER_LENGTH) {
+        memcpy(scpi_output_buffer + scpi_output_buffer_pos, data, len);
+        scpi_output_buffer_pos = scpi_output_buffer_pos + len;
+        stored = len;
+    } 
+
+    return stored;
+}
+
+
+// SCPI glue to UART functions above.
+/////////////////////////////////////
 size_t SCPI_Write(scpi_t * context, const char * data, size_t len) {
-    SERIALDEBUG.write(data, len);
-    return len;
+    return sendUART(data, len);
 };
 
+const size_t scpierrbufsize = 128;
+char scpierrbuf[scpierrbufsize];
 int SCPI_Error(scpi_t * context, int_fast16_t err) {   
+    size_t len = 0;
     if (err == 0) {
-        SERIALDEBUG.printf("%d, \"%s\"\n", err, SCPI_ErrorTranslate(err));
+        len = snprintf(scpierrbuf, scpierrbufsize, "%d, \"%s\"\n", err, SCPI_ErrorTranslate(err));
     } else {
-        SERIALDEBUG.printf("**ERROR: %d, \"%s\"\n", err, SCPI_ErrorTranslate(err));
+        len = snprintf(scpierrbuf, scpierrbufsize, "**ERROR: %d, \"%s\"\n", err, SCPI_ErrorTranslate(err));
     }
+    sendUART(scpierrbuf, len);
     return 0;
 };
 
+// TODO: Implement this.
 scpi_result_t SCPI_Control(scpi_t * context, scpi_ctrl_name_t ctrl, scpi_reg_val_t val) {
     if (SCPI_CTRL_SRQ == ctrl) {
-        SERIALDEBUG.printf("**SRQ: 0x%X (%d)\n", val, val); 
+        //SERIALDEBUG.printf("**SRQ: 0x%X (%d)\n", val, val); 
     } else {
-        SERIALDEBUG.printf("**CTRL %02x: 0x%X (%d)\n", ctrl, val, val);
+        //SERIALDEBUG.printf("**CTRL %02x: 0x%X (%d)\n", ctrl, val, val);
     }
     return SCPI_RES_OK;
 };
 
 scpi_result_t SCPI_Reset(scpi_t * context) {
     state.setDefaults();
-    SERIALDEBUG.printf("**Reset\n");
+    // TODO: Remove, it's a SCPI command so no feedback.
+    const char *msg = "**Reset\n";
+    sendUART(msg, sizeof(msg));
     return SCPI_RES_OK;
 };
 
 scpi_result_t SCPI_Flush(scpi_t * context) {
-    SERIALDEBUG.flush();
+    flushUART();
     return SCPI_RES_OK;
 };
 /////
@@ -587,15 +647,73 @@ extern scpi_result_t scpi_cmd_deb_eeprom_clear(scpi_t *context) {
     }
 };
 
+extern scpi_result_t scpi_cmd_deb_flow_queueQ(scpi_t *context) {
+    uint32_t q[] = { 0, 0};
+    q[0] = eez::flow::getQueueSize();
+    q[1] = eez::flow::getMaxQueueSize();
+    q[2] = eez::flow::getTickMaxDurationCounter();
+    SCPI_ResultArrayUInt32(context, q, 3, SCPI_FORMAT_ASCII);
+    return SCPI_RES_OK;
+};
+
 scpi_result_t scpi_cmd_deb_mem_heapQ(scpi_t *context)
 {
     uint32_t mem[] = { 0, 0, 0, 0};
     mem[0] = rp2040.getTotalHeap();
     mem[1] = rp2040.getUsedHeap();
     mem[2] = rp2040.getFreeHeap();
-    SCPI_ResultArrayUInt32(context, mem, 3, SCPI_FORMAT_ASCII );
+    SCPI_ResultArrayUInt32(context, mem, 3, SCPI_FORMAT_ASCII);
     return SCPI_RES_OK;
 }
+
+scpi_result_t scpi_cmd_deb_mem_lvmonQ(scpi_t *context)
+{
+    lv_mem_monitor_t lvmon;
+    lv_mem_monitor(&lvmon);
+    uint32_t mem[] = { 
+        lvmon.total_size,
+        lvmon.free_cnt,
+        lvmon.free_size,
+        lvmon.free_biggest_size,
+        lvmon.used_cnt,
+        lvmon.max_used,
+        lvmon.used_pct,
+        lvmon.frag_pct
+    };
+    SCPI_ResultArrayUInt32(context, mem, 8, SCPI_FORMAT_ASCII);
+    return SCPI_RES_OK;
+};
+
+
+scpi_result_t scpi_cmd_deb_mem_queues_minQ(scpi_t *context)
+{
+    uint32_t q[] = { 0,1,2,3,4,5,6,7};
+    q[0] = debugMemoryNewMeasurementsBuffMinSpace / (sizeof(newMeasurementMsg) + sizeof (size_t));
+    q[1] = debugMemoryChangeMeasureTaskSettingsQMinSpace;
+    q[2] = debugMemoryChangeAverageSettingsQMinSpace;
+    q[3] = debugMemoryChangeHWIOSettingsQMinSpace;
+    q[4] = debugMemoryChangeScreenQMinSpace;
+    q[5] = debugMemoryBeeperQMinSpace;
+    q[6] = debugMemorySCPIMessagesMinSpace;
+    q[7] = debugMemorySCPIReturnsMinSpace;
+    SCPI_ResultArrayUInt32(context, q, 8, SCPI_FORMAT_ASCII);
+    return SCPI_RES_OK;
+ }
+
+scpi_result_t scpi_cmd_deb_mem_queues_overflowsQ(scpi_t *context)
+{
+    uint32_t q[] = { 0,1,2,3,4,5,6,7};
+    q[0] = debugMemoryNewMeasurementsBuffOverflows;
+    q[1] = debugMemoryChangeMeasureTaskSettingsQOverflows;
+    q[2] = debugMemoryChangeAverageSettingsQOverflows;
+    q[3] = debugMemoryChangeHWIOSettingsQOverflows;
+    q[4] = debugMemoryChangeScreenQOverflows;
+    q[5] = debugMemoryBeeperQOverflows;
+    q[6] = debugMemorySCPIMessagesOverflows;
+    q[7] = debugMemorySCPIMessagesOverflows;
+    SCPI_ResultArrayUInt32(context, q, 8, SCPI_FORMAT_ASCII);
+    return SCPI_RES_OK;
+ }
 
 scpi_result_t scpi_cmd_deb_reboot(scpi_t *context) {
     state.setOff();
@@ -622,10 +740,74 @@ scpi_result_t scpi_cmd_deb_state_countQ(scpi_t *context)
     return SCPI_RES_OK;
 };
 
+scpi_result_t scpi_cmd_deb_tasks_prioQ(scpi_t *context)
+{
+    uint32_t q[] = { 0,0,0,0,0,0,0,0,0,0,0,0};
+    q[0] = uxTaskPriorityGet(taskWatchdog);
+    q[1] = uxTaskPriorityGet(taskMeasureAndOutput);
+    q[2] = uxTaskPriorityGet(taskAveraging);
+    q[3] = uxTaskPriorityGet(taskProtHW);
+    q[4] = uxTaskPriorityGet(encTaskHandle);
+    q[5] = uxTaskPriorityGet(xTimerGetTimerDaemonTaskHandle());
+    q[6] = uxTaskPriorityGet(guiTaskHandle);
+    q[7] = uxTaskPriorityGet(taskLoop);
+    q[8] = uxTaskPriorityGet(taskUART);
+    q[9] = uxTaskPriorityGet(taskBeep);
+    q[10] = uxTaskPriorityGet(xTaskGetIdleTaskHandleForCore(0));
+    q[11] = uxTaskPriorityGet(xTaskGetIdleTaskHandleForCore(1));
+
+    SCPI_ResultArrayUInt32(context, q, 12, SCPI_FORMAT_ASCII);
+    return SCPI_RES_OK;
+ }
+
+scpi_result_t scpi_cmd_deb_tasks_runtimeQ(scpi_t *context)
+{
+    uint32_t q[] = { 0,0,0,0,0,0,0,0,0,0,0};
+    q[0] = ulTaskGetRunTimeCounter(taskWatchdog);
+    q[1] = ulTaskGetRunTimeCounter(taskMeasureAndOutput);
+    q[2] = ulTaskGetRunTimeCounter(taskAveraging);
+    q[3] = ulTaskGetRunTimeCounter(taskProtHW);
+    q[4] = ulTaskGetRunTimeCounter(encTaskHandle);
+    q[5] = ulTaskGetRunTimeCounter(xTimerGetTimerDaemonTaskHandle());
+    q[6] = ulTaskGetRunTimeCounter(guiTaskHandle);
+    q[7] = ulTaskGetRunTimeCounter(taskLoop);
+    q[8] = ulTaskGetRunTimeCounter(taskUART);
+    q[9] = ulTaskGetRunTimeCounter(taskBeep);
+    q[10] = ulTaskGetRunTimeCounter(xTaskGetIdleTaskHandleForCore(0));
+    q[11] = ulTaskGetRunTimeCounter(xTaskGetIdleTaskHandleForCore(1));
+
+    SCPI_ResultArrayUInt32(context, q, 12, SCPI_FORMAT_ASCII);
+    return SCPI_RES_OK;
+ }
+
+scpi_result_t scpi_cmd_deb_tasks_stackhwQ(scpi_t *context)
+{
+    uint32_t q[] = { 0,0,0,0,0,0,0,0,0,0,0};
+    q[0] = uxTaskGetStackHighWaterMark(taskWatchdog);
+    q[1] = uxTaskGetStackHighWaterMark(taskMeasureAndOutput);
+    q[2] = uxTaskGetStackHighWaterMark(taskAveraging);
+    q[3] = uxTaskGetStackHighWaterMark(taskProtHW);
+    q[4] = uxTaskGetStackHighWaterMark(encTaskHandle);
+    q[5] = uxTaskGetStackHighWaterMark(xTimerGetTimerDaemonTaskHandle());
+    q[6] = uxTaskGetStackHighWaterMark(guiTaskHandle);
+    q[7] = uxTaskGetStackHighWaterMark(taskLoop);
+    q[8] = uxTaskGetStackHighWaterMark(taskUART);
+    q[9] = uxTaskGetStackHighWaterMark(taskBeep);
+    q[10] = uxTaskGetStackHighWaterMark(xTaskGetIdleTaskHandleForCore(0));
+    q[11] = uxTaskGetStackHighWaterMark(xTaskGetIdleTaskHandleForCore(1));
+
+    SCPI_ResultArrayUInt32(context, q, 12, SCPI_FORMAT_ASCII);
+    return SCPI_RES_OK;
+ }
+
+ 
+
+
 scpi_result_t scpi_cmd_deb_wdog_thres_maxQ(scpi_t *context) {
-    const uint32_t thres_array[] = { watchdogAveragingMax, watchdogEncTaskMax, watchdogGuiTaskMax, 
-                                     watchdogGuiTimerFunctionMax, watchdogLoopMax, watchdogProtHWMax, watchdogMeasureAndOutputMax};
-    SCPI_ResultArrayUInt32(context, thres_array, 7, SCPI_FORMAT_ASCII );
+    const uint32_t thres_array[] = { 0, watchdogMeasureAndOutputMax, watchdogAveragingMax, watchdogProtHWMax, watchdogEncTaskMax, 
+                                    watchdogGuiTimerFunctionMax, watchdogGuiTaskMax, 
+                                     watchdogLoopMax, watchdogUARTMax, 0, 0, 0};
+    SCPI_ResultArrayUInt32(context, thres_array, 12, SCPI_FORMAT_ASCII );
     return SCPI_RES_OK;
 }
 

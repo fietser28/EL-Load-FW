@@ -197,7 +197,9 @@ namespace dcl
                     r = resetAllStates();
                     msg.pop = true;
                 }
-                xQueueSend(changeScreen, &msg, 100); 
+                BaseType_t qr = xQueueSendToBack(changeScreen, &msg, 100); 
+                debugMemoryChangeScreenQMinSpace = min(debugMemoryChangeScreenQMinSpace,uxQueueSpacesAvailable(changeScreen));
+                if (qr == errQUEUE_FULL) { debugMemoryBeeperQOverflows++; };
                 return r;
             }
         }
@@ -1531,7 +1533,9 @@ namespace dcl
                 msg.PmonStatRun = _setState.PmonStat;
                 msg.sCount = _setState.sCount;    
                 xSemaphoreGive(_setStateMutex);
-                xQueueSend(changeAverageSettings, &msg, 10);
+                BaseType_t qr = xQueueSend(changeAverageSettings, &msg, 10);
+                debugMemoryChangeAverageSettingsQMinSpace = min(debugMemoryChangeAverageSettingsQMinSpace, uxQueueSpacesAvailable(changeMeasureTaskSettings));
+                if (qr == errQUEUE_FULL) { debugMemoryChangeAverageSettingsQOverflows++; };
                 return true;
             }
         }
@@ -1544,7 +1548,10 @@ namespace dcl
         setStateStruct msg;
         if (getSetStateCopy(&msg, (TickType_t)10))
         {
-            xQueueSend(changeHWIOSettings, &msg, 10);
+            BaseType_t qr = xQueueSendToBack(changeHWIOSettings, &msg, 10);
+            debugMemoryChangeHWIOSettingsQMinSpace = min(debugMemoryChangeHWIOSettingsQMinSpace, uxQueueSpacesAvailable(changeHWIOSettings));
+            if (qr == errQUEUE_FULL) { debugMemoryChangeHWIOSettingsQOverflows++; };
+            xTaskNotifyGive(taskProtHW); // Wake up task, it is normally blocking long before reading from queue
             return true;
         }
         return false;
@@ -1555,7 +1562,9 @@ namespace dcl
         setStateStruct msg;
         if (getSetStateCopy(&msg, (TickType_t)10))
         {
-            xQueueSend(changeMeasureTaskSettings, &msg, 10);
+            BaseType_t qr = xQueueSend(changeMeasureTaskSettings, &msg, 10);
+            debugMemoryChangeMeasureTaskSettingsQMinSpace = min(debugMemoryChangeMeasureTaskSettingsQMinSpace, uxQueueSpacesAvailable(changeMeasureTaskSettings));
+            if (qr == errQUEUE_FULL) { debugMemoryChangeMeasureTaskSettingsQOverflows++; };
             return true;
         }
         return false;

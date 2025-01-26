@@ -21,4 +21,7 @@ extern keystate_t keystate;
 extern void keys_task_init(void);
 extern void keys_update(void);
 
+extern TaskHandle_t encTaskHandle;
+
 extern volatile uint8_t watchdogEncTask;
+extern volatile bool encTaskReady;

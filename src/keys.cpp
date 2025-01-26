@@ -24,12 +24,17 @@ gpio_mcp23008 gpiokeys = gpio_mcp23008();
 static void encTask(void *pvParameter);
 TaskHandle_t encTaskHandle;
 bool encTaskInitiated = false;
+volatile bool encTaskReady = false;
 volatile uint8_t watchdogEncTask;
 
 void keys_task_init(void)
 {
 
-    xTaskCreate(encTask, "enc", 1024, NULL, TASK_PRIORITY_KEYS, &encTaskHandle);
+    BaseType_t xTaskRet = xTaskCreate(encTask, "enc", 1024, NULL, TASK_PRIORITY_KEYS, &encTaskHandle);
+    if (xTaskRet != pdPASS)
+    { // TODO: reset, something is really wrong;
+        SERIALDEBUG.println("ERROR: Error starting Encoder/Keys task.");
+    }
 };
 
 void keys_update(void)
@@ -50,7 +55,6 @@ static void __not_in_flash_func(ISR_KEYS())
 
 static void encTask(void *pvParameter)
 {
-
     // MCP23008 defaults are fine..
     // Enable interrupts.
     // writeI2C(KEYS_CHIP_ADDRESS, MCP23X08_ADDR_GPINTEN, 255);
@@ -81,17 +85,16 @@ static void encTask(void *pvParameter)
     bool ledstateon  = false;
     dcl::setStateStruct localsetcopy;
 
-
     ::attachInterrupt(digitalPinToInterrupt(PIN_KEYS_INT), ISR_KEYS, FALLING);
     gpiokeys.digitalRead(); //Clear interrupt pin status.
  
     encTaskInitiated = true; 
     encdirPrev = DIR_NONE;
 
+    encTaskReady = true;
     while (1)
     {
         ulTaskNotifyTake(pdTRUE, 100 / portTICK_PERIOD_MS); 
-
         //digitalWrite(PIN_TEST, HIGH);
         //gpioval = readI2C(KEYS_CHIP_ADDRESS, MCP23X08_ADDR_GPIO);
         gpioval = gpiokeys.digitalRead();

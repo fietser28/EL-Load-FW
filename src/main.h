@@ -36,7 +36,7 @@
 #define ADC_OSR           2050
 #else
 #define CLOCK_DIVIDER_ADC 15         // ~1kHz = 15
-#define ADC_OSR           4096
+#define ADC_OSR           2048
 #endif
 
 #ifdef __cplusplus
@@ -120,16 +120,26 @@ struct changeScreen_s
 /// Task setup
 //////////////
 
+// Queue & Buffer sizes
+#define QUEUE_SIZE_NEWMEASURE    10
+#define QUEUE_SIZE_CHANGEMEASURE 10
+#define QUEUE_SIZE_CHANGEAVG     10
+#define QUEUE_SIZE_CHANGEHWIO    20
+#define QUEUE_SIZE_CHANGESCREEN  10
+#define QUEUE_SIZE_BEEP          10
+
+
 // Task priorities & affinities (if applicable)
 #define TASK_PRIORITY_PROTHW    5
 #define TASK_PRIORITY_MEASURE   6
 #define TASK_PRIORITY_AVERAGE   5
 #define TASK_PRIORITY_UI        3
+#define TASK_PRIORITY_UI_TIMER  4
 #define TASK_PRIORITY_KEYS      5 
 #define TASK_PRIORITY_WATCHDOG  7
 #define TASK_PRIORITY_BEEP      4
 #define TASK_PRIORITY_EEPROM    4
-
+#define TASK_PRIORITY_UART      4
 
 #define TASK_AFFINITY_MEASURE   1 << 1    // Core1
 #define TASK_AFFINITY_AVERAGE   1 << 1    // Core1
@@ -157,11 +167,21 @@ extern TaskHandle_t taskAveraging;         // Prio 4: moving average of raw meas
 extern void taskAveragingFunction(void * pvParameters);
 extern volatile uint8_t watchdogAveraging;
 
+// Task sending/receiving UART messages (mainly SCPI)
+extern TaskHandle_t taskUART;
+extern MessageBufferHandle_t SCPImessages;
+extern MessageBufferHandle_t SCPIreturns;
+extern volatile uint8_t watchdogUART;
+
 //extern void taskMeasureAndOutputFunction();
-extern TaskHandle_t taskOutput;            // Prio 4: output set values
+//extern TaskHandle_t taskOutput;            // Prio 4: output set values
 extern TaskHandle_t taskProtSW;            // Prio 3: Software based OTP/OPP
 extern TaskHandle_t taskUserInput;         // Prio 2@core0: Proces user buttons 
 extern TaskHandle_t taskDisplay;           // Prio 1@core0: Update display
+extern TaskHandle_t taskWatchdog;
+
+extern TaskHandle_t taskBeep;
+extern TaskHandle_t taskLoop;              // Default setup/loop handle.
 
 /* Creates a semaphore to handle concurrent call to lvgl stuff
  * If you wish to call *any* lvgl function from other threads/tasks
@@ -183,6 +203,27 @@ extern volatile uint32_t watchdogGuiTimerFunctionMax;
 extern volatile uint32_t watchdogLoopMax;
 extern volatile uint32_t watchdogProtHWMax;
 extern volatile uint32_t watchdogMeasureAndOutputMax;
+extern volatile uint32_t watchdogUARTMax;
+
+// Min free space in queues and buffers.
+extern volatile uint32_t debugMemoryNewMeasurementsBuffMinSpace;
+extern volatile uint32_t debugMemoryChangeHWIOSettingsQMinSpace;
+extern volatile uint32_t debugMemoryChangeMeasureTaskSettingsQMinSpace;
+extern volatile uint32_t debugMemoryChangeAverageSettingsQMinSpace;
+extern volatile uint32_t debugMemoryChangeScreenQMinSpace;
+extern volatile uint32_t debugMemoryBeeperQMinSpace;
+extern volatile uint32_t debugMemorySCPIMessagesMinSpace;
+extern volatile uint32_t debugMemorySCPIReturnsMinSpace;
+
+// Overflows in queues and buffers.
+extern volatile uint32_t debugMemoryNewMeasurementsBuffOverflows;
+extern volatile uint32_t debugMemoryChangeHWIOSettingsQOverflows;
+extern volatile uint32_t debugMemoryChangeMeasureTaskSettingsQOverflows;
+extern volatile uint32_t debugMemoryChangeAverageSettingsQOverflows;
+extern volatile uint32_t debugMemoryChangeScreenQOverflows;
+extern volatile uint32_t debugMemoryBeeperQOverflows;
+extern volatile uint32_t debugMemorySCPIMessagesOverflows;
+extern volatile uint32_t debugMemorySCPIReturnsOverflows;
 
 // Debugging incomming IO from hardware board
-extern uint8_t gpiopinstate;
+extern uint16_t gpiopinstate;

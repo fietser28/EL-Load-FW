@@ -70,6 +70,7 @@ void __not_in_flash_func(gui_task_init(void))
 
   guiTimerHandle = xTimerCreate("", pdMS_TO_TICKS(MY_LV_TICK_TIME), pdTRUE, (void *) 0, guiTimerFunction);
   //xTimerStart(guiTimerHandle, 10);
+  vTaskPrioritySet(xTimerGetTimerDaemonTaskHandle(), TASK_PRIORITY_UI_TIMER);
 
   xTaskCreate(guiTask, "", 4096, NULL, TASK_PRIORITY_UI, &guiTaskHandle);
   //vTaskCoreAffinitySet(guiTaskHandle, TASK_AFFINITY_UI);

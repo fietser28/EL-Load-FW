@@ -96,12 +96,19 @@ const scpi_command_t scpi_commands[] = {
     {"DEBug:LVGL:MEMory:FREE:BIGgest?"}
     */
     {"DEBug:EEPROM:CLEAR", scpi_cmd_deb_eeprom_clear, 0},
+    {"DEBug:FLOW:QUEUE?", scpi_cmd_deb_flow_queueQ, 0},
     {"DEBug:MEM:HEAP?", scpi_cmd_deb_mem_heapQ, 0},
+    {"DEBug:MEM:LVMON?", scpi_cmd_deb_mem_lvmonQ, 0},
+    {"DEBug:MEM:QUEUES:MIN?", scpi_cmd_deb_mem_queues_minQ, 0},
+    {"DEBug:MEM:QUEUES:OVERFLOWS?", scpi_cmd_deb_mem_queues_overflowsQ, 0},
     {"DEBug:REBOOT", scpi_cmd_deb_reboot, 0},
     {"DEBug:IOLINES?", scpi_cmd_deb_iolinesQ, 0},
     {"DEBug:STATE:COUNTers?", scpi_cmd_deb_state_countQ, 0},
+    {"DEBug:TASKS:STACKHW?", scpi_cmd_deb_tasks_stackhwQ, 0},
+    {"DEBug:TASKS:PRIO?", scpi_cmd_deb_tasks_prioQ, 0},
+    {"DEBug:TASKS:RUNTIME?", scpi_cmd_deb_tasks_runtimeQ, 0},
     {"DEBug:WDOG:THRESholds:MAX?", scpi_cmd_deb_wdog_thres_maxQ, 0},
-
+    
     /* Fetch. This reads the last measured value, doesn't trigger and wait like measure */
     {"FETCh[:SCALar]:CURRent[:DC]?", scpi_cmd_fetch_current, 0},
     {"FETCh[:SCALar]:CURRent[:DC]:STATistics?", scpi_cmd_fetch_curr_statQ, 0}, // <empty>|MIN|MAX|AVG|COUNT
@@ -147,7 +154,7 @@ const scpi_command_t scpi_commands[] = {
     
     // ON/OFF state
     {"[SOURce]:INPut[:STATe]", scpi_cmd_source_input_state, 0},  // ON|OFF|1|0
-    {"[Source]:INPut[:STATe]?", scpi_cmd_source_input_stateQ, 0},
+    {"[SOURce]:INPut[:STATe]?", scpi_cmd_source_input_stateQ, 0},
 
     // Main mode
     {"[SOURce]:INPut:MODE", scpi_cmd_source_mode, 0},   // CC|CV|CR|CP

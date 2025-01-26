@@ -8,6 +8,8 @@
 
 extern void gui_task_init(void);
 
+extern TaskHandle_t guiTaskHandle;
+
 extern volatile uint8_t watchdogGuiTask;
 extern volatile uint8_t watchdogGuiTimerFunction;
 extern volatile bool guiTaskReady;

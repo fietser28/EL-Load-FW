@@ -73,7 +73,8 @@ QueueHandle_t changeAverageSettings;
 volatile uint8_t watchdogAveraging;
 volatile bool taskAveragingReady = false;
 
-// Watchdog task
+// Loop/ SCPI task
+TaskHandle_t taskLoop;  // Retreived in setup().
 volatile uint8_t watchdogLoop;
 
 // Blink task
@@ -82,6 +83,12 @@ TaskHandle_t taskWatchdog;
 // UI task
 // Task definition is in display.cpp
 QueueHandle_t changeScreen;
+
+// UART task
+TaskHandle_t taskUART;
+MessageBufferHandle_t SCPImessages;
+MessageBufferHandle_t SCPIreturns;
+volatile uint8_t watchdogUART;
 
 // Beep task
 TaskHandle_t taskBeep;
@@ -117,6 +124,7 @@ cal::calAction calActions;
 volatile uint32_t i = -10;
 
 // Debug information
+////////////////////
 volatile uint32_t watchdogAveragingMax = 0;
 volatile uint32_t watchdogEncTaskMax = 0;
 volatile uint32_t watchdogGuiTaskMax = 0;
@@ -124,6 +132,27 @@ volatile uint32_t watchdogGuiTimerFunctionMax = 0;
 volatile uint32_t watchdogLoopMax = 0;
 volatile uint32_t watchdogProtHWMax = 0;
 volatile uint32_t watchdogMeasureAndOutputMax =0;
+volatile uint32_t watchdogUARTMax = 0;
+
+// Min free space in queues and buffers.
+volatile uint32_t debugMemoryNewMeasurementsBuffMinSpace = std::numeric_limits<u32_t>::max();
+volatile uint32_t debugMemoryChangeHWIOSettingsQMinSpace = std::numeric_limits<u32_t>::max();
+volatile uint32_t debugMemoryChangeMeasureTaskSettingsQMinSpace = std::numeric_limits<u32_t>::max();
+volatile uint32_t debugMemoryChangeAverageSettingsQMinSpace = std::numeric_limits<u32_t>::max();
+volatile uint32_t debugMemoryChangeScreenQMinSpace = std::numeric_limits<u32_t>::max();
+volatile uint32_t debugMemoryBeeperQMinSpace = std::numeric_limits<u32_t>::max();
+volatile uint32_t debugMemorySCPIMessagesMinSpace = std::numeric_limits<u32_t>::max();
+volatile uint32_t debugMemorySCPIReturnsMinSpace = std::numeric_limits<u32_t>::max();
+
+// Overflows in queues and buffers.
+volatile uint32_t debugMemoryNewMeasurementsBuffOverflows = 0;
+volatile uint32_t debugMemoryChangeHWIOSettingsQOverflows = 0;
+volatile uint32_t debugMemoryChangeMeasureTaskSettingsQOverflows = 0;
+volatile uint32_t debugMemoryChangeAverageSettingsQOverflows = 0;
+volatile uint32_t debugMemoryChangeScreenQOverflows = 0;
+volatile uint32_t debugMemoryBeeperQOverflows = 0;
+volatile uint32_t debugMemorySCPIMessagesOverflows = 0;
+volatile uint32_t debugMemorySCPIReturnsOverflows = 0;
 
 bool ledstate;
 
@@ -143,14 +172,16 @@ void watchdog(void *pvParameters)
     watchdogLoop++;
     watchdogProtHW++;
     watchdogMeasureAndOutput++;
+    watchdogUART++;
 
     watchdogAveragingMax = max(watchdogAveraging, watchdogAveragingMax);
     watchdogEncTaskMax   = max(watchdogEncTask, watchdogEncTaskMax);
-    watchdogGuiTask      = max(watchdogGuiTask, watchdogGuiTaskMax);
-    watchdogGuiTimerFunction = max(watchdogGuiTimerFunction, watchdogGuiTimerFunctionMax);
-    watchdogLoop         = max(watchdogLoop, watchdogLoopMax);
-    watchdogProtHW       = max(watchdogProtHW, watchdogProtHWMax);
-    watchdogMeasureAndOutput = max(watchdogMeasureAndOutput, watchdogMeasureAndOutputMax);
+    watchdogGuiTaskMax      = max(watchdogGuiTask, watchdogGuiTaskMax);
+    watchdogGuiTimerFunctionMax = max(watchdogGuiTimerFunction, watchdogGuiTimerFunctionMax);
+    watchdogLoopMax         = max(watchdogLoop, watchdogLoopMax);
+    watchdogProtHWMax       = max(watchdogProtHW, watchdogProtHWMax);
+    watchdogMeasureAndOutputMax = max(watchdogMeasureAndOutput, watchdogMeasureAndOutputMax);
+    watchdogUARTMax         = max(watchdogUART, watchdogUARTMax);
 
     vTaskDelay(500);
 
@@ -162,7 +193,8 @@ void watchdog(void *pvParameters)
         watchdogGuiTimerFunction < 5 && // Normal: 50Hz
         watchdogLoop < 10 &&             // Normal: busy, SCPI can take long?
         watchdogProtHW < 5  &&          // Normal: 10Hz
-        watchdogMeasureAndOutput <5)    // Normal: 1kHz
+        watchdogMeasureAndOutput <5 &&  // Normal: 1kHz
+        watchdogUART < 5)
       {
         // Reset watchdog if all tasks reset there watchdog to zero in last x seconds
         rp2040.wdt_reset();
@@ -174,7 +206,63 @@ void watchdog(void *pvParameters)
       if (watchdogLoop >= 10  )      { SERIALDEBUG.println("WARNING: Watchdog not seeing (SCPI) Loop task."); };
       if (watchdogProtHW >= 3)    { SERIALDEBUG.println("WARNING: Watchdog not seeing ProtHW task."); };
       if (watchdogMeasureAndOutput >= 3) { SERIALDEBUG.println("WARNING: Watchdog not seeing Measure task."); };
+      if (watchdogUART >= 3)            { SERIALDEBUG.println("WARNING: Watchdog not seeing UART task."); };
     vTaskDelay(500);
+  }
+}
+
+// Not used yet, see below
+static void __not_in_flash_func(UART0ISR)() {
+  BaseType_t taskWoken = pdFALSE;
+  vTaskNotifyGiveIndexedFromISR(taskUART, 0, &taskWoken);
+  if (taskWoken != pdFALSE) {
+    portYIELD_FROM_ISR(taskWoken);
+  }
+}
+
+char scpireturnbuf[SCPI_INPUT_BUFFER_LENGTH];
+char scpimessagebuf[SCPI_INPUT_BUFFER_LENGTH];
+
+void SCPIMessagesFunction(void *pvParameters)
+{
+  int  pos = 0;
+
+  // TODO: Try to implement true IRQ triggering and not polling...
+  //irq_set_exclusive_handler(SERIALDEBUGIRQ, UART0ISR);
+  //irq_set_enabled(SERIALDEBUGIRQ, true);
+  //uart_set_irq_enables(uart0, true, false);
+
+  while(1) 
+  {
+    ulTaskNotifyTakeIndexed(0, pdTRUE, 10);
+    {
+      while (SERIALDEBUG.available())
+      {
+        char c = SERIALDEBUG.read();
+        scpimessagebuf[pos] = c;
+        pos++;
+
+        if (c == '\n' || pos >= SCPI_INPUT_BUFFER_LENGTH) {
+          size_t bytesSend = xMessageBufferSend(SCPImessages, (void *)scpimessagebuf, pos, 1);
+          debugMemorySCPIMessagesMinSpace = min(debugMemorySCPIMessagesMinSpace, xMessageBufferSpaceAvailable(SCPImessages));
+          if (bytesSend == 0) 
+          {
+            //TODO: Generate an error on console/events? 
+            debugMemorySCPIMessagesOverflows++;
+          }
+          pos = 0;
+        }
+      }
+      while (!xMessageBufferIsEmpty(SCPIreturns))
+      {
+          size_t received = xMessageBufferReceive(SCPIreturns, &scpireturnbuf, SCPI_INPUT_BUFFER_LENGTH, 1);
+          if (received > 0)
+          {
+            SERIALDEBUG.write(scpireturnbuf, received);
+          }
+      }
+    }
+    watchdogUART=0;
   }
 }
 
@@ -222,7 +310,10 @@ bool beep(float length) {
   if (length == 0) {
     lengthms = (uint32_t)(state.getBeepDefaultDuration()*1000.0f);
   }
-  return xQueueSend(beepQueue, &lengthms,( TickType_t ) 0);
+  BaseType_t qr = xQueueSendToBack(beepQueue, &lengthms,( TickType_t ) 0);
+  debugMemoryBeeperQMinSpace = min(debugMemoryBeeperQMinSpace, uxQueueSpacesAvailable(beepQueue));
+  if (qr == errQUEUE_FULL) { debugMemoryBeeperQOverflows++;};
+  return qr;
 }
 
 int heaptotal, heapused, heapfree; 
@@ -233,6 +324,7 @@ char idn4[IDN4SIZE];
 
 void setup()
 {
+  taskLoop = xTaskGetCurrentTaskHandle(); //Store loop task handle for debug uses.
   pinMode(TFT_BL, OUTPUT);
   digitalWrite(TFT_BL, LOW);
 
@@ -280,8 +372,8 @@ void setup()
   Wire1Sem = xSemaphoreCreateMutex();
 
   // Message stream from state functions to HWIO task.
-  const size_t changeHWIOMsgBuffer = 6 * (4 + sizeof(setStateStruct)); // => Buffer fits 6 messages.
-  changeHWIOSettings = xQueueCreate(6, sizeof(setStateStruct));
+  //const size_t changeHWIOMsgBuffer = 20 * (4 + sizeof(setStateStruct)); // => Buffer fits 20 messages.
+  changeHWIOSettings = xQueueCreate(QUEUE_SIZE_CHANGEHWIO, sizeof(setStateStruct));
   if (changeHWIOSettings == NULL)
   { // TODO: reset, something is really wrong....
   }
@@ -290,35 +382,40 @@ void setup()
   adcReady = xSemaphoreCreateBinary();
 
   // Message straam from Measure to Averaging task
-  const size_t newMeasurementsMsgBuffer = 60; // 1 msg = 4bytes + 2x4bytes = 12 bytes => 5 messages.
+  // TODO: Proper and configurable buffer sizing.
+  const size_t newMeasurementsMsgBuffer = 120; // 1 msg = 4bytes + 2x4bytes = 12 bytes => 5 messages.
   newMeasurements = xMessageBufferCreate(newMeasurementsMsgBuffer);
   if (newMeasurements == NULL)
   { // TODO: reset, something is really wrong....
   }
 
   // Message stream from state functions to averaging task.
-  const size_t changeAverageSettingsBuffer = 6 * (4 + sizeof(changeAverageSettings)); // => Buffer fits 6 messages.
-  changeAverageSettings = xQueueCreate(6, sizeof(changeAverageSettingsMsg));
+  //const size_t changeAverageSettingsBuffer = 6 * (4 + sizeof(changeAverageSettings)); // => Buffer fits 6 messages.
+  changeAverageSettings = xQueueCreate(QUEUE_SIZE_CHANGEAVG, sizeof(changeAverageSettingsMsg));
   if (changeAverageSettings == NULL)
   { // TODO: reset, something is really wrong....
   };
 
   // Message stream from state functions to measure task.
-  const size_t changeMeasureTaskSettingsBuffer = 6 * (4 + sizeof(setStateStruct)); // => Buffer fits 6 messages.
-  changeMeasureTaskSettings = xQueueCreate(6, sizeof(setStateStruct));
+  const size_t changeMeasureTaskSettingsBuffer = 10 * (4 + sizeof(setStateStruct)); // => Buffer fits 6 messages.
+  changeMeasureTaskSettings = xQueueCreate(QUEUE_SIZE_CHANGEMEASURE, sizeof(setStateStruct));
   if (changeMeasureTaskSettings == NULL)
   { // TODO: reset, something is really wrong....
   }
 
   // Message stream from state functions to display task.
-  const size_t changeScreenBuffer = 6 * ( 4 + sizeof(changeScreen_s));
-  changeScreen = xQueueCreate(6, sizeof(changeScreen_s));
+  //const size_t changeScreenBuffer = 6 * ( 4 + sizeof(changeScreen_s));
+  changeScreen = xQueueCreate(QUEUE_SIZE_CHANGESCREEN, sizeof(changeScreen_s));
   if (changeScreen == NULL) 
   { // TODO: reset, something is really wrong....
   }
 
   // Queue for beeper
-  beepQueue = xQueueCreate(10, sizeof( uint32_t ));
+  beepQueue = xQueueCreate(QUEUE_SIZE_BEEP, sizeof( uint32_t ));
+
+  // SCPI message buffer (from taskUART to loop)
+  SCPImessages = xMessageBufferCreate(4 * SCPI_INPUT_BUFFER_LENGTH); // 1k
+  SCPIreturns  = xMessageBufferCreate(4 * SCPI_INPUT_BUFFER_LENGTH); // 1k
 
   myeeprom.begin(&I2C_EEPROM, I2C_EEPROM_SEM, EEPROM_ADDR, 64, 32);
 
@@ -332,7 +429,6 @@ void setup()
   }
 
   state.readCalibrationData();
-  state.setDefaults();
 
   uint8_t eepromVersionRead = myeeprom.read(EEPROM_ADDR_VERSION);
 
@@ -340,7 +436,6 @@ void setup()
   SERIALDEBUG.printf("INFO: measuredStateStruct struct size: %d\n", sizeof(measuredStateStruct));
   SERIALDEBUG.printf("INFO: setStateStruct struct size: %d\n", sizeof(setStateStruct));
   SERIALDEBUG.printf("INFO: Single calibration size: %d\n", sizeof(CalibrationValueConfiguration));
-
   // Next create the protection tasks.
   BaseType_t xTaskRet;
   xTaskRet = xTaskCreate(taskProtHWFunction, "HWProt", 1024, (void *) 1, TASK_PRIORITY_PROTHW, &taskProtHW);
@@ -349,6 +444,8 @@ void setup()
   }
   // vTaskCoreAffinitySet(taskProtHW, 0x03); // Can run on both cores.
 
+  state.setDefaults();
+
   xTaskRet = xTaskCreate(taskAveragingFunction, "", 1024, (void *)1, TASK_PRIORITY_MEASURE, &taskAveraging);
   if (xTaskRet != pdPASS)
   { // TODO: reset, something is really wrong;
@@ -356,13 +453,18 @@ void setup()
   }
   //vTaskCoreAffinitySet(taskMeasureAndOutput, 1 << 1); // Runs on core1
 
-
   xTaskRet = xTaskCreate(taskMeasureAndOutputFunction, "", 1024, (void *)1, TASK_PRIORITY_MEASURE, &taskMeasureAndOutput);
   if (xTaskRet != pdPASS)
   { // TODO: reset, something is really wrong;
     SERIALDEBUG.println("ERROR: Error starting MeasureAndOutput task.");
   }
   //vTaskCoreAffinitySet(taskMeasureAndOutput, TASK_AFFINITY_MEASURE); 
+
+  xTaskRet = xTaskCreate(SCPIMessagesFunction, "", 1024, (void *)1, TASK_PRIORITY_UART, &taskUART);
+  if (xTaskRet != pdPASS)
+  { // TODO: reset, something is really wrong;
+    SERIALDEBUG.println("ERROR: Error starting UART task.");
+  }
 
   xTaskRet = xTaskCreate(beepTaskFunction, "", 512, (void *)0, TASK_PRIORITY_BEEP, &taskBeep);
   if (xTaskRet != pdPASS)
@@ -386,26 +488,20 @@ void setup()
   while(taskProtHWReady == false || 
         taskAveragingReady == false || taskMeasureAndOutputReady == false)
   {
-    vTaskDelay(5);
+    vTaskDelay(10);
   }
 
   gui_task_init(); 
-
   keys_task_init();
 
   // Wait for all tasks to have started into their normal run loops.
-  while(guiTaskReady == false || taskProtHWReady == false || 
+  while(guiTaskReady == false || encTaskReady == false || taskProtHWReady == false || 
         taskAveragingReady == false || taskMeasureAndOutputReady == false)
   {
     vTaskDelay(5);
   }
 
   state.resetAllStates();
-
-  heaptotal = rp2040.getTotalHeap();
-  heapused = rp2040.getUsedHeap();
-  heapfree = rp2040.getFreeHeap();
-  SERIALDEBUG.printf("Heap total beofre SCPI init: %d, used: %d, free:  %d\n", heaptotal, heapused, heapfree);
   
   snprintf(idn4, IDN4SIZE, "%d", HARDWARE_VERSION);
 
@@ -417,23 +513,17 @@ void setup()
             scpi_input_buffer, SCPI_INPUT_BUFFER_LENGTH,
             scpi_error_queue_data, SCPI_ERROR_QUEUE_SIZE);
 
-  heaptotal = rp2040.getTotalHeap();
-  heapused = rp2040.getUsedHeap();
-  heapfree = rp2040.getFreeHeap();
-  SERIALDEBUG.printf("HW: %s\n Heap total: %d, used: %d, free:  %d\n", idn4, heaptotal, heapused, heapfree);
-
   //vTaskDelay(250 / portTICK_PERIOD_MS); // Wait for actual HW to clear.
   state.startupDone();
+
+  vTaskDelay(1000 / portTICK_PERIOD_MS); // Wait for actual HW to clear.
+  state.clearProtection(); // Reset power-on OCP/OVP latches.
 
   xTaskRet = xTaskCreate(watchdog, "", 200, (void *)1, TASK_PRIORITY_WATCHDOG, &taskWatchdog);
   if (xTaskRet != pdPASS)
   { // TODO: reset, something is really wrong;
     SERIALDEBUG.println("ERROR: Error starting watchdog task.");
   }
-
-  vTaskDelay(1000 / portTICK_PERIOD_MS); // Wait for actual HW to clear.
-  state.clearProtection(); // Reset power-on OCP/OVP latches.
-  SERIALDEBUG.println("INFO: Setup done.");  
 }
 
 const TickType_t ondelay = 1000;
@@ -449,23 +539,19 @@ lv_mem_monitor_t lv_mem_stats;
 
 unsigned long lastSCPIWatchdogCheck = 0;
 
+char serialbuf[SCPI_INPUT_BUFFER_LENGTH];
+
+// loop is used to handle SCPI messsage processing.
 void loop()
 {
-  // TODO: Replace with SCPI reading class/task?
-  if (SERIALDEBUG.available())
+  size_t received = xMessageBufferReceive(SCPImessages, &serialbuf, SCPI_INPUT_BUFFER_LENGTH, 100);
+  if (received > 0)
   {
-    //SERIALDEBUG.write(SERIALDEBUG.read());
-    char ch = SERIALDEBUG.read();
-    if (ch == '\n') {
-      if (state.getSCPIWdogType() == WDogType::ACTIVITY) {
+    if (state.getSCPIWdogType() == WDogType::ACTIVITY) {
         state.SCPIWdogPet();
-      }
-    } else {
-    //    SERIALDEBUG.write(ch); // TODO: Keep echo back or make it an option?
     }
-    SCPI_Input(&scpi_context, &ch, 1);
+    SCPI_Parse(&scpi_context, &serialbuf[0], received);
   }
-  
   if ((lastSCPIWatchdogCheck + 250) < millis()) 
   {
     // Check 4x per second. Watchdog has 1 sec resolution.
@@ -493,7 +579,7 @@ enum tempReadState {
   chan2ready = 3
 };
 
-uint8_t gpiopinstate;
+uint16_t gpiopinstate; // Set by ProtHWFuction, used in SCPI:iolines.
 
 void taskProtHWFunction(void *pvParameters)
 {
@@ -625,7 +711,8 @@ void taskProtHWFunction(void *pvParameters)
     ulTaskNotifyTake(pdTRUE, (TickType_t)100 / portTICK_PERIOD_MS); 
 
     gpiointerruptflagged = hwio.interruptFlagged(0);
-    gpiopinstate = hwio.digitalRead(0); // Inputs are on bank0, therefor we only need to read bank0
+    gpiopinstate = hwio.digitalRead(0); // Inputs are on bank0, therefore we only need to read bank0
+    gpiopinstate = gpiopinstate | ( hwio.digitalRead(MCP23X17_BANKB) << 8); // For debug purposes
 
     ocptrig = (gpiopinstate & 1 << HWIO_PIN_OCPTRIG) || (gpiointerruptflagged & 1 << HWIO_PIN_OCPTRIG); 
     ovptrig = (gpiopinstate & 1 << HWIO_PIN_OVPTRIG) || (gpiointerruptflagged & 1 << HWIO_PIN_OVPTRIG);
@@ -1011,7 +1098,9 @@ void __not_in_flash_func(taskMeasureAndOutputFunction(void *pvParameters))
 
     measured.sCount = sCountMeasure;
     // Send measurements to avg task.
-    xMessageBufferSend(newMeasurements, &measured, sizeof(measured), 0);
+    BaseType_t bsr = xMessageBufferSend(newMeasurements, &measured, sizeof(measured), 0);
+    debugMemoryNewMeasurementsBuffMinSpace = min(debugMemoryNewMeasurementsBuffMinSpace, xMessageBufferSpaceAvailable(newMeasurements));
+    if (bsr == errQUEUE_FULL) { debugMemoryNewMeasurementsBuffOverflows++; };
 
     if (localSetState.rangeCurrentLow != rangeCurrentLowPrev) {
       rangeCurrentLowPrev = localSetState.rangeCurrentLow;

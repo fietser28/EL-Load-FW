@@ -7488,7 +7488,7 @@ void create_screen_popup() {
                     lv_obj_set_pos(obj, 23, 100);
                     lv_obj_set_size(obj, 275, 40);
                     lv_obj_add_flag(obj, LV_OBJ_FLAG_EVENT_BUBBLE);
-                    lv_obj_clear_flag(obj, LV_OBJ_FLAG_GESTURE_BUBBLE);
+                    lv_obj_clear_flag(obj, LV_OBJ_FLAG_CLICKABLE|LV_OBJ_FLAG_GESTURE_BUBBLE);
                     lv_obj_set_style_align(obj, LV_ALIGN_DEFAULT, LV_PART_MAIN | LV_STATE_DEFAULT);
                     lv_obj_set_style_bg_color(obj, lv_color_hex(0xffff0000), LV_PART_MAIN | LV_STATE_DEFAULT);
                     {

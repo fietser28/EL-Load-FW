@@ -63,10 +63,17 @@ extern scpi_result_t scpi_cmd_cal_type_save(scpi_t *context);
 extern scpi_result_t scpi_cmd_cal_type_reset(scpi_t *context);
 
 extern scpi_result_t scpi_cmd_deb_eeprom_clear(scpi_t *context);
+extern scpi_result_t scpi_cmd_deb_flow_queueQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_deb_mem_heapQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_deb_mem_lvmonQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_deb_mem_queues_minQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_deb_mem_queues_overflowsQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_deb_reboot(scpi_t *context);
 extern scpi_result_t scpi_cmd_deb_iolinesQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_deb_state_countQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_deb_tasks_prioQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_deb_tasks_runtimeQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_deb_tasks_stackhwQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_deb_wdog_thres_maxQ(scpi_t *context);
 
 extern scpi_result_t scpi_cmd_fetch_current(scpi_t *context);

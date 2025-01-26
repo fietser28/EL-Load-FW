@@ -238,7 +238,9 @@
 #define I2C_EEPROM_SEM Wire1Sem
 #define I2C_FANCTRL     Wire1
 #define I2C_FANCTRL_SEM Wire1Sem
-#define SERIALDEBUG      Serial1
+#define SERIALDEBUG     Serial1
+#define SERIALDEBUGIRQ  UART0_IRQ
+#define SERIALDEBUGUART uart0 
 
 #define EEPROM_ADDR     0x50
 #define EEPROM_SIZE     8192    // 8292 * 8 = 64kbit.
