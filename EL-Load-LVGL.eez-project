@@ -47,7 +47,7 @@
         {
           "objID": "ddb840d3-2cd4-4c24-897d-1e367e2df75f",
           "fileName": "vars.h",
-          "template": "#ifndef EEZ_LVGL_UI_VARS_H\r\n#define EEZ_LVGL_UI_VARS_H\r\n\r\n#include <stdint.h>\r\n#include <stdbool.h>\r\n\r\n#include \"util.h\"\r\n\r\n#ifdef __cplusplus\r\nusing namespace dcl;\r\n#endif\r\n\r\n//${eez-studio FLOW_ENUMS}\r\n\r\n// For calibration actions\r\nextern calType_e cal_calType;\r\nextern int32_t cal_curpoint;\r\nextern float   cal_measured;\r\nextern float   cal_set;\r\nextern CalibrationValueConfiguration cal_values;\r\n\r\nextern bool cal_valuesChanged;\r\n\r\nextern void formatStatValue(char* str, statsType_e type, float value);\r\n// Flow global variables\r\n//${eez-studio FLOW_GLOBAL_VARIABLES_ENUM}\r\n\r\n#ifdef __cplusplus\r\nextern \"C\" {\r\n#endif\r\n\r\n// Native global variables\r\n//${eez-studio LVGL_VARS_DECL}\r\n\r\n#ifdef __cplusplus\r\n}\r\n#endif\r\n\r\n#endif /*EEZ_LVGL_UI_VARS_H*/"
+          "template": "#ifndef EEZ_LVGL_UI_VARS_H\r\n#define EEZ_LVGL_UI_VARS_H\r\n\r\n#include <stdint.h>\r\n#include <stdbool.h>\r\n\r\n#include \"util.h\"\r\n\r\n#ifdef __cplusplus\r\nusing namespace dcl;\r\n#endif\r\n\r\n//${eez-studio FLOW_ENUMS}\r\n\r\n// For calibration actions\r\nextern calType_e cal_calType;\r\nextern int32_t cal_curpoint;\r\nextern float   cal_measured;\r\nextern float   cal_set;\r\nextern CalibrationValueConfiguration cal_values;\r\n\r\nextern bool cal_valuesChanged;\r\n\r\nextern void formatStatValue(char* str, statsType_e type, float value, bool dev);\r\n// Flow global variables\r\n//${eez-studio FLOW_GLOBAL_VARIABLES_ENUM}\r\n\r\n#ifdef __cplusplus\r\nextern \"C\" {\r\n#endif\r\n\r\n// Native global variables\r\n//${eez-studio LVGL_VARS_DECL}\r\n\r\n#ifdef __cplusplus\r\n}\r\n#endif\r\n\r\n#endif /*EEZ_LVGL_UI_VARS_H*/"
         },
         {
           "objID": "81fa9cb7-33e4-4272-9340-49a50037b327",
@@ -1153,6 +1153,11 @@
           {
             "objID": "b1802180-9a75-4fbd-9cd5-e2618d91d618",
             "name": "avg",
+            "type": "string"
+          },
+          {
+            "objID": "b9db494c-6ecf-4d51-b57b-5d9f678ffcb7",
+            "name": "dev",
             "type": "string"
           }
         ]
@@ -24378,8 +24383,8 @@
             {
               "objID": "cc4b7f9b-0038-4583-8021-2806b40dfe51",
               "type": "LVGLButtonWidget",
-              "left": 239,
-              "top": 209,
+              "left": 193,
+              "top": 216,
               "width": 72,
               "height": 24,
               "customInputs": [],
@@ -24516,7 +24521,7 @@
               "objID": "bd2b3c2a-739c-4705-db68-8676b9fc7691",
               "type": "LVGLLabelWidget",
               "left": 0,
-              "top": 73,
+              "top": 69,
               "width": 45,
               "height": 15,
               "customInputs": [],
@@ -24565,7 +24570,7 @@
               "objID": "8200bad3-9951-4652-ccd5-b8fe2d1c9a2c",
               "type": "LVGLLabelWidget",
               "left": 0,
-              "top": 92,
+              "top": 89,
               "width": 45,
               "height": 15,
               "customInputs": [],
@@ -24614,7 +24619,7 @@
               "objID": "0d9ebfc3-2225-475b-e53c-34be95579279",
               "type": "LVGLLabelWidget",
               "left": 0,
-              "top": 113,
+              "top": 108,
               "width": 45,
               "height": 15,
               "customInputs": [],
@@ -24663,7 +24668,7 @@
               "objID": "aa4e0aa2-2eae-4bb9-adee-917972045820",
               "type": "LVGLLabelWidget",
               "left": 0,
-              "top": 133,
+              "top": 129,
               "width": 45,
               "height": 15,
               "customInputs": [],
@@ -24702,7 +24707,7 @@
                 }
               },
               "groupIndex": 0,
-              "text": "Max:",
+              "text": "Dev:",
               "textType": "literal",
               "longMode": "CLIP",
               "recolor": false,
@@ -24712,7 +24717,7 @@
               "objID": "1af87425-49e2-452c-fcab-4140de70f55f",
               "type": "LVGLLabelWidget",
               "left": 0,
-              "top": 152,
+              "top": 168,
               "width": 45,
               "height": 15,
               "customInputs": [],
@@ -24758,12 +24763,61 @@
               "previewValue": "10.000mA"
             },
             {
+              "objID": "58e92daa-a68a-44fc-bb98-89f812ea8779",
+              "type": "LVGLLabelWidget",
+              "left": 0,
+              "top": 148,
+              "width": 45,
+              "height": 15,
+              "customInputs": [],
+              "customOutputs": [],
+              "style": {
+                "objID": "8d767612-97f3-4dd9-f043-7abcbdc5a113",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": []
+              },
+              "hiddenInEditor": false,
+              "timeline": [],
+              "eventHandlers": [],
+              "identifier": "statMin_13",
+              "leftUnit": "px",
+              "topUnit": "px",
+              "widthUnit": "px",
+              "heightUnit": "px",
+              "children": [],
+              "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+              "hiddenFlagType": "literal",
+              "clickableFlagType": "literal",
+              "checkedStateType": "literal",
+              "disabledStateType": "literal",
+              "states": "",
+              "useStyle": "small label",
+              "localStyles": {
+                "objID": "ada7df06-a064-4291-fc1e-2ef1b0dde6fe",
+                "definition": {
+                  "MAIN": {
+                    "DEFAULT": {
+                      "text_align": "RIGHT",
+                      "text_font": "Ubuntu Mono 16"
+                    }
+                  }
+                }
+              },
+              "groupIndex": 0,
+              "text": "Max:",
+              "textType": "literal",
+              "longMode": "CLIP",
+              "recolor": false,
+              "previewValue": "10.000mA"
+            },
+            {
               "objID": "fefafee8-3396-4db5-ffcc-7ad6e2bfa422",
               "type": "LVGLUserWidgetWidget",
               "left": 47,
               "top": 24,
               "width": 91,
-              "height": 185,
+              "height": 191,
               "customInputs": [],
               "customOutputs": [],
               "style": {
@@ -24811,7 +24865,7 @@
               "left": 138,
               "top": 24,
               "width": 91,
-              "height": 185,
+              "height": 191,
               "customInputs": [],
               "customOutputs": [],
               "style": {
@@ -24859,7 +24913,7 @@
               "left": 229,
               "top": 24,
               "width": 91,
-              "height": 185,
+              "height": 191,
               "customInputs": [],
               "customOutputs": [],
               "style": {
@@ -26661,7 +26715,7 @@
           "objID": "7c4c2854-02c9-4f64-e7bc-05c85ccaa78f",
           "type": "LVGLCheckboxWidget",
           "left": 17,
-          "top": 24,
+          "top": 20,
           "width": 58,
           "height": 20,
           "customInputs": [],
@@ -26704,7 +26758,7 @@
           "objID": "ce033e0b-a8da-4a31-bc30-8251478caf17",
           "type": "LVGLLabelWidget",
           "left": 0,
-          "top": 44,
+          "top": 40,
           "width": 91,
           "height": 20,
           "customInputs": [],
@@ -26718,7 +26772,7 @@
           "hiddenInEditor": false,
           "timeline": [],
           "eventHandlers": [],
-          "identifier": "statMin_18",
+          "identifier": "statMin_last",
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -26752,7 +26806,7 @@
           "objID": "f4edaa3b-b5a9-4a3c-ba92-262865215a8e",
           "type": "LVGLLabelWidget",
           "left": 0,
-          "top": 64,
+          "top": 60,
           "width": 91,
           "height": 20,
           "customInputs": [],
@@ -26766,7 +26820,7 @@
           "hiddenInEditor": false,
           "timeline": [],
           "eventHandlers": [],
-          "identifier": "statMin_19",
+          "identifier": "statMin_min",
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -26797,10 +26851,58 @@
           "previewValue": "10.000mA"
         },
         {
+          "objID": "2c056c49-3b9f-4dce-d1ef-576a81bcea3e",
+          "type": "LVGLLabelWidget",
+          "left": 0,
+          "top": 80,
+          "width": 91,
+          "height": 20,
+          "customInputs": [],
+          "customOutputs": [],
+          "style": {
+            "objID": "2ad23861-8cf9-4087-8808-7e47526e9db1",
+            "useStyle": "default",
+            "conditionalStyles": [],
+            "childStyles": []
+          },
+          "hiddenInEditor": false,
+          "timeline": [],
+          "eventHandlers": [],
+          "identifier": "statMin_avg",
+          "leftUnit": "px",
+          "topUnit": "px",
+          "widthUnit": "px",
+          "heightUnit": "px",
+          "children": [],
+          "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+          "hiddenFlagType": "literal",
+          "clickableFlagType": "literal",
+          "checkedStateType": "literal",
+          "disabledStateType": "literal",
+          "states": "",
+          "useStyle": "small label",
+          "localStyles": {
+            "objID": "209e3667-07fd-429f-829a-e01cc7ca84ce",
+            "definition": {
+              "MAIN": {
+                "DEFAULT": {
+                  "text_align": "RIGHT"
+                }
+              }
+            }
+          },
+          "groupIndex": 0,
+          "text": "statsAll[type].avg",
+          "textType": "expression",
+          "longMode": "CLIP",
+          "recolor": false,
+          "previewValue": "10.000mA"
+        },
+        {
           "objID": "c68044dc-a684-4ad4-c9c3-2d3d48bc7a44",
           "type": "LVGLLabelWidget",
           "left": 0,
-          "top": 84,
+          "top": 100,
           "width": 91,
           "height": 20,
           "customInputs": [],
@@ -26814,7 +26916,7 @@
           "hiddenInEditor": false,
           "timeline": [],
           "eventHandlers": [],
-          "identifier": "statMin_20",
+          "identifier": "statMin_dev",
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -26838,7 +26940,7 @@
             }
           },
           "groupIndex": 0,
-          "text": "statsAll[type].avg",
+          "text": "statsAll[type].dev",
           "textType": "expression",
           "longMode": "CLIP",
           "recolor": false,
@@ -26848,7 +26950,7 @@
           "objID": "fba924c4-3cd6-4dc6-d793-6f54c0e96e6d",
           "type": "LVGLLabelWidget",
           "left": 0,
-          "top": 104,
+          "top": 120,
           "width": 91,
           "height": 20,
           "customInputs": [],
@@ -26862,7 +26964,7 @@
           "hiddenInEditor": false,
           "timeline": [],
           "eventHandlers": [],
-          "identifier": "statMin_21",
+          "identifier": "statMin_max",
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -26896,7 +26998,7 @@
           "objID": "dab7ec1b-1833-4755-8196-d06f3d891ee2",
           "type": "LVGLLabelWidget",
           "left": 0,
-          "top": 124,
+          "top": 140,
           "width": 91,
           "height": 20,
           "customInputs": [],
@@ -26910,7 +27012,7 @@
           "hiddenInEditor": false,
           "timeline": [],
           "eventHandlers": [],
-          "identifier": "statMin_22",
+          "identifier": "statMin_count",
           "leftUnit": "px",
           "topUnit": "px",
           "widthUnit": "px",
@@ -26944,7 +27046,7 @@
           "objID": "e69ff0a3-3c2f-4b62-e411-26b1401621df",
           "type": "LVGLButtonWidget",
           "left": 11,
-          "top": 149,
+          "top": 165,
           "width": 70,
           "height": 24,
           "customInputs": [],
@@ -27044,7 +27146,7 @@
           "left": -299,
           "top": -69,
           "width": 185,
-          "height": 87,
+          "height": 89,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -27074,7 +27176,7 @@
           "left": -444,
           "top": -95,
           "width": 98,
-          "height": 52,
+          "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "type"
@@ -27084,7 +27186,7 @@
           "type": "CallActionActionComponent",
           "left": 203,
           "top": 161,
-          "width": 127,
+          "width": 128,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -27165,7 +27267,7 @@
       "left": 0,
       "top": 0,
       "width": 91,
-      "height": 175,
+      "height": 191,
       "isUsedAsUserWidget": true
     }
   ],

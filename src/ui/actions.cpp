@@ -119,14 +119,16 @@ void action_format_stat(lv_event_t * e)
         break;
     }
 
-    formatStatValue(str,  type, fromstat.min == INFINITY ? 0 :fromstat.min);
+    formatStatValue(str,  type, fromstat.min == INFINITY ? 0 :fromstat.min, false);
     statsAll.at(tostatIndex).min(str);    
-    formatStatValue(str,  type, fromstat.avg);
+    formatStatValue(str,  type, fromstat.avg, false);
     statsAll.at(tostatIndex).avg(str);    
-    formatStatValue(str,  type, fromstat.max);
+    formatStatValue(str,  type, fromstat.max, false);
     statsAll.at(tostatIndex).max(str);    
     value2str(str, fromstat.count, 0, 6, 6, true, "");
     statsAll.at(tostatIndex).count(str);    
+    formatStatValue(str, type, fromstat.count == 0 ? 0.0f : sqrt(fromstat.M2 / (float)fromstat.count), true);
+    statsAll.at(tostatIndex).dev(str);    
 }
 
 } // extern "C"

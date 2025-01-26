@@ -67,6 +67,7 @@ enum statsFlowStructureFields {
     FLOW_STRUCTURE_STATS_FIELD_COUNT = 1,
     FLOW_STRUCTURE_STATS_FIELD_MAX = 2,
     FLOW_STRUCTURE_STATS_FIELD_AVG = 3,
+    FLOW_STRUCTURE_STATS_FIELD_DEV = 4,
     FLOW_STRUCTURE_STATS_NUM_FIELDS
 };
 
@@ -274,6 +275,13 @@ struct statsValue {
     }
     void avg(const char *avg) {
         value.getArray()->values[FLOW_STRUCTURE_STATS_FIELD_AVG] = StringValue(avg);
+    }
+    
+    const char *dev() {
+        return value.getArray()->values[FLOW_STRUCTURE_STATS_FIELD_DEV].getString();
+    }
+    void dev(const char *dev) {
+        value.getArray()->values[FLOW_STRUCTURE_STATS_FIELD_DEV] = StringValue(dev);
     }
 };
 

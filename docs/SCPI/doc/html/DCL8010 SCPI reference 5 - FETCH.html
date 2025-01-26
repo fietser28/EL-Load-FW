@@ -112,7 +112,7 @@
 				</td>
 				<td colspan="4" style="border-left: 0; border-right: 0; border-top: 0; border-bottom: 0; vertical-align: top; background: transparent; width: 87%;">
 					<p>These queries return one or all of the statistical values of current (A), voltage (V) or power (W) measurements over the reported number amount of measurements (count). </p>
-					<p>Without parameters all stats of the measurement are retuned in the order min,max,avg and count.</p>
+					<p>Without parameters all stats of the measurement are retuned in the order min,avg,dev, max and count. </p>
 					<p>&#160;</p>
 				</td>
 			</tr>
@@ -141,7 +141,7 @@
 					<p style="text-align: center;">Discrete</p>
 				</td>
 				<td style="border-left: 0; border-right: 0; border-top: 0; border-bottom: 0; vertical-align: top; background: transparent; width: 22%;">
-					<p style="text-align: center;">MIN|MAX|AVG|COUNT</p>
+					<p style="text-align: center;">MIN|MAX|AVG|DEV|COUNT</p>
 				</td>
 				<td style="border-left: 0; border-right: 0; border-top: 0; border-bottom: 0; vertical-align: top; background: transparent; width: 22%;">
 					<p style="text-align: center;">all</p>
@@ -162,7 +162,7 @@
 				<td colspan="4" style="border-left: 0; border-right: 0; border-top: 0; border-bottom: 0; vertical-align: top; background: transparent; width: 87%;">
 					<p>Fetch the statistics of current:</p>
 					<p class="cmd_code_Start">FETCH:CURR:STAT?</p>
-					<p class="cmd_code_single">0.97,1.12,1.01,123</p>
+					<p class="cmd_code_single">0.97,1.01,0.021,1.12,123</p>
 				</td>
 			</tr>
 			<tr style="background: transparent;">

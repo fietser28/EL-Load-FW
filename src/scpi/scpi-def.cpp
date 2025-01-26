@@ -311,6 +311,7 @@ scpi_choice_def_t stat_type_list[] = {
     {"MAX", 2},
     {"AVG", 3},
     {"COUNT", 4},
+    {"DEV", 5},
     SCPI_CHOICE_LIST_END
 };
 
@@ -824,13 +825,14 @@ scpi_result_t scpi_cmd_fetch_current(scpi_t *context) {
 
 scpi_result_t stat_param(scpi_t *context, uint32_t param, measureStat stats)
 {
-    const float stat_array[] = { (float)stats.min, (float)stats.avg, 
-                                 (float)stats.max, (float)stats.count};
+    float dev = sqrt(stats.M2 / (float)stats.count);
+    const float stat_array[] = { (float)stats.min, (float)stats.avg, dev,
+                                 (float)stats.max, (float)stats.count };
 
     switch(param)
     {
         case 0:
-            SCPI_ResultArrayFloat(context, stat_array, 4, SCPI_FORMAT_ASCII);            
+            SCPI_ResultArrayFloat(context, stat_array, 5, SCPI_FORMAT_ASCII);            
             break;
         case 1:
             SCPI_ResultFloat(context, stats.min);
@@ -843,6 +845,9 @@ scpi_result_t stat_param(scpi_t *context, uint32_t param, measureStat stats)
             break;
         case 4:
             SCPI_ResultUInt32(context, stats.count);
+            break;
+        case 5:
+            SCPI_ResultUInt32(context, dev);
             break;
         default:
             return SCPI_RES_ERR;

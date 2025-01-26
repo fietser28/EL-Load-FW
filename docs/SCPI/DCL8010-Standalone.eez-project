@@ -27,7 +27,7 @@
           "objID": "316a7a7b-9055-334b-a52a-a890535854f4",
           "name": "DCL8010-Standalone",
           "description": "",
-          "properties": "{\n  \"connection\": {\n    \"serial\": {\n      \"baudRates\": [9600, 19200, 38400, 57600]\n    }\n  },\n  \"channels\": [\n    { \"color\": \"#FBFB00\", \"colorInverse\": \"#AEAE00\" },\n    { \"color\": \"#03FFFF\", \"colorInverse\": \"#00B5B5\" }\n  ]\n}"
+          "properties": "{\n  \"connection\": {\n    \"serial\": {\n      \"baudRates\": [9600, 19200, 38400, 57600, 115200]\n    }\n  },\n  \"channels\": [\n    { \"color\": \"#FBFB00\", \"colorInverse\": \"#AEAE00\" },\n    { \"color\": \"#03FFFF\", \"colorInverse\": \"#00B5B5\" }\n  ]\n}"
         }
       ],
       "files": [],
@@ -1069,13 +1069,13 @@
             "helpLink": "DCL8010 SCPI reference 5 - FETCH.html#_scpi_fetch_curr_stat",
             "parameters": [
               {
-                "objID": "99375063-8e1b-4c5e-8e79-a78e4de29b47",
+                "objID": "e4135954-b03a-400d-dc3f-2df96a95894a",
                 "name": "stat",
                 "type": [
                   {
-                    "objID": "77e03c36-fd65-407e-c046-b40cabed7ae0",
+                    "objID": "2c263c44-2f1f-411b-f84f-e2506d4afbdf",
                     "type": "discrete",
-                    "enumeration": "Stat"
+                    "enumeration": "Stat1"
                   }
                 ],
                 "isOptional": false
@@ -1110,13 +1110,13 @@
             "helpLink": "DCL8010 SCPI reference 5 - FETCH.html#_scpi_fetch_power_stat",
             "parameters": [
               {
-                "objID": "7208a845-4ea7-49e8-f115-5ac5c69b4893",
+                "objID": "31c0892c-e75f-4005-b9af-711f102f3168",
                 "name": "stat",
                 "type": [
                   {
-                    "objID": "b780de85-faff-405a-e88d-a520bcfce3ca",
+                    "objID": "ffe79737-c232-4cff-861f-4ef69ef00dfe",
                     "type": "discrete",
-                    "enumeration": "Stat"
+                    "enumeration": "Stat1"
                   }
                 ],
                 "isOptional": false
@@ -1165,13 +1165,13 @@
             "helpLink": "DCL8010 SCPI reference 5 - FETCH.html#_scpi_fetch_volt_stat",
             "parameters": [
               {
-                "objID": "c32cb2f7-6bb4-4de9-e343-9eff3128e831",
+                "objID": "0362110f-2127-46f5-b58f-733ec6fc9fa9",
                 "name": "stat",
                 "type": [
                   {
-                    "objID": "46d3197e-f8f5-4890-b0ad-59b00ec6542a",
+                    "objID": "6ed95eb6-ce19-426f-d454-7f8b5fa3e119",
                     "type": "discrete",
-                    "enumeration": "Stat"
+                    "enumeration": "Stat1"
                   }
                 ],
                 "isOptional": false
@@ -2557,6 +2557,37 @@
           {
             "objID": "b6501478-ff43-4d9d-fca4-c3dca2b2eeb7",
             "name": "MAX",
+            "value": ""
+          }
+        ]
+      },
+      {
+        "objID": "cb21855d-9779-4f0e-cd34-92d66b8e926f",
+        "name": "Stat1",
+        "members": [
+          {
+            "objID": "b2e17f12-48f0-46c4-8f31-5a34dbdfb454",
+            "name": "MIN",
+            "value": ""
+          },
+          {
+            "objID": "3346b211-ec9b-49c1-8cf3-aff9ae8337f2",
+            "name": "MAX",
+            "value": ""
+          },
+          {
+            "objID": "4943ebea-f870-4ae4-cb4a-33fa49781657",
+            "name": "AVG",
+            "value": ""
+          },
+          {
+            "objID": "3f4948b4-76be-4871-d826-8ded1cf2b705",
+            "name": "DEV",
+            "value": ""
+          },
+          {
+            "objID": "363ae197-a3e7-4b05-89dc-19905709870b",
+            "name": "COUNT",
             "value": ""
           }
         ]

@@ -440,7 +440,7 @@
         "objID": "7e465c1e-e1e2-4451-f750-c9f0ca670908",
         "name": "debugMQMin",
         "type": "array:integer",
-        "defaultValue": "[0,0,0,0,0,0,0]",
+        "defaultValue": "[0,0,0,0,0,0,0,0,0]",
         "persistent": false,
         "native": false
       },
@@ -448,7 +448,7 @@
         "objID": "9820ea6a-b377-43d0-8aa6-4199cdcf2861",
         "name": "debugMQOverflows",
         "type": "array:integer",
-        "defaultValue": "[0,0,0,0,0,0,0]",
+        "defaultValue": "[0,0,0,0,0,0,0,0,0]",
         "persistent": false,
         "native": false
       },
@@ -456,7 +456,7 @@
         "objID": "0db8e800-5e89-4e56-9a47-19e64ee65a17",
         "name": "debugMQNames",
         "type": "array:string",
-        "defaultValue": "[ \"newMsgBuff\", \"ChangeMeasureTaskSettings\", \"ChangeAverageSettings\", \"ChangeHWIOSettings\", \"ChangeScreen\", \"Beeper\" ]",
+        "defaultValue": "[ \"newMsgBuff\", \"ChangeMeasureTaskSettings\", \"ChangeAverageSettings\", \"ChangeHWIOSettings\", \"ChangeScreen\", \"Beeper\", \"SCPImessages\", \"SCPIreturns\" ]",
         "persistent": false,
         "native": false
       },
@@ -633,6 +633,30 @@
         "name": "debugStateCounters",
         "type": "array:string",
         "defaultValue": "[ \"\",\"\",\"\",\"\"]",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "3e912d87-3707-463e-a679-276ae4c1f449",
+        "name": "statsImon",
+        "type": "array:string",
+        "defaultValue": "[ \"\",\"\",\"\",\"\",\"\"]",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "73537742-672f-497d-fdfb-83a6fb4255af",
+        "name": "statsUmon",
+        "type": "array:string",
+        "defaultValue": "[ \"\", \"\", \"\", \"\", \"\" ]",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "8cb20ec5-79f1-4240-f7f9-7185352c47b9",
+        "name": "statsPmon",
+        "type": "array:string",
+        "defaultValue": "[ \"\",\"\",\"\",\"\",\"\"]",
         "persistent": false,
         "native": false
       }
@@ -1081,12 +1105,27 @@
           "left": -279,
           "top": -17,
           "width": 237,
-          "height": 222,
+          "height": 258,
           "customInputs": [],
           "customOutputs": [
             {
               "objID": "229dbc98-5800-4d89-ae90-3c11af2cc6fd",
               "name": "capstr",
+              "type": "string"
+            },
+            {
+              "objID": "87d22988-87e7-4593-c224-97346966a8a8",
+              "name": "stati",
+              "type": "string"
+            },
+            {
+              "objID": "9ff4997b-186c-460b-f018-807ae83ed292",
+              "name": "statu",
+              "type": "string"
+            },
+            {
+              "objID": "3f88e46f-f66e-47e9-d3ce-65e414ccd306",
+              "name": "statp",
               "type": "string"
             },
             {
@@ -1097,9 +1136,9 @@
           ],
           "catchError": true,
           "instrument": "dcl",
-          "scpi": "inp:prot:wdog:pet\nopc = *OPC?\ndcl_on = inp?\ncal_mode = cal:mode?\nmoderaw = inp:mode?\nimon = fetch:curr?\numon = fetch:volt?\npmon = fetch:power?\ncapstr = fetch:cap?\nremoteSense = volt:remote?\nnplc = sense:nplc?\nstate_Ilow = curr:range?\nstate_Ulow = volt:range?\nfan_rpm = syst:fan:rpm?\ntemp = syst:temp?",
+          "scpi": "inp:prot:wdog:pet\nopc = *OPC?\ndcl_on = inp?\ncal_mode = cal:mode?\nmoderaw = inp:mode?\nimon = fetch:curr?\numon = fetch:volt?\npmon = fetch:power?\ncapstr = fetch:cap?\nremoteSense = volt:remote?\nnplc = sense:nplc?\nstate_Ilow = curr:range?\nstate_Ulow = volt:range?\nfan_rpm = syst:fan:rpm?\ntemp = syst:temp?\nstati = fetch:curr:stat?\nstatu = fetch:volt:stat?\nstatp = fetch:pow:stat?",
           "timeout": "null",
-          "delay": "125"
+          "delay": "null"
         },
         {
           "objID": "ad1ef487-7e9d-438c-f7fb-b432a4a11e04",
@@ -1114,14 +1153,29 @@
         {
           "objID": "a7c01e5d-e618-4970-9b11-6ab25fca6632",
           "type": "SetVariableActionComponent",
-          "left": 24,
-          "top": -72,
+          "left": 22,
+          "top": -209,
           "width": 315,
-          "height": 57,
+          "height": 122,
           "customInputs": [
             {
               "objID": "7ac97c9e-8317-499d-d51c-1b0ff38e727d",
               "name": "capstr",
+              "type": "string"
+            },
+            {
+              "objID": "aa9f6c02-61e5-454c-a91b-88dd30fc7603",
+              "name": "stati",
+              "type": "string"
+            },
+            {
+              "objID": "853eda21-5037-4425-b7f6-dde78f159475",
+              "name": "statu",
+              "type": "string"
+            },
+            {
+              "objID": "def60bbb-3e53-4b04-fd7c-904f957c99ee",
+              "name": "statp",
               "type": "string"
             }
           ],
@@ -1131,6 +1185,21 @@
               "objID": "f199b4e4-f487-41a4-81b6-4c0b10325f99",
               "variable": "Capacity",
               "value": "String.split(capstr, ',')"
+            },
+            {
+              "objID": "6dbb1384-bc83-4683-c79a-e47780d2aec6",
+              "variable": "statsImon",
+              "value": "String.split(stati, ',')"
+            },
+            {
+              "objID": "03ca8544-d500-4fdd-e045-98c668dde75f",
+              "variable": "statsUmon",
+              "value": "String.split(statu, ',')"
+            },
+            {
+              "objID": "a5d092cf-0472-44f7-b506-cb5e548072ad",
+              "variable": "statsPmon",
+              "value": "String.split(statp, ',')"
             }
           ]
         },
@@ -1148,8 +1217,8 @@
         {
           "objID": "3b7ab82c-414a-40f7-f47a-fee34f710017",
           "type": "SCPIActionComponent",
-          "left": 620,
-          "top": -124,
+          "left": 607,
+          "top": -57,
           "width": 194,
           "height": 77,
           "customInputs": [],
@@ -1162,8 +1231,8 @@
         {
           "objID": "455020a7-95fa-4e21-8fb2-f54dbcf23f45",
           "type": "IsTrueActionComponent",
-          "left": 480,
-          "top": 25,
+          "left": 449,
+          "top": -22,
           "width": 97,
           "height": 69,
           "customInputs": [],
@@ -1235,8 +1304,8 @@
         {
           "objID": "7f8d263a-535f-46ca-f718-523c3b7b0646",
           "type": "CallActionActionComponent",
-          "left": 91,
-          "top": 27,
+          "left": 220,
+          "top": 48,
           "width": 144,
           "height": 52,
           "customInputs": [],
@@ -1250,8 +1319,8 @@
         {
           "objID": "63117dc9-c521-4aa7-eeb8-310664c8721c",
           "type": "SetVariableActionComponent",
-          "left": 280,
-          "top": 27,
+          "left": 220,
+          "top": 123,
           "width": 151,
           "height": 57,
           "customInputs": [
@@ -1877,6 +1946,27 @@
           "output": "SC",
           "target": "0041ab82-4fbe-4697-84b6-8f94f134c7e1",
           "input": "SC"
+        },
+        {
+          "objID": "616d50c6-fed0-4ac1-cb5d-cce77112d738",
+          "source": "5c96621d-f108-45bd-83cf-d4e9fff21170",
+          "output": "stati",
+          "target": "a7c01e5d-e618-4970-9b11-6ab25fca6632",
+          "input": "stati"
+        },
+        {
+          "objID": "7f1116ed-8121-492c-ae25-89d44bce8013",
+          "source": "5c96621d-f108-45bd-83cf-d4e9fff21170",
+          "output": "statu",
+          "target": "a7c01e5d-e618-4970-9b11-6ab25fca6632",
+          "input": "statu"
+        },
+        {
+          "objID": "6a8fdcc9-268f-4564-9942-54c4f1e5f1c8",
+          "source": "5c96621d-f108-45bd-83cf-d4e9fff21170",
+          "output": "statp",
+          "target": "a7c01e5d-e618-4970-9b11-6ab25fca6632",
+          "input": "statp"
         }
       ],
       "localVariables": [
@@ -6446,6 +6536,250 @@
                   "hiddenInEditor": false,
                   "timeline": [],
                   "eventHandlers": []
+                },
+                {
+                  "objID": "5b91f68e-8b27-4278-baa2-cdf1ce36844d",
+                  "type": "ContainerWidget",
+                  "left": 108,
+                  "top": 218,
+                  "width": 226,
+                  "height": 285,
+                  "customInputs": [],
+                  "customOutputs": [],
+                  "style": {
+                    "objID": "1716e954-d455-4bcd-f46b-221097c791e3",
+                    "useStyle": "default",
+                    "conditionalStyles": [],
+                    "childStyles": [],
+                    "backgroundColor": "container_color"
+                  },
+                  "timeline": [],
+                  "eventHandlers": [],
+                  "widgets": [
+                    {
+                      "objID": "b7b9c982-d138-44bd-e7a8-8eaa3b388852",
+                      "type": "TextDashboardWidget",
+                      "left": 30,
+                      "top": 56,
+                      "width": 179,
+                      "height": 32,
+                      "customInputs": [],
+                      "customOutputs": [],
+                      "data": "\"Min:\" + String.format(\".4s\", statsImon[0]) + \"A\"",
+                      "style": {
+                        "objID": "53531874-7284-4c8a-87fa-499fa8ec5a54",
+                        "useStyle": "default",
+                        "conditionalStyles": [],
+                        "childStyles": [],
+                        "alignHorizontal": "center"
+                      },
+                      "timeline": [],
+                      "eventHandlers": []
+                    },
+                    {
+                      "objID": "efc1c9e4-a343-4b3c-ff03-27661c92e311",
+                      "type": "TextDashboardWidget",
+                      "left": 30,
+                      "top": 88,
+                      "width": 179,
+                      "height": 32,
+                      "customInputs": [],
+                      "customOutputs": [],
+                      "data": "\"Avg:\" + String.format(\".4s\", statsImon[1]) + \"A\"",
+                      "style": {
+                        "objID": "edeb586a-e57b-4a98-ee61-5488a7c565da",
+                        "useStyle": "default",
+                        "conditionalStyles": [],
+                        "childStyles": [],
+                        "alignHorizontal": "center"
+                      },
+                      "timeline": [],
+                      "eventHandlers": []
+                    },
+                    {
+                      "objID": "54aed968-ddf5-4443-f5ad-61e57cc21279",
+                      "type": "TextDashboardWidget",
+                      "left": 30,
+                      "top": 120,
+                      "width": 179,
+                      "height": 32,
+                      "customInputs": [],
+                      "customOutputs": [],
+                      "data": "\"Std:\" + String.format(\".7s\", statsImon[2]) + \"A\"",
+                      "style": {
+                        "objID": "c5747094-fcc8-4bf4-cade-c6964dabbc81",
+                        "useStyle": "default",
+                        "conditionalStyles": [],
+                        "childStyles": [],
+                        "alignHorizontal": "center"
+                      },
+                      "timeline": [],
+                      "eventHandlers": []
+                    },
+                    {
+                      "objID": "eec664ed-885a-4cd3-9125-eec05e359a2e",
+                      "type": "TextDashboardWidget",
+                      "left": 30,
+                      "top": 152,
+                      "width": 179,
+                      "height": 32,
+                      "customInputs": [],
+                      "customOutputs": [],
+                      "data": "\"Max:\" +  String.format(\".4s\", statsImon[3]) + \"A\"",
+                      "style": {
+                        "objID": "f6679097-4675-43b4-c6d4-6582fc9d43fc",
+                        "useStyle": "default",
+                        "conditionalStyles": [],
+                        "childStyles": [],
+                        "alignHorizontal": "center"
+                      },
+                      "timeline": [],
+                      "eventHandlers": []
+                    },
+                    {
+                      "objID": "25ed9dc5-ae39-4ee0-e0ff-18ff7c29893b",
+                      "type": "TextDashboardWidget",
+                      "left": 30,
+                      "top": 184,
+                      "width": 179,
+                      "height": 32,
+                      "customInputs": [],
+                      "customOutputs": [],
+                      "data": "\"Count:\" + statsImon[4]",
+                      "style": {
+                        "objID": "06bded2e-d6fe-4ffb-d231-b24b360019ab",
+                        "useStyle": "default",
+                        "conditionalStyles": [],
+                        "childStyles": [],
+                        "alignHorizontal": "center"
+                      },
+                      "timeline": [],
+                      "eventHandlers": []
+                    }
+                  ],
+                  "layout": "static"
+                },
+                {
+                  "objID": "21d0ce49-81aa-4928-f84e-39f3575c62a7",
+                  "type": "ContainerWidget",
+                  "left": 355,
+                  "top": 218,
+                  "width": 226,
+                  "height": 285,
+                  "customInputs": [],
+                  "customOutputs": [],
+                  "style": {
+                    "objID": "f97a12af-8e4f-4591-bbaf-64767a9576af",
+                    "useStyle": "default",
+                    "conditionalStyles": [],
+                    "childStyles": [],
+                    "backgroundColor": "container_color"
+                  },
+                  "timeline": [],
+                  "eventHandlers": [],
+                  "widgets": [
+                    {
+                      "objID": "2641f4d7-41f9-4f5b-92cf-7d6868b75cb4",
+                      "type": "TextDashboardWidget",
+                      "left": 30,
+                      "top": 56,
+                      "width": 179,
+                      "height": 32,
+                      "customInputs": [],
+                      "customOutputs": [],
+                      "data": "\"Min:\" + String.format(\".4s\", statsUmon[0]) + \"V\"",
+                      "style": {
+                        "objID": "b4018d04-e149-4454-f7eb-bc5b47a10e9c",
+                        "useStyle": "default",
+                        "conditionalStyles": [],
+                        "childStyles": [],
+                        "alignHorizontal": "center"
+                      },
+                      "timeline": [],
+                      "eventHandlers": []
+                    },
+                    {
+                      "objID": "c429a87e-a3b5-4685-a6ae-bf32aefabe7b",
+                      "type": "TextDashboardWidget",
+                      "left": 30,
+                      "top": 88,
+                      "width": 179,
+                      "height": 32,
+                      "customInputs": [],
+                      "customOutputs": [],
+                      "data": "\"Avg:\" + String.format(\".4s\", statsUmon[1]) + \"V\"",
+                      "style": {
+                        "objID": "e9407db2-fa96-40de-cbb6-ad9b87aa7400",
+                        "useStyle": "default",
+                        "conditionalStyles": [],
+                        "childStyles": [],
+                        "alignHorizontal": "center"
+                      },
+                      "timeline": [],
+                      "eventHandlers": []
+                    },
+                    {
+                      "objID": "5740e9a2-5aab-40c9-bd81-ed5bc86766ca",
+                      "type": "TextDashboardWidget",
+                      "left": 30,
+                      "top": 120,
+                      "width": 179,
+                      "height": 32,
+                      "customInputs": [],
+                      "customOutputs": [],
+                      "data": "\"Std:\" + String.format(\".7s\", statsUmon[2]) + \"V\"",
+                      "style": {
+                        "objID": "78c3f09d-c50b-434a-b536-282d9f6e66e7",
+                        "useStyle": "default",
+                        "conditionalStyles": [],
+                        "childStyles": [],
+                        "alignHorizontal": "center"
+                      },
+                      "timeline": [],
+                      "eventHandlers": []
+                    },
+                    {
+                      "objID": "54a9104b-c8be-4f84-a503-eeff20ccfe48",
+                      "type": "TextDashboardWidget",
+                      "left": 30,
+                      "top": 152,
+                      "width": 179,
+                      "height": 32,
+                      "customInputs": [],
+                      "customOutputs": [],
+                      "data": "\"Max:\" +  String.format(\".4s\", statsUmon[3]) + \"V\"",
+                      "style": {
+                        "objID": "d665430f-aa25-4ded-9eb3-2adad6757f81",
+                        "useStyle": "default",
+                        "conditionalStyles": [],
+                        "childStyles": [],
+                        "alignHorizontal": "center"
+                      },
+                      "timeline": [],
+                      "eventHandlers": []
+                    },
+                    {
+                      "objID": "d1b97c38-e56f-4b95-bb28-d737b9882480",
+                      "type": "TextDashboardWidget",
+                      "left": 30,
+                      "top": 184,
+                      "width": 179,
+                      "height": 32,
+                      "customInputs": [],
+                      "customOutputs": [],
+                      "data": "\"Count:\" + statsUmon[4]",
+                      "style": {
+                        "objID": "4ef09448-7b07-4045-f269-c891041e3f72",
+                        "useStyle": "default",
+                        "conditionalStyles": [],
+                        "childStyles": [],
+                        "alignHorizontal": "center"
+                      },
+                      "timeline": [],
+                      "eventHandlers": []
+                    }
+                  ],
+                  "layout": "static"
                 }
               ],
               "layout": "static"
@@ -6512,7 +6846,7 @@
                 "childStyles": [],
                 "color": "#cccccc"
               },
-              "hiddenInEditor": false,
+              "hiddenInEditor": true,
               "timeline": [],
               "eventHandlers": [],
               "widgets": [
@@ -6537,7 +6871,7 @@
                     "alignVertical": "center",
                     "color": "#ffff00"
                   },
-                  "hiddenInEditor": false,
+                  "hiddenInEditor": true,
                   "timeline": [],
                   "eventHandlers": []
                 },
@@ -6576,7 +6910,7 @@
                     "activeColor": "#ffffff",
                     "focusColor": ""
                   },
-                  "hiddenInEditor": false,
+                  "hiddenInEditor": true,
                   "timeline": [],
                   "eventHandlers": [],
                   "xValue": "Date.toString(Date.now())",
@@ -6653,7 +6987,7 @@
                     "alignVertical": "center",
                     "color": "#ff0000"
                   },
-                  "hiddenInEditor": false,
+                  "hiddenInEditor": true,
                   "timeline": [],
                   "eventHandlers": []
                 },
@@ -6678,7 +7012,7 @@
                     "alignVertical": "center",
                     "color": "#00caff"
                   },
-                  "hiddenInEditor": false,
+                  "hiddenInEditor": true,
                   "timeline": [],
                   "eventHandlers": []
                 },
@@ -6705,7 +7039,7 @@
                     "childStyles": [],
                     "alignHorizontal": "center"
                   },
-                  "hiddenInEditor": false,
+                  "hiddenInEditor": true,
                   "timeline": [],
                   "eventHandlers": [
                     {
@@ -6741,7 +7075,7 @@
                     "childStyles": [],
                     "color": "text_color"
                   },
-                  "hiddenInEditor": false,
+                  "hiddenInEditor": true,
                   "timeline": [],
                   "eventHandlers": []
                 },
@@ -6775,7 +7109,7 @@
                     "conditionalStyles": [],
                     "childStyles": []
                   },
-                  "hiddenInEditor": false,
+                  "hiddenInEditor": true,
                   "timeline": [],
                   "eventHandlers": []
                 },
@@ -6795,7 +7129,7 @@
                     "childStyles": [],
                     "alignHorizontal": "center"
                   },
-                  "hiddenInEditor": false,
+                  "hiddenInEditor": true,
                   "timeline": [],
                   "eventHandlers": [],
                   "value": "thermal_max_power",
@@ -6819,7 +7153,7 @@
                     "childStyles": [],
                     "alignHorizontal": "center"
                   },
-                  "hiddenInEditor": false,
+                  "hiddenInEditor": true,
                   "timeline": [],
                   "eventHandlers": [],
                   "value": "thermal_plateau_avg_time",
@@ -6843,7 +7177,7 @@
                     "conditionalStyles": [],
                     "childStyles": []
                   },
-                  "hiddenInEditor": false,
+                  "hiddenInEditor": true,
                   "timeline": [],
                   "eventHandlers": []
                 },
@@ -6864,7 +7198,7 @@
                     "childStyles": [],
                     "alignHorizontal": "right"
                   },
-                  "hiddenInEditor": false,
+                  "hiddenInEditor": true,
                   "timeline": [],
                   "eventHandlers": []
                 },
@@ -6884,7 +7218,7 @@
                     "childStyles": [],
                     "alignHorizontal": "center"
                   },
-                  "hiddenInEditor": false,
+                  "hiddenInEditor": true,
                   "timeline": [],
                   "eventHandlers": [],
                   "value": "thermal_plateau_threshold_perc",
@@ -6909,7 +7243,7 @@
                     "childStyles": [],
                     "alignHorizontal": "right"
                   },
-                  "hiddenInEditor": false,
+                  "hiddenInEditor": true,
                   "timeline": [],
                   "eventHandlers": []
                 },
@@ -6929,7 +7263,7 @@
                     "childStyles": [],
                     "alignHorizontal": "center"
                   },
-                  "hiddenInEditor": false,
+                  "hiddenInEditor": true,
                   "timeline": [],
                   "eventHandlers": [],
                   "value": "thermal_max_temp",
@@ -6954,7 +7288,7 @@
                     "childStyles": [],
                     "alignHorizontal": "right"
                   },
-                  "hiddenInEditor": false,
+                  "hiddenInEditor": true,
                   "timeline": [],
                   "eventHandlers": []
                 },
@@ -6976,7 +7310,7 @@
                     "alignHorizontal": "right",
                     "color": "text_color"
                   },
-                  "hiddenInEditor": false,
+                  "hiddenInEditor": true,
                   "timeline": [],
                   "eventHandlers": []
                 }
@@ -11672,10 +12006,10 @@
         {
           "objID": "73f062f3-c35e-4ecf-d446-e85238663325",
           "type": "Container",
-          "left": 771,
-          "top": 530,
+          "left": 766,
+          "top": 278,
           "width": 481,
-          "height": 270,
+          "height": 409,
           "customInputs": [],
           "customOutputs": [],
           "style": {
@@ -11694,7 +12028,7 @@
               "left": 0,
               "top": 0,
               "width": 481,
-              "height": 270,
+              "height": 409,
               "customInputs": [],
               "customOutputs": [],
               "style": {
@@ -11796,7 +12130,7 @@
               "left": 5,
               "top": 64,
               "width": 471,
-              "height": 200,
+              "height": 256,
               "customInputs": [],
               "customOutputs": [],
               "data": "debugMQMin",
@@ -11897,8 +12231,8 @@
         {
           "objID": "b5dc3ed4-9842-47a0-bae2-8d650bd6f887",
           "type": "Container",
-          "left": 771,
-          "top": 113,
+          "left": 273,
+          "top": 278,
           "width": 481,
           "height": 409,
           "customInputs": [],
@@ -12196,6 +12530,26 @@
               },
               "timeline": [],
               "eventHandlers": []
+            },
+            {
+              "objID": "f1c216a1-e865-4ee6-8a73-28bbf807dcc4",
+              "type": "SwitchDashboardWidget",
+              "left": 407,
+              "top": 4,
+              "width": 43,
+              "height": 24,
+              "customInputs": [],
+              "customOutputs": [],
+              "data": "onlyDebugTskPerc",
+              "style": {
+                "objID": "7da8fa92-79bd-4beb-ceda-ac228cce27fb",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": [],
+                "backgroundColor": "transparent"
+              },
+              "timeline": [],
+              "eventHandlers": []
             }
           ],
           "layout": "static"
@@ -12204,7 +12558,7 @@
           "objID": "71b697f7-5609-4f0b-f905-09f4b7d6d126",
           "type": "Container",
           "left": 276,
-          "top": 197,
+          "top": 59,
           "width": 481,
           "height": 204,
           "customInputs": [],
@@ -12413,8 +12767,8 @@
         {
           "objID": "c7aef3eb-ee6d-4892-c09b-97353a66b878",
           "type": "Container",
-          "left": 276,
-          "top": 530,
+          "left": 766,
+          "top": 59,
           "width": 481,
           "height": 69,
           "customInputs": [],
@@ -12539,8 +12893,8 @@
         {
           "objID": "06e460a0-01a8-4329-b104-8c9f998905ec",
           "type": "Container",
-          "left": 276,
-          "top": 618,
+          "left": 766,
+          "top": 141,
           "width": 481,
           "height": 69,
           "customInputs": [],
@@ -12553,7 +12907,7 @@
           },
           "timeline": [],
           "eventHandlers": [],
-          "name": "Flow",
+          "name": "State",
           "widgets": [
             {
               "objID": "731eb293-71f2-44f3-edc5-203a9c553d73",
@@ -12666,7 +13020,7 @@
           "objID": "7ed89c81-8499-479a-ab77-c1a7bc05115b",
           "type": "Container",
           "left": 10,
-          "top": 195,
+          "top": 59,
           "width": 250,
           "height": 428,
           "customInputs": [],
@@ -12814,25 +13168,6 @@
             }
           ],
           "layout": "static"
-        },
-        {
-          "objID": "f1c216a1-e865-4ee6-8a73-28bbf807dcc4",
-          "type": "SwitchDashboardWidget",
-          "left": 1183,
-          "top": 75,
-          "width": 64,
-          "height": 32,
-          "customInputs": [],
-          "customOutputs": [],
-          "data": "onlyDebugTskPerc",
-          "style": {
-            "objID": "7da8fa92-79bd-4beb-ceda-ac228cce27fb",
-            "useStyle": "default",
-            "conditionalStyles": [],
-            "childStyles": []
-          },
-          "timeline": [],
-          "eventHandlers": []
         }
       ],
       "connectionLines": [],
@@ -12998,6 +13333,10 @@
     {
       "objID": "f1c06427-8f5f-44e9-884c-5316f98e3f1e",
       "name": "text_color"
+    },
+    {
+      "objID": "3d3373f9-bd15-4856-bb2f-467f471f395f",
+      "name": "container_color"
     }
   ],
   "themes": [
@@ -13009,7 +13348,8 @@
         "#d0d0d0",
         "#e0e0e0",
         "#f0f0f0",
-        "#000000"
+        "#000000",
+        "#bbbbbb"
       ]
     }
   ]

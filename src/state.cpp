@@ -23,6 +23,7 @@ namespace dcl
         s->max = 0.0f;
         s->avg = 0.0f;
         s->count = 0;
+        s->M2 = 0.0f;
     };
 
 

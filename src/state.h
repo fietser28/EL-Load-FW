@@ -22,6 +22,7 @@ namespace dcl
         float min;
         float max;
         float avg;
+        float M2;  // For variance calculation.
         uint32_t count;
     };
 

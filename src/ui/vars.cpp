@@ -574,7 +574,7 @@ void set_var_stat_type(statsType_e value)
   }
 };
 
-void formatStatValue(char* str, statsType_e type, float value)
+void formatStatValue(char* str, statsType_e type, float value, bool dev = true)
 {
   if(statsCurrent->count == 0)
   {
@@ -585,24 +585,24 @@ void formatStatValue(char* str, statsType_e type, float value)
   {
     if (localsetcopy.rangeCurrentLow == true) {
       //TODO: fix hardcoding of settings
-      value2str(str, value, -4, 5, 3, true, "A");
+      value2str(str, value, dev ? -6 : -4, 5, 3, true, "A");
     } else {
-      value2str(str, value, -3, 5, 3, true, "A");
+      value2str(str, value, dev ? -5 : -3, 5, 3, true, "A");
     }
   }
   if(type == statsType_e_U) 
   {
     if (localsetcopy.rangeVoltageLow == true) {
       //TODO: fix hardcoding of settings
-      value2str(str, value, -4, 5, 4, true, "V");
+      value2str(str, value, dev ? -6 : -4, 5, 4, true, "V");
     } else {
       //TODO: fix hardcoding of settings
-      value2str(str, value, -3, 5, 3, true, "V");
+      value2str(str, value, dev ? -5 : -3, 5, 3, true, "V");
     }
   }
   if(type == statsType_e_P) 
   {
-    value2str(str, value, -3, 4, 3, true, "W");
+    value2str(str, value, dev ? -5 : -3, 4, 3, true, "W");
   }
 }
 

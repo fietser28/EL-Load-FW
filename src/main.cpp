@@ -1230,32 +1230,42 @@ void taskAveragingFunction(void *pvParameters)
       }
 
       // Statistics
+      // See https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
       if (on && localIstatRun) 
       {
         localIstat.count++;
-        IstatAvgSum += imon;
+        //IstatAvgSum += imon;
         localIstat.min = localIstat.count == 1 ? imon : min(localIstat.min, imon);
         localIstat.max = max(localIstat.max, imon);
-        localIstat.avg = localIstat.count == 0 ? 0.0f : (double)IstatAvgSum / (double)localIstat.count;
+        float delta1 = imon - localIstat.avg;
+        localIstat.avg += localIstat.count == 0 ? 0.0f : (float)delta1 / (float)localIstat.count;
+        float delta2 = imon - localIstat.avg;
+        localIstat.M2 += delta2 * delta1;
       }
 
       if (on && localUstatRun) 
       {
         localUstat.count++;
-        UstatAvgSum += umon;
+        //UstatAvgSum += umon;
         localUstat.min = localUstat.count == 1 ? umon : min(localUstat.min, umon);
         localUstat.max = max(localUstat.max, umon);
-        localUstat.avg = localUstat.count == 0 ? 0.0f : (double)UstatAvgSum / (double)localUstat.count;
+        float delta1 = umon - localUstat.avg;
+        localUstat.avg += localUstat.count == 0 ? 0.0f : (float)delta1 / (float)localUstat.count;
+        float delta2 = umon - localUstat.avg;
+        localUstat.M2 += delta2 * delta1;
       }
 
       if (on && localPstatRun) 
       {
         float pmon = imon * umon;
         localPstat.count++;
-        PstatAvgSum += pmon;
+        //PstatAvgSum += pmon;
         localPstat.min = localPstat.count == 1 ? pmon :min(localPstat.min, pmon);
         localPstat.max = max(localPstat.max, pmon);
-        localPstat.avg = localPstat.count == 0 ? 0.0f : (double)PstatAvgSum / (double)localPstat.count;
+        float delta1 = pmon - localPstat.avg;
+        localPstat.avg += localPstat.count == 0 ? 0.0f : (float)delta1 / (float)localPstat.count;
+        float delta2 = pmon - localPstat.avg;
+        localPstat.M2 += delta2 * delta1;
       }
 
       // First run after a doMeasure report old sCount, the averages are still from old setings.

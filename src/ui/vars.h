@@ -102,7 +102,7 @@ extern CalibrationValueConfiguration cal_values;
 
 extern bool cal_valuesChanged;
 
-extern void formatStatValue(char* str, statsType_e type, float value);
+extern void formatStatValue(char* str, statsType_e type, float value, bool dev);
 // Flow global variables
 enum FlowGlobalVariables {
     FLOW_GLOBAL_VARIABLE_DROPDOWNMODEINDEX = 0,
