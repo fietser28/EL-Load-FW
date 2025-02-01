@@ -12,12 +12,11 @@
 
 #include "math.h" 
 
+#include "main.h"
+#include "ui/vars.h"
+#include "state.h"
 #include "ui/ui.h"
 #include "ui/screens.h"
-#include "ui/vars.h"
-#include "ui/vars.h"
-#include "main.h"
-#include "state.h"
 #include "ui_glue.h"
 #include "keys.h"
 
@@ -414,6 +413,46 @@ static void my_encoder_read(lv_indev_t *indev_driver, lv_indev_data_t *data)
     }
   }
 
+  if (obj->class_p == &lv_table_class)
+  {
+    // Encoder Button pressed
+    if (keystate.encoderbutton && encoderButLastState == false)
+    {
+      uint32_t t = LV_EVENT_PRESSED;
+      lv_obj_send_event(obj, LV_EVENT_KEY, &t);
+      encoderButLastState = true;
+      encoderEventHandled = true;
+    }
+
+    // Encoder Button released
+    if (!keystate.encoderbutton && encoderButLastState == true)
+    {
+      uint32_t t = LV_EVENT_RELEASED;
+      lv_obj_send_event(obj, LV_EVENT_KEY, &t);
+      encoderButLastState = false;
+      encoderEventHandled = true;
+    }
+
+    // Encoder movement
+    int enccount = keystate.encodercount; // 2; // 2 changes per dent (on current combination HW/SW)
+    if (encoderLastState != enccount)
+    {
+      if (encoderLastState < enccount)
+      {
+      uint32_t t = LV_KEY_DOWN;
+      lv_obj_send_event(obj, LV_EVENT_KEY, &t);
+      encoderEventHandled = true;
+      }
+      else
+      {
+      uint32_t t = LV_KEY_UP;
+      lv_obj_send_event(obj, LV_EVENT_KEY, &t);
+      encoderEventHandled = true;
+      }
+      encoderLastState = enccount;
+    }
+  }
+
   // Already handled....
   //data->enc_diff = 0;
   if (encoderEventHandled == false) {
@@ -496,9 +535,9 @@ static void __not_in_flash_func(guiTask(void *pvParameter))
     // Create stable local data structures used in ui_tick()
     state.getMeasuredStateCopy(&localstatecopy, 0);
     state.getSetStateCopy(&localsetcopy, 0);
-    lv_task_handler();
     ui_tick();
     tick_screen_popup();
+    lv_task_handler();
     screenMsgBytes = xQueueReceive(changeScreen, &newScreenMsg, 0);
     if ( screenMsgBytes > 0)
     {

@@ -2,11 +2,14 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#pragma once
+#ifndef CAL_H
+#define CAL_H
+
 #include "Arduino.h"
 #include "FreeRTOS.h"
 #include "semphr.h"
 #include "util.h"
+#include "state.h"
 #include "ui/vars.h"
 
 #ifdef __cplusplus
@@ -65,6 +68,9 @@ namespace dcl::cal
 
 extern void calSetDefaults();
 
+#ifndef __cplusplus
+//    typedef struct cal cal;
+#else
 class calAction {
     public:
         calType_e   getCalType();
@@ -108,7 +114,10 @@ class calAction {
         bool      _triggerMeasure = false;
         bool      _valuesChanged = false;
 };
+#endif 
 
 #ifdef __cplusplus
 } // end of namespace
 #endif
+
+#endif //CAL_H

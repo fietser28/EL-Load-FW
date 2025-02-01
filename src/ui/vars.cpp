@@ -19,6 +19,7 @@
 #include "hardware/regs/sysinfo.h"
 
 #include "main.h"
+#include "events.h"
 #include "ui_glue.h"
 #include "state.h"
 //#include "display.h"
@@ -300,11 +301,6 @@ void set_var_protection_triggered(bool value)
 { 
   state.clearProtection();
 };
-
-void set_var_logtxt(const char *value) {};
-const char *get_var_logtxt() {
-  return (char *)logtxt;
-}
 
 void set_var_nplc(int32_t value) 
 {
@@ -693,3 +689,6 @@ void set_var_start_cal_ok(bool value) {}; // Read only
 
 bool get_var_reverse_polarity() { return !localstatecopy.PolarityErrorLast; };
 void set_var_reverse_polarity(bool value) {}; // Read only 
+
+int32_t get_var_event_counter() { return dcl::events::eventCounter(); }
+void set_var_event_counter(int32_t value) {}; // Read only

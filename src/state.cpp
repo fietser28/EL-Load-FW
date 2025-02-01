@@ -7,6 +7,7 @@
 
 #include "main.h"
 #include "state.h"
+#include "events.h"
 #include "keys.h"
 #include "ui/vars.h" // For the enum definitions
 #include "ui/ui.h"
@@ -14,7 +15,7 @@
 #include "scpi/scpi-def.h"
 
 using namespace dcl::scpi;
-
+using namespace dcl::events;
 namespace dcl
 {
     void clearMeasureStat(measureStat *s)
@@ -339,12 +340,16 @@ namespace dcl
     // Protection kicked in from HW signal
     if (!_setState.CalibrationMode && (ocptrig || ovptrig || sense_error || (polarity_error && _setState.on) || hwprotection)) 
     {
+        bool on = _setState.on; 
         state.setProtection();
         if (( (ocptrig || ovptrig) && getBeepProt()) ||
-              (polarity_error      && getBeepReverse()) ||
               (sense_error         && getBeepSense()) ||
               (polarity_error       && getBeepReverse())
         ) { beep(0); }
+        if (on) {
+            if (ocptrig) { addEvent(EVENT_ERROR_OCP);};
+            if (ovptrig) { addEvent(EVENT_ERROR_OVP);};
+        }
     };
 
     // Polarity error when load is of only beeps, doesn't trigger protection.
@@ -741,6 +746,11 @@ namespace dcl
             }
         }
         if (getBeepCap()) beep(0);
+        // Lazy on mutex
+        if (_measuredState.CapAhStopTriggered) { addEvent(EVENT_WARNING_CAP_AH);}
+        if (_measuredState.CapWhStopTriggered) { addEvent(EVENT_WARNING_CAP_WH);}
+        if (_measuredState.CapTimeStopTriggered) { addEvent(EVENT_WARNING_CAP_TIME);}
+        if (_measuredState.CapVoltStopTriggered) { addEvent(EVENT_WARNING_CAP_VOLT);}
         return updateLoadTasks();
     };
 
@@ -1181,15 +1191,19 @@ namespace dcl
     uint64_t stateManager::setSCPIWdog(bool enable) 
     {
         uint64_t r = 0;
+        bool oldstate;
         SCPIWdogPet(); // Clear timer
         if (_setStateMutex != NULL)
         {
             if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
             {
+                oldstate = _setState.scpiWdogEnabled;
                 _setState.scpiWdogEnabled = enable;
                 r = ++_setState.sCount; 
                 xSemaphoreGive(_setStateMutex);
                 updateLoadTasks();
+                if (oldstate != enable && enable) { addEvent(EVENT_INFO_SCPI_WDOG_ON);}
+                if (oldstate != enable && !enable) { addEvent(EVENT_INFO_SCPI_WDOG_OFF);}
             }
         }
         return r;
@@ -1337,6 +1351,7 @@ namespace dcl
                     xSemaphoreGive(_measuredStateMutex);
                 }
             }
+            addEvent(EVENT_ERROR_SCPI_WATCHDOG);
             return false;      
         }
         return true;

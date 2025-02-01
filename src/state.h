@@ -7,29 +7,30 @@
 
 #include "Arduino.h"
 #include "FreeRTOS.h"
-#include "cal.h"
 #include "ui/vars.h"
+#include "cal.h"
 
 #ifdef __cplusplus
 
+using namespace dcl;
 using namespace dcl::cal;
 namespace dcl
 {
 #endif
 
-    struct measureStat
+    typedef struct 
     {
         float min;
         float max;
         float avg;
         float M2;  // For variance calculation.
         uint32_t count;
-    };
+    } measureStat;
 
     extern void clearMeasureStat(measureStat *s);
    
     // all (calculated) measurements
-    struct measuredStateStruct
+    typedef struct 
     {
         uint64_t sCount;
         uint64_t sCountFromAverage;
@@ -64,7 +65,7 @@ namespace dcl
         float Temp2;
         uint32_t FanRPM;
         uint32_t FanRPM2;
-    };
+    } measuredStateStruct;
 
     enum ELmode
     {
@@ -77,17 +78,18 @@ namespace dcl
         DVM
     };
 
-    enum WDogType
+    typedef enum 
     {
         ACTIVITY,
         PET
-    };
+    } WDogType;
+
     struct calibrationRawData
     {
         int32_t    avgCurrentRaw; // TODO: 2's complement because of ADS131M02
         int32_t    avgVoltRaw;    // TODO: same here.
     };
-    struct setStateStruct
+    typedef struct 
     {
         uint64_t sCount;
         bool on;
@@ -139,7 +141,7 @@ namespace dcl
         bool beepOnEncoder;
         bool beepOnSense;
         float beepDefaultDuration;
-    };
+    } setStateStruct;
 
 #ifdef __cplusplus
     struct calibration
@@ -161,6 +163,7 @@ namespace dcl
     };
 #endif 
 
+#ifdef __cplusplus
     struct hardwareState
     {
         RP2040::resetReason_t resetReason;
@@ -168,6 +171,7 @@ namespace dcl
         bool calibrationCRCOK;
         bool calibrationValid;
     };
+#endif
 
 #ifndef __cplusplus
 //    typedef struct stateManager stateManager;
@@ -318,4 +322,4 @@ private:
 } // end of namespace
 #endif
 
-#endif
+#endif // STATE_H

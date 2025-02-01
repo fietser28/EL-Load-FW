@@ -19,6 +19,7 @@
 #include "main.h"
 #include "hardware.h"
 #include "state.h"
+#include "events.h"
 #include "util.h"
 #include "ranges.h"
 #include "cal.h"
@@ -41,6 +42,7 @@
 using namespace dcl;
 using namespace dcl::eeprom;
 using namespace dcl::scpi;
+using namespace dcl::events;
 
 #ifdef FAKE_HARDWARE
 TimerHandle_t timerFakeADCInterrupt;
@@ -199,14 +201,14 @@ void watchdog(void *pvParameters)
         // Reset watchdog if all tasks reset there watchdog to zero in last x seconds
         rp2040.wdt_reset();
       } 
-      if (watchdogAveraging >= 3) { SERIALDEBUG.println("WARNING: Watchdog not seeing Averaging task."); };
-      if (watchdogEncTask   >= 3) { SERIALDEBUG.println("WARNING: Watchdog not seeing Keys/encoder task."); };
-      if (watchdogGuiTask   >= 3) { SERIALDEBUG.println("WARNING: Watchdog not seeing GUI task."); };
-      if (watchdogGuiTimerFunction >= 3) { SERIALDEBUG.println("WARNING: Watchdog not seeing GUI Timer task."); };
-      if (watchdogLoop >= 10  )      { SERIALDEBUG.println("WARNING: Watchdog not seeing (SCPI) Loop task."); };
-      if (watchdogProtHW >= 3)    { SERIALDEBUG.println("WARNING: Watchdog not seeing ProtHW task."); };
-      if (watchdogMeasureAndOutput >= 3) { SERIALDEBUG.println("WARNING: Watchdog not seeing Measure task."); };
-      if (watchdogUART >= 3)            { SERIALDEBUG.println("WARNING: Watchdog not seeing UART task."); };
+      if (watchdogAveraging >= 3) { addEvent(EVENT_WARNING_WATCHDOG_AVERAGING); };
+      if (watchdogEncTask   >= 3) { addEvent(EVENT_WARNING_WATCHDOG_KEYS); };
+      if (watchdogGuiTask   >= 3) { addEvent(EVENT_WARNING_WATCHDOG_GUI); };
+      if (watchdogGuiTimerFunction >= 3) { addEvent(EVENT_WARNING_WATCHDOG_GUI_TIMER); };
+      if (watchdogLoop >= 10  )      { addEvent(EVENT_WARNING_WATCHDOG_SCPI_LOOP); };
+      if (watchdogProtHW >= 3)    { addEvent(EVENT_WARNING_WATCHDOG_PROTHW); };
+      if (watchdogMeasureAndOutput >= 3) { addEvent(EVENT_WARNING_WATCHDOG_MEASURE); };
+      if (watchdogUART >= 3)            { addEvent(EVENT_WARNING_WATCHDOG_UART); };
     vTaskDelay(500);
   }
 }
@@ -222,6 +224,7 @@ static void __not_in_flash_func(UART0ISR)() {
 
 char scpireturnbuf[SCPI_INPUT_BUFFER_LENGTH];
 char scpimessagebuf[SCPI_INPUT_BUFFER_LENGTH];
+bool scpidetected = false; 
 
 void SCPIMessagesFunction(void *pvParameters)
 {
@@ -245,6 +248,11 @@ void SCPIMessagesFunction(void *pvParameters)
         if (c == '\n' || pos >= SCPI_INPUT_BUFFER_LENGTH) {
           size_t bytesSend = xMessageBufferSend(SCPImessages, (void *)scpimessagebuf, pos, 1);
           debugMemorySCPIMessagesMinSpace = min(debugMemorySCPIMessagesMinSpace, xMessageBufferSpaceAvailable(SCPImessages));
+          if (scpidetected == false ) 
+          {
+            scpidetected = true;
+            addEvent(EVENT_INFO_SCPI_DETECTED);
+          }
           if (bytesSend == 0) 
           {
             //TODO: Generate an error on console/events? 
@@ -325,6 +333,7 @@ char idn4[IDN4SIZE];
 void setup()
 {
   taskLoop = xTaskGetCurrentTaskHandle(); //Store loop task handle for debug uses.
+  dcl::events::init();
   pinMode(TFT_BL, OUTPUT);
   digitalWrite(TFT_BL, LOW);
 
@@ -332,7 +341,7 @@ void setup()
   SERIALDEBUG.setPollingMode(true);
   SERIALDEBUG.begin(115200);
 
-  sleep_ms(2000); // Wait for serial to connect
+  //sleep_ms(2000); // Wait for serial to connect
   // Flush serial
   while (SERIALDEBUG.available())
   {
@@ -362,7 +371,16 @@ void setup()
 
   // Store resetReason
   state.hw.resetReason = rp2040.getResetReason();
-  SERIALDEBUG.printf("INFO: Startup reason: %d.\n", state.hw.resetReason);
+  static const char *g_startupStrings[] = { "Unknown", "Power on", "Run pin", "Software", "Watchdog Timer", "Debug reset", "Glitch", "Brownout"  };
+  char buf[40];
+  snprintf(&buf[0], 40, "Startup reason: %s.", g_startupStrings[state.hw.resetReason]);
+  if (state.hw.resetReason != 1) {
+    addEvent(EVENT_ERROR_GENERIC, buf);
+  } else {
+    addEvent(EVENT_DEBUG_GENERIC, buf);
+  }
+
+  //SERIALDEBUG.printf("INFO: Startup reason: %d.\n", state.hw.resetReason);
   calSetDefaults(); // Load default calibration data as a starting point.
 
   //// FreeRTOS setup.
@@ -423,24 +441,34 @@ void setup()
   state.hw.eepromMagicDetected = myeeprom.magicDetect();
   
   if (state.hw.eepromMagicDetected) {
-    SERIALDEBUG.println("OK: EEPROM magic found.");
+    addEvent(EVENT_DEBUG_EEPROM_MAGIC_FOUND);
   } else {
-    SERIALDEBUG.println("ERROR: No EEPROM with magic found.");
+    addEvent(EVENT_WARNING_EEPROM_NO_MAGIC);    
   }
 
   state.readCalibrationData();
 
   uint8_t eepromVersionRead = myeeprom.read(EEPROM_ADDR_VERSION);
 
-  SERIALDEBUG.printf("EEPROM Version read: %x\n", eepromVersionRead);
-  SERIALDEBUG.printf("INFO: measuredStateStruct struct size: %d\n", sizeof(measuredStateStruct));
-  SERIALDEBUG.printf("INFO: setStateStruct struct size: %d\n", sizeof(setStateStruct));
-  SERIALDEBUG.printf("INFO: Single calibration size: %d\n", sizeof(CalibrationValueConfiguration));
+  static char debugmsg[40];
+
+  snprintf(&debugmsg[0], 40, "EEPROM Version: %x.", eepromVersionRead);
+  addEvent(EVENT_DEBUG_GENERIC, debugmsg);
+
+  snprintf(&debugmsg[0], 40, "measuredState size: %d.", sizeof(measuredStateStruct));
+  addEvent(EVENT_DEBUG_GENERIC, debugmsg);
+  
+  snprintf(&debugmsg[0], 40, "setState size: %d.", sizeof(setStateStruct));
+  addEvent(EVENT_DEBUG_GENERIC, debugmsg);
+
+  snprintf(&debugmsg[0], 40, "single cal size: %d.", sizeof(CalibrationValueConfiguration));
+  addEvent(EVENT_DEBUG_GENERIC, debugmsg);
+
   // Next create the protection tasks.
   BaseType_t xTaskRet;
   xTaskRet = xTaskCreate(taskProtHWFunction, "HWProt", 1024, (void *) 1, TASK_PRIORITY_PROTHW, &taskProtHW);
   if (xTaskRet != pdPASS) { // TODO: reset, something is really wrong;
-     SERIALDEBUG.println("ERROR: Error starting ProtHW task.");
+     addEvent(EVENT_FATAL_GENERIC, "Error starting ProtHW task.");
   }
   // vTaskCoreAffinitySet(taskProtHW, 0x03); // Can run on both cores.
 
@@ -449,36 +477,35 @@ void setup()
   xTaskRet = xTaskCreate(taskAveragingFunction, "", 1024, (void *)1, TASK_PRIORITY_MEASURE, &taskAveraging);
   if (xTaskRet != pdPASS)
   { // TODO: reset, something is really wrong;
-    SERIALDEBUG.println("ERROR: Error starting Averaging task.");
+    addEvent(EVENT_FATAL_GENERIC, "Error starting Averaging task.");
   }
   //vTaskCoreAffinitySet(taskMeasureAndOutput, 1 << 1); // Runs on core1
 
   xTaskRet = xTaskCreate(taskMeasureAndOutputFunction, "", 1024, (void *)1, TASK_PRIORITY_MEASURE, &taskMeasureAndOutput);
   if (xTaskRet != pdPASS)
   { // TODO: reset, something is really wrong;
-    SERIALDEBUG.println("ERROR: Error starting MeasureAndOutput task.");
+    addEvent(EVENT_FATAL_GENERIC, "Error starting MeasureAndOutput task.");
   }
   //vTaskCoreAffinitySet(taskMeasureAndOutput, TASK_AFFINITY_MEASURE); 
 
   xTaskRet = xTaskCreate(SCPIMessagesFunction, "", 1024, (void *)1, TASK_PRIORITY_UART, &taskUART);
   if (xTaskRet != pdPASS)
   { // TODO: reset, something is really wrong;
-    SERIALDEBUG.println("ERROR: Error starting UART task.");
+    addEvent(EVENT_FATAL_GENERIC, "Error starting UART task.");
   }
 
   xTaskRet = xTaskCreate(beepTaskFunction, "", 512, (void *)0, TASK_PRIORITY_BEEP, &taskBeep);
   if (xTaskRet != pdPASS)
   { // TODO: reset, something is really wrong;
-    SERIALDEBUG.println("ERROR: Error starting beeper task.");
+    addEvent(EVENT_FATAL_GENERIC, "Error starting beeper task.");
   }
 
 #ifdef FAKE_HARDWARE
   vTaskDelay(500); // Wait for tasks to start 
-  SERIALDEBUG.println("INFO: Using FAKE HARDWARE ");
-  printlogstr("INFO:  Using FAKE ADC/DAC HARDWARE");
+  addEvent(EVENT_INFO_FAKE);
   timerFakeADCInterrupt = xTimerCreate("", FAKE_HARDWARE_TIMER_TICKS, pdTRUE, ( void * ) 0, timerFakeADCInterruptFunction);
   if (timerFakeADCInterrupt == NULL ) {
-    SERIALDEBUG.println("ERROR: Unable to create FakeADCTimer.");
+    addEvent(EVENT_FATAL_GENERIC, "Unable to create FakeADCTimer.");
   } else {
     xTimerStart(timerFakeADCInterrupt, 0);
   }
@@ -522,8 +549,9 @@ void setup()
   xTaskRet = xTaskCreate(watchdog, "", 200, (void *)1, TASK_PRIORITY_WATCHDOG, &taskWatchdog);
   if (xTaskRet != pdPASS)
   { // TODO: reset, something is really wrong;
-    SERIALDEBUG.println("ERROR: Error starting watchdog task.");
+    addEvent(EVENT_FATAL_GENERIC, "Error starting watchdog task.");
   }
+  addEvent(EVENT_INFO_STARTUP);
 }
 
 const TickType_t ondelay = 1000;

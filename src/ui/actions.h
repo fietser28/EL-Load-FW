@@ -38,6 +38,8 @@ enum {
 };
 extern void action_format_stat(lv_event_t * e);
 
+extern void action_events_table_setup(lv_event_t * e);
+extern void action_events_table_load(lv_event_t * e);
 
 
 #ifdef __cplusplus

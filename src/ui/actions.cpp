@@ -6,6 +6,7 @@
 #include "main.h"
 #include "actions.h"
 #include "vars.h"
+#include "events.h"
 #include "structs.h"
 #include "ui_glue.h"
 #include "ranges.h"
@@ -130,5 +131,75 @@ void action_format_stat(lv_event_t * e)
     formatStatValue(str, type, fromstat.count == 0 ? 0.0f : sqrt(fromstat.M2 / (float)fromstat.count), true);
     statsAll.at(tostatIndex).dev(str);    
 }
+
+void action_events_table_setup(lv_event_t * e) {
+    using namespace eez;
+    using namespace eez::flow;
+
+    lv_obj_t* table = objects.events_table;
+
+    lv_obj_set_style_width(table,15, LV_PART_SCROLLBAR);
+    lv_table_set_column_count(table, 1);
+    lv_table_set_column_width(table, 0, 305);
+
+};
+
+void action_events_table_load(lv_event_t * e)
+{
+    using namespace dcl::events;
+    using namespace eez::flow;
+
+    static char cellbuff[eventTextMaxSize];
+    lv_obj_t* table = objects.events_table;
+
+    eventType_e filter = (eventType_e)getGlobalVariable(FLOW_GLOBAL_VARIABLE_EVENT_FILTER_SET).getInt();
+    
+    uint16_t c = 0;
+    uint16_t i = 0;
+    
+    // Clear table
+    lv_table_set_row_count(table, 0);
+
+    auto addrow = [&]
+    {
+        if (g_eventList[i].type >= filter)
+        {
+            uint32_t h = g_eventList[i].timeStamp / (3600 * 1000);
+            uint32_t m = g_eventList[i].timeStamp / (60 * 1000) - h * 3600;
+            uint32_t s = g_eventList[i].timeStamp / 1000 - h * 3600 - m * 60;
+            snprintf(cellbuff, eventTextMaxSize, "%s %02d:%02d:%02d %s", EVENT_TYPE_NAMES[g_eventList[i].type], h, m, s, g_eventList[i].msg);
+            lv_table_set_cell_value(table, c, 0, cellbuff);
+            lv_table_add_cell_ctrl(table, c, 0, LV_TABLE_CELL_CTRL_TEXT_CROP);
+            c++;
+        };
+        i++;
+    };
+
+    if (g_eventListHead >= g_eventListTail)
+    {
+        i = g_eventListTail;
+
+        while(i <= g_eventListHead && i < eventQueueSize)
+        {
+            addrow();
+        } 
+    };
+    if (g_eventListHead < g_eventListTail) 
+    {
+        i = g_eventListTail;
+        while(i < eventQueueSize)
+        {
+            addrow();
+        } 
+        i = 0;
+        while(i <= g_eventListHead) 
+        {
+            addrow();
+        }
+    };
+
+    // Jump to last line
+    lv_table_set_selected_cell(table, c, 0);
+};
 
 } // extern "C"

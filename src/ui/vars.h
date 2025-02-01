@@ -93,6 +93,14 @@ typedef enum {
     statsType_e_P = 2
 } statsType_e;
 
+typedef enum {
+    eventType_e_debug = 0,
+    eventType_e_info = 1,
+    eventType_e_warning = 2,
+    eventType_e_error = 3,
+    eventType_e_fatal = 4
+} eventType_e;
+
 // For calibration actions
 extern calType_e cal_calType;
 extern int32_t cal_curpoint;
@@ -125,12 +133,15 @@ enum FlowGlobalVariables {
     FLOW_GLOBAL_VARIABLE_SET_VALUE_INT_DIR = 17,
     FLOW_GLOBAL_VARIABLE_STATS_ALL = 18,
     FLOW_GLOBAL_VARIABLE_START_FANS_OK = 19,
-    FLOW_GLOBAL_VARIABLE_START_FANS_TESTED = 20
+    FLOW_GLOBAL_VARIABLE_START_FANS_TESTED = 20,
+    FLOW_GLOBAL_VARIABLE_EVENT_FILTER_SET = 21,
+    FLOW_GLOBAL_VARIABLE_SHOW_EVENT_FILTER_SELECT = 22
 };
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
 
 // Native global variables
 extern bool get_var_startup_done();
@@ -183,8 +194,6 @@ extern float get_var_ot_pdelay();
 extern void set_var_ot_pdelay(float value);
 extern bool get_var_precording();
 extern void set_var_precording(bool value);
-extern const char *get_var_logtxt();
-extern void set_var_logtxt(const char *value);
 extern int32_t get_var_nplc();
 extern void set_var_nplc(int32_t value);
 extern int32_t get_var_pl_freq();
@@ -327,6 +336,8 @@ extern bool get_var_start_cal_ok();
 extern void set_var_start_cal_ok(bool value);
 extern bool get_var_reverse_polarity();
 extern void set_var_reverse_polarity(bool value);
+extern int32_t get_var_event_counter();
+extern void set_var_event_counter(int32_t value);
 
 
 #ifdef __cplusplus

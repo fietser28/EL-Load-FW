@@ -149,24 +149,7 @@ static void encTask(void *pvParameter)
             ledstateon = localsetcopy.on;
             gpiokeys.digitalWrite(KEYS_PIN_LED0, ledstateon);
         } 
-
-        // For debugging (of rotary encoder)
-        if (encpin1 != encpin1prev)
-        {
-            pin1count++;
-        };
-        if (encpin2 != encpin2prev)
-        {
-            pin2count++;
-        };
-        // TODO: Remove slowtick stuff, it's just for testing.
-        slowtick++;
-        if (slowtick > 10)
-        {
-            slowtick = 0;
-            printlogval(pin1count, pin2count, enccount / 2, keystate.encoderbutton);
-        }
-        //vTaskDelay(4); // Debounce margin. - not needed with interrupts
+        
     watchdogEncTask = 0;
     }
 }

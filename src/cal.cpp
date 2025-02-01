@@ -3,11 +3,13 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "main.h"
+#include "events.h"
 #include "cal.h"
 #include "ranges.h"
 #include "util.h"
 
 using namespace dcl;
+using namespace dcl::events;
 namespace dcl::cal
 {
 
@@ -685,11 +687,13 @@ namespace dcl::cal
             state.hw.calibrationValid = v;
             if (r == true)
             {
-                SERIALDEBUG.println("INFO: Calibration data CRC OK.");
+                addEvent(EVENT_DEBUG_CAL_CRC_OK);
+                //SERIALDEBUG.println("INFO: Calibration data CRC OK.");
             }
             else
             {
-                SERIALDEBUG.println("ERROR: Calibartion data CRC NOT OK.");
+                addEvent(EVENT_ERROR_CAL_CRC);
+                //SERIALDEBUG.println("ERROR: Calibartion data CRC NOT OK.");
             };
             return r;
         } else {

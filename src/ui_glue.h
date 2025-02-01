@@ -10,13 +10,9 @@
 #include <lvgl.h>
 #include "state.h"
 
-extern struct measuredStateStruct localstatecopy;
-extern struct setStateStruct      localsetcopy;
 
-extern void printlogval(int val1, int val2, int val3, int val4);
-extern void printlogstr(const char* txt);
+extern  measuredStateStruct localstatecopy;
+extern  setStateStruct      localsetcopy;
 
-extern void printstr(const char* txt);
-extern char logtxt[512];
 
 #endif
