@@ -4435,7 +4435,7 @@ void create_screen_events() {
             objects.events_table = obj;
             lv_obj_set_pos(obj, 0, 25);
             lv_obj_set_size(obj, 320, 169);
-            lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ONE|LV_OBJ_FLAG_SCROLL_ON_FOCUS);
+            lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_ON_FOCUS);
             lv_obj_clear_flag(obj, LV_OBJ_FLAG_SCROLL_CHAIN_HOR|LV_OBJ_FLAG_SCROLL_CHAIN_VER|LV_OBJ_FLAG_SCROLL_ELASTIC|LV_OBJ_FLAG_SCROLL_MOMENTUM|LV_OBJ_FLAG_SCROLL_WITH_ARROW|LV_OBJ_FLAG_SNAPPABLE);
             lv_obj_set_scrollbar_mode(obj, LV_SCROLLBAR_MODE_AUTO);
             lv_obj_set_scroll_dir(obj, LV_DIR_VER);
@@ -4476,7 +4476,7 @@ void create_screen_events() {
             lv_obj_t *obj = lv_btn_create(parent_obj);
             objects.obj50 = obj;
             lv_obj_set_pos(obj, 0, 200);
-            lv_obj_set_size(obj, 152, 38);
+            lv_obj_set_size(obj, 142, 38);
             lv_obj_add_event_cb(obj, event_handler_cb_events_obj50, LV_EVENT_ALL, flowState);
             add_style_selectbutton(obj);
             lv_obj_set_style_text_align(obj, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);

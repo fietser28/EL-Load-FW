@@ -257,6 +257,10 @@ const scpi_command_t scpi_commands[] = {
     {"SYSTem:BEEP:ON:ENCoder", scpi_cmd_syst_beep_on_enc,0},  // ON/OFF/1/0
     {"SYSTem:BEEP:ON:ENCoder?", scpi_cmd_syst_beep_on_encQ,0},  
     
+    {"SYSTem:EVENT[:NEXT]?", scpi_cmd_syst_eventQ, 0},
+    {"SYSTem:EVENT:COUNt?", scpi_cmd_syst_event_countQ, 0},
+    {"SYSTem:EVENT:FIRST", scpi_cmd_syst_event_first, 0},
+
     {"SYSTem:FAN:MODE", scpi_cmd_syst_fan_mode,0},  // AUTO | MANual
     {"SYSTem:FAN:MODE?", scpi_cmd_syst_fan_modeQ,0},  // AUTO | MANual
     {"SYSTem:FAN:RPM?", scpi_cmd_syst_fan_rpmQ,0},  

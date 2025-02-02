@@ -14,6 +14,7 @@
 #include <eez/flow/flow.h>
 
 #include "main.h"
+#include "events.h"
 #include "eeprom.h"
 #include "scpi-def.h"
 
@@ -2102,6 +2103,32 @@ scpi_result_t scpi_cmd_syst_beep_on_enc(scpi_t *context) {
 
 scpi_result_t scpi_cmd_syst_beep_on_encQ(scpi_t *context) {
     SCPI_ResultBool(context, state.getBeepEncoder());
+    return SCPI_RES_OK;
+};
+
+char eventmsg[dcl::events::eventTextMaxSize + 20];
+
+scpi_result_t scpi_cmd_syst_eventQ(scpi_t *context) {
+    size_t r = dcl::events::eventFifoPop(&eventmsg[0], sizeof(eventmsg));
+    if (r != 0) 
+    {
+        SCPI_ResultCharacters(context, &eventmsg[0], r);
+    } else {
+        SCPI_ResultText(context, "N,0,No events left.");
+    }
+    return SCPI_RES_OK;
+};
+
+scpi_result_t scpi_cmd_syst_event_first(scpi_t *context) {
+    if (dcl::events::eventFifoReset()) {
+        return SCPI_RES_OK;
+    } 
+    SCPI_ErrorPush(context, SCPI_ERROR_DEVICE_ERROR);
+    return SCPI_RES_ERR;
+}
+
+scpi_result_t scpi_cmd_syst_event_countQ(scpi_t *context) {
+    SCPI_ResultUInt32(context, dcl::events::eventFifoSize());
     return SCPI_RES_OK;
 };
 

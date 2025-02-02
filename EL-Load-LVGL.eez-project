@@ -13025,7 +13025,7 @@
               "widthUnit": "px",
               "heightUnit": "px",
               "children": [],
-              "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_ONE|SCROLL_ON_FOCUS",
+              "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_ON_FOCUS",
               "hiddenFlagType": "literal",
               "clickableFlag": true,
               "clickableFlagType": "literal",
@@ -13094,7 +13094,7 @@
               "type": "LVGLButtonWidget",
               "left": 0,
               "top": 200,
-              "width": 152,
+              "width": 142,
               "height": 38,
               "customInputs": [],
               "customOutputs": [],
@@ -13343,8 +13343,8 @@
         {
           "objID": "da2b4f20-ae5e-4033-8798-1c1c10d6978b",
           "type": "CallActionActionComponent",
-          "left": 428,
-          "top": -90,
+          "left": 185,
+          "top": -78,
           "width": 135,
           "height": 24,
           "customInputs": [],
@@ -13360,8 +13360,8 @@
         {
           "objID": "f0b04f97-8c41-4124-e4f9-c9d2d98fd9e7",
           "type": "StartActionComponent",
-          "left": 263,
-          "top": -90,
+          "left": 20,
+          "top": -78,
           "width": 87,
           "height": 24,
           "customInputs": [],
@@ -13370,8 +13370,8 @@
         {
           "objID": "0e910714-85c2-4711-bd76-7f3bed358c10",
           "type": "CallActionActionComponent",
-          "left": 586,
-          "top": 108,
+          "left": 729,
+          "top": 110,
           "width": 131,
           "height": 24,
           "customInputs": [],
@@ -13413,13 +13413,24 @@
         {
           "objID": "2f6c13f3-009e-4ead-a259-92a648872c75",
           "type": "WatchVariableActionComponent",
-          "left": 384,
-          "top": -28,
-          "width": 147,
+          "left": 377,
+          "top": -54,
+          "width": 148,
           "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "eventCounter"
+        },
+        {
+          "objID": "bbd385a0-450d-441e-e73d-43273cb0c3d1",
+          "type": "IsTrueActionComponent",
+          "left": 563,
+          "top": -28,
+          "width": 165,
+          "height": 69,
+          "customInputs": [],
+          "customOutputs": [],
+          "value": "Flow.isPageActive()"
         }
       ],
       "connectionLines": [
@@ -13466,9 +13477,16 @@
           "input": "@seqin"
         },
         {
-          "objID": "4a102243-fa15-432b-b50f-47ee77b29d69",
+          "objID": "73bbc5da-8526-413b-834c-302d53c1f34d",
           "source": "2f6c13f3-009e-4ead-a259-92a648872c75",
           "output": "variable",
+          "target": "bbd385a0-450d-441e-e73d-43273cb0c3d1",
+          "input": "@seqin"
+        },
+        {
+          "objID": "74f93093-7738-4915-f579-c4f232442730",
+          "source": "bbd385a0-450d-441e-e73d-43273cb0c3d1",
+          "output": "True",
           "target": "0e910714-85c2-4711-bd76-7f3bed358c10",
           "input": "@seqin"
         }

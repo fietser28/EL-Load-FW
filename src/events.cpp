@@ -20,6 +20,8 @@ uint32_t g_eventListTail = 1;
 bool g_eventListFull = false;
 uint32_t g_eventListSize = 0;
 uint32_t g_eventCounter = 0;
+uint32_t g_eventFifoSize = 0;
+uint32_t g_eventFifoFirst = 1;
 SemaphoreHandle_t eventsMutex;
 
 
@@ -139,7 +141,8 @@ void addEvent(uint16_t e, const char *msg) {
             {
                 // Next slot
                 g_eventListHead++;
-                g_eventListSize++;    
+                g_eventListSize++;
+                g_eventFifoSize++;    
             }
             // Wrap head around when full
             if (g_eventListHead >= eventQueueSize)
@@ -147,11 +150,18 @@ void addEvent(uint16_t e, const char *msg) {
                 g_eventListHead = 0;
                 g_eventListFull = true;
             }
-            // Head reached tail?
+            // Head reached tail? Overflow it.
             if (g_eventListTail == g_eventListHead && g_eventListFull)
             {
+                // If fifo first equals tail, also remove it (overflow)
+                if (g_eventFifoFirst == g_eventListTail)
+                {
+                    g_eventFifoFirst++;
+                    g_eventFifoSize--;
+                }
                 g_eventListTail++;
                 g_eventListSize--;
+
                 // Wrap around
                 if (g_eventListTail == eventQueueSize)
                 {
@@ -182,11 +192,8 @@ void addEvent(uint16_t e, const char *msg) {
                 SERIALDEBUG.printf("FATAL ERROR: %d %s\n", EVENT_TYPE_NAMES[g_eventList[g_eventListHead].type], g_eventList[g_eventListHead].timeStamp/1000, g_eventList[g_eventListHead].msg);
             };
 
-            char tmpmsg[eventTextMaxSize];
-            snprintf(&tmpmsg[0], eventTextMaxSize, "%d %s", eventCounter(), msg);
-            memccpy(&g_eventList[g_eventListHead].msg, tmpmsg, 0, sizeof(g_eventList[g_eventListHead].msg));
-            g_eventCounter++;
-
+            g_eventList[g_eventListHead].count = ++g_eventCounter;
+            memccpy(&g_eventList[g_eventListHead].msg, msg, 0, sizeof(g_eventList[g_eventListHead].msg));
             xSemaphoreGive(eventsMutex);
         } 
     };
@@ -200,5 +207,46 @@ void addEvent(uint16_t e)
 uint32_t eventCounter() { return g_eventCounter; }
 uint32_t eventListSize() { return g_eventListSize; }
 
+uint32_t eventFifoSize() { return g_eventFifoSize; }
+
+bool eventFifoReset()
+{
+    if (eventsMutex != NULL)
+    {
+        if (xSemaphoreTake(eventsMutex, 10))
+        {
+            g_eventFifoSize = g_eventListSize;
+            g_eventFifoFirst = g_eventListTail;
+            xSemaphoreGive(eventsMutex);
+            return true;
+        }
+    }
+    return false;
 }
-}
+
+size_t eventFifoPop(char *msg, size_t size)  {
+    if (g_eventFifoSize == 0) { return 0; }
+
+    size_t r = 0;
+    if (eventsMutex != NULL) {
+        if (xSemaphoreTake(eventsMutex, 20))
+        {
+            r = snprintf(msg, size, "%d,%s,%d,%s", g_eventList[g_eventFifoFirst].count, 
+                                                EVENT_TYPE_NAMES[g_eventList[g_eventFifoFirst].type],
+                                                g_eventList[g_eventFifoFirst].timeStamp, 
+                                                &g_eventList[g_eventFifoFirst].msg);
+            g_eventFifoSize--;
+            g_eventFifoFirst++;
+            // Overflow
+            if (g_eventFifoFirst >= eventQueueSize)
+            {
+                g_eventFifoFirst = 0;
+            }
+            xSemaphoreGive(eventsMutex);
+        }
+    }
+    return r;
+};
+
+} // namespace events
+} // namespace dcl

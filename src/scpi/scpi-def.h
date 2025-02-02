@@ -187,6 +187,10 @@ extern scpi_result_t scpi_cmd_syst_beep_on_senseQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_syst_beep_on_enc(scpi_t *context);
 extern scpi_result_t scpi_cmd_syst_beep_on_encQ(scpi_t *context);
 
+extern scpi_result_t scpi_cmd_syst_eventQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_syst_event_countQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_syst_event_first(scpi_t *context);
+
 extern scpi_result_t scpi_cmd_syst_fan_mode(scpi_t *context);
 extern scpi_result_t scpi_cmd_syst_fan_modeQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_syst_fan_speed(scpi_t *context);

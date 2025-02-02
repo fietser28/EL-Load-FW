@@ -24,6 +24,7 @@ static const char *EVENT_TYPE_NAMES[] = {
 };
 
 struct event { 
+    uint32_t count;
     uint16_t id;
     unsigned long timeStamp;
     eventType_e type;
@@ -95,6 +96,10 @@ extern void addEvent(uint16_t e, const char* msg);
 extern void addEvent(uint16_t e);
 extern uint32_t eventCounter();
 extern uint32_t eventListSize();
+extern uint32_t eventFifoSize();
+extern bool eventFifoReset();
+extern size_t eventFifoPop(char *msg, size_t size);
+
 
 }
 }
