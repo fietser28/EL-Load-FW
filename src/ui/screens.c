@@ -225,7 +225,7 @@ static void event_handler_cb_main_myspinbox(lv_event_t *e) {
         if (tick_value_change_obj != ta) {
             int32_t value = lv_spinbox_get_value(ta);
             if (tick_value_change_obj != ta) {
-                assignIntegerProperty(flowState, 88, 6, value, "Failed to assign Value in Spinbox widget");
+                assignIntegerProperty(flowState, 88, 3, value, "Failed to assign Value in Spinbox widget");
             }
         }
     }
@@ -2382,8 +2382,9 @@ void create_screen_main() {
                             objects.myspinbox = obj;
                             lv_obj_set_pos(obj, -7, 14);
                             lv_obj_set_size(obj, 116, 30);
+                            //lv_spinbox_set_digit_format(obj, 5, svSep);
+                            //lv_spinbox_set_range(obj, rangeProperties.setValueMin*Math.pow(10,5-svSep), rangeProperties.setValueMax*Math.pow(10,5-svSep));
                             lv_spinbox_set_rollover(obj, false);
-                            lv_spinbox_set_digit_step_direction(obj, LV_DIR_RIGHT);
                             lv_spinbox_set_step(obj, 1);
                             lv_obj_add_event_cb(obj, event_handler_cb_main_myspinbox, LV_EVENT_ALL, flowState);
                             lv_obj_add_flag(obj, LV_OBJ_FLAG_SCROLL_WITH_ARROW);
@@ -3141,49 +3142,7 @@ void tick_screen_main() {
         }
     }
     {
-        int32_t new_val = evalIntegerProperty(flowState, 88, 3, "Failed to evaluate Separator position in Spinbox widget");
-        lv_spinbox_t* spinbox = (lv_spinbox_t *) objects.myspinbox;
-        uint32_t cur_val = spinbox->dec_point_pos;
-        if (new_val != cur_val) {
-            tick_value_change_obj = objects.myspinbox;
-            int32_t count = spinbox->digit_count;
-            int32_t pos = new_val;
-            if (count >= pos) {
-                lv_spinbox_set_digit_format(objects.myspinbox, count, pos);
-            }
-            tick_value_change_obj = NULL;
-        }
-    }
-    {
-        int32_t new_val = evalIntegerProperty(flowState, 88, 4, "Failed to evaluate Min in Spinbox widget");
-        lv_spinbox_t* spinbox = (lv_spinbox_t *) objects.myspinbox;
-        uint32_t cur_val = spinbox->range_min;
-        if (new_val != cur_val) {
-            tick_value_change_obj = objects.myspinbox;
-            int32_t max = spinbox->range_max;
-            int32_t min = new_val;
-            if (min < max) {
-                lv_spinbox_set_range(objects.myspinbox, min, max);
-            }
-            tick_value_change_obj = NULL;
-        }
-    }
-    {
-        int32_t new_val = evalIntegerProperty(flowState, 88, 5, "Failed to evaluate Max in Spinbox widget");
-        lv_spinbox_t* spinbox = (lv_spinbox_t *) objects.myspinbox;
-        uint32_t cur_val = spinbox->range_max;
-        if (new_val != cur_val) {
-            tick_value_change_obj = objects.myspinbox;
-            int32_t min = spinbox->range_min;
-            int32_t max = new_val;
-            if (min < max) {
-                lv_spinbox_set_range(objects.myspinbox, min, max);
-            }
-            tick_value_change_obj = NULL;
-        }
-    }
-    {
-        int32_t new_val = evalIntegerProperty(flowState, 88, 6, "Failed to evaluate Value in Spinbox widget");
+        int32_t new_val = evalIntegerProperty(flowState, 88, 3, "Failed to evaluate Value in Spinbox widget");
         int32_t cur_val = lv_spinbox_get_value(objects.myspinbox);
         if (new_val != cur_val) {
             tick_value_change_obj = objects.myspinbox;
@@ -8338,6 +8297,7 @@ void tick_screen(int screen_index) {
 }
 
 
+/*
 size_t get_num_screens() {
     return sizeof(tick_screen_funcs) / sizeof(tick_screen_func_t);
 }
@@ -8345,4 +8305,4 @@ size_t get_num_screens() {
 lv_obj_t *get_screen_obj(size_t screen_index) {
     return ((lv_obj_t **)(&objects))[screen_index];
 }
-
+*/

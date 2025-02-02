@@ -19,6 +19,7 @@
 #include "ui/screens.h"
 #include "ui_glue.h"
 #include "keys.h"
+#include "events.h"
 
 #define MY_LV_TICK_TIME 20     // ms
 #define MY_LV_UPDATE_TIME 50  // ms
@@ -494,7 +495,7 @@ static void __not_in_flash_func(guiTask(void *pvParameter))
 #if 0
    /* Create simple label */
    lv_obj_t *label = lv_label_create( lv_scr_act() );
-   lv_label_set_text( label, "Hello Arduino! (V8.3.0)" );
+   lv_label_set_text( label, "Hello Arduino!" );
    lv_obj_align( label, LV_ALIGN_CENTER, 0, 0 );
    // vTaskDelay(2000);
    lv_obj_t *label2 = lv_label_create( lv_scr_act() );
@@ -509,8 +510,12 @@ static void __not_in_flash_func(guiTask(void *pvParameter))
     vTaskDelay(5000);
     SERIALDEBUG.println("printed Hello, world!");
 #else
+  addEvent(dcl::events::EVENT_DEBUG_GENERIC, "ready for ui_init");
+
   // EEZ GUI init
   ui_init();
+
+  addEvent(dcl::events::EVENT_DEBUG_GENERIC, "ui_init done");
 
   // Initialize the input device driver for the encoder
   // and assign the encoder to the encoder group
@@ -519,7 +524,7 @@ static void __not_in_flash_func(guiTask(void *pvParameter))
   lv_indev_set_read_cb(indev_enc, my_encoder_read);
   lv_indev_set_group(indev_enc, groups.encoder_group);
 
-  lv_obj_set_parent(objects.popup_container, lv_layer_top());
+  //lv_obj_set_parent(objects.popup_container, lv_layer_top());
 
 #endif
 
@@ -533,11 +538,11 @@ static void __not_in_flash_func(guiTask(void *pvParameter))
   {
     unsigned long loopstart = millis();
     // Create stable local data structures used in ui_tick()
-    state.getMeasuredStateCopy(&localstatecopy, 0);
-    state.getSetStateCopy(&localsetcopy, 0);
-    ui_tick();
-    tick_screen_popup();
+    state.getMeasuredStateCopy(&localstatecopy, 1);
+    state.getSetStateCopy(&localsetcopy, 1);
     lv_task_handler();
+    ui_tick();
+//    tick_screen_popup();
     screenMsgBytes = xQueueReceive(changeScreen, &newScreenMsg, 0);
     if ( screenMsgBytes > 0)
     {

@@ -90,6 +90,7 @@ extern event g_eventList[];
 extern uint32_t g_eventListHead;
 extern uint32_t g_eventListTail;
 extern bool g_eventListFull;
+extern uint32_t eventsMutexTimeouts;
 
 extern void init();
 extern void addEvent(uint16_t e, const char* msg);

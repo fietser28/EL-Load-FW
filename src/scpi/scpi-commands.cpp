@@ -107,6 +107,7 @@ const scpi_command_t scpi_commands[] = {
     {"DEBug:TASKS:STACKHW?", scpi_cmd_deb_tasks_stackhwQ, 0},
     {"DEBug:TASKS:PRIO?", scpi_cmd_deb_tasks_prioQ, 0},
     {"DEBug:TASKS:RUNTIME?", scpi_cmd_deb_tasks_runtimeQ, 0},
+    {"DEBug:TIMEouts:SEMAphores?", scpi_cmd_deb_time_semQ, 0},
     {"DEBug:WDOG:THRESholds:MAX?", scpi_cmd_deb_wdog_thres_maxQ, 0},
     
     /* Fetch. This reads the last measured value, doesn't trigger and wait like measure */

@@ -474,8 +474,8 @@ void create_screens();
 void tick_screen(int screen_index);
 
 
-extern size_t get_num_screens();
-extern lv_obj_t *get_screen_obj(size_t screen_index);
+//extern size_t get_num_screens();
+//extern lv_obj_t *get_screen_obj(size_t screen_index);
 
 #ifdef __cplusplus
 }

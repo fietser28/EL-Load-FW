@@ -62,10 +62,9 @@ extern dcl::eeprom::eeprom myeeprom;
 extern fan_max31760 fancontrol;
 
 extern SemaphoreHandle_t WireSem;       // Manage sharing between tasks 
+extern uint32_t WireSemTimeouts;
 extern SemaphoreHandle_t Wire1Sem;      // Manage sharing between tasks
-
-extern SemaphoreHandle_t setStateMutex;
-extern setStateStruct setState;
+extern uint32_t Wire1SemTimeouts;
 
 // Message stream from Measure to Averaging task.
 struct newMeasurementMsg {
@@ -155,7 +154,6 @@ extern volatile uint8_t watchdogProtHW;
 // Main ADC read and CP/CR calculation and DAC writing, fast and high priority. TODO: pin to RAM.
 // Gets triggered by ADC interrupt@ 1kHz
 extern TaskHandle_t taskMeasureAndOutput;  // Prio 5@core1: Fast ADC measure, calc and output set values
-extern SemaphoreHandle_t adcReady;       // Task notification via ISR didn't work. TODO: Why? 
 extern QueueHandle_t changeMeasureTaskSettings;      // Queue/stream from state class to measure task.
 extern void taskMeasureAndOutputFunction(void * pvParameters);
 extern volatile uint8_t watchdogMeasureAndOutput;

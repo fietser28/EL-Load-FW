@@ -74,6 +74,7 @@ extern scpi_result_t scpi_cmd_deb_state_countQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_deb_tasks_prioQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_deb_tasks_runtimeQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_deb_tasks_stackhwQ(scpi_t *context);
+extern scpi_result_t scpi_cmd_deb_time_semQ(scpi_t *context);
 extern scpi_result_t scpi_cmd_deb_wdog_thres_maxQ(scpi_t *context);
 
 extern scpi_result_t scpi_cmd_fetch_current(scpi_t *context);

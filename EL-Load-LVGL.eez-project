@@ -32,12 +32,12 @@
         {
           "objID": "05204dce-0fc5-4c81-b733-2ccc8e6c8671",
           "fileName": "screens.h",
-          "template": "#ifndef EEZ_LVGL_UI_SCREENS_H\r\n#define EEZ_LVGL_UI_SCREENS_H\r\n\r\n//${eez-studio LVGL_INCLUDE}\r\n\r\n#ifdef __cplusplus\r\nextern \"C\" {\r\n#endif\r\n\r\n//${eez-studio LVGL_SCREENS_DECL}\r\n//${eez-studio LVGL_SCREENS_DECL_EXT}\r\n\r\nextern size_t get_num_screens();\r\nextern lv_obj_t *get_screen_obj(size_t screen_index);\r\n\r\n#ifdef __cplusplus\r\n}\r\n#endif\r\n\r\n#endif /*EEZ_LVGL_UI_SCREENS_H*/"
+          "template": "#ifndef EEZ_LVGL_UI_SCREENS_H\r\n#define EEZ_LVGL_UI_SCREENS_H\r\n\r\n//${eez-studio LVGL_INCLUDE}\r\n\r\n#ifdef __cplusplus\r\nextern \"C\" {\r\n#endif\r\n\r\n//${eez-studio LVGL_SCREENS_DECL}\r\n//${eez-studio LVGL_SCREENS_DECL_EXT}\r\n\r\n//extern size_t get_num_screens();\r\n//extern lv_obj_t *get_screen_obj(size_t screen_index);\r\n\r\n#ifdef __cplusplus\r\n}\r\n#endif\r\n\r\n#endif /*EEZ_LVGL_UI_SCREENS_H*/"
         },
         {
           "objID": "2212bc5e-cf4a-4a81-c9ab-a671066d086f",
           "fileName": "screens.c",
-          "template": "#include <string.h>\n\n#include \"screens.h\"\n#include \"images.h\"\n#include \"fonts.h\"\n#include \"actions.h\"\n#include \"vars.h\"\n#include \"styles.h\"\n#include \"ui.h\"\n\n//${eez-studio LVGL_SCREENS_DEF}\n//${eez-studio LVGL_SCREENS_DEF_EXT}\n\nsize_t get_num_screens() {\n    return sizeof(tick_screen_funcs) / sizeof(tick_screen_func_t);\n}\n\nlv_obj_t *get_screen_obj(size_t screen_index) {\n    return ((lv_obj_t **)(&objects))[screen_index];\n}\n\n"
+          "template": "#include <string.h>\n\n#include \"screens.h\"\n#include \"images.h\"\n#include \"fonts.h\"\n#include \"actions.h\"\n#include \"vars.h\"\n#include \"styles.h\"\n#include \"ui.h\"\n\n//${eez-studio LVGL_SCREENS_DEF}\n//${eez-studio LVGL_SCREENS_DEF_EXT}\n\n/*\nsize_t get_num_screens() {\n    return sizeof(tick_screen_funcs) / sizeof(tick_screen_func_t);\n}\n\nlv_obj_t *get_screen_obj(size_t screen_index) {\n    return ((lv_obj_t **)(&objects))[screen_index];\n}\n*/\n"
         },
         {
           "objID": "19d3d573-88a3-4550-f4da-753b61d7f0c4",
@@ -62,7 +62,7 @@
         {
           "objID": "bad0addd-10de-48f7-e57e-b40fce3e7c45",
           "fileName": "fonts.h",
-          "template": "#ifndef EEZ_LVGL_UI_FONTS_H\r\n#define EEZ_LVGL_UI_FONTS_H\r\n\r\n//${eez-studio LVGL_INCLUDE}\r\n\r\n//${eez-studio LVGL_FONTS_DECL}\r\n\r\n#endif /*EEZ_LVGL_UI_FONTS_H*/"
+          "template": "#ifndef EEZ_LVGL_UI_FONTS_H\r\n#define EEZ_LVGL_UI_FONTS_H\r\n\r\n//${eez-studio LVGL_INCLUDE}\r\n\r\n#ifdef __cplusplus\r\nextern \"C\" {\r\n#endif\r\n\r\n//${eez-studio LVGL_FONTS_DECL}\r\n\r\n#ifdef __cplusplus\r\n}\r\n#endif\r\n\r\n#endif /*EEZ_LVGL_UI_FONTS_H*/"
         },
         {
           "objID": "605027e4-beef-4847-ab09-e1d6a4d47496",
@@ -72,7 +72,7 @@
         {
           "objID": "81ccb629-7e73-4128-a31a-c5131af1d13d",
           "fileName": "styles.c",
-          "template": "#include \"styles.h\"\n#include \"images.h\"\n#include \"fonts.h\"\n\n\n//${eez-studio LVGL_STYLES_DEF}\n"
+          "template": "#include \"styles.h\"\n#include \"images.h\"\n#include \"fonts.h\"\n\n//${eez-studio LVGL_STYLES_DEF}\n"
         },
         {
           "objID": "ed7d0205-b564-4fe8-da13-3510801d23f2",
@@ -82,7 +82,7 @@
         {
           "objID": "292907a7-7032-4814-e210-405def21551e",
           "fileName": "ui.c",
-          "template": "#if defined(EEZ_FOR_LVGL)\n#include <eez/core/vars.h>\n#endif\n\n#include \"ui.h\"\n#include \"screens.h\"\n#include \"images.h\"\n//#include \"flow_def.h\"\n#include \"actions.h\"\n#include \"vars.h\"\n\n//${eez-studio GUI_ASSETS_DEF}\n\n//${eez-studio LVGL_NATIVE_VARS_TABLE_DEF}\n\n//${eez-studio LVGL_ACTIONS_ARRAY_DEF}\n\nvoid ui_init() {\n    eez_flow_init(assets, sizeof(assets), (lv_obj_t **)&objects, sizeof(objects), images, sizeof(images), actions);\n}\n\nvoid ui_tick() {\n    eez_flow_tick();\n    tick_screen(g_currentScreen);\n}\n"
+          "template": "#if defined(EEZ_FOR_LVGL)\n#include <eez/core/vars.h>\n#endif\n\n#include \"ui.h\"\n#include \"screens.h\"\n#include \"images.h\"\n//#include \"flow_def.h\"\n#include \"actions.h\"\n#include \"vars.h\"\n\n//${eez-studio GUI_ASSETS_DEF}\n\n//${eez-studio LVGL_NATIVE_VARS_TABLE_DEF}\n\n//${eez-studio LVGL_ACTIONS_ARRAY_DEF}\n\n#if defined(EEZ_FOR_LVGL)\n\nvoid ui_init() {\n    eez_flow_init(assets, sizeof(assets), (lv_obj_t **)&objects, sizeof(objects), images, sizeof(images), actions);\n}\n\nvoid ui_tick() {\n    eez_flow_tick();\n    tick_screen(g_currentScreen);\n}\n\n#else\n\nstatic int16_t currentScreen = -1;\n\nstatic lv_obj_t *getLvglObjectFromIndex(int32_t index) {\n    if (index == -1) {\n        return 0;\n    }\n    return ((lv_obj_t **)&objects)[index];\n}\n\nvoid loadScreen(enum ScreensEnum screenId) {\n    currentScreen = screenId - 1;\n    lv_obj_t *screen = getLvglObjectFromIndex(currentScreen);\n    lv_scr_load_anim(screen, LV_SCR_LOAD_ANIM_FADE_IN, 200, 0, false);\n}\n\nvoid ui_init() {\n    create_screens();\n    loadScreen(SCREEN_ID_STARTUP);\n}\n\nvoid ui_tick() {\n    tick_screen(currentScreen);\n}\n\n#endif\n\n"
         },
         {
           "objID": "171745ea-5b69-42e0-ae23-e62a245b4732",
@@ -93,6 +93,7 @@
       "destinationFolder": "src\\ui",
       "separateFolderForImagesAndFonts": false,
       "lvglInclude": "lvgl.h",
+      "screensLifetimeSupport": false,
       "generateSourceCodeForEezFramework": false,
       "compressFlowDefinition": false,
       "executionQueueSize": 1000,
@@ -2725,7 +2726,7 @@
           "type": "LVGLActionComponent",
           "left": 966,
           "top": 197,
-          "width": 255,
+          "width": 256,
           "height": 53,
           "customInputs": [],
           "customOutputs": [],
@@ -2751,7 +2752,7 @@
           "type": "IsTrueActionComponent",
           "left": -612,
           "top": 321,
-          "width": 220,
+          "width": 221,
           "height": 69,
           "customInputs": [],
           "customOutputs": [],
@@ -2773,7 +2774,7 @@
           "type": "WatchVariableActionComponent",
           "left": -821,
           "top": 321,
-          "width": 141,
+          "width": 142,
           "height": 53,
           "customInputs": [],
           "customOutputs": [],
@@ -2810,7 +2811,7 @@
           "left": 133,
           "top": -222,
           "width": 195,
-          "height": 78,
+          "height": 79,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -3403,7 +3404,7 @@
           "left": 133,
           "top": 321,
           "width": 260,
-          "height": 124,
+          "height": 125,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -3461,7 +3462,7 @@
           "type": "SwitchActionComponent",
           "left": 376,
           "top": -252,
-          "width": 258,
+          "width": 259,
           "height": 53,
           "customInputs": [],
           "customOutputs": [],
@@ -3517,7 +3518,7 @@
           "type": "LVGLActionComponent",
           "left": 755,
           "top": -156,
-          "width": 249,
+          "width": 250,
           "height": 53,
           "customInputs": [],
           "customOutputs": [],
@@ -3815,7 +3816,9 @@
       "left": 0,
       "top": 0,
       "width": 320,
-      "height": 240
+      "height": 240,
+      "createAtStart": true,
+      "deleteOnScreenUnload": false
     },
     {
       "objID": "4b40eba7-b31a-468a-b887-11dfd0b6637f",
@@ -3852,8 +3855,8 @@
           "type": "SwitchActionComponent",
           "left": 585,
           "top": -542,
-          "width": 207,
-          "height": 124,
+          "width": 208,
+          "height": 125,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -3894,8 +3897,8 @@
           "type": "SetVariableActionComponent",
           "left": 938,
           "top": -772,
-          "width": 465,
-          "height": 78,
+          "width": 466,
+          "height": 79,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -3916,8 +3919,8 @@
           "type": "SetVariableActionComponent",
           "left": 938,
           "top": -651,
-          "width": 465,
-          "height": 78,
+          "width": 466,
+          "height": 79,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -3938,8 +3941,8 @@
           "type": "SetVariableActionComponent",
           "left": 939,
           "top": -555,
-          "width": 207,
-          "height": 78,
+          "width": 208,
+          "height": 79,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -3961,7 +3964,7 @@
           "left": 939,
           "top": -464,
           "width": 195,
-          "height": 78,
+          "height": 79,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -3982,7 +3985,7 @@
           "type": "SetVariableActionComponent",
           "left": 233,
           "top": 784,
-          "width": 201,
+          "width": 202,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -3999,8 +4002,8 @@
           "type": "SetVariableActionComponent",
           "left": 324,
           "top": 455,
-          "width": 453,
-          "height": 78,
+          "width": 454,
+          "height": 79,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -4047,7 +4050,7 @@
           "type": "LVGLActionComponent",
           "left": 397,
           "top": 333,
-          "width": 298,
+          "width": 299,
           "height": 53,
           "customInputs": [],
           "customOutputs": [],
@@ -4074,7 +4077,7 @@
           "left": 803,
           "top": 1122,
           "width": 168,
-          "height": 106,
+          "height": 107,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -4109,8 +4112,8 @@
           "type": "SetVariableActionComponent",
           "left": 1134,
           "top": 1102,
-          "width": 465,
-          "height": 78,
+          "width": 466,
+          "height": 79,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -4131,8 +4134,8 @@
           "type": "SetVariableActionComponent",
           "left": 1134,
           "top": 1195,
-          "width": 465,
-          "height": 78,
+          "width": 466,
+          "height": 79,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -4153,8 +4156,8 @@
           "type": "SetVariableActionComponent",
           "left": 1134,
           "top": 1282,
-          "width": 207,
-          "height": 78,
+          "width": 208,
+          "height": 79,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -4176,7 +4179,7 @@
           "left": 1134,
           "top": 1368,
           "width": 195,
-          "height": 78,
+          "height": 79,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -4253,7 +4256,7 @@
           "type": "SwitchActionComponent",
           "left": 947,
           "top": 127,
-          "width": 359,
+          "width": 360,
           "height": 161,
           "customInputs": [
             {
@@ -4324,7 +4327,7 @@
           "type": "SwitchActionComponent",
           "left": 289,
           "top": 588,
-          "width": 302,
+          "width": 303,
           "height": 89,
           "customInputs": [],
           "customOutputs": [],
@@ -4509,7 +4512,7 @@
           "left": 751,
           "top": -210,
           "width": 435,
-          "height": 81,
+          "height": 80,
           "customInputs": [],
           "customOutputs": [],
           "description": "",
@@ -4556,7 +4559,7 @@
           "type": "WatchVariableActionComponent",
           "left": 172,
           "top": -387,
-          "width": 98,
+          "width": 99,
           "height": 53,
           "customInputs": [],
           "customOutputs": [],
@@ -4568,7 +4571,7 @@
           "left": 939,
           "top": -371,
           "width": 232,
-          "height": 78,
+          "height": 79,
           "customInputs": [],
           "customOutputs": [],
           "description": "rangeType and setValue don't matter.",
@@ -4590,7 +4593,7 @@
           "type": "WatchVariableActionComponent",
           "left": 172,
           "top": -646,
-          "width": 98,
+          "width": 99,
           "height": 53,
           "customInputs": [],
           "customOutputs": [],
@@ -4601,7 +4604,7 @@
           "type": "WatchVariableActionComponent",
           "left": 172,
           "top": -581,
-          "width": 98,
+          "width": 99,
           "height": 53,
           "customInputs": [],
           "customOutputs": [],
@@ -4612,7 +4615,7 @@
           "type": "WatchVariableActionComponent",
           "left": 172,
           "top": -520,
-          "width": 98,
+          "width": 99,
           "height": 53,
           "customInputs": [],
           "customOutputs": [],
@@ -4623,7 +4626,7 @@
           "type": "WatchVariableActionComponent",
           "left": 172,
           "top": -451,
-          "width": 98,
+          "width": 99,
           "height": 53,
           "customInputs": [],
           "customOutputs": [],
@@ -4675,8 +4678,8 @@
           "type": "SetVariableActionComponent",
           "left": 1745,
           "top": -553,
-          "width": 410,
-          "height": 100,
+          "width": 411,
+          "height": 101,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -4703,7 +4706,7 @@
           "left": 480,
           "top": 784,
           "width": 168,
-          "height": 106,
+          "height": 107,
           "customInputs": [],
           "customOutputs": [],
           "tests": [
@@ -4738,7 +4741,7 @@
           "type": "SetVariableActionComponent",
           "left": 726,
           "top": 733,
-          "width": 465,
+          "width": 466,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -4755,7 +4758,7 @@
           "type": "SetVariableActionComponent",
           "left": 726,
           "top": 801,
-          "width": 465,
+          "width": 466,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -4772,7 +4775,7 @@
           "type": "SetVariableActionComponent",
           "left": 726,
           "top": 867,
-          "width": 207,
+          "width": 208,
           "height": 57,
           "customInputs": [],
           "customOutputs": [],
@@ -6737,15 +6740,10 @@
                       "group": "encoder_group",
                       "groupIndex": 1,
                       "digitCount": 5,
-                      "digitCountType": "literal",
                       "separatorPosition": "svSep",
-                      "separatorPositionType": "expression",
                       "min": "rangeProperties.setValueMin*Math.pow(10,5-svSep)",
-                      "minType": "expression",
                       "max": "rangeProperties.setValueMax*Math.pow(10,5-svSep)",
-                      "maxType": "expression",
                       "rollover": false,
-                      "stepDirection": "right",
                       "step": 1,
                       "stepType": "literal",
                       "value": "setValueInt",
@@ -8373,7 +8371,7 @@
           "type": "LVGLActionComponent",
           "left": 397,
           "top": 398,
-          "width": 255,
+          "width": 256,
           "height": 53,
           "customInputs": [],
           "customOutputs": [],
@@ -8411,7 +8409,7 @@
           "left": -622,
           "top": 307,
           "width": 398,
-          "height": 78,
+          "height": 79,
           "customInputs": [],
           "customOutputs": [],
           "entries": [
@@ -8449,7 +8447,7 @@
           "type": "IsTrueActionComponent",
           "left": 186,
           "top": 1022,
-          "width": 220,
+          "width": 221,
           "height": 69,
           "customInputs": [],
           "customOutputs": [],
@@ -8460,7 +8458,7 @@
           "type": "WatchVariableActionComponent",
           "left": -798,
           "top": 307,
-          "width": 104,
+          "width": 105,
           "height": 53,
           "customInputs": [],
           "customOutputs": [],
@@ -8472,7 +8470,7 @@
           "left": 938,
           "top": 389,
           "width": 470,
-          "height": 124,
+          "height": 125,
           "customInputs": [
             {
               "objID": "f4d2f758-95da-4f2e-8a21-d67b761ba5ff",
@@ -8593,7 +8591,7 @@
           "type": "LVGLActionComponent",
           "left": 397,
           "top": 206,
-          "width": 261,
+          "width": 262,
           "height": 53,
           "customInputs": [],
           "customOutputs": [],
@@ -9321,7 +9319,9 @@
       "left": 0,
       "top": 0,
       "width": 320,
-      "height": 240
+      "height": 240,
+      "createAtStart": true,
+      "deleteOnScreenUnload": false
     },
     {
       "objID": "4f45e5bc-376f-4404-ff6a-3bab9f8d7473",
@@ -11387,7 +11387,9 @@
       "top": 0,
       "width": 320,
       "height": 240,
-      "isUsedAsUserWidget": false
+      "isUsedAsUserWidget": false,
+      "createAtStart": true,
+      "deleteOnScreenUnload": false
     },
     {
       "objID": "11f333bd-1c47-43da-c283-51f1b99e41b6",
@@ -12812,7 +12814,9 @@
       "left": 0,
       "top": 0,
       "width": 320,
-      "height": 240
+      "height": 240,
+      "createAtStart": true,
+      "deleteOnScreenUnload": false
     },
     {
       "objID": "fe760152-19f8-492c-df46-7825d3ecf56e",
@@ -13506,7 +13510,9 @@
       "left": 0,
       "top": 0,
       "width": 320,
-      "height": 240
+      "height": 240,
+      "createAtStart": true,
+      "deleteOnScreenUnload": false
     },
     {
       "objID": "1b5f916a-103e-445b-d817-c7312e24c03f",
@@ -14627,7 +14633,9 @@
       "top": 0,
       "width": 320,
       "height": 240,
-      "isUsedAsUserWidget": false
+      "isUsedAsUserWidget": false,
+      "createAtStart": true,
+      "deleteOnScreenUnload": false
     },
     {
       "objID": "cb32de27-f315-49f3-d27f-30b704298f40",
@@ -15842,7 +15850,9 @@
       "left": 0,
       "top": 0,
       "width": 320,
-      "height": 240
+      "height": 240,
+      "createAtStart": true,
+      "deleteOnScreenUnload": false
     },
     {
       "objID": "9b3dc990-f340-43a0-d8a6-6b21e317c7a6",
@@ -17848,7 +17858,9 @@
       "left": 0,
       "top": 0,
       "width": 320,
-      "height": 240
+      "height": 240,
+      "createAtStart": true,
+      "deleteOnScreenUnload": false
     },
     {
       "objID": "0518c9a6-2f40-42e1-b1c0-4d1a83e62a73",
@@ -19908,7 +19920,9 @@
       "left": 0,
       "top": 0,
       "width": 320,
-      "height": 240
+      "height": 240,
+      "createAtStart": true,
+      "deleteOnScreenUnload": false
     },
     {
       "objID": "da6ded5d-56a3-4907-8636-83cb396437f3",
@@ -21253,7 +21267,9 @@
       "left": 0,
       "top": 0,
       "width": 320,
-      "height": 240
+      "height": 240,
+      "createAtStart": true,
+      "deleteOnScreenUnload": false
     },
     {
       "objID": "3e2fc31f-29bc-4d82-dc6b-6061d5c03524",
@@ -22550,7 +22566,9 @@
       "top": 0,
       "width": 320,
       "height": 240,
-      "isUsedAsUserWidget": false
+      "isUsedAsUserWidget": false,
+      "createAtStart": true,
+      "deleteOnScreenUnload": false
     },
     {
       "objID": "080d8751-1f81-4ea5-a545-7ad0337979ec",
@@ -23104,7 +23122,9 @@
       "top": 0,
       "width": 320,
       "height": 240,
-      "isUsedAsUserWidget": false
+      "isUsedAsUserWidget": false,
+      "createAtStart": true,
+      "deleteOnScreenUnload": false
     },
     {
       "objID": "2aa27f79-b617-4e12-c06d-194cf2f1dd49",
@@ -24828,7 +24848,9 @@
       "top": 0,
       "width": 320,
       "height": 240,
-      "isUsedAsUserWidget": false
+      "isUsedAsUserWidget": false,
+      "createAtStart": true,
+      "deleteOnScreenUnload": false
     },
     {
       "objID": "082525c7-4ca7-4536-ee01-4f10785b7b59",
@@ -25675,7 +25697,9 @@
       "top": 0,
       "width": 320,
       "height": 240,
-      "isUsedAsUserWidget": false
+      "isUsedAsUserWidget": false,
+      "createAtStart": true,
+      "deleteOnScreenUnload": false
     },
     {
       "objID": "42a96064-ee79-46eb-f9a8-c0114d939e48",
@@ -25869,7 +25893,9 @@
       "top": 0,
       "width": 320,
       "height": 240,
-      "isUsedAsUserWidget": false
+      "isUsedAsUserWidget": false,
+      "createAtStart": true,
+      "deleteOnScreenUnload": false
     }
   ],
   "userWidgets": [
@@ -26300,7 +26326,9 @@
       "top": 0,
       "width": 320,
       "height": 240,
-      "isUsedAsUserWidget": true
+      "isUsedAsUserWidget": true,
+      "createAtStart": true,
+      "deleteOnScreenUnload": false
     },
     {
       "objID": "e2b3f0f2-32a8-4a6d-8a6c-edad1ff1277e",
@@ -27149,7 +27177,9 @@
       "top": 0,
       "width": 320,
       "height": 240,
-      "isUsedAsUserWidget": true
+      "isUsedAsUserWidget": true,
+      "createAtStart": true,
+      "deleteOnScreenUnload": false
     },
     {
       "objID": "ebafa2c6-5c76-46b5-f25f-d865b0317aa7",
@@ -27765,7 +27795,9 @@
       "top": 0,
       "width": 91,
       "height": 191,
-      "isUsedAsUserWidget": true
+      "isUsedAsUserWidget": true,
+      "createAtStart": true,
+      "deleteOnScreenUnload": false
     },
     {
       "objID": "55b7a8b8-88de-4255-c11a-a8b3cb26f754",
@@ -28271,7 +28303,9 @@
       "top": 0,
       "width": 320,
       "height": 240,
-      "isUsedAsUserWidget": true
+      "isUsedAsUserWidget": true,
+      "createAtStart": true,
+      "deleteOnScreenUnload": false
     }
   ],
   "lvglStyles": {

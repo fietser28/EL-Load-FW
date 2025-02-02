@@ -35,10 +35,12 @@ namespace dcl
         if (_setStateMutex == NULL)
         { // TODO: reset, something is really wrong....
         }
+        _setStateMutexTimeouts = 0;
         _measuredStateMutex = xSemaphoreCreateMutex();
         if (_measuredStateMutex == NULL)
         { // TODO: reset, something is really wrong....
         }
+        _measuredStateMutexTimeouts = 0;
 
         _setState.startupDone = false;
         _setState.sCount = 0;
@@ -125,6 +127,7 @@ namespace dcl
                 return r;
             }
         }
+        _setStateMutexTimeouts++;
         scpi_busy_dec();
         return 0;
     }
@@ -205,6 +208,7 @@ namespace dcl
                 return r;
             }
         }
+        _setStateMutexTimeouts++;
         return 0;
     }
 
@@ -236,6 +240,7 @@ namespace dcl
                 return true;
             }
         }
+        _setStateMutexTimeouts++;
         return 0;
     }
 
@@ -253,6 +258,7 @@ namespace dcl
                 return r;
             }
         }
+        _setStateMutexTimeouts++;
         return 0;
     }
 
@@ -267,6 +273,7 @@ namespace dcl
                 return true;
             }
         }
+        _measuredStateMutexTimeouts++;
         return false;
     }
 
@@ -281,6 +288,7 @@ namespace dcl
                 return true;
             }
         }
+        _setStateMutexTimeouts++;
         return false;
     }
 
@@ -331,6 +339,7 @@ namespace dcl
                 return true;
             }
         }
+        _measuredStateMutexTimeouts++;
         return false;
     }
 
@@ -392,6 +401,7 @@ namespace dcl
                 return true;
         }
     }
+    _measuredStateMutexTimeouts++;
     return false;
     };
 
@@ -407,6 +417,7 @@ namespace dcl
                 return true;
             }
         }
+        _measuredStateMutexTimeouts++;
         return false;
     };
 
@@ -422,6 +433,7 @@ namespace dcl
                 return true;
             }
         }
+        _measuredStateMutexTimeouts++;
         return false;
     };
 
@@ -436,6 +448,7 @@ namespace dcl
                 return true;
             }
         }
+        _measuredStateMutexTimeouts++;
         return false;
     };
 
@@ -450,6 +463,7 @@ namespace dcl
                 return true;
             }
         }
+        _measuredStateMutexTimeouts++;
         return false;
     };
 
@@ -468,6 +482,7 @@ namespace dcl
                 return true;
             }
         }
+        _measuredStateMutexTimeouts++;
         return false;
     };
 
@@ -655,7 +670,11 @@ namespace dcl
                 _measuredState.scpiWdogTriggered = false;
                 _measuredState.protection = false;
                 xSemaphoreGive(_measuredStateMutex);
+            } else {
+                _measuredStateMutexTimeouts++;
             }
+        } else { 
+            _measuredStateMutexTimeouts++;
         }
         return updateLoadTasks();
     };
@@ -710,7 +729,7 @@ namespace dcl
                 r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
             }
-        }
+        }   
        if (_measuredStateMutex != NULL)
         {
             if (xSemaphoreTake(_measuredStateMutex, portMAX_DELAY) == pdTRUE)
@@ -1096,7 +1115,7 @@ namespace dcl
         uint64_t r = 0;
         if (_setStateMutex != NULL)
         {
-            if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 _setState.NLPC = cycles;
                 r = ++_setState.sCount;
@@ -1114,7 +1133,7 @@ namespace dcl
         }
         if (_setStateMutex != NULL)
         {
-            if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 _setState.PLFreq = freq;
                 r = ++_setState.sCount;
@@ -1129,7 +1148,7 @@ namespace dcl
         uint16_t cycles;
         if (_setStateMutex != NULL)
         {
-            if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 cycles = _setState.NLPC;
                 xSemaphoreGive(_setStateMutex);
@@ -1144,7 +1163,7 @@ namespace dcl
         uint16_t freq;
         if (_setStateMutex != NULL)
         {
-            if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 freq = _setState.PLFreq;
                 xSemaphoreGive(_setStateMutex);
@@ -1170,6 +1189,7 @@ namespace dcl
                 return updateAverageTask(false) ? r : 0;
             }
         }
+        _setStateMutexTimeouts++;
         return r;
     };
 
@@ -1185,6 +1205,7 @@ namespace dcl
                 return record(!recordnow);
             }
         }
+        _setStateMutexTimeouts++;
         return false;
     }
 /* Instantaniously enables SCPI watchdog, sCount increase not really needed?*/
@@ -1195,7 +1216,7 @@ namespace dcl
         SCPIWdogPet(); // Clear timer
         if (_setStateMutex != NULL)
         {
-            if (xSemaphoreTake(_setStateMutex, (TickType_t)10) == pdTRUE)
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 oldstate = _setState.scpiWdogEnabled;
                 _setState.scpiWdogEnabled = enable;
@@ -1221,6 +1242,7 @@ namespace dcl
                 return enabled;
             };
         };
+        _setStateMutexTimeouts++;
         return 0;
     };
 
@@ -1229,7 +1251,7 @@ namespace dcl
     {
         if (_measuredStateMutex != NULL)
         {
-            if (xSemaphoreTake(_measuredStateMutex, (TickType_t)100) == pdTRUE)
+            if (xSemaphoreTake(_measuredStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 _measuredState.scpiWdogLastPet = millis();
                 _measuredState.scpiWdogTriggered = false;
@@ -1245,7 +1267,7 @@ namespace dcl
         uint64_t r = 0;
         if (_setStateMutex != NULL)
         {
-            if (xSemaphoreTake(_setStateMutex, (TickType_t)100) == pdTRUE)
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 _setState.scpiWdogDelay = delay;
                 r = ++_setState.sCount;
@@ -1268,6 +1290,7 @@ namespace dcl
                 return delay;
             };
         };
+        _setStateMutexTimeouts++;
         return 0;
     };
 
@@ -1276,7 +1299,7 @@ namespace dcl
         uint64_t r = 0;
         if (_setStateMutex != NULL)
         {
-            if (xSemaphoreTake(_setStateMutex, (TickType_t)100) == pdTRUE)
+            if (xSemaphoreTake(_setStateMutex, portMAX_DELAY) == pdTRUE)
             {
                 _setState.scpiWdogType = wdtype;
                 r = ++_setState.sCount;
@@ -1299,6 +1322,7 @@ namespace dcl
                 return type;
             };
         };
+        _setStateMutexTimeouts++;
         return WDogType::ACTIVITY; // TODO: Fix to an error state.
     };
 
@@ -1313,6 +1337,7 @@ namespace dcl
                 return true;
             }
         }
+        _measuredStateMutexTimeouts++;
         return false;
     };
 
@@ -1329,7 +1354,11 @@ namespace dcl
                 lastPet = _measuredState.scpiWdogLastPet;
                 wdogTriggered = _measuredState.scpiWdogTriggered;
                 xSemaphoreGive(_measuredStateMutex);
+            } else {
+                _measuredStateMutexTimeouts++;
             }
+        } else {
+            _measuredStateMutexTimeouts++;
         }
         if (_setStateMutex != NULL)
         {
@@ -1338,7 +1367,11 @@ namespace dcl
                 wdogEnabled = _setState.scpiWdogEnabled;
                 wdogDelay   = _setState.scpiWdogDelay;
                 xSemaphoreGive(_setStateMutex);
+            } else {
+                _setStateMutexTimeouts++;
             };
+        } else {
+            _setStateMutexTimeouts++;
         };
         if (wdogEnabled && !wdogTriggered && (lastPet+ wdogDelay*1000 < millis())) {
             // Trigger watchdog
@@ -1349,7 +1382,11 @@ namespace dcl
                 {
                     _measuredState.scpiWdogTriggered = true;
                     xSemaphoreGive(_measuredStateMutex);
+                } else {
+                    _measuredStateMutexTimeouts++;
                 }
+            } else {
+                _measuredStateMutexTimeouts++;
             }
             addEvent(EVENT_ERROR_SCPI_WATCHDOG);
             return false;      
@@ -1366,7 +1403,11 @@ namespace dcl
             {
                 tripped = _measuredState.scpiWdogTriggered;
                 xSemaphoreGive(_measuredStateMutex);
+            } else {
+                _measuredStateMutexTimeouts++;
             }
+        } else {
+            _measuredStateMutexTimeouts++;
         }
         return tripped;
     };
@@ -1403,6 +1444,7 @@ namespace dcl
                 return on;
             };
         };
+        _setStateMutexTimeouts++;
         return 1;
     };
 
@@ -1418,6 +1460,7 @@ namespace dcl
                 xSemaphoreGive(_setStateMutex);
             };
         };
+        _setStateMutexTimeouts++;
         return updateLoadTasks() ? r : 0;
     };
 
@@ -1440,6 +1483,7 @@ namespace dcl
                 return on;
             };
         };
+        _setStateMutexTimeouts++;
         return 1;
     };
 
@@ -1453,7 +1497,11 @@ namespace dcl
                 _setState.UmonStat = on;
                 r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
+            } else {
+                _setStateMutexTimeouts++;
             };
+        } else {
+            _setStateMutexTimeouts++;
         };
         return updateLoadTasks() ? r : 0;
     };
@@ -1477,6 +1525,7 @@ namespace dcl
                 return on;
             };
         };
+        _setStateMutexTimeouts++;
         return 1;
     };
 
@@ -1490,7 +1539,11 @@ namespace dcl
                 _setState.PmonStat = on;
                 r = ++_setState.sCount;
                 xSemaphoreGive(_setStateMutex);
+            } else {
+                _setStateMutexTimeouts++;
             };
+        } else {
+            _setStateMutexTimeouts++;
         };
         updateLoadTasks();
         return updateAverageTask() ? r : 0;
@@ -1555,8 +1608,8 @@ namespace dcl
                 return true;
             }
         }
+        _setStateMutexTimeouts++;
         return false;
-
     }
 
     bool stateManager::updateHWIOTask()
@@ -1604,6 +1657,7 @@ namespace dcl
                 return r;
             }
         }
+        _setStateMutexTimeouts++;
         return 0;
     };
 
@@ -1616,9 +1670,13 @@ namespace dcl
                 _measuredState.sCountFromHWIO = max(_measuredState.sCountFromHWIO, sCount);
                 updateMeasureSCount();
                 xSemaphoreGive(_measuredStateMutex);
+            } else {
+                _measuredStateMutexTimeouts++;
             }
         }
-
     }
+
+    uint32_t stateManager::debugGetSetStateMutexTimeouts() { return _setStateMutexTimeouts; };
+    uint32_t stateManager::debugGetMeasuredStateMutexTimeouts() { return _measuredStateMutexTimeouts; };
 
 }

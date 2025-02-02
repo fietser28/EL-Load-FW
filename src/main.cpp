@@ -50,7 +50,9 @@ TimerHandle_t timerFakeADCInterrupt;
 
 // I2C bus semaphores
 SemaphoreHandle_t WireSem;       // Manage sharing between tasks 
+uint32_t WireSemTimeouts;
 SemaphoreHandle_t Wire1Sem;      // Manage sharing between tasks
+uint32_t Wire1SemTimeouts;
 
 // Tasks and buffer allocations for task communications
 ///////////////////////////////////////////////////////
@@ -63,7 +65,6 @@ volatile bool taskProtHWReady = false;
 
 // Measurement and Ouput Task
 TaskHandle_t taskMeasureAndOutput;
-SemaphoreHandle_t adcReady;
 QueueHandle_t changeMeasureTaskSettings;
 volatile uint8_t watchdogMeasureAndOutput;
 volatile bool taskMeasureAndOutputReady = false;
@@ -341,7 +342,7 @@ void setup()
   SERIALDEBUG.setPollingMode(true);
   SERIALDEBUG.begin(115200);
 
-  //sleep_ms(2000); // Wait for serial to connect
+  sleep_ms(5000); // Wait for serial to connect
   // Flush serial
   while (SERIALDEBUG.available())
   {
@@ -379,6 +380,7 @@ void setup()
   } else {
     addEvent(EVENT_DEBUG_GENERIC, buf);
   }
+  SERIALDEBUG.printf("%s\n", buf);
 
   //SERIALDEBUG.printf("INFO: Startup reason: %d.\n", state.hw.resetReason);
   calSetDefaults(); // Load default calibration data as a starting point.
@@ -387,7 +389,9 @@ void setup()
   //////////////////////////
 
   WireSem = xSemaphoreCreateMutex();
+  WireSemTimeouts = 0;
   Wire1Sem = xSemaphoreCreateMutex();
+  Wire1SemTimeouts = 0;
 
   // Message stream from state functions to HWIO task.
   //const size_t changeHWIOMsgBuffer = 20 * (4 + sizeof(setStateStruct)); // => Buffer fits 20 messages.
@@ -395,9 +399,6 @@ void setup()
   if (changeHWIOSettings == NULL)
   { // TODO: reset, something is really wrong....
   }
-
-  // ADC ready semasphore between ISR and measure task
-  adcReady = xSemaphoreCreateBinary();
 
   // Message straam from Measure to Averaging task
   // TODO: Proper and configurable buffer sizing.

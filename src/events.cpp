@@ -23,11 +23,12 @@ uint32_t g_eventCounter = 0;
 uint32_t g_eventFifoSize = 0;
 uint32_t g_eventFifoFirst = 1;
 SemaphoreHandle_t eventsMutex;
-
+uint32_t eventsMutexTimeouts;
 
 void init()
 {
     eventsMutex = xSemaphoreCreateMutex();
+    eventsMutexTimeouts = 0;
 };
 
 // Copied from BB3 firmware
@@ -169,6 +170,7 @@ void addEvent(uint16_t e, const char *msg) {
                 }
             }
             g_eventList[g_eventListHead].timeStamp = millis();
+            memccpy(&g_eventList[g_eventListHead].msg, msg, 0, sizeof(g_eventList[g_eventListHead].msg));
 
             if (e < EVENT_INFO_START_ID)
             {
@@ -191,12 +193,13 @@ void addEvent(uint16_t e, const char *msg) {
                 g_eventList[g_eventListHead].type = eventType_e_fatal;
                 SERIALDEBUG.printf("FATAL ERROR: %d %s\n", EVENT_TYPE_NAMES[g_eventList[g_eventListHead].type], g_eventList[g_eventListHead].timeStamp/1000, g_eventList[g_eventListHead].msg);
             };
-
+            SERIALDEBUG.printf("%s %d %s\n", EVENT_TYPE_NAMES[g_eventList[g_eventListHead].type], g_eventList[g_eventListHead].timeStamp/1000, g_eventList[g_eventListHead].msg);
             g_eventList[g_eventListHead].count = g_eventCounter++;
-            memccpy(&g_eventList[g_eventListHead].msg, msg, 0, sizeof(g_eventList[g_eventListHead].msg));
             xSemaphoreGive(eventsMutex);
-        } 
-    };
+        } else {
+            eventsMutexTimeouts++;
+        }
+    } 
 }
 
 void addEvent(uint16_t e)
@@ -244,6 +247,8 @@ bool eventFifoReset()
             g_eventFifoFirst = g_eventListTail;
             xSemaphoreGive(eventsMutex);
             return true;
+        } else {
+            eventsMutexTimeouts++;
         }
     }
     return false;
@@ -268,6 +273,8 @@ size_t eventFifoPop(char *msg, size_t size)  {
                 g_eventFifoFirst = 0;
             }
             xSemaphoreGive(eventsMutex);
+        } else {
+            eventsMutexTimeouts++;
         }
     }
     return r;

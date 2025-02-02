@@ -112,6 +112,7 @@ int SCPI_Error(scpi_t * context, int_fast16_t err) {
         len = snprintf(scpierrbuf, scpierrbufsize, "**ERROR: %d, \"%s\"\n", err, SCPI_ErrorTranslate(err));
     }
     sendUART(scpierrbuf, len);
+    flushUART();
     return 0;
 };
 
@@ -802,8 +803,16 @@ scpi_result_t scpi_cmd_deb_tasks_stackhwQ(scpi_t *context)
     return SCPI_RES_OK;
  }
 
- 
-
+scpi_result_t scpi_cmd_deb_time_semQ(scpi_t *context) {
+    uint32_t q[] = { 0,1,2,3,4};
+    q[0] = state.debugGetSetStateMutexTimeouts();
+    q[1] = state.debugGetMeasuredStateMutexTimeouts();
+    q[2] = dcl::events::eventsMutexTimeouts;
+    q[3] = WireSemTimeouts;
+    q[4] = Wire1SemTimeouts;
+    SCPI_ResultArrayUInt32(context, q, 5, SCPI_FORMAT_ASCII);
+    return SCPI_RES_OK;
+}
 
 scpi_result_t scpi_cmd_deb_wdog_thres_maxQ(scpi_t *context) {
     const uint32_t thres_array[] = { 0, watchdogMeasureAndOutputMax, watchdogAveragingMax, watchdogProtHWMax, watchdogEncTaskMax, 

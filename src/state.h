@@ -295,6 +295,9 @@ public:
     calibration cal;
     hardwareState hw;
 
+    uint32_t debugGetSetStateMutexTimeouts();
+    uint32_t debugGetMeasuredStateMutexTimeouts();
+
 private:
     bool updateLoadTasks();
     bool updateHWIOTask();
@@ -309,10 +312,12 @@ private:
     uint64_t sCountIncr();
 
     SemaphoreHandle_t _setStateMutex;
+    uint32_t _setStateMutexTimeouts;
     setStateStruct _setState;
     setStateStruct _setStatePush;
 
     SemaphoreHandle_t _measuredStateMutex;
+    uint32_t _measuredStateMutexTimeouts;
     measuredStateStruct _measuredState;
 
 };
