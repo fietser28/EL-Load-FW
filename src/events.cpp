@@ -192,7 +192,7 @@ void addEvent(uint16_t e, const char *msg) {
                 SERIALDEBUG.printf("FATAL ERROR: %d %s\n", EVENT_TYPE_NAMES[g_eventList[g_eventListHead].type], g_eventList[g_eventListHead].timeStamp/1000, g_eventList[g_eventListHead].msg);
             };
 
-            g_eventList[g_eventListHead].count = ++g_eventCounter;
+            g_eventList[g_eventListHead].count = g_eventCounter++;
             memccpy(&g_eventList[g_eventListHead].msg, msg, 0, sizeof(g_eventList[g_eventListHead].msg));
             xSemaphoreGive(eventsMutex);
         } 
@@ -207,8 +207,33 @@ void addEvent(uint16_t e)
 uint32_t eventCounter() { return g_eventCounter; }
 uint32_t eventListSize() { return g_eventListSize; }
 
-uint32_t eventFifoSize() { return g_eventFifoSize; }
+size_t eventListGetEvent(uint32_t item, eventType_e filter, char* msg, size_t size)
+{
+        // Item and eventList range check
+        if (g_eventListSize == 0 || g_eventListSize <= item) { return 0; }
 
+        uint32_t l = 0;
+        // Find location
+        if (item < (eventQueueSize - g_eventListTail)) 
+        {
+            l = g_eventListTail + item;
+        } 
+        else
+        {
+            l = item - (eventQueueSize - g_eventListTail);
+        }
+
+        if (g_eventList[l].type < filter) { return 0; }
+
+        uint32_t h = g_eventList[l].timeStamp / (3600 * 1000);
+        uint32_t m = g_eventList[l].timeStamp / (60 * 1000) - h * 3600;
+        uint32_t s = g_eventList[l].timeStamp / 1000 - h * 3600 - m * 60;
+
+        return snprintf(msg, size, "%s %02d:%02d:%02d %s", EVENT_TYPE_NAMES[g_eventList[l].type], h, m, s, 
+                                                         &g_eventList[l].msg);
+}
+
+uint32_t eventFifoSize() { return g_eventFifoSize; }
 bool eventFifoReset()
 {
     if (eventsMutex != NULL)

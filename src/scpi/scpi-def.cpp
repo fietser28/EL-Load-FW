@@ -2114,7 +2114,7 @@ scpi_result_t scpi_cmd_syst_eventQ(scpi_t *context) {
     {
         SCPI_ResultCharacters(context, &eventmsg[0], r);
     } else {
-        SCPI_ResultText(context, "N,0,No events left.");
+        SCPI_ResultText(context, "-1,N,0,No events left.");
     }
     return SCPI_RES_OK;
 };

@@ -96,10 +96,10 @@ extern void addEvent(uint16_t e, const char* msg);
 extern void addEvent(uint16_t e);
 extern uint32_t eventCounter();
 extern uint32_t eventListSize();
+extern size_t eventListGetEvent(uint32_t item, eventType_e filter, char* msg, size_t size);
 extern uint32_t eventFifoSize();
 extern bool eventFifoReset();
 extern size_t eventFifoPop(char *msg, size_t size);
-
 
 }
 }

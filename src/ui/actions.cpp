@@ -154,49 +154,20 @@ void action_events_table_load(lv_event_t * e)
 
     eventType_e filter = (eventType_e)getGlobalVariable(FLOW_GLOBAL_VARIABLE_EVENT_FILTER_SET).getInt();
     
-    uint16_t c = 0;
-    uint16_t i = 0;
-    
     // Clear table
     lv_table_set_row_count(table, 0);
-
-    auto addrow = [&]
+    
+    uint32_t c = 0;
+    uint32_t max = eventListSize();
+    for (uint32_t i = 0; i< max; i++)
     {
-        if (g_eventList[i].type >= filter)
+        if (eventListGetEvent(i, filter, cellbuff, eventTextMaxSize) != 0) 
         {
-            uint32_t h = g_eventList[i].timeStamp / (3600 * 1000);
-            uint32_t m = g_eventList[i].timeStamp / (60 * 1000) - h * 3600;
-            uint32_t s = g_eventList[i].timeStamp / 1000 - h * 3600 - m * 60;
-            snprintf(cellbuff, eventTextMaxSize, "%s %02d:%02d:%02d %s", EVENT_TYPE_NAMES[g_eventList[i].type], h, m, s, g_eventList[i].msg);
-            lv_table_set_cell_value(table, c, 0, cellbuff);
+            lv_table_set_cell_value(table, c, 0, cellbuff);     
             lv_table_add_cell_ctrl(table, c, 0, LV_TABLE_CELL_CTRL_TEXT_CROP);
-            c++;
-        };
-        i++;
-    };
-
-    if (g_eventListHead >= g_eventListTail)
-    {
-        i = g_eventListTail;
-
-        while(i <= g_eventListHead && i < eventQueueSize)
-        {
-            addrow();
-        } 
-    };
-    if (g_eventListHead < g_eventListTail) 
-    {
-        i = g_eventListTail;
-        while(i < eventQueueSize)
-        {
-            addrow();
-        } 
-        i = 0;
-        while(i <= g_eventListHead) 
-        {
-            addrow();
+            c++;       
         }
-    };
+    }
 
     // Jump to last line
     lv_table_set_selected_cell(table, c, 0);
