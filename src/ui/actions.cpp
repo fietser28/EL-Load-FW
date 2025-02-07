@@ -144,6 +144,8 @@ void action_events_table_setup(lv_event_t * e) {
 
 };
 
+//static uint32_t guiEventList[dcl::events::eventQueueSize];
+
 void action_events_table_load(lv_event_t * e)
 {
     using namespace dcl::events;
@@ -165,12 +167,35 @@ void action_events_table_load(lv_event_t * e)
         {
             lv_table_set_cell_value(table, c, 0, cellbuff);     
             lv_table_add_cell_ctrl(table, c, 0, LV_TABLE_CELL_CTRL_TEXT_CROP);
+            //void * p = lv_malloc(sizeof(uint32_t)) != NULL);
+            //lv_table_set_cell_user_data(table, c, 0, p);
+            //guiEventList[c] = i;
             c++;       
         }
     }
 
     // Jump to last line
     lv_table_set_selected_cell(table, c, 0);
+};
+
+void action_events_table_up(lv_event_t * e)
+{
+    lv_obj_t* table = objects.events_table;
+    uint32_t row, col;
+    lv_table_get_selected_cell(table, &row, &col);
+    if (row != LV_TABLE_CELL_NONE && col != LV_TABLE_CELL_NONE && row > 0 ) {
+        lv_table_set_selected_cell(table, row-1, col);
+    }
+};
+
+void action_events_table_down(lv_event_t * e)
+{
+    lv_obj_t* table = objects.events_table;
+    uint32_t row, col;
+    lv_table_get_selected_cell(table, &row, &col);
+    if (row != LV_TABLE_CELL_NONE && col != LV_TABLE_CELL_NONE && row < lv_table_get_row_count(table) -1 ) {
+        lv_table_set_selected_cell(table, row+1, col);
+    }
 };
 
 } // extern "C"

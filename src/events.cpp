@@ -13,7 +13,7 @@ using namespace dcl;
 namespace dcl {
 namespace events {
 
-const size_t eventQueueSize = 50;
+//const size_t eventQueueSize = 50;
 event g_eventList[eventQueueSize];
 uint32_t g_eventListHead = 0;
 uint32_t g_eventListTail = 1;
@@ -191,9 +191,9 @@ void addEvent(uint16_t e, const char *msg) {
             else
             {
                 g_eventList[g_eventListHead].type = eventType_e_fatal;
-                SERIALDEBUG.printf("FATAL ERROR: %d %s\n", EVENT_TYPE_NAMES[g_eventList[g_eventListHead].type], g_eventList[g_eventListHead].timeStamp/1000, g_eventList[g_eventListHead].msg);
+                SERIALDEBUG.printf("FATAL ERROR: %s     %d %s\n", EVENT_TYPE_NAMES[g_eventList[g_eventListHead].type], g_eventList[g_eventListHead].timeStamp/1000, g_eventList[g_eventListHead].msg);
             };
-            SERIALDEBUG.printf("%s %d %s\n", EVENT_TYPE_NAMES[g_eventList[g_eventListHead].type], g_eventList[g_eventListHead].timeStamp/1000, g_eventList[g_eventListHead].msg);
+            //SERIALDEBUG.printf("%s %d %s\n", EVENT_TYPE_NAMES[g_eventList[g_eventListHead].type], g_eventList[g_eventListHead].timeStamp/1000, g_eventList[g_eventListHead].msg);
             g_eventList[g_eventListHead].count = g_eventCounter++;
             xSemaphoreGive(eventsMutex);
         } else {

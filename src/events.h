@@ -13,7 +13,8 @@
 namespace dcl {
 namespace events {
 
-const uint16_t eventTextMaxSize = 80;
+const uint16_t eventTextMaxSize = 120;
+const size_t eventQueueSize = 50;
 
 static const char *EVENT_TYPE_NAMES[] = {
     "D",
@@ -33,27 +34,29 @@ struct event {
 };
 
 #define EVENTLIST \
-    EVENT_INFO(STARTUP,0,"Startup done.") \
-    EVENT_INFO(FAKE, 1, "Using FAKE HARDWARE.") \
-    EVENT_INFO(SCPI_WDOG_ON, 2, "SCPI Watchdog enabled.") \
-    EVENT_INFO(SCPI_WDOG_OFF, 3, "SCPI Watchdog disabled.") \
-    EVENT_INFO(SCPI_DETECTED, 4, "Remote SCPI received.") \
+    EVENT_INFO(GENERIC, 0, "") \
+    EVENT_INFO(STARTUP,1,"Startup done.") \
+    EVENT_INFO(FAKE, 2, "Using FAKE HARDWARE.") \
+    EVENT_INFO(SCPI_WDOG_ON, 3, "SCPI Watchdog enabled.") \
+    EVENT_INFO(SCPI_WDOG_OFF, 4, "SCPI Watchdog disabled.") \
+    EVENT_INFO(SCPI_DETECTED, 5, "Remote SCPI received.") \
     EVENT_DEBUG(GENERIC, 0, "") \
     EVENT_DEBUG(EEPROM_MAGIC_FOUND, 1, "EEPROM magic found.") \
     EVENT_DEBUG(CAL_CRC_OK, 2, "Calibration data CRC OK.") \
-    EVENT_WARNING(EEPROM_NO_MAGIC, 0, "EEPROM magic not found.") \
-    EVENT_WARNING(WATCHDOG_AVERAGING, 1, "Watchdog not seeing Averaging task.") \
-    EVENT_WARNING(WATCHDOG_KEYS, 2, "Watchdog not seeing Keys task.") \
-    EVENT_WARNING(WATCHDOG_GUI, 3, "Watchdog not seeing GUI task.") \
-    EVENT_WARNING(WATCHDOG_GUI_TIMER, 4, "Watchdog not seeing GUI Timer task.") \
-    EVENT_WARNING(WATCHDOG_SCPI_LOOP, 5, "Watchdog not seeing SCPI loop task.") \
-    EVENT_WARNING(WATCHDOG_PROTHW, 6, "Watchdog not seeing ProtHW task.") \
-    EVENT_WARNING(WATCHDOG_MEASURE, 7, "Watchdog not seeing Measure task.") \
-    EVENT_WARNING(WATCHDOG_UART, 8, "Watchdog not seeing UART task.") \
-    EVENT_WARNING(CAP_VOLT, 9, "Capacity Volt Stop reached.") \
-    EVENT_WARNING(CAP_AH, 10, "Capacity Ah limit reached.") \
-    EVENT_WARNING(CAP_WH, 11, "Capacity Wh limit reached.") \
-    EVENT_WARNING(CAP_TIME, 12, "Capacity Time limit reached.") \
+    EVENT_WARNING(GENERIC, 0, "") \
+    EVENT_WARNING(EEPROM_NO_MAGIC, 1, "EEPROM magic not found.") \
+    EVENT_WARNING(WATCHDOG_AVERAGING, 2, "Watchdog not seeing Averaging task.") \
+    EVENT_WARNING(WATCHDOG_KEYS, 3, "Watchdog not seeing Keys task.") \
+    EVENT_WARNING(WATCHDOG_GUI, 4, "Watchdog not seeing GUI task.") \
+    EVENT_WARNING(WATCHDOG_GUI_TIMER, 5, "Watchdog not seeing GUI Timer task.") \
+    EVENT_WARNING(WATCHDOG_SCPI_LOOP, 6, "Watchdog not seeing SCPI loop task.") \
+    EVENT_WARNING(WATCHDOG_PROTHW, 7, "Watchdog not seeing ProtHW task.") \
+    EVENT_WARNING(WATCHDOG_MEASURE, 8, "Watchdog not seeing Measure task.") \
+    EVENT_WARNING(WATCHDOG_UART, 9, "Watchdog not seeing UART task.") \
+    EVENT_WARNING(CAP_VOLT, 10, "Capacity Volt Stop reached.") \
+    EVENT_WARNING(CAP_AH, 11, "Capacity Ah limit reached.") \
+    EVENT_WARNING(CAP_WH, 12, "Capacity Wh limit reached.") \
+    EVENT_WARNING(CAP_TIME, 13, "Capacity Time limit reached.") \
     EVENT_ERROR(GENERIC, 0, "") \
     EVENT_ERROR(CAL_CRC, 1, "Calibration data CRC NOT OK.") \
     EVENT_ERROR(OCP, 2, "Over Current Protection") \
@@ -62,6 +65,7 @@ struct event {
     EVENT_ERROR(OTP, 5, "Over Temperature Protection") \
     EVENT_ERROR(SENSE, 6, "Remote sense error") \
     EVENT_ERROR(SCPI_WATCHDOG, 7, "SCPI Watchdog triggered.") \
+    EVENT_ERROR(FLOW, 8, "") \
     EVENT_FATAL(GENERIC, 0, "")
 
 // Copied from BB3 firmware
@@ -85,7 +89,6 @@ enum Events { EVENTLIST };
 #undef EVENT_ERROR
 #undef EVENT_FATAL
 
-extern const size_t eventQueueSize;
 extern event g_eventList[];
 extern uint32_t g_eventListHead;
 extern uint32_t g_eventListTail;

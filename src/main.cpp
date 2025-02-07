@@ -333,16 +333,14 @@ char idn4[IDN4SIZE];
 
 void setup()
 {
-  taskLoop = xTaskGetCurrentTaskHandle(); //Store loop task handle for debug uses.
-  dcl::events::init();
   pinMode(TFT_BL, OUTPUT);
   digitalWrite(TFT_BL, LOW);
+  taskLoop = xTaskGetCurrentTaskHandle(); //Store loop task handle for debug uses.
+  dcl::events::init();
 
-  pinMode(LED_BUILTIN, OUTPUT);
   SERIALDEBUG.setPollingMode(true);
   SERIALDEBUG.begin(115200);
 
-  sleep_ms(5000); // Wait for serial to connect
   // Flush serial
   while (SERIALDEBUG.available())
   {
@@ -380,7 +378,7 @@ void setup()
   } else {
     addEvent(EVENT_DEBUG_GENERIC, buf);
   }
-  SERIALDEBUG.printf("%s\n", buf);
+  //SERIALDEBUG.printf("%s\n", buf);
 
   //SERIALDEBUG.printf("INFO: Startup reason: %d.\n", state.hw.resetReason);
   calSetDefaults(); // Load default calibration data as a starting point.

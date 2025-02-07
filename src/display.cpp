@@ -51,7 +51,27 @@ size_t screenMsgBytes;       // queue messages size
 
 void my_log_cb(lv_log_level_t level, const char* logline) 
 {
-  SERIALDEBUG.println(logline);
+  //SERIALDEBUG.println(logline);  
+  uint32_t eventlevel = dcl::events::EVENT_DEBUG_GENERIC;
+  switch (level)
+  {
+    case LV_LOG_LEVEL_TRACE:
+      eventlevel = dcl::events::EVENT_DEBUG_GENERIC;
+      break;
+    case LV_LOG_LEVEL_INFO:
+      eventlevel = dcl::events::EVENT_INFO_GENERIC;
+      break;
+    case LV_LOG_LEVEL_WARN:
+      eventlevel = dcl::events::EVENT_WARNING_GENERIC;
+      break;
+    case LV_LOG_LEVEL_ERROR:
+      eventlevel = dcl::events::EVENT_ERROR_GENERIC;
+      break;
+    case LV_LOG_LEVEL_USER:
+      eventlevel = dcl::events::EVENT_ERROR_GENERIC;  // Flow error messages.
+      break;
+  }
+  dcl::events::addEvent(eventlevel, logline);
 }
 
 // TODO: Replace with: vApplicationTickHook
@@ -419,8 +439,8 @@ static void my_encoder_read(lv_indev_t *indev_driver, lv_indev_data_t *data)
     // Encoder Button pressed
     if (keystate.encoderbutton && encoderButLastState == false)
     {
-      uint32_t t = LV_EVENT_PRESSED;
-      lv_obj_send_event(obj, LV_EVENT_KEY, &t);
+      //uint32_t t = LV_KEY_ENTER;
+      //lv_obj_send_event(obj, LV_EVENT_CLICKED, &t);
       encoderButLastState = true;
       encoderEventHandled = true;
     }
@@ -428,12 +448,11 @@ static void my_encoder_read(lv_indev_t *indev_driver, lv_indev_data_t *data)
     // Encoder Button released
     if (!keystate.encoderbutton && encoderButLastState == true)
     {
-      uint32_t t = LV_EVENT_RELEASED;
-      lv_obj_send_event(obj, LV_EVENT_KEY, &t);
+      //uint32_t t = LV_EVENT_RELEASED;
+      lv_obj_send_event(obj, LV_EVENT_CLICKED, NULL);
       encoderButLastState = false;
       encoderEventHandled = true;
     }
-
     // Encoder movement
     int enccount = keystate.encodercount; // 2; // 2 changes per dent (on current combination HW/SW)
     if (encoderLastState != enccount)
@@ -509,13 +528,10 @@ static void __not_in_flash_func(guiTask(void *pvParameter))
     lv_task_handler();
     vTaskDelay(5000);
     SERIALDEBUG.println("printed Hello, world!");
-#else
-  addEvent(dcl::events::EVENT_DEBUG_GENERIC, "ready for ui_init");
+#endif
 
   // EEZ GUI init
   ui_init();
-
-  addEvent(dcl::events::EVENT_DEBUG_GENERIC, "ui_init done");
 
   // Initialize the input device driver for the encoder
   // and assign the encoder to the encoder group
@@ -526,11 +542,11 @@ static void __not_in_flash_func(guiTask(void *pvParameter))
 
   //lv_obj_set_parent(objects.popup_container, lv_layer_top());
 
-#endif
+//#endif
 
   // Manually turn on backlight (avoid garbage at startup)
   // Now handled by flow itself
-  //digitalWrite(TFT_BL, HIGH);
+  digitalWrite(TFT_BL, HIGH);
 
   xTimerStart(guiTimerHandle, 10);
   guiTaskReady = true;

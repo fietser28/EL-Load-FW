@@ -34,7 +34,7 @@ typedef enum {
     calType_e_OCPset_Low = 11,
     calType_e_OVPset_High = 12,
     calType_e_OVPset_Low = 13,
-    calType_e_Undefined = -1
+    calType_e_Undefined = 14
 } calType_e;
 
 typedef enum {
@@ -338,6 +338,8 @@ extern bool get_var_reverse_polarity();
 extern void set_var_reverse_polarity(bool value);
 extern int32_t get_var_event_counter();
 extern void set_var_event_counter(int32_t value);
+extern const char *get_var_events_table_selected();
+extern void set_var_events_table_selected(const char *value);
 
 
 #ifdef __cplusplus

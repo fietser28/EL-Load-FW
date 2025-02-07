@@ -181,6 +181,11 @@ typedef struct _objects_t {
     lv_obj_t *obj49;
     lv_obj_t *obj50;
     lv_obj_t *obj51;
+    lv_obj_t *obj52;
+    lv_obj_t *obj53;
+    lv_obj_t *obj54;
+    lv_obj_t *obj55;
+    lv_obj_t *obj56;
     lv_obj_t *current_range;
     lv_obj_t *volt_range;
     lv_obj_t *sense;
@@ -192,11 +197,6 @@ typedef struct _objects_t {
     lv_obj_t *nlpc_home;
     lv_obj_t *nlpc_home_cancel;
     lv_obj_t *nlpc_home_cancel_1;
-    lv_obj_t *obj52;
-    lv_obj_t *obj53;
-    lv_obj_t *obj54;
-    lv_obj_t *obj55;
-    lv_obj_t *obj56;
     lv_obj_t *obj57;
     lv_obj_t *obj58;
     lv_obj_t *obj59;
@@ -215,36 +215,41 @@ typedef struct _objects_t {
     lv_obj_t *obj72;
     lv_obj_t *obj73;
     lv_obj_t *obj74;
+    lv_obj_t *obj75;
+    lv_obj_t *obj76;
+    lv_obj_t *obj77;
+    lv_obj_t *obj78;
+    lv_obj_t *obj79;
     lv_obj_t *nlpc_home_1;
     lv_obj_t *nlpc_home_cancel_2;
     lv_obj_t *nlpc_home_cancel_3;
     lv_obj_t *nlpc_home_2;
     lv_obj_t *nlpc_home_cancel_4;
     lv_obj_t *nlpc_home_cancel_5;
-    lv_obj_t *obj75;
-    lv_obj_t *obj76;
-    lv_obj_t *obj77;
+    lv_obj_t *obj80;
+    lv_obj_t *obj81;
+    lv_obj_t *obj82;
     lv_obj_t *display_off;
     lv_obj_t *nlpc_home_4;
     lv_obj_t *nplc_nplc_1;
     lv_obj_t *nlpc_home_3;
     lv_obj_t *nlpc_home_cancel_6;
     lv_obj_t *nlpc_home_cancel_7;
-    lv_obj_t *obj78;
-    lv_obj_t *obj79;
-    lv_obj_t *obj80;
-    lv_obj_t *obj81;
-    lv_obj_t *obj82;
     lv_obj_t *obj83;
+    lv_obj_t *obj84;
+    lv_obj_t *obj85;
+    lv_obj_t *obj86;
+    lv_obj_t *obj87;
+    lv_obj_t *obj88;
     lv_obj_t *stats_back;
     lv_obj_t *startup_start_status;
     lv_obj_t *startup_eeprom;
     lv_obj_t *startup_calibration;
     lv_obj_t *startup_fans;
-    lv_obj_t *obj84;
+    lv_obj_t *obj89;
     lv_obj_t *main_measure;
     lv_obj_t *sense_indicator;
-    lv_obj_t *obj85;
+    lv_obj_t *obj90;
     lv_obj_t *flex_panel;
     lv_obj_t *capacity_panel;
     lv_obj_t *ah;
@@ -264,15 +269,10 @@ typedef struct _objects_t {
     lv_obj_t *protection_and_temp;
     lv_obj_t *wheel;
     lv_obj_t *main_dvm;
-    lv_obj_t *obj86;
-    lv_obj_t *main_short;
-    lv_obj_t *obj87;
-    lv_obj_t *vonlabel_1;
-    lv_obj_t *obj88;
-    lv_obj_t *obj89;
-    lv_obj_t *obj90;
     lv_obj_t *obj91;
+    lv_obj_t *main_short;
     lv_obj_t *obj92;
+    lv_obj_t *vonlabel_1;
     lv_obj_t *obj93;
     lv_obj_t *obj94;
     lv_obj_t *obj95;
@@ -287,17 +287,17 @@ typedef struct _objects_t {
     lv_obj_t *obj104;
     lv_obj_t *obj105;
     lv_obj_t *obj106;
+    lv_obj_t *obj107;
+    lv_obj_t *obj108;
+    lv_obj_t *obj109;
+    lv_obj_t *obj110;
+    lv_obj_t *obj111;
     lv_obj_t *ah_2;
     lv_obj_t *ah_3;
     lv_obj_t *ah_4;
     lv_obj_t *ah_5;
     lv_obj_t *ah_6;
     lv_obj_t *ah_7;
-    lv_obj_t *obj107;
-    lv_obj_t *obj108;
-    lv_obj_t *obj109;
-    lv_obj_t *obj110;
-    lv_obj_t *obj111;
     lv_obj_t *obj112;
     lv_obj_t *obj113;
     lv_obj_t *obj114;
@@ -381,13 +381,19 @@ typedef struct _objects_t {
     lv_obj_t *obj192;
     lv_obj_t *obj193;
     lv_obj_t *obj194;
+    lv_obj_t *obj195;
+    lv_obj_t *obj196;
+    lv_obj_t *obj197;
+    lv_obj_t *obj198;
+    lv_obj_t *obj199;
+    lv_obj_t *obj200;
     lv_obj_t *stat_min_8;
     lv_obj_t *stat_min_9;
     lv_obj_t *stat_min_10;
     lv_obj_t *stat_min_11;
     lv_obj_t *stat_min_12;
     lv_obj_t *stat_min_13;
-    lv_obj_t *obj195;
+    lv_obj_t *obj201;
     lv_obj_t *popup_container;
     lv_obj_t *popup_box;
     lv_obj_t *popup_text;
@@ -414,48 +420,63 @@ enum ScreensEnum {
 };
 
 void create_screen_startup();
+void delete_screen_startup();
 void tick_screen_startup();
 
 void create_screen_main();
+void delete_screen_main();
 void tick_screen_main();
 
 void create_screen_capacity();
+void delete_screen_capacity();
 void tick_screen_capacity();
 
 void create_screen_settings();
+void delete_screen_settings();
 void tick_screen_settings();
 
 void create_screen_events();
+void delete_screen_events();
 void tick_screen_events();
 
 void create_screen_ranges();
+void delete_screen_ranges();
 void tick_screen_ranges();
 
 void create_screen_nplc();
+void delete_screen_nplc();
 void tick_screen_nplc();
 
 void create_screen_protections();
+void delete_screen_protections();
 void tick_screen_protections();
 
 void create_screen_calibration();
+void delete_screen_calibration();
 void tick_screen_calibration();
 
 void create_screen_fan();
+void delete_screen_fan();
 void tick_screen_fan();
 
 void create_screen_display();
+void delete_screen_display();
 void tick_screen_display();
 
 void create_screen_info();
+void delete_screen_info();
 void tick_screen_info();
 
 void create_screen_sound();
+void delete_screen_sound();
 void tick_screen_sound();
 
 void create_screen_stats();
+void delete_screen_stats();
 void tick_screen_stats();
 
 void create_screen_popup();
+void delete_screen_popup();
 void tick_screen_popup();
 
 void create_user_widget_question_yn(lv_obj_t *parent_obj, void *flowState, int startWidgetIndex);
@@ -470,8 +491,12 @@ void tick_user_widget_stats_table(void *flowState, int startWidgetIndex);
 void create_user_widget_event_filter_select(lv_obj_t *parent_obj, void *flowState, int startWidgetIndex);
 void tick_user_widget_event_filter_select(void *flowState, int startWidgetIndex);
 
-void create_screens();
+void create_screen_by_id(enum ScreensEnum screenId);
+void delete_screen_by_id(enum ScreensEnum screenId);
+void tick_screen_by_id(enum ScreensEnum screenId);
 void tick_screen(int screen_index);
+
+void create_screens();
 
 
 //extern size_t get_num_screens();
